@@ -42,17 +42,32 @@ for programmers that prefer OOP (Object-Oriented Programming) capabilities.
 
 
 ### M_unicose module
+```fortran
+! user-defined type to hold Unicode text
+public :: unicode_type
+! Constructors  
+! UNICODE_VARIABLE= UNICODE_VARIABLE|CHARACTER(LEN=*)|INTEGER_ARRAY
+! VARiABLE%CHARACTER(start,end,step) returns a CHARACTER string
+! VARiABLE%BYTES() returns an array of  CHARACTER(len=1) values
 
- + utf8_to_codepoints, codepoints_to_utf8
+! convert unicode_type to CHARACTER variables
+public :: character
 
- + utf8_to_ucs4, ucs4_to_utf8
- + utf8_to_ucs4_via_io, ucs4_to_utf8_via_io
+! intrinsic overloads
+public :: adjustl, adjustr, index, len, len_trim, repeat, trim
+public :: lle, llt, lne, leq, lgt, lge
 
- + ascii_to_ucs4, ucs4_to_ascii
+! operators and assignment
+public :: assignment(=)
+public :: operator(<=), operator(<), operator(/=), operator(==)
+public :: operator(>), operator(>=), operator(//)
 
- + isolatin_to_unicode, unicode_to_isolatin
- + utf8_to_isolatin, isolatin_to_utf8
- + isolatin_to_utf32, utf32_to_isolatin
+! low-level text conversion to integer codepoint arrays:
+
+public  :: utf8_to_codepoints,  codepoints_to_utf8
+public  :: isolatin_to_unicode, unicode_to_isolatin
+public  :: utf8_to_isolatin,    isolatin_to_utf8
+```
 
 ### UTF-8 source files -- just in comments and constants
 
