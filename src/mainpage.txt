@@ -1,0 +1,15 @@
+'mainpage.txt
+/**
+         @mainpage M_unicode Fortran Library
+
+         @section Introduction
+
+     M_unicode - Fortran modules for Unicode processing when UCS-4 not supported
+
+     This package consists of a module that provides support for processing
+     UTF-8 Unicode files from Fortran programs when the optional support of
+     UCS-4 characters is not available.
+     functions in M_unicode.f90.
+
+         @image html html/images/yarnball.gif
+*/'
