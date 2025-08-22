@@ -7,7 +7,6 @@ program bom_exe
 use iso_fortran_env, only : stdout => output_unit
 use M_unicode
 implicit none
-integer,parameter :: A_bom(*) = [int(z'EF'),int(z'BB'),int(z'BF')] ! using ASCII
 type(unicode_type) :: U_BOM
    U_bom=[int(z'FEFF')]
    write(stdout,'(a)',advance='no')U_bom%character()

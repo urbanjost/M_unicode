@@ -6,7 +6,6 @@ integer, parameter                     :: ucs4 = selected_char_kind ('ISO_10646'
 character(len=*),parameter             :: form= '("char(int(z''",z0,"''),kind=ucs4)":,"// &")'
 character(len=*),parameter             :: g= '(*(g0))'
 integer                                :: i
-character(len=:),allocatable           :: aline
 character(len=:),allocatable           :: command_line
 character(len=:,kind=ucs4),allocatable :: ustr
    command_line=getargs()          ! get string containing all command arguments as CHARACTER bytes

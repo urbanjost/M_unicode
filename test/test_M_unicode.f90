@@ -10,9 +10,7 @@ use M_unicode, only : operator(==), leq
 use M_unicode, only : operator(>),  lgt
 use M_unicode, only : operator(>=), lge
 implicit none
-integer,parameter          :: ascii = selected_char_kind ("ascii")
 character(len=*),parameter :: g0='(*(g0))'
-character(len=*),parameter :: gx='(*(g0,1x))'
 logical,parameter          :: T=.true.
 logical,parameter          :: F=.false.
 !
@@ -26,7 +24,6 @@ character(len=:),allocatable   :: astr
 type(unicode_type)             :: ut_str
 type(unicode_type)             :: smiley
 integer                        :: total
-integer                        :: err
 integer                        :: i
 type(unicode_type)             :: lhs, rhs
 type(unicode_type)             :: string, substring

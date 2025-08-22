@@ -196,7 +196,6 @@ pure subroutine codepoints_to_utf8_chars(unicode,utf8,nerr)
 integer,intent(in)                :: unicode(:)
 character,allocatable,intent(out) :: utf8(:)
 integer,intent(out)               :: nerr
-character(len=256)                :: nerrmsg
 integer                           :: i, n_unicode, n_utf8, cp
 character, allocatable            :: temp_utf8(:)
 
@@ -416,9 +415,7 @@ pure subroutine unicode_to_isolatin(unicode,isolatin,nerr)
 integer              ,intent(in)  :: unicode(:)
 character,allocatable,intent(out) :: isolatin(:)
 integer              ,intent(out) :: nerr
-
-integer :: i, n, cp
-integer :: replacement_count
+integer                           :: i, n, cp
 
    nerr=0
    n = size(unicode)
@@ -561,7 +558,6 @@ end subroutine assign_str_char
 subroutine assign_str_codes(lhs, rhs)
 type(unicode_type), intent(inout) :: lhs
 integer, intent(in)               :: rhs(:)
-integer                           :: nerr
    lhs%codes=rhs
 end subroutine assign_str_codes
 !===================================================================================================================================
@@ -668,7 +664,6 @@ elemental function adjustr_str(string) result(adjusted)
 type(unicode_type), intent(in) :: string
 type(unicode_type)             :: adjusted
 integer                        :: last
-integer                        :: i
 
    last=len_trim_str(string)
    adjusted%codes=cshift(string%codes,-(size(adjusted%codes)-last-1))
@@ -682,7 +677,6 @@ elemental function adjustl_str(string) result(adjusted)
 type(unicode_type), intent(in) :: string
 type(unicode_type)             :: adjusted
 integer                        :: first
-integer                        :: i
 
    do first=1,size(string%codes),1
       if(any(string%codes(first).eq.G_SPACES))cycle
@@ -1042,7 +1036,6 @@ character(len=:),allocatable    :: bytes_out
 integer,intent(in),optional     :: first, last, step
 integer                         :: start, end, inc
 type(unicode_type)              :: temp
-integer                         :: i
    if(present(step))then;  inc=step;    else; inc=1;         endif
    if(present(first))then; start=first; else; start=1;       endif
    if(present(last))then;  end=last;    else; end=len(self); endif

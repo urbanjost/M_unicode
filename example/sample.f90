@@ -4,10 +4,8 @@ use M_unicode, only : character
 use M_unicode, only : assignment(=), unicode_type
 character(len=*),parameter   :: g='(*(g0))'
 character(len=:),allocatable :: aline
-type(unicode_type)           :: uline, substring, uline1, uline2, uline3
+type(unicode_type)           :: uline, substring
 character(len=*),parameter   :: smiley='😃'
-integer,allocatable          :: codes(:)
-character(len=:),allocatable :: glyphs
 
    aline="Доки не впріти, доти не вміти."
 

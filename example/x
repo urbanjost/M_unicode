@@ -1,5 +1,0 @@
-fpm: Entering directory '/cygdrive/c/users/johns/github/GPF/M_unicode'
-﻿program testit ! Unicode BOM encoded to utf-8 bytes by Fortran
-   write(*,*)"File starts with BOM from UCS-4 write!"
-end program testit
-fpm: Leaving directory '/cygdrive/c/users/johns/github/GPF/M_unicode'

@@ -3,7 +3,7 @@ use iso_fortran_env, only : output_unit
 use M_unicode
 use M_unicode, only : ut=>unicode_type
 implicit none
-integer                        :: i, j, longest
+integer :: i, longest
 type(ut),allocatable :: upagain(:)
 upagain=[ &                                ! ROMANIZATION                         ! ENGLISH
  ut("七転び八起き。"), &                   ! Nanakorobi yaoki.                    ! Fall seven times, stand up eight.
