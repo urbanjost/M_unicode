@@ -1,0 +1,404 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="Fortran Unicode when ISO_10646 is not supported">
+    <meta name="author" content="John S. Urban" >
+    <link rel="icon" href="./favicon.png">
+
+    <title> M_unicode </title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="./css/fontawesome.min.css" rel="stylesheet">
+    <link href="./css/brands.min.css" rel="stylesheet">
+    <link href="./css/regular.min.css" rel="stylesheet">
+    <link href="./css/solid.min.css" rel="stylesheet">
+    <link href="./css/v4-font-face.min.css" rel="stylesheet">
+    <link href="./css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="./css/local.css" rel="stylesheet">
+    <link href="./css/pygments.css" rel="stylesheet">
+    <script src="./js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="./index.html">M_unicode </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="./lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="./lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="./lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="./lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="./lists/programs.html">Programs</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="./search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <!-- Main component for a primary marketing message or call to action -->
+    <div class="p-5 mb-4 bg-light border rounded-3" id="jumbotron">
+      <p>Fortran Unicode when ISO_10646 is not supported</p>
+        <p> Find us on&hellip;</p>
+      <p>
+        <a class="btn btn-lg btn-primary" href="https://github.com/urbanjost/M_unicode" role="button">GitHub</a>
+        
+        
+        
+        
+        <a class="btn btn-lg btn-danger" style="float:right" href="https://github.com/urbanjost/M_unicode/archive/refs/heads/master.zip" role="button">Download the Source</a>
+      </p>
+    </div>
+
+      <div class="row" id='text'>
+        <div class=col-md-8>
+          <h1>M_unicode</h1>
+          <!--
+author_pic:
+twitter:
+website:
+-->
+<h1 id="m_unicode">M_unicode</h1>
+<h3 id="a-wip-work-in-progress">A WIP (Work In Progress)</h3>
+<h2 id="unicode-usage-from-fortran-when-utf-8-source-files-are-supported">Unicode usage from Fortran when UTF-8 source files are supported</h2>
+<p>Fortran 2003 and later standards describe internal representation of
+Unicode using 4-byte-per-character UCS-4 encoding for characters/glyphs,
+including an ability to automatically encode and decode data read and
+written to UTF-8 files.</p>
+<p>But Unicode support is optional.</p>
+<p>The M_utf8 repository deals with using Unicode from Fortran when UCS-4
+(ie. CHARACTER(KIND=&rdquo;ISO_10646&rdquo;) is supported, emphasizing adherence to
+the standard to promote portability.</p>
+<p>When the compiler does <strong>not</strong> support CHARACTER(KIND=&rdquo;ISO_10646&rdquo;) it
+still may support UTF-8 source files and permit entering multi-byte
+Unicode characters in comments and (more importantly) in constant
+strings. This is now very common, as nearly all current operating systems
+and many applications support UTF-8 text files.</p>
+<p>But whether in input and output files, or as what-you-see-is-what-you-get
+character constants the compiler will see this text as byte streams, and
+will be unaware of how many glyphs/characters are represented.</p>
+<p>So it may often be easy to use Unicode characters in fixed messages, but
+if the text needs manipulated or processed in any way dealing with Unicode
+as a raw series of 8-bit-bytes becomes complex and non-intuitive.</p>
+<p>To keep processing of Unicode as simple as processing ASCII-7 characters
+the <strong>M_unicode</strong> module provides a user-defined type named <strong>UNICODE_TYPE</strong>
+and a number of procedures for converting byte streams that represent
+UTF8-encoded text into Unicode code points (ie, 32-bit integer values
+that generally identify one specific Unicode character).</p>
+<p>Additionally the most common character-related intrinsics and operators
+are overloaded to work with the UNICODE_TYPE variables; and the type is
+extended to include the procedures and operators as type-bound procedures
+for programmers that prefer OOP (Object-Oriented Programming) capabilities.</p>
+<h3 id="m_unicose-module">M_unicose module</h3>
+<div class="codehilite"><pre><span></span><code><span class="c">! user-defined type to hold Unicode text</span>
+<span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">unicode_type</span><span class="w"></span>
+<span class="c">! Constructors  </span>
+<span class="c">! UNICODE_VARIABLE= UNICODE_VARIABLE|CHARACTER(LEN=*)|INTEGER_ARRAY</span>
+<span class="c">! VARiABLE%CHARACTER(start,end,step) returns a CHARACTER string</span>
+<span class="c">! VARiABLE%BYTES() returns an array of  CHARACTER(len=1) values</span>
+
+<span class="c">! convert unicode_type to CHARACTER variables</span>
+<span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="kt">character</span><span class="w"></span>
+
+<span class="c">! intrinsic overloads</span>
+<span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">adjustl</span><span class="p">,</span><span class="w"> </span><span class="nb">adjustr</span><span class="p">,</span><span class="w"> </span><span class="nb">index</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="p">,</span><span class="w"> </span><span class="nb">len_trim</span><span class="p">,</span><span class="w"> </span><span class="nb">repeat</span><span class="p">,</span><span class="w"> </span><span class="nb">trim</span>
+<span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">lle</span><span class="p">,</span><span class="w"> </span><span class="nb">llt</span><span class="p">,</span><span class="w"> </span><span class="n">lne</span><span class="p">,</span><span class="w"> </span><span class="n">leq</span><span class="p">,</span><span class="w"> </span><span class="nb">lgt</span><span class="p">,</span><span class="w"> </span><span class="nb">lge</span><span class="w"></span>
+
+<span class="c">! operators and assignment</span>
+<span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">)</span><span class="w"></span>
+<span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">&lt;=</span><span class="p">),</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">&lt;</span><span class="p">),</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">/=</span><span class="p">),</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">==</span><span class="p">)</span><span class="w"></span>
+<span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">&gt;</span><span class="p">),</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">&gt;=</span><span class="p">),</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">//</span><span class="p">)</span><span class="w"></span>
+
+<span class="c">! low-level text conversion to integer codepoint arrays:</span>
+
+<span class="k">public</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">utf8_to_codepoints</span><span class="p">,</span><span class="w">  </span><span class="n">codepoints_to_utf8</span><span class="w"></span>
+<span class="k">public</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">isolatin_to_unicode</span><span class="p">,</span><span class="w"> </span><span class="n">unicode_to_isolatin</span><span class="w"></span>
+<span class="k">public</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">utf8_to_isolatin</span><span class="p">,</span><span class="w">    </span><span class="n">isolatin_to_utf8</span><span class="w"></span>
+</code></pre></div>
+
+<h3 id="utf-8-source-files-just-in-comments-and-constants">UTF-8 source files &ndash; just in comments and constants</h3>
+<p>The Fortran character set is the set of characters used in constructing
+Fortran code. It is now the same as the ASCII 7-bit character set sans
+the unprintable control characters. The letters a-z,A-Z and digits 0-9
+and underscore are the only characters allowed in operator symbols. These
+same characters and the &ldquo;special&rdquo; characters (the remaining printable
+ASCII 7-bit characters) are used for bracketing, and various forms of
+separating and delimiting other lexical tokens.</p>
+<p>But what about other non-ASCII-7 characters representable by the
+processor?  Possibilities include the extended ASCII characters or
+multi-byte characters as defined for UTF-8 text files. The standard
+states that, whatever those &ldquo;additional characters&rdquo; are, they may appear
+in character constants:</p>
+<div class="codehilite"><pre><span></span><code><span class="mf">6.1.6</span><span class="w">   </span><span class="n">Other</span><span class="w"> </span><span class="n">characters</span><span class="w"></span>
+
+<span class="n">Additional</span><span class="w"> </span><span class="n">characters</span><span class="w"> </span><span class="n">may</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">representable</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">processor</span><span class="p">,</span><span class="w"> </span><span class="n">but</span><span class="w"></span>
+<span class="n">shall</span><span class="w"> </span><span class="n">appear</span><span class="w"> </span><span class="kr">on</span><span class="n">ly</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">comments</span><span class="w"> </span><span class="p">(</span><span class="mf">6.3.2.3</span><span class="p">,</span><span class="w"> </span><span class="mf">6.3.3.2</span><span class="p">),</span><span class="w"> </span><span class="n">character</span><span class="w"> </span><span class="n">constants</span><span class="w"></span>
+<span class="p">(</span><span class="mf">7.4.4</span><span class="p">),</span><span class="w"> </span><span class="kr">input</span><span class="o">/</span><span class="n">output</span><span class="w"> </span><span class="n">records</span><span class="w"> </span><span class="p">(</span><span class="mf">12.2.2</span><span class="p">),</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">character</span><span class="w"> </span><span class="n">string</span><span class="w"> </span><span class="n">edit</span><span class="w"></span>
+<span class="n">descriptors</span><span class="w"> </span><span class="p">(</span><span class="mf">13.3.2</span><span class="p">)</span><span class="mf">.</span><span class="w"></span>
+</code></pre></div>
+
+<p>Since ASCII-7-bit is a subset of UTF-8 it is very likely that if your
+system supports UTF-8 files that it therefore will allow multi-byte
+characters to be represented in comments and character constants.</p>
+<p>But it is up to the processor whether it supports or even allows
+UTF-8 files.  In the past when UTF-8 file support was rare this meant
+using UTF-8 multi-byte characters in source files was likely to be very
+non-portable.  Now that UTF-8 files are supported on most systems this
+extension can be useful, particularly with compilers that do not support
+UCS-4 yet.</p>
+<p>Without using any Fortran Unicode support features, if the output
+is redirected to a file does it appear correctly?</p>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">multibyte</span><span class="w"></span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">all</span><span class="o">=</span><span class="s1">&#39;(*(g0))&#39;</span><span class="w"></span>
+<span class="w">   </span><span class="k">print all</span><span class="p">,</span><span class="s1">&#39;Confucius never claimed to be a prophet, &#39;</span><span class="w"></span>
+<span class="w">   </span><span class="k">print all</span><span class="p">,</span><span class="s1">&#39;but I think he foresaw AI! He said &#39;</span><span class="w"></span>
+<span class="w">   </span><span class="k">print all</span>
+<span class="k">   print all</span><span class="p">,</span><span class="s1">&#39; &quot;学而不思则罔，思而不学则殆&quot;&#39;</span><span class="w"></span>
+<span class="w">   </span><span class="k">print all</span><span class="p">,</span><span class="s1">&#39;or &#39;</span><span class="w"></span>
+<span class="w">   </span><span class="k">print all</span><span class="p">,</span><span class="s1">&#39; (xué ér bù sī zé wǎng, sī ér bù xué zé dài),&#39;</span><span class="w"></span>
+<span class="w">   </span><span class="k">print all</span><span class="p">,</span><span class="s1">&#39;or &#39;</span><span class="w"></span>
+<span class="w">   </span><span class="k">print all</span><span class="p">,</span><span class="s1">&#39; &quot;To learn without thinking is to be lost, &#39;</span><span class="w"></span>
+<span class="w">   </span><span class="k">print all</span><span class="p">,</span><span class="s1">&#39; to think without learning is to be in danger&quot;.&#39;</span><span class="w"></span>
+<span class="k">end program </span><span class="n">multibyte</span><span class="w"></span>
+</code></pre></div>
+
+<p>Does it display properly when written to the screen? You might have
+a terminal that does not support UTF-8 characters, or might have to
+set your locale properly. If it is not the terminal and your compiler
+does support ISO-10646 specifying the encoding of the output file
+as UTF-8 will likely correct any output issues even though the strings
+are a series of bytes and not UCS-4 encoded:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">multibyte_encoded</span><span class="w"></span>
+<span class="k">use</span><span class="p">,</span><span class="w"> </span><span class="k">intrinsic</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="o">=&gt;</span><span class="n">output_unit</span><span class="w"></span>
+<span class="k">implicit none</span>
+<span class="k">   open</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">   </span><span class="s1">&#39;Confucius never claimed to be a prophet, &#39;</span><span class="w">       </span><span class="p">,&amp;</span><span class="w"></span>
+<span class="w">   </span><span class="s1">&#39;but I think he foresaw AI! He said &#39;</span><span class="w">             </span><span class="p">,&amp;</span><span class="w"></span>
+<span class="w">   </span><span class="s1">&#39;&#39;</span><span class="w">                                                </span><span class="p">,&amp;</span><span class="w"></span>
+<span class="w">   </span><span class="s1">&#39; &quot;学而不思则罔，思而不学则殆&quot;&#39;</span><span class="w">                   </span><span class="p">,&amp;</span><span class="w"></span>
+<span class="w">   </span><span class="s1">&#39;or&#39;</span><span class="w">                                              </span><span class="p">,&amp;</span><span class="w"></span>
+<span class="w">   </span><span class="s1">&#39; (xué ér bù sī zé wǎng, sī ér bù xué zé dài),&#39;</span><span class="w">   </span><span class="p">,&amp;</span><span class="w"></span>
+<span class="w">   </span><span class="s1">&#39;or&#39;</span><span class="w">                                              </span><span class="p">,&amp;</span><span class="w"></span>
+<span class="w">   </span><span class="s1">&#39; &quot;To learn without thinking is to be lost, &#39;</span><span class="w">     </span><span class="p">,&amp;</span><span class="w"></span>
+<span class="w">   </span><span class="s1">&#39; to think without learning is to be in danger&quot;.&#39;</span><span class="w"> </span>
+<span class="k">end program </span><span class="n">multibyte_encoded</span><span class="w"></span>
+</code></pre></div>
+
+<p>Remember that unless the compiler directly supports UTF-8 representation
+( so far I have identified no compilers that do so) these strings are seen
+by the compiler as a string of bytes, and is otherwise unaware they
+represent Unicode characters. If they are just to be read and written as-is
+as in the previous example program that is not a major concern; but if you
+are manipulating or processing the strings in significant ways you probably
+want to convert the strings to TYPE(UNICODE_TYPE).</p>
+<h2 id="summary">Summary</h2>
+<p>Yes, a Fortran source file can contain multibyte Unicode characters, but
+the level of support and how they are handled depends on the specific
+Fortran compiler and operating system and is not otherwise defined by
+the Fortran standard.</p>
+<p>The appearance of multi-byte characters in comments and character
+constants is typically all that is allowed and compiler errors occur
+when unsupported characters outside the Fortran character set are used
+in the body of the code &ndash; unless the vendor extends Fortran beyond the
+requirements of the Fortran standard. It is assumed here that is not
+the case; so be careful that outside of quoted strings and comments that
+only ASCII-7-bit characters are used to write the actual coding instructions.</p>
+<p>Some editors might try to be &ldquo;helpful&rdquo; and change ASCII quote and dash
+characters to other characters when editing UTF-8 files, so be aware
+you might need to normalize your source files into the allowed Fortran
+character set.</p>
+<p>Avoid list-directed output. It does not know which bytes are composing
+a glyph and may split lines at inappropriate points.</p>
+<h3 id="compiler-support">Compiler Support:</h3>
+<p>Even with standard features, compiler support for Unicode in source
+   files can vary. Some compilers might require specific flags (e.g.,
+   -qmbcs for XL Fortran) or might offer better integration with
+   system-level Unicode functionalities.</p>
+<h3 id="source-file-encoding">Source File Encoding:</h3>
+<p>The encoding of the Fortran source file itself is crucial. If the
+    file is saved in a Unicode encoding like UTF-8, the compiler needs
+   to be able to correctly interpret these characters during compilation.</p>
+<h3 id="limitations">Limitations:</h3>
+<p>While modern Fortran can handle Unicode characters, there might still be
+limitations compared to languages like C++ regarding the ease of use with
+complex Unicode features (e.g., surrogate pairs, text directionality, normalization).</p>
+<h3 id="in-summary">In summary:</h3>
+<p>While it is possible to include multibyte Unicode characters in Fortran
+source files, especially with modern Fortran standards and supportive
+compilers, it requires careful consideration of the compiler&rsquo;s
+capabilities and the source file&rsquo;s encoding.</p>
+<p>## References</p>
+<p>Initially based on a discussion begun in
+https://fortran-lang.discourse.group/t/how-to-use-utf-8-in-gfortran/9949, 2025-08;
+including features and enhancements from Francois Jacq.</p>
+<p>The improvements include procedures for handling ASCII encoding extensions
+often used for internationalization that pre-date Unicode, such as the
+Latin encodings.</p>
+<p>The intent is for the M_unicode module to be useful on many platforms, but currently
+it is primarily tested with GCC/gfortran and INTEL/ifx on Linux and Cygwin.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">testit</span><span class="w"></span>
+<span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="o">=&gt;</span><span class="n">output_unit</span><span class="w"></span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="w"> </span>
+<span class="k">implicit none</span>
+<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">uline</span><span class="w"></span>
+
+<span class="w">   </span><span class="c">!open (stdout, encoding=&#39;UTF-8&#39;) ! preferred, but not required if not supported</span>
+
+<span class="w">   </span><span class="n">uline</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Hello World and Ni Hao -- 你好  &#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="kt">character</span><span class="p">(</span><span class="n">str</span><span class="p">)</span><span class="w"> </span><span class="c">! convert to intrinsic CHARACTER variable</span>
+<span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">str</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="nb">len_trim</span><span class="p">(</span><span class="n">str</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">str</span><span class="p">(</span><span class="mi">27</span><span class="p">:</span><span class="mi">28</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="nb">index</span><span class="p">(</span><span class="n">uline</span><span class="p">,</span><span class="s1">&#39;你&#39;</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">   </span><span class="c">! OOPS</span>
+<span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">str</span><span class="p">%</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">str</span><span class="p">),</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="c">! reverse string</span>
+<span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">str</span><span class="p">%</span><span class="n">codes</span><span class="w"> </span><span class="c">! Unicode code point values</span>
+
+<span class="k">end program </span><span class="n">testit</span><span class="w"></span>
+</code></pre></div>
+
+<hr>
+<h2 id="see-also">See Also</h2>
+<ul>
+<li><a href="https://fortran-lang.discourse.group/t/how-to-use-utf-8-in-gfortran/9949">https://fortran-lang.discourse.group/t/how-to-use-utf-8-in-gfortran/9949</a></li>
+<li><a href="https://fortran-lang.discourse.group/t/how-do-i-file-read-french-special-characters-like-e-etc/6618">https://fortran-lang.discourse.group/t/how-do-i-file-read-french-special-characters-like-e-etc/6618</a></li>
+<li><a href="https://fortran-lang.discourse.group/t/using-unicode-characters-in-fortran/2764">https://fortran-lang.discourse.group/t/using-unicode-characters-in-fortran/2764</a></li>
+</ul>
+<!--
+ + [UTF-8 Everywhere Manifesto](http://utf8everywhere.org/)
+-->
+<hr>
+        </div>
+          <div class="col-md-4">
+            <div class="card card-body bg-light">
+              <h2 class="card-title">Developer Info</h2>
+              <h4 class="card-text">John S. Urban</h4>
+              <p class="card-text"></p>
+                <div class="text-center"><div class="btn-group" role="group">
+                    
+                    <a class="btn btn-lg btn-primary" href="https://github.com/urbanjost/M_unicode"><i class="fa fa-github fa-lg"></i></a>
+                    
+                    
+                    
+                    
+                    
+                    
+                </div></div>
+            </div>
+          </div>
+      </div>
+        <div class="row">
+          <hr>
+          <div class="col-xs-6 col-sm-3">
+            <div>
+              <h3>Source Files</h3>
+              <ul><li><a href='sourcefile/bom_start.f90.html'>bom_start.f90</a></li><li><a href='sourcefile/codepoint.f90.html'>codepoint.f90</a></li><li><a href='sourcefile/count_glyphs.f90.html'>count_glyphs.f90</a></li><li><a href='sourcefile/fox_and_crow.f90.html'>fox_and_crow.f90</a></li><li><a href='sourcefile/m_unicode.f90.html'>M_unicode.f90</a></li><li><a href='sourcefile/multi_lines.f90.html'>multi_lines.f90</a></li><li><a href='sourcefile/note.f90.html'>note.f90</a></li><li><a href='sourcefile/read_commandline.f90.html'>read_commandline.f90</a></li><li><a href='sourcefile/sample.f90.html'>sample.f90</a></li><li><a href='sourcefile/test_m_unicode.f90.html'>test_M_unicode.f90</a></li></ul>
+            </div>
+            <div>
+              <ul>
+                <li><a href="./lists/files.html"><em>All source files&hellip;</em></a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-xs-6 col-sm-3">
+            <div>
+              <h3>Modules</h3>
+              <ul><li><a href='module/m_unicode.html'>M_unicode</a></li></ul>
+            </div>
+            <div>
+              <ul>
+                <li><a href="./lists/modules.html"><em>All modules&hellip;</em></a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-xs-6 col-sm-3">
+            <div>
+              <h3>Procedures</h3>
+              <ul><li><a href='interface/adjustl.html'>adjustl</a></li><li><a href='interface/adjustr.html'>adjustr</a></li><li><a href='interface/assignment(=).html'>assignment(=)</a></li><li><a href='interface/character.html'>character</a></li><li><a href='proc/check.html'>check</a></li><li><a href='proc/checkit.html'>checkit</a></li><li><a href='proc/checkits.html'>checkits</a></li><li><a href='proc/checkits_l.html'>checkits_l</a></li><li><a href='interface/codepoints_to_utf8.html'>codepoints_to_utf8</a></li><li><a href='proc/getargs.html'>getargs</a></li></ul>
+            </div>
+            <div>
+              <ul>
+                <li><a href="./lists/procedures.html"><em>All procedures&hellip;</em></a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-xs-6 col-sm-3">
+            <div>
+              <h3>Derived Types</h3>
+              <ul><li><a href='type/unicode_type.html'>unicode_type</a></li></ul>
+            </div>
+            <div>
+              <ul>
+                <li><a href="./lists/types.html"><em>All derived types&hellip;</em></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              M_unicode
+ was developed by John S. Urban<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2025-08-22 04:29 +0000             </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>
