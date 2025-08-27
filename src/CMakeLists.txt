@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(M_utf8 LANGUAGES Fortran)
+project(M_unicode LANGUAGES Fortran)
 
 # Define the build directory in the project root
 set(BUILD_DIR ${CMAKE_SOURCE_DIR}/../build)
@@ -19,12 +19,12 @@ set(INCLUDE_DIRECTORIES ${CMAKE_BINARY_DIR}/include)
 set(CMAKE_Fortran_MODULE_DIRECTORY ${CMAKE_BINARY_DIR}/include)
 
 # Define the library
-add_library(M_utf8 STATIC
+add_library(M_unicode STATIC
     M_unicode.f90
 )
 
 # Set output directory for the library to build/lib
-set_target_properties(M_utf8 PROPERTIES
+set_target_properties(M_unicode PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY "${BUILD_DIR}/lib"
 )
 
@@ -46,7 +46,7 @@ file(GLOB EXAMPLE_SOURCES "${CMAKE_SOURCE_DIR}/../example/*.f90")
 foreach(test_source ${TEST_SOURCES})
     get_filename_component(test_name ${test_source} NAME_WE)
     add_executable(${test_name} ${test_source})
-    target_link_libraries(${test_name} PRIVATE M_utf8)
+    target_link_libraries(${test_name} PRIVATE M_unicode)
     set_target_properties(${test_name} PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY "${BUILD_DIR}/test"
     )
@@ -56,7 +56,7 @@ endforeach()
 foreach(example_source ${EXAMPLE_SOURCES})
     get_filename_component(example_name ${example_source} NAME_WE)
     add_executable(${example_name} ${example_source})
-    target_link_libraries(${example_name} PRIVATE M_utf8)
+    target_link_libraries(${example_name} PRIVATE M_unicode)
     set_target_properties(${example_name} PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY "${BUILD_DIR}/example"
     )
@@ -116,7 +116,7 @@ else()
 endif()
 ##################################################################################
 # Install library to DEFAULT_LIBRARY_INSTALL_DIR  and module files to $CMAKE_INSTALL_PREFIX/lib
-install(TARGETS M_utf8
+install(TARGETS M_unicode
     ARCHIVE DESTINATION lib
     PERMISSIONS OWNER_WRITE OWNER_READ
     GROUP_EXECUTE GROUP_READ
