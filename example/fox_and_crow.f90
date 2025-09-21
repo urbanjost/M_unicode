@@ -26,7 +26,7 @@ ut( ' -- Jean de la Fontaine')]
 
    write(*,'(g0)')(character(poem(i)),i=1,size(poem))
    write(*,'(a)')
-   write(*,'(*(a))')(poem(i)%bytes(),new_line('a'),i=1,size(poem))
+   write(*,'(*(a))')(poem(i)%codepoint(),new_line('a'),i=1,size(poem))
    write(*,'(a)')
    write(*,'(*(g0))')(character(poem(i)),len(poem(i)),' ',len(poem(i)%character()),new_line('a'),i=1,size(poem))
 

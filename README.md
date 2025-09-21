@@ -9,11 +9,13 @@ Unicode using 4-byte-per-character UCS-4 encoding for characters/glyphs,
 including an ability to automatically encode and decode data read and
 written to UTF-8 files.
 
-But Unicode support is optional.
+__But Unicode support is optional.__
 
-The M_utf8 repository deals with using Unicode from Fortran when UCS-4
-(ie. CHARACTER(KIND="ISO_10646") is supported, emphasizing adherence to
-the standard to promote portability.
+Where Unicode __is__ supported (ie. where CHARACTER(KIND="ISO_10646")
+is provided)
+The [M_utf8](https://github.com/urbanjost/M_utf8) repository
+supplements Unicode usage -- emphasizing adherence to the standard to
+promote portability.
 
 When the compiler does __not__ support CHARACTER(KIND="ISO_10646") it
 still may support UTF-8 source files and permit entering multi-byte
@@ -23,9 +25,9 @@ and many applications support UTF-8 text files.
 
 But whether in input and output files, or as what-you-see-is-what-you-get
 character constants the compiler will see this text as byte streams, and
-will be unaware of how many glyphs/characters are represented.
+will be unaware of how many Unicode glyphs/characters are represented.
 
-So it may often be easy to use Unicode characters in fixed messages, but
+So it may often be easy to place Unicode characters in fixed messages, but
 if the text needs manipulated or processed in any way dealing with Unicode
 as a raw series of 8-bit-bytes becomes complex and non-intuitive.
 
@@ -41,14 +43,14 @@ extended to include the procedures and operators as type-bound procedures
 for programmers that prefer OOP (Object-Oriented Programming) capabilities.
 
 
-### M_unicose module
+### M_unicode module
 ```fortran
 ! user-defined type to hold Unicode text
 public :: unicode_type
 ! Constructors  
 ! UNICODE_VARIABLE= UNICODE_VARIABLE|CHARACTER(LEN=*)|INTEGER_ARRAY
 ! VARiABLE%CHARACTER(start,end,step) returns a CHARACTER string
-! VARiABLE%BYTES() returns an array of  CHARACTER(len=1) values
+! VARiABLE%BYTES() returns an array of CHARACTER(len=1) values
 
 ! convert unicode_type to CHARACTER variables
 public :: character
@@ -65,8 +67,6 @@ public :: operator(>), operator(>=), operator(//)
 ! low-level text conversion to integer codepoint arrays:
 
 public  :: utf8_to_codepoints,  codepoints_to_utf8
-public  :: isolatin_to_unicode, unicode_to_isolatin
-public  :: utf8_to_isolatin,    isolatin_to_utf8
 ```
 
 ### UTF-8 source files -- just in comments and constants
@@ -76,8 +76,8 @@ Fortran code. It is now the same as the ASCII 7-bit character set sans
 the unprintable control characters. The letters a-z,A-Z and digits 0-9
 and underscore are the only characters allowed in operator symbols. These
 same characters and the "special" characters (the remaining printable
-ASCII 7-bit characters) are used for bracketing, and various forms of
-separating and delimiting other lexical tokens.
+ASCII 7-bit characters) are used for operators and bracketing, and
+various forms of separating and delimiting other lexical tokens.
 
 But what about other non-ASCII-7 characters representable by the
 processor?  Possibilities include the extended ASCII characters or
@@ -171,8 +171,9 @@ characters to other characters when editing UTF-8 files, so be aware
 you might need to normalize your source files into the allowed Fortran
 character set.
 
-Avoid list-directed output. It does not know which bytes are composing
-a glyph and may split lines at inappropriate points.
+When using Unicode as byte streams avoid list-directed output. It
+does not know which bytes are composing a glyph and may split lines at
+inappropriate points.
 
 ### Compiler Support:
 
@@ -209,11 +210,12 @@ including features and enhancements from Francois Jacq.
 
 The improvements include procedures for handling ASCII encoding extensions
 often used for internationalization that pre-date Unicode, such as the
-Latin encodings.
+Latin encodings now in module
+The [M_isolatin](https://github.com/urbanjost/M_isolatin).
 
 
 The intent is for the M_unicode module to be useful on many platforms, but currently
-it is primarily tested with GCC/gfortran and INTEL/ifx on Linux and Cygwin.
+it is primarily tested with GCC/gfortran and Intel/ifx on Linux and Cygwin.
 
 ```fortran
 program testit
