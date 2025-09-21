@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="100.0% of total for modules and submodules.">753 statements</a>
+                 title="100.0% of total for modules and submodules.">1061 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -161,6 +161,8 @@
             <a class="list-group-item" href="../module/m_unicode.html#interface-operator%28gt%29">operator(>)</a>
             <a class="list-group-item" href="../module/m_unicode.html#interface-operator%28gt%3D%29">operator(>=)</a>
             <a class="list-group-item" href="../module/m_unicode.html#interface-repeat">repeat</a>
+            <a class="list-group-item" href="../module/m_unicode.html#interface-split">split</a>
+            <a class="list-group-item" href="../module/m_unicode.html#interface-tokenize">tokenize</a>
             <a class="list-group-item" href="../module/m_unicode.html#interface-trim">trim</a>
             <a class="list-group-item" href="../module/m_unicode.html#interface-unicode_type">unicode_type</a>
             <a class="list-group-item" href="../module/m_unicode.html#interface-utf8_to_codepoints">utf8_to_codepoints</a>
@@ -181,8 +183,31 @@
       </div>
     </div>
 
-  
-  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#funcs-0"
+         aria-expanded="false" aria-controls="funcs-0">
+         <h4 class="card-header bg-primary text-white">Functions</h4>
+      </a>
+      <div id="funcs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/m_unicode.html#proc-lower">lower</a>
+            <a class="list-group-item" href="../module/m_unicode.html#proc-upper">upper</a>
+        </div>
+      </div>
+    </div>
+
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#subs-0"
+         aria-expanded="false" aria-controls="subs-0">
+         <h4 class="card-header bg-primary text-white">Subroutines</h4>
+      </a>
+      <div id="subs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/m_unicode.html#proc-sort_quick_rx">sort_quick_rx</a>
+        </div>
+      </div>
+    </div>
+
   
   
   
@@ -197,7 +222,84 @@
     </div>
 
     <div class="col-md-9" id='text'>
-      
+      <p>In computing, Unicode characters are typically sorted using one of two methods:</p>
+<p>a simple binary code point sort or a more sophisticated,
+language-sensitive collation. The correct approach depends on whether a
+linguistically accurate &ldquo;alphabetical&rdquo; order is needed or if a simple,
+fixed order is sufficient.</p>
+<p>Binary code point sort</p>
+<p>This is the simplest and fastest method, often used as a default by
+programming languages and databases.</p>
+<div class="codehilite"><pre><span></span><code><span class="n">How</span><span class="w"> </span><span class="n">it</span><span class="w"> </span><span class="nl">works:</span><span class="w"> </span><span class="n">Strings</span><span class="w"> </span><span class="n">are</span><span class="w"> </span><span class="n">sorted</span><span class="w"> </span><span class="n">based</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">numeric</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">their</span><span class="w"></span>
+<span class="n">underlying</span><span class="w"> </span><span class="n">Unicode</span><span class="w"> </span><span class="n">code</span><span class="w"> </span><span class="n">points</span><span class="p">.</span><span class="w"> </span><span class="n">For</span><span class="w"> </span><span class="n">example</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">character</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">code</span><span class="w"></span>
+<span class="n">point</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">U</span><span class="o">+</span><span class="mh">0061</span><span class="w"> </span><span class="p">(</span><span class="n">lowercase</span><span class="w"> </span><span class="s">&quot;a&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">will</span><span class="w"> </span><span class="k">always</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">placed</span><span class="w"> </span><span class="n">before</span><span class="w"> </span><span class="n">U</span><span class="o">+</span><span class="mh">0062</span><span class="w"></span>
+<span class="p">(</span><span class="n">lowercase</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">because</span><span class="w"> </span><span class="mh">97</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">less</span><span class="w"> </span><span class="n">than</span><span class="w"> </span><span class="mf">98.</span><span class="w"></span>
+
+<span class="nl">Limitations:</span><span class="w"> </span><span class="n">While</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">works</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">basic</span><span class="w"> </span><span class="n">English</span><span class="w"> </span><span class="n">alphabet</span><span class="p">,</span><span class="w"> </span><span class="n">it</span><span class="w"></span>
+<span class="n">produces</span><span class="w"> </span><span class="n">non</span><span class="o">-</span><span class="n">intuitive</span><span class="w"> </span><span class="n">results</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">other</span><span class="w"> </span><span class="n">characters</span><span class="w"> </span><span class="n">because</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">code</span><span class="w"></span>
+<span class="n">point</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="n">does</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="n">correlate</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">linguistic</span><span class="w"> </span><span class="n">sorting</span><span class="w"> </span><span class="n">rules</span><span class="p">.</span><span class="w"> </span><span class="n">For</span><span class="w"></span>
+<span class="n">instance</span><span class="p">,</span><span class="w"> </span><span class="n">it</span><span class="w"> </span><span class="n">may</span><span class="w"> </span><span class="nl">place:</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">Uppercase</span><span class="w"> </span><span class="n">letters</span><span class="w"> </span><span class="n">before</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="n">lowercase</span><span class="w"> </span><span class="n">letters</span><span class="w"> </span><span class="p">(</span><span class="n">Z</span><span class="w"> </span><span class="n">comes</span><span class="w"> </span><span class="n">before</span><span class="w"> </span><span class="n">a</span><span class="p">).</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">Accented</span><span class="w"> </span><span class="n">letters</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">an</span><span class="w"> </span><span class="n">order</span><span class="w"> </span><span class="n">that</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="n">linguistically</span><span class="w"> </span><span class="n">correct</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">given</span><span class="w"> </span><span class="n">language</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">g</span><span class="p">.,</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">German</span><span class="p">,</span><span class="w"> </span><span class="n">an</span><span class="w"> </span><span class="n">umlauted</span><span class="w"> </span><span class="n">character</span><span class="w"></span>
+<span class="w">    </span><span class="n">like</span><span class="w"> </span><span class="err">ö</span><span class="w"> </span><span class="n">might</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">sorted</span><span class="w"> </span><span class="n">differently</span><span class="w"> </span><span class="n">than</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">plain</span><span class="w"> </span><span class="n">o</span><span class="p">).</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">Characters</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">different</span><span class="w"> </span><span class="n">scripts</span><span class="w"> </span><span class="p">(</span><span class="n">like</span><span class="w"> </span><span class="n">Latin</span><span class="p">,</span><span class="w"> </span><span class="n">Greek</span><span class="p">,</span><span class="w"> </span><span class="k">and</span><span class="w"></span>
+<span class="w">    </span><span class="n">Cyrillic</span><span class="p">)</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">an</span><span class="w"> </span><span class="n">order</span><span class="w"> </span><span class="n">determined</span><span class="w"> </span><span class="n">solely</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="n">their</span><span class="w"> </span><span class="n">assigned</span><span class="w"> </span><span class="n">code</span><span class="w"></span>
+<span class="w">    </span><span class="n">point</span><span class="w"> </span><span class="n">blocks</span><span class="p">.</span><span class="w"></span>
+</code></pre></div>
+
+<p>Unicode Collation Algorithm (UCA)</p>
+<p>This is the standard, more robust method for sorting that produces
+correct, language-sensitive results. It is described in Unicode Technical
+Standard #10.</p>
+<div class="codehilite"><pre><span></span><code><span class="n">How</span><span class="w"> </span><span class="n">it</span><span class="w"> </span><span class="nl">works:</span><span class="w"> </span><span class="n">Instead</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">sorting</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">single</span><span class="w"> </span><span class="n">numeric</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">the</span><span class="w"></span>
+<span class="n">UCA</span><span class="w"> </span><span class="n">uses</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">multi</span><span class="o">-</span><span class="n">level</span><span class="w"> </span><span class="n">approach</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">determine</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">sort</span><span class="w"> </span><span class="n">key</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">each</span><span class="w"></span>
+<span class="k">string</span><span class="p">.</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">algorithm</span><span class="w"> </span><span class="n">takes</span><span class="w"> </span><span class="n">into</span><span class="w"> </span><span class="n">account</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">specific</span><span class="w"> </span><span class="n">rules</span><span class="w"> </span><span class="p">(</span><span class="k">or</span><span class="w"></span>
+<span class="s">&quot;tailorings&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">given</span><span class="w"> </span><span class="n">language</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">locale</span><span class="p">,</span><span class="w"> </span><span class="n">which</span><span class="w"> </span><span class="n">are</span><span class="w"> </span><span class="n">defined</span><span class="w"> </span><span class="n">in</span><span class="w"></span>
+<span class="n">the</span><span class="w"> </span><span class="n">Common</span><span class="w"> </span><span class="n">Locale</span><span class="w"> </span><span class="n">Data</span><span class="w"> </span><span class="n">Repository</span><span class="w"> </span><span class="p">(</span><span class="n">CLDR</span><span class="p">).</span><span class="w"></span>
+
+<span class="n">Multi</span><span class="o">-</span><span class="n">level</span><span class="w"> </span><span class="nl">sorting:</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">UCA</span><span class="w"> </span><span class="n">uses</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">hierarchy</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">weights</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">each</span><span class="w"></span>
+<span class="nl">character:</span><span class="w"></span>
+
+<span class="w">    </span><span class="nl">Primary:</span><span class="w"> </span><span class="n">Compares</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">base</span><span class="w"> </span><span class="n">letter</span><span class="p">,</span><span class="w"> </span><span class="n">ignoring</span><span class="w"> </span><span class="k">case</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">accents</span><span class="p">.</span><span class="w"> </span><span class="n">This</span><span class="w"></span>
+<span class="w">    </span><span class="n">groups</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="n">versions</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="s">&quot;a&quot;</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="err">á</span><span class="p">,</span><span class="w"> </span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="err">Á</span><span class="p">)</span><span class="w"> </span><span class="n">together</span><span class="p">.</span><span class="w"></span>
+
+<span class="w">    </span><span class="nl">Secondary:</span><span class="w"> </span><span class="n">Compares</span><span class="w"> </span><span class="n">accents</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">diacritics</span><span class="p">.</span><span class="w"> </span><span class="n">This</span><span class="w"> </span><span class="n">establishes</span><span class="w"> </span><span class="n">the</span><span class="w"></span>
+<span class="w">    </span><span class="n">order</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">different</span><span class="w"> </span><span class="n">versions</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">same</span><span class="w"> </span><span class="n">base</span><span class="w"> </span><span class="n">letter</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">g</span><span class="p">.,</span><span class="w"> </span><span class="n">o</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="err">ó</span><span class="p">,</span><span class="w"> </span><span class="err">ô</span><span class="p">).</span><span class="w"></span>
+
+<span class="w">    </span><span class="nl">Tertiary:</span><span class="w"> </span><span class="n">Compares</span><span class="w"> </span><span class="k">case</span><span class="w"> </span><span class="n">differences</span><span class="w"> </span><span class="p">(</span><span class="n">uppercase</span><span class="w"> </span><span class="n">vs</span><span class="p">.</span><span class="w"> </span><span class="n">lowercase</span><span class="p">).</span><span class="w"></span>
+
+<span class="w">    </span><span class="nl">Quaternary:</span><span class="w"> </span><span class="n">Deals</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">other</span><span class="w"> </span><span class="n">special</span><span class="w"> </span><span class="n">features</span><span class="p">,</span><span class="w"> </span><span class="n">such</span><span class="w"> </span><span class="n">as</span><span class="w"> </span><span class="n">handling</span><span class="w"></span>
+<span class="w">    </span><span class="n">punctuation</span><span class="p">.</span><span class="w"></span>
+
+<span class="n">Locale</span><span class="o">-</span><span class="n">specific</span><span class="w"> </span><span class="nl">rules:</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">UCA</span><span class="w"> </span><span class="n">can</span><span class="w"> </span><span class="n">apply</span><span class="w"> </span><span class="n">different</span><span class="w"> </span><span class="n">rules</span><span class="w"> </span><span class="n">based</span><span class="w"> </span><span class="n">on</span><span class="w"></span>
+<span class="n">a</span><span class="w"> </span><span class="n">user</span><span class="p">&#39;</span><span class="n">s</span><span class="w"> </span><span class="n">location</span><span class="p">.</span><span class="w"> </span><span class="n">For</span><span class="w"> </span><span class="nl">example:</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">In</span><span class="w"> </span><span class="n">German</span><span class="w"> </span><span class="n">phonebooks</span><span class="p">,</span><span class="w"> </span><span class="n">umlauted</span><span class="w"> </span><span class="n">letters</span><span class="w"> </span><span class="p">(</span><span class="err">ä</span><span class="p">)</span><span class="w"> </span><span class="n">are</span><span class="w"> </span><span class="n">often</span><span class="w"> </span><span class="n">sorted</span><span class="w"> </span><span class="n">as</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">they</span><span class="w"> </span><span class="n">were</span><span class="w"> </span><span class="n">ae</span><span class="p">.</span><span class="w"> </span><span class="n">In</span><span class="w"> </span><span class="n">other</span><span class="w"> </span><span class="n">contexts</span><span class="p">,</span><span class="w"> </span><span class="n">they</span><span class="w"> </span><span class="n">are</span><span class="w"> </span><span class="n">sorted</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">their</span><span class="w"></span>
+<span class="w">    </span><span class="n">base</span><span class="w"> </span><span class="n">letter</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="p">).</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">The</span><span class="w"> </span><span class="n">correct</span><span class="w"> </span><span class="n">sorting</span><span class="w"> </span><span class="n">order</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">Chinese</span><span class="w"> </span><span class="n">characters</span><span class="w"> </span><span class="n">can</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">based</span><span class="w"></span>
+<span class="w">    </span><span class="n">on</span><span class="w"> </span><span class="n">pronunciation</span><span class="w"> </span><span class="p">(</span><span class="n">Pinyin</span><span class="p">)</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">stroke</span><span class="w"> </span><span class="n">count</span><span class="p">,</span><span class="w"> </span><span class="n">depending</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">the</span><span class="w"></span>
+<span class="w">    </span><span class="n">dictionary</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">region</span><span class="p">.</span><span class="w"></span>
+</code></pre></div>
+
+<p>How to choose a sorting method</p>
+<div class="codehilite"><pre><span></span><code><span class="nv">Use</span> <span class="nv">binary</span> <span class="nv">sorting</span> <span class="k">for</span> <span class="nv">performance</span> <span class="nv">when</span> <span class="nv">linguistic</span> <span class="nv">order</span> <span class="nv">doesn</span><span class="s1">&#39;</span><span class="s">t</span>
+<span class="nv">matter</span>. <span class="nv">This</span> <span class="nv">is</span> <span class="nv">fine</span> <span class="k">for</span> <span class="nv">internal</span> <span class="nv">data</span> <span class="nv">processing</span> <span class="nv">where</span> <span class="nv">you</span> <span class="nv">just</span>
+<span class="nv">need</span> <span class="nv">a</span> <span class="nv">consistent</span>, <span class="nv">quick</span> <span class="nv">sort</span>.
+
+<span class="nv">Use</span> <span class="nv">the</span> <span class="nv">UCA</span> <span class="k">for</span> <span class="nv">user</span><span class="o">-</span><span class="nv">facing</span> <span class="nv">applications</span> <span class="nv">where</span> <span class="nv">culturally</span> <span class="nv">appropriate</span>
+<span class="nv">sorting</span> <span class="nv">is</span> <span class="nv">critical</span>. <span class="k">If</span> <span class="nv">your</span> <span class="nv">application</span> <span class="nv">supports</span> <span class="nv">multiple</span> <span class="nv">languages</span>,
+<span class="nv">you</span> <span class="nv">must</span> <span class="nv">use</span> <span class="nv">a</span> <span class="nv">language</span><span class="o">-</span><span class="nv">sensitive</span> <span class="nv">collator</span> <span class="nv">to</span> <span class="nv">provide</span> <span class="nv">the</span> <span class="nv">sorting</span>
+<span class="nv">users</span> <span class="nv">will</span> <span class="nv">expect</span>. <span class="nv">Most</span> <span class="nv">modern</span> <span class="nv">programming</span> <span class="nv">languages</span> <span class="nv">and</span> <span class="nv">databases</span>
+<span class="nv">have</span> <span class="nv">built</span><span class="o">-</span><span class="nv">in</span> <span class="nv">libraries</span> <span class="nv">that</span> <span class="nv">implement</span> <span class="nv">the</span> <span class="nv">Unicode</span> <span class="nv">Collation</span>
+<span class="nv">Algorithm</span>.
+</code></pre></div>
 <br>          <div class="card mb-4">
       <h3 class="card-header card-title bg-light">Uses</h3>
       <div class="card-body">
@@ -246,7 +348,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~13"></span>
+              <span class="anchor" id="variable-string~14"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -299,7 +401,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~12"></span>
+              <span class="anchor" id="variable-string~13"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -468,7 +570,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~6"></span>
+              <span class="anchor" id="variable-string~7"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -494,79 +596,6 @@
           <li class="list-group-item">
                 <h3>
     private pure function char_str_range(string, first, last) result(aline)  
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-string~7"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>string</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-first"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>first</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-last"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>last</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>character(len=:), allocatable</small>
-    </h4>
-    
-
-          </li>
-          <li class="list-group-item">
-                <h3>
-    private pure function char_str_range_step(string, first, last, step) result(aline)  
 
     </h3>
   
@@ -615,6 +644,79 @@
         <tr>
             <td>
               <span class="anchor" id="variable-last~2"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>last</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>character(len=:), allocatable</small>
+    </h4>
+    
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private pure function char_str_range_step(string, first, last, step) result(aline)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-string~9"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>string</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-first~3"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>first</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-last~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -828,7 +930,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~14"></span>
+              <span class="anchor" id="variable-string~15"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -843,7 +945,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-substring"></span>
+              <span class="anchor" id="variable-substring~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -886,7 +988,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~15"></span>
+              <span class="anchor" id="variable-string~16"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -901,7 +1003,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-substring~2"></span>
+              <span class="anchor" id="variable-substring~3"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -944,7 +1046,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~16"></span>
+              <span class="anchor" id="variable-string~17"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -959,7 +1061,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-substring~3"></span>
+              <span class="anchor" id="variable-substring~4"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1012,7 +1114,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~5"></span>
+              <span class="anchor" id="variable-string~6"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1065,7 +1167,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~10"></span>
+              <span class="anchor" id="variable-string~11"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3510,7 +3612,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~9"></span>
+              <span class="anchor" id="variable-string~10"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3553,6 +3655,524 @@
 
               <div class="card">
     <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-split"></span>
+      <h3>public        interface <a href='../interface/split.html'>split</a> 
+      </h3>
+    </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private impure subroutine split_first_last(string, set, first, last)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-string~21"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>string</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-set~2"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>set</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-first~6"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>first</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-last~7"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>last</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private impure subroutine split_pos(string, set, pos, back)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-string~22"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>string</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-set~3"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>set</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pos~2"></span>
+              integer,
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>pos</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-back"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>back</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private impure subroutine split_tokens(string, set, tokens, separator)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-string~20"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>string</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-set"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>set</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tokens~2"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>tokens</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-separator"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>separator</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-tokenize"></span>
+      <h3>public        interface <a href='../interface/tokenize.html'>tokenize</a> 
+      </h3>
+    </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private impure subroutine split_first_last(string, set, first, last)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-string~21"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>string</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-set~2"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>set</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-first~6"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>first</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-last~7"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>last</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private impure subroutine split_pos(string, set, pos, back)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-string~22"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>string</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-set~3"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>set</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pos~2"></span>
+              integer,
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>pos</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-back"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>back</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private impure subroutine split_tokens(string, set, tokens, separator)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-string~20"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>string</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-set"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>set</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tokens~2"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>tokens</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-separator"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>separator</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-trim"></span>
       <h3>public        interface <a href='../interface/trim.html'>trim</a> 
       </h3>
@@ -3578,7 +4198,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~11"></span>
+              <span class="anchor" id="variable-string~12"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3674,7 +4294,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string"></span>
+              <span class="anchor" id="variable-string~2"></span>
               character(len=*),
             </td>
 <td>intent(in),</td>
@@ -3910,12 +4530,12 @@
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/unicode_type.html#boundprocedure-bytes'>bytes</a></strong> => oop_bytes</td>
+  <strong><a href='../type/unicode_type.html#boundprocedure-character'>character</a></strong> => oop_character</td>
                   <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/unicode_type.html#boundprocedure-character'>character</a></strong> => oop_character</td>
+  <strong><a href='../type/unicode_type.html#boundprocedure-codepoint'>codepoint</a></strong> => oop_codepoint</td>
                   <td></td>
               </tr>
               <tr>
@@ -3935,7 +4555,27 @@
               </tr>
               <tr>
                 <td>  procedure, public ::
+  <strong><a href='../type/unicode_type.html#boundprocedure-lower'>lower</a></strong> => oop_lower</td>
+                  <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='../type/unicode_type.html#boundprocedure-split'>split</a></strong> => oop_split</td>
+                  <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='../type/unicode_type.html#boundprocedure-tokenize'>tokenize</a></strong> => oop_tokenize</td>
+                  <td><p>procedure  ::  sort           =&gt;  oop_sort</p></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
   <strong><a href='../type/unicode_type.html#boundprocedure-trim'>trim</a></strong> => oop_trim</td>
+                  <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='../type/unicode_type.html#boundprocedure-upper'>upper</a></strong> => oop_upper</td>
                   <td></td>
               </tr>
           </tbody>
@@ -3946,7 +4586,160 @@
         </section>
         <br>
 
+        <section>
+          <h2>Functions</h2>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-lower"></span> <h3>public pure elemental function <a href='../proc/lower.html'>lower</a>(str) result(string)  
+</h3></div>
+    <div class="card-body">
+          
+  
 
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-str~2"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>str</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-upper"></span> <h3>public pure elemental function <a href='../proc/upper.html'>upper</a>(str) result(string)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-str"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>str</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+        <section>
+          <h2>Subroutines</h2>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-sort_quick_rx"></span> <h3>public  subroutine <a href='../proc/sort_quick_rx.html'>sort_quick_rx</a>(data, indx)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Sample usage:</p><a href="../proc/sort_quick_rx.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-data"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>data</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-indx"></span>
+              integer(kind=int32),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>indx</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+        </section>
+        <br>
 
 
 
@@ -3968,7 +4761,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-08-27 03:20 +0000             </p>
+ on 2025-09-21 12:32 +0000             </p>
           </div>
         </div>
         <br>

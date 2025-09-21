@@ -3,16 +3,21 @@ module M_unicode
 ! first presented in https://fortran-lang.discourse.group/t/how-to-use-utf-8-in-gfortran/9949
 ! including enhancements and latin support from Francois Jacq, 2025-08
 !
-use iso_fortran_env, only: error_unit, stderr=>error_unit
+use,intrinsic :: iso_fortran_env, only : error_unit, stderr=>error_unit
+use,intrinsic :: iso_fortran_env, only : int8, int16, int32, int64
+use,intrinsic :: iso_fortran_env, only : real32, real64, real128
 implicit none
 
 private
 public  :: utf8_to_codepoints,  codepoints_to_utf8
+public  :: sort_quick_rx
+public  :: split, tokenize
+public  :: upper, lower
 
 private :: a2s, s2a
 
-public :: unicode_type
-public :: assignment(=)
+public  :: unicode_type
+public  :: assignment(=)
 
 interface utf8_to_codepoints
    module procedure utf8_to_codepoints_str,utf8_to_codepoints_chars
@@ -21,6 +26,14 @@ end interface utf8_to_codepoints
 interface codepoints_to_utf8
    module procedure codepoints_to_utf8_str,codepoints_to_utf8_chars
 end interface codepoints_to_utf8
+
+interface tokenize
+   module procedure :: split_first_last, split_pos, split_tokens
+end interface tokenize
+
+interface split
+   module procedure :: split_first_last, split_pos, split_tokens
+end interface split
 
 ! Assign a character sequence to a string.
 interface assignment(=)
@@ -70,7 +83,7 @@ type :: unicode_type ! Unicode string type holding an arbitrary sequence of inte
 contains
    ! METHODS:
    procedure  ::  character      =>  oop_character
-   procedure  ::  bytes          =>  oop_bytes
+   procedure  ::  codepoint      =>  oop_codepoint
 
    procedure  ::  adjustl        =>  oop_adjustl
    procedure  ::  adjustr        =>  oop_adjustr
@@ -79,13 +92,13 @@ contains
    procedure  ::  len_trim       =>  oop_len_trim
    procedure  ::  trim           =>  oop_trim
 
-!  procedure  ::  split          =>  oop_split
-!  procedure  ::  tokenize       =>  oop_tokenize
+   procedure  ::  split          =>  oop_split
+   procedure  ::  tokenize       =>  oop_tokenize
 !  procedure  ::  scan           =>  oop_scan
 !  procedure  ::  verify         =>  oop_verify
-!  procedure  ::  sort           =>  oop_sort
-!  procedure  ::  upper          =>  oop_upper
-!  procedure  ::  lower          =>  oop_lower
+!! procedure  ::  sort           =>  oop_sort
+   procedure  ::  upper          =>  oop_upper
+   procedure  ::  lower          =>  oop_lower
 
    !DECLARATION OF OVERLOADED OPERATORS FOR TYPE(UNICODE_TYPE)
    procedure,private :: eq => oop_eq
@@ -469,7 +482,6 @@ end subroutine assign_str_codes
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
-
 ! Returns the length of the character sequence represented by the string.
 elemental function len_str(string) result(length)
 type(unicode_type), intent(in) :: string
@@ -487,11 +499,11 @@ end function len_str
 !===================================================================================================================================
 ! Return the character sequence represented by the string.
 pure function char_str(string) result(aline)
-type(unicode_type), intent(in) :: string
-character(len=:),allocatable   :: aline
-integer                        :: nerr
+type(unicode_type), intent(in)    :: string
+character(len=:),allocatable      :: aline
+integer                           :: nerr
 
-call codepoints_to_utf8_str(string%codes,aline,nerr)
+   call codepoints_to_utf8_str(string%codes,aline,nerr)
 
 end function char_str
 
@@ -499,7 +511,6 @@ pure function char_str_range(string, first, last) result(aline)
 type(unicode_type), intent(in) :: string
 integer, intent(in)            :: first
 integer, intent(in)            :: last
-!character(len=last-first+1)    :: aline
 character(len=:),allocatable   :: aline
 integer                        :: nerr
 
@@ -512,7 +523,6 @@ type(unicode_type), intent(in) :: string
 integer, intent(in)            :: first
 integer, intent(in)            :: last
 integer, intent(in)            :: step
-!character(len=last-first+1)    :: aline
 character(len=:),allocatable   :: aline
 integer                        :: nerr
 
@@ -538,7 +548,6 @@ end function repeat_str
 !===================================================================================================================================
 ! Returns length of character sequence without trailing spaces represented by the string.
 !
-
 elemental function len_trim_str(string) result(length)
 type(unicode_type), intent(in) :: string
 integer                        :: length
@@ -916,12 +925,577 @@ integer                        :: foundat
    foundat = index_str_str(unicode_type(string), substring )
 end function index_char_str
 !===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()=
+!===================================================================================================================================
+!!
+!! In computing, Unicode characters are typically sorted using one of two methods:
+!!
+!! a simple binary code point sort or a more sophisticated,
+!! language-sensitive collation. The correct approach depends on whether a
+!! linguistically accurate "alphabetical" order is needed or if a simple,
+!! fixed order is sufficient.
+!!
+!! Binary code point sort
+!!
+!! This is the simplest and fastest method, often used as a default by
+!! programming languages and databases.
+!!
+!!     How it works: Strings are sorted based on the numeric value of their
+!!     underlying Unicode code points. For example, a character with a code
+!!     point of U+0061 (lowercase "a") will always be placed before U+0062
+!!     (lowercase "b") because 97 is less than 98.
+!!
+!!     Limitations: While this works for the basic English alphabet, it
+!!     produces non-intuitive results for other characters because the code
+!!     point value does not correlate with linguistic sorting rules. For
+!!     instance, it may place:
+!!
+!!         Uppercase letters before all lowercase letters (Z comes before a).
+!!
+!!         Accented letters in an order that is not linguistically correct
+!!         for a given language (e.g., in German, an umlauted character
+!!         like ö might be sorted differently than a plain o).
+!!
+!!         Characters from different scripts (like Latin, Greek, and
+!!         Cyrillic) in an order determined solely by their assigned code
+!!         point blocks.
+!!
+!! Unicode Collation Algorithm (UCA)
+!!
+!! This is the standard, more robust method for sorting that produces
+!! correct, language-sensitive results. It is described in Unicode Technical
+!! Standard #10.
+!!
+!!     How it works: Instead of sorting by a single numeric value, the
+!!     UCA uses a multi-level approach to determine a sort key for each
+!!     string. The algorithm takes into account the specific rules (or
+!!     "tailorings") of a given language or locale, which are defined in
+!!     the Common Locale Data Repository (CLDR).
+!!
+!!     Multi-level sorting: The UCA uses a hierarchy of weights for each
+!!     character:
+!!
+!!         Primary: Compares the base letter, ignoring case and accents. This
+!!         groups all versions of "a" (a, á, A, Á) together.
+!!
+!!         Secondary: Compares accents and diacritics. This establishes the
+!!         order for different versions of the same base letter (e.g., o,
+!!         ó, ô).
+!!
+!!         Tertiary: Compares case differences (uppercase vs. lowercase).
+!!
+!!         Quaternary: Deals with other special features, such as handling
+!!         punctuation.
+!!
+!!     Locale-specific rules: The UCA can apply different rules based on
+!!     a user's location. For example:
+!!
+!!         In German phonebooks, umlauted letters (ä) are often sorted as
+!!         if they were ae. In other contexts, they are sorted with their
+!!         base letter (a).
+!!
+!!         The correct sorting order for Chinese characters can be based
+!!         on pronunciation (Pinyin) or stroke count, depending on the
+!!         dictionary or region.
+!!
+!! How to choose a sorting method
+!!
+!!     Use binary sorting for performance when linguistic order doesn't
+!!     matter. This is fine for internal data processing where you just
+!!     need a consistent, quick sort.
+!!
+!!     Use the UCA for user-facing applications where culturally appropriate
+!!     sorting is critical. If your application supports multiple languages,
+!!     you must use a language-sensitive collator to provide the sorting
+!!     users will expect. Most modern programming languages and databases
+!!     have built-in libraries that implement the Unicode Collation
+!!     Algorithm.
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()=
+!===================================================================================================================================
+!>
+!!##NAME
+!!    sort_quick_rx(3f) - [M_unicode:sort:quicksort] indexed hybrid quicksort of an array
+!!    (LICENSE:PD)
+!!
+!!##SYNOPSIS
+!!
+!!      subroutine sort_quick_rx(data,index)
+!!
+!!          type(unicode_type),intent(in) :: data(:)
+!!          integer,intent(out)           :: indx(size(data))
+!!
+!!##DESCRIPTION
+!!    A rank hybrid quicksort. The data is not moved. An integer array is
+!!    generated instead with values that are indices to the sorted order
+!!    of the data. This requires a second array the size of the input
+!!    array, which for large arrays would require a significant amount of
+!!    memory. One major advantage of this method is that
+!!    the indices can be used to access an entire user-defined type
+!!    in sorted order. This makes this seemingly simple sort procedure
+!!    usuable with the vast majority of user-defined types.  or other
+!!    correlated data.
+!!
+!!##BACKGROUND
+!!    From Leonard J. Moss of SLAC:
+!!
+!!    Here's a hybrid QuickSort I wrote a number of years ago. It's
+!!    based on suggestions in Knuth, Volume 3, and performs much better
+!!    than a pure QuickSort on short or partially ordered input arrays.
+!!
+!!    This routine performs an in-memory sort of the first N elements of
+!!    array DATA, returning into array INDEX the indices of elements of
+!!    DATA arranged in ascending order. Thus,
+!!
+!!       DATA(INDX(1)) will be the smallest number in array DATA;
+!!       DATA(INDX(N)) will be the largest number in DATA.
+!!
+!!    The original data is not physically rearranged. The original order
+!!    of equal input values is not necessarily preserved.
+!!
+!!    sort_quick_rx(3f) uses a hybrid QuickSort algorithm, based on several
+!!    suggestions in Knuth, Volume 3, Section 5.2.2. In particular, the
+!!    "pivot key" [my term] for dividing each subsequence is chosen to be
+!!    the median of the first, last, and middle values of the subsequence;
+!!    and the QuickSort is cut off when a subsequence has 9 or fewer
+!!    elements, and a straight insertion sort of the entire array is done
+!!    at the end. The result is comparable to a pure insertion sort for
+!!    very short arrays, and very fast for very large arrays (of order 12
+!!    micro-sec/element on the 3081K for arrays of 10K elements). It is
+!!    also not subject to the poor performance of the pure QuickSort on
+!!    partially ordered data.
+!!
+!!    Complex values are sorted by the magnitude of sqrt(r**2+i**2).
+!!
+!!    o Created: sortrx(3f): 15 Jul 1986, Len Moss
+!!    o saved from url=(0044)http://www.fortran.com/fortran/quick_sort2.f
+!!    o changed to update syntax from F77 style; John S. Urban 20161021
+!!    o generalized from only real values to include other intrinsic types;
+!!      John S. Urban 20210110
+!!    o type(unicode_type) version JSU 2025-09-20. See M_sort for other types.
+!!
+!!##EXAMPLES
+!!
+!!  Sample usage:
+!!
+!!    program demo_sort_quick_rx
+!!    use M_unicode, only : sort_quick_rx, unicode_type, assignment(=)
+!!    implicit none
+!!    character(len=*),parameter :: g='(*(g0))'
+!!    integer,parameter  :: isz=4
+!!    type(unicode_type) :: rr(isz)
+!!    integer            :: ii(isz)
+!!    integer            :: i
+!!       write(*,g)'sort array with sort_quick_rx(3f)'
+!!       rr(1)="the"
+!!       rr(2)="quick"
+!!       rr(3)="brown"
+!!       rr(4)="fox"
+!!       call sort_quick_rx(rr,ii)
+!!
+!!       write(*,g)'original order'
+!!       do i=1,size(rr)
+!!          write(*,g)rr(i)%character()
+!!       enddo
+!!
+!!       write(*,g)'sorted order'
+!!       do i=1,size(rr)
+!!          write(*,g)rr(ii(i))%character()
+!!       enddo
+!!
+!!    end program demo_sort_quick_rx
+!!
+!!   Results:
+!!
+!==================================================================================================================================!
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!==================================================================================================================================!
+subroutine sort_quick_rx(data,indx)
+
+! ident_30="@(#) M_unicode sort_quick_rx(3f) indexed hybrid quicksort of a type(unicode_type) array"
+
+type(unicode_type),intent(in)   :: data(:)
+integer(kind=int32),intent(out) :: indx(:)
+type(unicode_type)              :: datap
+
+integer(kind=int32)             :: n
+integer(kind=int32)             :: lstk(31),rstk(31),istk
+integer(kind=int32)             :: l,r,i,j,p,indexp,indext
+
+!  QuickSort Cutoff
+!
+!  Quit QuickSort-ing when a subsequence contains M or fewer elements and finish off at end with straight insertion sort.
+!  According to Knuth, V.3, the optimum value of M is around 9.
+
+integer,parameter :: M=9
+!===================================================================================================================================
+n=size(data)
+if(size(indx).lt.n)then  ! if index is not big enough, only sort part of the data
+  write(*,*)'*sort_quick_rx* ERROR: insufficient space to store index data'
+  n=size(indx)
+endif
+!===================================================================================================================================
+!  Make initial guess for INDEX
+
+do i=1,n
+   indx(i)=i
+enddo
+
+!  If array is short go directly to the straight insertion sort, else execute a QuickSort
+if (N.gt.M)then
+   !=============================================================================================================================
+   !  QuickSort
+   !
+   !  The "Qn:"s correspond roughly to steps in Algorithm Q, Knuth, V.3, PP.116-117, modified to select the median
+   !  of the first, last, and middle elements as the "pivot key" (in Knuth's notation, "K"). Also modified to leave
+   !  data in place and produce an INDEX array. To simplify comments, let DATA[I]=DATA(INDX(I)).
+
+   ! Q1: Initialize
+   istk=0
+   l=1
+   r=n
+   !=============================================================================================================================
+   TOP: do
+
+      ! Q2: Sort the subsequence DATA[L]..DATA[R].
+      !
+      !  At this point, DATA[l] <= DATA[m] <= DATA[r] for all l < L, r > R, and L <= m <= R.
+      !  (First time through, there is no DATA for l < L or r > R.)
+
+      i=l
+      j=r
+
+      ! Q2.5: Select pivot key
+      !
+      !  Let the pivot, P, be the midpoint of this subsequence, P=(L+R)/2; then rearrange INDX(L), INDX(P), and INDX(R)
+      !  so the corresponding DATA values are in increasing order. The pivot key, DATAP, is then DATA[P].
+
+      p=(l+r)/2
+      indexp=indx(p)
+      datap=data(indexp)
+
+      if (data(indx(l)) .gt. datap) then
+         indx(p)=indx(l)
+         indx(l)=indexp
+         indexp=indx(p)
+         datap=data(indexp)
+      endif
+
+      if (datap .gt. data(indx(r))) then
+
+         if (data(indx(l)) .gt. data(indx(r))) then
+            indx(p)=indx(l)
+            indx(l)=indx(r)
+         else
+            indx(p)=indx(r)
+         endif
+
+         indx(r)=indexp
+         indexp=indx(p)
+         datap=data(indexp)
+      endif
+
+      !  Now we swap values between the right and left sides and/or move DATAP until all smaller values are on the left and all
+      !  larger values are on the right. Neither the left or right side will be internally ordered yet; however, DATAP will be
+      !  in its final position.
+      Q3: do
+         ! Q3: Search for datum on left >= DATAP
+         !   At this point, DATA[L] <= DATAP. We can therefore start scanning up from L, looking for a value >= DATAP
+         !   (this scan is guaranteed to terminate since we initially placed DATAP near the middle of the subsequence).
+         I=I+1
+         if (data(indx(i)).lt.datap)then
+            cycle Q3
+         endif
+         !-----------------------------------------------------------------------------------------------------------------------
+         ! Q4: Search for datum on right <= DATAP
+         !
+         !   At this point, DATA[R] >= DATAP. We can therefore start scanning down from R, looking for a value <= DATAP
+         !   (this scan is guaranteed to terminate since we initially placed DATAP near the middle of the subsequence).
+         Q4: do
+            j=j-1
+            if (data(indx(j)).le.datap) then
+               exit Q4
+            endif
+         enddo Q4
+         !-----------------------------------------------------------------------------------------------------------------------
+         ! Q5: Have the two scans collided?
+         if (i.lt.j) then
+            ! Q6: No, interchange DATA[I] <--> DATA[J] and continue
+            indext=indx(i)
+            indx(i)=indx(j)
+            indx(j)=indext
+            cycle Q3
+         else
+            ! Q7: Yes, select next subsequence to sort
+            !   At this point, I >= J and DATA[l] <= DATA[I] == DATAP <= DATA[r], for all L <= l < I and J < r <= R.
+         !   If both subsequences are more than M elements long, push the longer one on the stack
+            !   and go back to QuickSort the shorter; if only one is more than M elements long, go back and QuickSort it;
+         !   otherwise, pop a subsequence off the stack and QuickSort it.
+            if (r-j .ge. i-l .and. i-l .gt. m) then
+               istk=istk+1
+               lstk(istk)=j+1
+               rstk(istk)=r
+               r=i-1
+            else if (i-l .gt. r-j .and. r-j .gt. m) then
+               istk=istk+1
+               lstk(istk)=l
+               rstk(istk)=i-1
+               l=j+1
+            else if (r-j .gt. m) then
+               l=j+1
+            else if (i-l .gt. m) then
+               r=i-1
+            else
+               ! Q8: Pop the stack, or terminate QuickSort if empty
+               if (istk.lt.1) then
+                  exit TOP
+               endif
+               l=lstk(istk)
+               r=rstk(istk)
+               istk=istk-1
+            endif
+            cycle TOP
+         endif
+         ! never get here, as cycle Q3 or cycle TOP
+      enddo Q3
+      exit TOP
+   enddo TOP
+endif
+!===================================================================================================================================
+! Q9: Straight Insertion sort
+do i=2,n
+   if (data(indx(i-1)) .gt. data(indx(i))) then
+      indexp=indx(i)
+      datap=data(indexp)
+      p=i-1
+      INNER: do
+         indx(p+1) = indx(p)
+         p=p-1
+         if (p.le.0)then
+            exit INNER
+         endif
+         if (data(indx(p)).le.datap)then
+            exit INNER
+         endif
+      enddo INNER
+      indx(p+1) = indexp
+   endif
+enddo
+!===================================================================================================================================
+!     All done
+end subroutine sort_quick_rx
+!===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
+elemental pure function upper(str) result (string)
+
+! ident_25="@(#) M_strings upper(3f) returns an uppercase string"
+
+type(unicode_type), intent(in) :: str                 ! input string to convert to all uppercase
+type(unicode_type)             :: string              ! output string that contains no miniscule letters
+integer                        :: i                   ! loop counter
+integer, parameter  :: ade_a = iachar('a'), ade_z = iachar('z')
+integer, parameter  :: diff = iachar('A') - iachar('a')
+
+   string=str
+   do i=1,len(str)                           ! step thru each letter in the string in specified range
+      select case(str%codes(i))
+      case(ade_a:ade_z)
+         string%codes(i) = str%codes(i) + diff
+      end select
+   enddo
+
+   if(len(str).eq.0)string = str
+
+end function upper
+elemental pure function lower(str) result (string)
+
+! ident_25="@(#) M_strings lower(3f) returns an lowercase string"
+
+type(unicode_type), intent(in) :: str                 ! input string to convert to all lowercase
+type(unicode_type)             :: string              ! output string that contains no miniscule letters
+integer                        :: i                   ! loop counter
+integer, parameter  :: ade_a = iachar('A'), ade_z = iachar('Z')
+integer, parameter  :: diff = iachar('A') - iachar('a')
+
+   string=str
+   do i=1,len(str)                           ! step thru each letter in the string in specified range
+      select case(str%codes(i))
+      case(ade_a:ade_z)
+         string%codes(i) = str%codes(i) - diff
+      end select
+   enddo
+
+   if(len(str).eq.0)string = str
+
+end function lower
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
+impure subroutine split_tokens(string, set, tokens, separator)
+! Splits a string into tokens using characters in set as token delimiters.
+! If present, separator contains the array of token delimiters.
+type(unicode_type), intent(in)                         :: string
+type(unicode_type), intent(in)                         :: set
+type(unicode_type), allocatable, intent(out)           :: tokens(:)
+type(unicode_type), allocatable, intent(out), optional :: separator(:)
+
+integer, allocatable                                   :: first(:), last(:)
+integer                                                :: n
+integer                                                :: imax
+! AUTHOR  : Milan Curcic, "milancurcic@hey.com"
+! LICENSE : MIT
+! VERSION : version 0.1.0, copyright 2020, Milan Curcic
+
+    call split_first_last(string, set, first, last)
+    ! maxval() of a zero-size array is set to a flag value not zero or length of character string
+    if(size(first).eq.0)then
+       imax=0
+    else
+       imax=maxval(last-first)+1
+    endif
+    allocate(tokens(size(first)))
+
+    do n = 1,size(tokens)
+      tokens(n) = string%character(first(n),last(n),1)
+    enddo
+
+    if (present(separator)) then
+      allocate(separator(size(tokens) - 1))
+      do n = 1,size(tokens) - 1
+        separator(n) = string%character(first(n+1)-1,first(n+1)-1,1)
+      enddo
+    endif
+
+end subroutine split_tokens
+!===================================================================================================================================
+impure subroutine split_first_last(string, set, first, last)
+! Computes the first and last indices of tokens in input string, delimited
+! by the characters in set, and stores them into first and last output
+! arrays.
+type(unicode_type), intent(in)    :: string
+type(unicode_type), intent(in)    :: set
+integer, allocatable, intent(out) :: first(:)
+integer, allocatable, intent(out) :: last(:)
+
+type(unicode_type)                :: set_array(len(set))
+logical, dimension(len(string))   :: is_first, is_last, is_separator
+integer                           :: i
+integer                           :: n
+integer                           :: slen
+! AUTHOR   : Milan Curcic, "milancurcic@hey.com"
+! LICENSE  : MIT
+! VERSION  : version 0.1.0, copyright 2020, Milan Curcic
+! MODIFIED : 2025-09-21 JSU
+
+    slen = len(string)
+
+    do n = 1,len(set)
+      set_array(n) = set%character(n,n)
+    enddo
+
+    FINDIT: do n = 1,slen
+      do i=1,len(set)
+         is_separator(n)=.false.
+         if( string%character(n,n) == set_array(i)%character() )then
+            is_separator(n) = .true.
+            exit
+         endif
+      enddo
+    enddo FINDIT
+
+    is_first = .false.
+    is_last = .false.
+
+    if (.not. is_separator(1)) is_first(1) = .true.
+
+    do concurrent (n = 2:slen-1)
+      if (.not. is_separator(n)) then
+        if (is_separator(n - 1)) is_first(n) = .true.
+        if (is_separator(n + 1)) is_last(n) = .true.
+      else
+        if (is_separator(n - 1)) then
+          is_first(n) = .true.
+          is_last(n-1) = .true.
+        endif
+      endif
+    enddo
+
+    if (.not. is_separator(slen)) is_last(slen) = .true.
+
+    first = pack([(n, n = 1, slen)], is_first)
+    last = pack([(n, n = 1, slen)], is_last)
+
+  end subroutine split_first_last
+!===================================================================================================================================
+impure subroutine split_pos(string, set, pos, back)
+! If back is absent, computes the leftmost token delimiter in string whose
+! position is > pos. If back is present and true, computes the rightmost
+! token delimiter in string whose position is < pos. The result is stored
+! in pos.
+type(unicode_type), intent(in) :: string
+type(unicode_type), intent(in) :: set
+integer, intent(in out)        :: pos
+logical, intent(in), optional  :: back
+
+logical                        :: backward
+type(unicode_type)             :: set_array(len(set))
+integer                        :: i
+integer                        :: result_pos
+integer                        :: n
+! AUTHOR   : Milan Curcic, "milancurcic@hey.com"
+! LICENSE  : MIT
+! VERSION  : version 0.1.0, copyright 2020, Milan Curcic
+! MODIFIED : 2025-09-21 JSU
+
+    backward = .false.
+    if (present(back)) backward = back
+
+    do n = 1,len(set)
+      set_array(n) = set%character(n,n)
+    enddo
+
+    if (backward) then
+      result_pos = 0
+      FINDIT: do n = pos - 1, 1, -1
+        do i=1,len(set)
+           if (string%character(n,n) == set_array(i)%character() ) then
+             result_pos = n
+             exit FINDIT
+           endif
+        enddo
+      enddo FINDIT
+    else
+      result_pos = len(string) + 1
+      GETPOS: do n = pos + 1, len(string)
+        do i=1,len(set)
+           if (string%character(n,n) == set_array(i)%character() ) then
+             result_pos = n
+             exit GETPOS
+           endif
+        enddo
+      enddo GETPOS
+    endif
+
+    pos = result_pos
+
+end subroutine split_pos
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
+function oop_upper(self) result (string_out)
+class(unicode_type),intent(in)     :: self
+type(unicode_type)                 :: string_out
+   string_out=upper(self)
+end function oop_upper
+!===================================================================================================================================
+function oop_lower(self) result (string_out)
+class(unicode_type),intent(in)     :: self
+type(unicode_type)                 :: string_out
+   string_out=lower(self)
+end function oop_lower
+!===================================================================================================================================
 function oop_adjustl(self) result (string_out)
-
-! ident_12="@(#) M_strs oop_adjustl(3f) adjust string to left"
-
 class(unicode_type),intent(in)     :: self
 type(unicode_type)                 :: string_out
    string_out=adjustl_str(self)
@@ -949,17 +1523,50 @@ type(unicode_type)              :: temp
    bytes_out=char_str(temp)
 end function oop_character
 !===================================================================================================================================
+function oop_codepoint(self,first,last,step) result(codes_out)
+class(unicode_type), intent(in) :: self
+integer,allocatable             :: codes_out(:)
+integer,intent(in),optional     :: first, last, step
+integer                         :: start, end, inc
+type(unicode_type)              :: temp
+   if(present(step))then;  inc=step;    else; inc=1;         endif
+   if(present(first))then; start=first; else; start=1;       endif
+   if(present(last))then;  end=last;    else; end=len(self); endif
+   codes_out=self%codes(start:end:inc)
+end function oop_codepoint
+!===================================================================================================================================
+function oop_tokenize(self,set) result(tokens)
+class(unicode_type),intent(in) :: self
+type(unicode_type),intent(in)  :: set
+type(unicode_type),allocatable :: tokens(:)
+integer,allocatable            :: begin(:)
+integer,allocatable            :: end(:)
+integer                        :: i
+   call split(self,set,begin,end)
+   allocate(tokens(size(begin)))
+   do i=1,size(begin)
+      tokens(i)=self%character(begin(i),end(i))
+   enddo
+end function oop_tokenize
+!===================================================================================================================================
+function oop_split(self,set) result(tokens)
+class(unicode_type),intent(in) :: self
+type(unicode_type),intent(in)  :: set
+type(unicode_type),allocatable :: tokens(:)
+   call split(self,set,tokens)
+end function oop_split
+!===================================================================================================================================
+function oop_sort(self) result(indx)
+class(unicode_type), intent(in) :: self(:)
+integer                         :: indx(size(self))
+   call sort_quick_rx(self,indx)
+end function oop_sort
+!===================================================================================================================================
 pure function oop_trim(self) result(string_out)
 class(unicode_type), intent(in) :: self
 type(unicode_type)              :: string_out
    string_out=trim(self)
 end function oop_trim
-!===================================================================================================================================
-pure function oop_bytes(self) result(bytes_out)
-class(unicode_type), intent(in) :: self
-character(len=:),allocatable    :: bytes_out(:)
-   bytes_out=s2a(char_str(self))
-end function oop_bytes
 !===================================================================================================================================
 pure function oop_len_trim(self) result(len_trim_out)
 class(unicode_type), intent(in) :: self

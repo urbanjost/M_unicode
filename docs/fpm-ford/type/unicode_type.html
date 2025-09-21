@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p>100.0% of total for derived types.</p>Including implementation: 94 statements, 100.0% of total for derived types.">24 statements</a>
+                 title="<p>100.0% of total for derived types.</p>Including implementation: 145 statements, 100.0% of total for derived types.">28 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -162,12 +162,16 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-adjustl">adjustl</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-adjustr">adjustr</a>
-            <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-bytes">bytes</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-character">character</a>
+            <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-codepoint">codepoint</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-index">index</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-len">len</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-len_trim">len_trim</a>
+            <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-lower">lower</a>
+            <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-split">split</a>
+            <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-tokenize">tokenize</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-trim">trim</a>
+            <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-upper">upper</a>
         </div>
       </div>
     </div>
@@ -265,7 +269,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string"></span>
+              <span class="anchor" id="variable-string~2"></span>
               character(len=*),
             </td>
 <td>intent(in),</td>
@@ -416,64 +420,6 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-bytes"></span>
-      <h3>
-          procedure, public ::
-  <strong>bytes</strong> => oop_bytes
-        
-      </h3>
-    </div>
-      <ul class="list-group">
-          <li class="list-group-item">
-                    <h3>
-    private pure function oop_bytes(self) result(bytes_out)  
-</h3>
-
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" ></span>
-              class(<a href='unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>self</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>character(len=:), allocatable, (:)</small>
-    </h4>
-    
-
-          </li>
-      </ul>
-  </div>
-
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
       <span class="anchor" id="boundprocedure-character"></span>
       <h3>
           procedure, public ::
@@ -566,6 +512,109 @@
     <h4>
     Return Value
     <small>character(len=:), allocatable</small>
+    </h4>
+    
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-codepoint"></span>
+      <h3>
+          procedure, public ::
+  <strong>codepoint</strong> => oop_codepoint
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                    <h3>
+    private  function oop_codepoint(self, first, last, step) result(codes_out)  
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>first</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>last</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>step</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer, allocatable, (:)</small>
     </h4>
     
 
@@ -766,6 +815,214 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-lower"></span>
+      <h3>
+          procedure, public ::
+  <strong>lower</strong> => oop_lower
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                    <h3>
+    private  function oop_lower(self) result(string_out)  
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='unicode_type.html'>unicode_type</a>)</small>
+    </h4>
+    
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-split"></span>
+      <h3>
+          procedure, public ::
+  <strong>split</strong> => oop_split
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                    <h3>
+    private  function oop_split(self, set) result(tokens)  
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>set</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='unicode_type.html'>unicode_type</a>), allocatable, (:)</small>
+    </h4>
+    
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-tokenize"></span>
+      <h3>
+          procedure, public ::
+  <strong>tokenize</strong> => oop_tokenize
+        
+      </h3>
+    </div>
+        <div class="card-body">
+          
+          <p>procedure  ::  sort           =&gt;  oop_sort</p>
+        </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                    <h3>
+    private  function oop_tokenize(self, set) result(tokens)  
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>set</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='unicode_type.html'>unicode_type</a>), allocatable, (:)</small>
+    </h4>
+    
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
       <span class="anchor" id="boundprocedure-trim"></span>
       <h3>
           procedure, public ::
@@ -821,6 +1078,64 @@
   </div>
 
           </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-upper"></span>
+      <h3>
+          procedure, public ::
+  <strong>upper</strong> => oop_upper
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                    <h3>
+    private  function oop_upper(self) result(string_out)  
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='unicode_type.html'>unicode_type</a>)</small>
+    </h4>
+    
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
       </section>
 
     <section>
@@ -832,7 +1147,7 @@
 <span class="k">contains</span><span class="w"></span>
 <span class="w">   </span><span class="c">! METHODS:</span>
 <span class="w">   </span><span class="k">procedure</span><span class="w">  </span><span class="kd">::</span><span class="w">  </span><span class="kt">character</span><span class="w">      </span><span class="o">=&gt;</span><span class="w">  </span><span class="n">oop_character</span><span class="w"></span>
-<span class="w">   </span><span class="k">procedure</span><span class="w">  </span><span class="kd">::</span><span class="w">  </span><span class="n">bytes</span><span class="w">          </span><span class="o">=&gt;</span><span class="w">  </span><span class="n">oop_bytes</span><span class="w"></span>
+<span class="w">   </span><span class="k">procedure</span><span class="w">  </span><span class="kd">::</span><span class="w">  </span><span class="n">codepoint</span><span class="w">      </span><span class="o">=&gt;</span><span class="w">  </span><span class="n">oop_codepoint</span><span class="w"></span>
 
 <span class="w">   </span><span class="k">procedure</span><span class="w">  </span><span class="kd">::</span><span class="w">  </span><span class="nb">adjustl</span><span class="w">        </span><span class="o">=&gt;</span><span class="w">  </span><span class="n">oop_adjustl</span><span class="w"></span>
 <span class="w">   </span><span class="k">procedure</span><span class="w">  </span><span class="kd">::</span><span class="w">  </span><span class="nb">adjustr</span><span class="w">        </span><span class="o">=&gt;</span><span class="w">  </span><span class="n">oop_adjustr</span><span class="w"></span>
@@ -841,13 +1156,13 @@
 <span class="w">   </span><span class="k">procedure</span><span class="w">  </span><span class="kd">::</span><span class="w">  </span><span class="nb">len_trim</span><span class="w">       </span><span class="o">=&gt;</span><span class="w">  </span><span class="n">oop_len_trim</span><span class="w"></span>
 <span class="w">   </span><span class="k">procedure</span><span class="w">  </span><span class="kd">::</span><span class="w">  </span><span class="nb">trim</span><span class="w">           </span><span class="o">=&gt;</span><span class="w">  </span><span class="n">oop_trim</span><span class="w"></span>
 
-<span class="c">!  procedure  ::  split          =&gt;  oop_split</span>
-<span class="c">!  procedure  ::  tokenize       =&gt;  oop_tokenize</span>
+<span class="w">   </span><span class="k">procedure</span><span class="w">  </span><span class="kd">::</span><span class="w">  </span><span class="n">split</span><span class="w">          </span><span class="o">=&gt;</span><span class="w">  </span><span class="n">oop_split</span><span class="w"></span>
+<span class="w">   </span><span class="k">procedure</span><span class="w">  </span><span class="kd">::</span><span class="w">  </span><span class="n">tokenize</span><span class="w">       </span><span class="o">=&gt;</span><span class="w">  </span><span class="n">oop_tokenize</span><span class="w"></span>
 <span class="c">!  procedure  ::  scan           =&gt;  oop_scan</span>
 <span class="c">!  procedure  ::  verify         =&gt;  oop_verify</span>
-<span class="c">!  procedure  ::  sort           =&gt;  oop_sort</span>
-<span class="c">!  procedure  ::  upper          =&gt;  oop_upper</span>
-<span class="c">!  procedure  ::  lower          =&gt;  oop_lower</span>
+<span class="c">!! procedure  ::  sort           =&gt;  oop_sort</span>
+<span class="w">   </span><span class="k">procedure</span><span class="w">  </span><span class="kd">::</span><span class="w">  </span><span class="n">upper</span><span class="w">          </span><span class="o">=&gt;</span><span class="w">  </span><span class="n">oop_upper</span><span class="w"></span>
+<span class="w">   </span><span class="k">procedure</span><span class="w">  </span><span class="kd">::</span><span class="w">  </span><span class="n">lower</span><span class="w">          </span><span class="o">=&gt;</span><span class="w">  </span><span class="n">oop_lower</span><span class="w"></span>
 
 <span class="w">   </span><span class="c">!DECLARATION OF OVERLOADED OPERATORS FOR TYPE(UNICODE_TYPE)</span>
 <span class="w">   </span><span class="k">procedure</span><span class="p">,</span><span class="k">private</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">eq</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_eq</span><span class="w"></span>
@@ -888,7 +1203,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-08-27 03:20 +0000             </p>
+ on 2025-09-21 12:32 +0000             </p>
           </div>
         </div>
         <br>

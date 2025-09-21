@@ -108,10 +108,12 @@ website:
 Unicode using 4-byte-per-character UCS-4 encoding for characters/glyphs,
 including an ability to automatically encode and decode data read and
 written to UTF-8 files.</p>
-<p>But Unicode support is optional.</p>
-<p>The M_utf8 repository deals with using Unicode from Fortran when UCS-4
-(ie. CHARACTER(KIND=&rdquo;ISO_10646&rdquo;) is supported, emphasizing adherence to
-the standard to promote portability.</p>
+<p><strong>But Unicode support is optional.</strong></p>
+<p>Where Unicode <strong>is</strong> supported (ie. where CHARACTER(KIND=&rdquo;ISO_10646&rdquo;)
+is provided)
+The <a href="https://github.com/urbanjost/M_utf8">M_utf8</a> repository
+supplements Unicode usage &ndash; emphasizing adherence to the standard to
+promote portability.</p>
 <p>When the compiler does <strong>not</strong> support CHARACTER(KIND=&rdquo;ISO_10646&rdquo;) it
 still may support UTF-8 source files and permit entering multi-byte
 Unicode characters in comments and (more importantly) in constant
@@ -119,8 +121,8 @@ strings. This is now very common, as nearly all current operating systems
 and many applications support UTF-8 text files.</p>
 <p>But whether in input and output files, or as what-you-see-is-what-you-get
 character constants the compiler will see this text as byte streams, and
-will be unaware of how many glyphs/characters are represented.</p>
-<p>So it may often be easy to use Unicode characters in fixed messages, but
+will be unaware of how many Unicode glyphs/characters are represented.</p>
+<p>So it may often be easy to place Unicode characters in fixed messages, but
 if the text needs manipulated or processed in any way dealing with Unicode
 as a raw series of 8-bit-bytes becomes complex and non-intuitive.</p>
 <p>To keep processing of Unicode as simple as processing ASCII-7 characters
@@ -132,13 +134,13 @@ that generally identify one specific Unicode character).</p>
 are overloaded to work with the UNICODE_TYPE variables; and the type is
 extended to include the procedures and operators as type-bound procedures
 for programmers that prefer OOP (Object-Oriented Programming) capabilities.</p>
-<h3 id="m_unicose-module">M_unicose module</h3>
+<h3 id="m_unicode-module">M_unicode module</h3>
 <div class="codehilite"><pre><span></span><code><span class="c">! user-defined type to hold Unicode text</span>
 <span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">unicode_type</span><span class="w"></span>
 <span class="c">! Constructors  </span>
 <span class="c">! UNICODE_VARIABLE= UNICODE_VARIABLE|CHARACTER(LEN=*)|INTEGER_ARRAY</span>
 <span class="c">! VARiABLE%CHARACTER(start,end,step) returns a CHARACTER string</span>
-<span class="c">! VARiABLE%BYTES() returns an array of  CHARACTER(len=1) values</span>
+<span class="c">! VARiABLE%BYTES() returns an array of CHARACTER(len=1) values</span>
 
 <span class="c">! convert unicode_type to CHARACTER variables</span>
 <span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="kt">character</span><span class="w"></span>
@@ -155,8 +157,6 @@ for programmers that prefer OOP (Object-Oriented Programming) capabilities.</p>
 <span class="c">! low-level text conversion to integer codepoint arrays:</span>
 
 <span class="k">public</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">utf8_to_codepoints</span><span class="p">,</span><span class="w">  </span><span class="n">codepoints_to_utf8</span><span class="w"></span>
-<span class="k">public</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">isolatin_to_unicode</span><span class="p">,</span><span class="w"> </span><span class="n">unicode_to_isolatin</span><span class="w"></span>
-<span class="k">public</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">utf8_to_isolatin</span><span class="p">,</span><span class="w">    </span><span class="n">isolatin_to_utf8</span><span class="w"></span>
 </code></pre></div>
 
 <h3 id="utf-8-source-files-just-in-comments-and-constants">UTF-8 source files &ndash; just in comments and constants</h3>
@@ -165,8 +165,8 @@ Fortran code. It is now the same as the ASCII 7-bit character set sans
 the unprintable control characters. The letters a-z,A-Z and digits 0-9
 and underscore are the only characters allowed in operator symbols. These
 same characters and the &ldquo;special&rdquo; characters (the remaining printable
-ASCII 7-bit characters) are used for bracketing, and various forms of
-separating and delimiting other lexical tokens.</p>
+ASCII 7-bit characters) are used for operators and bracketing, and
+various forms of separating and delimiting other lexical tokens.</p>
 <p>But what about other non-ASCII-7 characters representable by the
 processor?  Possibilities include the extended ASCII characters or
 multi-byte characters as defined for UTF-8 text files. The standard
@@ -251,8 +251,9 @@ only ASCII-7-bit characters are used to write the actual coding instructions.</p
 characters to other characters when editing UTF-8 files, so be aware
 you might need to normalize your source files into the allowed Fortran
 character set.</p>
-<p>Avoid list-directed output. It does not know which bytes are composing
-a glyph and may split lines at inappropriate points.</p>
+<p>When using Unicode as byte streams avoid list-directed output. It
+does not know which bytes are composing a glyph and may split lines at
+inappropriate points.</p>
 <h3 id="compiler-support">Compiler Support:</h3>
 <p>Even with standard features, compiler support for Unicode in source
    files can vary. Some compilers might require specific flags (e.g.,
@@ -277,9 +278,10 @@ https://fortran-lang.discourse.group/t/how-to-use-utf-8-in-gfortran/9949, 2025-0
 including features and enhancements from Francois Jacq.</p>
 <p>The improvements include procedures for handling ASCII encoding extensions
 often used for internationalization that pre-date Unicode, such as the
-Latin encodings.</p>
+Latin encodings now in module
+The <a href="https://github.com/urbanjost/M_isolatin">M_isolatin</a>.</p>
 <p>The intent is for the M_unicode module to be useful on many platforms, but currently
-it is primarily tested with GCC/gfortran and INTEL/ifx on Linux and Cygwin.</p>
+it is primarily tested with GCC/gfortran and Intel/ifx on Linux and Cygwin.</p>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">testit</span><span class="w"></span>
 <span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="o">=&gt;</span><span class="n">output_unit</span><span class="w"></span>
 <span class="k">use </span><span class="n">M_unicode</span><span class="w"> </span>
@@ -337,7 +339,7 @@ it is primarily tested with GCC/gfortran and INTEL/ifx on Linux and Cygwin.</p>
           <div class="col-xs-6 col-sm-3">
             <div>
               <h3>Source Files</h3>
-              <ul><li><a href='sourcefile/bom_start.f90.html'>bom_start.f90</a></li><li><a href='sourcefile/codepoint.f90.html'>codepoint.f90</a></li><li><a href='sourcefile/count_glyphs.f90.html'>count_glyphs.f90</a></li><li><a href='sourcefile/fid.f90.html'>fid.f90</a></li><li><a href='sourcefile/fox_and_crow.f90.html'>fox_and_crow.f90</a></li><li><a href='sourcefile/m_unicode.f90.html'>M_unicode.f90</a></li><li><a href='sourcefile/multi_lines.f90.html'>multi_lines.f90</a></li><li><a href='sourcefile/note.f90.html'>note.f90</a></li><li><a href='sourcefile/read_commandline.f90.html'>read_commandline.f90</a></li><li><a href='sourcefile/sample.f90.html'>sample.f90</a></li></ul>
+              <ul><li><a href='sourcefile/bom_start.f90.html'>bom_start.f90</a></li><li><a href='sourcefile/codepoint.f90.html'>codepoint.f90</a></li><li><a href='sourcefile/count_glyphs.f90.html'>count_glyphs.f90</a></li><li><a href='sourcefile/demo_lower.f90.html'>demo_lower.f90</a></li><li><a href='sourcefile/demo_sort_quick_rx.f90.html'>demo_sort_quick_rx.f90</a></li><li><a href='sourcefile/demo_split.f90.html'>demo_split.f90</a></li><li><a href='sourcefile/demo_tokenize.f90.html'>demo_tokenize.f90</a></li><li><a href='sourcefile/demo_upper.f90.html'>demo_upper.f90</a></li><li><a href='sourcefile/fid.f90.html'>fid.f90</a></li><li><a href='sourcefile/fox_and_crow.f90.html'>fox_and_crow.f90</a></li></ul>
             </div>
             <div>
               <ul>
@@ -394,7 +396,7 @@ it is primarily tested with GCC/gfortran and INTEL/ifx on Linux and Cygwin.</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-08-27 03:20 +0000             </p>
+ on 2025-09-21 12:32 +0000             </p>
           </div>
         </div>
         <br>
