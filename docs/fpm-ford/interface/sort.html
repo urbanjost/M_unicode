@@ -10,7 +10,7 @@
     <meta name="author" content="John S. Urban" >
     <link rel="icon" href="../favicon.png">
 
-    <title>sort_quick_rx &ndash; M_unicode</title>
+    <title>sort &ndash; M_unicode</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -80,8 +80,8 @@
 
     <div class="container">
   <div class="row">
-    <h1>sort_quick_rx
-      <small>Subroutine</small>
+    <h1>sort
+      <small>Interface</small>
       
     </h1>
       <div class="container p-2 mb-4 bg-light border rounded-3">
@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="35.3% of total for procedures.">107 statements</a>
+                 title="<p> 1.3% of total for procedures.</p>Including implementation: 110 statements, 47.0% of total for procedures.">3 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -105,7 +105,7 @@
           <ol class="breadcrumb justify-content-end mb-0">
                 <li class="breadcrumb-item"><a href='../sourcefile/m_unicode.f90.html'>M_unicode.f90</a></li>
                 <li class="breadcrumb-item"><a href='../module/m_unicode.html'>M_unicode</a></li>
-            <li class="breadcrumb-item active" aria-current="page">sort_quick_rx</li>
+            <li class="breadcrumb-item active" aria-current="page">sort</li>
           </ol>
         </nav>
       </div>
@@ -120,10 +120,10 @@
   </script>
 
   </div>
-  
+
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-      <div id="sidebar">
+        <div id="sidebar">
       <h3>Contents</h3>
   
   
@@ -143,26 +143,37 @@
   
   
   
-  
-  
-    <div class="card card-primary">
-      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
-      <div class="list-group">
-        <a class="list-group-item" href="../proc/sort_quick_rx.html#src">sort_quick_rx</a>
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#modprocs-0"
+         aria-expanded="false" aria-controls="modprocs-0">
+         <h4 class="card-header bg-primary text-white">Module Procedures</h4>
+      </a>
+      <div id="modprocs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../interface/sort.html#moduleprocedure-sort_quick_rx">sort_quick_rx</a>
+        </div>
       </div>
     </div>
+
+  
 
 
   </div>
 
     </div>
-    
-    <div class="col-md-9" id='text'>
-    <h2>public  subroutine sort_quick_rx(data, indx)  
-</h2>
-    
 
-    <h2 id="name">NAME</h2>
+    <div class="col-md-9" id='text'>
+      <h2>public interface sort</h2>
+      
+
+
+
+        <h2>Module Procedures</h2>
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-sort_quick_rx"></span> <h3>private  subroutine sort_quick_rx(data, indx)  
+</h3></div>
+    <div class="card-body">
+        <h2 id="name">NAME</h2>
 <div class="codehilite"><pre><span></span><code>sort_quick_rx(3f) - [M_unicode:sort:quicksort] indexed hybrid quicksort of an array
 (LICENSE:PD)
 </code></pre></div>
@@ -257,9 +268,8 @@
 
 <p>Results:</p>
 
-
-    <h3>Arguments</h3>
-        <table class="table table-striped varlist">
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
     <thead>
       <tr>
         <th scope="col">Type</th>
@@ -302,202 +312,12 @@
     </tbody>
   </table>
 
-    <br>
 
-
-    
-    
-
-    
-    
-
-
-
-    
-    <section>
-    <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="k">subroutine </span><span class="n">sort_quick_rx</span><span class="p">(</span><span class="k">data</span><span class="p">,</span><span class="n">indx</span><span class="p">)</span><span class="w"></span>
-
-<span class="c">! ident_30=&quot;@(#) M_unicode sort_quick_rx(3f) indexed hybrid quicksort of a type(unicode_type) array&quot;</span>
-
-<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="k">data</span><span class="p">(:)</span><span class="w"></span>
-<span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int32</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">indx</span><span class="p">(:)</span><span class="w"></span>
-<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">              </span><span class="kd">::</span><span class="w"> </span><span class="n">datap</span><span class="w"></span>
-
-<span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int32</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
-<span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int32</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">lstk</span><span class="p">(</span><span class="mi">31</span><span class="p">),</span><span class="n">rstk</span><span class="p">(</span><span class="mi">31</span><span class="p">),</span><span class="n">istk</span><span class="w"></span>
-<span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int32</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">l</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="n">indexp</span><span class="p">,</span><span class="n">indext</span><span class="w"></span>
-
-<span class="c">!  QuickSort Cutoff</span>
-<span class="c">!</span>
-<span class="c">!  Quit QuickSort-ing when a subsequence contains M or fewer elements and finish off at end with straight insertion sort.</span>
-<span class="c">!  According to Knuth, V.3, the optimum value of M is around 9.</span>
-
-<span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">M</span><span class="o">=</span><span class="mi">9</span><span class="w"></span>
-<span class="c">!===================================================================================================================================</span>
-<span class="n">n</span><span class="o">=</span><span class="n">size</span><span class="p">(</span><span class="k">data</span><span class="p">)</span><span class="w"></span>
-<span class="k">if</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">indx</span><span class="p">).</span><span class="n">lt</span><span class="p">.</span><span class="n">n</span><span class="p">)</span><span class="k">then</span><span class="w">  </span><span class="c">! if index is not big enough, only sort part of the data</span>
-<span class="w">  </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">&#39;*sort_quick_rx* ERROR: insufficient space to store index data&#39;</span><span class="w"></span>
-<span class="w">  </span><span class="n">n</span><span class="o">=</span><span class="n">size</span><span class="p">(</span><span class="n">indx</span><span class="p">)</span><span class="w"></span>
-<span class="k">endif</span><span class="w"></span>
-<span class="c">!===================================================================================================================================</span>
-<span class="c">!  Make initial guess for INDEX</span>
-
-<span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="w"></span>
-<span class="w">   </span><span class="n">indx</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">i</span><span class="w"></span>
-<span class="k">enddo</span><span class="w"></span>
-
-<span class="c">!  If array is short go directly to the straight insertion sort, else execute a QuickSort</span>
-<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">N</span><span class="p">.</span><span class="n">gt</span><span class="p">.</span><span class="n">M</span><span class="p">)</span><span class="k">then</span><span class="w"></span>
-<span class="w">   </span><span class="c">!=============================================================================================================================</span>
-<span class="w">   </span><span class="c">!  QuickSort</span>
-<span class="w">   </span><span class="c">!</span>
-<span class="w">   </span><span class="c">!  The &quot;Qn:&quot;s correspond roughly to steps in Algorithm Q, Knuth, V.3, PP.116-117, modified to select the median</span>
-<span class="w">   </span><span class="c">!  of the first, last, and middle elements as the &quot;pivot key&quot; (in Knuth&#39;s notation, &quot;K&quot;). Also modified to leave</span>
-<span class="w">   </span><span class="c">!  data in place and produce an INDEX array. To simplify comments, let DATA[I]=DATA(INDX(I)).</span>
-
-<span class="w">   </span><span class="c">! Q1: Initialize</span>
-<span class="w">   </span><span class="n">istk</span><span class="o">=</span><span class="mi">0</span><span class="w"></span>
-<span class="w">   </span><span class="n">l</span><span class="o">=</span><span class="mi">1</span><span class="w"></span>
-<span class="w">   </span><span class="n">r</span><span class="o">=</span><span class="n">n</span><span class="w"></span>
-<span class="w">   </span><span class="c">!=============================================================================================================================</span>
-<span class="w">   </span><span class="n">TOP</span><span class="p">:</span><span class="w"> </span><span class="k">do</span><span class="w"></span>
-
-<span class="w">      </span><span class="c">! Q2: Sort the subsequence DATA[L]..DATA[R].</span>
-<span class="w">      </span><span class="c">!</span>
-<span class="w">      </span><span class="c">!  At this point, DATA[l] &lt;= DATA[m] &lt;= DATA[r] for all l &lt; L, r &gt; R, and L &lt;= m &lt;= R.</span>
-<span class="w">      </span><span class="c">!  (First time through, there is no DATA for l &lt; L or r &gt; R.)</span>
-
-<span class="w">      </span><span class="n">i</span><span class="o">=</span><span class="n">l</span><span class="w"></span>
-<span class="w">      </span><span class="n">j</span><span class="o">=</span><span class="n">r</span><span class="w"></span>
-
-<span class="w">      </span><span class="c">! Q2.5: Select pivot key</span>
-<span class="w">      </span><span class="c">!</span>
-<span class="w">      </span><span class="c">!  Let the pivot, P, be the midpoint of this subsequence, P=(L+R)/2; then rearrange INDX(L), INDX(P), and INDX(R)</span>
-<span class="w">      </span><span class="c">!  so the corresponding DATA values are in increasing order. The pivot key, DATAP, is then DATA[P].</span>
-
-<span class="w">      </span><span class="n">p</span><span class="o">=</span><span class="p">(</span><span class="n">l</span><span class="o">+</span><span class="n">r</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="w"></span>
-<span class="w">      </span><span class="n">indexp</span><span class="o">=</span><span class="n">indx</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="n">datap</span><span class="o">=</span><span class="k">data</span><span class="p">(</span><span class="n">indexp</span><span class="p">)</span><span class="w"></span>
-
-<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">data</span><span class="p">(</span><span class="n">indx</span><span class="p">(</span><span class="n">l</span><span class="p">))</span><span class="w"> </span><span class="p">.</span><span class="n">gt</span><span class="p">.</span><span class="w"> </span><span class="n">datap</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">         </span><span class="n">indx</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">=</span><span class="n">indx</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="w"></span>
-<span class="w">         </span><span class="n">indx</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="o">=</span><span class="n">indexp</span><span class="w"></span>
-<span class="w">         </span><span class="n">indexp</span><span class="o">=</span><span class="n">indx</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="w"></span>
-<span class="w">         </span><span class="n">datap</span><span class="o">=</span><span class="k">data</span><span class="p">(</span><span class="n">indexp</span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="k">endif</span>
-
-<span class="k">      if</span><span class="w"> </span><span class="p">(</span><span class="n">datap</span><span class="w"> </span><span class="p">.</span><span class="n">gt</span><span class="p">.</span><span class="w"> </span><span class="k">data</span><span class="p">(</span><span class="n">indx</span><span class="p">(</span><span class="n">r</span><span class="p">)))</span><span class="w"> </span><span class="k">then</span>
-
-<span class="k">         if</span><span class="w"> </span><span class="p">(</span><span class="k">data</span><span class="p">(</span><span class="n">indx</span><span class="p">(</span><span class="n">l</span><span class="p">))</span><span class="w"> </span><span class="p">.</span><span class="n">gt</span><span class="p">.</span><span class="w"> </span><span class="k">data</span><span class="p">(</span><span class="n">indx</span><span class="p">(</span><span class="n">r</span><span class="p">)))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">            </span><span class="n">indx</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">=</span><span class="n">indx</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="n">indx</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="o">=</span><span class="n">indx</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="w"></span>
-<span class="w">         </span><span class="k">else</span>
-<span class="k">            </span><span class="n">indx</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">=</span><span class="n">indx</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="w"></span>
-<span class="w">         </span><span class="k">endif</span>
-
-<span class="k">         </span><span class="n">indx</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="o">=</span><span class="n">indexp</span><span class="w"></span>
-<span class="w">         </span><span class="n">indexp</span><span class="o">=</span><span class="n">indx</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="w"></span>
-<span class="w">         </span><span class="n">datap</span><span class="o">=</span><span class="k">data</span><span class="p">(</span><span class="n">indexp</span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="k">endif</span><span class="w"></span>
-
-<span class="w">      </span><span class="c">!  Now we swap values between the right and left sides and/or move DATAP until all smaller values are on the left and all</span>
-<span class="w">      </span><span class="c">!  larger values are on the right. Neither the left or right side will be internally ordered yet; however, DATAP will be</span>
-<span class="w">      </span><span class="c">!  in its final position.</span>
-<span class="w">      </span><span class="n">Q3</span><span class="p">:</span><span class="w"> </span><span class="k">do</span><span class="w"></span>
-<span class="w">         </span><span class="c">! Q3: Search for datum on left &gt;= DATAP</span>
-<span class="w">         </span><span class="c">!   At this point, DATA[L] &lt;= DATAP. We can therefore start scanning up from L, looking for a value &gt;= DATAP</span>
-<span class="w">         </span><span class="c">!   (this scan is guaranteed to terminate since we initially placed DATAP near the middle of the subsequence).</span>
-<span class="w">         </span><span class="n">I</span><span class="o">=</span><span class="n">I</span><span class="o">+</span><span class="mi">1</span><span class="w"></span>
-<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">data</span><span class="p">(</span><span class="n">indx</span><span class="p">(</span><span class="n">i</span><span class="p">)).</span><span class="n">lt</span><span class="p">.</span><span class="n">datap</span><span class="p">)</span><span class="k">then</span>
-<span class="k">            cycle </span><span class="n">Q3</span><span class="w"></span>
-<span class="w">         </span><span class="k">endif</span><span class="w"></span>
-<span class="w">         </span><span class="c">!-----------------------------------------------------------------------------------------------------------------------</span>
-<span class="w">         </span><span class="c">! Q4: Search for datum on right &lt;= DATAP</span>
-<span class="w">         </span><span class="c">!</span>
-<span class="w">         </span><span class="c">!   At this point, DATA[R] &gt;= DATAP. We can therefore start scanning down from R, looking for a value &lt;= DATAP</span>
-<span class="w">         </span><span class="c">!   (this scan is guaranteed to terminate since we initially placed DATAP near the middle of the subsequence).</span>
-<span class="w">         </span><span class="n">Q4</span><span class="p">:</span><span class="w"> </span><span class="k">do</span>
-<span class="k">            </span><span class="n">j</span><span class="o">=</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">data</span><span class="p">(</span><span class="n">indx</span><span class="p">(</span><span class="n">j</span><span class="p">)).</span><span class="n">le</span><span class="p">.</span><span class="n">datap</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">               exit </span><span class="n">Q4</span><span class="w"></span>
-<span class="w">            </span><span class="k">endif</span>
-<span class="k">         enddo </span><span class="n">Q4</span><span class="w"></span>
-<span class="w">         </span><span class="c">!-----------------------------------------------------------------------------------------------------------------------</span>
-<span class="w">         </span><span class="c">! Q5: Have the two scans collided?</span>
-<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="p">.</span><span class="n">lt</span><span class="p">.</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
-<span class="w">            </span><span class="c">! Q6: No, interchange DATA[I] &lt;--&gt; DATA[J] and continue</span>
-<span class="w">            </span><span class="n">indext</span><span class="o">=</span><span class="n">indx</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="n">indx</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">indx</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="n">indx</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">=</span><span class="n">indext</span><span class="w"></span>
-<span class="w">            </span><span class="k">cycle </span><span class="n">Q3</span><span class="w"></span>
-<span class="w">         </span><span class="k">else</span><span class="w"></span>
-<span class="w">            </span><span class="c">! Q7: Yes, select next subsequence to sort</span>
-<span class="w">            </span><span class="c">!   At this point, I &gt;= J and DATA[l] &lt;= DATA[I] == DATAP &lt;= DATA[r], for all L &lt;= l &lt; I and J &lt; r &lt;= R.</span>
-<span class="w">         </span><span class="c">!   If both subsequences are more than M elements long, push the longer one on the stack</span>
-<span class="w">            </span><span class="c">!   and go back to QuickSort the shorter; if only one is more than M elements long, go back and QuickSort it;</span>
-<span class="w">         </span><span class="c">!   otherwise, pop a subsequence off the stack and QuickSort it.</span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">r</span><span class="o">-</span><span class="n">j</span><span class="w"> </span><span class="p">.</span><span class="n">ge</span><span class="p">.</span><span class="w"> </span><span class="n">i</span><span class="o">-</span><span class="n">l</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">i</span><span class="o">-</span><span class="n">l</span><span class="w"> </span><span class="p">.</span><span class="n">gt</span><span class="p">.</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">               </span><span class="n">istk</span><span class="o">=</span><span class="n">istk</span><span class="o">+</span><span class="mi">1</span><span class="w"></span>
-<span class="w">               </span><span class="n">lstk</span><span class="p">(</span><span class="n">istk</span><span class="p">)</span><span class="o">=</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="w"></span>
-<span class="w">               </span><span class="n">rstk</span><span class="p">(</span><span class="n">istk</span><span class="p">)</span><span class="o">=</span><span class="n">r</span><span class="w"></span>
-<span class="w">               </span><span class="n">r</span><span class="o">=</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
-<span class="w">            </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="n">l</span><span class="w"> </span><span class="p">.</span><span class="n">gt</span><span class="p">.</span><span class="w"> </span><span class="n">r</span><span class="o">-</span><span class="n">j</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">r</span><span class="o">-</span><span class="n">j</span><span class="w"> </span><span class="p">.</span><span class="n">gt</span><span class="p">.</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">               </span><span class="n">istk</span><span class="o">=</span><span class="n">istk</span><span class="o">+</span><span class="mi">1</span><span class="w"></span>
-<span class="w">               </span><span class="n">lstk</span><span class="p">(</span><span class="n">istk</span><span class="p">)</span><span class="o">=</span><span class="n">l</span><span class="w"></span>
-<span class="w">               </span><span class="n">rstk</span><span class="p">(</span><span class="n">istk</span><span class="p">)</span><span class="o">=</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
-<span class="w">               </span><span class="n">l</span><span class="o">=</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="w"></span>
-<span class="w">            </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="n">r</span><span class="o">-</span><span class="n">j</span><span class="w"> </span><span class="p">.</span><span class="n">gt</span><span class="p">.</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">               </span><span class="n">l</span><span class="o">=</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="w"></span>
-<span class="w">            </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="n">l</span><span class="w"> </span><span class="p">.</span><span class="n">gt</span><span class="p">.</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">               </span><span class="n">r</span><span class="o">=</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
-<span class="w">            </span><span class="k">else</span><span class="w"></span>
-<span class="w">               </span><span class="c">! Q8: Pop the stack, or terminate QuickSort if empty</span>
-<span class="w">               </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">istk</span><span class="p">.</span><span class="n">lt</span><span class="p">.</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                  exit </span><span class="n">TOP</span><span class="w"></span>
-<span class="w">               </span><span class="k">endif</span>
-<span class="k">               </span><span class="n">l</span><span class="o">=</span><span class="n">lstk</span><span class="p">(</span><span class="n">istk</span><span class="p">)</span><span class="w"></span>
-<span class="w">               </span><span class="n">r</span><span class="o">=</span><span class="n">rstk</span><span class="p">(</span><span class="n">istk</span><span class="p">)</span><span class="w"></span>
-<span class="w">               </span><span class="n">istk</span><span class="o">=</span><span class="n">istk</span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
-<span class="w">            </span><span class="k">endif</span>
-<span class="k">            cycle </span><span class="n">TOP</span><span class="w"></span>
-<span class="w">         </span><span class="k">endif</span><span class="w"></span>
-<span class="w">         </span><span class="c">! never get here, as cycle Q3 or cycle TOP</span>
-<span class="w">      </span><span class="k">enddo </span><span class="n">Q3</span><span class="w"></span>
-<span class="w">      </span><span class="k">exit </span><span class="n">TOP</span><span class="w"></span>
-<span class="w">   </span><span class="k">enddo </span><span class="n">TOP</span><span class="w"></span>
-<span class="k">endif</span><span class="w"></span>
-<span class="c">!===================================================================================================================================</span>
-<span class="c">! Q9: Straight Insertion sort</span>
-<span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">n</span><span class="w"></span>
-<span class="w">   </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">data</span><span class="p">(</span><span class="n">indx</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="p">.</span><span class="n">gt</span><span class="p">.</span><span class="w"> </span><span class="k">data</span><span class="p">(</span><span class="n">indx</span><span class="p">(</span><span class="n">i</span><span class="p">)))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">      </span><span class="n">indexp</span><span class="o">=</span><span class="n">indx</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="n">datap</span><span class="o">=</span><span class="k">data</span><span class="p">(</span><span class="n">indexp</span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="n">p</span><span class="o">=</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
-<span class="w">      </span><span class="n">INNER</span><span class="p">:</span><span class="w"> </span><span class="k">do</span>
-<span class="k">         </span><span class="n">indx</span><span class="p">(</span><span class="n">p</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">indx</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="w"></span>
-<span class="w">         </span><span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
-<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">le</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>
-<span class="k">            exit </span><span class="n">INNER</span><span class="w"></span>
-<span class="w">         </span><span class="k">endif</span>
-<span class="k">         if</span><span class="w"> </span><span class="p">(</span><span class="k">data</span><span class="p">(</span><span class="n">indx</span><span class="p">(</span><span class="n">p</span><span class="p">)).</span><span class="n">le</span><span class="p">.</span><span class="n">datap</span><span class="p">)</span><span class="k">then</span>
-<span class="k">            exit </span><span class="n">INNER</span><span class="w"></span>
-<span class="w">         </span><span class="k">endif</span>
-<span class="k">      enddo </span><span class="n">INNER</span><span class="w"></span>
-<span class="w">      </span><span class="n">indx</span><span class="p">(</span><span class="n">p</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">indexp</span><span class="w"></span>
-<span class="w">   </span><span class="k">endif</span>
-<span class="k">enddo</span><span class="w"></span>
-<span class="c">!===================================================================================================================================</span>
-<span class="c">!     All done</span>
-<span class="k">end subroutine </span><span class="n">sort_quick_rx</span><span class="w"></span>
-</pre></div>
-
-    </section>
-    <br>
-    
     </div>
   </div>
 
+</div>
+  </div>
       <hr>
     </div> <!-- /container -->
     <footer>
@@ -513,7 +333,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-09-21 12:32 +0000             </p>
+ on 2025-09-22 10:18 +0000             </p>
           </div>
         </div>
         <br>

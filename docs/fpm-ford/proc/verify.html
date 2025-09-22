@@ -10,7 +10,7 @@
     <meta name="author" content="John S. Urban" >
     <link rel="icon" href="../favicon.png">
 
-    <title>upper &ndash; M_unicode</title>
+    <title>verify &ndash; M_unicode</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -80,7 +80,7 @@
 
     <div class="container">
   <div class="row">
-    <h1>upper
+    <h1>verify
       <small>Function</small>
       
     </h1>
@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 6.4% of total for procedures.">15 statements</a>
+                 title=" 7.7% of total for procedures.">18 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -105,7 +105,7 @@
           <ol class="breadcrumb justify-content-end mb-0">
                 <li class="breadcrumb-item"><a href='../sourcefile/m_unicode.f90.html'>M_unicode.f90</a></li>
                 <li class="breadcrumb-item"><a href='../module/m_unicode.html'>M_unicode</a></li>
-            <li class="breadcrumb-item active" aria-current="page">upper</li>
+            <li class="breadcrumb-item active" aria-current="page">verify</li>
           </ol>
         </nav>
       </div>
@@ -148,7 +148,7 @@
     <div class="card card-primary">
       <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
       <div class="list-group">
-        <a class="list-group-item" href="../proc/upper.html#src">upper</a>
+        <a class="list-group-item" href="../proc/verify.html#src">verify</a>
       </div>
     </div>
 
@@ -158,7 +158,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public pure elemental function upper(str) result(string)  
+    <h2>public impure elemental function verify(string, set, back) result(result)  
 </h2>
     
 
@@ -177,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str"></span>
+              <span class="anchor" id="variable-string~26"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -185,7 +185,37 @@
               
             </td>
             <td>::</td>
-            <td><strong>str</strong></td>
+            <td><strong>string</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-set~5"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>set</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-back~6"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>back</strong></td>
             <td>
                 
             </td>
@@ -195,8 +225,8 @@
 
       <h3>Return Value
         <small>
-          <span class="anchor" id="variable-string~20"></span>
-          type(<a href='../type/unicode_type.html'>unicode_type</a>)
+          <span class="anchor" id="variable-result"></span>
+          integer
         </small>
       </h3>
       
@@ -214,27 +244,25 @@
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="k">elemental pure function </span><span class="n">upper</span><span class="p">(</span><span class="n">str</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="w"> </span><span class="p">(</span><span class="n">string</span><span class="p">)</span><span class="w"></span>
-
-<span class="c">! ident_25=&quot;@(#) M_unicode upper(3f) returns an uppercase string&quot;</span>
-
-<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">str</span><span class="w">                 </span><span class="c">! input string to convert to all uppercase</span>
-<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">string</span><span class="w">              </span><span class="c">! output string that contains no miniscule letters</span>
-<span class="kt">integer</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="w">                   </span><span class="c">! loop counter</span>
-<span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">ade_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">),</span><span class="w"> </span><span class="n">ade_z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;z&#39;</span><span class="p">)</span><span class="w"></span>
-<span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">diff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span><span class="w"></span>
-
-<span class="w">   </span><span class="n">string</span><span class="o">=</span><span class="n">str</span><span class="w"></span>
-<span class="w">   </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">str</span><span class="p">)</span><span class="w">                           </span><span class="c">! step thru each letter in the string in specified range</span>
-<span class="w">      </span><span class="k">select case</span><span class="p">(</span><span class="n">str</span><span class="p">%</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="w"></span>
-<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="n">ade_a</span><span class="p">:</span><span class="n">ade_z</span><span class="p">)</span><span class="w"></span>
-<span class="w">         </span><span class="n">string</span><span class="p">%</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str</span><span class="p">%</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">diff</span><span class="w"></span>
-<span class="w">      </span><span class="k">end select</span>
+    <div class="hl codehilite"><pre><span></span><span class="k">elemental impure function </span><span class="nb">verify</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="n">set</span><span class="p">,</span><span class="n">back</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="k">result</span><span class="p">)</span><span class="w"></span>
+<span class="c">!@(#)  verify(3) ‐ [CHARACTER:SEARCH] Position of a character in a string that does not appear in a given set of characters.</span>
+<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">string</span><span class="w"></span>
+<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">set</span><span class="w"></span>
+<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">str</span><span class="w"></span>
+<span class="kt">logical</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">optional</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">back</span><span class="w"></span>
+<span class="kt">integer</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="k">result</span>
+<span class="kt">integer</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">pos</span><span class="w"></span>
+<span class="kt">integer</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
+<span class="w">   </span><span class="k">result</span><span class="o">=</span><span class="mi">0</span><span class="w"></span>
+<span class="w">   </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">str</span><span class="o">=</span><span class="n">string</span><span class="p">%</span><span class="kt">character</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">pos</span><span class="o">=</span><span class="nb">index</span><span class="p">(</span><span class="n">set</span><span class="p">,</span><span class="n">str</span><span class="p">,</span><span class="n">back</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">pos</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>
+<span class="k">         result</span><span class="o">=</span><span class="n">i</span><span class="w"></span>
+<span class="w">         </span><span class="k">exit</span>
+<span class="k">      endif</span>
 <span class="k">   enddo</span>
-
-<span class="k">   if</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">str</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="n">string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str</span><span class="w"></span>
-
-<span class="k">end function </span><span class="n">upper</span><span class="w"></span>
+<span class="k">end function </span><span class="nb">verify</span><span class="w"></span>
 </pre></div>
 
     </section>
