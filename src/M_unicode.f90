@@ -1,3 +1,7 @@
+! TODO:
+!  o globbing
+!  o regex
+!  o elemental functions?
 module M_unicode
 ! Unicode-related procedures not requiring compiler support of ISO-10646
 ! first presented in https://fortran-lang.discourse.group/t/how-to-use-utf-8-in-gfortran/9949
@@ -9,15 +13,19 @@ use,intrinsic :: iso_fortran_env, only : real32, real64, real128
 implicit none
 
 private
-public  :: utf8_to_codepoints,  codepoints_to_utf8
-public  :: sort_quick_rx
-public  :: split, tokenize
-public  :: upper, lower
+public :: utf8_to_codepoints,  codepoints_to_utf8
+public :: adjustl, adjustr, index, len, len_trim, repeat, trim
+public :: sort
+public :: split, tokenize
+public :: upper, lower
+public :: scan,  verify
+public :: unicode_type
+public :: assignment(=)
+public :: character
+public :: lle, llt, lne, leq, lgt, lge
+public :: operator(<=), operator(<), operator(/=), operator(==), operator(>), operator(>=), operator(//)
 
 private :: a2s, s2a
-
-public  :: unicode_type
-public  :: assignment(=)
 
 interface utf8_to_codepoints
    module procedure utf8_to_codepoints_str,utf8_to_codepoints_chars
@@ -26,6 +34,10 @@ end interface utf8_to_codepoints
 interface codepoints_to_utf8
    module procedure codepoints_to_utf8_str,codepoints_to_utf8_chars
 end interface codepoints_to_utf8
+
+interface sort
+   module procedure :: sort_quick_rx
+end interface sort
 
 interface tokenize
    module procedure :: split_first_last, split_pos, split_tokens
@@ -42,11 +54,10 @@ interface assignment(=)
 end interface assignment(=)
 
 interface character
-   module procedure :: char_str
-   module procedure :: char_str_range
-   module procedure :: char_str_range_step
+   module procedure :: char_str,            char_strs
+   module procedure :: char_str_range,      char_strs_range
+   module procedure :: char_str_range_step, char_strs_range_step
 end interface character
-public :: character
 
 ! INTRINSIC COMPATIBILITY
 interface adjustl;      module procedure :: adjustl_str;  end interface adjustl
@@ -56,8 +67,6 @@ interface len_trim;     module procedure :: len_trim_str; end interface len_trim
 interface repeat;       module procedure :: repeat_str;   end interface repeat
 interface trim;         module procedure :: trim_str;     end interface trim
 interface index;        module procedure :: index_str_str,  index_str_char,  index_char_str;  end interface index
-
-public :: adjustl, adjustr, index, len, len_trim, repeat, trim
 
 interface lle;          module procedure :: lle_str_str,    lle_str_char,    lle_char_str;    end interface lle
 interface llt;          module procedure :: llt_str_str,    llt_str_char,    llt_char_str;    end interface llt
@@ -72,9 +81,6 @@ interface operator(==); module procedure :: leq_char_str,   leq_str_char,    leq
 interface operator(>);  module procedure :: lgt_str_str,    lgt_str_char,    lgt_char_str;    end interface operator(>)
 interface operator(>=); module procedure :: lge_str_str,    lge_str_char,    lge_char_str;    end interface operator(>=)
 interface operator(//); module procedure :: concat_str_str, concat_str_char, concat_char_str; end interface operator(//)
-
-public :: lle, llt, lne, leq, lgt, lge
-public :: operator(<=), operator(<), operator(/=), operator(==), operator(>), operator(>=), operator(//)
 
 type :: unicode_type ! Unicode string type holding an arbitrary sequence of integer codes.
    !sequence ! not used for storage association; a kludge to prevent extending this type.
@@ -94,8 +100,8 @@ contains
 
    procedure  ::  split          =>  oop_split
    procedure  ::  tokenize       =>  oop_tokenize
-!  procedure  ::  scan           =>  oop_scan
-!  procedure  ::  verify         =>  oop_verify
+   procedure  ::  scan           =>  oop_scan
+   procedure  ::  verify         =>  oop_verify
 !! procedure  ::  sort           =>  oop_sort
    procedure  ::  upper          =>  oop_upper
    procedure  ::  lower          =>  oop_lower
@@ -507,6 +513,29 @@ integer                           :: nerr
 
 end function char_str
 
+pure function char_strs(string) result(lines)
+type(unicode_type), intent(in)    :: string(:)
+character(len=:),allocatable      :: lines(:)
+character(len=:),allocatable      :: aline
+integer                           :: i
+integer                           :: mx
+integer                           :: nerr
+
+   mx=0
+   do i=1,size(string)
+      call codepoints_to_utf8_str(string(i)%codes,aline,nerr)
+      mx=max(mx,len(aline))
+   enddo
+
+   allocate(character(len=mx) :: lines(size(string)) )
+
+   do i=1,size(string)
+      call codepoints_to_utf8_str(string(i)%codes,aline,nerr)
+      lines(i)(:)=aline
+   enddo
+
+end function char_strs
+
 pure function char_str_range(string, first, last) result(aline)
 type(unicode_type), intent(in) :: string
 integer, intent(in)            :: first
@@ -517,6 +546,31 @@ integer                        :: nerr
    call codepoints_to_utf8_str(string%codes(first:last),aline,nerr)
 
 end function char_str_range
+
+pure function char_strs_range(string, first, last) result(lines)
+type(unicode_type), intent(in) :: string(:)
+integer, intent(in)            :: first
+integer, intent(in)            :: last
+character(len=:),allocatable   :: lines(:)
+character(len=:),allocatable   :: aline
+integer                        :: i
+integer                        :: mx
+integer                        :: nerr
+
+   mx=0
+   do i=1,size(string)
+      call codepoints_to_utf8_str(string(i)%codes(first:last),aline,nerr)
+      mx=max(mx,len(aline))
+   enddo
+
+   allocate(character(len=mx) :: lines(size(string)) )
+
+   do i=1,size(string)
+      call codepoints_to_utf8_str(string(i)%codes(first:last),aline,nerr)
+      lines(i)(:)=aline
+   enddo
+
+end function char_strs_range
 
 pure function char_str_range_step(string, first, last, step) result(aline)
 type(unicode_type), intent(in) :: string
@@ -529,6 +583,32 @@ integer                        :: nerr
    call codepoints_to_utf8_str(string%codes(first:last:step),aline,nerr)
 
 end function char_str_range_step
+
+pure function char_strs_range_step(string, first, last, step) result(lines)
+type(unicode_type), intent(in) :: string(:)
+integer, intent(in)            :: first
+integer, intent(in)            :: last
+integer, intent(in)            :: step
+character(len=:),allocatable   :: lines(:)
+character(len=:),allocatable   :: aline
+integer                        :: i
+integer                        :: mx
+integer                        :: nerr
+
+   mx=0
+   do i=1,size(string)
+      call codepoints_to_utf8_str(string(i)%codes(first:last:step),aline,nerr)
+      mx=max(mx,len(aline))
+   enddo
+
+   allocate(character(len=mx) :: lines(size(string)) )
+
+   do i=1,size(string)
+      call codepoints_to_utf8_str(string(i)%codes(first:last:step),aline,nerr)
+      lines(i)(:)=aline
+   enddo
+
+end function char_strs_range_step
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
@@ -890,37 +970,53 @@ end function lgt_char_str
 !===================================================================================================================================
 ! find location of substring within string
 
-elemental function index_str_str(string, substring) result(foundat)
+elemental function index_str_str(string, substring,back) result(foundat)
 type(unicode_type), intent(in) :: string
 type(unicode_type), intent(in) :: substring
+logical,intent(in),optional    :: back
 integer                        :: foundat
 integer                        :: i
 integer                        :: strlen
 integer                        :: sublen
+logical                        :: back_local
+
+   back_local=.false.
+   if(present(back))back_local=back
 
    strlen=string%len()
    sublen=substring%len()
    foundat=0
 
-   do i=1,strlen - sublen + 1
-      if ( all(string%codes(i:i+sublen-1) .eq. substring%codes) )then
-         foundat=i
-         exit
-      endif
-   enddo
+   if(back_local)then
+      do i=strlen - sublen + 1,1,-1
+         if ( all(string%codes(i:i+sublen-1) .eq. substring%codes) )then
+            foundat=i
+            exit
+         endif
+      enddo
+   else
+      do i=1,strlen - sublen + 1
+         if ( all(string%codes(i:i+sublen-1) .eq. substring%codes) )then
+            foundat=i
+            exit
+         endif
+      enddo
+   endif
 
 end function index_str_str
 
-elemental function index_str_char(string, substring) result(foundat)
+elemental function index_str_char(string, substring,back) result(foundat)
 type(unicode_type), intent(in) :: string
 character(len=*), intent(in)   :: substring
+logical,intent(in),optional    :: back
 integer                        :: foundat
    foundat = index_str_str(string, unicode_type(substring))
 end function index_str_char
 
-elemental function index_char_str(string, substring) result(foundat)
+elemental function index_char_str(string, substring,back) result(foundat)
 character(len=*), intent(in)   :: string
 type(unicode_type), intent(in) :: substring
+logical,intent(in),optional    :: back
 integer                        :: foundat
    foundat = index_str_str(unicode_type(string), substring )
 end function index_char_str
@@ -1236,14 +1332,14 @@ if (N.gt.M)then
                lstk(istk)=j+1
                rstk(istk)=r
                r=i-1
-            else if (i-l .gt. r-j .and. r-j .gt. m) then
+            elseif (i-l .gt. r-j .and. r-j .gt. m) then
                istk=istk+1
                lstk(istk)=l
                rstk(istk)=i-1
                l=j+1
-            else if (r-j .gt. m) then
+            elseif (r-j .gt. m) then
                l=j+1
-            else if (i-l .gt. m) then
+            elseif (i-l .gt. m) then
                r=i-1
             else
                ! Q8: Pop the stack, or terminate QuickSort if empty
@@ -1289,7 +1385,7 @@ end subroutine sort_quick_rx
 !===================================================================================================================================
 elemental pure function upper(str) result (string)
 
-! ident_25="@(#) M_strings upper(3f) returns an uppercase string"
+! ident_25="@(#) M_unicode upper(3f) returns an uppercase string"
 
 type(unicode_type), intent(in) :: str                 ! input string to convert to all uppercase
 type(unicode_type)             :: string              ! output string that contains no miniscule letters
@@ -1308,9 +1404,10 @@ integer, parameter  :: diff = iachar('A') - iachar('a')
    if(len(str).eq.0)string = str
 
 end function upper
+
 elemental pure function lower(str) result (string)
 
-! ident_25="@(#) M_strings lower(3f) returns an lowercase string"
+! ident_25="@(#) M_unicode lower(3f) returns an lowercase string"
 
 type(unicode_type), intent(in) :: str                 ! input string to convert to all lowercase
 type(unicode_type)             :: string              ! output string that contains no miniscule letters
@@ -1483,6 +1580,50 @@ end subroutine split_pos
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
+elemental pure function scan(string,set,back) result(pos)
+!@(#) M_unicode:scan(3f)  Scan a string for the presence of a set of characters
+type(unicode_type),intent(in) :: string
+type(unicode_type),intent(in) :: set
+logical,intent(in),optional   :: back
+logical                       :: back_local
+integer                       :: pos
+integer                       :: value
+integer                       :: i
+   back_local=.false.
+   if(present(back))back_local=back
+   pos=0
+   do i=1,len(set)
+      value=set%codes(i)
+      pos = findloc(string%codes, value, dim=1, back=back_local)
+      if(pos.ne.0)exit
+   enddo
+
+end function scan
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
+elemental impure function verify(string,set,back) result(result)
+!@(#)  verify(3) ‐ [CHARACTER:SEARCH] Position of a character in a string that does not appear in a given set of characters.
+type(unicode_type),intent(in) :: string
+type(unicode_type),intent(in) :: set
+type(unicode_type)            :: str
+logical,intent(in),optional   :: back
+integer                       :: result
+integer                       :: pos
+integer                       :: i
+   result=0
+   do i=1,len(string)
+      str=string%character(i,i)
+      pos=index(set,str,back)
+      if(pos.eq.0)then
+         result=i
+         exit
+      endif
+   enddo
+end function verify
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
 function oop_upper(self) result (string_out)
 class(unicode_type),intent(in)     :: self
 type(unicode_type)                 :: string_out
@@ -1534,6 +1675,22 @@ type(unicode_type)              :: temp
    if(present(last))then;  end=last;    else; end=len(self); endif
    codes_out=self%codes(start:end:inc)
 end function oop_codepoint
+!===================================================================================================================================
+impure function oop_verify(self,set,back) result(pos)
+class(unicode_type),intent(in)  ::  self
+class(unicode_type),intent(in)  ::  set
+logical,intent(in),optional     ::  back
+integer                         ::  pos
+   pos=verify(self,set,back=back)
+end function oop_verify
+!===================================================================================================================================
+pure function oop_scan(self,set,back) result(pos)
+class(unicode_type),intent(in)  ::  self
+class(unicode_type),intent(in)  ::  set
+logical,optional,intent(in)     ::  back
+integer                         ::  pos
+   pos=scan(self,set,back=back)
+end function oop_scan
 !===================================================================================================================================
 function oop_tokenize(self,set) result(tokens)
 class(unicode_type),intent(in) :: self
