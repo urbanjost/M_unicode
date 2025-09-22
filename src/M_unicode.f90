@@ -90,6 +90,7 @@ contains
    ! METHODS:
    procedure  ::  character      =>  oop_character
    procedure  ::  codepoint      =>  oop_codepoint
+   procedure  ::  bytes          =>  oop_bytes    
 
    procedure  ::  adjustl        =>  oop_adjustl
    procedure  ::  adjustr        =>  oop_adjustr
@@ -655,13 +656,13 @@ end function trim_str
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 ! right-justify string by moving trailing spaces to beginning of string so length is retained even if spaces are of varied width
-elemental function adjustr_str(string) result(adjusted)
+impure elemental function adjustr_str(string) result(adjusted)
 type(unicode_type), intent(in) :: string
 type(unicode_type)             :: adjusted
 integer                        :: last
 
    last=len_trim_str(string)
-   adjusted%codes=cshift(string%codes,-(size(adjusted%codes)-last-1))
+   adjusted%codes=cshift(string%codes,-(size(string%codes)-last))
 
 end function adjustr_str
 !===================================================================================================================================
@@ -1651,9 +1652,9 @@ type(unicode_type)                 :: string_out
    string_out=adjustr_str(self)
 end function oop_adjustr
 !===================================================================================================================================
-function oop_character(self,first,last,step) result(bytes_out)
+function oop_character(self,first,last,step) result(str_out)
 class(unicode_type), intent(in) :: self
-character(len=:),allocatable    :: bytes_out
+character(len=:),allocatable    :: str_out
 integer,intent(in),optional     :: first, last, step
 integer                         :: start, end, inc
 type(unicode_type)              :: temp
@@ -1661,8 +1662,15 @@ type(unicode_type)              :: temp
    if(present(first))then; start=first; else; start=1;       endif
    if(present(last))then;  end=last;    else; end=len(self); endif
    temp=self%codes(start:end:inc)
-   bytes_out=char_str(temp)
+   str_out=char_str(temp)
 end function oop_character
+!===================================================================================================================================
+function oop_bytes(self,first,last,step) result(bytes_out)
+class(unicode_type), intent(in) :: self
+integer,intent(in),optional     :: first, last, step
+character(len=1),allocatable    :: bytes_out(:)
+   bytes_out=s2a(oop_character(self,first,last,step))
+end function oop_bytes
 !===================================================================================================================================
 function oop_codepoint(self,first,last,step) result(codes_out)
 class(unicode_type), intent(in) :: self
