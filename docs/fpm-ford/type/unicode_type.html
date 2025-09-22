@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p>100.0% of total for derived types.</p>Including implementation: 161 statements, 100.0% of total for derived types.">30 statements</a>
+                 title="<p>100.0% of total for derived types.</p>Including implementation: 168 statements, 100.0% of total for derived types.">31 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -162,6 +162,7 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-adjustl">adjustl</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-adjustr">adjustr</a>
+            <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-bytes">bytes</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-character">character</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-codepoint">codepoint</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-index">index</a>
@@ -422,6 +423,109 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-bytes"></span>
+      <h3>
+          procedure, public ::
+  <strong>bytes</strong> => oop_bytes
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                    <h3>
+    private  function oop_bytes(self, first, last, step) result(bytes_out)  
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>first</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>last</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>step</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>character(len=1), allocatable, (:)</small>
+    </h4>
+    
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
       <span class="anchor" id="boundprocedure-character"></span>
       <h3>
           procedure, public ::
@@ -432,7 +536,7 @@
       <ul class="list-group">
           <li class="list-group-item">
                     <h3>
-    private  function oop_character(self, first, last, step) result(bytes_out)  
+    private  function oop_character(self, first, last, step) result(str_out)  
 </h3>
 
   
@@ -1326,6 +1430,7 @@
 <span class="w">   </span><span class="c">! METHODS:</span>
 <span class="w">   </span><span class="k">procedure</span><span class="w">  </span><span class="kd">::</span><span class="w">  </span><span class="kt">character</span><span class="w">      </span><span class="o">=&gt;</span><span class="w">  </span><span class="n">oop_character</span><span class="w"></span>
 <span class="w">   </span><span class="k">procedure</span><span class="w">  </span><span class="kd">::</span><span class="w">  </span><span class="n">codepoint</span><span class="w">      </span><span class="o">=&gt;</span><span class="w">  </span><span class="n">oop_codepoint</span><span class="w"></span>
+<span class="w">   </span><span class="k">procedure</span><span class="w">  </span><span class="kd">::</span><span class="w">  </span><span class="n">bytes</span><span class="w">          </span><span class="o">=&gt;</span><span class="w">  </span><span class="n">oop_bytes</span><span class="w">    </span>
 
 <span class="w">   </span><span class="k">procedure</span><span class="w">  </span><span class="kd">::</span><span class="w">  </span><span class="nb">adjustl</span><span class="w">        </span><span class="o">=&gt;</span><span class="w">  </span><span class="n">oop_adjustl</span><span class="w"></span>
 <span class="w">   </span><span class="k">procedure</span><span class="w">  </span><span class="kd">::</span><span class="w">  </span><span class="nb">adjustr</span><span class="w">        </span><span class="o">=&gt;</span><span class="w">  </span><span class="n">oop_adjustr</span><span class="w"></span>
@@ -1381,7 +1486,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-09-22 10:18 +0000             </p>
+ on 2025-09-22 11:22 +0000             </p>
           </div>
         </div>
         <br>
