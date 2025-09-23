@@ -1,7 +1,70 @@
-# M_unicode
-
+# M_unicode module
 ### A WIP (Work In Progress)
+This module provides support for operating on byte streams
+representing UTF-8 encoded text and Unicode codepoints.
+Conversion of UTF-8 to and from Unicode codepoints is supported
+as well as all basic intrinsics and operators and ragged arrays
+of strings using a user-defined type.
 
+```fortran
+program testit
+use iso_fortran_env, only : stdout=>output_unit
+
+! user-defined type to hold Unicode text
+use M_unicode, only : unicode_type
+
+! convert unicode_type to CHARACTER variables
+use M_unicode, only : character
+
+! intrinsic overloads
+use M_unicode, only : adjustl, adjustr
+use M_unicode, only : trim, len, len_trim
+use M_unicode, only : index, scan, verify
+use M_unicode, only : repeat
+use M_unicode, only : split, tokenize
+use M_unicode, only : upper, lower
+use M_unicode, only : sort
+
+! operators (and overloads) and assignment
+use M_unicode, only : assignment(=)
+use M_unicode, only : operator(<=), lle
+use M_unicode, only : operator(<),  llt
+use M_unicode, only : operator(/=), lne
+use M_unicode, only : operator(==), leq
+use M_unicode, only : operator(>),  lgt
+use M_unicode, only : operator(>=), lge
+use M_unicode, only : operator(//)
+
+! low-level text conversion to integer codepoint arrays:
+
+use M_unicode, only : utf8_to_codepoints, codepoints_to_utf8
+
+implicit none
+type(unicode_type) :: ustr
+
+character(len=*), parameter :: g='(*(g0))'
+
+   !open (stdout, encoding='UTF-8') ! preferred, but not required if not supported
+
+   ! Constructors
+   ! UNICODE_VARIABLE= UNICODE_VARIABLE|CHARACTER(LEN=*)|INTEGER_ARRAY
+   ! VARiABLE%CHARACTER(start,end,step) returns a CHARACTER string
+   ! VARiABLE%BYTES() returns an array of CHARACTER(len=1) values
+   ustr= 'Hello World and Ni Hao -- 你好  '
+
+   write (stdout,g) character(ustr) ! convert to intrinsic CHARACTER variable
+   write (stdout,g) len(ustr)
+   write (stdout,g) len_trim(ustr)
+   write (stdout,g) ustr%character(27,28) ! similiar to LINE(27:28)
+   write (stdout,g) index(ustr,'你')
+
+   ! OOPS
+   write (stdout,g) ustr%character(len(ustr),1,-1) ! reverse string
+   write (stdout,g) ustr%codepoint() ! Unicode codepoint values
+
+end program testit
+
+```
 ## Unicode usage from Fortran when UTF-8 source files are supported
 
 Fortran 2003 and later standards describe internal representation of
@@ -41,33 +104,6 @@ Additionally the most common character-related intrinsics and operators
 are overloaded to work with the UNICODE_TYPE variables; and the type is
 extended to include the procedures and operators as type-bound procedures
 for programmers that prefer OOP (Object-Oriented Programming) capabilities.
-
-
-### M_unicode module
-```fortran
-! user-defined type to hold Unicode text
-public :: unicode_type
-! Constructors  
-! UNICODE_VARIABLE= UNICODE_VARIABLE|CHARACTER(LEN=*)|INTEGER_ARRAY
-! VARiABLE%CHARACTER(start,end,step) returns a CHARACTER string
-! VARiABLE%BYTES() returns an array of CHARACTER(len=1) values
-
-! convert unicode_type to CHARACTER variables
-public :: character
-
-! intrinsic overloads
-public :: adjustl, adjustr, index, len, len_trim, repeat, trim
-public :: lle, llt, lne, leq, lgt, lge
-
-! operators and assignment
-public :: assignment(=)
-public :: operator(<=), operator(<), operator(/=), operator(==)
-public :: operator(>), operator(>=), operator(//)
-
-! low-level text conversion to integer codepoint arrays:
-
-public  :: utf8_to_codepoints,  codepoints_to_utf8
-```
 
 ### UTF-8 source files -- just in comments and constants
 
@@ -139,7 +175,7 @@ implicit none
    ' (xué ér bù sī zé wǎng, sī ér bù xué zé dài),'   ,&
    'or'                                              ,&
    ' "To learn without thinking is to be lost, '     ,&
-   ' to think without learning is to be in danger".' 
+   ' to think without learning is to be in danger".'
 end program multibyte_encoded
 ```
 
@@ -194,13 +230,12 @@ While modern Fortran can handle Unicode characters, there might still be
 limitations compared to languages like C++ regarding the ease of use with
 complex Unicode features (e.g., surrogate pairs, text directionality, normalization).
 
-### In summary: 
+### In summary:
 
 While it is possible to include multibyte Unicode characters in Fortran
 source files, especially with modern Fortran standards and supportive
 compilers, it requires careful consideration of the compiler's
 capabilities and the source file's encoding.
-
 
  ## References
 
@@ -213,32 +248,9 @@ often used for internationalization that pre-date Unicode, such as the
 Latin encodings now in module
 The [M_isolatin](https://github.com/urbanjost/M_isolatin).
 
-
 The intent is for the M_unicode module to be useful on many platforms, but currently
 it is primarily tested with GCC/gfortran and Intel/ifx on Linux and Cygwin.
 
-```fortran
-program testit
-use iso_fortran_env, only : stdout=>output_unit
-use M_unicode 
-implicit none
-type(unicode_type) :: uline
-
-   !open (stdout, encoding='UTF-8') ! preferred, but not required if not supported
-
-   uline= 'Hello World and Ni Hao -- 你好  ')
-   write (stdout,*) character(str) ! convert to intrinsic CHARACTER variable
-   write (stdout,*) len(str)
-   write (stdout,*) len_trim(str)
-   write (stdout,*) str(27:28)
-   write (stdout,*) index(uline,'你')
-
-   ! OOPS
-   write (stdout,*) str%character(len(str),1,-1) ! reverse string
-   write (stdout,*) str%codes ! Unicode code point values
-
-end program testit
-```
 -------------------------------------------------------------
 ## See Also
 
