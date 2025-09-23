@@ -253,8 +253,7 @@ including features and enhancements from Francois Jacq.
  * The improvements include procedures for handling ASCII encoding extensions
    often used for internationalization that pre-date Unicode, such as the
    Latin encodings now in module
-   The [M_isolatin](https://github.com/urbanjost/M_isolatin).
-
+   [M_isolatin](https://github.com/urbanjost/M_isolatin).
 
 -------------------------------------------------------------
 ## See Also
