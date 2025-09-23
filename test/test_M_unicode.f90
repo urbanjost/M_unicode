@@ -1,6 +1,7 @@
 program test_M_unicode
 use iso_fortran_env, only : output_unit
-use M_unicode, only : adjustl, adjustr, trim, index
+use M_unicode, only : adjustl, adjustr, index
+use M_unicode, only : trim, len, len_trim
 use M_unicode, only : character 
 use M_unicode, only : assignment(=), unicode_type, operator(//)
 use M_unicode, only : operator(<=), lle
@@ -9,6 +10,15 @@ use M_unicode, only : operator(/=), lne
 use M_unicode, only : operator(==), leq
 use M_unicode, only : operator(>),  lgt
 use M_unicode, only : operator(>=), lge
+
+use M_unicode, only : utf8_to_codepoints,  codepoints_to_utf8
+
+use M_unicode, only : scan,  verify
+use M_unicode, only : split, tokenize
+use M_unicode, only : repeat
+use M_unicode, only : upper, lower
+use M_unicode, only : sort
+
 implicit none
 character(len=*),parameter :: g0='(*(g0))'
 logical,parameter          :: T=.true.
@@ -45,7 +55,9 @@ type(unicode_type)             :: string, substring
    call checkit('adjustr',astr,character(ut_str%adjustr()),'      this is a string')
    call checkit('trim',astr,character(trim(ut_str%trim())),'  this is a string')
    call check('len_trim',ut_str%len_trim().eq.18)
+   call check('len_trim',len_trim(ut_str).eq.18)
    call check('len',ut_str%len().eq.22)
+   call check('len',len(ut_str).eq.22)
 
    astr="  "
    ut_str=astr
