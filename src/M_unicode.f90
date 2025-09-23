@@ -211,10 +211,10 @@ integer,parameter :: G_SPACES(*) = [ 32,160,8192,8193,8194,8195,8196,8197,8198,8
 ! The standard English lowercase "i" (U+0069) has a dot, which is called a "tittle". 
 ! The uppercase dotted "İ" (U+0130) is a separate Unicode character that functions as the uppercase dotted "i". 
 ! * U+0049 I LATIN CAPITAL LETTER I. 
-! * U+0069 i LATIN SMALL LETTER I. 
 ! * U+0130 İ LATIN CAPITAL LETTER I WITH DOT ABOVE. 
+! * U+0069 i LATIN SMALL LETTER I. (dotted) 
 ! * U+0131 ı LATIN SMALL LETTER I DOTLESS  
-! So the problem is both "LATI SMALL LETTER I DOTLESS" and "LATI SMALL LETTER I" typically have uppercase "LATIN CAPITAL LETTER I"
+! So the problem is both "LATIN SMALL LETTER I DOTLESS" and "LATIN SMALL LETTER I" typically have uppercase "LATIN CAPITAL LETTER I"
 ! so a round trip will not put I back to a dotless I. Because doing ASCII outside of the table could have dotted as one set and
 ! undotted as another in the table but the routine would still have the same issue.
 
