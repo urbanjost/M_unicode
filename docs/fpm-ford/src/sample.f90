@@ -40,6 +40,5 @@ character(len=*),parameter   :: smiley='😃'
    uline='    this  is just a    string        '
    write(*,g)'adjustl:','[',character(uline),'] ==> [',character(adjustl(uline)),']'
 
-   !write(*,g)uline%codes
    !write(*,g)uline
 end program assign_exe
