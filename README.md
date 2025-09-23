@@ -1,5 +1,11 @@
-# M_unicode module
 ### A WIP (Work In Progress)
+
+The intent is for the M_unicode module to be useful on many platforms, but currently
+it is primarily tested with GCC/gfortran and Intel/ifx on Linux and Cygwin. It needs
+a DT for printing.
+
+# M_unicode module
+
 This module provides support for operating on byte streams
 representing UTF-8 encoded text and Unicode codepoints.
 Conversion of UTF-8 to and from Unicode codepoints is supported
@@ -238,18 +244,17 @@ compilers, it requires careful consideration of the compiler's
 capabilities and the source file's encoding.
 
  ## References
+ * [![Unicode Home](docs/images/Unicode-Logo-Final-Blue-95x112.jpg)](https://home.unicode.org/)
 
-Initially based on a discussion begun in
+ * Initially based on a discussion begun in
 https://fortran-lang.discourse.group/t/how-to-use-utf-8-in-gfortran/9949, 2025-08;
 including features and enhancements from Francois Jacq.
 
-The improvements include procedures for handling ASCII encoding extensions
-often used for internationalization that pre-date Unicode, such as the
-Latin encodings now in module
-The [M_isolatin](https://github.com/urbanjost/M_isolatin).
+ * The improvements include procedures for handling ASCII encoding extensions
+   often used for internationalization that pre-date Unicode, such as the
+   Latin encodings now in module
+   The [M_isolatin](https://github.com/urbanjost/M_isolatin).
 
-The intent is for the M_unicode module to be useful on many platforms, but currently
-it is primarily tested with GCC/gfortran and Intel/ifx on Linux and Cygwin.
 
 -------------------------------------------------------------
 ## See Also
