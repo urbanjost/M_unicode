@@ -1,8 +1,44 @@
+! # M_unicode  
+! 
+! **M_unicode** provides support for Unicode encoded as UTF-8 data even
+! when the optional Fortran ISO_10646 extension is not provided.
+! 
+! A user-defined type named **unicode_type** allows for creating ragged
+! arrays of ASCII or UTF-8 encoded data that otherwise can be treated much
+! like a CHARACTER kind.
+! 
+! **M_unicode** has overloading for all the basic operators and character
+! intrinsics with both a procedural and OOP interface. The intrinsic
+! overloads include **TOKENIZE()** and **SPLIT()**.
+! 
+! In addition the **UPPER()** and **LOWER()** funtions support the concept
+! of case for the Unicode Latin characters not just the ASCII subset,
+! and a basic SORT() function provides for ordering the data by Unicode
+! codepoint values.
+! 
+! The distribution provides a __Make__ file and easily builds with __fpm__.
+! 
+! Documentation and examples are still a WIP but complete enough to guide
+! usage for anyone interesting in trying it.
+! 
+! Only tested with ifx and gfortran so far but until proven otherwise
+! I think it should work with any environment where UTF-8 files are
+! supported. So far that includes allowing what-you=see-is-what-you-get
+! string constants on Linux and Cygwin at a minimum.
+! 
+! It needs a DT and more CD/CI unit testing.
+! 
+! **M_unicode** should be useful for anyone working with UTF-8 data,
+! particularly if the compiler does not support the UCS-4 extensions
+! of Fortran.
+!
 ! TODO:
 !  o globbing
 !  o regex
 !  o elemental functions?
+!
 module M_unicode
+!
 ! Unicode-related procedures not requiring compiler support of ISO-10646
 ! first presented in https://fortran-lang.discourse.group/t/how-to-use-utf-8-in-gfortran/9949
 ! including enhancements and latin support from Francois Jacq, 2025-08

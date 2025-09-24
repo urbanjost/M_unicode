@@ -1,16 +1,15 @@
 ### A WIP (Work In Progress)
 
-The intent is for the M_unicode module to be useful on many platforms, but currently
-it is primarily tested with GCC/gfortran and Intel/ifx on Linux and Cygwin. It needs
-a DT for printing.
+The intent is for the M_unicode module to be useful on many platforms,
+but currently it is primarily tested with GCC/gfortran and Intel/ifx on
+Linux and Cygwin. It needs a DT for printing.
 
 # M_unicode module
 
-This module provides support for operating on byte streams
-representing UTF-8 encoded text and Unicode codepoints.
-Conversion of UTF-8 to and from Unicode codepoints is supported
-as well as all basic intrinsics and operators and ragged arrays
-of strings using a user-defined type.
+This module provides support for operating on byte streams representing
+UTF-8 encoded text and Unicode codepoints.  Conversion of UTF-8 to and
+from Unicode codepoints is supported as well as all basic intrinsics
+and operators and ragged arrays of strings using a user-defined type.
 
 ```fortran
 program testit
