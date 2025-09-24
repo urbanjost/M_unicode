@@ -90,7 +90,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 9.0% of total for programs.">51 statements</a>
+                 title=" 4.3% of total for programs.">23 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -133,10 +133,8 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../program/uni_to_ftn.html#variable-command_line">command_line</a>
             <a class="list-group-item" href="../program/uni_to_ftn.html#variable-form">form</a>
-            <a class="list-group-item" href="../program/uni_to_ftn.html#variable-g~10">g</a>
-            <a class="list-group-item" href="../program/uni_to_ftn.html#variable-i~28">i</a>
-            <a class="list-group-item" href="../program/uni_to_ftn.html#variable-ucs4">ucs4</a>
-            <a class="list-group-item" href="../program/uni_to_ftn.html#variable-ustr~2">ustr</a>
+            <a class="list-group-item" href="../program/uni_to_ftn.html#variable-g~7">g</a>
+            <a class="list-group-item" href="../program/uni_to_ftn.html#variable-i~24">i</a>
         </div>
       </div>
     </div>
@@ -158,8 +156,6 @@
       <div id="funcs-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../program/uni_to_ftn.html#proc-getargs">getargs</a>
-            <a class="list-group-item" href="../program/uni_to_ftn.html#proc-ucs4_to_utf8">ucs4_to_utf8</a>
-            <a class="list-group-item" href="../program/uni_to_ftn.html#proc-utf8_to_ucs4">utf8_to_ucs4</a>
         </div>
       </div>
     </div>
@@ -240,14 +236,14 @@ parameter
             <td>::</td>
             <td><strong>form</strong></td>
 <td> =</td>
-                <td>&#39;(&#34;char(int(z&#39;&#39;&#34;,z0,&#34;&#39;&#39;),kind=ucs4)&#34;:,&#34;// &amp;&#34;)&#39;</td>
+                <td>&#39;(&#34;char(int(z&#39;&#39;&#34;,z0,&#34;&#39;&#39;))&#34;:,&#34;// &amp;&#34;)&#39;</td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-g~10"></span>
+              <span class="anchor" id="variable-g~7"></span>
               character(len=*),
             </td>
             <td>
@@ -263,7 +259,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~28"></span>
+              <span class="anchor" id="variable-i~24"></span>
               integer
             </td>
             <td>
@@ -271,38 +267,6 @@ parameter
             </td>
             <td>::</td>
             <td><strong>i</strong></td>
-                <td></td>
-                <td></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-ucs4"></span>
-              integer,
-            </td>
-            <td>
-parameter               
-            </td>
-            <td>::</td>
-            <td><strong>ucs4</strong></td>
-<td> =</td>
-                <td>selected_char_kind(&#39;ISO_10646&#39;)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-ustr~2"></span>
-              character(kind=ucs4, len=:),
-            </td>
-            <td>
-              allocatable
-            </td>
-            <td>::</td>
-            <td><strong>ustr</strong></td>
                 <td></td>
                 <td></td>
             <td>
@@ -340,96 +304,6 @@ parameter
     </div>
   </div>
 
-      <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-ucs4_to_utf8"></span> <h3> function <a href='../proc/ucs4_to_utf8.html'>ucs4_to_utf8</a>(ucs4_string) result(corrected)  
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-ucs4_string"></span>
-              character(kind=ucs4, len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>ucs4_string</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>character(len=:), allocatable</small>
-    </h4>
-    
-
-    </div>
-  </div>
-
-      <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-utf8_to_ucs4"></span> <h3> function <a href='../proc/utf8_to_ucs4.html'>utf8_to_ucs4</a>(string) result(corrected)  
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-string~29"></span>
-              character(len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>string</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>character(kind=ucs4, len=:), allocatable</small>
-    </h4>
-    
-
-    </div>
-  </div>
-
     </section>
     <br>
 
@@ -442,20 +316,17 @@ parameter
 <span class="c">! @(#) take command line argument utf-8 text and generate Fortran statement that represents the string</span>
 <span class="k">use</span><span class="p">,</span><span class="w"> </span><span class="k">intrinsic</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">output_unit</span><span class="w"></span>
 <span class="k">implicit none</span>
-<span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">ucs4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">selected_char_kind</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;ISO_10646&#39;</span><span class="p">)</span><span class="w"></span>
-<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">form</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;(&quot;char(int(z&#39;&#39;&quot;,z0,&quot;&#39;&#39;),kind=ucs4)&quot;:,&quot;// &amp;&quot;)&#39;</span><span class="w"></span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">form</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;(&quot;char(int(z&#39;&#39;&quot;,z0,&quot;&#39;&#39;))&quot;:,&quot;// &amp;&quot;)&#39;</span><span class="w"></span>
 <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">g</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;(*(g0))&#39;</span><span class="w"></span>
 <span class="kt">integer</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
 <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">command_line</span><span class="w"></span>
-<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:,</span><span class="nb">kind</span><span class="o">=</span><span class="n">ucs4</span><span class="p">),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ustr</span><span class="w"></span>
 <span class="w">   </span><span class="n">command_line</span><span class="o">=</span><span class="n">getargs</span><span class="p">()</span><span class="w">          </span><span class="c">! get string containing all command arguments as CHARACTER bytes</span>
-<span class="w">   </span><span class="n">ustr</span><span class="o">=</span><span class="n">utf8_to_ucs4</span><span class="p">(</span><span class="n">command_line</span><span class="p">)</span><span class="w"> </span><span class="c">! convert bytes to internal Fortran Unicode representation</span>
 
 <span class="w">   </span><span class="c">! write the command line out as a Fortran variable expression using the CHAR() function</span>
 <span class="w">   </span><span class="k">open</span><span class="w"> </span><span class="p">(</span><span class="n">output_unit</span><span class="p">,</span><span class="w"> </span><span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;UTF-8&#39;</span><span class="p">)</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;! ENCODING:&#39;</span><span class="p">,</span><span class="n">command_line</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;character(len=*,kind=ucs4),parameter :: variable= &amp;&#39;</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">form</span><span class="p">)(</span><span class="n">ustr</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">),</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">ustr</span><span class="p">))</span><span class="w"></span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;! ENCODING:[&#39;</span><span class="p">,</span><span class="n">command_line</span><span class="o">//</span><span class="s1">&#39;]&#39;</span><span class="w"></span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;character(len=*),parameter :: variable= &amp;&#39;</span><span class="w"></span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">form</span><span class="p">)(</span><span class="n">command_line</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">),</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">command_line</span><span class="p">))</span><span class="w"></span>
 <span class="k">contains</span>
 
 <span class="k">function </span><span class="n">getargs</span><span class="p">()</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">command_line</span><span class="p">)</span><span class="w"></span>
@@ -465,36 +336,9 @@ parameter
 <span class="w">   </span><span class="k">allocate</span><span class="p">(</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">length</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">command_line</span><span class="p">)</span><span class="w"> </span><span class="c">! allocate string big enough to hold command line</span>
 <span class="w">   </span><span class="k">call </span><span class="nb">get_command</span><span class="p">(</span><span class="n">command</span><span class="o">=</span><span class="n">command_line</span><span class="p">)</span><span class="w">          </span><span class="c">! get command line as a string</span>
 <span class="w">   </span><span class="k">call </span><span class="nb">get_command_argument</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">length</span><span class="o">=</span><span class="n">length</span><span class="p">)</span><span class="w">      </span><span class="c">! remove argument 0</span>
-<span class="w">   </span><span class="n">command_line</span><span class="o">=</span><span class="nb">adjustl</span><span class="p">(</span><span class="n">command_line</span><span class="p">(</span><span class="n">length</span><span class="o">+</span><span class="mi">1</span><span class="p">:))</span><span class="w"></span>
+<span class="w">   </span><span class="n">command_line</span><span class="o">=</span><span class="n">command_line</span><span class="p">(</span><span class="n">length</span><span class="o">+</span><span class="mi">2</span><span class="p">:)</span><span class="w"></span>
 <span class="k">end function </span><span class="n">getargs</span><span class="w"></span>
 
-<span class="k">function </span><span class="n">utf8_to_ucs4</span><span class="p">(</span><span class="n">string</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">corrected</span><span class="p">)</span><span class="w"></span>
-<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">string</span><span class="w"></span>
-<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:,</span><span class="nb">kind</span><span class="o">=</span><span class="n">ucs4</span><span class="p">),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">corrected</span><span class="w"></span>
-<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">)),</span><span class="nb">kind</span><span class="o">=</span><span class="n">ucs4</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">line</span><span class="w"></span>
-<span class="kt">integer</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">lun</span><span class="w"></span>
-<span class="w">   </span><span class="k">open</span><span class="p">(</span><span class="n">newunit</span><span class="o">=</span><span class="n">lun</span><span class="p">,</span><span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;UTF-8&#39;</span><span class="p">,</span><span class="n">status</span><span class="o">=</span><span class="s1">&#39;scratch&#39;</span><span class="p">)</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">lun</span><span class="p">,</span><span class="s1">&#39;(A)&#39;</span><span class="p">)</span><span class="n">string</span><span class="w"></span>
-<span class="w">   </span><span class="k">rewind</span><span class="p">(</span><span class="n">lun</span><span class="p">)</span><span class="w"></span>
-<span class="w">   </span><span class="k">read</span><span class="p">(</span><span class="n">lun</span><span class="p">,</span><span class="s1">&#39;(A)&#39;</span><span class="p">)</span><span class="n">line</span><span class="w"></span>
-<span class="w">   </span><span class="k">close</span><span class="p">(</span><span class="n">lun</span><span class="p">)</span><span class="w"></span>
-<span class="w">   </span><span class="n">corrected</span><span class="o">=</span><span class="nb">trim</span><span class="p">(</span><span class="n">line</span><span class="p">)</span><span class="w"></span>
-<span class="k">end function </span><span class="n">utf8_to_ucs4</span><span class="w"></span>
-
-<span class="k">function </span><span class="n">ucs4_to_utf8</span><span class="p">(</span><span class="n">ucs4_string</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">corrected</span><span class="p">)</span><span class="w"></span>
-<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">,</span><span class="nb">kind</span><span class="o">=</span><span class="n">ucs4</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ucs4_string</span><span class="w"></span>
-<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">corrected</span><span class="w"></span>
-<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ucs4_string</span><span class="p">)</span><span class="o">*</span><span class="mi">4</span><span class="p">))</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">line</span><span class="w"></span>
-<span class="kt">integer</span><span class="w">                               </span><span class="kd">::</span><span class="w"> </span><span class="n">lun</span><span class="w"></span>
-<span class="w">   </span><span class="k">open</span><span class="p">(</span><span class="n">newunit</span><span class="o">=</span><span class="n">lun</span><span class="p">,</span><span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;UTF-8&#39;</span><span class="p">,</span><span class="n">status</span><span class="o">=</span><span class="s1">&#39;scratch&#39;</span><span class="p">)</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">lun</span><span class="p">,</span><span class="s1">&#39;(A)&#39;</span><span class="p">)</span><span class="n">ucs4_string</span><span class="w"></span>
-<span class="w">   </span><span class="k">rewind</span><span class="p">(</span><span class="n">lun</span><span class="p">)</span><span class="w"></span>
-<span class="w">   </span><span class="k">open</span><span class="p">(</span><span class="n">unit</span><span class="o">=</span><span class="n">lun</span><span class="p">,</span><span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;default&#39;</span><span class="p">)</span><span class="w"></span>
-<span class="w">   </span><span class="k">read</span><span class="p">(</span><span class="n">lun</span><span class="p">,</span><span class="s1">&#39;(A)&#39;</span><span class="p">)</span><span class="n">line</span><span class="w"></span>
-<span class="w">   </span><span class="k">close</span><span class="p">(</span><span class="n">lun</span><span class="p">)</span><span class="w"></span>
-<span class="w">   </span><span class="n">corrected</span><span class="o">=</span><span class="nb">trim</span><span class="p">(</span><span class="n">line</span><span class="p">)</span><span class="w"></span>
-<span class="k">end function </span><span class="n">ucs4_to_utf8</span><span class="w"></span>
-<span class="w">   </span>
 <span class="k">end program </span><span class="n">uni_to_ftn</span><span class="w"></span>
 </pre></div>
 
@@ -518,7 +362,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-09-23 23:35 +0000             </p>
+ on 2025-09-24 01:34 +0000             </p>
           </div>
         </div>
         <br>

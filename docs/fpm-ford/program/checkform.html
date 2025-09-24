@@ -90,7 +90,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 4.6% of total for programs.">26 statements</a>
+                 title=" 4.5% of total for programs.">24 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -132,12 +132,10 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../program/checkform.html#variable-chars">chars</a>
-            <a class="list-group-item" href="../program/checkform.html#variable-g~5">g</a>
+            <a class="list-group-item" href="../program/checkform.html#variable-g~4">g</a>
             <a class="list-group-item" href="../program/checkform.html#variable-hex">hex</a>
             <a class="list-group-item" href="../program/checkform.html#variable-int">int</a>
             <a class="list-group-item" href="../program/checkform.html#variable-lout">lout</a>
-            <a class="list-group-item" href="../program/checkform.html#variable-pos~9">pos</a>
-            <a class="list-group-item" href="../program/checkform.html#variable-set~11">set</a>
             <a class="list-group-item" href="../program/checkform.html#variable-str~4">str</a>
         </div>
       </div>
@@ -220,7 +218,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-g~5"></span>
+              <span class="anchor" id="variable-g~4"></span>
               character(len=*),
             </td>
             <td>
@@ -284,38 +282,6 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pos~9"></span>
-              integer
-            </td>
-            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>pos</strong></td>
-                <td></td>
-                <td></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-set~11"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>)
-            </td>
-            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>set</strong></td>
-                <td></td>
-                <td></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
               <span class="anchor" id="variable-str~4"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>)
             </td>
@@ -353,28 +319,26 @@ parameter
 <span class="k">implicit none</span>
 <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">g</span><span class="o">=</span><span class="s1">&#39;(*(g0,1x))&#39;</span><span class="w"></span>
 
-<span class="kt">integer</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">pos</span><span class="w"></span>
 <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">int</span><span class="o">=</span><span class="s1">&#39;1234567890&#39;</span><span class="w"></span>
 <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">hex</span><span class="o">=</span><span class="s1">&#39;abcdefABCDEF0123456789&#39;</span><span class="w"></span>
 <span class="kt">logical</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">lout</span><span class="w"></span>
 <span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">         </span><span class="kd">::</span><span class="w"> </span><span class="n">chars</span><span class="w"></span>
 <span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">         </span><span class="kd">::</span><span class="w"> </span><span class="n">str</span><span class="w"></span>
-<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">         </span><span class="kd">::</span><span class="w"> </span><span class="n">set</span><span class="w"></span>
 
 <span class="w">   </span><span class="n">chars</span><span class="o">=</span><span class="s1">&#39;32‐af43d&#39;</span><span class="w"></span>
 <span class="w">   </span><span class="n">lout</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.</span><span class="w"></span>
 
 <span class="w">   </span><span class="c">! are the first two characters integer characters?</span>
 <span class="w">   </span><span class="n">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">chars</span><span class="p">%</span><span class="kt">character</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
-<span class="w">   </span><span class="n">lout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lout</span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="nb">verify</span><span class="p">(</span><span class="w"> </span><span class="n">str</span><span class="p">,</span><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">   </span><span class="n">lout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nb">verify</span><span class="p">(</span><span class="w"> </span><span class="n">str</span><span class="p">,</span><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="n">lout</span><span class="w"> </span>
 
 <span class="w">   </span><span class="c">! is the third character a dash?</span>
 <span class="w">   </span><span class="n">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">chars</span><span class="p">%</span><span class="kt">character</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="w"></span>
-<span class="w">   </span><span class="n">lout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lout</span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="nb">verify</span><span class="p">(</span><span class="w"> </span><span class="n">str</span><span class="p">,</span><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;‐-&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">   </span><span class="n">lout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nb">verify</span><span class="p">(</span><span class="w"> </span><span class="n">str</span><span class="p">,</span><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;‐-&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="n">lout</span><span class="w"> </span>
 
 <span class="w">   </span><span class="c">! is remaining string a valid representation of a hex value?</span>
 <span class="w">   </span><span class="n">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">chars</span><span class="p">%</span><span class="kt">character</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">8</span><span class="p">)</span><span class="w"></span>
-<span class="w">   </span><span class="n">lout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lout</span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="nb">verify</span><span class="p">(</span><span class="w"> </span><span class="n">str</span><span class="p">,</span><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="n">hex</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">   </span><span class="n">lout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nb">verify</span><span class="p">(</span><span class="w"> </span><span class="n">str</span><span class="p">,</span><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="n">hex</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="n">lout</span><span class="w"> </span>
 
 <span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="n">lout</span><span class="p">)</span><span class="k">then</span>
 <span class="k">      write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="nb">trim</span><span class="p">(</span><span class="n">chars</span><span class="p">%</span><span class="kt">character</span><span class="p">()),</span><span class="s1">&#39; passed&#39;</span><span class="w"></span>
@@ -404,7 +368,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-09-23 23:35 +0000             </p>
+ on 2025-09-24 01:34 +0000             </p>
           </div>
         </div>
         <br>

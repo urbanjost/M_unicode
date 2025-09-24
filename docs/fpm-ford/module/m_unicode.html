@@ -161,12 +161,14 @@
             <a class="list-group-item" href="../module/m_unicode.html#interface-operator%28gt%29">operator(>)</a>
             <a class="list-group-item" href="../module/m_unicode.html#interface-operator%28gt%3D%29">operator(>=)</a>
             <a class="list-group-item" href="../module/m_unicode.html#interface-repeat">repeat</a>
+            <a class="list-group-item" href="../module/m_unicode.html#interface-scan">scan</a>
             <a class="list-group-item" href="../module/m_unicode.html#interface-sort">sort</a>
             <a class="list-group-item" href="../module/m_unicode.html#interface-split">split</a>
             <a class="list-group-item" href="../module/m_unicode.html#interface-tokenize">tokenize</a>
             <a class="list-group-item" href="../module/m_unicode.html#interface-trim">trim</a>
             <a class="list-group-item" href="../module/m_unicode.html#interface-unicode_type">unicode_type</a>
             <a class="list-group-item" href="../module/m_unicode.html#interface-utf8_to_codepoints">utf8_to_codepoints</a>
+            <a class="list-group-item" href="../module/m_unicode.html#interface-verify">verify</a>
         </div>
       </div>
     </div>
@@ -192,9 +194,7 @@
       <div id="funcs-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/m_unicode.html#proc-lower">lower</a>
-            <a class="list-group-item" href="../module/m_unicode.html#proc-scan">scan</a>
             <a class="list-group-item" href="../module/m_unicode.html#proc-upper">upper</a>
-            <a class="list-group-item" href="../module/m_unicode.html#proc-verify">verify</a>
         </div>
       </div>
     </div>
@@ -663,7 +663,7 @@ Standard #10.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first"></span>
+              <span class="anchor" id="variable-first~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -678,7 +678,7 @@ Standard #10.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last"></span>
+              <span class="anchor" id="variable-last~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -736,7 +736,7 @@ Standard #10.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first~2"></span>
+              <span class="anchor" id="variable-first~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -751,7 +751,7 @@ Standard #10.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~2"></span>
+              <span class="anchor" id="variable-last~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -809,7 +809,7 @@ Standard #10.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first~3"></span>
+              <span class="anchor" id="variable-first~4"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -824,7 +824,7 @@ Standard #10.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~3"></span>
+              <span class="anchor" id="variable-last~4"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -897,7 +897,7 @@ Standard #10.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first~4"></span>
+              <span class="anchor" id="variable-first~5"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -912,7 +912,7 @@ Standard #10.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~4"></span>
+              <span class="anchor" id="variable-last~5"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1141,7 +1141,7 @@ Standard #10.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-substring"></span>
+              <span class="anchor" id="variable-substring~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1214,7 +1214,7 @@ Standard #10.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-substring~2"></span>
+              <span class="anchor" id="variable-substring~3"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1287,7 +1287,7 @@ Standard #10.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-substring~3"></span>
+              <span class="anchor" id="variable-substring~4"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3896,6 +3896,89 @@ Standard #10.</p>
 
               <div class="card">
     <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-scan"></span>
+      <h3>public        interface <a href='../interface/scan.html'>scan</a> 
+      </h3>
+    </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private pure elemental function uscan(string, set, back) result(pos)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-string~25"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>string</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-set~4"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>set</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-back~5"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>back</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer</small>
+    </h4>
+    
+
+          </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-sort"></span>
       <h3>public        interface <a href='../interface/sort.html'>sort</a> 
       </h3>
@@ -4092,7 +4175,7 @@ Standard #10.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~3"></span>
+              <span class="anchor" id="variable-set~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4107,7 +4190,7 @@ Standard #10.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first~7"></span>
+              <span class="anchor" id="variable-first~8"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -4122,7 +4205,7 @@ Standard #10.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~8"></span>
+              <span class="anchor" id="variable-last~9"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -4175,7 +4258,7 @@ Standard #10.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~4"></span>
+              <span class="anchor" id="variable-set~3"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4258,7 +4341,7 @@ Standard #10.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~2"></span>
+              <span class="anchor" id="variable-set"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4351,7 +4434,7 @@ Standard #10.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~3"></span>
+              <span class="anchor" id="variable-set~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4366,7 +4449,7 @@ Standard #10.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first~7"></span>
+              <span class="anchor" id="variable-first~8"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -4381,7 +4464,7 @@ Standard #10.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~8"></span>
+              <span class="anchor" id="variable-last~9"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -4434,7 +4517,7 @@ Standard #10.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~4"></span>
+              <span class="anchor" id="variable-set~3"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4517,7 +4600,7 @@ Standard #10.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~2"></span>
+              <span class="anchor" id="variable-set"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4863,6 +4946,89 @@ Standard #10.</p>
     </ul>
   </div>
 
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-verify"></span>
+      <h3>public        interface <a href='../interface/verify.html'>verify</a> 
+      </h3>
+    </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private impure elemental function uverify(string, set, back) result(result)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-string~26"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>string</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-set~5"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>set</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-back~6"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>back</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer</small>
+    </h4>
+    
+
+          </li>
+    </ul>
+  </div>
+
         </section>
         <br>
 
@@ -4988,7 +5154,7 @@ Standard #10.</p>
               <tr>
                 <td>  procedure, public ::
   <strong><a href='../type/unicode_type.html#boundprocedure-verify'>verify</a></strong> => oop_verify</td>
-                  <td><p>procedure  ::  sort           =&gt;  oop_sort</p></td>
+                  <td></td>
               </tr>
           </tbody>
         </table>
@@ -5046,81 +5212,6 @@ Standard #10.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-scan"></span> <h3>public pure elemental function <a href='../proc/scan.html'>scan</a>(string, set, back) result(pos)  
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-string~25"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>string</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-set~5"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>set</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-back~5"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>back</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>integer</small>
-    </h4>
-    
-
-    </div>
-  </div>
-
-              <div class="card">
     <div class="card-header codesum"><span class="anchor" id="proc-upper"></span> <h3>public pure elemental function <a href='../proc/upper.html'>upper</a>(str) result(string)  
 </h3></div>
     <div class="card-body">
@@ -5165,81 +5256,6 @@ Standard #10.</p>
     </div>
   </div>
 
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-verify"></span> <h3>public impure elemental function <a href='../proc/verify.html'>verify</a>(string, set, back) result(result)  
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-string~26"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>string</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-set~6"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>set</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-back~6"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>back</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>integer</small>
-    </h4>
-    
-
-    </div>
-  </div>
-
         </section>
         <br>
 
@@ -5264,7 +5280,7 @@ Standard #10.</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-09-23 23:35 +0000             </p>
+ on 2025-09-24 01:34 +0000             </p>
           </div>
         </div>
         <br>

@@ -6,7 +6,6 @@ character(len=*),parameter :: g='(*(g0,1x))'
 type(ut)                   :: proverb
 type(ut)                   :: delims
 type(ut),allocatable       :: array(:)
-type(ut)                   :: word
 integer                    :: first
 integer                    :: last
 integer                    :: pos
@@ -18,11 +17,10 @@ integer                    :: i
    call printwords(proverb)
 
    ! there really are not spaces between these glyphs
-   array=[ &                                
-    ut("七転び八起き。"), &                   
-    ut("転んでもまた立ち上がる。"), &         
-    ut("くじけずに前を向いて歩いていこう。&
-    ")] 
+   array=[ &
+    ut("七転び八起き。"), &
+    ut("転んでもまた立ち上がる。"), &
+    ut("くじけずに前を向いて歩いていこう。")]
    call printwords(array)
 
    write(*,g)'OOP'

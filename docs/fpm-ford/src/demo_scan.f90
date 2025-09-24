@@ -5,7 +5,6 @@ implicit none
 character(len=*),parameter :: g='(*(g0,1x))'
 type(ut)                   :: line
 type(ut)                   :: set
-integer                    :: pos
    line='parsley😃sage😃rosemary😃😃thyme'
    set='😃'
    write(*,g) '123456789012345678901234567890123456789012345678901234567890'

@@ -81,7 +81,7 @@
     <div class="container">
   <div class="row">
     <h1>scan
-      <small>Function</small>
+      <small>Interface</small>
       
     </h1>
       <div class="container p-2 mb-4 bg-light border rounded-3">
@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 6.9% of total for procedures.">17 statements</a>
+                 title="<p> 1.6% of total for procedures.</p>Including implementation: 20 statements, 10.4% of total for procedures.">3 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -120,10 +120,10 @@
   </script>
 
   </div>
-  
+
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-      <div id="sidebar">
+        <div id="sidebar">
       <h3>Contents</h3>
   
   
@@ -143,29 +143,40 @@
   
   
   
-  
-  
-    <div class="card card-primary">
-      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
-      <div class="list-group">
-        <a class="list-group-item" href="../proc/scan.html#src">scan</a>
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#modprocs-0"
+         aria-expanded="false" aria-controls="modprocs-0">
+         <h4 class="card-header bg-primary text-white">Module Procedures</h4>
+      </a>
+      <div id="modprocs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../interface/scan.html#moduleprocedure-uscan">uscan</a>
+        </div>
       </div>
     </div>
+
+  
 
 
   </div>
 
     </div>
-    
+
     <div class="col-md-9" id='text'>
-    <h2>public pure elemental function scan(string, set, back) result(pos)  
-</h2>
-    
+      <h2>public interface scan</h2>
+      
 
 
 
-    <h3>Arguments</h3>
-        <table class="table table-striped varlist">
+        <h2>Module Procedures</h2>
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-uscan"></span> <h3>private pure elemental function uscan(string, set, back) result(pos)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
     <thead>
       <tr>
         <th scope="col">Type</th>
@@ -192,7 +203,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~5"></span>
+              <span class="anchor" id="variable-set~4"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -223,54 +234,17 @@
     </tbody>
   </table>
 
-      <h3>Return Value
-        <small>
-          <span class="anchor" id="variable-pos~5"></span>
-          integer
-        </small>
-      </h3>
-      
-    <br>
-
-
-    
+    <h4>
+    Return Value
+    <small>integer</small>
+    </h4>
     
 
-    
-    
-
-
-
-    
-    <section>
-    <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="k">elemental pure function </span><span class="nb">scan</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="n">set</span><span class="p">,</span><span class="n">back</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span><span class="w"></span>
-<span class="c">!@(#) M_unicode:scan(3f)  Scan a string for the presence of a set of characters</span>
-<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">string</span><span class="w"></span>
-<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">set</span><span class="w"></span>
-<span class="kt">logical</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">optional</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">back</span><span class="w"></span>
-<span class="kt">logical</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">back_local</span><span class="w"></span>
-<span class="kt">integer</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">pos</span><span class="w"></span>
-<span class="kt">integer</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="k">value</span>
-<span class="kt">integer</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
-<span class="w">   </span><span class="n">back_local</span><span class="o">=</span><span class="p">.</span><span class="n">false</span><span class="p">.</span><span class="w"></span>
-<span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">back</span><span class="p">))</span><span class="n">back_local</span><span class="o">=</span><span class="n">back</span><span class="w"></span>
-<span class="w">   </span><span class="n">pos</span><span class="o">=</span><span class="mi">0</span><span class="w"></span>
-<span class="w">   </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">set</span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="k">value</span><span class="o">=</span><span class="n">set</span><span class="p">%</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="n">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">findloc</span><span class="p">(</span><span class="n">string</span><span class="p">%</span><span class="n">codes</span><span class="p">,</span><span class="w"> </span><span class="k">value</span><span class="p">,</span><span class="w"> </span><span class="nb">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">back</span><span class="o">=</span><span class="n">back_local</span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">pos</span><span class="p">.</span><span class="n">ne</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="k">exit</span>
-<span class="k">   enddo</span>
-
-<span class="k">end function </span><span class="nb">scan</span><span class="w"></span>
-</pre></div>
-
-    </section>
-    <br>
-    
     </div>
   </div>
 
+</div>
+  </div>
       <hr>
     </div> <!-- /container -->
     <footer>
@@ -286,7 +260,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-09-23 23:35 +0000             </p>
+ on 2025-09-24 01:34 +0000             </p>
           </div>
         </div>
         <br>
