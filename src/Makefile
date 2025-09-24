@@ -64,7 +64,7 @@ $(PROG): $(OBJS)
 
 .PHONY: clean
 clean:
-	rm -f $(PROG) $(CPROG) $(OBJS) *.mod $(TPROG)
+	rm -f $(PROG) $(CPROG) $(OBJS) *.smod *.mod $(TPROG)
 
 .PHONY: help
 
