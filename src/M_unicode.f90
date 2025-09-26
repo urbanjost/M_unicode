@@ -1,33 +1,33 @@
-! # M_unicode  
-! 
+! # M_unicode
+!
 ! **M_unicode** provides support for Unicode encoded as UTF-8 data even
 ! when the optional Fortran ISO_10646 extension is not provided.
-! 
+!
 ! A user-defined type named **unicode_type** allows for creating ragged
 ! arrays of ASCII or UTF-8 encoded data that otherwise can be treated much
 ! like a CHARACTER kind.
-! 
+!
 ! **M_unicode** has overloading for all the basic operators and character
 ! intrinsics with both a procedural and OOP interface. The intrinsic
 ! overloads include **TOKENIZE()** and **SPLIT()**.
-! 
+!
 ! In addition the **UPPER()** and **LOWER()** funtions support the concept
 ! of case for the Unicode Latin characters not just the ASCII subset,
 ! and a basic SORT() function provides for ordering the data by Unicode
 ! codepoint values.
-! 
+!
 ! The distribution provides a __Make__ file and easily builds with __fpm__.
-! 
+!
 ! Documentation and examples are still a WIP but complete enough to guide
 ! usage for anyone interesting in trying it.
-! 
+!
 ! Only tested with ifx and gfortran so far but until proven otherwise
 ! I think it should work with any environment where UTF-8 files are
 ! supported. So far that includes allowing what-you=see-is-what-you-get
 ! string constants on Linux and Cygwin at a minimum.
-! 
+!
 ! It needs a DT and more CD/CI unit testing.
-! 
+!
 ! **M_unicode** should be useful for anyone working with UTF-8 data,
 ! particularly if the compiler does not support the UCS-4 extensions
 ! of Fortran.
@@ -175,6 +175,11 @@ interface unicode_type
       character(len=*), intent(in), optional :: string
       type(unicode_type)                     :: new
    end function new_str
+
+   module function new_strs(string) result(new)
+      character(len=*), intent(in), optional :: string(:)
+      type(unicode_type)                     :: new(size(string))
+   end function new_strs
 
    module function new_codes(codes) result(new)
       integer, intent(in)                    :: codes(:)
@@ -1672,13 +1677,13 @@ pure subroutine utf8_to_codepoints_chars(utf8,unicode,nerr)
 
 ! in fact, this routine is also able to decode an ISOLATIN string
 
-character            ,intent(in)  :: utf8(:)
-integer  ,allocatable,intent(out) :: unicode(:)
-integer,intent(out)               :: nerr
-integer                           :: n_out
-integer                           :: i, len8, b1, b2, b3, b4
-integer                           :: cp, nbytes,nerr0
-integer,allocatable               :: temp(:)
+character,intent(in)            :: utf8(:)
+integer,allocatable,intent(out) :: unicode(:)
+integer,intent(out)             :: nerr
+integer                         :: n_out
+integer                         :: i, len8, b1, b2, b3, b4
+integer                         :: cp, nbytes,nerr0
+integer,allocatable             :: temp(:)
 
    nerr = 0
 
@@ -1888,6 +1893,17 @@ integer                                :: nerr
       call utf8_to_codepoints_str(string,new%codes,nerr)
    endif
 end function new_str
+
+! Constructor for new string instances from a vector character value.
+module function new_strs(strings) result(new)
+character(len=*), intent(in)           :: strings(:)
+type(unicode_type)                     :: new(size(strings))
+integer                                :: nerr
+integer                                :: i
+   do i=1,size(strings)
+      call utf8_to_codepoints_str(strings(i),new(i)%codes,nerr)
+   enddo
+end function new_strs
 
 ! Constructor for new string instance from a vector integer value.
 module function new_codes(codes) result(new)
@@ -3026,16 +3042,15 @@ type(unicode_type),intent(in) :: set
 logical,intent(in),optional   :: back
 logical                       :: back_local
 integer                       :: pos
-integer                       :: value
 integer                       :: i
    back_local=.false.
    if(present(back))back_local=back
    pos=0
-   do i=1,len(set)
-      value=set%codes(i)
-      pos = findloc(string%codes, value, dim=1, back=back_local)
-      if(pos.ne.0)exit
-   enddo
+   if(back_local)then
+      pos = maxval( [ (findloc(string%codes, set%codes(i), dim=1, back=back_local) ,i=1,size(set%codes) )])
+   else
+      pos = minval( [ (findloc(string%codes, set%codes(i), dim=1, back=back_local), i=1,size(set%codes) )])
+   endif
 
 end function uscan
 !===================================================================================================================================
