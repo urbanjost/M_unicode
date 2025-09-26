@@ -13,7 +13,7 @@ and operators and ragged arrays of strings using a user-defined type.
 
 ```fortran
 program testit
-use iso_fortran_env, only : stdout=>output_unit
+use, intrinsic :: iso_fortran_env, only : stdout=>output_unit
 
 ! user-defined type to hold Unicode text
 use M_unicode, only : unicode_type
@@ -42,14 +42,14 @@ use M_unicode, only : operator(//)
 
 ! low-level text conversion to integer codepoint arrays:
 
-use M_unicode, only : utf8_to_codepoints, codepoints_to_utf8
-
-implicit none
-type(unicode_type) :: ustr
-
+type(unicode_type)          :: ustr
 character(len=*), parameter :: g='(*(g0))'
+character(len=*), parameter :: gx='(*(g0,1x))'
+character(len=*), parameter :: gh='(*(z0,1x))'
+integer                     :: iostat
 
-   !open (stdout, encoding='UTF-8') ! preferred, but not required if not supported
+   ! preferred, but not required if not supported
+   open(stdout,encoding='utf-8',iostat=iostat) 
 
    ! Constructors
    ! UNICODE_VARIABLE= UNICODE_VARIABLE|CHARACTER(LEN=*)|INTEGER_ARRAY
@@ -60,15 +60,41 @@ character(len=*), parameter :: g='(*(g0))'
    write (stdout,g) character(ustr) ! convert to intrinsic CHARACTER variable
    write (stdout,g) len(ustr)
    write (stdout,g) len_trim(ustr)
-   write (stdout,g) ustr%character(27,28) ! similiar to LINE(27:28)
    write (stdout,g) index(ustr,'你')
 
    ! OOPS
-   write (stdout,g) ustr%character(len(ustr),1,-1) ! reverse string
-   write (stdout,g) ustr%codepoint() ! Unicode codepoint values
+   write (stdout,g)  ustr%character()      ! convert to CHARACTER variable
+   write (stdout,g)  ustr%character(27,28) ! similiar to LINE(27:28)
+   write (stdout,g)  ustr%character(len(ustr),1,-1) ! reverse string
+   write (stdout,g)  ustr%bytes()          ! convert to CHARACTER(LEN=1) type
+   write (stdout,gx) ustr%codepoint()      ! convert to Unicode codepoints
+   write (stdout,gh) ustr%codepoint()      ! convert to Unicode codepoints
 
 end program testit
 
+use M_unicode, only : utf8_to_codepoints, codepoints_to_utf8
+
+implicit none
+type(unicode_type) :: ustr
+
+
+end program testit
+
+```
+```text
+Hello World and Ni Hao -- 你好  
+30
+28
+27
+Hello World and Ni Hao -- 你好  
+你好
+  好你 -- oaH iN dna dlroW olleH
+Hello World and Ni Hao -- 你好  
+72 101 108 108 111 32 87 111 114 108 100 32 97 110 100 32 78 105 32 72 97 111 
+32 45 45 32 20320 22909 32 32
+
+48 65 6C 6C 6F 20 57 6F 72 6C 64 20 61 6E 64 20 4E 69 20 48 61 6F 
+20 2D 2D 20 4F60 597D 20 20
 ```
 ## Unicode usage from Fortran when UTF-8 source files are supported
 
@@ -92,23 +118,24 @@ strings. This is now very common, as nearly all current operating systems
 and many applications support UTF-8 text files.
 
 But whether in input and output files, or as what-you-see-is-what-you-get
-character constants the compiler will see this text as byte streams, and
-will be unaware of how many Unicode glyphs/characters are represented.
+character constants the compiler will see this text as byte streams,
+and will be unaware of how many Unicode glyphs/characters are represented.
 
-So it may often be easy to place Unicode characters in fixed messages, but
-if the text needs manipulated or processed in any way dealing with Unicode
-as a raw series of 8-bit-bytes becomes complex and non-intuitive.
+So it may often be easy to place Unicode characters in fixed messages,
+but if the text needs manipulated or processed in any way dealing with
+Unicode as a raw series of 8-bit-bytes becomes complex and non-intuitive.
 
-To keep processing of Unicode as simple as processing ASCII-7 characters
-the **M_unicode** module provides a user-defined type named **UNICODE_TYPE**
-and a number of procedures for converting byte streams that represent
-UTF8-encoded text into Unicode code points (ie, 32-bit integer values
-that generally identify one specific Unicode character).
+To keep processing of Unicode as simple as processing ASCII-7
+characters the **M_unicode** module provides a user-defined type named
+**UNICODE_TYPE** and a number of procedures for converting byte streams
+that represent UTF8-encoded text into Unicode code points (ie, 32-bit
+integer values that generally identify one specific Unicode character).
 
 Additionally the most common character-related intrinsics and operators
-are overloaded to work with the UNICODE_TYPE variables; and the type is
-extended to include the procedures and operators as type-bound procedures
-for programmers that prefer OOP (Object-Oriented Programming) capabilities.
+are overloaded to work with the UNICODE_TYPE variables; and the type
+is extended to include the procedures and operators as type-bound
+procedures for programmers that prefer OOP (Object-Oriented Programming)
+capabilities.
 
 ### UTF-8 source files -- just in comments and constants
 
@@ -146,31 +173,13 @@ UCS-4 yet.
 
 Without using any Fortran Unicode support features, if the output
 is redirected to a file does it appear correctly?
+
 ```fortran
 program multibyte
-character(len=*),parameter :: all='(*(g0))'
-   print all,'Confucius never claimed to be a prophet, '
-   print all,'but I think he foresaw AI! He said '
-   print all
-   print all,' "学而不思则罔，思而不学则殆"'
-   print all,'or '
-   print all,' (xué ér bù sī zé wǎng, sī ér bù xué zé dài),'
-   print all,'or '
-   print all,' "To learn without thinking is to be lost, '
-   print all,' to think without learning is to be in danger".'
-end program multibyte
-```
-Does it display properly when written to the screen? You might have
-a terminal that does not support UTF-8 characters, or might have to
-set your locale properly. If it is not the terminal and your compiler
-does support ISO-10646 specifying the encoding of the output file
-as UTF-8 will likely correct any output issues even though the strings
-are a series of bytes and not UCS-4 encoded:
-```fortran
-program multibyte_encoded
 use, intrinsic :: iso_fortran_env, only : stdout=>output_unit
-implicit none
-   open(stdout,encoding='utf-8')
+character(len=*),parameter :: all='(*(g0))'
+integer :: iostat
+   open(stdout,encoding='utf-8',iostat=iostat) ! if not supported try removing
    write(stdout,'(a)') &
    'Confucius never claimed to be a prophet, '       ,&
    'but I think he foresaw AI! He said '             ,&
@@ -178,19 +187,26 @@ implicit none
    ' "学而不思则罔，思而不学则殆"'                   ,&
    'or'                                              ,&
    ' (xué ér bù sī zé wǎng, sī ér bù xué zé dài),'   ,&
-   'or'                                              ,&
+   'which is also'                                   ,&
    ' "To learn without thinking is to be lost, '     ,&
    ' to think without learning is to be in danger".'
-end program multibyte_encoded
+end program multibyte
 ```
 
+Does it display properly when written to the screen? You might have a
+terminal that does not support UTF-8 characters, or you might have to
+set your locale properly, which is system-dependent. If it is not the
+terminal and your compiler does support ISO-10646 specifying the encoding
+of the output file as UTF-8 will likely correct any output issues even
+though the strings are a series of bytes and not UCS-4 encoded.
+
 Remember that unless the compiler directly supports UTF-8 representation
-( so far I have identified no compilers that do so) these strings are seen
-by the compiler as a string of bytes, and is otherwise unaware they
-represent Unicode characters. If they are just to be read and written as-is
-as in the previous example program that is not a major concern; but if you
-are manipulating or processing the strings in significant ways you probably
-want to convert the strings to TYPE(UNICODE_TYPE).
+( so far I have identified no compilers that do so) these strings are
+seen by the compiler as a string of bytes, and is otherwise unaware they
+represent Unicode characters. If they are just to be read and written
+as-is as in the previous example program that is not a major concern;
+but if you are manipulating or processing the strings in significant
+ways you probably want to convert the strings to TYPE(UNICODE_TYPE).
 
 ## Summary
 
@@ -203,9 +219,9 @@ The appearance of multi-byte characters in comments and character
 constants is typically all that is allowed and compiler errors occur
 when unsupported characters outside the Fortran character set are used
 in the body of the code -- unless the vendor extends Fortran beyond the
-requirements of the Fortran standard. It is assumed here that is not
-the case; so be careful that outside of quoted strings and comments that
-only ASCII-7-bit characters are used to write the actual coding instructions.
+requirements of the Fortran standard. It is assumed here that is not the
+case; so be careful that outside of quoted strings and comments that only
+ASCII-7-bit characters are used to write the actual coding instructions.
 
 Some editors might try to be "helpful" and change ASCII quote and dash
 characters to other characters when editing UTF-8 files, so be aware
