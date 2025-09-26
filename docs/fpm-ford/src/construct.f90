@@ -1,0 +1,34 @@
+program testit
+use, intrinsic :: iso_fortran_env, only : stdout=>output_unit
+use M_unicode
+type(unicode_type)          :: ustr
+character(len=*), parameter :: g='(*(g0))'
+character(len=*), parameter :: gx='(*(g0,1x))'
+character(len=*), parameter :: gh='(*(z0,1x))'
+character(len=*), parameter :: gz="(8('int(z""',z0,'"")',:,','))"
+integer                     :: iostat
+
+   ! preferred, but not required if not supported
+   open(stdout,encoding='utf-8',iostat=iostat) 
+
+   ! Constructors
+   ! UNICODE_VARIABLE= UNICODE_VARIABLE|CHARACTER(LEN=*)|INTEGER_ARRAY
+   ! VARiABLE%CHARACTER(start,end,step) returns a CHARACTER string
+   ! VARiABLE%BYTES() returns an array of CHARACTER(len=1) values
+   ustr= 'Hello World and Ni Hao -- 你好  '
+
+   write (stdout,g) character(ustr) ! convert to intrinsic CHARACTER variable
+   write (stdout,g) len(ustr)
+   write (stdout,g) len_trim(ustr)
+   write (stdout,g) index(ustr,'你')
+
+   ! OOPS
+   write (stdout,g)  ustr%character()      ! convert to CHARACTER variable
+   write (stdout,g)  ustr%character(27,28) ! similiar to LINE(27:28)
+   write (stdout,g)  ustr%character(len(ustr),1,-1) ! reverse string
+   write (stdout,g)  ustr%bytes()          ! convert to CHARACTER(LEN=1) type
+   write (stdout,gx) ustr%codepoint()      ! convert to Unicode codepoints
+   write (stdout,gh) ustr%codepoint()      ! convert to Unicode codepoints
+   write (stdout,gz) ustr%codepoint()      ! convert to Unicode codepoints
+
+end program testit

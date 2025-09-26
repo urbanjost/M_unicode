@@ -111,7 +111,7 @@ UTF-8 encoded text and Unicode codepoints.  Conversion of UTF-8 to and
 from Unicode codepoints is supported as well as all basic intrinsics
 and operators and ragged arrays of strings using a user-defined type.</p>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">testit</span><span class="w"></span>
-<span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="o">=&gt;</span><span class="n">output_unit</span><span class="w"></span>
+<span class="k">use</span><span class="p">,</span><span class="w"> </span><span class="k">intrinsic</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="o">=&gt;</span><span class="n">output_unit</span><span class="w"></span>
 
 <span class="c">! user-defined type to hold Unicode text</span>
 <span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">unicode_type</span><span class="w"></span>
@@ -140,14 +140,14 @@ and operators and ragged arrays of strings using a user-defined type.</p>
 
 <span class="c">! low-level text conversion to integer codepoint arrays:</span>
 
-<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">utf8_to_codepoints</span><span class="p">,</span><span class="w"> </span><span class="n">codepoints_to_utf8</span><span class="w"></span>
-
-<span class="k">implicit none</span>
-<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ustr</span><span class="w"></span>
-
+<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">ustr</span><span class="w"></span>
 <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">g</span><span class="o">=</span><span class="s1">&#39;(*(g0))&#39;</span><span class="w"></span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">gx</span><span class="o">=</span><span class="s1">&#39;(*(g0,1x))&#39;</span><span class="w"></span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">gh</span><span class="o">=</span><span class="s1">&#39;(*(z0,1x))&#39;</span><span class="w"></span>
+<span class="kt">integer</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">iostat</span><span class="w"></span>
 
-<span class="w">   </span><span class="c">!open (stdout, encoding=&#39;UTF-8&#39;) ! preferred, but not required if not supported</span>
+<span class="w">   </span><span class="c">! preferred, but not required if not supported</span>
+<span class="w">   </span><span class="k">open</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">,</span><span class="n">iostat</span><span class="o">=</span><span class="n">iostat</span><span class="p">)</span><span class="w"> </span>
 
 <span class="w">   </span><span class="c">! Constructors</span>
 <span class="w">   </span><span class="c">! UNICODE_VARIABLE= UNICODE_VARIABLE|CHARACTER(LEN=*)|INTEGER_ARRAY</span>
@@ -158,14 +158,40 @@ and operators and ragged arrays of strings using a user-defined type.</p>
 <span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="kt">character</span><span class="p">(</span><span class="n">ustr</span><span class="p">)</span><span class="w"> </span><span class="c">! convert to intrinsic CHARACTER variable</span>
 <span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">ustr</span><span class="p">)</span><span class="w"></span>
 <span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="nb">len_trim</span><span class="p">(</span><span class="n">ustr</span><span class="p">)</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="n">ustr</span><span class="p">%</span><span class="kt">character</span><span class="p">(</span><span class="mi">27</span><span class="p">,</span><span class="mi">28</span><span class="p">)</span><span class="w"> </span><span class="c">! similiar to LINE(27:28)</span>
 <span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="nb">index</span><span class="p">(</span><span class="n">ustr</span><span class="p">,</span><span class="s1">&#39;你&#39;</span><span class="p">)</span><span class="w"></span>
 
 <span class="w">   </span><span class="c">! OOPS</span>
-<span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="n">ustr</span><span class="p">%</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ustr</span><span class="p">),</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="c">! reverse string</span>
-<span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="n">ustr</span><span class="p">%</span><span class="n">codepoint</span><span class="p">()</span><span class="w"> </span><span class="c">! Unicode codepoint values</span>
+<span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w">  </span><span class="n">ustr</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="w">      </span><span class="c">! convert to CHARACTER variable</span>
+<span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w">  </span><span class="n">ustr</span><span class="p">%</span><span class="kt">character</span><span class="p">(</span><span class="mi">27</span><span class="p">,</span><span class="mi">28</span><span class="p">)</span><span class="w"> </span><span class="c">! similiar to LINE(27:28)</span>
+<span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w">  </span><span class="n">ustr</span><span class="p">%</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ustr</span><span class="p">),</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="c">! reverse string</span>
+<span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w">  </span><span class="n">ustr</span><span class="p">%</span><span class="n">bytes</span><span class="p">()</span><span class="w">          </span><span class="c">! convert to CHARACTER(LEN=1) type</span>
+<span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">gx</span><span class="p">)</span><span class="w"> </span><span class="n">ustr</span><span class="p">%</span><span class="n">codepoint</span><span class="p">()</span><span class="w">      </span><span class="c">! convert to Unicode codepoints</span>
+<span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">gh</span><span class="p">)</span><span class="w"> </span><span class="n">ustr</span><span class="p">%</span><span class="n">codepoint</span><span class="p">()</span><span class="w">      </span><span class="c">! convert to Unicode codepoints</span>
 
 <span class="k">end program </span><span class="n">testit</span><span class="w"></span>
+
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">utf8_to_codepoints</span><span class="p">,</span><span class="w"> </span><span class="n">codepoints_to_utf8</span><span class="w"></span>
+
+<span class="k">implicit none</span>
+<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ustr</span><span class="w"></span>
+
+
+<span class="k">end program </span><span class="n">testit</span><span class="w"></span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>Hello World and Ni Hao -- 你好  
+30
+28
+27
+Hello World and Ni Hao -- 你好  
+你好
+  好你 -- oaH iN dna dlroW olleH
+Hello World and Ni Hao -- 你好  
+72 101 108 108 111 32 87 111 114 108 100 32 97 110 100 32 78 105 32 72 97 111 
+32 45 45 32 20320 22909 32 32
+
+48 65 6C 6C 6F 20 57 6F 72 6C 64 20 61 6E 64 20 4E 69 20 48 61 6F 
+20 2D 2D 20 4F60 597D 20 20
 </code></pre></div>
 
 <h2 id="unicode-usage-from-fortran-when-utf-8-source-files-are-supported">Unicode usage from Fortran when UTF-8 source files are supported</h2>
@@ -185,20 +211,21 @@ Unicode characters in comments and (more importantly) in constant
 strings. This is now very common, as nearly all current operating systems
 and many applications support UTF-8 text files.</p>
 <p>But whether in input and output files, or as what-you-see-is-what-you-get
-character constants the compiler will see this text as byte streams, and
-will be unaware of how many Unicode glyphs/characters are represented.</p>
-<p>So it may often be easy to place Unicode characters in fixed messages, but
-if the text needs manipulated or processed in any way dealing with Unicode
-as a raw series of 8-bit-bytes becomes complex and non-intuitive.</p>
-<p>To keep processing of Unicode as simple as processing ASCII-7 characters
-the <strong>M_unicode</strong> module provides a user-defined type named <strong>UNICODE_TYPE</strong>
-and a number of procedures for converting byte streams that represent
-UTF8-encoded text into Unicode code points (ie, 32-bit integer values
-that generally identify one specific Unicode character).</p>
+character constants the compiler will see this text as byte streams,
+and will be unaware of how many Unicode glyphs/characters are represented.</p>
+<p>So it may often be easy to place Unicode characters in fixed messages,
+but if the text needs manipulated or processed in any way dealing with
+Unicode as a raw series of 8-bit-bytes becomes complex and non-intuitive.</p>
+<p>To keep processing of Unicode as simple as processing ASCII-7
+characters the <strong>M_unicode</strong> module provides a user-defined type named
+<strong>UNICODE_TYPE</strong> and a number of procedures for converting byte streams
+that represent UTF8-encoded text into Unicode code points (ie, 32-bit
+integer values that generally identify one specific Unicode character).</p>
 <p>Additionally the most common character-related intrinsics and operators
-are overloaded to work with the UNICODE_TYPE variables; and the type is
-extended to include the procedures and operators as type-bound procedures
-for programmers that prefer OOP (Object-Oriented Programming) capabilities.</p>
+are overloaded to work with the UNICODE_TYPE variables; and the type
+is extended to include the procedures and operators as type-bound
+procedures for programmers that prefer OOP (Object-Oriented Programming)
+capabilities.</p>
 <h3 id="utf-8-source-files-just-in-comments-and-constants">UTF-8 source files &ndash; just in comments and constants</h3>
 <p>The Fortran character set is the set of characters used in constructing
 Fortran code. It is now the same as the ASCII 7-bit character set sans
@@ -232,29 +259,10 @@ UCS-4 yet.</p>
 <p>Without using any Fortran Unicode support features, if the output
 is redirected to a file does it appear correctly?</p>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">multibyte</span><span class="w"></span>
-<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">all</span><span class="o">=</span><span class="s1">&#39;(*(g0))&#39;</span><span class="w"></span>
-<span class="w">   </span><span class="k">print all</span><span class="p">,</span><span class="s1">&#39;Confucius never claimed to be a prophet, &#39;</span><span class="w"></span>
-<span class="w">   </span><span class="k">print all</span><span class="p">,</span><span class="s1">&#39;but I think he foresaw AI! He said &#39;</span><span class="w"></span>
-<span class="w">   </span><span class="k">print all</span>
-<span class="k">   print all</span><span class="p">,</span><span class="s1">&#39; &quot;学而不思则罔，思而不学则殆&quot;&#39;</span><span class="w"></span>
-<span class="w">   </span><span class="k">print all</span><span class="p">,</span><span class="s1">&#39;or &#39;</span><span class="w"></span>
-<span class="w">   </span><span class="k">print all</span><span class="p">,</span><span class="s1">&#39; (xué ér bù sī zé wǎng, sī ér bù xué zé dài),&#39;</span><span class="w"></span>
-<span class="w">   </span><span class="k">print all</span><span class="p">,</span><span class="s1">&#39;or &#39;</span><span class="w"></span>
-<span class="w">   </span><span class="k">print all</span><span class="p">,</span><span class="s1">&#39; &quot;To learn without thinking is to be lost, &#39;</span><span class="w"></span>
-<span class="w">   </span><span class="k">print all</span><span class="p">,</span><span class="s1">&#39; to think without learning is to be in danger&quot;.&#39;</span><span class="w"></span>
-<span class="k">end program </span><span class="n">multibyte</span><span class="w"></span>
-</code></pre></div>
-
-<p>Does it display properly when written to the screen? You might have
-a terminal that does not support UTF-8 characters, or might have to
-set your locale properly. If it is not the terminal and your compiler
-does support ISO-10646 specifying the encoding of the output file
-as UTF-8 will likely correct any output issues even though the strings
-are a series of bytes and not UCS-4 encoded:</p>
-<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">multibyte_encoded</span><span class="w"></span>
 <span class="k">use</span><span class="p">,</span><span class="w"> </span><span class="k">intrinsic</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="o">=&gt;</span><span class="n">output_unit</span><span class="w"></span>
-<span class="k">implicit none</span>
-<span class="k">   open</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">all</span><span class="o">=</span><span class="s1">&#39;(*(g0))&#39;</span><span class="w"></span>
+<span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iostat</span><span class="w"></span>
+<span class="w">   </span><span class="k">open</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">,</span><span class="n">iostat</span><span class="o">=</span><span class="n">iostat</span><span class="p">)</span><span class="w"> </span><span class="c">! if not supported try removing</span>
 <span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <span class="w">   </span><span class="s1">&#39;Confucius never claimed to be a prophet, &#39;</span><span class="w">       </span><span class="p">,&amp;</span><span class="w"></span>
 <span class="w">   </span><span class="s1">&#39;but I think he foresaw AI! He said &#39;</span><span class="w">             </span><span class="p">,&amp;</span><span class="w"></span>
@@ -262,19 +270,25 @@ are a series of bytes and not UCS-4 encoded:</p>
 <span class="w">   </span><span class="s1">&#39; &quot;学而不思则罔，思而不学则殆&quot;&#39;</span><span class="w">                   </span><span class="p">,&amp;</span><span class="w"></span>
 <span class="w">   </span><span class="s1">&#39;or&#39;</span><span class="w">                                              </span><span class="p">,&amp;</span><span class="w"></span>
 <span class="w">   </span><span class="s1">&#39; (xué ér bù sī zé wǎng, sī ér bù xué zé dài),&#39;</span><span class="w">   </span><span class="p">,&amp;</span><span class="w"></span>
-<span class="w">   </span><span class="s1">&#39;or&#39;</span><span class="w">                                              </span><span class="p">,&amp;</span><span class="w"></span>
+<span class="w">   </span><span class="s1">&#39;which is also&#39;</span><span class="w">                                   </span><span class="p">,&amp;</span><span class="w"></span>
 <span class="w">   </span><span class="s1">&#39; &quot;To learn without thinking is to be lost, &#39;</span><span class="w">     </span><span class="p">,&amp;</span><span class="w"></span>
 <span class="w">   </span><span class="s1">&#39; to think without learning is to be in danger&quot;.&#39;</span><span class="w"></span>
-<span class="k">end program </span><span class="n">multibyte_encoded</span><span class="w"></span>
+<span class="k">end program </span><span class="n">multibyte</span><span class="w"></span>
 </code></pre></div>
 
+<p>Does it display properly when written to the screen? You might have a
+terminal that does not support UTF-8 characters, or you might have to
+set your locale properly, which is system-dependent. If it is not the
+terminal and your compiler does support ISO-10646 specifying the encoding
+of the output file as UTF-8 will likely correct any output issues even
+though the strings are a series of bytes and not UCS-4 encoded.</p>
 <p>Remember that unless the compiler directly supports UTF-8 representation
-( so far I have identified no compilers that do so) these strings are seen
-by the compiler as a string of bytes, and is otherwise unaware they
-represent Unicode characters. If they are just to be read and written as-is
-as in the previous example program that is not a major concern; but if you
-are manipulating or processing the strings in significant ways you probably
-want to convert the strings to TYPE(UNICODE_TYPE).</p>
+( so far I have identified no compilers that do so) these strings are
+seen by the compiler as a string of bytes, and is otherwise unaware they
+represent Unicode characters. If they are just to be read and written
+as-is as in the previous example program that is not a major concern;
+but if you are manipulating or processing the strings in significant
+ways you probably want to convert the strings to TYPE(UNICODE_TYPE).</p>
 <h2 id="summary">Summary</h2>
 <p>Yes, a Fortran source file can contain multibyte Unicode characters, but
 the level of support and how they are handled depends on the specific
@@ -284,9 +298,9 @@ the Fortran standard.</p>
 constants is typically all that is allowed and compiler errors occur
 when unsupported characters outside the Fortran character set are used
 in the body of the code &ndash; unless the vendor extends Fortran beyond the
-requirements of the Fortran standard. It is assumed here that is not
-the case; so be careful that outside of quoted strings and comments that
-only ASCII-7-bit characters are used to write the actual coding instructions.</p>
+requirements of the Fortran standard. It is assumed here that is not the
+case; so be careful that outside of quoted strings and comments that only
+ASCII-7-bit characters are used to write the actual coding instructions.</p>
 <p>Some editors might try to be &ldquo;helpful&rdquo; and change ASCII quote and dash
 characters to other characters when editing UTF-8 files, so be aware
 you might need to normalize your source files into the allowed Fortran
@@ -362,7 +376,7 @@ including features and enhancements from Francois Jacq.</p>
           <div class="col-xs-6 col-sm-3">
             <div>
               <h3>Source Files</h3>
-              <ul><li><a href='sourcefile/bom_start.f90.html'>bom_start.f90</a></li><li><a href='sourcefile/codepoint.f90.html'>codepoint.f90</a></li><li><a href='sourcefile/count_glyphs.f90.html'>count_glyphs.f90</a></li><li><a href='sourcefile/demo_lower.f90.html'>demo_lower.f90</a></li><li><a href='sourcefile/demo_scan.f90.html'>demo_scan.f90</a></li><li><a href='sourcefile/demo_sort.f90.html'>demo_sort.f90</a></li><li><a href='sourcefile/demo_split.f90.html'>demo_split.f90</a></li><li><a href='sourcefile/demo_tokenize.f90.html'>demo_tokenize.f90</a></li><li><a href='sourcefile/demo_upper.f90.html'>demo_upper.f90</a></li><li><a href='sourcefile/demo_use.f90.html'>demo_use.f90</a></li></ul>
+              <ul><li><a href='sourcefile/bom_start.f90.html'>bom_start.f90</a></li><li><a href='sourcefile/codepoint.f90.html'>codepoint.f90</a></li><li><a href='sourcefile/construct.f90.html'>construct.f90</a></li><li><a href='sourcefile/count_glyphs.f90.html'>count_glyphs.f90</a></li><li><a href='sourcefile/demo_lower.f90.html'>demo_lower.f90</a></li><li><a href='sourcefile/demo_scan.f90.html'>demo_scan.f90</a></li><li><a href='sourcefile/demo_sort.f90.html'>demo_sort.f90</a></li><li><a href='sourcefile/demo_split.f90.html'>demo_split.f90</a></li><li><a href='sourcefile/demo_tokenize.f90.html'>demo_tokenize.f90</a></li><li><a href='sourcefile/demo_upper.f90.html'>demo_upper.f90</a></li></ul>
             </div>
             <div>
               <ul>
@@ -419,7 +433,7 @@ including features and enhancements from Francois Jacq.</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-09-26 14:49 +0000             </p>
+ on 2025-09-26 16:36 +0000             </p>
           </div>
         </div>
         <br>
