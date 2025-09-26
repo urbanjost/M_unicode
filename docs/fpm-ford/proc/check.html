@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 3.1% of total for procedures.">6 statements</a>
+                 title=" 2.0% of total for procedures.">11 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -104,7 +104,7 @@
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
                 <li class="breadcrumb-item"><a href='../sourcefile/test_m_unicode.f90.html'>test_M_unicode.f90</a></li>
-                <li class="breadcrumb-item"><a href='../program/test_m_unicode.html'>test_M_unicode</a></li>
+                <li class="breadcrumb-item"><a href='../module/testsuite_m_unicode.html'>testsuite_M_unicode</a></li>
             <li class="breadcrumb-item active" aria-current="page">check</li>
           </ol>
         </nav>
@@ -158,7 +158,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2> subroutine check(label, test)  
+    <h2>public  subroutine check(label, test, description)  
 </h2>
     
 
@@ -205,6 +205,21 @@
                 
             </td>
         </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-description"></span>
+              character(len=*),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>description</strong></td>
+            <td>
+                
+            </td>
+        </tr>
     </tbody>
   </table>
 
@@ -222,11 +237,16 @@
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="k">subroutine </span><span class="n">check</span><span class="p">(</span><span class="n">label</span><span class="p">,</span><span class="n">test</span><span class="p">)</span><span class="w"></span>
-<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">label</span><span class="w"></span>
-<span class="kt">logical</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">test</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g0</span><span class="p">)</span><span class="nb">merge</span><span class="p">(</span><span class="s1">&#39;PASSED&#39;</span><span class="p">,</span><span class="s1">&#39;FAILED&#39;</span><span class="p">,</span><span class="n">test</span><span class="p">),</span><span class="s1">&#39; &#39;</span><span class="p">,</span><span class="n">label</span><span class="w"></span>
-<span class="w">   </span><span class="k">if</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="n">test</span><span class="p">)</span><span class="n">total</span><span class="o">=</span><span class="n">total</span><span class="o">+</span><span class="mi">1</span><span class="w"></span>
+    <div class="hl codehilite"><pre><span></span><span class="k">subroutine </span><span class="n">check</span><span class="p">(</span><span class="n">label</span><span class="p">,</span><span class="n">test</span><span class="p">,</span><span class="n">description</span><span class="p">)</span><span class="w"></span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">label</span><span class="w"></span>
+<span class="kt">logical</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">test</span><span class="w"></span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">description</span><span class="w"></span>
+<span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="nb">present</span><span class="p">(</span><span class="n">description</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="k">then</span>
+<span class="k">      write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g0</span><span class="p">)</span><span class="nb">merge</span><span class="p">(</span><span class="s1">&#39;PASSED&#39;</span><span class="p">,</span><span class="s1">&#39;FAILED&#39;</span><span class="p">,</span><span class="n">test</span><span class="p">),</span><span class="s1">&#39; &#39;</span><span class="p">,</span><span class="n">label</span><span class="p">,</span><span class="s1">&#39;:&#39;</span><span class="p">,</span><span class="n">description</span><span class="w"></span>
+<span class="w">   </span><span class="k">else</span>
+<span class="k">      write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g0</span><span class="p">)</span><span class="nb">merge</span><span class="p">(</span><span class="s1">&#39;PASSED&#39;</span><span class="p">,</span><span class="s1">&#39;FAILED&#39;</span><span class="p">,</span><span class="n">test</span><span class="p">),</span><span class="s1">&#39; &#39;</span><span class="p">,</span><span class="n">label</span><span class="w"></span>
+<span class="w">   </span><span class="k">endif</span>
+<span class="k">   if</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="n">test</span><span class="p">)</span><span class="n">total</span><span class="o">=</span><span class="n">total</span><span class="o">+</span><span class="mi">1</span><span class="w"></span>
 <span class="k">end subroutine </span><span class="n">check</span><span class="w"></span>
 </pre></div>
 
@@ -251,7 +271,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-09-25 01:36 +0000             </p>
+ on 2025-09-26 14:49 +0000             </p>
           </div>
         </div>
         <br>
