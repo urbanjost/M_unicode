@@ -1,4 +1,6 @@
 program crow_and_fox
+use,intrinsic :: iso_fortran_env, only: int8,int16,int32,int64
+use,intrinsic :: iso_fortran_env, only: byte=>int8
 use M_unicode, only : unicode_type, ut=>unicode_type, character, len
 ! “The Crow and the Fox” by Jean de la Fontaine
 type(unicode_type),allocatable :: poem(:)
@@ -24,10 +26,15 @@ ut( 'Le Corbeau, honteux et confus,'                      ), &
 ut( 'Jura, mais un peu tard, qu’on ne l’y prendrait plus.'), &
 ut( ' -- Jean de la Fontaine')]
 
+   write(*,'(a)')'LINES'
    write(*,'(g0)')(character(poem(i)),i=1,size(poem))
-   write(*,'(a)')
-   write(*,'(*(a))')(poem(i)%codepoint(),new_line('a'),i=1,size(poem))
-   write(*,'(a)')
-   write(*,'(*(g0))')(character(poem(i)),len(poem(i)),' ',len(poem(i)%character()),new_line('a'),i=1,size(poem))
+
+   write(*,'(a)')'BYTES'
+   write(*,'(*(a))')(poem(i)%bytes(),new_line('a'),i=1,size(poem))
+
+   write(*,'(a)')'WITH LENGTH IN GLYPHS AND BYTES'
+   do i=1,size(poem)
+      write(*,'(1x,i4.4,1x,i4.4,1x,*(g0))')len(poem(i)),len(poem(i)%character()),character(poem(i))
+   enddo
 
 end program crow_and_fox
