@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p>100.0% of total for derived types.</p>Including implementation: 167 statements, 100.0% of total for derived types.">35 statements</a>
+                 title="<p>100.0% of total for derived types.</p>Including implementation: 253 statements, 100.0% of total for derived types.">36 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -171,6 +171,7 @@
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-lower">lower</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-scan">scan</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-split">split</a>
+            <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-sub">sub</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-tokenize">tokenize</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-trim">trim</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-upper">upper</a>
@@ -1183,6 +1184,109 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-sub"></span>
+      <h3>
+          procedure, public ::
+  <strong>sub</strong> => oop_sub
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                    <h3>
+    private  function oop_sub(self, first, last, step) result(str_out)  
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>first</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>last</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>step</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='unicode_type.html'>unicode_type</a>)</small>
+    </h4>
+    
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
       <span class="anchor" id="boundprocedure-tokenize"></span>
       <h3>
           procedure, public ::
@@ -1485,6 +1589,8 @@
 <span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">upper</span><span class="w">      </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_upper</span><span class="w"></span>
 <span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">lower</span><span class="w">      </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_lower</span><span class="w"></span>
 
+<span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">sub</span><span class="w">        </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_sub</span><span class="w"></span>
+
 <span class="w">   </span><span class="c">!DECLARATION OF OVERLOADED OPERATORS FOR TYPE(UNICODE_TYPE)</span>
 <span class="w">   </span><span class="k">procedure</span><span class="p">,</span><span class="k">private</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">eq</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_eq</span><span class="w"></span>
 <span class="c">!   generic           :: operator(==) =&gt; eq</span>
@@ -1524,7 +1630,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-09-26 16:36 +0000             </p>
+ on 2025-09-27 12:47 +0000             </p>
           </div>
         </div>
         <br>

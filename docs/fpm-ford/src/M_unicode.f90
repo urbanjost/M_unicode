@@ -100,6 +100,7 @@ end interface assignment(=)
 
 interface character
    module procedure :: char_str,            char_strs
+   module procedure :: char_str_pos,        char_strs_pos
    module procedure :: char_str_range,      char_strs_range
    module procedure :: char_str_range_step, char_strs_range_step
 end interface character
@@ -150,6 +151,8 @@ contains
    procedure :: verify     => oop_verify
    procedure :: upper      => oop_upper
    procedure :: lower      => oop_lower
+
+   procedure :: sub        => oop_sub
 
    !DECLARATION OF OVERLOADED OPERATORS FOR TYPE(UNICODE_TYPE)
    procedure,private :: eq => oop_eq
@@ -1979,14 +1982,44 @@ integer                           :: nerr
 
 end function char_strs
 
+pure function char_str_pos(string, pos ) result(aline)
+type(unicode_type), intent(in) :: string
+integer, intent(in)            :: pos
+character(len=:),allocatable   :: aline
+integer                        :: nerr
+
+   call codepoints_to_utf8_str(string%codes(pos:pos),aline,nerr)
+
+end function char_str_pos
+
+pure function char_strs_pos(string, pos ) result(aline)
+type(unicode_type), intent(in) :: string(:)
+integer, intent(in)            :: pos
+character(len=1),allocatable   :: aline(:)
+character(len=:),allocatable   :: line
+integer                        :: nerr
+integer                        :: i
+
+   allocate(character(len=1) :: aline(size(string)) )
+
+   do i=1,size(string)
+      call codepoints_to_utf8_str(string(i)%codes(pos:pos),line,nerr)
+      aline(i)=line
+   enddo
+
+end function char_strs_pos
+
 pure function char_str_range(string, first, last) result(aline)
 type(unicode_type), intent(in) :: string
 integer, intent(in)            :: first
 integer, intent(in)            :: last
 character(len=:),allocatable   :: aline
 integer                        :: nerr
+integer                        :: last_local
 
-   call codepoints_to_utf8_str(string%codes(first:last),aline,nerr)
+   last_local=last
+   if(last_local.le.0)last_local=len(string)
+   call codepoints_to_utf8_str(string%codes(first:last_local),aline,nerr)
 
 end function char_str_range
 
@@ -1998,18 +2031,22 @@ character(len=:),allocatable   :: lines(:)
 character(len=:),allocatable   :: aline
 integer                        :: i
 integer                        :: mx
+integer                        :: last_local
 integer                        :: nerr
 
    mx=0
+
    do i=1,size(string)
-      call codepoints_to_utf8_str(string(i)%codes(first:last),aline,nerr)
+      last_local=last
+      if(last_local.le.0)last_local=len(string(i))
+      call codepoints_to_utf8_str(string(i)%codes(first:last_local),aline,nerr)
       mx=max(mx,len(aline))
    enddo
 
    allocate(character(len=mx) :: lines(size(string)) )
 
    do i=1,size(string)
-      call codepoints_to_utf8_str(string(i)%codes(first:last),aline,nerr)
+      call codepoints_to_utf8_str(string(i)%codes(first:last_local),aline,nerr)
       lines(i)(:)=aline
    enddo
 
@@ -2022,8 +2059,11 @@ integer, intent(in)            :: last
 integer, intent(in)            :: step
 character(len=:),allocatable   :: aline
 integer                        :: nerr
+integer                        :: last_local
 
-   call codepoints_to_utf8_str(string%codes(first:last:step),aline,nerr)
+   last_local=last
+   if(last_local.le.0)last_local=len(string)
+   call codepoints_to_utf8_str(string%codes(first:last_local:step),aline,nerr)
 
 end function char_str_range_step
 
@@ -2037,17 +2077,23 @@ character(len=:),allocatable   :: aline
 integer                        :: i
 integer                        :: mx
 integer                        :: nerr
+integer                        :: last_local
+
 
    mx=0
    do i=1,size(string)
-      call codepoints_to_utf8_str(string(i)%codes(first:last:step),aline,nerr)
+      last_local=last
+      if(last_local.le.0)last_local=len(string(i))
+      call codepoints_to_utf8_str(string(i)%codes(first:last_local:step),aline,nerr)
       mx=max(mx,len(aline))
    enddo
 
    allocate(character(len=mx) :: lines(size(string)) )
 
    do i=1,size(string)
-      call codepoints_to_utf8_str(string(i)%codes(first:last:step),aline,nerr)
+      last_local=last
+      if(last_local.le.0)last_local=len(string(i))
+      call codepoints_to_utf8_str(string(i)%codes(first:last_local:step),aline,nerr)
       lines(i)(:)=aline
    enddo
 
@@ -3105,15 +3151,44 @@ type(unicode_type)                 :: string_out
    string_out=adjustr_str(self)
 end function oop_adjustr
 !===================================================================================================================================
+function oop_sub(self,first,last,step) result(str_out)
+class(unicode_type),intent(in) :: self
+type(unicode_type)             :: str_out
+integer,intent(in),optional    :: first, last, step
+integer                        :: start, end, inc
+integer                         :: which
+   which=merge(1,0,present(first))+ 2*merge(1,0,present(last))+ 4*merge(1,0,present(step))
+   select case(which)
+   case(int(b'000')) ; start=1     ; end=len(self) ; inc=1
+   case(int(b'001')) ; start=1     ; end=len(self) ; inc=step
+   case(int(b'010')) ; start=1     ; end=last      ; inc=1
+   case(int(b'011')) ; start=1     ; end=last      ; inc=step
+   case(int(b'100')) ; start=first ; end=first     ; inc=1
+   case(int(b'101')) ; start=first ; end=len(self) ; inc=step
+   case(int(b'110')) ; start=first ; end=last      ; inc=1
+   case(int(b'111')) ; start=first ; end=last      ; inc=step
+   end select
+   str_out=self%codes(start:end:inc)
+end function oop_sub
+!===================================================================================================================================
 function oop_character(self,first,last,step) result(str_out)
 class(unicode_type), intent(in) :: self
 character(len=:),allocatable    :: str_out
 integer,intent(in),optional     :: first, last, step
 integer                         :: start, end, inc
 type(unicode_type)              :: temp
-   if(present(step))then;  inc=step;    else; inc=1;         endif
-   if(present(first))then; start=first; else; start=1;       endif
-   if(present(last))then;  end=last;    else; end=len(self); endif
+integer                         :: which
+   which=4*merge(1,0,present(first))+ 2*merge(1,0,present(last))+ 1*merge(1,0,present(step))
+   select case(which)
+   case(int(b'000')) ; start=1     ; end=len(self) ; inc=1
+   case(int(b'001')) ; start=1     ; end=len(self) ; inc=step
+   case(int(b'010')) ; start=1     ; end=last      ; inc=1
+   case(int(b'011')) ; start=1     ; end=last      ; inc=step
+   case(int(b'100')) ; start=first ; end=first     ; inc=1
+   case(int(b'101')) ; start=first ; end=len(self) ; inc=step
+   case(int(b'110')) ; start=first ; end=last      ; inc=1
+   case(int(b'111')) ; start=first ; end=last      ; inc=step
+   end select
    temp=self%codes(start:end:inc)
    str_out=char_str(temp)
 end function oop_character
@@ -3130,9 +3205,18 @@ class(unicode_type), intent(in) :: self
 integer,allocatable             :: codes_out(:)
 integer,intent(in),optional     :: first, last, step
 integer                         :: start, end, inc
-   if(present(step))then;  inc=step;    else; inc=1;         endif
-   if(present(first))then; start=first; else; start=1;       endif
-   if(present(last))then;  end=last;    else; end=len(self); endif
+integer                         :: which
+   which=4*merge(1,0,present(first))+ 2*merge(1,0,present(last))+ 1*merge(1,0,present(step))
+   select case(which)
+   case(int(b'000')) ; start=1     ; end=len(self) ; inc=1
+   case(int(b'001')) ; start=1     ; end=len(self) ; inc=step
+   case(int(b'010')) ; start=1     ; end=last      ; inc=1
+   case(int(b'011')) ; start=1     ; end=last      ; inc=step
+   case(int(b'100')) ; start=first ; end=first     ; inc=1
+   case(int(b'101')) ; start=first ; end=len(self) ; inc=step
+   case(int(b'110')) ; start=first ; end=last      ; inc=1
+   case(int(b'111')) ; start=first ; end=last      ; inc=step
+   end select
    codes_out=self%codes(start:end:inc)
 end function oop_codepoint
 !===================================================================================================================================

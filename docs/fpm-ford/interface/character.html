@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.9% of total for procedures.</p>Including implementation: 87 statements, 16.2% of total for procedures.">5 statements</a>
+                 title="<p> 1.1% of total for procedures.</p>Including implementation: 122 statements, 22.4% of total for procedures.">6 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -152,6 +152,8 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../interface/character.html#moduleprocedure-char_str">char_str</a>
             <a class="list-group-item" href="../interface/character.html#moduleprocedure-char_strs">char_strs</a>
+            <a class="list-group-item" href="../interface/character.html#moduleprocedure-char_str_pos">char_str_pos</a>
+            <a class="list-group-item" href="../interface/character.html#moduleprocedure-char_strs_pos">char_strs_pos</a>
             <a class="list-group-item" href="../interface/character.html#moduleprocedure-char_str_range">char_str_range</a>
             <a class="list-group-item" href="../interface/character.html#moduleprocedure-char_strs_range">char_strs_range</a>
             <a class="list-group-item" href="../interface/character.html#moduleprocedure-char_str_range_step">char_str_range_step</a>
@@ -263,7 +265,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-char_str_range"></span> <h3>private pure function char_str_range(string, first, last) result(aline)  
+    <div class="card-header codesum"><span class="anchor" id="proc-char_str_pos"></span> <h3>private pure function char_str_pos(string, pos) result(aline)  
 </h3></div>
     <div class="card-body">
         
@@ -296,7 +298,125 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first"></span>
+              <span class="anchor" id="variable-pos~2"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>pos</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>character(len=:), allocatable</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-char_strs_pos"></span> <h3>private pure function char_strs_pos(string, pos) result(aline)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-string~10"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>string</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pos~3"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>pos</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>character(len=1), allocatable, (:)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-char_str_range"></span> <h3>private pure function char_str_range(string, first, last) result(aline)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-string~11"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>string</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-first~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -311,7 +431,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last"></span>
+              <span class="anchor" id="variable-last~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -355,7 +475,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~10"></span>
+              <span class="anchor" id="variable-string~12"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -370,7 +490,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first~2"></span>
+              <span class="anchor" id="variable-first~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -385,7 +505,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~2"></span>
+              <span class="anchor" id="variable-last~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -429,7 +549,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~11"></span>
+              <span class="anchor" id="variable-string~13"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -444,7 +564,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first~3"></span>
+              <span class="anchor" id="variable-first~4"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -459,7 +579,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~3"></span>
+              <span class="anchor" id="variable-last~4"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -518,7 +638,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~12"></span>
+              <span class="anchor" id="variable-string~14"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -533,7 +653,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first~4"></span>
+              <span class="anchor" id="variable-first~5"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -548,7 +668,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~4"></span>
+              <span class="anchor" id="variable-last~5"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -605,7 +725,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-09-26 16:36 +0000             </p>
+ on 2025-09-27 12:47 +0000             </p>
           </div>
         </div>
         <br>

@@ -45,8 +45,13 @@ character(len=*),intent(in) :: label
 character(len=*),intent(in) :: aline
 character(len=*),intent(in) :: answer(:)
 character(len=*),intent(in) :: expected(:)
-   write(*,g0)merge('PASSED','FAILED',all(answer.eq.expected)),' ',label,':[',aline,'][',answer,'][',expected,']'
-   if(all(answer.ne.expected))total=total+1
+   if(size(answer).eq.size(expected) )then
+      write(*,g0)merge('PASSED','FAILED',all(answer.eq.expected)),' ',label,':[',aline,'][',answer,'][',expected,']'
+      if(all(answer.ne.expected))total=total+1
+   else
+      write(*,g0)'FAILED',' ',label,':[',aline,'][',answer,'][',expected,']'
+      total=total+1
+   endif
 end subroutine checkits
 
 subroutine checkits_l(label,aline,answer,expected)
@@ -336,7 +341,7 @@ integer,allocatable :: codes(:)
    temp=lower(upp)
    ! known conundrum at 82 i ı
    do i=1,len(temp)
-      letter1=temp%character(i,i)
+      letter1=temp%character(i)
       letter2=low%character(i,i)
       if ( letter1 /= letter2 )then
          write(*,g1)i,letter1%character(), letter2%character()
