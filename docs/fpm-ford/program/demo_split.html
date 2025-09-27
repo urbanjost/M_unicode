@@ -90,7 +90,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 7.5% of total for programs.">33 statements</a>
+                 title=" 6.8% of total for programs.">36 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -131,14 +131,15 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../program/demo_split.html#variable-array">array</a>
-            <a class="list-group-item" href="../program/demo_split.html#variable-delims~2">delims</a>
-            <a class="list-group-item" href="../program/demo_split.html#variable-first">first</a>
-            <a class="list-group-item" href="../program/demo_split.html#variable-g~2">g</a>
-            <a class="list-group-item" href="../program/demo_split.html#variable-i~3">i</a>
-            <a class="list-group-item" href="../program/demo_split.html#variable-last">last</a>
-            <a class="list-group-item" href="../program/demo_split.html#variable-pos">pos</a>
-            <a class="list-group-item" href="../program/demo_split.html#variable-proverb">proverb</a>
+            <a class="list-group-item" href="../program/demo_split.html#variable-array~4">array</a>
+            <a class="list-group-item" href="../program/demo_split.html#variable-delims~4">delims</a>
+            <a class="list-group-item" href="../program/demo_split.html#variable-first~13">first</a>
+            <a class="list-group-item" href="../program/demo_split.html#variable-g~10">g</a>
+            <a class="list-group-item" href="../program/demo_split.html#variable-i~36">i</a>
+            <a class="list-group-item" href="../program/demo_split.html#variable-iostat~17">iostat</a>
+            <a class="list-group-item" href="../program/demo_split.html#variable-last~14">last</a>
+            <a class="list-group-item" href="../program/demo_split.html#variable-pos~11">pos</a>
+            <a class="list-group-item" href="../program/demo_split.html#variable-proverb~2">proverb</a>
         </div>
       </div>
     </div>
@@ -191,6 +192,7 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
+                  <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_fortran_env'>iso_fortran_env</a></li>
                   <li class="list-inline-item"><a href='../module/m_unicode.html'>M_unicode</a></li>
               </ul>
             </li>
@@ -215,7 +217,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array"></span>
+              <span class="anchor" id="variable-array~4"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
             <td>
@@ -231,7 +233,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-delims~2"></span>
+              <span class="anchor" id="variable-delims~4"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>)
             </td>
             <td>
@@ -247,7 +249,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first"></span>
+              <span class="anchor" id="variable-first~13"></span>
               integer
             </td>
             <td>
@@ -263,7 +265,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-g~2"></span>
+              <span class="anchor" id="variable-g~10"></span>
               character(len=*),
             </td>
             <td>
@@ -279,7 +281,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~3"></span>
+              <span class="anchor" id="variable-i~36"></span>
               integer
             </td>
             <td>
@@ -295,7 +297,23 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last"></span>
+              <span class="anchor" id="variable-iostat~17"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>iostat</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-last~14"></span>
               integer
             </td>
             <td>
@@ -311,7 +329,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pos"></span>
+              <span class="anchor" id="variable-pos~11"></span>
               integer
             </td>
             <td>
@@ -327,7 +345,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-proverb"></span>
+              <span class="anchor" id="variable-proverb~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>)
             </td>
             <td>
@@ -375,7 +393,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-line"></span>
+              <span class="anchor" id="variable-line~5"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -401,8 +419,9 @@ parameter
     <section>
     <h2 id="src">Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="k">program </span><span class="n">demo_split</span><span class="w"></span>
-<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">split</span><span class="p">,</span><span class="w"> </span><span class="n">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">),</span><span class="w"> </span><span class="nb">len</span><span class="p">,</span><span class="w"> </span><span class="kt">character</span>
-<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ut</span><span class="o">=&gt;</span><span class="n">unicode_type</span><span class="w"></span>
+<span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">output_unit</span><span class="w"></span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">split</span><span class="p">,</span><span class="w"> </span><span class="n">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">),</span><span class="w"> </span><span class="nb">len</span><span class="p">,</span><span class="w"> </span><span class="kt">character</span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ut</span><span class="o">=&gt;</span><span class="n">unicode_type</span><span class="w"></span>
 <span class="k">implicit none</span>
 <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">g</span><span class="o">=</span><span class="s1">&#39;(*(g0,1x))&#39;</span><span class="w"></span>
 <span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">proverb</span><span class="w"></span>
@@ -412,6 +431,10 @@ parameter
 <span class="kt">integer</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">last</span><span class="w"></span>
 <span class="kt">integer</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">pos</span><span class="w"></span>
 <span class="kt">integer</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
+<span class="kt">integer</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">iostat</span><span class="w"></span>
+
+<span class="w">   </span><span class="c">! preferred, but not required if not supported</span>
+<span class="w">   </span><span class="k">open</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">,</span><span class="n">iostat</span><span class="o">=</span><span class="n">iostat</span><span class="p">)</span><span class="w"></span>
 
 <span class="w">   </span><span class="n">delims</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;=|; &#39;</span><span class="w"></span>
 
@@ -425,15 +448,15 @@ parameter
 <span class="w">    </span><span class="n">ut</span><span class="p">(</span><span class="s2">&quot;くじけずに前を向いて歩いていこう。&quot;</span><span class="p">)]</span><span class="w"></span>
 <span class="w">   </span><span class="k">call </span><span class="n">printwords</span><span class="p">(</span><span class="k">array</span><span class="p">)</span><span class="w"></span>
 
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="s1">&#39;OOP&#39;</span><span class="w"></span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="s1">&#39;OOP&#39;</span><span class="w"></span>
 <span class="w">   </span><span class="k">array</span><span class="o">=</span><span class="n">proverb</span><span class="p">%</span><span class="n">split</span><span class="p">(</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">))</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(*(:&quot;[&quot;,a,&quot;]&quot;))&#39;</span><span class="p">)(</span><span class="kt">character</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="n">i</span><span class="p">)),</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="k">array</span><span class="p">))</span><span class="w"></span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(*(:&quot;[&quot;,a,&quot;]&quot;))&#39;</span><span class="p">)(</span><span class="kt">character</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="n">i</span><span class="p">)),</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="k">array</span><span class="p">))</span><span class="w"></span>
 
 <span class="k">contains</span>
 <span class="k">impure elemental subroutine </span><span class="n">printwords</span><span class="p">(</span><span class="n">line</span><span class="p">)</span><span class="w"></span>
 <span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">line</span><span class="w"></span>
 <span class="w">   </span><span class="n">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="n">line</span><span class="p">%</span><span class="kt">character</span><span class="p">(),</span><span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="n">line</span><span class="p">%</span><span class="kt">character</span><span class="p">(),</span><span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span><span class="w"></span>
 <span class="w">   </span><span class="k">do while</span><span class="w"> </span><span class="p">(</span><span class="n">pos</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">))</span><span class="w"></span>
 <span class="w">       </span><span class="n">first</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pos</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
 <span class="w">       </span><span class="k">call </span><span class="n">split</span><span class="w"> </span><span class="p">(</span><span class="n">line</span><span class="p">,</span><span class="w"> </span><span class="n">delims</span><span class="p">,</span><span class="w"> </span><span class="n">pos</span><span class="p">)</span><span class="w"></span>
@@ -465,7 +488,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-09-27 12:47 +0000             </p>
+ on 2025-09-27 14:36 +0000             </p>
           </div>
         </div>
         <br>

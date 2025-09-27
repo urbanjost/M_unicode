@@ -1,6 +1,7 @@
 program demo_split
-use M_unicode, only : split, unicode_type, assignment(=), len, character
-use M_unicode, only : ut=>unicode_type
+use iso_fortran_env, only : stdout => output_unit
+use M_unicode,       only : split, unicode_type, assignment(=), len, character
+use M_unicode,       only : ut=>unicode_type
 implicit none
 character(len=*),parameter :: g='(*(g0,1x))'
 type(ut)                   :: proverb
@@ -10,6 +11,10 @@ integer                    :: first
 integer                    :: last
 integer                    :: pos
 integer                    :: i
+integer                    :: iostat
+
+   ! preferred, but not required if not supported
+   open(stdout,encoding='utf-8',iostat=iostat)
 
    delims= '=|; '
 
@@ -23,15 +28,15 @@ integer                    :: i
     ut("くじけずに前を向いて歩いていこう。")]
    call printwords(array)
 
-   write(*,g)'OOP'
+   write(stdout,g)'OOP'
    array=proverb%split(ut(' '))
-   write(*,'(*(:"[",a,"]"))')(character(array(i)),i=1,size(array))
+   write(stdout,'(*(:"[",a,"]"))')(character(array(i)),i=1,size(array))
 
 contains
 impure elemental subroutine printwords(line)
 type(ut),intent(in) :: line
    pos = 0
-   write(*,g)line%character(),len(line)
+   write(stdout,g)line%character(),len(line)
    do while (pos < len(line))
        first = pos + 1
        call split (line, delims, pos)

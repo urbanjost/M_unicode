@@ -90,7 +90,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 7.5% of total for programs.">33 statements</a>
+                 title=" 7.0% of total for programs.">37 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -131,11 +131,12 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../program/assign_exe.html#variable-aline~13">aline</a>
-            <a class="list-group-item" href="../program/assign_exe.html#variable-g~11">g</a>
+            <a class="list-group-item" href="../program/assign_exe.html#variable-aline~12">aline</a>
+            <a class="list-group-item" href="../program/assign_exe.html#variable-g~7">g</a>
+            <a class="list-group-item" href="../program/assign_exe.html#variable-iostat~13">iostat</a>
             <a class="list-group-item" href="../program/assign_exe.html#variable-smiley~3">smiley</a>
             <a class="list-group-item" href="../program/assign_exe.html#variable-substring~6">substring</a>
-            <a class="list-group-item" href="../program/assign_exe.html#variable-uline~3">uline</a>
+            <a class="list-group-item" href="../program/assign_exe.html#variable-uline">uline</a>
         </div>
       </div>
     </div>
@@ -177,6 +178,7 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
+                  <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_fortran_env'>iso_fortran_env</a></li>
                   <li class="list-inline-item"><a href='../module/m_unicode.html'>M_unicode</a></li>
               </ul>
             </li>
@@ -201,7 +203,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-aline~13"></span>
+              <span class="anchor" id="variable-aline~12"></span>
               character(len=:),
             </td>
             <td>
@@ -217,7 +219,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-g~11"></span>
+              <span class="anchor" id="variable-g~7"></span>
               character(len=*),
             </td>
             <td>
@@ -227,6 +229,22 @@ parameter
             <td><strong>g</strong></td>
 <td> =</td>
                 <td>&#39;(*(g0))&#39;</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-iostat~13"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>iostat</strong></td>
+                <td></td>
+                <td></td>
             <td>
                 
             </td>
@@ -265,7 +283,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uline~3"></span>
+              <span class="anchor" id="variable-uline"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>)
             </td>
             <td>
@@ -296,48 +314,54 @@ parameter
     <section>
     <h2 id="src">Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="k">program </span><span class="n">assign_exe</span><span class="w"></span>
-<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nb">len</span><span class="p">,</span><span class="w"> </span><span class="nb">len_trim</span><span class="p">,</span><span class="w"> </span><span class="nb">repeat</span><span class="p">,</span><span class="w"> </span><span class="nb">trim</span><span class="p">,</span><span class="w"> </span><span class="nb">adjustr</span><span class="p">,</span><span class="w"> </span><span class="nb">adjustl</span>
-<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kt">character</span>
-<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">),</span><span class="w"> </span><span class="n">unicode_type</span><span class="w"></span>
+<span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">output_unit</span><span class="w"></span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nb">len</span><span class="p">,</span><span class="w"> </span><span class="nb">len_trim</span><span class="p">,</span><span class="w"> </span><span class="nb">repeat</span><span class="p">,</span><span class="w"> </span><span class="nb">trim</span><span class="p">,</span><span class="w"> </span><span class="nb">adjustr</span><span class="p">,</span><span class="w"> </span><span class="nb">adjustl</span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kt">character</span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">),</span><span class="w"> </span><span class="n">unicode_type</span><span class="w"></span>
+<span class="k">implicit none</span>
 <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">g</span><span class="o">=</span><span class="s1">&#39;(*(g0))&#39;</span><span class="w"></span>
 <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">aline</span><span class="w"></span>
 <span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">uline</span><span class="p">,</span><span class="w"> </span><span class="n">substring</span><span class="w"></span>
 <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">smiley</span><span class="o">=</span><span class="s1">&#39;😃&#39;</span><span class="w"></span>
+<span class="kt">integer</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">iostat</span><span class="w"></span>
+
+<span class="w">   </span><span class="c">! preferred, but not required if not supported</span>
+<span class="w">   </span><span class="k">open</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">,</span><span class="n">iostat</span><span class="o">=</span><span class="n">iostat</span><span class="p">)</span><span class="w"></span>
 
 <span class="w">   </span><span class="n">aline</span><span class="o">=</span><span class="s2">&quot;Доки не впріти, доти не вміти.&quot;</span><span class="w"></span>
 
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="s1">&#39;123456789012345678901234567890&#39;</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="n">aline</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="s1">&#39;length in bytes is: &#39;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">aline</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="s1">&#39;123456789012345678901234567890&#39;</span><span class="w"></span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="n">aline</span><span class="w"></span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="s1">&#39;length in bytes is: &#39;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">aline</span><span class="p">)</span><span class="w"></span>
 <span class="w">   </span><span class="n">uline</span><span class="o">=</span><span class="n">aline</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="s1">&#39;length in glyphs is: &#39;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">uline</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="s1">&#39;length in glyphs is: &#39;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">uline</span><span class="p">)</span><span class="w"></span>
 
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="s1">&#39;string is: &#39;</span><span class="p">,</span><span class="kt">character</span><span class="p">(</span><span class="n">uline</span><span class="p">)</span><span class="w"> </span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="s1">&#39;third word is: &#39;</span><span class="p">,</span><span class="kt">character</span><span class="p">(</span><span class="n">uline</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">14</span><span class="p">)</span><span class="w"> </span><span class="c">! substring</span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="s1">&#39;string is: &#39;</span><span class="p">,</span><span class="kt">character</span><span class="p">(</span><span class="n">uline</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="s1">&#39;third word is: &#39;</span><span class="p">,</span><span class="kt">character</span><span class="p">(</span><span class="n">uline</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">14</span><span class="p">)</span><span class="w"> </span><span class="c">! substring</span>
 
 <span class="w">   </span><span class="n">substring</span><span class="o">=</span><span class="kt">character</span><span class="p">(</span><span class="n">uline</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">29</span><span class="p">)</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="s1">&#39;string is: &#39;</span><span class="p">,</span><span class="kt">character</span><span class="p">(</span><span class="n">substring</span><span class="p">)</span><span class="w"> </span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="s1">&#39;string is: &#39;</span><span class="p">,</span><span class="kt">character</span><span class="p">(</span><span class="n">substring</span><span class="p">)</span><span class="w"></span>
 
 <span class="w">   </span><span class="n">uline</span><span class="o">=</span><span class="nb">repeat</span><span class="p">(</span><span class="n">smiley</span><span class="p">,</span><span class="mi">30</span><span class="p">)</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="kt">character</span><span class="p">(</span><span class="n">uline</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="kt">character</span><span class="p">(</span><span class="n">uline</span><span class="p">)</span><span class="w"></span>
 
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="nb">len_trim</span><span class="p">(</span><span class="n">uline</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="nb">len_trim</span><span class="p">(</span><span class="n">uline</span><span class="p">)</span><span class="w"></span>
 <span class="w">   </span><span class="n">uline</span><span class="o">=</span><span class="n">aline</span><span class="o">//</span><span class="s1">&#39;      &#39;</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="nb">len_trim</span><span class="p">(</span><span class="n">uline</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="nb">len_trim</span><span class="p">(</span><span class="n">uline</span><span class="p">)</span><span class="w"></span>
 
 <span class="w">   </span><span class="n">uline</span><span class="o">=</span><span class="p">[</span><span class="mi">32</span><span class="p">,</span><span class="mi">160</span><span class="p">,</span><span class="mi">8192</span><span class="p">,</span><span class="mi">8193</span><span class="p">,</span><span class="mi">8194</span><span class="p">,</span><span class="mi">8195</span><span class="p">,</span><span class="mi">8196</span><span class="p">,</span><span class="mi">8197</span><span class="p">,</span><span class="mi">8198</span><span class="p">,</span><span class="mi">8199</span><span class="p">,</span><span class="mi">8200</span><span class="p">,</span><span class="mi">8201</span><span class="p">,</span><span class="mi">8202</span><span class="p">,</span><span class="mi">8239</span><span class="p">,</span><span class="mi">8287</span><span class="p">,</span><span class="mi">12288</span><span class="p">]</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="s1">&#39;spaces:&#39;</span><span class="p">,</span><span class="kt">character</span><span class="p">(</span><span class="n">uline</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">uline</span><span class="p">),</span><span class="nb">len_trim</span><span class="p">(</span><span class="n">uline</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="s1">&#39;spaces:&#39;</span><span class="p">,</span><span class="kt">character</span><span class="p">(</span><span class="n">uline</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">uline</span><span class="p">),</span><span class="nb">len_trim</span><span class="p">(</span><span class="n">uline</span><span class="p">)</span><span class="w"></span>
 
 <span class="w">   </span><span class="n">uline</span><span class="o">=</span><span class="p">[</span><span class="mi">32</span><span class="p">,</span><span class="mi">160</span><span class="p">,</span><span class="mi">8192</span><span class="p">,</span><span class="mi">8193</span><span class="p">,</span><span class="mi">8194</span><span class="p">,</span><span class="mi">8195</span><span class="p">,</span><span class="mi">8196</span><span class="p">,</span><span class="mi">8197</span><span class="p">,</span><span class="mi">8198</span><span class="p">,</span><span class="mi">8199</span><span class="p">,</span><span class="mi">8200</span><span class="p">,</span><span class="mi">8201</span><span class="p">,</span><span class="mi">8202</span><span class="p">,</span><span class="mi">8239</span><span class="p">,</span><span class="mi">8287</span><span class="p">,</span><span class="mi">12288</span><span class="p">]</span><span class="w"></span>
 <span class="w">   </span><span class="n">uline</span><span class="o">=</span><span class="nb">trim</span><span class="p">(</span><span class="n">uline</span><span class="p">)</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="s1">&#39;trim:&#39;</span><span class="p">,</span><span class="s1">&#39;[&#39;</span><span class="p">,</span><span class="kt">character</span><span class="p">(</span><span class="n">uline</span><span class="p">),</span><span class="s1">&#39;]&#39;</span><span class="w"></span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="s1">&#39;trim:&#39;</span><span class="p">,</span><span class="s1">&#39;[&#39;</span><span class="p">,</span><span class="kt">character</span><span class="p">(</span><span class="n">uline</span><span class="p">),</span><span class="s1">&#39;]&#39;</span><span class="w"></span>
 
 <span class="w">   </span><span class="n">uline</span><span class="o">=</span><span class="s1">&#39;    this  is just a    string        &#39;</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="s1">&#39;adjustr:&#39;</span><span class="p">,</span><span class="s1">&#39;[&#39;</span><span class="p">,</span><span class="kt">character</span><span class="p">(</span><span class="n">uline</span><span class="p">),</span><span class="s1">&#39;] ==&gt; [&#39;</span><span class="p">,</span><span class="kt">character</span><span class="p">(</span><span class="nb">adjustr</span><span class="p">(</span><span class="n">uline</span><span class="p">)),</span><span class="s1">&#39;]&#39;</span><span class="w"></span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="s1">&#39;adjustr:&#39;</span><span class="p">,</span><span class="s1">&#39;[&#39;</span><span class="p">,</span><span class="kt">character</span><span class="p">(</span><span class="n">uline</span><span class="p">),</span><span class="s1">&#39;] ==&gt; [&#39;</span><span class="p">,</span><span class="kt">character</span><span class="p">(</span><span class="nb">adjustr</span><span class="p">(</span><span class="n">uline</span><span class="p">)),</span><span class="s1">&#39;]&#39;</span><span class="w"></span>
 <span class="w">   </span><span class="n">uline</span><span class="o">=</span><span class="s1">&#39;    this  is just a    string        &#39;</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="s1">&#39;adjustl:&#39;</span><span class="p">,</span><span class="s1">&#39;[&#39;</span><span class="p">,</span><span class="kt">character</span><span class="p">(</span><span class="n">uline</span><span class="p">),</span><span class="s1">&#39;] ==&gt; [&#39;</span><span class="p">,</span><span class="kt">character</span><span class="p">(</span><span class="nb">adjustl</span><span class="p">(</span><span class="n">uline</span><span class="p">)),</span><span class="s1">&#39;]&#39;</span><span class="w"></span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="s1">&#39;adjustl:&#39;</span><span class="p">,</span><span class="s1">&#39;[&#39;</span><span class="p">,</span><span class="kt">character</span><span class="p">(</span><span class="n">uline</span><span class="p">),</span><span class="s1">&#39;] ==&gt; [&#39;</span><span class="p">,</span><span class="kt">character</span><span class="p">(</span><span class="nb">adjustl</span><span class="p">(</span><span class="n">uline</span><span class="p">)),</span><span class="s1">&#39;]&#39;</span><span class="w"></span>
 
-<span class="w">   </span><span class="c">!write(*,g)uline</span>
+<span class="w">   </span><span class="c">!write(stdout,g)uline</span>
 <span class="k">end program </span><span class="n">assign_exe</span><span class="w"></span>
 </pre></div>
 
@@ -361,7 +385,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-09-27 12:47 +0000             </p>
+ on 2025-09-27 14:36 +0000             </p>
           </div>
         </div>
         <br>

@@ -1,13 +1,19 @@
 program demo_sort
-use M_unicode, only : sort, unicode_type, assignment(=)
-use M_unicode, only : ut=>unicode_type
+use iso_fortran_env, only : stdout => output_unit
+use M_unicode,       only : sort, unicode_type, assignment(=)
+use M_unicode,       only : ut=>unicode_type
 implicit none
 character(len=*),parameter :: g='(*(g0))'
-integer,parameter  :: isz=4
-type(unicode_type) :: rr(isz)
-integer            :: ii(isz)
-integer            :: i
-   write(*,g)'sort array with sort(3f)'
+integer,parameter          :: isz=4
+type(unicode_type)         :: rr(isz)
+integer                    :: ii(isz)
+integer                    :: i
+integer                    :: iostat
+
+   ! preferred, but not required if not supported
+   open(stdout,encoding='utf-8',iostat=iostat)
+
+   write(stdout,g)'sort array with sort(3f)'
    rr=[ &
     ut("the"),   &
     ut("quick"), &
@@ -15,12 +21,14 @@ integer            :: i
     ut("fox") ]
 
    call sort(rr,ii)
-   write(*,g)'original order'
+   write(stdout,g)'original order'
    do i=1,size(rr)
-      write(*,g)rr(i)%character()
+      write(stdout,g)rr(i)%character()
    enddo
-   write(*,g)'sorted order'
+
+   write(stdout,g)'sorted order'
    do i=1,size(rr)
-      write(*,g)rr(ii(i))%character()
+      write(stdout,g)rr(ii(i))%character()
    enddo
+
 end program demo_sort

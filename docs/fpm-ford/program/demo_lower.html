@@ -90,7 +90,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 2.5% of total for programs.">11 statements</a>
+                 title=" 6.4% of total for programs.">34 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -131,9 +131,12 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../program/demo_lower.html#variable-g">g</a>
-            <a class="list-group-item" href="../program/demo_lower.html#variable-lower_pangram">lower_pangram</a>
-            <a class="list-group-item" href="../program/demo_lower.html#variable-pangram">pangram</a>
+            <a class="list-group-item" href="../program/demo_lower.html#variable-diacritics~2">diacritics</a>
+            <a class="list-group-item" href="../program/demo_lower.html#variable-expected~8">expected</a>
+            <a class="list-group-item" href="../program/demo_lower.html#variable-g~8">g</a>
+            <a class="list-group-item" href="../program/demo_lower.html#variable-iostat~14">iostat</a>
+            <a class="list-group-item" href="../program/demo_lower.html#variable-lowercase">lowercase</a>
+            <a class="list-group-item" href="../program/demo_lower.html#variable-pangram~2">pangram</a>
         </div>
       </div>
     </div>
@@ -148,7 +151,18 @@
   
   
   
-  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#subs-0"
+         aria-expanded="false" aria-controls="subs-0">
+         <h4 class="card-header bg-primary text-white">Subroutines</h4>
+      </a>
+      <div id="subs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../program/demo_lower.html#proc-test~2">test</a>
+        </div>
+      </div>
+    </div>
+
   
   
   
@@ -175,6 +189,7 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
+                  <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_fortran_env'>iso_fortran_env</a></li>
                   <li class="list-inline-item"><a href='../module/m_unicode.html'>M_unicode</a></li>
               </ul>
             </li>
@@ -199,7 +214,39 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-g"></span>
+              <span class="anchor" id="variable-diacritics~2"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>)
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>diacritics</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-expected~8"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>)
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>expected</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-g~8"></span>
               character(len=*),
             </td>
             <td>
@@ -215,14 +262,14 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lower_pangram"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>)
+              <span class="anchor" id="variable-iostat~14"></span>
+              integer
             </td>
             <td>
               
             </td>
             <td>::</td>
-            <td><strong>lower_pangram</strong></td>
+            <td><strong>iostat</strong></td>
                 <td></td>
                 <td></td>
             <td>
@@ -231,7 +278,23 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pangram"></span>
+              <span class="anchor" id="variable-lowercase"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>)
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lowercase</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pangram~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>)
             </td>
             <td>
@@ -257,21 +320,110 @@ parameter
     
 
 
+    <section>
+    <h2>Subroutines</h2>
+      <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-test~2"></span> <h3> subroutine <a href='../proc/test~2.html'>test</a>(in, expected)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-in~2"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>in</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-expected~9"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>expected</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+    </section>    
     
 
     <section>
     <h2 id="src">Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="k">program </span><span class="n">demo_lower</span><span class="w"></span>
-<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">lower</span><span class="p">,</span><span class="w"> </span><span class="n">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">)</span><span class="w"></span>
+<span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">output_unit</span><span class="w"></span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">lower</span><span class="p">,</span><span class="w"> </span><span class="n">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">),</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">==</span><span class="p">)</span><span class="w"></span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ut</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">unicode_type</span><span class="w"></span>
 <span class="k">implicit none</span>
 <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">g</span><span class="o">=</span><span class="s1">&#39;(*(g0))&#39;</span><span class="w"></span>
 <span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">pangram</span><span class="w"></span>
-<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">lower_pangram</span><span class="w"></span>
+<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">diacritics</span><span class="w"></span>
+<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">lowercase</span><span class="w"></span>
+<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">expected</span><span class="w"></span>
+<span class="kt">integer</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">iostat</span><span class="w"></span>
+
+<span class="w">   </span><span class="c">! preferred, but not required if not supported</span>
+<span class="w">   </span><span class="k">open</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">,</span><span class="n">iostat</span><span class="o">=</span><span class="n">iostat</span><span class="p">)</span><span class="w"> </span>
+
 <span class="w">   </span><span class="c">! a sentence containing every letter of the English alphabet</span>
 <span class="w">   </span><span class="n">pangram</span><span class="o">=</span><span class="s2">&quot;THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG&quot;</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="n">pangram</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="w"></span>
-<span class="w">   </span><span class="n">lower_pangram</span><span class="o">=</span><span class="n">lower</span><span class="p">(</span><span class="n">pangram</span><span class="p">)</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="n">lower_pangram</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="w"></span>
+<span class="w">   </span><span class="n">expected</span><span class="o">=</span><span class="s2">&quot;the quick brown fox jumps over the lazy dog&quot;</span><span class="w"></span>
+<span class="w">   </span><span class="k">call </span><span class="n">test</span><span class="p">(</span><span class="n">pangram</span><span class="p">,</span><span class="n">expected</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">   </span><span class="c">! Slovak pangram</span>
+<span class="w">   </span><span class="n">PANGRAM</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;VYPÄTÁ DCÉRA GRÓFA MAXWELLA S IQ NIŽŠÍM AKO KÔŇ NÚTI ČEĽAĎ HRÝZŤ HŔBU JABĹK.&#39;</span><span class="w"></span>
+<span class="w">   </span><span class="n">expected</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;vypätá dcéra grófa maxwella s iq nižším ako kôň núti čeľaď hrýzť hŕbu jabĺk.&#39;</span><span class="w"></span>
+<span class="w">   </span><span class="k">call </span><span class="n">test</span><span class="p">(</span><span class="n">pangram</span><span class="p">,</span><span class="n">expected</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">   </span><span class="c">! contains each special Czech letter with diacritics exactly once</span>
+<span class="w">   </span><span class="n">DIACRITICS</span><span class="o">=</span><span class="s1">&#39;PŘÍLIŠ ŽLUŤOUČKÝ KŮŇ ÚPĚL ĎÁBELSKÉ ÓDY.&#39;</span><span class="w"></span>
+<span class="w">   </span><span class="n">expected</span><span class="w"> </span><span class="o">=</span><span class="s1">&#39;příliš žluťoučký kůň úpěl ďábelské ódy.&#39;</span><span class="w"></span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="s1">&#39;(&quot;A horse that was too yellow-ish moaned devilish odes&quot;)&#39;</span><span class="w"></span>
+<span class="w">   </span><span class="k">call </span><span class="n">test</span><span class="p">(</span><span class="n">diacritics</span><span class="p">,</span><span class="n">expected</span><span class="p">)</span><span class="w"></span>
+
+<span class="k">contains</span>
+<span class="k">subroutine </span><span class="n">test</span><span class="p">(</span><span class="n">in</span><span class="p">,</span><span class="n">expected</span><span class="p">)</span><span class="w"></span>
+<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">in</span><span class="w"></span>
+<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">expected</span><span class="w"></span>
+<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">lowercase</span><span class="w"></span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">nl</span><span class="o">=</span><span class="nb">new_line</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="n">in</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="w"></span>
+<span class="w">   </span><span class="n">lowercase</span><span class="o">=</span><span class="n">lower</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="n">lowercase</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="w"></span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="nb">merge</span><span class="p">(</span><span class="s1">&#39;PASSED&#39;</span><span class="p">,</span><span class="s1">&#39;FAILED&#39;</span><span class="p">,</span><span class="n">lowercase</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">expected</span><span class="w"> </span><span class="p">),</span><span class="n">nl</span><span class="w"></span>
+<span class="k">end subroutine </span><span class="n">test</span><span class="w"></span>
 <span class="k">end program </span><span class="n">demo_lower</span><span class="w"></span>
 </pre></div>
 
@@ -295,7 +447,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-09-27 12:47 +0000             </p>
+ on 2025-09-27 14:36 +0000             </p>
           </div>
         </div>
         <br>
