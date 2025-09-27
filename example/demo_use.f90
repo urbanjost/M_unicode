@@ -34,8 +34,10 @@ implicit none
 type(unicode_type) :: ustr
 
 character(len=*), parameter :: g='(*(g0))'
+integer                     :: iostat
 
-   !open (stdout, encoding='UTF-8') ! preferred, but not required if not supported
+   ! preferred, but not required if not supported
+   open(stdout,encoding='utf-8',iostat=iostat) 
 
    ! Constructors  
    ! UNICODE_VARIABLE= UNICODE_VARIABLE|CHARACTER(LEN=*)|INTEGER_ARRAY

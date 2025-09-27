@@ -1,10 +1,16 @@
 program testit
+use iso_fortran_env, only : stdout => output_unit
 use M_unicode
+implicit none
 type(unicode_type) :: upp, low
-!
-! remember unicode characters are multi-byte so be careful
-! with older compilers to not exceed 132 bytes per line
-! 
+integer                     :: iostat
+
+   ! preferred, but not required if not supported
+   open(stdout,encoding='utf-8',iostat=iostat)
+   !
+   ! remember unicode characters are multi-byte so be careful
+   ! with older compilers to not exceed 132 bytes per line
+   !
    low='&
    &abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëì&
    &íîïðñòóôõöøùúûüýþÿāăąćĉċčďđēĕėęěĝğġģĥħĩīĭ&
@@ -45,9 +51,9 @@ type(unicode_type) :: upp, low
    &ῘῙῨῩⒶⒷⒸⒹⒺⒻⒼⒽⒾⒿⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏ&
    &ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ'
 
-   write(*,'(g0)')low%character()
-   write(*,'(g0)')character(upper(low))
-   write(*,'(g0)')character(upp)
-   write(*,'(g0)')character(upp%lower())
+   write(stdout,'(g0)')low%character()
+   write(stdout,'(g0)')character(upper(low))
+   write(stdout,'(g0)')character(upp)
+   write(stdout,'(g0)')character(upp%lower())
 
 end program testit

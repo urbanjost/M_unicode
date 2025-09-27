@@ -1,6 +1,8 @@
 program testit
+use iso_fortran_env, only : stdout => output_unit
 !use M_unicode, only : assignment(=), unicode_type
 use M_unicode
+implicit none
 ! Unicode lowercase to uppercase conversion mapping table
 integer,parameter :: lowhigh=666
 integer,parameter :: lowup(lowhigh,2)= reshape([ &
@@ -673,11 +675,17 @@ int(z'FF5A'), int(z'FF3A')] & ! FULLWIDTH LATIN SMALL LETTER Z => FULLWIDTH LATI
 ,shape(lowup),order=[2,1])
 type(unicode_type) :: low
 type(unicode_type) :: upp
-low=lowup(:,1)
-upp=lowup(:,2)
-write(*,'(g0)')low%character()
-write(*,'(g0)')character(low%upper())
-write(*,'(g0)')upp%character()
-write(*,'(g0)')character(upp%lower())
+integer            :: iostat
+
+   ! preferred, but not required if not supported
+   open(stdout,encoding='utf-8',iostat=iostat)
+
+   low=lowup(:,1)
+   upp=lowup(:,2)
+
+   write(stdout,'(g0)')low%character()
+   write(stdout,'(g0)')character(low%upper())
+   write(stdout,'(g0)')upp%character()
+   write(stdout,'(g0)')character(upp%lower())
 
 end program testit

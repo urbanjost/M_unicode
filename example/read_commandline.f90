@@ -1,18 +1,22 @@
 program uni_to_ftn
 ! @(#) take command line argument utf-8 text and generate Fortran statement that represents the string
-use, intrinsic :: iso_fortran_env, only : output_unit
+use, intrinsic :: iso_fortran_env, only : stdout => output_unit
 implicit none
-character(len=*),parameter             :: form= '("char(int(z''",z0,"''))":,"// &")'
-character(len=*),parameter             :: g= '(*(g0))'
-integer                                :: i
-character(len=:),allocatable           :: command_line
+character(len=*),parameter   :: form= '("char(int(z''",z0,"''))":,"// &")'
+character(len=*),parameter   :: g= '(*(g0))'
+integer                      :: i
+character(len=:),allocatable :: command_line
+integer                      :: iostat
+
+   ! preferred, but not required if not supported
+   open(stdout,encoding='utf-8',iostat=iostat) 
+
    command_line=getargs()          ! get string containing all command arguments as CHARACTER bytes
 
    ! write the command line out as a Fortran variable expression using the CHAR() function
-   open (output_unit, encoding='UTF-8')
-   write(*,g) '! ENCODING:[',command_line//']'
-   write(*,g) 'character(len=*),parameter :: variable= &'
-   write(*,form)(command_line(i:i),i=1,len(command_line))
+   write(stdout,g) '! ENCODING:[',command_line//']'
+   write(stdout,g) 'character(len=*),parameter :: variable= &'
+   write(stdout,form)(command_line(i:i),i=1,len(command_line))
 contains
 
 function getargs() result(command_line)
