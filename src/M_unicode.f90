@@ -136,7 +136,7 @@ contains
    ! METHODS:
    procedure :: character  => oop_character
    procedure :: codepoint  => oop_codepoint
-   procedure :: bytes      => oop_bytes
+   procedure :: byte       => oop_byte 
 
    procedure :: adjustl    => oop_adjustl
    procedure :: adjustr    => oop_adjustr
@@ -3193,12 +3193,12 @@ integer                         :: which
    str_out=char_str(temp)
 end function oop_character
 !===================================================================================================================================
-function oop_bytes(self,first,last,step) result(bytes_out)
+function oop_byte(self,first,last,step) result(bytes_out)
 class(unicode_type), intent(in) :: self
 integer,intent(in),optional     :: first, last, step
 character(len=1),allocatable    :: bytes_out(:)
    bytes_out=s2a(oop_character(self,first,last,step))
-end function oop_bytes
+end function oop_byte
 !===================================================================================================================================
 function oop_codepoint(self,first,last,step) result(codes_out)
 class(unicode_type), intent(in) :: self

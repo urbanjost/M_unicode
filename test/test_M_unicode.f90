@@ -474,7 +474,7 @@ type(unicode_type)             :: ut_str
    write(*,g0)
    astr='Hello World and Ni Hao -- 你好'
    ut_str=astr
-   call checkits('convert to ASCII bytes',astr,ut_str%bytes(),transfer('Hello World and Ni Hao -- 你好',['A']))
+   call checkits('convert to ASCII bytes',astr,ut_str%byte(),transfer('Hello World and Ni Hao -- 你好',['A']))
 
    ut_str=smiley // ' and ' // smiley // 'and' // smiley // smiley // 'is it'
    astr='😃 and 😃and😃😃is it'

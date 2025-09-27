@@ -38,7 +38,7 @@ integer                     :: iostat
    write(stdout,'(g0)')(character(poem(i)),i=1,size(poem))
 
    write(stdout,'(a)')'BYTES'
-   write(stdout,'(*(a))')(poem(i)%bytes(),new_line('a'),i=1,size(poem))
+   write(stdout,'(*(a))')(poem(i)%byte(),new_line('a'),i=1,size(poem))
 
    write(stdout,'(a)')'WITH LENGTH IN GLYPHS AND BYTES'
    do i=1,size(poem)

@@ -42,7 +42,7 @@ integer                     :: iostat
    ! Constructors  
    ! UNICODE_VARIABLE= UNICODE_VARIABLE|CHARACTER(LEN=*)|INTEGER_ARRAY
    ! VARiABLE%CHARACTER(start,end,step) returns a CHARACTER string
-   ! VARiABLE%BYTES() returns an array of CHARACTER(len=1) values
+   ! VARiABLE%BYTE() returns an array of CHARACTER(len=1) values
    ustr= 'Hello World and Ni Hao -- 你好  '
 
    write (stdout,g) character(ustr) ! convert to intrinsic CHARACTER variable
