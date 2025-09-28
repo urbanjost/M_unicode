@@ -12,8 +12,11 @@ integer                     :: iostat
    open(stdout,encoding='utf-8',iostat=iostat)
 
    ! “The Crow and the Fox” by Jean de la Fontaine
+   write(stdout,'(a,/)') 'Le Corbeau et le Renard -- Jean de la Fontaine' 
 
    poem=[&
+   ut( 'Le Corbeau et le Renard'                             ), &
+   ut( ''                                                    ), &
    ut( 'Maître Corbeau, sur un arbre perché,'                ), &
    ut( 'Tenait en son bec un fromage.'                       ), &
    ut( 'Maître Renard, par l’odeur alléché,'                 ), &

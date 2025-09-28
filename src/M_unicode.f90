@@ -172,6 +172,7 @@ contains
 !   generic           :: operator(//) => string_append_value
 end type unicode_type
 
+
 ! Constructor for new string instances
 interface unicode_type
    elemental module function new_str(string) result(new)
@@ -255,8 +256,9 @@ end interface unicode_type
 ! ideographic space U+3000 12288 　 Yes No Common CJK Symbols and
 ! Punctuation Separator, As wide as a CJK character cell (fullwidth). Used,
 ! for example, in tai tou.
-integer,parameter :: G_SPACE=32
-integer,parameter :: G_SPACES(*) = [ 32,160,8192,8193,8194,8195,8196,8197,8198,8199,8200,8201,8202,8239,8287,12288 ]
+integer,parameter :: G_SPACE = 32
+
+integer,private,parameter :: spacescodes(*)= [32,160,8192,8193,8194,8195,8196,8197,8198,8199,8200,8201,8202,8239,8287,12288]
 
 ! Unicode lowercase to uppercase conversion mapping table
 ! The standard English lowercase "i" (U+0069) has a dot, which is called a "tittle".
@@ -270,7 +272,7 @@ integer,parameter :: G_SPACES(*) = [ 32,160,8192,8193,8194,8195,8196,8197,8198,8
 ! undotted as another in the table but the routine would still have the same issue.
 
 integer,parameter :: lowhigh=666
-integer,parameter :: lowup(lowhigh,2)= reshape([ &
+integer,parameter :: low_to_up(lowhigh,2)= reshape([ &
 int(z'0061'), int(z'0041'), & ! LATIN SMALL LETTER A => LATIN CAPITAL LETTER A
 int(z'0062'), int(z'0042'), & ! LATIN SMALL LETTER B => LATIN CAPITAL LETTER B
 int(z'0063'), int(z'0043'), & ! LATIN SMALL LETTER C => LATIN CAPITAL LETTER C
@@ -937,10 +939,10 @@ int(z'FF57'), int(z'FF37'), & ! FULLWIDTH LATIN SMALL LETTER W => FULLWIDTH LATI
 int(z'FF58'), int(z'FF38'), & ! FULLWIDTH LATIN SMALL LETTER X => FULLWIDTH LATIN CAPITAL LETTER X
 int(z'FF59'), int(z'FF39'), & ! FULLWIDTH LATIN SMALL LETTER Y => FULLWIDTH LATIN CAPITAL LETTER Y
 int(z'FF5A'), int(z'FF3A')] & ! FULLWIDTH LATIN SMALL LETTER Z => FULLWIDTH LATIN CAPITAL LETTER Z
-,shape(lowup),order=[2,1])
+,shape(low_to_up),order=[2,1])
 
-integer,parameter :: highlow=667
-integer,parameter :: uplow(highlow,2)= reshape([ &
+integer,parameter :: highlow=666
+integer,parameter :: up_to_low(highlow,2)= reshape([ &
 int(z'0041'), int(z'0061'), & ! LATIN SMALL LETTER A <= LATIN CAPITAL LETTER A
 int(z'0042'), int(z'0062'), & ! LATIN SMALL LETTER B <= LATIN CAPITAL LETTER B
 int(z'0043'), int(z'0063'), & ! LATIN SMALL LETTER C <= LATIN CAPITAL LETTER C
@@ -949,10 +951,7 @@ int(z'0045'), int(z'0065'), & ! LATIN SMALL LETTER E <= LATIN CAPITAL LETTER E
 int(z'0046'), int(z'0066'), & ! LATIN SMALL LETTER F <= LATIN CAPITAL LETTER F
 int(z'0047'), int(z'0067'), & ! LATIN SMALL LETTER G <= LATIN CAPITAL LETTER G
 int(z'0048'), int(z'0068'), & ! LATIN SMALL LETTER H <= LATIN CAPITAL LETTER H
-
-int(z'0049'), int(z'0069'), & ! LATIN SMALL LETTER I <= LATIN CAPITAL LETTER I
 int(z'0049'), int(z'0131'), & ! LATIN SMALL LETTER DOTLESS I <= LATIN CAPITAL LETTER I
-
 int(z'004A'), int(z'006A'), & ! LATIN SMALL LETTER J <= LATIN CAPITAL LETTER J
 int(z'004B'), int(z'006B'), & ! LATIN SMALL LETTER K <= LATIN CAPITAL LETTER K
 int(z'004C'), int(z'006C'), & ! LATIN SMALL LETTER L <= LATIN CAPITAL LETTER L
@@ -1024,7 +1023,7 @@ int(z'0128'), int(z'0129'), & ! LATIN SMALL LETTER I WITH TILDE <= LATIN CAPITAL
 int(z'012A'), int(z'012B'), & ! LATIN SMALL LETTER I WITH MACRON <= LATIN CAPITAL LETTER I WITH MACRON
 int(z'012C'), int(z'012D'), & ! LATIN SMALL LETTER I WITH BREVE <= LATIN CAPITAL LETTER I WITH BREVE
 int(z'012E'), int(z'012F'), & ! LATIN SMALL LETTER I WITH OGONEK <= LATIN CAPITAL LETTER I WITH OGONEK
-int(z'0130'), int(z'0069'), & ! LATIN sMALL LETTER I <= CAPITAL LETTER I WITH DOT ABOVE
+int(z'0130'), int(z'0069'), & ! LATIN sMALL LETTER I <= LATIN CAPITAL LETTER I WITH DOT ABOVE
 int(z'0132'), int(z'0133'), & ! LATIN SMALL LIGATURE IJ <= LATIN CAPITAL LIGATURE IJ
 int(z'0134'), int(z'0135'), & ! LATIN SMALL LETTER J WITH CIRCUMFLEX <= LATIN CAPITAL LETTER J WITH CIRCUMFLEX
 int(z'0136'), int(z'0137'), & ! LATIN SMALL LETTER K WITH CEDILLA <= LATIN CAPITAL LETTER K WITH CEDILLA
@@ -1610,8 +1609,27 @@ int(z'FF37'), int(z'FF57'), & ! FULLWIDTH LATIN SMALL LETTER W <= FULLWIDTH LATI
 int(z'FF38'), int(z'FF58'), & ! FULLWIDTH LATIN SMALL LETTER X <= FULLWIDTH LATIN CAPITAL LETTER X
 int(z'FF39'), int(z'FF59'), & ! FULLWIDTH LATIN SMALL LETTER Y <= FULLWIDTH LATIN CAPITAL LETTER Y
 int(z'FF3A'), int(z'FF5A')] & ! FULLWIDTH LATIN SMALL LETTER Z <= FULLWIDTH LATIN CAPITAL LETTER Z
-,shape(uplow),order=[2,1])
+,shape(up_to_low),order=[2,1])
 
+integer,parameter :: hexchars(*)=iachar(['a','b','c','d','e','f', &
+                                       & '0','1','2','3','4','5','6','7','8','9', &
+                                       & 'A','B','C','D','E','F' ])
+
+type unicode_codepoints
+   integer :: SPACES(size(spacescodes))
+   integer :: LOWER(size(low_to_up,dim=1))
+   integer :: UPPER(size(up_to_low,dim=1))
+   integer :: hexadecimal(size(hexchars))
+   integer :: bom(1)=[int(z'FEFF')]
+
+end type unicode_codepoints
+
+type(unicode_codepoints),parameter,public :: unicode= unicode_codepoints( &
+   upper=up_to_low(:,2), &
+   lower=low_to_up(:,2), &
+   hexadecimal=[hexchars], &
+   bom=[int(z'FEFF')], &
+   spaces=spacescodes )
 contains
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
@@ -2122,7 +2140,7 @@ type(unicode_type), intent(in) :: string
 integer                        :: length
 
    do length=size(string%codes),1,-1
-      if(any(string%codes(length).eq.G_SPACES))cycle
+      if(any(string%codes(length).eq.unicode%SPACES))cycle
       exit
    enddo
 
@@ -2163,7 +2181,7 @@ type(unicode_type)             :: adjusted
 integer                        :: first
 
    do first=1,size(string%codes),1
-      if(any(string%codes(first).eq.G_SPACES))cycle
+      if(any(string%codes(first).eq.unicode%SPACES))cycle
       exit
    enddo
    adjusted%codes=cshift(string%codes,first-1)
@@ -2889,9 +2907,9 @@ integer,parameter             :: diff = iachar('A') - iachar('a')
       case(ade_a:ade_z)
          string%codes(i) = str%codes(i) + diff
       case default
-         pos=binary_search(lowup(:,1),str%codes(i))
+         pos=binary_search(low_to_up(:,1),str%codes(i))
          if(pos > 0)then
-            string%codes(i) = lowup(pos,2)
+            string%codes(i) = low_to_up(pos,2)
          endif
       end select
    enddo
@@ -2917,9 +2935,9 @@ integer, parameter             :: diff = iachar('A') - iachar('a')
       case(ade_a:ade_z)
          string%codes(i) = str%codes(i) - diff
       case default
-         pos=binary_search(uplow(:,1),str%codes(i))
+         pos=binary_search(up_to_low(:,1),str%codes(i))
          if(pos > 0)then
-            string%codes(i) = uplow(pos,2)
+            string%codes(i) = up_to_low(pos,2)
          endif
       end select
    enddo

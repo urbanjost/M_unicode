@@ -5,17 +5,18 @@ program bom_exe
 ! Fortran character set outside of a comment or literal string
 !
 use iso_fortran_env, only : stdout => output_unit
-use M_unicode
+use M_unicode, only : unicode_type, assignment(=), unicode
 implicit none
-type(unicode_type) :: U_BOM
+type(unicode_type) :: UT_bom
 integer            :: iostat
    open(stdout,encoding='utf-8',iostat=iostat)
-   U_bom=[int(z'FEFF')]
-   write(stdout,'(a)',advance='no')U_bom%character()
+   UT_bom=[int(z'FEFF')]
+   UT_bom=unicode%bom
+   write(stdout,'(a)',advance='no')UT_bom%character()
    write(stdout,'(a)') &
 
     'program testit ! Unicode BOM encoded to utf-8 bytes by Fortran' ,&
-    '   write(stdout,*)"File starts with BOM from UCS-4 write!"'          ,&
+    '   write(stdout,*)"This source file starts with BOM from UCS-4 write!"'          ,&
     'end program testit'
 
 end program bom_exe
