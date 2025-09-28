@@ -1,5 +1,7 @@
 # M_unicode
 
+## Release version 1.0.0; 2025-09-28
+
 **M_unicode** provides support for Unicode encoded as UTF-8 data even
 when the optional Fortran ISO_10646 extension is not provided.
 

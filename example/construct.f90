@@ -27,7 +27,7 @@ integer                     :: iostat
 
    ! OOPS
    write (stdout,g)  ustr%character()      ! convert to CHARACTER variable
-   write (stdout,g)  ustr%character(27,28) ! similiar to LINE(27:28)
+   write (stdout,g)  ustr%character(27,28) ! similar to LINE(27:28)
    write (stdout,g)  ustr%character(len(ustr),1,-1) ! reverse string
    write (stdout,g)  ustr%byte()           ! convert to CHARACTER(LEN=1) type
    write (stdout,gx) ustr%codepoint()      ! convert to Unicode codepoints

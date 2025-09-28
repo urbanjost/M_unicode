@@ -73,12 +73,12 @@ integer                     :: iostat
    ! VARIABLE%CHARACTER(start,end,step) returns a CHARACTER string
    ! VARIABLE%BYTE() returns an array of CHARACTER(len=1) values
    write (stdout,g)  ustr%character()      ! convert to CHARACTER variable
-   write (stdout,g)  ustr%character(27,28) ! similiar to LINE(27:28) for CHARACTER
+   write (stdout,g)  ustr%character(27,28) ! similar to LINE(27:28) for CHARACTER
    write (stdout,g)  ustr%character(len(ustr),1,-1) ! reverse string
    write (stdout,g)  ustr%byte()           ! convert to CHARACTER(LEN=1) type
    ! print 
    write (stdout,gi) ustr%codepoint()      ! convert to Unicode codepoints
-   write (stdout,gh) ustr%codepoint()      ! Hexidecimal values of codepoints
+   write (stdout,gh) ustr%codepoint()      ! Hexadecimal values of codepoints
 
 end program testit
 ```
