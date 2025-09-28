@@ -1,20 +1,24 @@
-### A WIP (Work In Progress)
-
 The intent is for the M_unicode module to be useful on many platforms,
 but currently it is primarily tested with GCC/gfortran and Intel/ifx on
 Linux and Cygwin. It needs a DT for printing.
 
 # M_unicode module
 
-This module provides support for operating on byte streams representing
-UTF-8 encoded text and Unicode codepoints.  Conversion of UTF-8 to and
-from Unicode codepoints is supported as well as all basic intrinsics
-and operators and ragged arrays of strings using a user-defined type.
+The **M_unicode** module provides support for directly operating on byte
+streams representing UTF-8 encoded text.
+
+A user-defined type called **unicode_type** provides an object-oriented
+interface supporting ragged arrays of strings and Unicode codepoints.
+
+In addition the procedural interface supports all basic character
+intrinsics and operators.
 
 ```fortran
 program testit
 use, intrinsic :: iso_fortran_env, only : stdout=>output_unit
 
+! explicit USE statements for each feature:
+!
 ! user-defined type to hold Unicode text
 use M_unicode, only : unicode_type
 
@@ -22,13 +26,10 @@ use M_unicode, only : unicode_type
 use M_unicode, only : character
 
 ! intrinsic overloads
-use M_unicode, only : adjustl, adjustr
-use M_unicode, only : trim, len, len_trim
-use M_unicode, only : index, scan, verify
-use M_unicode, only : repeat
-use M_unicode, only : split, tokenize
-use M_unicode, only : upper, lower
-use M_unicode, only : sort
+use M_unicode, only : &
+   adjustl,  adjustr,   trim,    len,     len_trim,  &
+   index,    scan,      verify,  repeat,             &          
+   split,    tokenize,  upper,   lower,   sort       
 
 ! operators (and overloads) and assignment
 use M_unicode, only : assignment(=)
@@ -41,10 +42,14 @@ use M_unicode, only : operator(>=), lge
 use M_unicode, only : operator(//)
 
 ! low-level text conversion to integer codepoint arrays:
+use M_unicode, only : utf8_to_codepoints, codepoints_to_utf8
 
+! sample usage:
+!
+implicit none
 type(unicode_type)          :: ustr
 character(len=*), parameter :: g='(*(g0))'
-character(len=*), parameter :: gx='(*(g0,1x))'
+character(len=*), parameter :: gi='(*(g0,1x))'
 character(len=*), parameter :: gh='(*(z0,1x))'
 integer                     :: iostat
 
@@ -53,8 +58,9 @@ integer                     :: iostat
 
    ! Constructors
    ! UNICODE_VARIABLE= UNICODE_VARIABLE|CHARACTER(LEN=*)|INTEGER_ARRAY
-   ! VARiABLE%CHARACTER(start,end,step) returns a CHARACTER string
-   ! VARiABLE%BYTE() returns an array of CHARACTER(len=1) values
+   !
+
+   ! assign UTF-8 string to OOP object.
    ustr= 'Hello World and Ni Hao -- 你好  '
 
    write (stdout,g) character(ustr) ! convert to intrinsic CHARACTER variable
@@ -63,24 +69,19 @@ integer                     :: iostat
    write (stdout,g) index(ustr,'你')
 
    ! OOPS
+   ! VARIABLE%CHARACTER(start,end,step) returns a CHARACTER string
+   ! VARIABLE%BYTE() returns an array of CHARACTER(len=1) values
    write (stdout,g)  ustr%character()      ! convert to CHARACTER variable
-   write (stdout,g)  ustr%character(27,28) ! similiar to LINE(27:28)
+   write (stdout,g)  ustr%character(27,28) ! similiar to LINE(27:28) for CHARACTER
    write (stdout,g)  ustr%character(len(ustr),1,-1) ! reverse string
    write (stdout,g)  ustr%byte()           ! convert to CHARACTER(LEN=1) type
-   write (stdout,gx) ustr%codepoint()      ! convert to Unicode codepoints
-   write (stdout,gh) ustr%codepoint()      ! convert to Unicode codepoints
+   ! print 
+   write (stdout,gi) ustr%codepoint()      ! convert to Unicode codepoints
+   write (stdout,gh) ustr%codepoint()      ! Hexidecimal values of codepoints
 
 end program testit
-
-use M_unicode, only : utf8_to_codepoints, codepoints_to_utf8
-
-implicit none
-type(unicode_type) :: ustr
-
-
-end program testit
-
 ```
+## Expected output:
 ```text
 Hello World and Ni Hao -- 你好  
 30
@@ -90,11 +91,8 @@ Hello World and Ni Hao -- 你好
 你好
   好你 -- oaH iN dna dlroW olleH
 Hello World and Ni Hao -- 你好  
-72 101 108 108 111 32 87 111 114 108 100 32 97 110 100 32 78 105 32 72 97 111 
-32 45 45 32 20320 22909 32 32
-
-48 65 6C 6C 6F 20 57 6F 72 6C 64 20 61 6E 64 20 4E 69 20 48 61 6F 
-20 2D 2D 20 4F60 597D 20 20
+72 101 108 108 111 32 87 111 114 108 100 32 97 110 100 32 78 105 32 72 97 111 32 45 45 32 20320 22909 32 32
+48 65 6C 6C 6F 20 57 6F 72 6C 64 20 61 6E 64 20 4E 69 20 48 61 6F 20 2D 2D 20 4F60 597D 20 20
 ```
 ## Unicode usage from Fortran when UTF-8 source files are supported
 
@@ -171,6 +169,20 @@ non-portable.  Now that UTF-8 files are supported on most systems this
 extension can be useful, particularly with compilers that do not support
 UCS-4 yet.
 
+### NOTE:
+
+__If concerned about directly placing multi-byte characters into constant
+strings directly in the code, support of arrays of codepoint values is
+supported as well__.
+
+### Environment
+
+Reading and writing properly to the screen requires that, independent
+of the **M_unicode** module, UTF-8 files display properly.
+
+This may require selecting a specific terminal emulator, setting the locale
+and selecting a font that supports the Unicode characters of interest.
+
 Without using any Fortran Unicode support features, if the output
 is redirected to a file does it appear correctly?
 
@@ -192,28 +204,25 @@ integer :: iostat
    ' to think without learning is to be in danger".'
 end program multibyte
 ```
+Does the text display properly when written to the screen?  If it does
+not you need to determine how to set up a terminal on your system to
+display UTF-8 data, which is system dependent.
 
-Does it display properly when written to the screen? You might have a
-terminal that does not support UTF-8 characters, or you might have to
-set your locale properly, which is system-dependent. If it is not the
-terminal and your compiler does support ISO-10646 specifying the encoding
-of the output file as UTF-8 will likely correct any output issues even
-though the strings are a series of bytes and not UCS-4 encoded.
-
-Remember that unless the compiler directly supports UTF-8 representation
-( so far I have identified no compilers that do so) these strings are
-seen by the compiler as a string of bytes, and is otherwise unaware they
+Remember that unless the compiler directly supports UTF-8 representation (
+so far I have identified no compilers that do so) these strings are seen
+by the compiler as a string of bytes, and it is otherwise unaware they
 represent Unicode characters. If they are just to be read and written
 as-is as in the previous example program that is not a major concern;
 but if you are manipulating or processing the strings in significant
-ways you probably want to convert the strings to TYPE(UNICODE_TYPE).
+ways you probably want to load the **M_unicode** module and convert the
+strings to TYPE(UNICODE_TYPE)
 
 ## Summary
 
-Yes, a Fortran source file can contain multibyte Unicode characters, but
-the level of support and how they are handled depends on the specific
-Fortran compiler and operating system and is not otherwise defined by
-the Fortran standard.
+Yes, a Fortran source file can contain multibyte Unicode characters in
+most environments, but the level of support and how they are handled
+depends on the specific Fortran compiler and operating system and is
+not otherwise defined by the Fortran standard.
 
 The appearance of multi-byte characters in comments and character
 constants is typically all that is allowed and compiler errors occur
@@ -224,9 +233,9 @@ case; so be careful that outside of quoted strings and comments that only
 ASCII-7-bit characters are used to write the actual coding instructions.
 
 Some editors might try to be "helpful" and change ASCII quote and dash
-characters to other characters when editing UTF-8 files, so be aware
-you might need to normalize your source files into the allowed Fortran
-character set.
+characters to other multi-byte characters when editing UTF-8 files, so
+be aware you might need to normalize your source files into the allowed
+Fortran character set outside of constant strings.
 
 When using Unicode as byte streams avoid list-directed output. It
 does not know which bytes are composing a glyph and may split lines at
@@ -249,7 +258,9 @@ inappropriate points.
 
 While modern Fortran can handle Unicode characters, there might still be
 limitations compared to languages like C++ regarding the ease of use with
-complex Unicode features (e.g., surrogate pairs, text directionality, normalization).
+complex Unicode features (e.g., surrogate pairs, text directionality,
+normalization). For many uses of Unicode support of codepoints and system
+support fort UTF-8 encoding is sufficient, however.
 
 ### In summary:
 
