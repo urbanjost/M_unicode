@@ -12,9 +12,12 @@ integer                     :: iostat
    open(stdout,encoding='utf-8',iostat=iostat) 
 
    ! Constructors
-   ! UNICODE_VARIABLE= UNICODE_VARIABLE|CHARACTER(LEN=*)|INTEGER_ARRAY
-   ! VARiABLE%CHARACTER(start,end,step) returns a CHARACTER string
-   ! VARiABLE%BYTES() returns an array of CHARACTER(len=1) values
+   ! UNICODE_VARIABLE = CHARACTER(LEN=*)|INTEGER_ARRAY
+   !
+   ! VARIABLE%CHARACTER(start,end,step) returns a CHARACTER string
+   ! VARIABLE%BYTE() returns an array of CHARACTER(len=1) values
+   ! VARIABLE%CODEPOINT() returns an integer array of Unicode values
+
    ustr= 'Hello World and Ni Hao -- 你好  '
 
    write (stdout,g) character(ustr) ! convert to intrinsic CHARACTER variable
@@ -26,9 +29,7 @@ integer                     :: iostat
    write (stdout,g)  ustr%character()      ! convert to CHARACTER variable
    write (stdout,g)  ustr%character(27,28) ! similiar to LINE(27:28)
    write (stdout,g)  ustr%character(len(ustr),1,-1) ! reverse string
-   write (stdout,g)  ustr%bytes()          ! convert to CHARACTER(LEN=1) type
+   write (stdout,g)  ustr%byte()           ! convert to CHARACTER(LEN=1) type
    write (stdout,gx) ustr%codepoint()      ! convert to Unicode codepoints
-   write (stdout,gh) ustr%codepoint()      ! convert to Unicode codepoints
-   write (stdout,gz) ustr%codepoint()      ! convert to Unicode codepoints
 
 end program testit

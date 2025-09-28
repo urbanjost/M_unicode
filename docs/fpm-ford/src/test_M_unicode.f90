@@ -74,6 +74,39 @@ character(len=*),intent(in),optional :: description
    endif
    if(.not.test)total=total+1
 end subroutine check
+##################################
+subroutine programming_environment()
+use, intrinsic :: iso_fortran_env, only : compiler_version
+use, intrinsic :: iso_fortran_env, only : compiler_options
+implicit none
+character(len=:),allocatable :: version, options
+character(len=*),parameter   :: nl=new_line('a')
+integer                      :: where, start, break
+   version=compiler_version()
+   options=' '//compiler_options()
+   start=1
+   do 
+      where=index(options(start:),' -')
+      if(where.eq.0)exit
+      break=where+start-1
+      options(break:break)=nl
+      start=where
+   enddo
+   if(start.eq.1)then
+      do 
+         where=index(options(start:),' /')
+         if(where.eq.0)exit
+         break=where+start-1
+         options(break:break)=nl
+         start=where
+      enddo
+   endif
+   print '(*(1x,a))', &
+    'This file was compiled by ', &
+    version,nl,        &
+    'using the options ',         &
+    options
+end subroutine programming_environment
 
 subroutine test_index()
 type(unicode_type)             :: string, substring
@@ -474,7 +507,7 @@ type(unicode_type)             :: ut_str
    write(*,g0)
    astr='Hello World and Ni Hao -- 你好'
    ut_str=astr
-   call checkits('convert to ASCII bytes',astr,ut_str%bytes(),transfer('Hello World and Ni Hao -- 你好',['A']))
+   call checkits('convert to ASCII bytes',astr,ut_str%byte(),transfer('Hello World and Ni Hao -- 你好',['A']))
 
    ut_str=smiley // ' and ' // smiley // 'and' // smiley // smiley // 'is it'
    astr='😃 and 😃and😃😃is it'
@@ -606,6 +639,7 @@ use testsuite_M_unicode
    write(*,g0)'encoding can be altered on an open file'
    open (output_unit, encoding='UTF-8')
 
+   call programming_environment()
    call test_adjustl()
    call test_adjustr()
    call test_trim()

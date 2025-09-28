@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 5.3% of total for procedures.">30 statements</a>
+                 title=" 5.0% of total for procedures.">30 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -134,9 +134,9 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../proc/test_operators.html#variable-astr~8">astr</a>
-            <a class="list-group-item" href="../proc/test_operators.html#variable-lhs">lhs</a>
-            <a class="list-group-item" href="../proc/test_operators.html#variable-rhs">rhs</a>
-            <a class="list-group-item" href="../proc/test_operators.html#variable-smiley~2">smiley</a>
+            <a class="list-group-item" href="../proc/test_operators.html#variable-lhs~24">lhs</a>
+            <a class="list-group-item" href="../proc/test_operators.html#variable-rhs~24">rhs</a>
+            <a class="list-group-item" href="../proc/test_operators.html#variable-smiley">smiley</a>
             <a class="list-group-item" href="../proc/test_operators.html#variable-ut_str~7">ut_str</a>
         </div>
       </div>
@@ -216,7 +216,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs"></span>
+              <span class="anchor" id="variable-lhs~24"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
               <td>public</td>
@@ -233,7 +233,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs"></span>
+              <span class="anchor" id="variable-rhs~24"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
               <td>public</td>
@@ -250,7 +250,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-smiley~2"></span>
+              <span class="anchor" id="variable-smiley"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
               <td>public</td>
@@ -307,7 +307,7 @@
 <span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g0</span><span class="p">)</span><span class="w"></span>
 <span class="w">   </span><span class="n">astr</span><span class="o">=</span><span class="s1">&#39;Hello World and Ni Hao -- 你好&#39;</span><span class="w"></span>
 <span class="w">   </span><span class="n">ut_str</span><span class="o">=</span><span class="n">astr</span><span class="w"></span>
-<span class="w">   </span><span class="k">call </span><span class="n">checkits</span><span class="p">(</span><span class="s1">&#39;convert to ASCII bytes&#39;</span><span class="p">,</span><span class="n">astr</span><span class="p">,</span><span class="n">ut_str</span><span class="p">%</span><span class="n">bytes</span><span class="p">(),</span><span class="nb">transfer</span><span class="p">(</span><span class="s1">&#39;Hello World and Ni Hao -- 你好&#39;</span><span class="p">,[</span><span class="s1">&#39;A&#39;</span><span class="p">]))</span><span class="w"></span>
+<span class="w">   </span><span class="k">call </span><span class="n">checkits</span><span class="p">(</span><span class="s1">&#39;convert to ASCII bytes&#39;</span><span class="p">,</span><span class="n">astr</span><span class="p">,</span><span class="n">ut_str</span><span class="p">%</span><span class="k">byte</span><span class="p">(),</span><span class="nb">transfer</span><span class="p">(</span><span class="s1">&#39;Hello World and Ni Hao -- 你好&#39;</span><span class="p">,[</span><span class="s1">&#39;A&#39;</span><span class="p">]))</span><span class="w"></span>
 
 <span class="w">   </span><span class="n">ut_str</span><span class="o">=</span><span class="n">smiley</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">&#39; and &#39;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">smiley</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">&#39;and&#39;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">smiley</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">smiley</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">&#39;is it&#39;</span><span class="w"></span>
 <span class="w">   </span><span class="n">astr</span><span class="o">=</span><span class="s1">&#39;😃 and 😃and😃😃is it&#39;</span><span class="w"></span>
@@ -354,7 +354,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-09-27 14:36 +0000             </p>
+ on 2025-09-28 13:12 +0000             </p>
           </div>
         </div>
         <br>

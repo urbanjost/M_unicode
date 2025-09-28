@@ -152,7 +152,7 @@ and operators and ragged arrays of strings using a user-defined type.</p>
 <span class="w">   </span><span class="c">! Constructors</span>
 <span class="w">   </span><span class="c">! UNICODE_VARIABLE= UNICODE_VARIABLE|CHARACTER(LEN=*)|INTEGER_ARRAY</span>
 <span class="w">   </span><span class="c">! VARiABLE%CHARACTER(start,end,step) returns a CHARACTER string</span>
-<span class="w">   </span><span class="c">! VARiABLE%BYTES() returns an array of CHARACTER(len=1) values</span>
+<span class="w">   </span><span class="c">! VARiABLE%BYTE() returns an array of CHARACTER(len=1) values</span>
 <span class="w">   </span><span class="n">ustr</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Hello World and Ni Hao -- 你好  &#39;</span><span class="w"></span>
 
 <span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="kt">character</span><span class="p">(</span><span class="n">ustr</span><span class="p">)</span><span class="w"> </span><span class="c">! convert to intrinsic CHARACTER variable</span>
@@ -164,7 +164,7 @@ and operators and ragged arrays of strings using a user-defined type.</p>
 <span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w">  </span><span class="n">ustr</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="w">      </span><span class="c">! convert to CHARACTER variable</span>
 <span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w">  </span><span class="n">ustr</span><span class="p">%</span><span class="kt">character</span><span class="p">(</span><span class="mi">27</span><span class="p">,</span><span class="mi">28</span><span class="p">)</span><span class="w"> </span><span class="c">! similiar to LINE(27:28)</span>
 <span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w">  </span><span class="n">ustr</span><span class="p">%</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ustr</span><span class="p">),</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="c">! reverse string</span>
-<span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w">  </span><span class="n">ustr</span><span class="p">%</span><span class="n">bytes</span><span class="p">()</span><span class="w">          </span><span class="c">! convert to CHARACTER(LEN=1) type</span>
+<span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w">  </span><span class="n">ustr</span><span class="p">%</span><span class="k">byte</span><span class="p">()</span><span class="w">           </span><span class="c">! convert to CHARACTER(LEN=1) type</span>
 <span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">gx</span><span class="p">)</span><span class="w"> </span><span class="n">ustr</span><span class="p">%</span><span class="n">codepoint</span><span class="p">()</span><span class="w">      </span><span class="c">! convert to Unicode codepoints</span>
 <span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">gh</span><span class="p">)</span><span class="w"> </span><span class="n">ustr</span><span class="p">%</span><span class="n">codepoint</span><span class="p">()</span><span class="w">      </span><span class="c">! convert to Unicode codepoints</span>
 
@@ -376,7 +376,7 @@ including features and enhancements from Francois Jacq.</p>
           <div class="col-xs-6 col-sm-3">
             <div>
               <h3>Source Files</h3>
-              <ul><li><a href='sourcefile/bom_start.f90.html'>bom_start.f90</a></li><li><a href='sourcefile/codepoint.f90.html'>codepoint.f90</a></li><li><a href='sourcefile/construct.f90.html'>construct.f90</a></li><li><a href='sourcefile/count_glyphs.f90.html'>count_glyphs.f90</a></li><li><a href='sourcefile/demo_lower.f90.html'>demo_lower.f90</a></li><li><a href='sourcefile/demo_scan.f90.html'>demo_scan.f90</a></li><li><a href='sourcefile/demo_sort.f90.html'>demo_sort.f90</a></li><li><a href='sourcefile/demo_split.f90.html'>demo_split.f90</a></li><li><a href='sourcefile/demo_tokenize.f90.html'>demo_tokenize.f90</a></li><li><a href='sourcefile/demo_upper.f90.html'>demo_upper.f90</a></li></ul>
+              <ul><li><a href='sourcefile/bom_start.f90.html'>bom_start.f90</a></li><li><a href='sourcefile/codepoint.f90.html'>codepoint.f90</a></li><li><a href='sourcefile/codepoints.f90.html'>codepoints.f90</a></li><li><a href='sourcefile/construct.f90.html'>construct.f90</a></li><li><a href='sourcefile/count_glyphs.f90.html'>count_glyphs.f90</a></li><li><a href='sourcefile/demo_lower.f90.html'>demo_lower.f90</a></li><li><a href='sourcefile/demo_scan.f90.html'>demo_scan.f90</a></li><li><a href='sourcefile/demo_sort.f90.html'>demo_sort.f90</a></li><li><a href='sourcefile/demo_split.f90.html'>demo_split.f90</a></li><li><a href='sourcefile/demo_tokenize.f90.html'>demo_tokenize.f90</a></li></ul>
             </div>
             <div>
               <ul>
@@ -433,7 +433,7 @@ including features and enhancements from Francois Jacq.</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-09-27 14:36 +0000             </p>
+ on 2025-09-28 13:12 +0000             </p>
           </div>
         </div>
         <br>

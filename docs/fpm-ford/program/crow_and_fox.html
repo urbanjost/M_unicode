@@ -90,7 +90,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 3.8% of total for programs.">20 statements</a>
+                 title=" 3.5% of total for programs.">21 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -131,8 +131,8 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../program/crow_and_fox.html#variable-i~9">i</a>
-            <a class="list-group-item" href="../program/crow_and_fox.html#variable-iostat~3">iostat</a>
+            <a class="list-group-item" href="../program/crow_and_fox.html#variable-i~36">i</a>
+            <a class="list-group-item" href="../program/crow_and_fox.html#variable-iostat~13">iostat</a>
             <a class="list-group-item" href="../program/crow_and_fox.html#variable-poem">poem</a>
         </div>
       </div>
@@ -200,7 +200,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~9"></span>
+              <span class="anchor" id="variable-i~36"></span>
               integer
             </td>
             <td>
@@ -216,7 +216,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iostat~3"></span>
+              <span class="anchor" id="variable-iostat~13"></span>
               integer
             </td>
             <td>
@@ -276,8 +276,11 @@
 <span class="w">   </span><span class="k">open</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">,</span><span class="n">iostat</span><span class="o">=</span><span class="n">iostat</span><span class="p">)</span><span class="w"></span>
 
 <span class="w">   </span><span class="c">! “The Crow and the Fox” by Jean de la Fontaine</span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(a,/)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Le Corbeau et le Renard -- Jean de la Fontaine&#39;</span><span class="w"> </span>
 
 <span class="w">   </span><span class="n">poem</span><span class="o">=</span><span class="p">[&amp;</span><span class="w"></span>
+<span class="w">   </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">&#39;Le Corbeau et le Renard&#39;</span><span class="w">                             </span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">   </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="w">                                                    </span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <span class="w">   </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">&#39;Maître Corbeau, sur un arbre perché,&#39;</span><span class="w">                </span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <span class="w">   </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">&#39;Tenait en son bec un fromage.&#39;</span><span class="w">                       </span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <span class="w">   </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">&#39;Maître Renard, par l’odeur alléché,&#39;</span><span class="w">                 </span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
@@ -302,7 +305,7 @@
 <span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)(</span><span class="kt">character</span><span class="p">(</span><span class="n">poem</span><span class="p">(</span><span class="n">i</span><span class="p">)),</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">poem</span><span class="p">))</span><span class="w"></span>
 
 <span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="s1">&#39;BYTES&#39;</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(*(a))&#39;</span><span class="p">)(</span><span class="n">poem</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">bytes</span><span class="p">(),</span><span class="nb">new_line</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">),</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">poem</span><span class="p">))</span><span class="w"></span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(*(a))&#39;</span><span class="p">)(</span><span class="n">poem</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="k">byte</span><span class="p">(),</span><span class="nb">new_line</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">),</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">poem</span><span class="p">))</span><span class="w"></span>
 
 <span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="s1">&#39;WITH LENGTH IN GLYPHS AND BYTES&#39;</span><span class="w"></span>
 <span class="w">   </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">poem</span><span class="p">)</span><span class="w"></span>
@@ -332,7 +335,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-09-27 14:36 +0000             </p>
+ on 2025-09-28 13:12 +0000             </p>
           </div>
         </div>
         <br>
