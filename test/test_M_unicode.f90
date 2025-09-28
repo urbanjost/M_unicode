@@ -493,7 +493,11 @@ character(len=*),parameter :: upagain="七転び八起き。転んでもまた�
 integer                    :: i
    string=upagain
    write(*,g0)'original bytes  :', upagain
-   write(*,g0)'bytes reversed  :', (upagain(i:i),i=len(upagain),1,-1)
+   !-------------------
+   ! doing this generates non-unicode byte sequences in UTF-8, which means
+   ! the OS may not longer recognize the output as UTF-8
+   !write(*,g0)'bytes reversed  :', (upagain(i:i),i=len(upagain),1,-1)
+   !-------------------
    write(*,g0)'original string :', string%character()
    write(*,g0)'string reversed :', string%character(string%len(),1,-1)
 end subroutine test_other
