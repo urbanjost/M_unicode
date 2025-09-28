@@ -18,21 +18,19 @@
 !
 ! The distribution provides a __Make__ file and easily builds with __fpm__.
 !
-! Documentation and examples are still a WIP but complete enough to guide
-! usage for anyone interesting in trying it.
-!
-! Only tested with ifx and gfortran so far but until proven otherwise
-! I think it should work with any environment where UTF-8 files are
-! supported. So far that includes allowing what-you=see-is-what-you-get
-! string constants on Linux and Cygwin at a minimum.
-!
-! It needs a DT and more CD/CI unit testing.
+! Documentation and examples provide a guide for basic usage.
 !
 ! **M_unicode** should be useful for anyone working with UTF-8 data,
 ! particularly if the compiler does not support the UCS-4 extensions
 ! of Fortran.
 !
+! Until proven otherwise
+! I think M_unicode.f90  should work with any environment where UTF-8 files are
+! supported. So far that includes allowing what-you=see-is-what-you-get
+! string constants on Linux and Cygwin at a minimum.
+!
 ! TODO:
+!  o It needs a DT and more CD/CI unit testing.
 !  o globbing
 !  o regex
 !  o elemental functions?
