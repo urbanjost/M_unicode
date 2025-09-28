@@ -90,7 +90,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 4.3% of total for programs.">25 statements</a>
+                 title=" 4.6% of total for programs.">27 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -131,12 +131,13 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../program/count_glyphs.html#variable-aline">aline</a>
-            <a class="list-group-item" href="../program/count_glyphs.html#variable-g">g</a>
+            <a class="list-group-item" href="../program/count_glyphs.html#variable-aline~14">aline</a>
+            <a class="list-group-item" href="../program/count_glyphs.html#variable-g~9">g</a>
             <a class="list-group-item" href="../program/count_glyphs.html#variable-iomsg">iomsg</a>
-            <a class="list-group-item" href="../program/count_glyphs.html#variable-iostat">iostat</a>
-            <a class="list-group-item" href="../program/count_glyphs.html#variable-length">length</a>
-            <a class="list-group-item" href="../program/count_glyphs.html#variable-uline">uline</a>
+            <a class="list-group-item" href="../program/count_glyphs.html#variable-iostat~15">iostat</a>
+            <a class="list-group-item" href="../program/count_glyphs.html#variable-length~5">length</a>
+            <a class="list-group-item" href="../program/count_glyphs.html#variable-length_ascii">length_ascii</a>
+            <a class="list-group-item" href="../program/count_glyphs.html#variable-uline~3">uline</a>
         </div>
       </div>
     </div>
@@ -203,7 +204,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-aline"></span>
+              <span class="anchor" id="variable-aline~14"></span>
               character(len=1024)
             </td>
             <td>
@@ -219,7 +220,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-g"></span>
+              <span class="anchor" id="variable-g~9"></span>
               character(len=*),
             </td>
             <td>
@@ -251,7 +252,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iostat"></span>
+              <span class="anchor" id="variable-iostat~15"></span>
               integer
             </td>
             <td>
@@ -267,7 +268,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-length"></span>
+              <span class="anchor" id="variable-length~5"></span>
               integer
             </td>
             <td>
@@ -283,7 +284,23 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uline"></span>
+              <span class="anchor" id="variable-length_ascii"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>length_ascii</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-uline~3"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>)
             </td>
             <td>
@@ -321,6 +338,7 @@ parameter
 <span class="k">intrinsic </span><span class="nb">is_iostat_end</span>
 <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">g</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;(*(g0))&#39;</span><span class="w"></span>
 <span class="kt">integer</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">length</span><span class="w"></span>
+<span class="kt">integer</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">length_ascii</span><span class="w"></span>
 <span class="kt">integer</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">iostat</span><span class="w"></span>
 <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">1024</span><span class="p">)</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">aline</span><span class="w"> </span>
 <span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">uline</span><span class="w"> </span>
@@ -331,7 +349,8 @@ parameter
 <span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">iostat</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>
 <span class="k">         </span><span class="n">uline</span><span class="o">=</span><span class="nb">trim</span><span class="p">(</span><span class="n">aline</span><span class="p">)</span><span class="w"></span>
 <span class="w">         </span><span class="n">length</span><span class="o">=</span><span class="nb">len_trim</span><span class="p">(</span><span class="n">uline</span><span class="p">)</span><span class="w"></span>
-<span class="w">         </span><span class="k">write</span><span class="p">(</span><span class="n">output_unit</span><span class="p">,</span><span class="s1">&#39;(i9,&quot;: &quot;,a)&#39;</span><span class="p">)</span><span class="n">length</span><span class="p">,</span><span class="n">uline</span><span class="p">%</span><span class="kt">character</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">length</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">length_ascii</span><span class="o">=</span><span class="nb">len_trim</span><span class="p">(</span><span class="n">uline</span><span class="p">%</span><span class="kt">character</span><span class="p">())</span><span class="w"></span>
+<span class="w">         </span><span class="k">write</span><span class="p">(</span><span class="n">output_unit</span><span class="p">,</span><span class="s1">&#39;(i5,&quot;: &quot;,i5,&quot;: &quot;,a)&#39;</span><span class="p">)</span><span class="n">length</span><span class="p">,</span><span class="n">length_ascii</span><span class="p">,</span><span class="n">uline</span><span class="p">%</span><span class="kt">character</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">length</span><span class="p">)</span><span class="w"></span>
 <span class="w">      </span><span class="n">elseif</span><span class="p">(</span><span class="nb">is_iostat_end</span><span class="p">(</span><span class="n">iostat</span><span class="p">))</span><span class="k">then</span>
 <span class="k">         exit</span>
 <span class="k">      else </span>
@@ -363,7 +382,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-09-28 18:04 +0000             </p>
+ on 2025-09-28 18:36 +0000             </p>
           </div>
         </div>
         <br>

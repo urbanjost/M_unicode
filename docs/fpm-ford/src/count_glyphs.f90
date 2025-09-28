@@ -6,6 +6,7 @@ implicit none
 intrinsic is_iostat_end
 character(len=*),parameter    :: g= '(*(g0))'
 integer                       :: length
+integer                       :: length_ascii
 integer                       :: iostat
 character(len=1024)           :: aline 
 type(unicode_type)            :: uline 
@@ -16,7 +17,8 @@ character(len=255)            :: iomsg
       if(iostat.eq.0)then
          uline=trim(aline)
          length=len_trim(uline)
-         write(output_unit,'(i9,": ",a)')length,uline%character(1,length)
+         length_ascii=len_trim(uline%character())
+         write(output_unit,'(i5,": ",i5,": ",a)')length,length_ascii,uline%character(1,length)
       elseif(is_iostat_end(iostat))then
          exit
       else 
