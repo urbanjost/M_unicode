@@ -2,7 +2,8 @@ The intent is for the M_unicode module to be useful on many platforms,
 but currently it is primarily [tested](TEST.md) with GCC/gfortran,Intel/ifx and flang on
 Linux and Cygwin. 
 
-# M_unicode module
+# M_unicode module 
+[![M_unicode module](docs/images/Phaistos_Disk_sideA.jpg)](https://github.com/urbanjost/M_unicode/releases/tag/v1.0.0)
 
 The **M_unicode** module provides support for directly operating on byte
 streams representing UTF-8 encoded text.
