@@ -16,7 +16,7 @@ type(unicode_type)                     :: ustr
    command_line=getargs()          ! get string containing all command arguments as CHARACTER bytes
    ustr=command_line               ! convert bytes to internal Fortran Unicode representation
 
-   open (stdout, encoding='UTF-8')
+   !open (stdout, encoding='UTF-8')
 
    ! write the command line out as a Fortran variable expression using the CHAR() function
    write(stdout,g) 'program fortran_unicode'

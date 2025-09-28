@@ -9,7 +9,7 @@ integer :: i
 integer                     :: iostat
 
    ! preferred, but not required if not supported
-   open(stdout,encoding='utf-8',iostat=iostat)
+   !open(stdout,encoding='utf-8',iostat=iostat)
 
    ! “The Crow and the Fox” by Jean de la Fontaine
    write(stdout,'(a,/)') 'Le Corbeau et le Renard -- Jean de la Fontaine' 

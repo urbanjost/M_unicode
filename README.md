@@ -1,6 +1,6 @@
 The intent is for the M_unicode module to be useful on many platforms,
-but currently it is primarily tested with GCC/gfortran and Intel/ifx on
-Linux and Cygwin. It needs a DT for printing.
+but currently it is primarily [tested](TEST.md) with GCC/gfortran,Intel/ifx and flang on
+Linux and Cygwin. 
 
 # M_unicode module
 

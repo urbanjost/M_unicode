@@ -637,7 +637,7 @@ use testsuite_M_unicode
    total = 0
 
    write(*,g0)'encoding can be altered on an open file'
-   open (output_unit, encoding='UTF-8')
+   !open (output_unit, encoding='UTF-8')
 
    call programming_environment()
    call test_adjustl()
