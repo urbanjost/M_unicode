@@ -180,9 +180,9 @@ interface unicode_type
       type(unicode_type)                     :: new
    end function new_str
 
-   module function new_strs(string) result(new)
-      character(len=*), intent(in), optional :: string(:)
-      type(unicode_type)                     :: new(size(string))
+   module function new_strs(strings) result(new)
+      character(len=*), intent(in)           :: strings(:)
+      type(unicode_type)                     :: new(size(strings))
    end function new_strs
 
    module function new_codes(codes) result(new)

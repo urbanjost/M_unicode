@@ -11,7 +11,7 @@ type(unicode_type) :: expected
 integer            :: iostat
 
    ! preferred, but not required if not supported
-   open(stdout,encoding='utf-8',iostat=iostat) 
+   !open(stdout,encoding='utf-8',iostat=iostat) 
 
    ! a sentence containing every letter of the English alphabet
    pangram="THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG"

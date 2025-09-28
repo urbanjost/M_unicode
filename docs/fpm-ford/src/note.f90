@@ -76,7 +76,7 @@ integer            :: iostat
    write(stdout,'(*(g0))')uline%character()
 
    ! preferred, but not required if not supported
-   open(stdout,encoding='utf-8',iostat=iostat)
+   !open(stdout,encoding='utf-8',iostat=iostat)
 
    write(stdout,'("CHARACTER STRING  :",*(g0))')uline%character()
    write(stdout,'("SINGLE CHARACTERS :",*(g0))')uline%byte()
