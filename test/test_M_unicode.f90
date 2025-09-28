@@ -484,7 +484,8 @@ end subroutine test_sort
 
 subroutine test_other()
 type(unicode_type)         :: string
-character(len=*),parameter :: upagain="七転び八起き。転んでもまた立ち上がる。くじけずに前を向いて歩いていこう。"
+character(len=*),parameter :: upagain=&
+"七転び八起き。転んでもまた立ち上がる。くじけずに前を向いて歩いていこう。"
 ! Romanization:
 ! Nanakorobi yaoki. Koronde mo mata tachiagaru. Kujikezu ni mae o muite aruite ikou.
 ! or English translation
