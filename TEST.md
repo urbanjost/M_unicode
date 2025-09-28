@@ -1,3 +1,4 @@
+﻿# Tested compilers
 ```text
  This file was compiled by  flang version 22.0.0 (https://github.com/llvm/llvm-project.git 378b6d51de97ce220c042a0823d047a546c82bf6) 
  using the options   /opt/compiler-explorer/clang-llvmflang-trunk/bin/flang
@@ -32,7 +33,9 @@
 -fimplicit-none
 -ffree-form
 -J build/gfortran_87E2AE0597D39913
-
+```
+## Expected output
+```text
 PASSED adjustl:[  this is a string    ][this is a string      ][this is a string      ]
 PASSED adjustl:[  ][  ][  ]
 PASSED adjustl:[][][]
@@ -115,7 +118,6 @@ PASSED scan:oop test
 PASSED scan:oop test
 PASSED verify:32‐af43d
 original bytes  :七転び八起き。転んでもまた立ち上がる。くじけずに前を向いて歩いていこう。
-bytes reversed  :��ㆁ㓁㄁㦁㄁㩭榁㄁㑐咂㍉嫁㚁㑁㘁㏁む㋂㌁㊸䡁㋫矁㾁も㧁㓂㢻肀㍁㷵諅峁㢻胸�
 original string :七転び八起き。転んでもまた立ち上がる。くじけずに前を向いて歩いていこう。
 string reversed :。うこいてい歩てい向を前にずけじく。るが上ち立たまもでん転。き起八び転七
 
