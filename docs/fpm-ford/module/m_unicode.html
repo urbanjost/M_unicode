@@ -385,7 +385,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~18"></span>
+              <span class="anchor" id="variable-string~20"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -438,7 +438,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~17"></span>
+              <span class="anchor" id="variable-string~19"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -491,7 +491,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs"></span>
+              <span class="anchor" id="variable-lhs~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -506,7 +506,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs"></span>
+              <span class="anchor" id="variable-rhs~2"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -544,7 +544,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~2"></span>
+              <span class="anchor" id="variable-lhs~3"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -559,7 +559,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~2"></span>
+              <span class="anchor" id="variable-rhs~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -607,7 +607,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~6"></span>
+              <span class="anchor" id="variable-string~8"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -650,7 +650,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~7"></span>
+              <span class="anchor" id="variable-string~9"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -693,7 +693,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~8"></span>
+              <span class="anchor" id="variable-string~10"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -708,7 +708,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pos"></span>
+              <span class="anchor" id="variable-pos~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -751,7 +751,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~9"></span>
+              <span class="anchor" id="variable-string~11"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -766,7 +766,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pos~2"></span>
+              <span class="anchor" id="variable-pos~4"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -792,152 +792,6 @@ parameter
           <li class="list-group-item">
                 <h3>
     private pure function char_str_range(string, first, last) result(aline)  
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-string~10"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>string</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-first"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>first</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-last"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>last</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>character(len=:), allocatable</small>
-    </h4>
-    
-
-          </li>
-          <li class="list-group-item">
-                <h3>
-    private pure function char_strs_range(string, first, last) result(lines)  
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-string~11"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>string</strong>(:)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-first~2"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>first</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-last~2"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>last</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>character(len=:), allocatable, (:)</small>
-    </h4>
-    
-
-          </li>
-          <li class="list-group-item">
-                <h3>
-    private pure function char_str_range_step(string, first, last, step) result(aline)  
 
     </h3>
   
@@ -998,21 +852,6 @@ parameter
                 
             </td>
         </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-step"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>step</strong></td>
-            <td>
-                
-            </td>
-        </tr>
     </tbody>
   </table>
 
@@ -1025,7 +864,7 @@ parameter
           </li>
           <li class="list-group-item">
                 <h3>
-    private pure function char_strs_range_step(string, first, last, step) result(lines)  
+    private pure function char_strs_range(string, first, last) result(lines)  
 
     </h3>
   
@@ -1074,6 +913,167 @@ parameter
         <tr>
             <td>
               <span class="anchor" id="variable-last~4"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>last</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>character(len=:), allocatable, (:)</small>
+    </h4>
+    
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private pure function char_str_range_step(string, first, last, step) result(aline)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-string~14"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>string</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-first~5"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>first</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-last~5"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>last</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-step"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>step</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>character(len=:), allocatable</small>
+    </h4>
+    
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private pure function char_strs_range_step(string, first, last, step) result(lines)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-string~15"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>string</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-first~6"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>first</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-last~6"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1287,7 +1287,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~19"></span>
+              <span class="anchor" id="variable-string~21"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1302,7 +1302,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-substring~2"></span>
+              <span class="anchor" id="variable-substring~3"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1360,7 +1360,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~20"></span>
+              <span class="anchor" id="variable-string~22"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1375,7 +1375,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-substring~3"></span>
+              <span class="anchor" id="variable-substring~4"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1433,7 +1433,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~21"></span>
+              <span class="anchor" id="variable-string~23"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1448,7 +1448,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-substring~4"></span>
+              <span class="anchor" id="variable-substring~5"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1516,7 +1516,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~5"></span>
+              <span class="anchor" id="variable-string~7"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1569,7 +1569,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~15"></span>
+              <span class="anchor" id="variable-string~17"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1622,7 +1622,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~11"></span>
+              <span class="anchor" id="variable-lhs~12"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1637,7 +1637,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~11"></span>
+              <span class="anchor" id="variable-rhs~12"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1680,7 +1680,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~10"></span>
+              <span class="anchor" id="variable-lhs~11"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1695,7 +1695,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~10"></span>
+              <span class="anchor" id="variable-rhs~11"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1738,7 +1738,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~9"></span>
+              <span class="anchor" id="variable-lhs~10"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1753,7 +1753,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~9"></span>
+              <span class="anchor" id="variable-rhs~10"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1806,7 +1806,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~12"></span>
+              <span class="anchor" id="variable-lhs~13"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1821,7 +1821,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~12"></span>
+              <span class="anchor" id="variable-rhs~13"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1864,7 +1864,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~13"></span>
+              <span class="anchor" id="variable-lhs~14"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1879,7 +1879,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~13"></span>
+              <span class="anchor" id="variable-rhs~14"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1922,7 +1922,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~14"></span>
+              <span class="anchor" id="variable-lhs~15"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1937,7 +1937,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~14"></span>
+              <span class="anchor" id="variable-rhs~15"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1990,7 +1990,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~21"></span>
+              <span class="anchor" id="variable-lhs~22"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2005,7 +2005,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~21"></span>
+              <span class="anchor" id="variable-rhs~22"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2048,7 +2048,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~22"></span>
+              <span class="anchor" id="variable-lhs~23"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2063,7 +2063,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~22"></span>
+              <span class="anchor" id="variable-rhs~23"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2106,7 +2106,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~23"></span>
+              <span class="anchor" id="variable-lhs~24"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2121,7 +2121,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~23"></span>
+              <span class="anchor" id="variable-rhs~24"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2174,7 +2174,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~15"></span>
+              <span class="anchor" id="variable-lhs~16"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2189,7 +2189,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~15"></span>
+              <span class="anchor" id="variable-rhs~16"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2232,7 +2232,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~16"></span>
+              <span class="anchor" id="variable-lhs~17"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2247,7 +2247,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~16"></span>
+              <span class="anchor" id="variable-rhs~17"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2290,7 +2290,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~17"></span>
+              <span class="anchor" id="variable-lhs~18"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2305,7 +2305,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~17"></span>
+              <span class="anchor" id="variable-rhs~18"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2358,7 +2358,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~18"></span>
+              <span class="anchor" id="variable-lhs~19"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2373,7 +2373,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~18"></span>
+              <span class="anchor" id="variable-rhs~19"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2416,7 +2416,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~19"></span>
+              <span class="anchor" id="variable-lhs~20"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2431,7 +2431,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~19"></span>
+              <span class="anchor" id="variable-rhs~20"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2474,7 +2474,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~20"></span>
+              <span class="anchor" id="variable-lhs~21"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2489,7 +2489,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~20"></span>
+              <span class="anchor" id="variable-rhs~21"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2542,7 +2542,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~8"></span>
+              <span class="anchor" id="variable-lhs~9"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2557,7 +2557,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~8"></span>
+              <span class="anchor" id="variable-rhs~9"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2600,7 +2600,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~7"></span>
+              <span class="anchor" id="variable-lhs~8"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2615,7 +2615,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~7"></span>
+              <span class="anchor" id="variable-rhs~8"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2658,7 +2658,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~6"></span>
+              <span class="anchor" id="variable-lhs~7"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2673,7 +2673,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~6"></span>
+              <span class="anchor" id="variable-rhs~7"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2726,7 +2726,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~3"></span>
+              <span class="anchor" id="variable-lhs~4"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2741,7 +2741,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~3"></span>
+              <span class="anchor" id="variable-rhs~4"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2784,7 +2784,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~4"></span>
+              <span class="anchor" id="variable-lhs~5"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2799,7 +2799,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~4"></span>
+              <span class="anchor" id="variable-rhs~5"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2842,7 +2842,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~5"></span>
+              <span class="anchor" id="variable-lhs~6"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2857,7 +2857,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~5"></span>
+              <span class="anchor" id="variable-rhs~6"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2910,7 +2910,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~8"></span>
+              <span class="anchor" id="variable-lhs~9"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2925,7 +2925,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~8"></span>
+              <span class="anchor" id="variable-rhs~9"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2968,7 +2968,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~7"></span>
+              <span class="anchor" id="variable-lhs~8"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2983,7 +2983,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~7"></span>
+              <span class="anchor" id="variable-rhs~8"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -3026,7 +3026,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~6"></span>
+              <span class="anchor" id="variable-lhs~7"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3041,7 +3041,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~6"></span>
+              <span class="anchor" id="variable-rhs~7"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3094,7 +3094,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~18"></span>
+              <span class="anchor" id="variable-lhs~19"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3109,7 +3109,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~18"></span>
+              <span class="anchor" id="variable-rhs~19"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3152,7 +3152,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~19"></span>
+              <span class="anchor" id="variable-lhs~20"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3167,7 +3167,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~19"></span>
+              <span class="anchor" id="variable-rhs~20"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -3210,7 +3210,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~20"></span>
+              <span class="anchor" id="variable-lhs~21"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -3225,7 +3225,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~20"></span>
+              <span class="anchor" id="variable-rhs~21"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3278,7 +3278,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~15"></span>
+              <span class="anchor" id="variable-lhs~16"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3293,7 +3293,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~15"></span>
+              <span class="anchor" id="variable-rhs~16"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3336,7 +3336,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~16"></span>
+              <span class="anchor" id="variable-lhs~17"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3351,7 +3351,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~16"></span>
+              <span class="anchor" id="variable-rhs~17"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -3394,7 +3394,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~17"></span>
+              <span class="anchor" id="variable-lhs~18"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -3409,7 +3409,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~17"></span>
+              <span class="anchor" id="variable-rhs~18"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3462,7 +3462,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~11"></span>
+              <span class="anchor" id="variable-lhs~12"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -3477,7 +3477,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~11"></span>
+              <span class="anchor" id="variable-rhs~12"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3520,7 +3520,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~10"></span>
+              <span class="anchor" id="variable-lhs~11"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3535,7 +3535,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~10"></span>
+              <span class="anchor" id="variable-rhs~11"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -3578,7 +3578,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~9"></span>
+              <span class="anchor" id="variable-lhs~10"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3593,7 +3593,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~9"></span>
+              <span class="anchor" id="variable-rhs~10"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3646,7 +3646,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~21"></span>
+              <span class="anchor" id="variable-lhs~22"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3661,7 +3661,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~21"></span>
+              <span class="anchor" id="variable-rhs~22"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3704,7 +3704,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~22"></span>
+              <span class="anchor" id="variable-lhs~23"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3719,7 +3719,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~22"></span>
+              <span class="anchor" id="variable-rhs~23"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -3762,7 +3762,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~23"></span>
+              <span class="anchor" id="variable-lhs~24"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -3777,7 +3777,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~23"></span>
+              <span class="anchor" id="variable-rhs~24"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3830,7 +3830,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~12"></span>
+              <span class="anchor" id="variable-lhs~13"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3845,7 +3845,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~12"></span>
+              <span class="anchor" id="variable-rhs~13"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3888,7 +3888,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~13"></span>
+              <span class="anchor" id="variable-lhs~14"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3903,7 +3903,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~13"></span>
+              <span class="anchor" id="variable-rhs~14"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -3946,7 +3946,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~14"></span>
+              <span class="anchor" id="variable-lhs~15"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -3961,7 +3961,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~14"></span>
+              <span class="anchor" id="variable-rhs~15"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4014,7 +4014,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~14"></span>
+              <span class="anchor" id="variable-string~16"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4082,7 +4082,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~27"></span>
+              <span class="anchor" id="variable-string~29"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4097,7 +4097,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~4"></span>
+              <span class="anchor" id="variable-set~6"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4321,7 +4321,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~25"></span>
+              <span class="anchor" id="variable-string~27"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4336,7 +4336,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~2"></span>
+              <span class="anchor" id="variable-set~4"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4351,7 +4351,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first~7"></span>
+              <span class="anchor" id="variable-first~9"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -4366,7 +4366,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~8"></span>
+              <span class="anchor" id="variable-last~10"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -4404,7 +4404,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~26"></span>
+              <span class="anchor" id="variable-string~28"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4419,7 +4419,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~3"></span>
+              <span class="anchor" id="variable-set~5"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4434,7 +4434,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pos~5"></span>
+              <span class="anchor" id="variable-pos~7"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -4487,7 +4487,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~24"></span>
+              <span class="anchor" id="variable-string~26"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4502,7 +4502,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set"></span>
+              <span class="anchor" id="variable-set~3"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4517,7 +4517,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tokens"></span>
+              <span class="anchor" id="variable-tokens~3"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(out),</td>
@@ -4580,7 +4580,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~25"></span>
+              <span class="anchor" id="variable-string~27"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4595,7 +4595,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~2"></span>
+              <span class="anchor" id="variable-set~4"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4610,7 +4610,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first~7"></span>
+              <span class="anchor" id="variable-first~9"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -4625,7 +4625,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~8"></span>
+              <span class="anchor" id="variable-last~10"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -4663,7 +4663,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~26"></span>
+              <span class="anchor" id="variable-string~28"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4678,7 +4678,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~3"></span>
+              <span class="anchor" id="variable-set~5"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4693,7 +4693,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pos~5"></span>
+              <span class="anchor" id="variable-pos~7"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -4746,7 +4746,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~24"></span>
+              <span class="anchor" id="variable-string~26"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4761,7 +4761,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set"></span>
+              <span class="anchor" id="variable-set~3"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4776,7 +4776,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tokens"></span>
+              <span class="anchor" id="variable-tokens~3"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(out),</td>
@@ -4839,7 +4839,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~16"></span>
+              <span class="anchor" id="variable-string~18"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4892,7 +4892,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-codes~2"></span>
+              <span class="anchor" id="variable-codes~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -4935,7 +4935,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string"></span>
+              <span class="anchor" id="variable-string~3"></span>
               character(len=*),
             </td>
 <td>intent(in),</td>
@@ -5177,7 +5177,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~28"></span>
+              <span class="anchor" id="variable-string~30"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -5192,7 +5192,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~5"></span>
+              <span class="anchor" id="variable-set~7"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -5406,7 +5406,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~2"></span>
+              <span class="anchor" id="variable-str~4"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -5451,7 +5451,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str"></span>
+              <span class="anchor" id="variable-str~3"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -5500,7 +5500,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-09-28 18:36 +0000             </p>
+ on 2025-09-28 19:10 +0000             </p>
           </div>
         </div>
         <br>
