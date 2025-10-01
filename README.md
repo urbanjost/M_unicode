@@ -29,7 +29,7 @@ use M_unicode, only : character
 ! intrinsic overloads
 use M_unicode, only : &
    adjustl,  adjustr,   trim,    len,     len_trim,  &
-   index,    scan,      verify,  repeat,             &          
+   index,    scan,      verify,  repeat,  ichar,     &          
    split,    tokenize,  upper,   lower,   sort       
 
 ! operators (and overloads) and assignment

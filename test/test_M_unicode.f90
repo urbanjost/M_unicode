@@ -8,6 +8,7 @@ use M_unicode, only : upper, lower
 use M_unicode, only : sort
 use M_unicode, only : scan, verify
 use M_unicode, only : tokenize, split
+use M_unicode, only : ichar
 
 use M_unicode, only : assignment(=), unicode_type, operator(//)
 use M_unicode, only : operator(<=), lle
@@ -273,7 +274,9 @@ type(unicode_type)             :: ut_str
 end subroutine test_trim
 
 subroutine test_upper()
-type(unicode_type) :: upp, low
+type(unicode_type) :: upp, low, temp
+integer            :: i
+character(len=128) :: ascii7
 !
 ! remember unicode characters are multi-byte so be careful
 ! with older compilers to not exceed 132 bytes per line
@@ -321,12 +324,21 @@ type(unicode_type) :: upp, low
    call check('upper', upper(low)==upp )
    call check('upper', character(upper(low))==character(upp) )
 
+   write(ascii7,g0)(achar(i),i=0,127)
+   ascii7( ichar('a')+1:ichar('z')+1 ) = ' '
+   ascii7( ichar('A')+1:ichar('Z')+1 ) = ' '
+   temp=ascii7
+   call check('upper',temp%character()==ascii7,'check non-alphameric like'//ascii7(ichar(' ')+1:len(ascii7)-1) )
+   call check('upper',upper(temp)==lower(temp),'expect no difference')
+   call check('upper',temp==upper(temp),'expect no change')
+
 end subroutine test_upper
 
 subroutine test_lower()
-type(unicode_type) :: upp, low, lowkludge, temp, letter1, letter2
-integer :: i 
+type(unicode_type)  :: upp, low, lowkludge, temp, letter1, letter2
+integer             :: i
 integer,allocatable :: codes(:)
+character(len=128)  :: ascii7
 !
 ! remember unicode characters are multi-byte so be careful
 ! with older compilers to not exceed 132 bytes per line
@@ -387,6 +399,14 @@ integer,allocatable :: codes(:)
    !call check('lower', character(temp)==character(low) )
    call check('lower', temp==lowkludge )
    call check('lower', character(temp)==character(lowkludge) )
+
+   write(ascii7,g0)(achar(i),i=0,127)
+   ascii7( ichar('a')+1:ichar('z')+1 ) = ' '
+   ascii7( ichar('A')+1:ichar('Z')+1 ) = ' '
+   temp=ascii7
+   call check('lower',temp%character()==ascii7,'check non-alphameric like'//ascii7(ichar(' ')+1:len(ascii7)-1) )
+   call check('lower',upper(temp)==lower(temp),'expect no difference')
+   call check('lower',temp==lower(temp),'expect no change')
 
 end subroutine test_lower
 
@@ -635,6 +655,14 @@ type(unicode_type)         :: str
 
 end subroutine test_verify
 
+subroutine test_ichar()
+type(unicode_type)             :: ut_str
+   ut_str='ABC'
+   call check('ichar',ut_str%ichar().eq.ichar('A'),'string%ichar()')
+   call check('ichar',ichar(ut('A')).eq.ichar('A'),'ichar(ut("A")')
+   call check('ichar',ichar(ut_str%sub(2,3)).eq.ichar('B'),'ichar(ut_str%sub(2,3))')
+end subroutine test_ichar
+
 end module testsuite_M_unicode
 
 program test_M_unicode
@@ -660,6 +688,7 @@ use testsuite_M_unicode
    call test_split()
    call test_scan()
    call test_verify()
+   call test_ichar()
    call test_other()
 
    write(*,g0)

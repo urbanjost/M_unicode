@@ -47,15 +47,17 @@ use,intrinsic :: iso_fortran_env, only : real32, real64, real128
 implicit none
 
 private
-public :: utf8_to_codepoints,  codepoints_to_utf8
-public :: adjustl, adjustr, index, len, len_trim, repeat, trim
-public :: sort
-public :: split, tokenize
-public :: upper, lower
-public :: scan,  verify
 public :: unicode_type
-public :: assignment(=)
+public :: utf8_to_codepoints,  codepoints_to_utf8
 public :: character
+public :: sort
+public :: upper, lower
+
+public :: adjustl, adjustr, index, len, len_trim, repeat, trim
+public :: split, tokenize
+public :: scan,  verify
+public :: assignment(=)
+public :: ichar
 public :: lle, llt, lne, leq, lgt, lge
 public :: operator(<=), operator(<), operator(/=), operator(==), operator(>), operator(>=), operator(//)
 
@@ -104,13 +106,14 @@ interface character
 end interface character
 
 ! INTRINSIC COMPATIBILITY
-interface adjustl;      module procedure :: adjustl_str;  end interface adjustl
-interface adjustr;      module procedure :: adjustr_str;  end interface adjustr
-interface len;          module procedure :: len_str;      end interface len
-interface len_trim;     module procedure :: len_trim_str; end interface len_trim
-interface repeat;       module procedure :: repeat_str;   end interface repeat
-interface trim;         module procedure :: trim_str;     end interface trim
-interface index;        module procedure :: index_str_str,  index_str_char,  index_char_str;  end interface index
+interface adjustl;    module procedure :: adjustl_str;    end interface adjustl
+interface adjustr;    module procedure :: adjustr_str;    end interface adjustr
+interface len;        module procedure :: len_str;        end interface len
+interface len_trim;   module procedure :: len_trim_str;   end interface len_trim
+interface repeat;     module procedure :: repeat_str;     end interface repeat
+interface trim;       module procedure :: trim_str;       end interface trim
+interface ichar;      module procedure :: ichar_str;      end interface ichar
+interface index;      module procedure :: index_str_str, index_str_char, index_char_str; end interface index
 
 interface lle;          module procedure :: lle_str_str,    lle_str_char,    lle_char_str;    end interface lle
 interface llt;          module procedure :: llt_str_str,    llt_str_char,    llt_char_str;    end interface llt
@@ -132,24 +135,26 @@ type :: unicode_type ! Unicode string type holding an arbitrary sequence of inte
    integer, allocatable :: codes(:)
 contains
    ! METHODS:
-   procedure :: character  => oop_character
-   procedure :: codepoint  => oop_codepoint
-   procedure :: byte       => oop_byte 
-
+   ! conversion
+   procedure :: character  => oop_character ! a single variable in UTF-8 encoding
+   procedure :: codepoint  => oop_codepoint ! codes of each glyph
+   procedure :: byte       => oop_byte      ! stream of bytes in UTF-8 encoding
+   procedure :: ichar      => oop_ichar     ! code of a single character
+   ! intrinsics
    procedure :: adjustl    => oop_adjustl
    procedure :: adjustr    => oop_adjustr
    procedure :: index      => oop_index
    procedure :: len        => oop_len
    procedure :: len_trim   => oop_len_trim
    procedure :: trim       => oop_trim
-
    procedure :: split      => oop_split
    procedure :: tokenize   => oop_tokenize
    procedure :: scan       => oop_scan
    procedure :: verify     => oop_verify
+   ! transform
    procedure :: upper      => oop_upper
    procedure :: lower      => oop_lower
-
+   
    procedure :: sub        => oop_sub
 
    !DECLARATION OF OVERLOADED OPERATORS FOR TYPE(UNICODE_TYPE)
@@ -1633,7 +1638,7 @@ contains
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 pure subroutine codepoints_to_utf8_chars(unicode,utf8,nerr)
-
+intrinsic char
 integer,intent(in)                :: unicode(:)
 character,allocatable,intent(out) :: utf8(:)
 integer,intent(out)               :: nerr
@@ -2143,6 +2148,21 @@ integer                        :: length
    enddo
 
 end function len_trim_str
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
+! return code value of first character of string like intrinsic ichar()
+elemental function ichar_str(string) result(code)
+type(unicode_type), intent(in) :: string
+integer                        :: code
+
+   if(size(string%codes) == 0)then
+      code=0
+   else
+      code=string%codes(1)
+   endif
+
+end function ichar_str
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
@@ -3172,8 +3192,8 @@ class(unicode_type),intent(in) :: self
 type(unicode_type)             :: str_out
 integer,intent(in),optional    :: first, last, step
 integer                        :: start, end, inc
-integer                         :: which
-   which=merge(1,0,present(first))+ 2*merge(1,0,present(last))+ 4*merge(1,0,present(step))
+integer                        :: which
+   which=4*merge(1,0,present(first))+ 2*merge(1,0,present(last))+ 1*merge(1,0,present(step))
    select case(which)
    case(int(b'000')) ; start=1     ; end=len(self) ; inc=1
    case(int(b'001')) ; start=1     ; end=len(self) ; inc=step
@@ -3215,6 +3235,17 @@ integer,intent(in),optional     :: first, last, step
 character(len=1),allocatable    :: bytes_out(:)
    bytes_out=s2a(oop_character(self,first,last,step))
 end function oop_byte
+!===================================================================================================================================
+! return codepoint value of first character as is done by intrinsic ichar()
+elemental function oop_ichar(self) result(code)
+class(unicode_type), intent(in) :: self
+integer                         :: code
+   if(size(self%codes) == 0 )then
+      code=0
+   else
+      code=self%codes(1)
+   endif
+end function oop_ichar
 !===================================================================================================================================
 function oop_codepoint(self,first,last,step) result(codes_out)
 class(unicode_type), intent(in) :: self

@@ -3,22 +3,24 @@ program codepoints
 use, intrinsic :: iso_fortran_env, only : stdout => output_unit
 use M_unicode,                     only : unicode_type, assignment(=), len
 implicit none
-character(len=*),parameter             :: form= '("char(int(z''",z0,"''),kind=ucs4)":,"// &")'
-character(len=*),parameter             :: form_M= '("int(z''",z0,"'')":,", &")'
-character(len=*),parameter             :: form_zhtml= '(*(:"&#x",z0,";"))'
-character(len=*),parameter             :: form_html= '(*(:"&#",i0,";"))'
-character(len=*),parameter             :: form_codepoint= '(*(:"",i0,:","))'
-character(len=*),parameter             :: g= '(*(g0))'
-integer                                :: i
-character(len=:),allocatable           :: aline
-character(len=:),allocatable           :: command_line
-type(unicode_type)                     :: ustr
+character(len=*),parameter   :: form= '("char(int(z''",z0,"''),kind=ucs4)":,"// &")'
+character(len=*),parameter   :: form_M= '("int(z''",z0,"'')":,", &")'
+character(len=*),parameter   :: form_zhtml= '(*(:"&#x",z0,";"))'
+character(len=*),parameter   :: form_html= '(*(:"&#",i0,";"))'
+character(len=*),parameter   :: form_codepoint= '(*(:"",i0,:","))'
+character(len=*),parameter   :: g= '(*(g0))'
+integer                      :: i
+integer,allocatable          :: codes(:)
+character(len=:),allocatable :: aline
+character(len=:),allocatable :: command_line
+type(unicode_type)           :: ustr
    command_line=getargs()          ! get string containing all command arguments as CHARACTER bytes
    ustr=command_line               ! convert bytes to internal Fortran Unicode representation
 
    !open (stdout, encoding='UTF-8')
 
    ! write the command line out as a Fortran variable expression using the CHAR() function
+
    write(stdout,g) 'program fortran_unicode'
    write(stdout,g) 'use,intrinsic :: iso_fortran_env, only: stdout => output_unit'
    write(stdout,g) 'implicit none'
@@ -35,7 +37,9 @@ type(unicode_type)                     :: ustr
    write(stdout,g) "   write(ustr2,'(*(a))')[(ustr(i:i),i=len(ustr),1,-1)]"
    write(stdout,g) '   write(stdout,*)ustr2'
    write(stdout,g) 'end program fortran_unicode'
+
    write(stdout,g)
+
    write(stdout,g) 'program fortran_M_unicode'
    write(stdout,g) 'use,intrinsic :: iso_fortran_env, only: stdout => output_unit'
    write(stdout,g) 'use M_unicode, only: unicode_type, assignment(=), len'
@@ -61,6 +65,27 @@ type(unicode_type)                     :: ustr
    write(stdout,g) '   ustr="',ustr%character(),'"'
    write(stdout,g) '   write(stdout,*)ustr%character()'
    write(stdout,g) 'end program fortran_M_unicode'
+
+   write(stdout,g)
+
+   write(stdout,g) '#include <iostream>'
+   write(stdout,g) '#include <string>'
+   write(stdout,g) 'int main() {'
+   write(stdout,g,advance='no') '   std::u32string mystring = U"'
+   codes=ustr%codepoint()
+   do i=1,size(codes)
+      if(codes(i).lt.127)then      
+         write(stdout,g,advance='no') achar(codes(i))
+      else
+         write(stdout,'(''U\'',z8.8)',advance='no') codes(i)
+      endif
+   enddo
+   write(stdout,g) '";'
+   write(stdout,g) '   // Outputting these directly might depend on console/terminal support'
+   write(stdout,g) "   // and may require conversion to the system's preferred encoding."
+   write(stdout,g) '   return 0;'
+   write(stdout,g) '}'
+
    write(stdout,g)
 
    write(stdout,g) "<!-- HTML Entities for ",ustr%character(),"-->"
