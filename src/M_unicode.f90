@@ -52,6 +52,7 @@ public :: utf8_to_codepoints,  codepoints_to_utf8
 public :: character
 public :: sort
 public :: upper, lower
+public :: replace
 
 public :: adjustl, adjustr, index, len, len_trim, repeat, trim
 public :: split, tokenize
@@ -156,6 +157,7 @@ contains
    procedure :: lower      => oop_lower
    
    procedure :: sub        => oop_sub
+   procedure :: replace    => oop_replace
 
    !DECLARATION OF OVERLOADED OPERATORS FOR TYPE(UNICODE_TYPE)
    procedure,private :: eq => oop_eq
@@ -1633,6 +1635,13 @@ type(unicode_codepoints),parameter,public :: unicode= unicode_codepoints( &
    hexadecimal=[hexchars], &
    bom=[int(z'FEFF')], &
    spaces=spacescodes )
+
+type :: force_keywords ! force keywords, using @awvwgk method
+end type force_keywords
+! so then any argument that comes after "force_kwargs" is a compile time error
+! if not done with a keyword unless someone "breaks" it by passing something
+! of this type:
+!    type(force_keywords), optional, intent(in) :: force_kwargs
 contains
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
@@ -2908,6 +2917,162 @@ end subroutine sort_quick_rx
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
+impure elemental function reverse(string) result (rev)
+
+! ident_22="@(#) M_unicode reverse(3f) Return a string reversed"
+
+type(unicode_type),intent(in)  :: string   ! string to reverse
+type(unicode_type)             :: rev      ! return value (reversed string)
+   rev=string%sub(len(string),1,-1)
+end function reverse
+
+function replace(target,old,new,force_,occurrence,repeat,ignorecase,changes,back) result (newline)
+
+! ident_12="@(#) M_unicode replace(3f) replace one substring for another in string"
+
+! parameters
+type(unicode_type),intent(in)            :: target     ! input line to be changed
+type(unicode_type),intent(in)            :: old        ! old substring to replace
+type(unicode_type),intent(in)            :: new        ! new substring
+type(force_keywords),optional,intent(in) :: force_
+integer,intent(in),optional              :: occurrence ! Nth occurrence of OLD string to start replacement at
+integer,intent(in),optional              :: repeat     ! how many replacements
+logical,intent(in),optional              :: ignorecase
+integer,intent(out),optional             :: changes    ! number of changes made
+logical,intent(in),optional              :: back
+
+! returns
+type(unicode_type) :: newline               ! output string buffer
+
+! local
+type(unicode_type) :: new_local, old_local, old_local_for_comparison
+integer            :: icount,ichange,ier2
+integer            :: original_input_length
+integer            :: len_old, len_new
+integer            :: ladd
+integer            :: left_margin, right_margin
+integer            :: ind
+integer            :: ic
+integer            :: ichr
+integer            :: range_local(2)
+integer            :: ilen_temp
+type(unicode_type) :: target_for_comparison   ! input line to be changed
+logical            :: ignorecase_local
+logical            :: flip
+type(unicode_type) :: target_local   ! input line to be changed
+
+   flip=.false.
+   ignorecase_local=.false.
+   original_input_length=len_trim(target)          ! get non-blank length of input line
+
+   old_local=old
+   new_local=new
+
+   if(present(ignorecase))then
+      ignorecase_local=ignorecase
+   else
+      ignorecase_local=.false.
+   endif
+   if(present(occurrence))then
+      range_local(1)=abs(occurrence)
+   else
+      range_local(1)=1
+   endif
+   if(present(repeat))then
+      range_local(2)=range_local(1)+repeat-1
+   else
+      range_local(2)=original_input_length
+   endif
+   if(ignorecase_local)then
+      target_for_comparison=lower(target)
+      old_local_for_comparison=lower(old_local)
+   else
+      target_for_comparison=target
+      old_local_for_comparison=old_local
+   endif
+   if(present(back))then
+      flip=back
+   endif
+   if(present(occurrence))then
+      if(occurrence < 0)then
+         flip=.true.
+         target_for_comparison=reverse(target_for_comparison)
+         target_local=reverse(target)
+         old_local_for_comparison=reverse(old_local_for_comparison)
+         old_local=reverse(old_local)
+         new_local=reverse(new_local)
+      else
+         target_local=target
+      endif
+   else
+      target_local=target
+   endif
+
+   icount=0                                            ! initialize error flag/change count
+   ichange=0                                           ! initialize error flag/change count
+   len_old=len(old_local)                              ! length of old substring to be replaced
+   len_new=len(new_local)                              ! length of new substring to replace old substring
+   left_margin=1                                       ! left_margin is left margin of window to change
+   right_margin=len(target)                        ! right_margin is right margin of window to change
+   newline=''                                          ! begin with a blank line as output string
+
+   if(len_old == 0)then                                ! c//new/ means insert new at beginning of line (or left margin)
+      ichr=len_new + original_input_length
+      if(len_new > 0)then
+         newline=new_local%sub(1,len_new)//target_local%sub(left_margin,original_input_length)
+      else
+         newline=target_local%sub(left_margin,original_input_length)
+      endif
+      ichange=1                                        ! made one change. actually, c/// should maybe return 0
+      if(present(changes))changes=ichange
+      if(flip) newline=reverse(newline)
+      return
+   endif
+
+   ichr=left_margin                                   ! place to put characters into output string
+   ic=left_margin                                     ! place looking at in input string
+   loop: do
+                                                      ! try finding start of OLD in remaining part of input in change window
+      ilen_temp=len(target_for_comparison)
+      ind=index(target_for_comparison%sub(ic,ilen_temp),old_local_for_comparison%sub(1,len_old))+ic-1
+      if(ind == ic-1.or.ind > right_margin)then       ! did not find old string or found old string past edit window
+         exit loop                                    ! no more changes left to make
+      endif
+      icount=icount+1                                 ! found an old string to change, so increment count of change candidates
+      if(ind > ic)then                                ! if found old string past at current position in input string copy unchanged
+         ladd=ind-ic                                  ! find length of character range to copy as-is from input to output
+         newline=newline%sub(1,ichr-1)//target_local%sub(ic,ind-1)
+         ichr=ichr+ladd
+      endif
+      if(icount >= range_local(1).and.icount <= range_local(2))then    ! check if this is an instance to change or keep
+         ichange=ichange+1
+         if(len_new /= 0)then                                          ! put in new string
+            newline=newline%sub(1,ichr-1)//new_local%sub(1,len_new)
+            ichr=ichr+len_new
+         endif
+      else
+         if(len_old /= 0)then                                          ! put in copy of old string
+            newline=newline%sub(1,ichr-1)//old_local%sub(1,len_old)
+            ichr=ichr+len_old
+         endif
+      endif
+      ic=ind+len_old
+   enddo loop
+
+   select case (ichange)
+   case (0)                                        ! there were no changes made to the window
+      newline=target_local                         ! if no changes made output should be input
+   case default
+      if(ic <= len(target))then                    ! if there is more after last change on original line add it
+         newline=newline%sub(1,ichr-1)//target_local%sub(ic,max(ic,original_input_length))
+      endif
+   end select
+   if(present(changes))changes=ichange
+   if(flip) newline=reverse(newline)
+end function replace
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
 elemental pure function upper(str) result (string)
 
 ! ident_25="@(#) M_unicode upper(3f) returns an uppercase string"
@@ -3206,6 +3371,22 @@ integer                        :: which
    end select
    str_out=self%codes(start:end:inc)
 end function oop_sub
+!===================================================================================================================================
+function oop_replace(self,old,new,occurrence,repeat,ignorecase,changes,back) result (newline)
+! ident_12="@(#) M_unicode replace(3f) replace one substring for another in string"
+class(unicode_type),intent(in) :: self       ! input line to be changed
+type(unicode_type),intent(in)  :: old        ! old substring to replace
+type(unicode_type),intent(in)  :: new        ! new substring
+integer,intent(in),optional    :: occurrence ! Nth occurrence of OLD string to start replacement at
+integer,intent(in),optional    :: repeat     ! how many replacements
+logical,intent(in),optional    :: ignorecase
+logical,intent(in),optional    :: back
+integer,intent(out),optional   :: changes    ! number of changes made
+! returns
+type(unicode_type) :: newline                ! output string buffer
+
+   newline=replace(self,old,new,occurrence=occurrence,repeat=repeat,ignorecase=ignorecase,changes=changes,back=back)
+end function oop_replace
 !===================================================================================================================================
 function oop_character(self,first,last,step) result(str_out)
 class(unicode_type), intent(in) :: self
