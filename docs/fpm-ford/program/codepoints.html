@@ -90,7 +90,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="13.1% of total for programs.">77 statements</a>
+                 title="15.2% of total for programs.">96 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -131,16 +131,17 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../program/codepoints.html#variable-aline~14">aline</a>
+            <a class="list-group-item" href="../program/codepoints.html#variable-aline~12">aline</a>
+            <a class="list-group-item" href="../program/codepoints.html#variable-codes~5">codes</a>
             <a class="list-group-item" href="../program/codepoints.html#variable-command_line">command_line</a>
             <a class="list-group-item" href="../program/codepoints.html#variable-form">form</a>
             <a class="list-group-item" href="../program/codepoints.html#variable-form_m">form_M</a>
             <a class="list-group-item" href="../program/codepoints.html#variable-form_codepoint">form_codepoint</a>
             <a class="list-group-item" href="../program/codepoints.html#variable-form_html">form_html</a>
             <a class="list-group-item" href="../program/codepoints.html#variable-form_zhtml">form_zhtml</a>
-            <a class="list-group-item" href="../program/codepoints.html#variable-g~8">g</a>
-            <a class="list-group-item" href="../program/codepoints.html#variable-i~35">i</a>
-            <a class="list-group-item" href="../program/codepoints.html#variable-ustr~2">ustr</a>
+            <a class="list-group-item" href="../program/codepoints.html#variable-g~2">g</a>
+            <a class="list-group-item" href="../program/codepoints.html#variable-i~34">i</a>
+            <a class="list-group-item" href="../program/codepoints.html#variable-ustr">ustr</a>
         </div>
       </div>
     </div>
@@ -218,7 +219,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-aline~14"></span>
+              <span class="anchor" id="variable-aline~12"></span>
               character(len=:),
             </td>
             <td>
@@ -226,6 +227,22 @@
             </td>
             <td>::</td>
             <td><strong>aline</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-codes~5"></span>
+              integer,
+            </td>
+            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>codes</strong>(:)</td>
                 <td></td>
                 <td></td>
             <td>
@@ -330,7 +347,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-g~8"></span>
+              <span class="anchor" id="variable-g~2"></span>
               character(len=*),
             </td>
             <td>
@@ -346,7 +363,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~35"></span>
+              <span class="anchor" id="variable-i~34"></span>
               integer
             </td>
             <td>
@@ -362,7 +379,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ustr~2"></span>
+              <span class="anchor" id="variable-ustr"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>)
             </td>
             <td>
@@ -420,22 +437,24 @@ parameter
 <span class="k">use</span><span class="p">,</span><span class="w"> </span><span class="k">intrinsic</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">output_unit</span><span class="w"></span>
 <span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w">                     </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">),</span><span class="w"> </span><span class="nb">len</span>
 <span class="k">implicit none</span>
-<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">form</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;(&quot;char(int(z&#39;&#39;&quot;,z0,&quot;&#39;&#39;),kind=ucs4)&quot;:,&quot;// &amp;&quot;)&#39;</span><span class="w"></span>
-<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">form_M</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;(&quot;int(z&#39;&#39;&quot;,z0,&quot;&#39;&#39;)&quot;:,&quot;, &amp;&quot;)&#39;</span><span class="w"></span>
-<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">form_zhtml</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;(*(:&quot;&amp;#x&quot;,z0,&quot;;&quot;))&#39;</span><span class="w"></span>
-<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">form_html</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;(*(:&quot;&amp;#&quot;,i0,&quot;;&quot;))&#39;</span><span class="w"></span>
-<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">form_codepoint</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;(*(:&quot;&quot;,i0,:&quot;,&quot;))&#39;</span><span class="w"></span>
-<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">g</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;(*(g0))&#39;</span><span class="w"></span>
-<span class="kt">integer</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
-<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">aline</span><span class="w"></span>
-<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">command_line</span><span class="w"></span>
-<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">ustr</span><span class="w"></span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">form</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;(&quot;char(int(z&#39;&#39;&quot;,z0,&quot;&#39;&#39;),kind=ucs4)&quot;:,&quot;// &amp;&quot;)&#39;</span><span class="w"></span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">form_M</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;(&quot;int(z&#39;&#39;&quot;,z0,&quot;&#39;&#39;)&quot;:,&quot;, &amp;&quot;)&#39;</span><span class="w"></span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">form_zhtml</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;(*(:&quot;&amp;#x&quot;,z0,&quot;;&quot;))&#39;</span><span class="w"></span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">form_html</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;(*(:&quot;&amp;#&quot;,i0,&quot;;&quot;))&#39;</span><span class="w"></span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">form_codepoint</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;(*(:&quot;&quot;,i0,:&quot;,&quot;))&#39;</span><span class="w"></span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">g</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;(*(g0))&#39;</span><span class="w"></span>
+<span class="kt">integer</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
+<span class="kt">integer</span><span class="p">,</span><span class="k">allocatable</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">codes</span><span class="p">(:)</span><span class="w"></span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">aline</span><span class="w"></span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">command_line</span><span class="w"></span>
+<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">ustr</span><span class="w"></span>
 <span class="w">   </span><span class="n">command_line</span><span class="o">=</span><span class="n">getargs</span><span class="p">()</span><span class="w">          </span><span class="c">! get string containing all command arguments as CHARACTER bytes</span>
 <span class="w">   </span><span class="n">ustr</span><span class="o">=</span><span class="n">command_line</span><span class="w">               </span><span class="c">! convert bytes to internal Fortran Unicode representation</span>
 
 <span class="w">   </span><span class="c">!open (stdout, encoding=&#39;UTF-8&#39;)</span>
 
 <span class="w">   </span><span class="c">! write the command line out as a Fortran variable expression using the CHAR() function</span>
+
 <span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;program fortran_unicode&#39;</span><span class="w"></span>
 <span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;use,intrinsic :: iso_fortran_env, only: stdout =&gt; output_unit&#39;</span><span class="w"></span>
 <span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;implicit none&#39;</span><span class="w"></span>
@@ -452,7 +471,9 @@ parameter
 <span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;   write(ustr2,&#39;(*(a))&#39;)[(ustr(i:i),i=len(ustr),1,-1)]&quot;</span><span class="w"></span>
 <span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;   write(stdout,*)ustr2&#39;</span><span class="w"></span>
 <span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;end program fortran_unicode&#39;</span><span class="w"></span>
+
 <span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"></span>
+
 <span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;program fortran_M_unicode&#39;</span><span class="w"></span>
 <span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;use,intrinsic :: iso_fortran_env, only: stdout =&gt; output_unit&#39;</span><span class="w"></span>
 <span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;use M_unicode, only: unicode_type, assignment(=), len&#39;</span><span class="w"></span>
@@ -478,14 +499,35 @@ parameter
 <span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;   ustr=&quot;&#39;</span><span class="p">,</span><span class="n">ustr</span><span class="p">%</span><span class="kt">character</span><span class="p">(),</span><span class="s1">&#39;&quot;&#39;</span><span class="w"></span>
 <span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;   write(stdout,*)ustr%character()&#39;</span><span class="w"></span>
 <span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;end program fortran_M_unicode&#39;</span><span class="w"></span>
+
 <span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"></span>
 
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;&lt;!-- HTML Entities for &quot;</span><span class="p">,</span><span class="n">ustr</span><span class="p">%</span><span class="kt">character</span><span class="p">(),</span><span class="s2">&quot;--&gt;&quot;</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&lt;pre&gt;&#39;</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="n">ustr</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">form_zhtml</span><span class="p">)</span><span class="n">ustr</span><span class="p">%</span><span class="n">codepoint</span><span class="p">()</span><span class="w"> </span><span class="c">! &amp;#x4EBA;</span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">form_html</span><span class="p">)</span><span class="n">ustr</span><span class="p">%</span><span class="n">codepoint</span><span class="p">()</span><span class="w">  </span><span class="c">! &amp;#20154;</span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&lt;/pre&gt;&#39;</span><span class="w"></span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;#include &lt;iostream&gt;&#39;</span><span class="w"></span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;#include &lt;string&gt;&#39;</span><span class="w"></span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;int main() {&#39;</span><span class="w"></span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;   std::u32string mystring = U&quot;&#39;</span><span class="w"></span>
+<span class="w">   </span><span class="n">codes</span><span class="o">=</span><span class="n">ustr</span><span class="p">%</span><span class="n">codepoint</span><span class="p">()</span><span class="w"></span>
+<span class="w">   </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">codes</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">).</span><span class="n">lt</span><span class="p">.</span><span class="mi">127</span><span class="p">)</span><span class="k">then      </span>
+<span class="k">         write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span><span class="w"> </span><span class="nb">achar</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="k">else</span>
+<span class="k">         write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(&#39;&#39;U\&#39;&#39;</span><span class="p">,</span><span class="n">z8</span><span class="p">.</span><span class="mi">8</span><span class="p">)</span><span class="s1">&#39;,advance=&#39;</span><span class="n">no</span><span class="s1">&#39;) codes(i)</span>
+<span class="s1">      endif</span>
+<span class="s1">   enddo</span>
+<span class="s1">   write(stdout,g) &#39;</span><span class="s2">&quot;;&#39;</span>
+<span class="s2">   write(stdout,g) &#39;   // Outputting these directly might depend on console/terminal support&#39;</span>
+<span class="s2">   write(stdout,g) &quot;</span><span class="w">   </span><span class="o">//</span><span class="w"> </span><span class="nb">and </span><span class="n">may</span><span class="w"> </span><span class="n">require</span><span class="w"> </span><span class="n">conversion</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="nb">system</span><span class="s1">&#39;s preferred encoding.&quot;</span>
+<span class="s1">   write(stdout,g) &#39;</span><span class="w">   </span><span class="k">return </span><span class="mi">0</span><span class="p">;</span><span class="s1">&#39;</span>
+<span class="s1">   write(stdout,g) &#39;</span><span class="err">}</span><span class="s1">&#39;</span>
+
+<span class="s1">   write(stdout,g)</span>
+
+<span class="s1">   write(stdout,g) &quot;&lt;!-- HTML Entities for &quot;,ustr%character(),&quot;--&gt;&quot;</span>
+<span class="s1">   write(stdout,g) &#39;</span><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;</span><span class="s1">&#39;</span>
+<span class="s1">   write(stdout,g)ustr%character()</span>
+<span class="s1">   write(stdout,form_zhtml)ustr%codepoint() ! &amp;#x4EBA;</span>
+<span class="s1">   write(stdout,form_html)ustr%codepoint()  ! &amp;#20154;</span>
+<span class="s1">   write(stdout,g) &#39;</span><span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span><span class="err">&#39;</span><span class="w"></span>
 <span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"></span>
 <span class="k">contains</span>
 
@@ -522,7 +564,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-09-28 19:46 +0000             </p>
+ on 2025-10-01 09:32 +0000             </p>
           </div>
         </div>
         <br>

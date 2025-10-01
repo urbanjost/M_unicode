@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="23.8% of total for modules and submodules.">431 statements</a>
+                 title="23.5% of total for modules and submodules.">477 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -176,6 +176,7 @@
             <a class="list-group-item" href="../module/testsuite_m_unicode.html#proc-programming_environment">programming_environment</a>
             <a class="list-group-item" href="../module/testsuite_m_unicode.html#proc-test_adjustl">test_adjustl</a>
             <a class="list-group-item" href="../module/testsuite_m_unicode.html#proc-test_adjustr">test_adjustr</a>
+            <a class="list-group-item" href="../module/testsuite_m_unicode.html#proc-test_ichar">test_ichar</a>
             <a class="list-group-item" href="../module/testsuite_m_unicode.html#proc-test_index">test_index</a>
             <a class="list-group-item" href="../module/testsuite_m_unicode.html#proc-test_len">test_len</a>
             <a class="list-group-item" href="../module/testsuite_m_unicode.html#proc-test_len_trim">test_len_trim</a>
@@ -183,6 +184,7 @@
             <a class="list-group-item" href="../module/testsuite_m_unicode.html#proc-test_operators">test_operators</a>
             <a class="list-group-item" href="../module/testsuite_m_unicode.html#proc-test_other">test_other</a>
             <a class="list-group-item" href="../module/testsuite_m_unicode.html#proc-test_repeat">test_repeat</a>
+            <a class="list-group-item" href="../module/testsuite_m_unicode.html#proc-test_replace">test_replace</a>
             <a class="list-group-item" href="../module/testsuite_m_unicode.html#proc-test_scan">test_scan</a>
             <a class="list-group-item" href="../module/testsuite_m_unicode.html#proc-test_sort">test_sort</a>
             <a class="list-group-item" href="../module/testsuite_m_unicode.html#proc-test_split">test_split</a>
@@ -356,7 +358,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-chars~2"></span>
+              <span class="anchor" id="variable-chars"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -371,7 +373,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-length~4"></span>
+              <span class="anchor" id="variable-length~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -506,7 +508,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-aline~11"></span>
+              <span class="anchor" id="variable-aline~9"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -536,7 +538,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-expected~3"></span>
+              <span class="anchor" id="variable-expected"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -591,7 +593,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-aline~12"></span>
+              <span class="anchor" id="variable-aline~10"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -621,7 +623,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-expected~4"></span>
+              <span class="anchor" id="variable-expected~2"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -676,7 +678,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-aline~13"></span>
+              <span class="anchor" id="variable-aline~11"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -706,7 +708,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-expected~5"></span>
+              <span class="anchor" id="variable-expected~3"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -754,6 +756,19 @@ parameter
 
               <div class="card">
     <div class="card-header codesum"><span class="anchor" id="proc-test_adjustr"></span> <h3>public  subroutine <a href='../proc/test_adjustr.html'>test_adjustr</a>()  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-test_ichar"></span> <h3>public  subroutine <a href='../proc/test_ichar.html'>test_ichar</a>()  
 </h3></div>
     <div class="card-body">
           
@@ -845,6 +860,19 @@ parameter
 
               <div class="card">
     <div class="card-header codesum"><span class="anchor" id="proc-test_repeat"></span> <h3>public  subroutine <a href='../proc/test_repeat.html'>test_repeat</a>()  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-test_replace"></span> <h3>public  subroutine <a href='../proc/test_replace.html'>test_replace</a>()  
 </h3></div>
     <div class="card-body">
           
@@ -970,7 +998,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-09-28 19:46 +0000             </p>
+ on 2025-10-01 09:32 +0000             </p>
           </div>
         </div>
         <br>

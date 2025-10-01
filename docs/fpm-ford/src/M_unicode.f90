@@ -47,15 +47,18 @@ use,intrinsic :: iso_fortran_env, only : real32, real64, real128
 implicit none
 
 private
-public :: utf8_to_codepoints,  codepoints_to_utf8
-public :: adjustl, adjustr, index, len, len_trim, repeat, trim
-public :: sort
-public :: split, tokenize
-public :: upper, lower
-public :: scan,  verify
 public :: unicode_type
-public :: assignment(=)
+public :: utf8_to_codepoints,  codepoints_to_utf8
 public :: character
+public :: sort
+public :: upper, lower
+public :: replace
+
+public :: adjustl, adjustr, index, len, len_trim, repeat, trim
+public :: split, tokenize
+public :: scan,  verify
+public :: assignment(=)
+public :: ichar
 public :: lle, llt, lne, leq, lgt, lge
 public :: operator(<=), operator(<), operator(/=), operator(==), operator(>), operator(>=), operator(//)
 
@@ -104,13 +107,14 @@ interface character
 end interface character
 
 ! INTRINSIC COMPATIBILITY
-interface adjustl;      module procedure :: adjustl_str;  end interface adjustl
-interface adjustr;      module procedure :: adjustr_str;  end interface adjustr
-interface len;          module procedure :: len_str;      end interface len
-interface len_trim;     module procedure :: len_trim_str; end interface len_trim
-interface repeat;       module procedure :: repeat_str;   end interface repeat
-interface trim;         module procedure :: trim_str;     end interface trim
-interface index;        module procedure :: index_str_str,  index_str_char,  index_char_str;  end interface index
+interface adjustl;    module procedure :: adjustl_str;    end interface adjustl
+interface adjustr;    module procedure :: adjustr_str;    end interface adjustr
+interface len;        module procedure :: len_str;        end interface len
+interface len_trim;   module procedure :: len_trim_str;   end interface len_trim
+interface repeat;     module procedure :: repeat_str;     end interface repeat
+interface trim;       module procedure :: trim_str;       end interface trim
+interface ichar;      module procedure :: ichar_str;      end interface ichar
+interface index;      module procedure :: index_str_str, index_str_char, index_char_str; end interface index
 
 interface lle;          module procedure :: lle_str_str,    lle_str_char,    lle_char_str;    end interface lle
 interface llt;          module procedure :: llt_str_str,    llt_str_char,    llt_char_str;    end interface llt
@@ -132,25 +136,28 @@ type :: unicode_type ! Unicode string type holding an arbitrary sequence of inte
    integer, allocatable :: codes(:)
 contains
    ! METHODS:
-   procedure :: character  => oop_character
-   procedure :: codepoint  => oop_codepoint
-   procedure :: byte       => oop_byte 
-
+   ! conversion
+   procedure :: character  => oop_character ! a single variable in UTF-8 encoding
+   procedure :: codepoint  => oop_codepoint ! codes of each glyph
+   procedure :: byte       => oop_byte      ! stream of bytes in UTF-8 encoding
+   procedure :: ichar      => oop_ichar     ! code of a single character
+   ! intrinsics
    procedure :: adjustl    => oop_adjustl
    procedure :: adjustr    => oop_adjustr
    procedure :: index      => oop_index
    procedure :: len        => oop_len
    procedure :: len_trim   => oop_len_trim
    procedure :: trim       => oop_trim
-
    procedure :: split      => oop_split
    procedure :: tokenize   => oop_tokenize
    procedure :: scan       => oop_scan
    procedure :: verify     => oop_verify
+   ! transform
    procedure :: upper      => oop_upper
    procedure :: lower      => oop_lower
-
+   
    procedure :: sub        => oop_sub
+   procedure :: replace    => oop_replace
 
    !DECLARATION OF OVERLOADED OPERATORS FOR TYPE(UNICODE_TYPE)
    procedure,private :: eq => oop_eq
@@ -1628,12 +1635,19 @@ type(unicode_codepoints),parameter,public :: unicode= unicode_codepoints( &
    hexadecimal=[hexchars], &
    bom=[int(z'FEFF')], &
    spaces=spacescodes )
+
+type :: force_keywords ! force keywords, using @awvwgk method
+end type force_keywords
+! so then any argument that comes after "force_kwargs" is a compile time error
+! if not done with a keyword unless someone "breaks" it by passing something
+! of this type:
+!    type(force_keywords), optional, intent(in) :: force_kwargs
 contains
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 pure subroutine codepoints_to_utf8_chars(unicode,utf8,nerr)
-
+intrinsic char
 integer,intent(in)                :: unicode(:)
 character,allocatable,intent(out) :: utf8(:)
 integer,intent(out)               :: nerr
@@ -2143,6 +2157,21 @@ integer                        :: length
    enddo
 
 end function len_trim_str
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
+! return code value of first character of string like intrinsic ichar()
+elemental function ichar_str(string) result(code)
+type(unicode_type), intent(in) :: string
+integer                        :: code
+
+   if(size(string%codes) == 0)then
+      code=0
+   else
+      code=string%codes(1)
+   endif
+
+end function ichar_str
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
@@ -2888,6 +2917,162 @@ end subroutine sort_quick_rx
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
+impure elemental function reverse(string) result (rev)
+
+! ident_22="@(#) M_unicode reverse(3f) Return a string reversed"
+
+type(unicode_type),intent(in)  :: string   ! string to reverse
+type(unicode_type)             :: rev      ! return value (reversed string)
+   rev=string%sub(len(string),1,-1)
+end function reverse
+
+function replace(target,old,new,force_,occurrence,repeat,ignorecase,changes,back) result (newline)
+
+! ident_12="@(#) M_unicode replace(3f) replace one substring for another in string"
+
+! parameters
+type(unicode_type),intent(in)            :: target     ! input line to be changed
+type(unicode_type),intent(in)            :: old        ! old substring to replace
+type(unicode_type),intent(in)            :: new        ! new substring
+type(force_keywords),optional,intent(in) :: force_
+integer,intent(in),optional              :: occurrence ! Nth occurrence of OLD string to start replacement at
+integer,intent(in),optional              :: repeat     ! how many replacements
+logical,intent(in),optional              :: ignorecase
+integer,intent(out),optional             :: changes    ! number of changes made
+logical,intent(in),optional              :: back
+
+! returns
+type(unicode_type) :: newline               ! output string buffer
+
+! local
+type(unicode_type) :: new_local, old_local, old_local_for_comparison
+integer            :: icount,ichange,ier2
+integer            :: original_input_length
+integer            :: len_old, len_new
+integer            :: ladd
+integer            :: left_margin, right_margin
+integer            :: ind
+integer            :: ic
+integer            :: ichr
+integer            :: range_local(2)
+integer            :: ilen_temp
+type(unicode_type) :: target_for_comparison   ! input line to be changed
+logical            :: ignorecase_local
+logical            :: flip
+type(unicode_type) :: target_local   ! input line to be changed
+
+   flip=.false.
+   ignorecase_local=.false.
+   original_input_length=len_trim(target)          ! get non-blank length of input line
+
+   old_local=old
+   new_local=new
+
+   if(present(ignorecase))then
+      ignorecase_local=ignorecase
+   else
+      ignorecase_local=.false.
+   endif
+   if(present(occurrence))then
+      range_local(1)=abs(occurrence)
+   else
+      range_local(1)=1
+   endif
+   if(present(repeat))then
+      range_local(2)=range_local(1)+repeat-1
+   else
+      range_local(2)=original_input_length
+   endif
+   if(ignorecase_local)then
+      target_for_comparison=lower(target)
+      old_local_for_comparison=lower(old_local)
+   else
+      target_for_comparison=target
+      old_local_for_comparison=old_local
+   endif
+   if(present(back))then
+      flip=back
+   endif
+   if(present(occurrence))then
+      if(occurrence < 0)then
+         flip=.true.
+         target_for_comparison=reverse(target_for_comparison)
+         target_local=reverse(target)
+         old_local_for_comparison=reverse(old_local_for_comparison)
+         old_local=reverse(old_local)
+         new_local=reverse(new_local)
+      else
+         target_local=target
+      endif
+   else
+      target_local=target
+   endif
+
+   icount=0                                            ! initialize error flag/change count
+   ichange=0                                           ! initialize error flag/change count
+   len_old=len(old_local)                              ! length of old substring to be replaced
+   len_new=len(new_local)                              ! length of new substring to replace old substring
+   left_margin=1                                       ! left_margin is left margin of window to change
+   right_margin=len(target)                        ! right_margin is right margin of window to change
+   newline=''                                          ! begin with a blank line as output string
+
+   if(len_old == 0)then                                ! c//new/ means insert new at beginning of line (or left margin)
+      ichr=len_new + original_input_length
+      if(len_new > 0)then
+         newline=new_local%sub(1,len_new)//target_local%sub(left_margin,original_input_length)
+      else
+         newline=target_local%sub(left_margin,original_input_length)
+      endif
+      ichange=1                                        ! made one change. actually, c/// should maybe return 0
+      if(present(changes))changes=ichange
+      if(flip) newline=reverse(newline)
+      return
+   endif
+
+   ichr=left_margin                                   ! place to put characters into output string
+   ic=left_margin                                     ! place looking at in input string
+   loop: do
+                                                      ! try finding start of OLD in remaining part of input in change window
+      ilen_temp=len(target_for_comparison)
+      ind=index(target_for_comparison%sub(ic,ilen_temp),old_local_for_comparison%sub(1,len_old))+ic-1
+      if(ind == ic-1.or.ind > right_margin)then       ! did not find old string or found old string past edit window
+         exit loop                                    ! no more changes left to make
+      endif
+      icount=icount+1                                 ! found an old string to change, so increment count of change candidates
+      if(ind > ic)then                                ! if found old string past at current position in input string copy unchanged
+         ladd=ind-ic                                  ! find length of character range to copy as-is from input to output
+         newline=newline%sub(1,ichr-1)//target_local%sub(ic,ind-1)
+         ichr=ichr+ladd
+      endif
+      if(icount >= range_local(1).and.icount <= range_local(2))then    ! check if this is an instance to change or keep
+         ichange=ichange+1
+         if(len_new /= 0)then                                          ! put in new string
+            newline=newline%sub(1,ichr-1)//new_local%sub(1,len_new)
+            ichr=ichr+len_new
+         endif
+      else
+         if(len_old /= 0)then                                          ! put in copy of old string
+            newline=newline%sub(1,ichr-1)//old_local%sub(1,len_old)
+            ichr=ichr+len_old
+         endif
+      endif
+      ic=ind+len_old
+   enddo loop
+
+   select case (ichange)
+   case (0)                                        ! there were no changes made to the window
+      newline=target_local                         ! if no changes made output should be input
+   case default
+      if(ic <= len(target))then                    ! if there is more after last change on original line add it
+         newline=newline%sub(1,ichr-1)//target_local%sub(ic,max(ic,original_input_length))
+      endif
+   end select
+   if(present(changes))changes=ichange
+   if(flip) newline=reverse(newline)
+end function replace
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
 elemental pure function upper(str) result (string)
 
 ! ident_25="@(#) M_unicode upper(3f) returns an uppercase string"
@@ -3172,8 +3357,8 @@ class(unicode_type),intent(in) :: self
 type(unicode_type)             :: str_out
 integer,intent(in),optional    :: first, last, step
 integer                        :: start, end, inc
-integer                         :: which
-   which=merge(1,0,present(first))+ 2*merge(1,0,present(last))+ 4*merge(1,0,present(step))
+integer                        :: which
+   which=4*merge(1,0,present(first))+ 2*merge(1,0,present(last))+ 1*merge(1,0,present(step))
    select case(which)
    case(int(b'000')) ; start=1     ; end=len(self) ; inc=1
    case(int(b'001')) ; start=1     ; end=len(self) ; inc=step
@@ -3186,6 +3371,22 @@ integer                         :: which
    end select
    str_out=self%codes(start:end:inc)
 end function oop_sub
+!===================================================================================================================================
+function oop_replace(self,old,new,occurrence,repeat,ignorecase,changes,back) result (newline)
+! ident_12="@(#) M_unicode replace(3f) replace one substring for another in string"
+class(unicode_type),intent(in) :: self       ! input line to be changed
+type(unicode_type),intent(in)  :: old        ! old substring to replace
+type(unicode_type),intent(in)  :: new        ! new substring
+integer,intent(in),optional    :: occurrence ! Nth occurrence of OLD string to start replacement at
+integer,intent(in),optional    :: repeat     ! how many replacements
+logical,intent(in),optional    :: ignorecase
+logical,intent(in),optional    :: back
+integer,intent(out),optional   :: changes    ! number of changes made
+! returns
+type(unicode_type) :: newline                ! output string buffer
+
+   newline=replace(self,old,new,occurrence=occurrence,repeat=repeat,ignorecase=ignorecase,changes=changes,back=back)
+end function oop_replace
 !===================================================================================================================================
 function oop_character(self,first,last,step) result(str_out)
 class(unicode_type), intent(in) :: self
@@ -3215,6 +3416,17 @@ integer,intent(in),optional     :: first, last, step
 character(len=1),allocatable    :: bytes_out(:)
    bytes_out=s2a(oop_character(self,first,last,step))
 end function oop_byte
+!===================================================================================================================================
+! return codepoint value of first character as is done by intrinsic ichar()
+elemental function oop_ichar(self) result(code)
+class(unicode_type), intent(in) :: self
+integer                         :: code
+   if(size(self%codes) == 0 )then
+      code=0
+   else
+      code=self%codes(1)
+   endif
+end function oop_ichar
 !===================================================================================================================================
 function oop_codepoint(self,first,last,step) result(codes_out)
 class(unicode_type), intent(in) :: self

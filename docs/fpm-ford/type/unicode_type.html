@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p>100.0% of total for derived types.</p>Including implementation: 253 statements, 100.0% of total for derived types.">36 statements</a>
+                 title="<p>100.0% of total for derived types.</p>Including implementation: 276 statements, 100.0% of total for derived types.">38 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -165,10 +165,12 @@
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-byte">byte</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-character">character</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-codepoint">codepoint</a>
+            <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-ichar">ichar</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-index">index</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-len">len</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-len_trim">len_trim</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-lower">lower</a>
+            <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-replace">replace</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-scan">scan</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-split">split</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-sub">sub</a>
@@ -776,6 +778,64 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-ichar"></span>
+      <h3>
+          procedure, public ::
+  <strong>ichar</strong> => oop_ichar
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                    <h3>
+    private elemental function oop_ichar(self) result(code)  
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer</small>
+    </h4>
+    
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
       <span class="anchor" id="boundprocedure-index"></span>
       <h3>
           procedure, public ::
@@ -1002,6 +1062,169 @@
             </td>
             <td>::</td>
             <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='unicode_type.html'>unicode_type</a>)</small>
+    </h4>
+    
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-replace"></span>
+      <h3>
+          procedure, public ::
+  <strong>replace</strong> => oop_replace
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                    <h3>
+    private  function oop_replace(self, old, new, occurrence, repeat, ignorecase, changes, back) result(newline)  
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>old</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>new</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>occurrence</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>repeat</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ignorecase</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>changes</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>back</strong></td>
             <td>
                 
             </td>
@@ -1571,25 +1794,28 @@
 <span class="k">   </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">codes</span><span class="p">(:)</span><span class="w"></span>
 <span class="k">contains</span><span class="w"></span>
 <span class="w">   </span><span class="c">! METHODS:</span>
-<span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="kt">character</span><span class="w">  </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_character</span><span class="w"></span>
-<span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">codepoint</span><span class="w">  </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_codepoint</span><span class="w"></span>
-<span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">byte</span><span class="w">       </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_byte</span><span class="w"> </span>
-
+<span class="w">   </span><span class="c">! conversion</span>
+<span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="kt">character</span><span class="w">  </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_character</span><span class="w"> </span><span class="c">! a single variable in UTF-8 encoding</span>
+<span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">codepoint</span><span class="w">  </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_codepoint</span><span class="w"> </span><span class="c">! codes of each glyph</span>
+<span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">byte</span><span class="w">       </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_byte</span><span class="w">      </span><span class="c">! stream of bytes in UTF-8 encoding</span>
+<span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">ichar</span><span class="w">      </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_ichar</span><span class="w">     </span><span class="c">! code of a single character</span>
+<span class="w">   </span><span class="c">! intrinsics</span>
 <span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">adjustl</span><span class="w">    </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_adjustl</span><span class="w"></span>
 <span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">adjustr</span><span class="w">    </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_adjustr</span><span class="w"></span>
 <span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">index</span><span class="w">      </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_index</span><span class="w"></span>
 <span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">len</span><span class="w">        </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_len</span><span class="w"></span>
 <span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">len_trim</span><span class="w">   </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_len_trim</span><span class="w"></span>
 <span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">trim</span><span class="w">       </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_trim</span><span class="w"></span>
-
 <span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">split</span><span class="w">      </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_split</span><span class="w"></span>
 <span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tokenize</span><span class="w">   </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_tokenize</span><span class="w"></span>
 <span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">scan</span><span class="w">       </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_scan</span><span class="w"></span>
 <span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">verify</span><span class="w">     </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_verify</span><span class="w"></span>
+<span class="w">   </span><span class="c">! transform</span>
 <span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">upper</span><span class="w">      </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_upper</span><span class="w"></span>
 <span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">lower</span><span class="w">      </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_lower</span><span class="w"></span>
-
+<span class="w">   </span>
 <span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">sub</span><span class="w">        </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_sub</span><span class="w"></span>
+<span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">replace</span><span class="w">    </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_replace</span><span class="w"></span>
 
 <span class="w">   </span><span class="c">!DECLARATION OF OVERLOADED OPERATORS FOR TYPE(UNICODE_TYPE)</span>
 <span class="w">   </span><span class="k">procedure</span><span class="p">,</span><span class="k">private</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">eq</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_eq</span><span class="w"></span>
@@ -1630,7 +1856,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-09-28 19:46 +0000             </p>
+ on 2025-10-01 09:32 +0000             </p>
           </div>
         </div>
         <br>

@@ -8,6 +8,8 @@ use M_unicode, only : upper, lower
 use M_unicode, only : sort
 use M_unicode, only : scan, verify
 use M_unicode, only : tokenize, split
+use M_unicode, only : ichar
+use M_unicode, only : replace
 
 use M_unicode, only : assignment(=), unicode_type, operator(//)
 use M_unicode, only : operator(<=), lle
@@ -273,7 +275,9 @@ type(unicode_type)             :: ut_str
 end subroutine test_trim
 
 subroutine test_upper()
-type(unicode_type) :: upp, low
+type(unicode_type) :: upp, low, temp
+integer            :: i
+character(len=128) :: ascii7
 !
 ! remember unicode characters are multi-byte so be careful
 ! with older compilers to not exceed 132 bytes per line
@@ -321,12 +325,21 @@ type(unicode_type) :: upp, low
    call check('upper', upper(low)==upp )
    call check('upper', character(upper(low))==character(upp) )
 
+   write(ascii7,g0)(achar(i),i=0,127)
+   ascii7( ichar('a')+1:ichar('z')+1 ) = ' '
+   ascii7( ichar('A')+1:ichar('Z')+1 ) = ' '
+   temp=ascii7
+   call check('upper',temp%character()==ascii7,'check non-alphameric like'//ascii7(ichar(' ')+1:len(ascii7)-1) )
+   call check('upper',upper(temp)==lower(temp),'expect no difference')
+   call check('upper',temp==upper(temp),'expect no change')
+
 end subroutine test_upper
 
 subroutine test_lower()
-type(unicode_type) :: upp, low, lowkludge, temp, letter1, letter2
-integer :: i 
+type(unicode_type)  :: upp, low, lowkludge, temp, letter1, letter2
+integer             :: i
 integer,allocatable :: codes(:)
+character(len=128)  :: ascii7
 !
 ! remember unicode characters are multi-byte so be careful
 ! with older compilers to not exceed 132 bytes per line
@@ -387,6 +400,14 @@ integer,allocatable :: codes(:)
    !call check('lower', character(temp)==character(low) )
    call check('lower', temp==lowkludge )
    call check('lower', character(temp)==character(lowkludge) )
+
+   write(ascii7,g0)(achar(i),i=0,127)
+   ascii7( ichar('a')+1:ichar('z')+1 ) = ' '
+   ascii7( ichar('A')+1:ichar('Z')+1 ) = ' '
+   temp=ascii7
+   call check('lower',temp%character()==ascii7,'check non-alphameric like'//ascii7(ichar(' ')+1:len(ascii7)-1) )
+   call check('lower',upper(temp)==lower(temp),'expect no difference')
+   call check('lower',temp==lower(temp),'expect no change')
 
 end subroutine test_lower
 
@@ -635,6 +656,55 @@ type(unicode_type)         :: str
 
 end subroutine test_verify
 
+subroutine test_ichar()
+type(unicode_type)             :: ut_str
+   ut_str='ABC'
+   call check('ichar',ut_str%ichar().eq.ichar('A'),'string%ichar()')
+   call check('ichar',ichar(ut('A')).eq.ichar('A'),'ichar(ut("A")')
+   call check('ichar',ichar(ut_str%sub(2,3)).eq.ichar('B'),'ichar(ut_str%sub(2,3))')
+end subroutine test_ichar
+
+subroutine test_replace()
+type(unicode_type) :: line
+! 
+call check('replace',&
+ 'this is the string' == character( replace(ut('Xis is Xe string'),ut('X'),ut('th') ) ) )
+call check('replace',&
+ 'this is the string'==character( replace(ut('Xis is xe string'),ut('x'),ut('th'),ignorecase=.true.) ) )
+call check('replace',&
+ 'this is xe string'==character( replace(ut('Xis is xe string'),ut('X'),ut('th'),ignorecase=.false.) ) )
+
+call check('replace',&
+ 'BEFORE:my line of text'==character(replace(ut('my line of text'),ut(''),ut('BEFORE:'))),&
+ 'a null new substring means "at beginning of line"' )
+! 
+call check('replace',&
+ 'I wonder'== character(replace(ut('I wonder i ii iii'),ut('i'),ut('')) ),&
+ 'a null new string deletes occurrences of the old substring' )
+! 
+! Examples of the use of RANGE
+! 
+line=replace(ut('aaaaaaaaa'),ut('a'),ut('A'),occurrence=1,repeat=1)
+call check('replace', line == ut('Aaaaaaaaa'), 'replace first a with A ['//line%character()//']' )
+! 
+line=replace(ut('aaaaaaaaa'),ut('a'),ut('A'),occurrence=3,repeat=3)
+call check('replace', line==ut('aaAAAaaaa'),'replace a with A for 3rd to 5th occurrence ['//line%character()//']')
+! 
+line=replace(ut('ababababa'),ut('a'),ut(''),occurrence=3,repeat=3)
+call check('replace',line==ut('ababbb'),'replace a with null instances 3 to 5 ['//line%character()//']' )
+! 
+line=replace( &
+ & ut('a b ab baaa aaaa aa aa a a a aa aaaaaa'),&
+ & ut('aa'),ut('CCCC'),occurrence=-1,repeat=1)
+call check('replace', line == ut('a b ab baaa aaaa aa aa a a a aa aaaaCCCC'),'replace lastaa with CCCC ['//line%character()//']')
+! 
+line=replace(ut('myf90stuff.f90.f90'),ut('f90'),ut('for'),occurrence=-1,repeat=1)
+call check('replace',line== 'myf90stuff.f90.for')
+line=replace(ut('myf90stuff.f90.f90'),ut('f90'),ut('for'),occurrence=-2,repeat=2)
+call check('replace',line=='myforstuff.for.f90')
+! 
+end subroutine test_replace
+
 end module testsuite_M_unicode
 
 program test_M_unicode
@@ -660,6 +730,8 @@ use testsuite_M_unicode
    call test_split()
    call test_scan()
    call test_verify()
+   call test_ichar()
+   call test_replace()
    call test_other()
 
    write(*,g0)

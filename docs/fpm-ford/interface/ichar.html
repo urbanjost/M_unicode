@@ -10,7 +10,7 @@
     <meta name="author" content="John S. Urban" >
     <link rel="icon" href="../favicon.png">
 
-    <title>utf8_to_codepoints &ndash; M_unicode</title>
+    <title>ichar &ndash; M_unicode</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -80,7 +80,7 @@
 
     <div class="container">
   <div class="row">
-    <h1>utf8_to_codepoints
+    <h1>ichar
       <small>Interface</small>
       
     </h1>
@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.4% of total for procedures.</p>Including implementation: 126 statements, 16.3% of total for procedures.">3 statements</a>
+                 title="<p> 0.4% of total for procedures.</p>Including implementation: 12 statements,  1.5% of total for procedures.">3 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -105,7 +105,7 @@
           <ol class="breadcrumb justify-content-end mb-0">
                 <li class="breadcrumb-item"><a href='../sourcefile/m_unicode.f90.html'>M_unicode.f90</a></li>
                 <li class="breadcrumb-item"><a href='../module/m_unicode.html'>M_unicode</a></li>
-            <li class="breadcrumb-item active" aria-current="page">utf8_to_codepoints</li>
+            <li class="breadcrumb-item active" aria-current="page">ichar</li>
           </ol>
         </nav>
       </div>
@@ -150,8 +150,7 @@
       </a>
       <div id="modprocs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../interface/utf8_to_codepoints.html#moduleprocedure-utf8_to_codepoints_str">utf8_to_codepoints_str</a>
-            <a class="list-group-item" href="../interface/utf8_to_codepoints.html#moduleprocedure-utf8_to_codepoints_chars">utf8_to_codepoints_chars</a>
+            <a class="list-group-item" href="../interface/ichar.html#moduleprocedure-ichar_str">ichar_str</a>
         </div>
       </div>
     </div>
@@ -164,14 +163,14 @@
     </div>
 
     <div class="col-md-9" id='text'>
-      <h2>public interface utf8_to_codepoints</h2>
+      <h2>public interface ichar</h2>
       
 
 
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-utf8_to_codepoints_str"></span> <h3>private pure subroutine utf8_to_codepoints_str(utf8, unicode, nerr)  
+    <div class="card-header codesum"><span class="anchor" id="proc-ichar_str"></span> <h3>private elemental function ichar_str(string) result(code)  
 </h3></div>
     <div class="card-body">
         
@@ -189,45 +188,15 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-utf8~4"></span>
-              character(len=*),
+              <span class="anchor" id="variable-string~16"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>utf8</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-unicode~5"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              allocatable
-            </td>
-            <td>::</td>
-            <td><strong>unicode</strong>(:)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-nerr~4"></span>
-              integer,
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>nerr</strong></td>
+            <td><strong>string</strong></td>
             <td>
                 
             </td>
@@ -235,75 +204,11 @@
     </tbody>
   </table>
 
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-utf8_to_codepoints_chars"></span> <h3>private pure subroutine utf8_to_codepoints_chars(utf8, unicode, nerr)  
-</h3></div>
-    <div class="card-body">
-        
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-utf8~2"></span>
-              character(len=1),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>utf8</strong>(:)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-unicode~3"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              allocatable
-            </td>
-            <td>::</td>
-            <td><strong>unicode</strong>(:)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-nerr~2"></span>
-              integer,
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>nerr</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
+    <h4>
+    Return Value
+    <small>integer</small>
+    </h4>
+    
 
     </div>
   </div>
