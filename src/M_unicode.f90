@@ -1,40 +1,181 @@
-! # M_unicode
-!
-! **M_unicode** provides support for Unicode encoded as UTF-8 data even
-! when the optional Fortran ISO_10646 extension is not provided.
-!
-! A user-defined type named **unicode_type** allows for creating ragged
-! arrays of ASCII or UTF-8 encoded data that otherwise can be treated much
-! like a CHARACTER kind.
-!
-! **M_unicode** has overloading for all the basic operators and character
-! intrinsics with both a procedural and OOP interface. The intrinsic
-! overloads include **TOKENIZE()** and **SPLIT()**.
-!
-! In addition the **UPPER()** and **LOWER()** funtions support the concept
-! of case for the Unicode Latin characters not just the ASCII subset,
-! and a basic SORT() function provides for ordering the data by Unicode
-! codepoint values.
-!
-! The distribution provides a __Make__ file and easily builds with __fpm__.
-!
-! Documentation and examples provide a guide for basic usage.
-!
-! **M_unicode** should be useful for anyone working with UTF-8 data,
-! particularly if the compiler does not support the UCS-4 extensions
-! of Fortran.
-!
-! Until proven otherwise
-! I think M_unicode.f90  should work with any environment where UTF-8 files are
-! supported. So far that includes allowing what-you=see-is-what-you-get
-! string constants on Linux and Cygwin at a minimum.
-!
-! TODO:
-!  o It needs a DT and more CD/CI unit testing.
-!  o globbing
-!  o regex
-!  o elemental functions?
-!
+!-----------------------------------------------------------------------------------------------------------------------------------
+#define  __INTEL_COMP        1
+#define  __GFORTRAN_COMP     2
+#define  __NVIDIA_COMP       3
+#define  __NAG_COMP          4
+#define  __flang__           5
+#define  __UNKNOWN_COMP   9999
+
+#define FLOAT128
+
+#ifdef __INTEL_COMPILER
+#   define __COMPILER__ __INTEL_COMP
+#elif __GFORTRAN__ == 1
+#   define __COMPILER__ __GFORTRAN_COMP
+#elif __flang__
+#   undef FLOAT128
+#   define __COMPILER__ __LLVM_FLANG_COMP
+#elif __NVCOMPILER
+#   undef FLOAT128
+#   define __COMPILER__ __NVIDIA_COMP
+#else
+#   define __COMPILER__ __UNKNOWN_COMP
+#   warning  NOTE: UNKNOWN COMPILER
+#endif
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
+!>
+!! ##NAME
+!!     M_unicode(3f) - [M_unicode::INTRO] Unicode string module
+!!
+!! ##DESCRIPTION
+!!     The M_unicode(3fm) module is a collection of Fortran procedures
+!!     that supplement the built-in intrinsic string routines. Routines
+!!     for parsing, tokenizing, changing case, substituting new strings for
+!!     substrings, locating strings with simple wildcard expressions, removing
+!!     tabs and line terminators and other string manipulations are included.
+!!
+!!     Arrays of the user-defined type UNICODE_TYPE allows each element to
+!!     be of different lengths as well as providing an OOP interface.
+!!
+!! ##SYNOPSIS
+!!
+!!   public entities:
+!!
+!!    TOKENS
+!!
+!!        split   subroutine parses string using specified delimiter characters
+!!                into tokens
+!!
+!!    EDITING
+!!
+!!        replace         function non-recursively globally replaces old
+!!                        substring with new substring
+!!    CASE
+!!
+!!        upper           function converts string to uppercase
+!!        lower           function converts string to miniscule
+!!
+!!    STRING LENGTH AND PADDING
+!!
+!!        len_trim   find location of last non-whitespace character
+!!
+!!    WHITE SPACE
+!!
+!!    QUOTES
+!!
+!!    CHARACTER ARRAY VERSUS STRING
+!!
+!!       character(VAR,start,end,inc)
+!!       VAR%character(start,end,inc)
+!!       VAR%bytes(start,end,inc)
+!!       VAR%codepoint(start,end,inc)
+!!
+!!    NONALPHA
+!!
+!!    NUMERIC STRINGS
+!!
+!!    CHARACTER TESTS
+!!
+!!    BASE CONVERSION
+!!
+!!    MISCELLANEOUS
+!!
+!!    INTRINSICS
+!!
+!!     The M_unicode(3fm) module supplements the Fortran built-in
+!!     intrinsics with overloads of operators and intrinsics that allow
+!!     type(unicode_type) to be used with intrinsic names in the same manner
+!!     the intrinsics operate on CHARACTER variables.
+!!
+!!     Assignment, comparisons with standard operators, and concatenation
+!!     using the // operator, as well as a number of intrinsic string
+!!     routine overloads are provided:
+!!
+!!         adjustl             Left adjust a string
+!!         adjustr             Right adjust a string
+!!         index               Position of a substring within a string
+!!         repeat              Repeated string concatenation
+!!         scan                Scan a string for the presence of a set
+!!                             of characters
+!!         trim                Remove trailing blank characters of a string
+!!         verify              Scan a string for the absence of a set of
+!!                             characters
+!!         len                 It returns the length of a character string
+!!         char                converts an integer into a character
+!!         ichar               converts a character into an integer
+!!         len_trim            finds length of string with trailing spaces
+!!                             ignored
+!!         lgt                 Lexical greater than
+!!         lge                 Lexical greater than or equal
+!!         leq                 Lexical equal
+!!         lne                 Lexical not equal
+!!         lle                 Lexical less than or equal
+!!         llt                 Lexical less than
+!!
+!!    OOPS INTERFACE
+!!
+!!     An OOP (Object-Oriented Programming) interface to
+!!     the M_unicode(3fm) module provides an alternative interface to all the
+!!     same procedures accept for SORT(3f) and CHAR(3f).
+!!
+!! ##SEE ALSO
+!!     There are additional routines in other GPF modules for working with
+!!     expressions (M_calculator), time strings (M_time), random strings
+!!     (M_random, M_uuid), lists (M_list), and interfacing with the C regular
+!!     expression library (M_regex).
+!!
+!! ##EXAMPLES
+!!
+!!     Each of the procedures includes an [example](example/) program in
+!!     the corresponding man(1) page for the function.
+!!
+!!     Sample program:
+!!
+!!       program demo_M_unicode
+!!       use,intrinsic :: iso_fortran_env, only : stdout=>output_unit
+!!       use M_unicode,only : TOKENIZE, REPLACE, CHARACTER, UPPER, LOWER
+!!       use M_unicode,only : unicode_type, assignment(=), operator(//)
+!!       use M_unicode,only : ut => unicode_type, ch => character
+!!       type(unicode_type)             :: string
+!!       type(unicode_type)             :: numeral, uppercase, lowercase
+!!       type(unicode_type),allocatable :: array(:)
+!!       character(len=*),parameter     :: gen='("[",g0,"] ":)'
+!!       uppercase='АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ'
+!!       lowercase='абвгґдеєжзиіїйклмнопрстуфхцчшщьюя'
+!!       numeral='0123456789'
+!!
+!!        string=uppercase//' '//lowercase//' '//numeral
+!!
+!!        write(stdout,gen)ch(string)
+!!        write(stdout,gen)ch(UPPER(string))
+!!        write(stdout,gen)ch(LOWER(string))
+!!
+!!        call TOKENIZE(string,ut(''),array)
+!!        write(stdout,gen)character(array)
+!!
+!!        write(stdout,gen)character(&
+!!        & REPLACE(string, &
+!!        & ut('клмнопрс'), &
+!!        & ut('--------'), &
+!!        & ignorecase=.true.))
+!!
+!!       end program demo_M_unicode
+!!
+!!  Results:
+!!
+!!   > abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 01234567890
+!!   > ABCDEFGHIJKLMNOPQRSTUVWXYZ ABCDEFGHIJKLMNOPQRSTUVWXYZ 01234567890
+!!   > abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz 01234567890
+!!   > [abcdefghijklmnopqrstuvwxyz] [ABCDEFGHIJKLMNOPQRSTUVWXYZ] [01234567890               ]
+!!   > abcdefghijklmnop--RePlace--tuvwxyz ABCDEFGHIJKLMNOP--RePlace--TUVWXYZ 01234567890
+!!
+!! ##AUTHOR
+!!     John S. Urban
+!!
+!! ##LICENSE
+!!     Public Domain
 module M_unicode
 !
 ! Unicode-related procedures not requiring compiler support of ISO-10646
@@ -61,6 +202,9 @@ public :: assignment(=)
 public :: ichar
 public :: lle, llt, lne, leq, lgt, lge
 public :: operator(<=), operator(<), operator(/=), operator(==), operator(>), operator(>=), operator(//)
+
+public :: write(formatted), write(unformatted)
+public :: read(formatted), read(unformatted)
 
 private :: a2s, s2a
 private :: binary_search
@@ -155,7 +299,7 @@ contains
    ! transform
    procedure :: upper      => oop_upper
    procedure :: lower      => oop_lower
-   
+
    procedure :: sub        => oop_sub
    procedure :: replace    => oop_replace
 
@@ -1642,6 +1786,15 @@ end type force_keywords
 ! if not done with a keyword unless someone "breaks" it by passing something
 ! of this type:
 !    type(force_keywords), optional, intent(in) :: force_kwargs
+
+!> Write string to connected formatted unit.
+interface write(formatted);   module procedure :: write_formatted;   end interface
+!> Write string to a connected unformatted unit.
+interface write(unformatted); module procedure :: write_unformatted; end interface
+!> Read a connected formatted unit into the string.
+interface read(formatted);    module procedure :: read_formatted;    end interface
+!> Read a connected unformatted unit into the string.
+interface read(unformatted);  module procedure :: read_unformatted;  end interface
 contains
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
@@ -2925,7 +3078,125 @@ type(unicode_type),intent(in)  :: string   ! string to reverse
 type(unicode_type)             :: rev      ! return value (reversed string)
    rev=string%sub(len(string),1,-1)
 end function reverse
-
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
+!>
+!! ##NAME
+!!     replace(3f) - [M_unicode:EDITING] function replaces one
+!!     substring for another in string
+!!     (LICENSE:PD)
+!!
+!! ##SYNOPSIS
+!!
+!!  syntax:
+!!
+!!       function replace(target,old,new,&
+!!        & occurrence, &
+!!        & repeat, &
+!!        & ignorecase, &
+!!        & ierr,back) result (newline)
+!!       character(len=*)                     :: target
+!!       character(len=*),intent(in),optional :: old
+!!       character(len=*),intent(in),optional :: new
+!!       integer,intent(in),optional          :: occurrence
+!!       integer,intent(in),optional          :: repeat
+!!       logical,intent(in),optional          :: ignorecase
+!!       integer,intent(out),optional         :: changes
+!!       character(len=:),allocatable         :: newline
+!!
+!! ##DESCRIPTION
+!!     Replace old substring with new value in string.
+!!
+!! ##OPTIONS
+!!      target      input line to be changed
+!!      old         old substring to replace
+!!      new         new substring
+!!
+!!     KEYWORD REQUIRED
+!!      occurrence  if present, start changing at the Nth occurrence of the
+!!                  OLD string.
+!!      repeat      number of replacements to perform. Defaults to a global
+!!                  replacement.
+!!      ignorecase  whether to ignore ASCII case or not. Defaults
+!!                  to .false. .
+!!      back        if true start replacing moving from the right end of the
+!!                  string moving left instead of from the left to the right.
+!! ##RETURNS
+!!      newline     allocatable string returned
+!!      changes     count of changes made.
+!!
+!! ##EXAMPLES
+!!
+!!    Sample Program:
+!!
+!!     program demo_replace
+!!     use M_unicode
+!!     use M_unicode, only : ut=>unicode_type
+!!     use M_unicode, only : unicode_type
+!!     implicit none
+!!     type(unicode_type) :: line
+!!     !
+!!     write(*,*)&
+!!     &character( replace(ut('Xis is Xe string'),ut('X'),ut('th') ) )
+!!     write(*,*)&
+!!     &character( replace(ut('Xis is xe string'),&
+!!     &ut('x'),ut('th'),ignorecase=.true.) )
+!!     write(*,*)&
+!!     &character( replace(ut('Xis is xe string'),&
+!!     &ut('X'),ut('th'),ignorecase=.false.) )
+!!     !
+!!     ! a null old substring means "at beginning of line"
+!!     write(*,*)&
+!!     &character(replace(ut('my line of text'),ut(''),ut('BEFORE:')) )
+!!     !
+!!     ! a null new string deletes occurrences of the old substring
+!!     write(*,*) character(replace(ut('I wonder i ii iii'),ut('i'),ut('')) )
+!!     !
+!!     ! Examples of the use of RANGE
+!!     !
+!!     line=replace(ut('aaaaaaaaa'),ut('a'),ut('A'),occurrence=1,repeat=1)
+!!     write(*,*)'replace first a with A ['//line%character()//']'
+!!     !
+!!     line=replace(ut('aaaaaaaaa'),ut('a'),ut('A'),occurrence=3,repeat=3)
+!!     write(*,*)&
+!!     &'replace a with A for 3rd to 5th occurrence ['//line%character()//']'
+!!     !
+!!     line=replace(ut('ababababa'),ut('a'),ut(''),occurrence=3,repeat=3)
+!!     write(*,*)&
+!!     &'replace a with null instances 3 to 5 ['//line%character()//']'
+!!     !
+!!     line=replace( &
+!!      & ut('a b ab baaa aaaa aa aa a a a aa aaaaaa'),&
+!!      & ut('aa'),ut('CCCC'),occurrence=-1,repeat=1)
+!!     write(*,*)'replace lastaa with CCCC ['//line%character()//']'
+!!     !
+!!     write(*,*)character(replace(ut('myf90stuff.f90.f90'),&
+!!     &ut('f90'),ut('for'),occurrence=-1,repeat=1))
+!!     write(*,*)character(replace(ut('myf90stuff.f90.f90'),&
+!!     &ut('f90'),ut('for'),occurrence=-2,repeat=2))
+!!     !
+!!     end program demo_replace
+!!
+!!    Results:
+!!
+!!      this is the string
+!!      this is the string
+!!      this is xe string
+!!      BEFORE:my line of text
+!!      I wonder
+!!      replace first a with A [Aaaaaaaaa]
+!!      replace a with A for 3rd to 5th occurrence [aaAAAaaaa]
+!!      replace a with null instances 3 to 5 [ababbb]
+!!      replace lastaa with CCCC [a b ab baaa aaaa aa aa a a a aa aaaaCCCC]
+!!      myf90stuff.f90.for
+!!      myforstuff.for.f90
+!!
+!! ##AUTHOR
+!!     John S. Urban
+!!
+!! ##LICENSE
+!!    MIT
 function replace(target,old,new,force_,occurrence,repeat,ignorecase,changes,back) result (newline)
 
 ! ident_12="@(#) M_unicode replace(3f) replace one substring for another in string"
@@ -3530,6 +3801,119 @@ logical                         :: is_eq
          stop '<ERROR>*oop_eq* unknown type'
    end select
 end function oop_eq
+!===================================================================================================================================
+
+!> Write string to connected unformatted unit.
+subroutine write_unformatted(string, unit, iostat, iomsg)
+class(unicode_type),intent(in)  :: string
+integer,intent(in)              :: unit
+integer,intent(out)             :: iostat
+character(len=*),intent(inout)  :: iomsg
+
+   write(unit, iostat=iostat, iomsg=iomsg) string%byte()
+
+end subroutine write_unformatted
+
+!> Write string to connected formatted unit.
+subroutine write_formatted(string, unit, iotype, v_list, iostat, iomsg)
+class(unicode_type), intent(in) :: string
+integer, intent(in)             :: unit
+character(len=*), intent(in)    :: iotype
+integer, intent(in)             :: v_list(:)
+integer, intent(out)            :: iostat
+character(len=*), intent(inout) :: iomsg
+
+   select case(iotype)
+   case("LISTDIRECTED")
+      write(unit, '(a)', iostat=iostat, iomsg=iomsg) character(string)
+   case("NAMELIST")
+      error stop "[Fatal] This implementation does not support namelist output"
+   case default ! DT*
+      select case(size(v_list))
+      case(0) ! DT
+         write(unit, '(a)', iostat=iostat, iomsg=iomsg) character(string)
+      case default
+         error stop "[Fatal] This implementation does not support v_list formatters"
+      end select
+   end select
+
+end subroutine write_formatted
+
+!> Read from a connected unformatted unit into the string.
+subroutine read_unformatted(string, unit, iostat, iomsg)
+class(unicode_type),intent(inout)  :: string
+integer,intent(in)                 :: unit
+integer,intent(out)                :: iostat
+character(len=*),intent(inout)     :: iomsg
+character(len=:),allocatable       :: buffer
+integer                            :: chunk
+
+   chunk=1024
+   allocate(character(len=chunk)   :: buffer)
+   read(unit, iostat=iostat, iomsg=iomsg) buffer
+   string = buffer
+
+end subroutine read_unformatted
+
+!> Read from a connected formatted unit into the string.
+subroutine read_formatted(string, unit, iotype, v_list, iostat, iomsg)
+class(unicode_type), intent(inout) :: string
+integer, intent(in)                :: unit
+character(len=*), intent(in)       :: iotype
+integer, intent(in)                :: v_list(:)
+integer, intent(out)               :: iostat
+character(len=*), intent(inout)    :: iomsg
+character(len=:), allocatable      :: line
+
+   call unused_dummy_argument(v_list)
+
+   select case(iotype)
+   case("LISTDIRECTED")
+      call read_line(unit, line, iostat, iomsg)
+   case("NAMELIST")
+      error stop "[Fatal] This implementation does not support namelist input"
+   case default ! DT*
+      error stop "[Fatal] This implementation does not support dt formatters"
+   end select
+
+   string = line
+
+contains
+!> Do nothing but mark an unused dummy argument as such to acknowledge compile
+!> time warning like:
+!>
+!>   Warning: Unused dummy argument ‘dummy’ at (1) [-Wunused-dummy-argument]
+!>
+!> We deeply trust in the compiler to inline and optimize this piece of code away.
+elemental subroutine unused_dummy_argument(dummy)
+   class(*), intent(in) :: dummy
+   associate(dummy => dummy); end associate
+end subroutine unused_dummy_argument
+
+!> Internal routine to read a whole record from a formatted unit
+subroutine read_line(unit, line, iostat, iomsg)
+integer,intent(in)                       :: unit
+character(len=:),allocatable,intent(out) :: line
+integer,intent(out)                      :: iostat
+character(len=*),intent(inout)           :: iomsg
+integer,parameter                        :: buffer_size = 512
+character(len=buffer_size)               :: buffer
+integer                                  :: chunk
+   line = ''
+   do
+      read(unit, '(a)', iostat=iostat, iomsg=iomsg, size=chunk, advance='no') &
+         buffer
+      if (iostat > 0) exit
+      line = line // buffer(:chunk)
+      if (iostat < 0) exit
+   enddo
+
+   if (is_iostat_eor(iostat)) then
+      iostat = 0
+   endif
+end subroutine read_line
+
+end subroutine read_formatted
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
