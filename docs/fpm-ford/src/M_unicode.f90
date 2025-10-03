@@ -25,157 +25,194 @@
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
-!>
-!! ##NAME
-!!     M_unicode(3f) - [M_unicode::INTRO] Unicode string module
-!!
-!! ##DESCRIPTION
-!!     The M_unicode(3fm) module is a collection of Fortran procedures
-!!     that supplement the built-in intrinsic string routines. Routines
-!!     for parsing, tokenizing, changing case, substituting new strings for
-!!     substrings, locating strings with simple wildcard expressions, removing
-!!     tabs and line terminators and other string manipulations are included.
-!!
-!!     Arrays of the user-defined type UNICODE_TYPE allows each element to
-!!     be of different lengths as well as providing an OOP interface.
-!!
-!! ##SYNOPSIS
-!!
-!!   public entities:
-!!
-!!    TOKENS
-!!
-!!        split   subroutine parses string using specified delimiter characters
-!!                into tokens
-!!
-!!    EDITING
-!!
-!!        replace         function non-recursively globally replaces old
-!!                        substring with new substring
-!!    CASE
-!!
-!!        upper           function converts string to uppercase
-!!        lower           function converts string to miniscule
-!!
-!!    STRING LENGTH AND PADDING
-!!
-!!        len_trim   find location of last non-whitespace character
-!!
-!!    WHITE SPACE
-!!
-!!    QUOTES
-!!
-!!    CHARACTER ARRAY VERSUS STRING
-!!
-!!       character(VAR,start,end,inc)
-!!       VAR%character(start,end,inc)
-!!       VAR%bytes(start,end,inc)
-!!       VAR%codepoint(start,end,inc)
-!!
-!!    NONALPHA
-!!
-!!    NUMERIC STRINGS
-!!
-!!    CHARACTER TESTS
-!!
-!!    BASE CONVERSION
-!!
-!!    MISCELLANEOUS
-!!
-!!    INTRINSICS
-!!
-!!     The M_unicode(3fm) module supplements the Fortran built-in
-!!     intrinsics with overloads of operators and intrinsics that allow
-!!     type(unicode_type) to be used with intrinsic names in the same manner
-!!     the intrinsics operate on CHARACTER variables.
-!!
-!!     Assignment, comparisons with standard operators, and concatenation
-!!     using the // operator, as well as a number of intrinsic string
-!!     routine overloads are provided:
-!!
-!!         adjustl             Left adjust a string
-!!         adjustr             Right adjust a string
-!!         index               Position of a substring within a string
-!!         repeat              Repeated string concatenation
-!!         scan                Scan a string for the presence of a set
-!!                             of characters
-!!         trim                Remove trailing blank characters of a string
-!!         verify              Scan a string for the absence of a set of
-!!                             characters
-!!         len                 It returns the length of a character string
-!!         char                converts an integer into a character
-!!         ichar               converts a character into an integer
-!!         len_trim            finds length of string with trailing spaces
-!!                             ignored
-!!         lgt                 Lexical greater than
-!!         lge                 Lexical greater than or equal
-!!         leq                 Lexical equal
-!!         lne                 Lexical not equal
-!!         lle                 Lexical less than or equal
-!!         llt                 Lexical less than
-!!
-!!    OOPS INTERFACE
-!!
-!!     An OOP (Object-Oriented Programming) interface to
-!!     the M_unicode(3fm) module provides an alternative interface to all the
-!!     same procedures accept for SORT(3f) and CHAR(3f).
-!!
-!! ##SEE ALSO
-!!     There are additional routines in other GPF modules for working with
-!!     expressions (M_calculator), time strings (M_time), random strings
-!!     (M_random, M_uuid), lists (M_list), and interfacing with the C regular
-!!     expression library (M_regex).
-!!
-!! ##EXAMPLES
-!!
-!!     Each of the procedures includes an [example](example/) program in
-!!     the corresponding man(1) page for the function.
-!!
-!!     Sample program:
-!!
-!!       program demo_M_unicode
-!!       use,intrinsic :: iso_fortran_env, only : stdout=>output_unit
-!!       use M_unicode,only : TOKENIZE, REPLACE, CHARACTER, UPPER, LOWER
-!!       use M_unicode,only : unicode_type, assignment(=), operator(//)
-!!       use M_unicode,only : ut => unicode_type, ch => character
-!!       type(unicode_type)             :: string
-!!       type(unicode_type)             :: numeral, uppercase, lowercase
-!!       type(unicode_type),allocatable :: array(:)
-!!       character(len=*),parameter     :: gen='("[",g0,"] ":)'
-!!       uppercase='АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ'
-!!       lowercase='абвгґдеєжзиіїйклмнопрстуфхцчшщьюя'
-!!       numeral='0123456789'
-!!
-!!        string=uppercase//' '//lowercase//' '//numeral
-!!
-!!        write(stdout,gen)ch(string)
-!!        write(stdout,gen)ch(UPPER(string))
-!!        write(stdout,gen)ch(LOWER(string))
-!!
-!!        call TOKENIZE(string,ut(''),array)
-!!        write(stdout,gen)character(array)
-!!
-!!        write(stdout,gen)character(&
-!!        & REPLACE(string, &
-!!        & ut('клмнопрс'), &
-!!        & ut('--------'), &
-!!        & ignorecase=.true.))
-!!
-!!       end program demo_M_unicode
-!!
-!!  Results:
-!!
-!!   > abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 01234567890
-!!   > ABCDEFGHIJKLMNOPQRSTUVWXYZ ABCDEFGHIJKLMNOPQRSTUVWXYZ 01234567890
-!!   > abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz 01234567890
-!!   > [abcdefghijklmnopqrstuvwxyz] [ABCDEFGHIJKLMNOPQRSTUVWXYZ] [01234567890               ]
-!!   > abcdefghijklmnop--RePlace--tuvwxyz ABCDEFGHIJKLMNOP--RePlace--TUVWXYZ 01234567890
-!!
-!! ##AUTHOR
-!!     John S. Urban
-!!
-!! ##LICENSE
-!!     Public Domain
+! 
+! NAME
+!     M_unicode(3f) - [M_unicode::INTRO] Unicode string module
+! 
+! DESCRIPTION
+!     The M_unicode(3fm) module is a collection of Fortran procedures
+!     that supplement the built-in intrinsic string routines. Routines
+!     for parsing, tokenizing, changing case, substituting new strings for
+!     substrings, locating strings with simple wildcard expressions, removing
+!     tabs and line terminators and other string manipulations are included.
+! 
+!     Arrays of the user-defined type UNICODE_TYPE allows each element to
+!     be of different lengths as well as providing an OOP interface.
+! 
+! SYNOPSIS
+! 
+!   public entities:
+! 
+!    TOKENS
+! 
+!        split   subroutine parses string using specified delimiter characters
+!                into tokens
+! 
+!    EDITING
+! 
+!        replace         function non-recursively globally replaces old
+!                        substring with new substring
+!    CASE
+! 
+!        upper           function converts string to uppercase
+!        lower           function converts string to miniscule
+! 
+!    STRING LENGTH AND PADDING
+! 
+!        len_trim   find location of last non-whitespace character
+!        pad        pad string to at least specified length with pattern string
+! 
+!    WHITE SPACE
+! 
+!    QUOTES
+! 
+!    CHARACTER ARRAY VERSUS STRING
+! 
+!       character(VAR,start,end,inc)
+!       VAR%character(start,end,inc)
+!       VAR%bytes(start,end,inc)
+!       VAR%codepoint(start,end,inc)
+! 
+!    NONALPHA
+! 
+!    NUMERIC STRINGS
+! 
+!    CHARACTER TESTS
+! 
+!    BASE CONVERSION
+! 
+!    MISCELLANEOUS
+! 
+!    INTRINSICS
+! 
+!     The M_unicode(3fm) module supplements the Fortran built-in
+!     intrinsics with overloads of operators and intrinsics that allow
+!     type(unicode_type) to be used with intrinsic names in the same manner
+!     the intrinsics operate on CHARACTER variables.
+! 
+!     Assignment, comparisons with standard operators, and concatenation
+!     using the // operator, as well as a number of intrinsic string
+!     routine overloads are provided:
+! 
+!         adjustl             Left adjust a string
+!         adjustr             Right adjust a string
+!         index               Position of a substring within a string
+!         repeat              Repeated string concatenation
+!         scan                Scan a string for the presence of a set
+!                             of characters
+!         trim                Remove trailing blank characters of a string
+!         verify              Scan a string for the absence of a set of
+!                             characters
+!         len                 It returns the length of a character string
+!         char                converts an integer into a character
+!         ichar               converts a character into an integer
+!         len_trim            finds length of string with trailing spaces
+!                             ignored
+!         lgt                 Lexical greater than
+!         lge                 Lexical greater than or equal
+!         leq                 Lexical equal
+!         lne                 Lexical not equal
+!         lle                 Lexical less than or equal
+!         llt                 Lexical less than
+! 
+!    OOPS INTERFACE
+! 
+!     An OOP (Object-Oriented Programming) interface to
+!     the M_unicode(3fm) module provides an alternative interface to all the
+!     same procedures accept for SORT(3f) and CHAR(3f).
+! 
+! SEE ALSO
+!     There are additional routines in other GPF modules for working with
+!     expressions (M_calculator), time strings (M_time), random strings
+!     (M_random, M_uuid), lists (M_list), and interfacing with the C regular
+!     expression library (M_regex).
+! 
+! EXAMPLES
+! 
+!     Each of the procedures includes an [example](example/) program in
+!     the corresponding man(1) page for the function.
+! 
+!  Sample program:
+! 
+!    program demo_M_unicode
+!    use,intrinsic :: iso_fortran_env, only : stdout=>output_unit
+!    use M_unicode,only : TOKENIZE, REPLACE, CHARACTER, UPPER, LOWER, LEN
+!    use M_unicode,only : unicode_type, assignment(=), operator(//)
+!    use M_unicode,only : ut => unicode_type, ch => character
+!    use M_unicode,only : read(formatted), write(formatted)
+!    type(unicode_type)             :: string
+!    type(unicode_type)             :: numeric, uppercase, lowercase
+!    type(unicode_type),allocatable :: array(:)
+!    character(len=*),parameter     :: all='(g0)'
+!    character(len=*),parameter     :: uni='(DT)'
+!    uppercase='АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ'
+!    lowercase='абвгґдеєжзиіїйклмнопрстуфхцчшщьюя'
+!    numeric='0123456789'
+! 
+!     string=uppercase//' '//numeric//' '//lowercase
+! 
+!     print all, 'Original string:'
+!     print all, ch(string)
+!     print all, 'length in bytes :',len(string%character())
+!     print all, 'length in glyphs:',len(string)
+!     print all
+! 
+!     print all, 'convert to all uppercase:'
+!     print uni, UPPER(string)
+!     print all
+! 
+!     print all, 'convert to all lowercase:'
+!     print uni, LOWER(string)
+!     print all
+! 
+!     print all, 'tokenize on spaces ... '
+!     call TOKENIZE(string,ut(' '),array)
+!     print all, '... writing with A or G format:',character(array)
+!     print uni, ut('... writing with DT format'),array
+!     print all
+! 
+!     print all, 'case-insensitive replace:'
+!     print uni,  REPLACE(string, &
+!     & ut('клмнопрс'), &
+!     & ut('--------'), &
+!     & ignorecase=.true.)
+!     print all
+! 
+!    end program demo_M_unicode
+! 
+! Results:
+! 
+!  Original string:
+!  АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ 0123456789 абвгґдеєжзиіїйклмнопрстуфхцчшщьюя
+!  length in bytes :
+!  144
+!  length in glyphs:
+!  78
+! 
+!  convert to all uppercase:
+!  АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ 0123456789 АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ
+! 
+!  convert to all lowercase:
+!  абвгґдеєжзиіїйклмнопрстуфхцчшщьюя 0123456789 абвгґдеєжзиіїйклмнопрстуфхцчшщьюя
+! 
+!  tokenize on spaces ...
+!  ... writing with A or G format:
+!  АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ
+!  0123456789
+!  абвгґдеєжзиіїйклмнопрстуфхцчшщьюя
+!  ... writing with DT format
+!  АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ
+!  0123456789
+!  абвгґдеєжзиіїйклмнопрстуфхцчшщьюя
+! 
+!  case-insensitive replace:
+!  АБВГҐДЕЄЖЗИІЇЙ--------ТУФХЦЧШЩЬЮЯ 0123456789 абвгґдеєжзиіїй--------туфхцчшщьюя
+! 
+! AUTHOR
+!     John S. Urban
+! 
+! LICENSE
+!     Public Domai
 module M_unicode
 !
 ! Unicode-related procedures not requiring compiler support of ISO-10646
@@ -194,6 +231,7 @@ public :: character
 public :: sort
 public :: upper, lower
 public :: replace
+public :: pad
 
 public :: adjustl, adjustr, index, len, len_trim, repeat, trim
 public :: split, tokenize
@@ -302,6 +340,7 @@ contains
 
    procedure :: sub        => oop_sub
    procedure :: replace    => oop_replace
+   procedure :: pad        => oop_pad
 
    !DECLARATION OF OVERLOADED OPERATORS FOR TYPE(UNICODE_TYPE)
    procedure,private :: eq => oop_eq
@@ -320,7 +359,6 @@ contains
 !   procedure,private :: string_append_value
 !   generic           :: operator(//) => string_append_value
 end type unicode_type
-
 
 ! Constructor for new string instances
 interface unicode_type
@@ -2262,7 +2300,6 @@ integer                        :: mx
 integer                        :: nerr
 integer                        :: last_local
 
-
    mx=0
    do i=1,size(string)
       last_local=last
@@ -3081,122 +3118,122 @@ end function reverse
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
-!>
-!! ##NAME
-!!     replace(3f) - [M_unicode:EDITING] function replaces one
-!!     substring for another in string
-!!     (LICENSE:PD)
-!!
-!! ##SYNOPSIS
-!!
-!!  syntax:
-!!
-!!       function replace(target,old,new,&
-!!        & occurrence, &
-!!        & repeat, &
-!!        & ignorecase, &
-!!        & ierr,back) result (newline)
-!!       character(len=*)                     :: target
-!!       character(len=*),intent(in),optional :: old
-!!       character(len=*),intent(in),optional :: new
-!!       integer,intent(in),optional          :: occurrence
-!!       integer,intent(in),optional          :: repeat
-!!       logical,intent(in),optional          :: ignorecase
-!!       integer,intent(out),optional         :: changes
-!!       character(len=:),allocatable         :: newline
-!!
-!! ##DESCRIPTION
-!!     Replace old substring with new value in string.
-!!
-!! ##OPTIONS
-!!      target      input line to be changed
-!!      old         old substring to replace
-!!      new         new substring
-!!
-!!     KEYWORD REQUIRED
-!!      occurrence  if present, start changing at the Nth occurrence of the
-!!                  OLD string.
-!!      repeat      number of replacements to perform. Defaults to a global
-!!                  replacement.
-!!      ignorecase  whether to ignore ASCII case or not. Defaults
-!!                  to .false. .
-!!      back        if true start replacing moving from the right end of the
-!!                  string moving left instead of from the left to the right.
-!! ##RETURNS
-!!      newline     allocatable string returned
-!!      changes     count of changes made.
-!!
-!! ##EXAMPLES
-!!
-!!    Sample Program:
-!!
-!!     program demo_replace
-!!     use M_unicode
-!!     use M_unicode, only : ut=>unicode_type
-!!     use M_unicode, only : unicode_type
-!!     implicit none
-!!     type(unicode_type) :: line
-!!     !
-!!     write(*,*)&
-!!     &character( replace(ut('Xis is Xe string'),ut('X'),ut('th') ) )
-!!     write(*,*)&
-!!     &character( replace(ut('Xis is xe string'),&
-!!     &ut('x'),ut('th'),ignorecase=.true.) )
-!!     write(*,*)&
-!!     &character( replace(ut('Xis is xe string'),&
-!!     &ut('X'),ut('th'),ignorecase=.false.) )
-!!     !
-!!     ! a null old substring means "at beginning of line"
-!!     write(*,*)&
-!!     &character(replace(ut('my line of text'),ut(''),ut('BEFORE:')) )
-!!     !
-!!     ! a null new string deletes occurrences of the old substring
-!!     write(*,*) character(replace(ut('I wonder i ii iii'),ut('i'),ut('')) )
-!!     !
-!!     ! Examples of the use of RANGE
-!!     !
-!!     line=replace(ut('aaaaaaaaa'),ut('a'),ut('A'),occurrence=1,repeat=1)
-!!     write(*,*)'replace first a with A ['//line%character()//']'
-!!     !
-!!     line=replace(ut('aaaaaaaaa'),ut('a'),ut('A'),occurrence=3,repeat=3)
-!!     write(*,*)&
-!!     &'replace a with A for 3rd to 5th occurrence ['//line%character()//']'
-!!     !
-!!     line=replace(ut('ababababa'),ut('a'),ut(''),occurrence=3,repeat=3)
-!!     write(*,*)&
-!!     &'replace a with null instances 3 to 5 ['//line%character()//']'
-!!     !
-!!     line=replace( &
-!!      & ut('a b ab baaa aaaa aa aa a a a aa aaaaaa'),&
-!!      & ut('aa'),ut('CCCC'),occurrence=-1,repeat=1)
-!!     write(*,*)'replace lastaa with CCCC ['//line%character()//']'
-!!     !
-!!     write(*,*)character(replace(ut('myf90stuff.f90.f90'),&
-!!     &ut('f90'),ut('for'),occurrence=-1,repeat=1))
-!!     write(*,*)character(replace(ut('myf90stuff.f90.f90'),&
-!!     &ut('f90'),ut('for'),occurrence=-2,repeat=2))
-!!     !
-!!     end program demo_replace
-!!
-!!    Results:
-!!
-!!      this is the string
-!!      this is the string
-!!      this is xe string
-!!      BEFORE:my line of text
-!!      I wonder
-!!      replace first a with A [Aaaaaaaaa]
-!!      replace a with A for 3rd to 5th occurrence [aaAAAaaaa]
-!!      replace a with null instances 3 to 5 [ababbb]
-!!      replace lastaa with CCCC [a b ab baaa aaaa aa aa a a a aa aaaaCCCC]
-!!      myf90stuff.f90.for
-!!      myforstuff.for.f90
-!!
-!! ##AUTHOR
-!!     John S. Urban
-!!
-!! ##LICENSE
-!!    MIT
+! 
+! NAME
+!     replace(3f) - [M_unicode:EDITING] function replaces one
+!     substring for another in string
+!     (LICENSE:PD)
+! 
+! SYNOPSIS
+! 
+!  syntax:
+! 
+!       function replace(target,old,new,&
+!        & occurrence, &
+!        & repeat, &
+!        & ignorecase, &
+!        & ierr,back) result (newline)
+!       character(len=*)                     :: target
+!       character(len=*),intent(in),optional :: old
+!       character(len=*),intent(in),optional :: new
+!       integer,intent(in),optional          :: occurrence
+!       integer,intent(in),optional          :: repeat
+!       logical,intent(in),optional          :: ignorecase
+!       integer,intent(out),optional         :: changes
+!       character(len=:),allocatable         :: newline
+! 
+! DESCRIPTION
+!     Replace old substring with new value in string.
+! 
+! OPTIONS
+!      target      input line to be changed
+!      old         old substring to replace
+!      new         new substring
+! 
+!     KEYWORD REQUIRED
+!      occurrence  if present, start changing at the Nth occurrence of the
+!                  OLD string.
+!      repeat      number of replacements to perform. Defaults to a global
+!                  replacement.
+!      ignorecase  whether to ignore ASCII case or not. Defaults
+!                  to .false. .
+!      back        if true start replacing moving from the right end of the
+!                  string moving left instead of from the left to the right.
+! RETURNS
+!      newline     allocatable string returned
+!      changes     count of changes made.
+! 
+! EXAMPLES
+! 
+!    Sample Program:
+! 
+!     program demo_replace
+!     use M_unicode
+!     use M_unicode, only : ut=>unicode_type
+!     use M_unicode, only : unicode_type
+!     implicit none
+!     type(unicode_type) :: line
+!     !
+!     write(*,*)&
+!     &character( replace(ut('Xis is Xe string'),ut('X'),ut('th') ) )
+!     write(*,*)&
+!     &character( replace(ut('Xis is xe string'),&
+!     &ut('x'),ut('th'),ignorecase=.true.) )
+!     write(*,*)&
+!     &character( replace(ut('Xis is xe string'),&
+!     &ut('X'),ut('th'),ignorecase=.false.) )
+!     !
+!     ! a null old substring means "at beginning of line"
+!     write(*,*)&
+!     &character(replace(ut('my line of text'),ut(''),ut('BEFORE:')) )
+!     !
+!     ! a null new string deletes occurrences of the old substring
+!     write(*,*) character(replace(ut('I wonder i ii iii'),ut('i'),ut('')) )
+!     !
+!     ! Examples of the use of RANGE
+!     !
+!     line=replace(ut('aaaaaaaaa'),ut('a'),ut('A'),occurrence=1,repeat=1)
+!     write(*,*)'replace first a with A ['//line%character()//']'
+!     !
+!     line=replace(ut('aaaaaaaaa'),ut('a'),ut('A'),occurrence=3,repeat=3)
+!     write(*,*)&
+!     &'replace a with A for 3rd to 5th occurrence ['//line%character()//']'
+!     !
+!     line=replace(ut('ababababa'),ut('a'),ut(''),occurrence=3,repeat=3)
+!     write(*,*)&
+!     &'replace a with null instances 3 to 5 ['//line%character()//']'
+!     !
+!     line=replace( &
+!      & ut('a b ab baaa aaaa aa aa a a a aa aaaaaa'),&
+!      & ut('aa'),ut('CCCC'),occurrence=-1,repeat=1)
+!     write(*,*)'replace lastaa with CCCC ['//line%character()//']'
+!     !
+!     write(*,*)character(replace(ut('myf90stuff.f90.f90'),&
+!     &ut('f90'),ut('for'),occurrence=-1,repeat=1))
+!     write(*,*)character(replace(ut('myf90stuff.f90.f90'),&
+!     &ut('f90'),ut('for'),occurrence=-2,repeat=2))
+!     !
+!     end program demo_replace
+! 
+!    Results:
+! 
+!      this is the string
+!      this is the string
+!      this is xe string
+!      BEFORE:my line of text
+!      I wonder
+!      replace first a with A [Aaaaaaaaa]
+!      replace a with A for 3rd to 5th occurrence [aaAAAaaaa]
+!      replace a with null instances 3 to 5 [ababbb]
+!      replace lastaa with CCCC [a b ab baaa aaaa aa aa a a a aa aaaaCCCC]
+!      myf90stuff.f90.for
+!      myforstuff.for.f90
+! 
+! AUTHOR
+!     John S. Urban
+! 
+! LICENSE
+!    MI
 function replace(target,old,new,force_,occurrence,repeat,ignorecase,changes,back) result (newline)
 
 ! ident_12="@(#) M_unicode replace(3f) replace one substring for another in string"
@@ -3553,6 +3590,186 @@ end subroutine split_pos
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
+! 
+! NAME
+!    pad(3f) - [M_strings:LENGTH] return string padded to at least
+!    specified length
+!    (LICENSE:PD)
+! 
+! SYNOPSIS
+! 
+!    function pad(str,length,pattern,right,clip) result(strout)
+! 
+!     type(unicode_type)                         :: str
+!     integer,intent(in)                         :: length
+!     type(unicode_type)                         :: strout
+!     type(unicode_type),intent(in),optional     :: pattern
+!     logical,intent(in),optional                :: right
+!     logical,intent(in),optional                :: clip
+! 
+! DESCRIPTION
+!    pad(3f) pads a string with a pattern to at least the specified
+!    length. If the trimmed input string is longer than the requested
+!    length the trimmed string is returned.
+! 
+! OPTIONS
+!    str      the input string to return trimmed, but then padded to
+!             the specified length if shorter than length
+!    length   The minimum string length to return
+!    pattern  optional string to use as padding. Defaults to a space.
+!    right    if true pads string on the right, else on the left. Defaults
+!             to true.
+!    clip     trim spaces from input string ends. Defaults to .true.
+! 
+! RETURNS
+!    strout  The input string padded to the requested length or
+!            the trimmed input string if the input string is
+!            longer than the requested length.
+! 
+! EXAMPLES
+! 
+!   Sample Program:
+! 
+!     program demo_pad
+!      use M_unicode, only : pad, assignment(=)
+!      use M_unicode, only : write(formatted)
+!      use M_unicode, only : len
+!      use M_unicode, only : ut=> unicode_type
+!      implicit none
+!      type(ut)                   :: string
+!      type(ut)                   :: answer
+!      integer                    :: i
+!      character(len=*),parameter :: g='(*(g0))'
+!      character(len=*),parameter :: u='(*(DT))'
+! 
+!         string='abcdefghij'
+! 
+!         write(*,*)'pad on right till 20 characters long'
+!         answer=pad(string,20)
+!         write(*,'("[",DT,"]",/)') answer
+! 
+!         write(*,*)'original is not trimmed for short length requests'
+!         answer=pad(string,5)
+!         write(*,'("[",DT,"]",/)') answer
+! 
+!         i=30
+!         write(*,*)'pad with specified string and left-justified integers'
+!         write(*,'(1x,DT,1x,i0)') &
+!          & pad(ut('CHAPTER 1 : The beginning '),i,ut('.') ), 1   , &
+!          & pad(ut('CHAPTER 2 : The end '),i,ut('.') ),       1234, &
+!          & pad(ut('APPENDIX '),i,ut('.') ),                  1235
+! 
+!         write(*,*)'pad with specified string and right-justified integers'
+!         write(*,'(1x,DT,i7)') &
+!          & pad(ut('CHAPTER 1 : The beginning '),i,ut('.') ), 1   , &
+!          & pad(ut('CHAPTER 2 : The end '),i,ut('.') ),       1234, &
+!          & pad(ut('APPENDIX '),i,ut('.') ),                  1235
+! 
+!         write(*,*)'pad on left with zeros'
+!         write(*,u)pad(ut('12'),5,ut('0'),right=.false.)
+! 
+!         write(*,*)'various lengths with clip .true. and .false.'
+!         write(*,u)pad(ut('12345 '),30,ut('_'),right=.false.)
+!         write(*,u)pad(ut('12345 '),30,ut('_'),right=.false.,clip=.true.)
+!         write(*,u)pad(ut('12345 '), 7,ut('_'),right=.false.)
+!         write(*,u)pad(ut('12345 '), 7,ut('_'),right=.false.,clip=.true.)
+!         write(*,u)pad(ut('12345 '), 6,ut('_'),right=.false.)
+!         write(*,u)pad(ut('12345 '), 6,ut('_'),right=.false.,clip=.true.)
+!         write(*,u)pad(ut('12345 '), 5,ut('_'),right=.false.)
+!         write(*,u)pad(ut('12345 '), 5,ut('_'),right=.false.,clip=.true.)
+!         write(*,u)pad(ut('12345 '), 4,ut('_'),right=.false.)
+!         write(*,u)pad(ut('12345 '), 4,ut('_'),right=.false.,clip=.true.)
+!     end program demo_pad
+! 
+!   Results:
+! 
+!    >  pad on right till 20 characters long
+!    > [abcdefghij          ]
+!    >
+!    >  original is not trimmed for short length requests
+!    > [abcdefghij]
+!    >
+!    >  pad with specified string and left-justified integers
+!    >  CHAPTER 1 : The beginning .... 1
+!    >  CHAPTER 2 : The end .......... 1234
+!    >  APPENDIX ..................... 1235
+!    >  pad with specified string and right-justified integers
+!    >  CHAPTER 1 : The beginning ....      1
+!    >  CHAPTER 2 : The end ..........   1234
+!    >  APPENDIX .....................   1235
+!    >  pad on left with zeros
+!    > 00012
+!    >  various lengths with clip .true. and .false.
+!    > ________________________12345
+!    > _________________________12345
+!    > _12345
+!    > __12345
+!    > 12345
+!    > _12345
+!    > 12345
+!    > 12345
+!    > 12345
+!    > 2345
+! 
+! SEE ALSO
+!      adjustl(3f), adjustr(3f), repeat(3f), trim(3f), len_trim(3f), len(3f)
+! 
+! AUTHOR
+!     John S. Urban
+! 
+! LICENSE
+!     MI
+!===================================================================================================================================
+function pad(line,length,pattern,right,clip) result(strout)
+
+!$@(#) M_strings::pad(3f): return string padded to at least specified length
+
+type(unicode_type),intent(in)          :: line
+integer,intent(in)                     :: length
+type(unicode_type),intent(in),optional :: pattern
+logical,optional,intent(in)            :: right
+logical,optional,intent(in)            :: clip
+type(unicode_type)                     :: strout
+logical                                :: local_right
+logical                                :: local_clip
+type(unicode_type)                     :: local_pattern
+type(unicode_type)                     :: local_line
+integer                                :: newlen
+
+if(  present(right)    )then;  local_right=right;      else;  local_right=.true.;  endif
+if(  present(clip)     )then;  local_clip=clip;        else;  local_clip=.true. ;  endif
+if(  present(pattern)  )then;  local_pattern=pattern;  else;  local_pattern=' ' ;  endif
+
+if(len(local_pattern) == 0)then
+   strout=line
+else
+
+   if(local_clip)then
+      local_line=trim(adjustl(line))
+      newlen=max(length,len(local_line))
+   else
+      local_line=line
+      newlen=max( length,len(line) )
+   endif
+
+   if(local_right)then
+      strout=local_line//repeat(local_pattern,newlen/len(local_pattern)+1)
+   else
+      ! make a line of pattern
+      strout=repeat(local_pattern, ceiling(real(newlen)/len(local_pattern)))
+      strout=strout%sub(1,newlen-len(local_line))//local_line
+   endif
+
+   strout=strout%sub(1,newlen)
+
+endif
+end function pad
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
 elemental pure function uscan(string,set,back) result(pos)
 !@(#) M_unicode:uscan(3f)  Scan a string for the presence of a set of characters
 type(unicode_type),intent(in) :: string
@@ -3658,6 +3875,21 @@ type(unicode_type) :: newline                ! output string buffer
 
    newline=replace(self,old,new,occurrence=occurrence,repeat=repeat,ignorecase=ignorecase,changes=changes,back=back)
 end function oop_replace
+!===================================================================================================================================
+function oop_pad(self,length,pattern,right,clip) result (strout)
+! ident_12="@(#) M_unicode pad(3f) pad string with repeating pattern to at least specified length
+
+class(unicode_type),intent(in)         :: self       ! input line to be changed
+integer,intent(in)                     :: length
+type(unicode_type),intent(in),optional :: pattern
+logical,optional,intent(in)            :: right
+logical,optional,intent(in)            :: clip
+! returns
+type(unicode_type)                     :: strout
+
+   strout=pad(self,length,pattern,right,clip)
+
+end function oop_pad
 !===================================================================================================================================
 function oop_character(self,first,last,step) result(str_out)
 class(unicode_type), intent(in) :: self

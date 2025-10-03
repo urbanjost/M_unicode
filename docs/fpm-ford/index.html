@@ -131,7 +131,8 @@ intrinsics and operators.</p>
 <span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <span class="w">   </span><span class="nb">adjustl</span><span class="p">,</span><span class="w">  </span><span class="nb">adjustr</span><span class="p">,</span><span class="w">   </span><span class="nb">trim</span><span class="p">,</span><span class="w">    </span><span class="nb">len</span><span class="p">,</span><span class="w">     </span><span class="nb">len_trim</span><span class="p">,</span><span class="w">  </span><span class="p">&amp;</span><span class="w"></span>
 <span class="w">   </span><span class="nb">index</span><span class="p">,</span><span class="w">    </span><span class="nb">scan</span><span class="p">,</span><span class="w">      </span><span class="nb">verify</span><span class="p">,</span><span class="w">  </span><span class="nb">repeat</span><span class="p">,</span><span class="w">  </span><span class="nb">ichar</span><span class="p">,</span><span class="w">     </span><span class="p">&amp;</span><span class="w">          </span>
-<span class="w">   </span><span class="n">split</span><span class="p">,</span><span class="w">    </span><span class="n">tokenize</span><span class="p">,</span><span class="w">  </span><span class="n">upper</span><span class="p">,</span><span class="w">   </span><span class="n">lower</span><span class="p">,</span><span class="w">   </span><span class="n">sort</span><span class="w">       </span>
+<span class="w">   </span><span class="n">split</span><span class="p">,</span><span class="w">    </span><span class="n">tokenize</span><span class="p">,</span><span class="w">  </span><span class="n">upper</span><span class="p">,</span><span class="w">   </span><span class="n">lower</span><span class="p">,</span><span class="w">   </span><span class="n">sort</span><span class="p">,</span><span class="w">      </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">   </span><span class="n">pad</span><span class="w"></span>
 
 <span class="c">! operators (and overloads) and assignment</span>
 <span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">)</span><span class="w"></span>
@@ -155,12 +156,8 @@ intrinsics and operators.</p>
 <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">gh</span><span class="o">=</span><span class="s1">&#39;(*(z0,1x))&#39;</span><span class="w"></span>
 <span class="kt">integer</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">iostat</span><span class="w"></span>
 
-<span class="w">   </span><span class="c">! preferred, but not required if not supported</span>
-<span class="w">   </span><span class="k">open</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">,</span><span class="n">iostat</span><span class="o">=</span><span class="n">iostat</span><span class="p">)</span><span class="w"> </span>
-
 <span class="w">   </span><span class="c">! Constructors</span>
 <span class="w">   </span><span class="c">! UNICODE_VARIABLE= UNICODE_VARIABLE|CHARACTER(LEN=*)|INTEGER_ARRAY</span>
-<span class="w">   </span><span class="c">!</span>
 
 <span class="w">   </span><span class="c">! assign UTF-8 string to OOP object.</span>
 <span class="w">   </span><span class="n">ustr</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Hello World and Ni Hao -- 你好  &#39;</span><span class="w"></span>
@@ -274,7 +271,6 @@ is redirected to a file does it appear correctly?</p>
 <span class="k">use</span><span class="p">,</span><span class="w"> </span><span class="k">intrinsic</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="o">=&gt;</span><span class="n">output_unit</span><span class="w"></span>
 <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">all</span><span class="o">=</span><span class="s1">&#39;(*(g0))&#39;</span><span class="w"></span>
 <span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iostat</span><span class="w"></span>
-<span class="w">   </span><span class="k">open</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">,</span><span class="n">iostat</span><span class="o">=</span><span class="n">iostat</span><span class="p">)</span><span class="w"> </span><span class="c">! if not supported try removing</span>
 <span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <span class="w">   </span><span class="s1">&#39;Confucius never claimed to be a prophet, &#39;</span><span class="w">       </span><span class="p">,&amp;</span><span class="w"></span>
 <span class="w">   </span><span class="s1">&#39;but I think he foresaw AI! He said &#39;</span><span class="w">             </span><span class="p">,&amp;</span><span class="w"></span>
@@ -388,7 +384,7 @@ including features and enhancements from Francois Jacq.</p>
           <div class="col-xs-6 col-sm-3">
             <div>
               <h3>Source Files</h3>
-              <ul><li><a href='sourcefile/bom_start.f90.html'>bom_start.f90</a></li><li><a href='sourcefile/codepoint.f90.html'>codepoint.f90</a></li><li><a href='sourcefile/codepoints.f90.html'>codepoints.f90</a></li><li><a href='sourcefile/construct.f90.html'>construct.f90</a></li><li><a href='sourcefile/count_glyphs.f90.html'>count_glyphs.f90</a></li><li><a href='sourcefile/demo_lower.f90.html'>demo_lower.f90</a></li><li><a href='sourcefile/demo_m_unicode.f90.html'>demo_M_unicode.f90</a></li><li><a href='sourcefile/demo_replace.f90.html'>demo_replace.f90</a></li><li><a href='sourcefile/demo_scan.f90.html'>demo_scan.f90</a></li><li><a href='sourcefile/demo_sort.f90.html'>demo_sort.f90</a></li></ul>
+              <ul><li><a href='sourcefile/bom_start.f90.html'>bom_start.f90</a></li><li><a href='sourcefile/codepoint.f90.html'>codepoint.f90</a></li><li><a href='sourcefile/codepoints.f90.html'>codepoints.f90</a></li><li><a href='sourcefile/construct.f90.html'>construct.f90</a></li><li><a href='sourcefile/count_glyphs.f90.html'>count_glyphs.f90</a></li><li><a href='sourcefile/demo_lower.f90.html'>demo_lower.f90</a></li><li><a href='sourcefile/demo_m_unicode.f90.html'>demo_M_unicode.f90</a></li><li><a href='sourcefile/demo_pad.f90.html'>demo_pad.f90</a></li><li><a href='sourcefile/demo_replace.f90.html'>demo_replace.f90</a></li><li><a href='sourcefile/demo_scan.f90.html'>demo_scan.f90</a></li></ul>
             </div>
             <div>
               <ul>
@@ -445,7 +441,7 @@ including features and enhancements from Francois Jacq.</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-10-03 02:05 +0000             </p>
+ on 2025-10-03 19:12 +0000             </p>
           </div>
         </div>
         <br>
