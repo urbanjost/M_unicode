@@ -10,6 +10,7 @@ use M_unicode, only : scan, verify
 use M_unicode, only : tokenize, split
 use M_unicode, only : ichar
 use M_unicode, only : replace
+use M_unicode, only : pad
 
 use M_unicode, only : assignment(=), unicode_type, operator(//)
 use M_unicode, only : operator(<=), lle
@@ -664,6 +665,56 @@ type(unicode_type)             :: ut_str
    call check('ichar',ichar(ut_str%sub(2,3)).eq.ichar('B'),'ichar(ut_str%sub(2,3))')
 end subroutine test_ichar
 
+subroutine test_pad()
+type(ut)                   :: string
+type(ut)                   :: answer
+integer                    :: i
+! 
+   string='abcdefghij'
+   answer='[abcdefghij          ]'
+   call check('pad',bracket(pad(string,20)) == answer,'pad on right till 20 characters long')
+   answer='[abcdefghij]'
+   call check('pad',bracket(pad(string,5)) == answer,'original is not truncated for short specified length')
+
+   ! non-blank pattern
+   ! pad on left
+   call check('pad', pad(ut('12'),5,ut('0'),right=.false.) == '00012', 'pad on left with zeros')
+
+   string='12345 '
+
+   call check('pad', bracket(pad(string,15,ut('_'),right=.false.,clip=.true.)) == '[__________12345]',&
+   &character(bracket(pad(string,15,ut('_'),right=.false.,clip=.true.))) )
+   call check('pad', bracket(pad(string,15,ut('_'),right=.false.,clip=.false.)) == '[_________12345 ]',&
+   &character(bracket(pad(string,15,ut('_'),right=.false.,clip=.false.))) )
+
+   call check('pad', bracket(pad(string, 7,ut('_'),right=.false.,clip=.true.)) == '[__12345]',&
+   &character(bracket(pad(string,7,ut('_'),right=.false.,clip=.true.))) )
+   call check('pad', bracket(pad(string, 7,ut('_'),right=.false.,clip=.false.)) == '[_12345 ]',&
+   &character(bracket(pad(string,7,ut('_'),right=.false.,clip=.false.))) )
+
+   call check('pad', bracket(pad(ut('12345 '), 6,ut('_'),right=.false.,clip=.true.)) == '[_12345]',&
+   &character(bracket(pad(string,6,ut('_'),right=.false.,clip=.true.))) )
+   call check('pad', bracket(pad(ut('12345 '), 6,ut('_'),right=.false.,clip=.false.)) == '[12345 ]',&
+   &character(bracket(pad(string,6,ut('_'),right=.false.,clip=.false.))) )
+
+   call check('pad', bracket(pad(ut('12345 '), 5,ut('_'),right=.false.,clip=.true.)) == '[12345]',&
+   &character(bracket(pad(string,5,ut('_'),right=.false.,clip=.true.))) )
+   call check('pad', bracket(pad(ut('12345 '), 5,ut('_'),right=.false.,clip=.false.)) == '[12345 ]',&
+   &character(bracket(pad(string,5,ut('_'),right=.false.,clip=.false.))) )
+
+   call check('pad', bracket(pad(ut('12345 '), 4,ut('_'),right=.false.,clip=.true.)) == '[12345]',&
+   &character(bracket(pad(string,4,ut('_'),right=.false.,clip=.true.))) )
+   call check('pad', bracket(pad(ut('12345 '), 4,ut('_'),right=.false.,clip=.false.)) == '[12345 ]',&
+   &character(bracket(pad(string,4,ut('_'),right=.false.,clip=.false.))) )
+
+contains 
+function bracket(line) result (bracketed)
+type(unicode_type),intent(in) :: line
+type(unicode_type)            :: bracketed
+   bracketed='['//line//']'
+end function bracket
+end subroutine test_pad
+
 subroutine test_replace()
 type(unicode_type) :: line
 ! 
@@ -732,6 +783,7 @@ use testsuite_M_unicode
    call test_verify()
    call test_ichar()
    call test_replace()
+   call test_pad()
    call test_other()
 
    write(*,g0)

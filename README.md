@@ -35,7 +35,8 @@ use M_unicode, only : character
 use M_unicode, only : &
    adjustl,  adjustr,   trim,    len,     len_trim,  &
    index,    scan,      verify,  repeat,  ichar,     &          
-   split,    tokenize,  upper,   lower,   sort       
+   split,    tokenize,  upper,   lower,   sort,      &
+   pad
 
 ! operators (and overloads) and assignment
 use M_unicode, only : assignment(=)
@@ -59,12 +60,8 @@ character(len=*), parameter :: gi='(*(g0,1x))'
 character(len=*), parameter :: gh='(*(z0,1x))'
 integer                     :: iostat
 
-   ! preferred, but not required if not supported
-   open(stdout,encoding='utf-8',iostat=iostat) 
-
    ! Constructors
    ! UNICODE_VARIABLE= UNICODE_VARIABLE|CHARACTER(LEN=*)|INTEGER_ARRAY
-   !
 
    ! assign UTF-8 string to OOP object.
    ustr= 'Hello World and Ni Hao -- 你好  '
@@ -197,7 +194,6 @@ program multibyte
 use, intrinsic :: iso_fortran_env, only : stdout=>output_unit
 character(len=*),parameter :: all='(*(g0))'
 integer :: iostat
-   open(stdout,encoding='utf-8',iostat=iostat) ! if not supported try removing
    write(stdout,'(a)') &
    'Confucius never claimed to be a prophet, '       ,&
    'but I think he foresaw AI! He said '             ,&
