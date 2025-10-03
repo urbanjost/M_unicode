@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="16.5% of total for procedures.">128 statements</a>
+                 title="16.3% of total for procedures.">128 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -162,6 +162,125 @@
 </h2>
     
 
+    <h2 id="name">NAME</h2>
+<div class="codehilite"><pre><span></span><code><span class="nv">replace</span><span class="ss">(</span><span class="mi">3</span><span class="nv">f</span><span class="ss">)</span> <span class="o">-</span> [<span class="nv">M_unicode</span>:<span class="nv">EDITING</span>] <span class="nv">function</span> <span class="nv">replaces</span> <span class="nv">one</span>
+<span class="nv">substring</span> <span class="k">for</span> <span class="nv">another</span> <span class="nv">in</span> <span class="nv">string</span>
+<span class="ss">(</span><span class="nv">LICENSE</span>:<span class="nv">PD</span><span class="ss">)</span>
+</code></pre></div>
+
+<h2 id="synopsis">SYNOPSIS</h2>
+<p>syntax:</p>
+<div class="codehilite"><pre><span></span><code><span class="w">  </span><span class="k">function</span><span class="w"> </span><span class="nf">replace</span><span class="p">(</span><span class="n">target</span><span class="p">,</span><span class="n">old</span><span class="p">,</span><span class="n">new</span><span class="p">,</span><span class="o">&amp;</span><span class="w"></span>
+<span class="w">   </span><span class="o">&amp;</span><span class="w"> </span><span class="n">occurrence</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="w"></span>
+<span class="w">   </span><span class="o">&amp;</span><span class="w"> </span><span class="n">repeat</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="w"></span>
+<span class="w">   </span><span class="o">&amp;</span><span class="w"> </span><span class="n">ignorecase</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="w"></span>
+<span class="w">   </span><span class="o">&amp;</span><span class="w"> </span><span class="n">ierr</span><span class="p">,</span><span class="n">back</span><span class="p">)</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="p">(</span><span class="nb">newline</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">character</span><span class="p">(</span><span class="n">len</span><span class="p">=</span><span class="o">*</span><span class="p">)</span><span class="w">                     </span><span class="p">::</span><span class="w"> </span><span class="n">target</span><span class="w"></span>
+<span class="w">  </span><span class="n">character</span><span class="p">(</span><span class="n">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="n">optional</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">old</span><span class="w"></span>
+<span class="w">  </span><span class="n">character</span><span class="p">(</span><span class="n">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="n">optional</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">new</span><span class="w"></span>
+<span class="w">  </span><span class="n">integer</span><span class="p">,</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="n">optional</span><span class="w">          </span><span class="p">::</span><span class="w"> </span><span class="n">occurrence</span><span class="w"></span>
+<span class="w">  </span><span class="n">integer</span><span class="p">,</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="n">optional</span><span class="w">          </span><span class="p">::</span><span class="w"> </span><span class="n">repeat</span><span class="w"></span>
+<span class="w">  </span><span class="nb">logical</span><span class="p">,</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="n">optional</span><span class="w">          </span><span class="p">::</span><span class="w"> </span><span class="n">ignorecase</span><span class="w"></span>
+<span class="w">  </span><span class="n">integer</span><span class="p">,</span><span class="n">intent</span><span class="p">(</span><span class="n">out</span><span class="p">),</span><span class="n">optional</span><span class="w">         </span><span class="p">::</span><span class="w"> </span><span class="n">changes</span><span class="w"></span>
+<span class="w">  </span><span class="n">character</span><span class="p">(</span><span class="n">len</span><span class="p">=:),</span><span class="n">allocatable</span><span class="w">         </span><span class="p">::</span><span class="w"> </span><span class="nb">newline</span><span class="w"></span>
+</code></pre></div>
+
+<h2 id="description">DESCRIPTION</h2>
+<div class="codehilite"><pre><span></span><code>Replace old substring with new value in string.
+</code></pre></div>
+
+<h2 id="options">OPTIONS</h2>
+<div class="codehilite"><pre><span></span><code> <span class="nv">target</span>      <span class="nv">input</span> <span class="nv">line</span> <span class="nv">to</span> <span class="nv">be</span> <span class="nv">changed</span>
+ <span class="nv">old</span>         <span class="nv">old</span> <span class="nv">substring</span> <span class="nv">to</span> <span class="nv">replace</span>
+ <span class="nv">new</span>         <span class="nv">new</span> <span class="nv">substring</span>
+
+<span class="nv">KEYWORD</span> <span class="nv">REQUIRED</span>
+ <span class="nv">occurrence</span>  <span class="k">if</span> <span class="nv">present</span>, <span class="nv">start</span> <span class="nv">changing</span> <span class="nv">at</span> <span class="nv">the</span> <span class="nv">Nth</span> <span class="nv">occurrence</span> <span class="nv">of</span> <span class="nv">the</span>
+             <span class="nv">OLD</span> <span class="nv">string</span>.
+ <span class="nv">repeat</span>      <span class="nv">number</span> <span class="nv">of</span> <span class="nv">replacements</span> <span class="nv">to</span> <span class="nv">perform</span>. <span class="nv">Defaults</span> <span class="nv">to</span> <span class="nv">a</span> <span class="nv">global</span>
+             <span class="nv">replacement</span>.
+ <span class="nv">ignorecase</span>  <span class="nv">whether</span> <span class="nv">to</span> <span class="nv">ignore</span> <span class="nv">ASCII</span> <span class="nv">case</span> <span class="nv">or</span> <span class="nv">not</span>. <span class="nv">Defaults</span>
+             <span class="nv">to</span> .<span class="nv">false</span>. .
+ <span class="nv">back</span>        <span class="k">if</span> <span class="nv">true</span> <span class="nv">start</span> <span class="nv">replacing</span> <span class="nv">moving</span> <span class="nv">from</span> <span class="nv">the</span> <span class="nv">right</span> <span class="k">end</span> <span class="nv">of</span> <span class="nv">the</span>
+             <span class="nv">string</span> <span class="nv">moving</span> <span class="nv">left</span> <span class="nv">instead</span> <span class="nv">of</span> <span class="nv">from</span> <span class="nv">the</span> <span class="nv">left</span> <span class="nv">to</span> <span class="nv">the</span> <span class="nv">right</span>.
+</code></pre></div>
+
+<h2 id="returns">RETURNS</h2>
+<div class="codehilite"><pre><span></span><code> newline     allocatable string returned
+ changes     count of changes made.
+</code></pre></div>
+
+<h2 id="examples">EXAMPLES</h2>
+<p>Sample Program:</p>
+<div class="codehilite"><pre><span></span><code><span class="nv">program</span> <span class="nv">demo_replace</span>
+<span class="nv">use</span> <span class="nv">M_unicode</span>
+<span class="nv">use</span> <span class="nv">M_unicode</span>, <span class="nv">only</span> : <span class="nv">ut</span><span class="o">=&gt;</span><span class="nv">unicode_type</span>
+<span class="nv">use</span> <span class="nv">M_unicode</span>, <span class="nv">only</span> : <span class="nv">unicode_type</span>
+<span class="nv">implicit</span> <span class="nv">none</span>
+<span class="nv">type</span><span class="ss">(</span><span class="nv">unicode_type</span><span class="ss">)</span> :: <span class="nv">line</span>
+<span class="o">!</span>
+<span class="nv">write</span><span class="ss">(</span><span class="o">*</span>,<span class="o">*</span><span class="ss">)</span><span class="o">&amp;</span>
+<span class="o">&amp;</span><span class="nv">character</span><span class="ss">(</span> <span class="nv">replace</span><span class="ss">(</span><span class="nv">ut</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">Xis is Xe string</span><span class="s1">&#39;</span><span class="ss">)</span>,<span class="nv">ut</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">X</span><span class="s1">&#39;</span><span class="ss">)</span>,<span class="nv">ut</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">th</span><span class="s1">&#39;</span><span class="ss">)</span> <span class="ss">)</span> <span class="ss">)</span>
+<span class="nv">write</span><span class="ss">(</span><span class="o">*</span>,<span class="o">*</span><span class="ss">)</span><span class="o">&amp;</span>
+<span class="o">&amp;</span><span class="nv">character</span><span class="ss">(</span> <span class="nv">replace</span><span class="ss">(</span><span class="nv">ut</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">Xis is xe string</span><span class="s1">&#39;</span><span class="ss">)</span>,<span class="o">&amp;</span>
+<span class="o">&amp;</span><span class="nv">ut</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">x</span><span class="s1">&#39;</span><span class="ss">)</span>,<span class="nv">ut</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">th</span><span class="s1">&#39;</span><span class="ss">)</span>,<span class="nv">ignorecase</span><span class="o">=</span>.<span class="nv">true</span>.<span class="ss">)</span> <span class="ss">)</span>
+<span class="nv">write</span><span class="ss">(</span><span class="o">*</span>,<span class="o">*</span><span class="ss">)</span><span class="o">&amp;</span>
+<span class="o">&amp;</span><span class="nv">character</span><span class="ss">(</span> <span class="nv">replace</span><span class="ss">(</span><span class="nv">ut</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">Xis is xe string</span><span class="s1">&#39;</span><span class="ss">)</span>,<span class="o">&amp;</span>
+<span class="o">&amp;</span><span class="nv">ut</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">X</span><span class="s1">&#39;</span><span class="ss">)</span>,<span class="nv">ut</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">th</span><span class="s1">&#39;</span><span class="ss">)</span>,<span class="nv">ignorecase</span><span class="o">=</span>.<span class="nv">false</span>.<span class="ss">)</span> <span class="ss">)</span>
+<span class="o">!</span>
+<span class="o">!</span> <span class="nv">a</span> <span class="nv">null</span> <span class="nv">old</span> <span class="nv">substring</span> <span class="nv">means</span> <span class="s2">&quot;</span><span class="s">at beginning of line</span><span class="s2">&quot;</span>
+<span class="nv">write</span><span class="ss">(</span><span class="o">*</span>,<span class="o">*</span><span class="ss">)</span><span class="o">&amp;</span>
+<span class="o">&amp;</span><span class="nv">character</span><span class="ss">(</span><span class="nv">replace</span><span class="ss">(</span><span class="nv">ut</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">my line of text</span><span class="s1">&#39;</span><span class="ss">)</span>,<span class="nv">ut</span><span class="ss">(</span><span class="s1">&#39;&#39;</span><span class="ss">)</span>,<span class="nv">ut</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">BEFORE:</span><span class="s1">&#39;</span><span class="ss">))</span> <span class="ss">)</span>
+<span class="o">!</span>
+<span class="o">!</span> <span class="nv">a</span> <span class="nv">null</span> <span class="nv">new</span> <span class="nv">string</span> <span class="nv">deletes</span> <span class="nv">occurrences</span> <span class="nv">of</span> <span class="nv">the</span> <span class="nv">old</span> <span class="nv">substring</span>
+<span class="nv">write</span><span class="ss">(</span><span class="o">*</span>,<span class="o">*</span><span class="ss">)</span> <span class="nv">character</span><span class="ss">(</span><span class="nv">replace</span><span class="ss">(</span><span class="nv">ut</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">I wonder i ii iii</span><span class="s1">&#39;</span><span class="ss">)</span>,<span class="nv">ut</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">i</span><span class="s1">&#39;</span><span class="ss">)</span>,<span class="nv">ut</span><span class="ss">(</span><span class="s1">&#39;&#39;</span><span class="ss">))</span> <span class="ss">)</span>
+<span class="o">!</span>
+<span class="o">!</span> <span class="nv">Examples</span> <span class="nv">of</span> <span class="nv">the</span> <span class="nv">use</span> <span class="nv">of</span> <span class="nv">RANGE</span>
+<span class="o">!</span>
+<span class="nv">line</span><span class="o">=</span><span class="nv">replace</span><span class="ss">(</span><span class="nv">ut</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">aaaaaaaaa</span><span class="s1">&#39;</span><span class="ss">)</span>,<span class="nv">ut</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">a</span><span class="s1">&#39;</span><span class="ss">)</span>,<span class="nv">ut</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">A</span><span class="s1">&#39;</span><span class="ss">)</span>,<span class="nv">occurrence</span><span class="o">=</span><span class="mi">1</span>,<span class="nv">repeat</span><span class="o">=</span><span class="mi">1</span><span class="ss">)</span>
+<span class="nv">write</span><span class="ss">(</span><span class="o">*</span>,<span class="o">*</span><span class="ss">)</span><span class="s1">&#39;</span><span class="s">replace first a with A [</span><span class="s1">&#39;</span><span class="o">//</span><span class="nv">line</span><span class="o">%</span><span class="nv">character</span><span class="ss">()</span><span class="o">//</span><span class="s1">&#39;</span><span class="s">]</span><span class="s1">&#39;</span>
+<span class="o">!</span>
+<span class="nv">line</span><span class="o">=</span><span class="nv">replace</span><span class="ss">(</span><span class="nv">ut</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">aaaaaaaaa</span><span class="s1">&#39;</span><span class="ss">)</span>,<span class="nv">ut</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">a</span><span class="s1">&#39;</span><span class="ss">)</span>,<span class="nv">ut</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">A</span><span class="s1">&#39;</span><span class="ss">)</span>,<span class="nv">occurrence</span><span class="o">=</span><span class="mi">3</span>,<span class="nv">repeat</span><span class="o">=</span><span class="mi">3</span><span class="ss">)</span>
+<span class="nv">write</span><span class="ss">(</span><span class="o">*</span>,<span class="o">*</span><span class="ss">)</span><span class="o">&amp;</span>
+<span class="o">&amp;</span><span class="s1">&#39;</span><span class="s">replace a with A for 3rd to 5th occurrence [</span><span class="s1">&#39;</span><span class="o">//</span><span class="nv">line</span><span class="o">%</span><span class="nv">character</span><span class="ss">()</span><span class="o">//</span><span class="s1">&#39;</span><span class="s">]</span><span class="s1">&#39;</span>
+<span class="o">!</span>
+<span class="nv">line</span><span class="o">=</span><span class="nv">replace</span><span class="ss">(</span><span class="nv">ut</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">ababababa</span><span class="s1">&#39;</span><span class="ss">)</span>,<span class="nv">ut</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">a</span><span class="s1">&#39;</span><span class="ss">)</span>,<span class="nv">ut</span><span class="ss">(</span><span class="s1">&#39;&#39;</span><span class="ss">)</span>,<span class="nv">occurrence</span><span class="o">=</span><span class="mi">3</span>,<span class="nv">repeat</span><span class="o">=</span><span class="mi">3</span><span class="ss">)</span>
+<span class="nv">write</span><span class="ss">(</span><span class="o">*</span>,<span class="o">*</span><span class="ss">)</span><span class="o">&amp;</span>
+<span class="o">&amp;</span><span class="s1">&#39;</span><span class="s">replace a with null instances 3 to 5 [</span><span class="s1">&#39;</span><span class="o">//</span><span class="nv">line</span><span class="o">%</span><span class="nv">character</span><span class="ss">()</span><span class="o">//</span><span class="s1">&#39;</span><span class="s">]</span><span class="s1">&#39;</span>
+<span class="o">!</span>
+<span class="nv">line</span><span class="o">=</span><span class="nv">replace</span><span class="ss">(</span> <span class="o">&amp;</span>
+ <span class="o">&amp;</span> <span class="nv">ut</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">a b ab baaa aaaa aa aa a a a aa aaaaaa</span><span class="s1">&#39;</span><span class="ss">)</span>,<span class="o">&amp;</span>
+ <span class="o">&amp;</span> <span class="nv">ut</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">aa</span><span class="s1">&#39;</span><span class="ss">)</span>,<span class="nv">ut</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">CCCC</span><span class="s1">&#39;</span><span class="ss">)</span>,<span class="nv">occurrence</span><span class="o">=-</span><span class="mi">1</span>,<span class="nv">repeat</span><span class="o">=</span><span class="mi">1</span><span class="ss">)</span>
+<span class="nv">write</span><span class="ss">(</span><span class="o">*</span>,<span class="o">*</span><span class="ss">)</span><span class="s1">&#39;</span><span class="s">replace lastaa with CCCC [</span><span class="s1">&#39;</span><span class="o">//</span><span class="nv">line</span><span class="o">%</span><span class="nv">character</span><span class="ss">()</span><span class="o">//</span><span class="s1">&#39;</span><span class="s">]</span><span class="s1">&#39;</span>
+<span class="o">!</span>
+<span class="nv">write</span><span class="ss">(</span><span class="o">*</span>,<span class="o">*</span><span class="ss">)</span><span class="nv">character</span><span class="ss">(</span><span class="nv">replace</span><span class="ss">(</span><span class="nv">ut</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">myf90stuff.f90.f90</span><span class="s1">&#39;</span><span class="ss">)</span>,<span class="o">&amp;</span>
+<span class="o">&amp;</span><span class="nv">ut</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">f90</span><span class="s1">&#39;</span><span class="ss">)</span>,<span class="nv">ut</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">for</span><span class="s1">&#39;</span><span class="ss">)</span>,<span class="nv">occurrence</span><span class="o">=-</span><span class="mi">1</span>,<span class="nv">repeat</span><span class="o">=</span><span class="mi">1</span><span class="ss">))</span>
+<span class="nv">write</span><span class="ss">(</span><span class="o">*</span>,<span class="o">*</span><span class="ss">)</span><span class="nv">character</span><span class="ss">(</span><span class="nv">replace</span><span class="ss">(</span><span class="nv">ut</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">myf90stuff.f90.f90</span><span class="s1">&#39;</span><span class="ss">)</span>,<span class="o">&amp;</span>
+<span class="o">&amp;</span><span class="nv">ut</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">f90</span><span class="s1">&#39;</span><span class="ss">)</span>,<span class="nv">ut</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">for</span><span class="s1">&#39;</span><span class="ss">)</span>,<span class="nv">occurrence</span><span class="o">=-</span><span class="mi">2</span>,<span class="nv">repeat</span><span class="o">=</span><span class="mi">2</span><span class="ss">))</span>
+<span class="o">!</span>
+<span class="k">end</span> <span class="nv">program</span> <span class="nv">demo_replace</span>
+</code></pre></div>
+
+<p>Results:</p>
+<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">string</span><span class="w"></span>
+<span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">string</span><span class="w"></span>
+<span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">xe</span><span class="w"> </span><span class="n">string</span><span class="w"></span>
+<span class="w"> </span><span class="k">BEFORE</span><span class="err">:</span><span class="n">my</span><span class="w"> </span><span class="n">line</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nc">text</span><span class="w"></span>
+<span class="w"> </span><span class="n">I</span><span class="w"> </span><span class="n">wonder</span><span class="w"></span>
+<span class="w"> </span><span class="nf">replace</span><span class="w"> </span><span class="k">first</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="o">[</span><span class="n">Aaaaaaaaa</span><span class="o">]</span><span class="w"></span>
+<span class="w"> </span><span class="nf">replace</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="mi">3</span><span class="n">rd</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="mi">5</span><span class="n">th</span><span class="w"> </span><span class="n">occurrence</span><span class="w"> </span><span class="o">[</span><span class="n">aaAAAaaaa</span><span class="o">]</span><span class="w"></span>
+<span class="w"> </span><span class="nf">replace</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="k">null</span><span class="w"> </span><span class="n">instances</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="o">[</span><span class="n">ababbb</span><span class="o">]</span><span class="w"></span>
+<span class="w"> </span><span class="nf">replace</span><span class="w"> </span><span class="n">lastaa</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">CCCC</span><span class="w"> </span><span class="o">[</span><span class="n">a b ab baaa aaaa aa aa a a a aa aaaaCCCC</span><span class="o">]</span><span class="w"></span>
+<span class="w"> </span><span class="n">myf90stuff</span><span class="p">.</span><span class="n">f90</span><span class="p">.</span><span class="k">for</span><span class="w"></span>
+<span class="w"> </span><span class="n">myforstuff</span><span class="p">.</span><span class="k">for</span><span class="p">.</span><span class="n">f90</span><span class="w"></span>
+</code></pre></div>
+
+<h2 id="author">AUTHOR</h2>
+<div class="codehilite"><pre><span></span><code>John S. Urban
+</code></pre></div>
+
+<h2 id="license">LICENSE</h2>
+<p>MIT</p>
 
 
     <h3>Arguments</h3>
@@ -501,7 +620,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-10-01 09:32 +0000             </p>
+ on 2025-10-03 00:00 +0000             </p>
           </div>
         </div>
         <br>
