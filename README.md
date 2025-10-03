@@ -1,6 +1,11 @@
-The intent is for the M_unicode module to be useful on many platforms,
-but currently it is primarily [tested](TEST.md) with GCC/gfortran,Intel/ifx and flang on
-Linux and Cygwin. 
+## Note:
+The intent is for the M_unicode module to be useful on many platforms, but
+currently it is primarily [tested](TEST.md) with GCC/gfortran, Intel/ifx
+and flang on Linux and Cygwin
+
+The UDDTIO (User-Defined Derived-Type Input/Output) procedures for use
+with the DT edit descriptor
+are still undergoing development.
 
 # M_unicode module 
 [![M_unicode module](docs/images/Phaistos_Disk_sideA.jpg)](https://github.com/urbanjost/M_unicode/releases/tag/v1.0.0)
