@@ -11,7 +11,7 @@ jobs:
         os: [ubuntu-latest ]
         include:
         - os: ubuntu-latest
-          gcc_v: 12
+          gcc_v: 15
 
     env:
       FC: gfortran
