@@ -7,7 +7,6 @@
      type(ut)                   :: string
      type(ut)                   :: answer
      integer                    :: i
-     character(len=*),parameter :: g='(*(g0))'
      character(len=*),parameter :: u='(*(DT))'
 
         string='abcdefghij'
