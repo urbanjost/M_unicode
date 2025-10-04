@@ -12,7 +12,7 @@ character(len=:),allocatable :: command_line
    ! write the command line out as a Fortran variable expression using the CHAR() function
    write(stdout,g) '! ENCODING:[',command_line//']'
    write(stdout,g) 'character(len=*),parameter :: variable= &'
-   write(stdout,form)(command_line(i:i),i=1,len(command_line))
+   write(stdout,form)(ichar(command_line(i:i)),i=1,len(command_line))
 contains
 
 function getargs() result(command_line)

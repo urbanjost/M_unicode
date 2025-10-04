@@ -3259,7 +3259,7 @@ type(unicode_type) :: newline               ! output string buffer
 
 ! local
 type(unicode_type) :: new_local, old_local, old_local_for_comparison
-integer            :: icount,ichange,ier2
+integer            :: icount,ichange
 integer            :: original_input_length
 integer            :: len_old, len_new
 integer            :: ladd

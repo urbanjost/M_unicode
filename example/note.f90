@@ -76,7 +76,7 @@ type(unicode_type) :: uline
 
    write(stdout,'("CHARACTER STRING  :",*(g0))')uline%character()
    write(stdout,'("SINGLE CHARACTERS :",*(g0))')uline%byte()
-   write(stdout,'("HEX BYTES         :",*(z0,1x))')uline%byte()
+   write(stdout,'("HEX BYTES         :",*(z0,1x))')ichar(uline%byte())
    write(stdout,'("UNICODE CODEPOINTS:",*(g0,1x))')uline%codepoint()
    write(stdout,'("HEX CODEPOINTS    :",*(z0,1x))')uline%codepoint()
 

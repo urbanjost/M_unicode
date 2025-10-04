@@ -6,7 +6,6 @@ implicit none
 character(len=*),parameter :: g='(*(g0))'
 type(unicode_type) :: pangram
 type(unicode_type) :: diacritics
-type(unicode_type) :: lowercase
 type(unicode_type) :: expected
 
    ! a sentence containing every letter of the English alphabet
