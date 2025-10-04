@@ -295,6 +295,161 @@ as-is as in the previous example program that is not a major concern;
 but if you are manipulating or processing the strings in significant
 ways you probably want to load the <strong>M_unicode</strong> module and convert the
 strings to TYPE(UNICODE_TYPE)</p>
+<p><img alt="gmake" src="docs/images/gnu.gif"></p>
+<h2 id="download-and-build-with-make1">Download and Build with Make(1)</h2>
+<p>Compile the M_unicode module and build all the example programs.</p>
+<div class="codehilite"><pre><span></span><code>   git clone https://github.com/urbanjost/M_unicode.git
+   <span class="nb">cd</span> M_unicode/src
+   <span class="c1"># change Makefile if not using one of the listed compilers</span>
+
+   <span class="c1"># for gfortran</span>
+   make clean
+   make gfortran
+
+   <span class="c1"># for ifort</span>
+   make clean
+   make ifort
+
+   <span class="c1"># for nvfortran</span>
+   make clean
+   make nvfortran
+
+   <span class="c1"># display other options (test, run, doxygen, ford, ...)</span>
+   make <span class="nb">help</span>
+</code></pre></div>
+
+<p>To install you then generally copy the <em>.mod file and </em>.a file to
+   an appropriate directory.  Unfortunately, the specifics vary but in
+   general if you have a directory $HOME/.local/lib and copy those files
+   there then you can generally enter something like</p>
+<div class="codehilite"><pre><span></span><code>     gfortran -L<span class="nv">$HOME</span>/.local/lib -lM_unicode  myprogram.f90 -o myprogram
+</code></pre></div>
+
+<p>There are different methods for adding the directory to your default
+   load path, but frequently you can append the directory you have
+   placed the files in into the colon-separated list of directories
+   in the $LD_LIBRARY_PATH or $LIBRARY_PATH environment variable, and
+   then the -L option will not be required (or it&rsquo;s equivalent in your
+   programming environment).</p>
+<div class="codehilite"><pre><span></span><code>       <span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$HOME</span>/.local/lib:<span class="nv">$LD_LIBRARY_PATH</span>
+</code></pre></div>
+
+<p><strong>NOTE</strong>: If you use multiple Fortran compilers you may need to create
+   a different directory for each compiler. I would recommend it, such
+   as $HOME/.local/lib/gfortran/.</p>
+<h3 id="creating-a-shared-library">Creating a shared library</h3>
+<p>If you desire a shared library as well, for gfortran you may enter</p>
+<div class="codehilite"><pre><span></span><code>     make clean gfortran gfortran_install
+</code></pre></div>
+
+<p>and everything needed by gfortran will be placed in libgfortran/ that
+   you may add to an appropriate area, such as $HOME/.local/lib/gfortran/.</p>
+<div class="codehilite"><pre><span></span><code>     make clean ifort ifort_install <span class="c1"># same for ifort</span>
+</code></pre></div>
+
+<p>does the same for the ifort compiler and places the output in libifort/.</p>
+<h3 id="specifics-may-vary">Specifics may vary</h3>
+<p>NOTE: The build instructions above are specific to a ULS (Unix-Like
+   System) and may differ, especially for those wishing to generate shared
+   libraries (which varies significantly depending on the programming
+   environment). For some builds it is simpler to make a Makefile for
+   each compiler, which might be required for a more comprehensive build
+   unless you are very familiar with gmake(1).</p>
+<p>If you always use one compiler it is relatively simple, otherwise
+   make sure you know what your system requires and change the Makefile
+   as appropriate.</p>
+<p><img alt="parse" src="docs/images/fpm_logo.gif"></p>
+<h2 id="build-with-fpm">Build with FPM</h2>
+<p>Alternatively, fpm(1) users may download the github repository and build it with
+   fpm ( as described at <a href="https://github.com/fortran-lang/fpm">Fortran Package Manager</a> )</p>
+<div class="codehilite"><pre><span></span><code>        git clone https://github.com/urbanjost/M_unicode.git
+        <span class="nb">cd</span> M_unicode
+        fpm <span class="nb">test</span>   <span class="c1"># build and test the module</span>
+        fpm install <span class="c1"># install the module (in the default location)</span>
+</code></pre></div>
+
+<p>or just list it as a dependency in your fpm.toml project file.</p>
+<div class="codehilite"><pre><span></span><code><span class="w">        </span><span class="k">[dependencies]</span><span class="w"></span>
+<span class="w">        </span><span class="n">M_unicode</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">git</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;https://github.com/urbanjost/M_unicode.git&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+
+<hr>
+<h2 id="_1"><img alt="cmake" src="docs/images/cmake_logo-1.png"></h2>
+<h2 id="download-and-build-using-cmake">Download and Build using cmake</h2>
+<p>To download the github repository and build and install with cmake
+(you may wish to change the install path in src/CMakeLists.txt first) :</p>
+<div class="codehilite"><pre><span></span><code>      git clone https://github.com/urbanjost/M_unicode.git
+      <span class="nb">cd</span> M_unicode
+
+      <span class="c1"># Create a Build Directory:</span>
+      mkdir -p build
+
+      <span class="nb">cd</span> build
+      cmake -S ../src -B .
+
+      <span class="c1"># Configure the Build, specifying your preferred compiler (ifort, flang, etc.):</span>
+      cmake . -DCMAKE_Fortran_COMPILER<span class="o">=</span>gfortran
+
+      <span class="c1"># Build the Project:</span>
+      cmake --build .
+
+      <span class="c1">#This creates:</span>
+      <span class="c1">#</span>
+      <span class="c1">#    build/lib/libM_unicode.a (the static library).</span>
+      <span class="c1">#    build/include/*.mod (module files).</span>
+      <span class="c1">#    build/test/* (test executables).</span>
+      <span class="c1">#    build/example/* (example executables).</span>
+
+      <span class="c1"># OPTIONAL SECTION:</span>
+
+      <span class="c1"># Verify build</span>
+      ls build/lib/libM_unicode.a
+      ls build/include/*.mod
+      ls build/test/*
+      ls build/example/*
+
+      <span class="c1">#Optionally Run Tests and Examples:</span>
+      <span class="k">for</span> name <span class="k">in</span> ./test/* ./example/*
+      <span class="k">do</span>
+         <span class="nv">$name</span>
+      <span class="k">done</span>
+
+      <span class="c1">#Install (Optional):</span>
+      <span class="c1"># This installs the library and module files to the system</span>
+      <span class="c1"># (e.g., /usr/local/lib/ and /usr/local/include/).</span>
+      cmake --install .
+
+      <span class="c1"># if you have insufficient permissions sudo(1) may be required</span>
+      <span class="c1"># to perform the install</span>
+      <span class="c1">#sudo cmake --install .</span>
+
+      <span class="c1"># Verify installation</span>
+      ls /usr/local/lib/libM_unicode.a
+      ls /usr/local/include/*.mod
+
+      <span class="c1"># Cleaning Up: To clean artifacts, remove the build/ directory:</span>
+      rm -rf build
+</code></pre></div>
+
+<h2 id="supports-meson">Supports Meson</h2>
+<p>Alternatively, meson(1) users may download the github repository and build it with
+   meson ( as described at <a href="https://mesonbuild.com/">Meson Build System</a> )</p>
+<div class="codehilite"><pre><span></span><code>        git clone https://github.com/urbanjost/M_unicode.git
+        <span class="nb">cd</span> M_unicode
+        meson setup _build
+        meson <span class="nb">test</span> -C _build  <span class="c1"># build and test the module</span>
+
+        <span class="c1"># install the module (in the &lt;DIR&gt; location)</span>
+        <span class="c1"># --destdir is only on newer versions of meson</span>
+        meson install -C _build --destdir &lt;DIR&gt;
+        <span class="c1"># older method if --destdir is not available</span>
+        env <span class="nv">DESTDIR</span><span class="o">=</span>&lt;DIR&gt; meson install -C _build
+</code></pre></div>
+
+<p>or just list it as a <a href="https://mesonbuild.com/Subprojects.html">subproject dependency</a> in your meson.build project file.</p>
+<div class="codehilite"><pre><span></span><code><span class="w">        </span><span class="n">M_unicode_dep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">subproject</span><span class="p">(</span><span class="s">&#39;M_unicode&#39;</span><span class="p">).</span><span class="n">get_variable</span><span class="p">(</span><span class="s">&#39;M_unicode_dep&#39;</span><span class="p">)</span><span class="w"></span>
+</code></pre></div>
+
 <h2 id="summary">Summary</h2>
 <p>Yes, a Fortran source file can contain multibyte Unicode characters in
 most environments, but the level of support and how they are handled
@@ -441,7 +596,7 @@ including features and enhancements from Francois Jacq.</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-10-04 12:30 +0000             </p>
+ on 2025-10-04 22:46 +0000             </p>
           </div>
         </div>
         <br>
