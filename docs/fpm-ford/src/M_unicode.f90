@@ -1,3 +1,27 @@
+!-----------------------------------------------------------------------------------------------------------------------------------
+#define  __INTEL_COMP        1
+#define  __GFORTRAN_COMP     2
+#define  __NVIDIA_COMP       3
+#define  __NAG_COMP          4
+#define  __flang__           5
+#define  __UNKNOWN_COMP   9999
+
+#define FLOAT128
+
+#ifdef __INTEL_COMPILER
+#   define __COMPILER__ __INTEL_COMP
+#elif __GFORTRAN__ == 1
+#   define __COMPILER__ __GFORTRAN_COMP
+#elif __flang__
+#   undef FLOAT128
+#   define __COMPILER__ __LLVM_FLANG_COMP
+#elif __NVCOMPILER
+#   undef FLOAT128
+#   define __COMPILER__ __NVIDIA_COMP
+#else
+#   define __COMPILER__ __UNKNOWN_COMP
+#   warning  NOTE: UNKNOWN COMPILER
+#endif
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
@@ -6,14 +30,14 @@
 !     M_unicode(3f) - [M_unicode::INTRO] Unicode string module
 ! 
 ! DESCRIPTION
-!     The M_unicode(3fm) module is a collection of Fortran procedures
-!     that supplement the built-in intrinsic string routines. Routines
-!     for parsing, tokenizing, changing case, substituting new strings for
-!     substrings, locating strings with simple wildcard expressions, removing
-!     tabs and line terminators and other string manipulations are included.
+!    The M_unicode(3fm) module is a collection of Fortran procedures
+!    that supplement the built-in intrinsic string routines. Routines
+!    for parsing, tokenizing, changing case, substituting new strings for
+!    substrings, locating strings with simple wildcard expressions, removing
+!    tabs and line terminators and other string manipulations are included.
 ! 
-!     Arrays of the user-defined type UNICODE_TYPE allows each element to
-!     be of different lengths as well as providing an OOP interface.
+!    Arrays of the user-defined type UNICODE_TYPE allows each element to
+!    be of different lengths as well as providing an OOP interface.
 ! 
 ! SYNOPSIS
 ! 
@@ -21,23 +45,23 @@
 ! 
 !    TOKENS
 ! 
-!        split   subroutine parses string using specified delimiter characters
-!                into tokens
-!        join    join elements of an array into a single string
+!     split   subroutine parses string using specified delimiter
+!             characters into tokens
+!     join    join elements of an array into a single string
 ! 
 !    EDITING
 ! 
-!        replace         function non-recursively globally replaces old
-!                        substring with new substring
+!     replace    function non-recursively globally replaces old
+!                substring with new substring
 !    CASE
 ! 
-!        upper           function converts string to uppercase
-!        lower           function converts string to miniscule
+!     upper   function converts string to uppercase
+!     lower   function converts string to miniscule
 ! 
 !    STRING LENGTH AND PADDING
 ! 
-!        len_trim   find location of last non-whitespace character
-!        pad        pad string to at least specified length with pattern string
+!     len_trim   find location of last non-whitespace character
+!     pad        pad string to at least specified length with pattern string
 ! 
 !    WHITE SPACE
 ! 
@@ -189,7 +213,7 @@
 !     John S. Urban
 ! 
 ! LICENSE
-!     Public Domai
+!     MI
 module M_unicode
 !
 ! Unicode-related procedures not requiring compiler support of ISO-10646
@@ -2357,8 +2381,10 @@ end function trim_str
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
-! right-justify string by moving trailing spaces to beginning of string so length is retained even if spaces are of varied width
 impure elemental function adjustr_str(string) result(adjusted)
+!@(#) M_unicode::adjustr(3f): adjust string to right
+! right-justify string by moving trailing spaces to beginning of string so length is retained even if spaces are of varied width
+
 type(unicode_type), intent(in) :: string
 type(unicode_type)             :: adjusted
 integer                        :: last
@@ -3701,7 +3727,7 @@ end subroutine split_pos
 !===================================================================================================================================
 ! 
 ! NAME
-!    pad(3f) - [M_strings:LENGTH] return string padded to at least
+!    pad(3f) - [M_unicode:LENGTH] return string padded to at least
 !    specified length
 !    (LICENSE:PD)
 ! 
@@ -3831,7 +3857,7 @@ end subroutine split_pos
 !===================================================================================================================================
 function pad(line,length,pattern,right,clip) result(strout)
 
-!$@(#) M_strings::pad(3f): return string padded to at least specified length
+!$@(#) M_unicode::pad(3f): return string padded to at least specified length
 
 type(unicode_type),intent(in)          :: line
 integer,intent(in)                     :: length
@@ -3880,7 +3906,7 @@ end function pad
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 elemental pure function uscan(string,set,back) result(pos)
-!@(#) M_unicode:uscan(3f)  Scan a string for the presence of a set of characters
+!@(#) M_unicode::scan(3f):  Scan a string for the presence of a set of characters
 type(unicode_type),intent(in) :: string
 type(unicode_type),intent(in) :: set
 logical,intent(in),optional   :: back
@@ -3901,7 +3927,7 @@ end function uscan
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 elemental impure function uverify(string,set,back) result(result)
-!@(#)  uverify(3) ‐ [CHARACTER:SEARCH] Position of a character in a string that does not appear in a given set of characters.
+!@(#)  M_unicode::verify(3): determine position of a character in a string that does not appear in a given set of characters.
 type(unicode_type),intent(in) :: string
 type(unicode_type),intent(in) :: set
 type(unicode_type)            :: str
@@ -3941,8 +3967,6 @@ type(unicode_type)                 :: string_out
 end function oop_adjustl
 !===================================================================================================================================
 function oop_adjustr(self) result (string_out)
-
-! ident_13="@(#) M_strs oop_adjustr(3f) adjust string to right"
 
 class(unicode_type),intent(in)     :: self
 type(unicode_type)                 :: string_out
