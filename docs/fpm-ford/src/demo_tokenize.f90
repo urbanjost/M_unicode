@@ -11,10 +11,6 @@ type(unicode_type)               :: herbs
 integer,allocatable,dimension(:) :: begins
 integer,allocatable,dimension(:) :: ends
 integer                          :: i
-integer                          :: iostat
-
-   ! preferred, but not required if not supported
-   !open(stdout,encoding='utf-8',iostat=iostat)
 
    delims = ',&'
    herbs  = 'parsley,sage,rosemary,&thyme'

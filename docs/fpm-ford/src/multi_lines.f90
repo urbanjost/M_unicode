@@ -5,10 +5,6 @@ use M_unicode, only : ut=>unicode_type
 implicit none
 integer              :: i, longest
 type(ut),allocatable :: upagain(:)
-integer              :: iostat
-
-   ! preferred, but not required if not supported
-   !open(stdout,encoding='utf-8',iostat=iostat) 
 
 upagain=[ &                                ! ROMANIZATION                         ! ENGLISH
  ut("七転び八起き。"), &                   ! Nanakorobi yaoki.                    ! Fall seven times, stand up eight.

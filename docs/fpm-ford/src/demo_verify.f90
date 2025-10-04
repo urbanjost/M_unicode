@@ -11,10 +11,6 @@ character(len=*),parameter :: hex='abcdefABCDEF0123456789'
 logical                    :: lout
 type(unicode_type)         :: chars
 type(unicode_type)         :: str
-integer                    :: iostat
-
-   ! preferred, but not required if not supported
-   !open(stdout,encoding='utf-8',iostat=iostat)
 
    chars='32‐af43d'
    lout=.true.

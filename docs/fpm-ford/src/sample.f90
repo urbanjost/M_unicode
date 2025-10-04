@@ -8,10 +8,6 @@ character(len=*),parameter   :: g='(*(g0))'
 character(len=:),allocatable :: aline
 type(unicode_type)           :: uline, substring
 character(len=*),parameter   :: smiley='😃'
-integer                      :: iostat
-
-   ! preferred, but not required if not supported
-   !open(stdout,encoding='utf-8',iostat=iostat)
 
    aline="Доки не впріти, доти не вміти."
 

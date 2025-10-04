@@ -8,10 +8,6 @@ type(unicode_type)         :: pangram
 type(unicode_type)         :: diacritics
 type(unicode_type)         :: uppercase
 type(unicode_type)         :: expected
-integer                    :: iostat
-
-   ! preferred, but not required if not supported
-   !open(stdout,encoding='utf-8',iostat=iostat) 
 
    ! a sentence containing every letter of the English alphabet
    ! often used to test telegraphs since the advent of the 19th century
