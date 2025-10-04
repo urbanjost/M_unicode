@@ -8,8 +8,6 @@ use iso_fortran_env, only : stdout => output_unit
 use M_unicode, only : unicode_type, assignment(=), unicode
 implicit none
 type(unicode_type) :: UT_bom
-integer            :: iostat
-   !open(stdout,encoding='utf-8',iostat=iostat)
    UT_bom=[int(z'FEFF')]
    UT_bom=unicode%bom
    write(stdout,'(a)',advance='no')UT_bom%character()

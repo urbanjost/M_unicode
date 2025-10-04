@@ -6,10 +6,6 @@ character(len=*),parameter   :: form= '("char(int(z''",z0,"''))":,"// &")'
 character(len=*),parameter   :: g= '(*(g0))'
 integer                      :: i
 character(len=:),allocatable :: command_line
-integer                      :: iostat
-
-   ! preferred, but not required if not supported
-   !open(stdout,encoding='utf-8',iostat=iostat) 
 
    command_line=getargs()          ! get string containing all command arguments as CHARACTER bytes
 

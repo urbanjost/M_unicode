@@ -3,10 +3,6 @@ use iso_fortran_env, only : stdout => output_unit
 use M_unicode
 implicit none
 type(unicode_type) :: upp, low
-integer            :: iostat
-
-   ! preferred, but not required if not supported
-   !open(stdout,encoding='utf-8',iostat=iostat)
    !
    ! remember unicode characters are multi-byte so be careful
    ! with older compilers to not exceed 132 bytes per line

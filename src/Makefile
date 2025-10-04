@@ -14,7 +14,7 @@ PROG   = ${PROG1:.f90=}
 
 CPROG = ${CPROGFILES:.c=}
 
-SRCS =  M_unicode.f90 
+SRCS =  M_unicode.F90 
 
 OBJS =  M_unicode.o 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #

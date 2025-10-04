@@ -5,7 +5,6 @@ use M_unicode
 implicit none
 integer,parameter  :: manicules(*) = [int(z'261A'), int(z'261B') ]
 type(unicode_type) :: uline
-integer            :: iostat
 ! 
 ! manicule
 ! 
@@ -74,9 +73,6 @@ integer            :: iostat
    uline=manicules
 
    write(stdout,'(*(g0))')uline%character()
-
-   ! preferred, but not required if not supported
-   !open(stdout,encoding='utf-8',iostat=iostat)
 
    write(stdout,'("CHARACTER STRING  :",*(g0))')uline%character()
    write(stdout,'("SINGLE CHARACTERS :",*(g0))')uline%byte()

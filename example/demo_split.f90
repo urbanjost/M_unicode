@@ -11,10 +11,6 @@ integer                    :: first
 integer                    :: last
 integer                    :: pos
 integer                    :: i
-integer                    :: iostat
-
-   ! preferred, but not required if not supported
-   !open(stdout,encoding='utf-8',iostat=iostat)
 
    delims= '=|; '
 

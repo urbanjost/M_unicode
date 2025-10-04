@@ -35,10 +35,6 @@ type(unicode_type)          :: ustr
 character(len=*), parameter :: g='(*(g0))'
 character(len=*), parameter :: gx='(*(g0,1x))'
 character(len=*), parameter :: gh='(*(z0,1x))'
-integer                     :: iostat
-
-   ! preferred, but not required if not supported
-   !open(stdout,encoding='utf-8',iostat=iostat) 
 
    ! Constructors
    ! UNICODE_VARIABLE= UNICODE_VARIABLE|CHARACTER(LEN=*)|INTEGER_ARRAY
