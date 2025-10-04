@@ -11,6 +11,7 @@ use M_unicode, only : tokenize, split
 use M_unicode, only : ichar
 use M_unicode, only : replace
 use M_unicode, only : pad
+use M_unicode, only : join
 
 use M_unicode, only : assignment(=), unicode_type, operator(//)
 use M_unicode, only : operator(<=), lle
@@ -665,6 +666,51 @@ type(unicode_type)             :: ut_str
    call check('ichar',ichar(ut_str%sub(2,3)).eq.ichar('B'),'ichar(ut_str%sub(2,3))')
 end subroutine test_ichar
 
+subroutine test_join()
+character(len=*),parameter :: w='((g0,/,g0))'
+character(len=*),parameter :: v='((g0,/,DT))'
+character(len=20),allocatable :: proverb(:)
+type(ut),allocatable       :: s(:)
+type(ut),allocatable       :: sep
+type(ut)                   :: string
+type(ut)                   :: expected
+integer                    :: i
+   proverb=[ character(len=13) :: &
+     & ' United'       ,&
+     & '  we'          ,&
+     & '   stand,'     ,&
+     & '    divided'   ,&
+     & '     we fall.' ]
+   allocate(s(size(proverb))) ! avoid GNU Fortran (GCC) 16.0.0 bug
+   s=proverb
+
+   expected='Unitedwestand,dividedwe fall.'
+   call check('join', join(s) == expected, 'SIMPLE JOIN' )
+
+   expected='United we stand, divided we fall.'
+   call check('join', join(s,sep=ut(' ') ) == expected, 'JOIN WITH SEPARATOR' )
+
+   expected='United<-->we<-->stand,<-->divided<-->we fall.'
+   call check('join', join(s,sep=ut('<-->')) == expected, 'CUSTOM SEPARATOR' )
+
+   expected=' United               we                   stand,               divided              we fall.'
+   call check('join', join(s,clip=.false.)  == expected, 'NO TRIMMING' )
+
+   sep=ut()
+   expected='Unitedwestand,dividedwe fall.'
+   call check('join', sep%join(s)==expected, 'OOP SIMPLE JOIN')
+   sep=' '
+   expected='United we stand, divided we fall.'
+   call check('join', sep%join(s)==expected, 'OOP JOIN WITH SEPARATOR')
+   sep='<-->'
+   expected='United<-->we<-->stand,<-->divided<-->we fall.'
+   call check('join', sep%join(s)==expected, 'OOP CUSTOM SEPARATOR')
+   sep=''
+   expected=' United               we                   stand,               divided              we fall.'
+   call check('join', sep%join(s,clip=.false.)==expected, 'OOP NO TRIMMING')
+
+end subroutine test_join
+
 subroutine test_pad()
 type(ut)                   :: string
 type(ut)                   :: answer
@@ -784,6 +830,7 @@ use testsuite_M_unicode
    call test_ichar()
    call test_replace()
    call test_pad()
+   call test_join()
    call test_other()
 
    write(*,g0)
