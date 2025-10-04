@@ -47,6 +47,7 @@
 ! 
 !        split   subroutine parses string using specified delimiter characters
 !                into tokens
+!        join    join elements of an array into a single string
 ! 
 !    EDITING
 ! 
@@ -119,7 +120,7 @@
 ! 
 !     An OOP (Object-Oriented Programming) interface to
 !     the M_unicode(3fm) module provides an alternative interface to all the
-!     same procedures accept for SORT(3f) and CHAR(3f).
+!     same procedures except for SORT(3f) and CHAR(3f).
 ! 
 ! SEE ALSO
 !     There are additional routines in other GPF modules for working with
@@ -232,6 +233,7 @@ public :: sort
 public :: upper, lower
 public :: replace
 public :: pad
+public :: join
 
 public :: adjustl, adjustr, index, len, len_trim, repeat, trim
 public :: split, tokenize
@@ -341,6 +343,7 @@ contains
    procedure :: sub        => oop_sub
    procedure :: replace    => oop_replace
    procedure :: pad        => oop_pad
+   procedure :: join       => oop_join
 
    !DECLARATION OF OVERLOADED OPERATORS FOR TYPE(UNICODE_TYPE)
    procedure,private :: eq => oop_eq
@@ -2146,7 +2149,7 @@ integer                           :: nerr
    call utf8_to_codepoints_str(rhs,lhs%codes,nerr)
 end subroutine assign_str_char
 
-! Assign a character sequence to a string.
+! Assign a sequence of codepoints to a string.
 subroutine assign_str_codes(lhs, rhs)
 type(unicode_type), intent(inout) :: lhs
 integer, intent(in)               :: rhs(:)
@@ -3381,6 +3384,136 @@ end function replace
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
+! 
+! NAME
+!     join(3f) - [M_unicode:EDITING] append CHARACTER variable array into
+!     a single CHARACTER variable with specified separator
+!     (LICENSE:PD)
+! 
+! SYNOPSIS
+! 
+!     pure function join(str,sep,clip) result (string)
+! 
+!      type(unicode_type),intent(in)          :: str(:)
+!      type(unicode_type),intent(in),optional :: sep
+!      logical,intent(in),optional            :: clip
+!      type(unicode_type),allocatable         :: string
+! 
+! DESCRIPTION
+!    JOIN(3f) appends the elements of a CHARACTER array into a single
+!    CHARACTER variable, with elements 1 to N joined from left to right.
+!    By default each element is trimmed of trailing spaces and the
+!    default separator is a null string.
+! 
+! OPTIONS
+!       STR(:)  array of variables to be joined
+!       SEP     separator string to place between each variable. defaults
+!               to a null string.
+!       CLIP    option to trim each element of STR of trailing and leading
+!               spaces. Defaults to .TRUE.
+! 
+! RETURNS
+!       STRING  CHARACTER variable composed of all of the elements of STR()
+!               appended together with the optional separator SEP placed
+!               between the elements.
+! 
+! EXAMPLES
+! 
+!   Sample program:
+! 
+!      program demo_join
+!      use M_unicode, only: join, ut=>unicode_type, ch=>character, assignment(=)
+!      use M_unicode, only: write(formatted)
+!      implicit none
+!      character(len=*),parameter :: w='((g0,/,g0))'
+!      character(len=*),parameter :: v='((g0,/,DT))'
+!      character(len=20),allocatable :: proverb(:)
+!      type(ut),allocatable       :: s(:)
+!      type(ut),allocatable       :: sep
+!        proverb=[ character(len=13) :: &
+!          & ' United'       ,&
+!          & '  we'          ,&
+!          & '   stand,'     ,&
+!          & '    divided'   ,&
+!          & '     we fall.' ]
+!        allocate(s(size(proverb))) ! avoid GNU Fortran (GCC) 16.0.0 bug
+!        s=proverb
+!        write(*,w) 'SIMPLE JOIN:         ', ch( join(s)               )
+!        write(*,w) 'JOIN WITH SEPARATOR: ', ch( join(s,sep=ut(' '))   )
+!        write(*,w) 'CUSTOM SEPARATOR:    ', ch( join(s,sep=ut('<-->')) )
+!        write(*,w) 'NO TRIMMING:         ', ch( join(s,clip=.false.)  )
+! 
+!        sep=ut()
+!        write(*,v) 'SIMPLE JOIN:         ', sep%join(s)
+!        sep=' '
+!        write(*,v) 'JOIN WITH SEPARATOR: ', sep%join(s)
+!        sep='<-->'
+!        write(*,v) 'CUSTOM SEPARATOR:    ', sep%join(s)
+!        sep=''
+!        write(*,v) 'NO TRIMMING:         ', sep%join(s,clip=.false.)
+!      end program demo_join
+! 
+! 
+!  Results:
+! 
+!   >SIMPLE JOIN:
+!   >Unitedwestand,dividedwe fall.
+!   >JOIN WITH SEPARATOR:
+!   >United we stand, divided we fall.
+!   >CUSTOM SEPARATOR:
+!   >United==>we==>stand,==>divided==>we fall.
+!   >NO TRIMMING:
+!   > United         we             stand,         divided        we fall.
+!   >SIMPLE JOIN:
+!   >Unitedwestand,dividedwe fall.
+!   >JOIN WITH SEPARATOR:
+!   >United we stand, divided we fall.
+!   >CUSTOM SEPARATOR:
+!   >United==>we==>stand,==>divided==>we fall.
+!   >NO TRIMMING:
+!   > United         we             stand,         divided        we fall.
+! 
+! AUTHOR
+!     John S. Urban
+! 
+! LICENSE
+!     MI
+pure function join(str,sep,clip) result (string)
+
+!@(#) M_unicode join(3f) merge string array into a single string value adding specified separator
+
+type(unicode_type),intent(in)          :: str(:)
+type(unicode_type),intent(in),optional :: sep
+logical,intent(in),optional            :: clip
+type(unicode_type)                     :: temp
+type(unicode_type)                     :: sep_local
+type(unicode_type)                     :: string
+logical                                :: clip_local
+integer                                :: i
+   if(present(sep))then  ; sep_local=sep   ; else ; sep_local=''      ; endif
+   if(present(clip))then ; clip_local=clip ; else ; clip_local=.true. ; endif
+   string=''
+   if(size(str) /= 0)then
+      do i = 1,size(str)-1
+         if(clip_local)then
+            temp=adjustl(str(i)) ! avoid gfortran GNU Fortran (GCC) 16.0.0 20250727 (experimental) bug
+            string=string//trim(temp)//sep_local
+            !string=string//adjustl(trim(str))//sep_local ! produces no left adjust in gfortran as the moment
+         else
+            string=string//str(i)//sep_local
+         endif
+      enddo
+      if(clip_local)then
+         temp=adjustl(str(i))
+         string=string//trim(temp)
+      else
+         string=string//str(i)
+      endif
+   endif
+end function join
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
 elemental pure function upper(str) result (string)
 
 ! ident_25="@(#) M_unicode upper(3f) returns an uppercase string"
@@ -3875,6 +4008,22 @@ type(unicode_type) :: newline                ! output string buffer
 
    newline=replace(self,old,new,occurrence=occurrence,repeat=repeat,ignorecase=ignorecase,changes=changes,back=back)
 end function oop_replace
+!===================================================================================================================================
+function oop_join(self,array,clip) result (strout)
+!@(#) M_unicode oop_join(3f) merge string array into a single string value adding specified separator
+
+class(unicode_type),intent(in) :: self
+type(unicode_type),intent(in)  :: array(:)
+logical,intent(in),optional    :: clip
+type(unicode_type)             :: strout
+
+   if(allocated(self%codes))then
+      strout=join(array,self,clip)
+   else
+      strout=join(array,unicode_type(''),clip)
+   endif
+
+end function oop_join
 !===================================================================================================================================
 function oop_pad(self,length,pattern,right,clip) result (strout)
 ! ident_12="@(#) M_unicode pad(3f) pad string with repeating pattern to at least specified length

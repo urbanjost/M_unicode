@@ -36,7 +36,7 @@ use M_unicode, only : &
    adjustl,  adjustr,   trim,    len,     len_trim,  &
    index,    scan,      verify,  repeat,  ichar,     &          
    split,    tokenize,  upper,   lower,   sort,      &
-   pad
+   pad,      join
 
 ! operators (and overloads) and assignment
 use M_unicode, only : assignment(=)
