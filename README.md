@@ -219,6 +219,169 @@ but if you are manipulating or processing the strings in significant
 ways you probably want to load the **M_unicode** module and convert the
 strings to TYPE(UNICODE_TYPE)
 
+![gmake](docs/images/gnu.gif)
+## Download and Build with Make(1)
+   Compile the M_unicode module and build all the example programs.
+```bash
+   git clone https://github.com/urbanjost/M_unicode.git
+   cd M_unicode/src
+   # change Makefile if not using one of the listed compilers
+
+   # for gfortran
+   make clean
+   make gfortran
+
+   # for ifort
+   make clean
+   make ifort
+
+   # for nvfortran
+   make clean
+   make nvfortran
+
+   # display other options (test, run, doxygen, ford, ...)
+   make help
+```
+   To install you then generally copy the *.mod file and *.a file to
+   an appropriate directory.  Unfortunately, the specifics vary but in
+   general if you have a directory $HOME/.local/lib and copy those files
+   there then you can generally enter something like
+```bash
+     gfortran -L$HOME/.local/lib -lM_unicode  myprogram.f90 -o myprogram
+```
+   There are different methods for adding the directory to your default
+   load path, but frequently you can append the directory you have
+   placed the files in into the colon-separated list of directories
+   in the $LD_LIBRARY_PATH or $LIBRARY_PATH environment variable, and
+   then the -L option will not be required (or it's equivalent in your
+   programming environment).
+```bash
+       export LD_LIBRARY_PATH=$HOME/.local/lib:$LD_LIBRARY_PATH
+```
+   **NOTE**: If you use multiple Fortran compilers you may need to create
+   a different directory for each compiler. I would recommend it, such
+   as $HOME/.local/lib/gfortran/.
+
+### Creating a shared library
+
+   If you desire a shared library as well, for gfortran you may enter
+```bash
+     make clean gfortran gfortran_install
+```
+   and everything needed by gfortran will be placed in libgfortran/ that
+   you may add to an appropriate area, such as $HOME/.local/lib/gfortran/.
+```bash
+     make clean ifort ifort_install # same for ifort
+```
+   does the same for the ifort compiler and places the output in libifort/.
+### Specifics may vary
+
+   NOTE: The build instructions above are specific to a ULS (Unix-Like
+   System) and may differ, especially for those wishing to generate shared
+   libraries (which varies significantly depending on the programming
+   environment). For some builds it is simpler to make a Makefile for
+   each compiler, which might be required for a more comprehensive build
+   unless you are very familiar with gmake(1).
+
+   If you always use one compiler it is relatively simple, otherwise
+   make sure you know what your system requires and change the Makefile
+   as appropriate.
+
+![parse](docs/images/fpm_logo.gif)
+## Build with FPM
+   Alternatively, fpm(1) users may download the github repository and build it with
+   fpm ( as described at [Fortran Package Manager](https://github.com/fortran-lang/fpm) )
+```bash
+        git clone https://github.com/urbanjost/M_unicode.git
+        cd M_unicode
+        fpm test   # build and test the module
+        fpm install # install the module (in the default location)
+```
+   or just list it as a dependency in your fpm.toml project file.
+```toml
+        [dependencies]
+        M_unicode        = { git = "https://github.com/urbanjost/M_unicode.git" }
+```
+---
+![cmake](docs/images/cmake_logo-1.png)
+---
+## Download and Build using cmake
+
+To download the github repository and build and install with cmake
+(you may wish to change the install path in src/CMakeLists.txt first) :
+```bash
+      git clone https://github.com/urbanjost/M_unicode.git
+      cd M_unicode
+
+      # Create a Build Directory:
+      mkdir -p build
+
+      cd build
+      cmake -S ../src -B .
+
+      # Configure the Build, specifying your preferred compiler (ifort, flang, etc.):
+      cmake . -DCMAKE_Fortran_COMPILER=gfortran
+
+      # Build the Project:
+      cmake --build .
+
+      #This creates:
+      #
+      #    build/lib/libM_unicode.a (the static library).
+      #    build/include/*.mod (module files).
+      #    build/test/* (test executables).
+      #    build/example/* (example executables).
+
+      # OPTIONAL SECTION:
+
+      # Verify build
+      ls build/lib/libM_unicode.a
+      ls build/include/*.mod
+      ls build/test/*
+      ls build/example/*
+
+      #Optionally Run Tests and Examples:
+      for name in ./test/* ./example/*
+      do
+         $name
+      done
+
+      #Install (Optional):
+      # This installs the library and module files to the system
+      # (e.g., /usr/local/lib/ and /usr/local/include/).
+      cmake --install .
+
+      # if you have insufficient permissions sudo(1) may be required
+      # to perform the install
+      #sudo cmake --install .
+
+      # Verify installation
+      ls /usr/local/lib/libM_unicode.a
+      ls /usr/local/include/*.mod
+
+      # Cleaning Up: To clean artifacts, remove the build/ directory:
+      rm -rf build
+```
+
+## Supports Meson
+   Alternatively, meson(1) users may download the github repository and build it with
+   meson ( as described at [Meson Build System](https://mesonbuild.com/) )
+```bash
+        git clone https://github.com/urbanjost/M_unicode.git
+        cd M_unicode
+        meson setup _build
+        meson test -C _build  # build and test the module
+
+        # install the module (in the <DIR> location)
+        # --destdir is only on newer versions of meson
+        meson install -C _build --destdir <DIR>
+        # older method if --destdir is not available
+        env DESTDIR=<DIR> meson install -C _build
+```
+   or just list it as a [subproject dependency](https://mesonbuild.com/Subprojects.html) in your meson.build project file.
+```meson
+        M_unicode_dep = subproject('M_unicode').get_variable('M_unicode_dep')
+```
 ## Summary
 
 Yes, a Fortran source file can contain multibyte Unicode characters in
