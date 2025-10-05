@@ -4,20 +4,20 @@ currently it is primarily [tested](TEST.md) with GCC/gfortran, Intel/ifx
 and flang on Linux and Cygwin
 
 The UDDTIO (User-Defined Derived-Type Input/Output) procedures for use
-with the DT edit descriptor
-are still undergoing development.
+with the DT edit descriptor are still undergoing development.
 
 # M_unicode module 
 [![M_unicode module](docs/images/Phaistos_Disk_sideA.jpg)](https://github.com/urbanjost/M_unicode/releases/tag/v1.0.0)
 
 The **M_unicode** module provides support for directly operating on byte
-streams representing UTF-8 encoded text.
+streams representing UTF-8 encoded text. ASCII-7 being a subset of UTF-8
+the procedures work with standard ASCII-7 text as well.
 
 A user-defined type called **unicode_type** provides an object-oriented
 interface supporting ragged arrays of strings and Unicode codepoints.
 
-In addition the procedural interface supports all basic character
-intrinsics and operators.
+The procedural interface supports all basic character intrinsics and
+operators.
 
 ```fortran
 program testit
