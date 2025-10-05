@@ -3,12 +3,12 @@
       use M_unicode,only : TOKENIZE, REPLACE, CHARACTER, UPPER, LOWER, LEN
       use M_unicode,only : unicode_type, assignment(=), operator(//)
       use M_unicode,only : ut => unicode_type, ch => character
-      use M_unicode,only : read(formatted), write(formatted)
+      !use M_unicode,only : read(formatted), write(formatted)
       type(unicode_type)             :: string
       type(unicode_type)             :: numeric, uppercase, lowercase
       type(unicode_type),allocatable :: array(:)
       character(len=*),parameter     :: all='(g0)'
-      character(len=*),parameter     :: uni='(DT)'
+      !character(len=*),parameter     :: uni='(DT)'
       uppercase='АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ'
       lowercase='абвгґдеєжзиіїйклмнопрстуфхцчшщьюя'
       numeric='0123456789'
@@ -22,24 +22,26 @@
        print all
 
        print all, 'convert to all uppercase:'
-       print uni, UPPER(string)
+       print all, ch(UPPER(string))
        print all
 
        print all, 'convert to all lowercase:'
-       print uni, LOWER(string)
+       print all, ch(LOWER(string))
        print all
 
        print all, 'tokenize on spaces ... '
        call TOKENIZE(string,ut(' '),array)
        print all, '... writing with A or G format:',character(array)
-       print uni, ut('... writing with DT format'),array
+       !print uni, ut('... writing with DT format'),array
        print all
 
        print all, 'case-insensitive replace:'
-       print uni,  REPLACE(string, &
+       print all,  ch( &
+       & REPLACE(string, &
        & ut('клмнопрс'), &
        & ut('--------'), &
-       & ignorecase=.true.)
+       & ignorecase=.true.) )
+
        print all
 
       end program demo_M_unicode

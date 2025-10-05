@@ -37,8 +37,12 @@ type(unicode_type) :: UT_bom
    ! add a minimal Fortran program to make a test program source
    write(stdout,'(a)') &
 
+    ! Note: making the first line a comment precludes it being a cpp(1) directive
+    !       preventing the direcive from failing because something precedes the "#"
+    '!fortran ',&
     'program testit ! Unicode BOM encoded to utf-8 bytes by Fortran' ,&
-    '   write(*,*)"This source file starts with BOM character(z""FEFF"")!"',&
+    '   write(*,*)"This source file starts with BOM character"',&
+    '   write(*,*)"(Unicode codepoint z""FEFF"")!"',&
     'end program testit'
 
 end program bom_exe
