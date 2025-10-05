@@ -1802,9 +1802,11 @@ int(z'FF39'), int(z'FF59'), & ! FULLWIDTH LATIN SMALL LETTER Y <= FULLWIDTH LATI
 int(z'FF3A'), int(z'FF5A')] & ! FULLWIDTH LATIN SMALL LETTER Z <= FULLWIDTH LATIN CAPITAL LETTER Z
 ,shape(up_to_low),order=[2,1])
 
-integer,parameter :: hexchars(*)=iachar(['a','b','c','d','e','f', &
-                                       & '0','1','2','3','4','5','6','7','8','9', &
-                                       & 'A','B','C','D','E','F' ])
+! hits but in alpha lfortran
+!integer,parameter :: hexchars(*) = iachar(['a','b','c','d','e','f', &
+!                                         & '0','1','2','3','4','5','6','7','8','9', &
+!                                         & 'A','B','C','D','E','F' ])
+integer,parameter :: hexchars(*) = [97,98,99,100,101,102,48,49,50,51,52,53,54,55,56,57,65,66,67,68,69,70]
 
 type unicode_codepoints
    integer :: SPACES(size(spacescodes))
