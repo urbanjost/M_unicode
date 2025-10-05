@@ -140,12 +140,11 @@
 !    use M_unicode,only : TOKENIZE, REPLACE, CHARACTER, UPPER, LOWER, LEN
 !    use M_unicode,only : unicode_type, assignment(=), operator(//)
 !    use M_unicode,only : ut => unicode_type, ch => character
-!    use M_unicode,only : read(formatted), write(formatted)
 !    type(unicode_type)             :: string
 !    type(unicode_type)             :: numeric, uppercase, lowercase
 !    type(unicode_type),allocatable :: array(:)
 !    character(len=*),parameter     :: all='(g0)'
-!    character(len=*),parameter     :: uni='(DT)'
+!    !character(len=*),parameter     :: uni='(DT)'
 !    uppercase='АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ'
 !    lowercase='абвгґдеєжзиіїйклмнопрстуфхцчшщьюя'
 !    numeric='0123456789'
@@ -159,24 +158,26 @@
 !     print all
 ! 
 !     print all, 'convert to all uppercase:'
-!     print uni, UPPER(string)
+!     print all, ch(UPPER(string))
 !     print all
 ! 
 !     print all, 'convert to all lowercase:'
-!     print uni, LOWER(string)
+!     print all, ch(LOWER(string))
 !     print all
 ! 
 !     print all, 'tokenize on spaces ... '
 !     call TOKENIZE(string,ut(' '),array)
 !     print all, '... writing with A or G format:',character(array)
-!     print uni, ut('... writing with DT format'),array
+!     !print uni, ut('... writing with DT format'),array
 !     print all
 ! 
 !     print all, 'case-insensitive replace:'
-!     print uni,  REPLACE(string, &
+!     print all,  ch( &
+!     & REPLACE(string, &
 !     & ut('клмнопрс'), &
 !     & ut('--------'), &
-!     & ignorecase=.true.)
+!     & ignorecase=.true.) )
+! 
 !     print all
 ! 
 !    end program demo_M_unicode
@@ -243,8 +244,6 @@ public :: ichar
 public :: lle, llt, lne, leq, lgt, lge
 public :: operator(<=), operator(<), operator(/=), operator(==), operator(>), operator(>=), operator(//)
 
-public :: write(formatted), write(unformatted)
-public :: read(formatted), read(unformatted)
 
 private :: a2s, s2a
 private :: binary_search
@@ -280,6 +279,8 @@ end interface split
 ! Assign a character sequence to a string.
 interface assignment(=)
    module procedure :: assign_str_char
+   module procedure :: assign_strs_char
+   module procedure :: assign_str_code
    module procedure :: assign_str_codes
 end interface assignment(=)
 
@@ -1828,14 +1829,6 @@ end type force_keywords
 ! of this type:
 !    type(force_keywords), optional, intent(in) :: force_kwargs
 
-!> Write string to connected formatted unit.
-interface write(formatted);   module procedure :: write_formatted;   end interface
-!> Write string to a connected unformatted unit.
-interface write(unformatted); module procedure :: write_unformatted; end interface
-!> Read a connected formatted unit into the string.
-interface read(formatted);    module procedure :: read_formatted;    end interface
-!> Read a connected unformatted unit into the string.
-interface read(unformatted);  module procedure :: read_unformatted;  end interface
 contains
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
@@ -2149,12 +2142,32 @@ integer                           :: nerr
    call utf8_to_codepoints_str(rhs,lhs%codes,nerr)
 end subroutine assign_str_char
 
+subroutine assign_strs_char(lhs, rhs)
+type(unicode_type),intent(inout) :: lhs
+character(len=*),intent(in)      :: rhs(:)
+integer                          :: nerr
+integer                          :: i
+integer,allocatable              :: temp(:)
+   if(allocated(lhs%codes))deallocate(lhs%codes)
+   allocate(lhs%codes(0))
+   do i=1,size(rhs)
+      call utf8_to_codepoints_str(rhs(i),temp,nerr)
+      lhs%codes=[lhs%codes,temp]
+   enddo
+end subroutine assign_strs_char
+
 ! Assign a sequence of codepoints to a string.
 subroutine assign_str_codes(lhs, rhs)
 type(unicode_type), intent(inout) :: lhs
 integer, intent(in)               :: rhs(:)
    lhs%codes=rhs
 end subroutine assign_str_codes
+
+elemental subroutine assign_str_code(lhs, rhs)
+type(unicode_type), intent(inout) :: lhs
+integer, intent(in)               :: rhs
+   lhs%codes=[rhs]
+end subroutine assign_str_code
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
@@ -2838,100 +2851,105 @@ end function index_char_str
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()=
 !===================================================================================================================================
-!>
-!!##NAME
-!!    sort_quick_rx(3f) - [M_unicode:sort:quicksort] indexed hybrid quicksort of an array
-!!    (LICENSE:PD)
-!!
-!!##SYNOPSIS
-!!
-!!      subroutine sort_quick_rx(data,index)
-!!
-!!          type(unicode_type),intent(in) :: data(:)
-!!          integer,intent(out)           :: indx(size(data))
-!!
-!!##DESCRIPTION
-!!    A rank hybrid quicksort. The data is not moved. An integer array is
-!!    generated instead with values that are indices to the sorted order
-!!    of the data. This requires a second array the size of the input
-!!    array, which for large arrays would require a significant amount of
-!!    memory. One major advantage of this method is that
-!!    the indices can be used to access an entire user-defined type
-!!    in sorted order. This makes this seemingly simple sort procedure
-!!    usuable with the vast majority of user-defined types.  or other
-!!    correlated data.
-!!
-!!##BACKGROUND
-!!    From Leonard J. Moss of SLAC:
-!!
-!!    Here's a hybrid QuickSort I wrote a number of years ago. It's
-!!    based on suggestions in Knuth, Volume 3, and performs much better
-!!    than a pure QuickSort on short or partially ordered input arrays.
-!!
-!!    This routine performs an in-memory sort of the first N elements of
-!!    array DATA, returning into array INDEX the indices of elements of
-!!    DATA arranged in ascending order. Thus,
-!!
-!!       DATA(INDX(1)) will be the smallest number in array DATA;
-!!       DATA(INDX(N)) will be the largest number in DATA.
-!!
-!!    The original data is not physically rearranged. The original order
-!!    of equal input values is not necessarily preserved.
-!!
-!!    sort_quick_rx(3f) uses a hybrid QuickSort algorithm, based on several
-!!    suggestions in Knuth, Volume 3, Section 5.2.2. In particular, the
-!!    "pivot key" [my term] for dividing each subsequence is chosen to be
-!!    the median of the first, last, and middle values of the subsequence;
-!!    and the QuickSort is cut off when a subsequence has 9 or fewer
-!!    elements, and a straight insertion sort of the entire array is done
-!!    at the end. The result is comparable to a pure insertion sort for
-!!    very short arrays, and very fast for very large arrays (of order 12
-!!    micro-sec/element on the 3081K for arrays of 10K elements). It is
-!!    also not subject to the poor performance of the pure QuickSort on
-!!    partially ordered data.
-!!
-!!    Complex values are sorted by the magnitude of sqrt(r**2+i**2).
-!!
-!!    o Created: sortrx(3f): 15 Jul 1986, Len Moss
-!!    o saved from url=(0044)http://www.fortran.com/fortran/quick_sort2.f
-!!    o changed to update syntax from F77 style; John S. Urban 20161021
-!!    o generalized from only real values to include other intrinsic types;
-!!      John S. Urban 20210110
-!!    o type(unicode_type) version JSU 2025-09-20. See M_sort for other types.
-!!
-!!##EXAMPLES
-!!
-!!  Sample usage:
-!!
-!!    program demo_sort_quick_rx
-!!    use M_unicode, only : sort_quick_rx, unicode_type, assignment(=)
-!!    implicit none
-!!    character(len=*),parameter :: g='(*(g0))'
-!!    integer,parameter  :: isz=4
-!!    type(unicode_type) :: rr(isz)
-!!    integer            :: ii(isz)
-!!    integer            :: i
-!!       write(*,g)'sort array with sort_quick_rx(3f)'
-!!       rr(1)="the"
-!!       rr(2)="quick"
-!!       rr(3)="brown"
-!!       rr(4)="fox"
-!!       call sort_quick_rx(rr,ii)
-!!
-!!       write(*,g)'original order'
-!!       do i=1,size(rr)
-!!          write(*,g)rr(i)%character()
-!!       enddo
-!!
-!!       write(*,g)'sorted order'
-!!       do i=1,size(rr)
-!!          write(*,g)rr(ii(i))%character()
-!!       enddo
-!!
-!!    end program demo_sort_quick_rx
-!!
-!!   Results:
-!!
+! 
+! NAME
+!     sort(3f) - [M_unicode:sort:quicksort] indexed hybrid quicksort of
+!     an array
+!     (LICENSE:PD)
+! 
+! SYNOPSIS
+! 
+!       subroutine sort(data,index)
+! 
+!           type(unicode_type),intent(in) :: data(:)
+!           integer,intent(out)           :: indx(size(data))
+! 
+! DESCRIPTION
+!    A rank hybrid quicksort. The data is not moved. An integer array is
+!    generated instead with values that are indices to the sorted order
+!    of the data. This requires a second array the size of the input
+!    array, which for large arrays would require a significant amount of
+!    memory. One major advantage of this method is that the indices can
+!    be used to access an entire user-defined type in sorted order. This
+!    makes this seemingly simple sort procedure usuable with the vast
+!    majority of user-defined types.  or other correlated data.
+! 
+! BACKGROUND
+!     From Leonard J. Moss of SLAC:
+! 
+!     Here's a hybrid QuickSort I wrote a number of years ago. It's based
+!     on suggestions in Knuth, Volume 3, and performs much better than a
+!     pure QuickSort on short or partially ordered input arrays.
+! 
+!     This routine performs an in-memory sort of the first N elements of
+!     array DATA, returning into array INDEX the indices of elements of
+!     DATA arranged in ascending order. Thus,
+! 
+!        DATA(INDX(1)) will be the smallest number in array DATA;
+!        DATA(INDX(N)) will be the largest number in DATA.
+! 
+!     The original data is not physically rearranged. The original order
+!     of equal input values is not necessarily preserved.
+! 
+!     sort(3f) uses a hybrid QuickSort algorithm, based on several
+!     suggestions in Knuth, Volume 3, Section 5.2.2. In particular, the
+!     "pivot key" [my term] for dividing each subsequence is chosen to be
+!     the median of the first, last, and middle values of the subsequence;
+!     and the QuickSort is cut off when a subsequence has 9 or fewer
+!     elements, and a straight insertion sort of the entire array is done
+!     at the end. The result is comparable to a pure insertion sort for
+!     very short arrays, and very fast for very large arrays (of order 12
+!     micro-sec/element on the 3081K for arrays of 10K elements). It is
+!     also not subject to the poor performance of the pure QuickSort on
+!     partially ordered data.
+! 
+!     Complex values are sorted by the magnitude of sqrt(r**2+i**2).
+! 
+!     o Created: sortrx(3f): 15 Jul 1986, Len Moss
+!     o saved from url=(0044)http://www.fortran.com/fortran/quick_sort2.f
+!     o changed to update syntax from F77 style; John S. Urban 20161021
+!     o generalized from only real values to include other intrinsic types;
+!       John S. Urban 20210110
+!     o type(unicode_type) version JSU 2025-09-20. See M_sort for other types.
+! 
+! EXAMPLES
+! 
+!   Sample usage:
+! 
+!    program demo_sort
+!    use iso_fortran_env, only : stdout => output_unit
+!    use M_unicode,       only : sort, unicode_type, assignment(=)
+!    use M_unicode,       only : ut=>unicode_type
+!    implicit none
+!    character(len=*),parameter :: g='(*(g0))'
+!    integer,parameter          :: isz=4
+!    type(unicode_type)         :: rr(isz)
+!    integer                    :: ii(isz)
+!    integer                    :: i
+! 
+!       write(stdout,g)'sort array with sort(3f)'
+!       rr=[ &
+!        ut("the"),   &
+!        ut("quick"), &
+!        ut("brown"), &
+!        ut("fox") ]
+! 
+!       call sort(rr,ii)
+!       write(stdout,g)'original order'
+!       do i=1,size(rr)
+!          write(stdout,g)rr(i)%character()
+!       enddo
+! 
+!       write(stdout,g)
+! 
+!       write(stdout,g)'sorted order'
+!       do i=1,size(rr)
+!          write(stdout,g)rr(ii(i))%character()
+!       enddo
+! 
+!    end program demo_sort
+! 
+!    Results:
 !==================================================================================================================================!
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !==================================================================================================================================!
@@ -3170,55 +3188,53 @@ end function reverse
 ! 
 ! EXAMPLES
 ! 
-!    Sample Program:
+!   Sample Program:
 ! 
-!     program demo_replace
-!     use M_unicode
-!     use M_unicode, only : ut=>unicode_type
-!     use M_unicode, only : unicode_type
-!     implicit none
-!     type(unicode_type) :: line
-!     !
-!     write(*,*)&
-!     &character( replace(ut('Xis is Xe string'),ut('X'),ut('th') ) )
-!     write(*,*)&
-!     &character( replace(ut('Xis is xe string'),&
-!     &ut('x'),ut('th'),ignorecase=.true.) )
-!     write(*,*)&
-!     &character( replace(ut('Xis is xe string'),&
-!     &ut('X'),ut('th'),ignorecase=.false.) )
-!     !
-!     ! a null old substring means "at beginning of line"
-!     write(*,*)&
-!     &character(replace(ut('my line of text'),ut(''),ut('BEFORE:')) )
-!     !
-!     ! a null new string deletes occurrences of the old substring
-!     write(*,*) character(replace(ut('I wonder i ii iii'),ut('i'),ut('')) )
-!     !
-!     ! Examples of the use of RANGE
-!     !
-!     line=replace(ut('aaaaaaaaa'),ut('a'),ut('A'),occurrence=1,repeat=1)
-!     write(*,*)'replace first a with A ['//line%character()//']'
-!     !
-!     line=replace(ut('aaaaaaaaa'),ut('a'),ut('A'),occurrence=3,repeat=3)
-!     write(*,*)&
-!     &'replace a with A for 3rd to 5th occurrence ['//line%character()//']'
-!     !
-!     line=replace(ut('ababababa'),ut('a'),ut(''),occurrence=3,repeat=3)
-!     write(*,*)&
-!     &'replace a with null instances 3 to 5 ['//line%character()//']'
-!     !
-!     line=replace( &
-!      & ut('a b ab baaa aaaa aa aa a a a aa aaaaaa'),&
-!      & ut('aa'),ut('CCCC'),occurrence=-1,repeat=1)
-!     write(*,*)'replace lastaa with CCCC ['//line%character()//']'
-!     !
-!     write(*,*)character(replace(ut('myf90stuff.f90.f90'),&
-!     &ut('f90'),ut('for'),occurrence=-1,repeat=1))
-!     write(*,*)character(replace(ut('myf90stuff.f90.f90'),&
-!     &ut('f90'),ut('for'),occurrence=-2,repeat=2))
-!     !
-!     end program demo_replace
+!    program demo_replace
+!    use M_unicode
+!    use M_unicode, only : ut=>unicode_type
+!    use M_unicode, only : unicode_type
+!    implicit none
+!    type(unicode_type) :: line
+!    !!
+!    write(*,*)character( &
+!    & replace(ut('Xis is Xe string'),ut('X'),ut('th') ) )
+!    write(*,*)character( &
+!    & replace(ut('Xis is xe string'),ut('x'),ut('th'),ignorecase=.true.) )
+!    write(*,*)character( &
+!    & replace(ut('Xis is xe string'),ut('X'),ut('th'),ignorecase=.false.) )
+!    !!
+!    ! a null old substring means "at beginning of line"
+!    write(*,*) &
+!    & character(replace(ut('my line of text'),ut(''),ut('BEFORE:')) )
+!    !!
+!    ! a null new string deletes occurrences of the old substring
+!    write(*,*) character(replace(ut('I wonder i ii iii'),ut('i'),ut('')) )
+!    !!
+!    ! Examples of the use of RANGE
+!    !!
+!    line=replace(ut('aaaaaaaaa'),ut('a'),ut('A'),occurrence=1,repeat=1)
+!    write(*,*)'replace first a with A ['//line%character()//']'
+!    !!
+!    line=replace(ut('aaaaaaaaa'),ut('a'),ut('A'),occurrence=3,repeat=3)
+!    write(*,*)'replace a with A for 3rd to 5th occurrence [' &
+!    & //line%character()//']'
+!    !!
+!    line=replace(ut('ababababa'),ut('a'),ut(''),occurrence=3,repeat=3)
+!    write(*,*)'replace a with null instances 3 to 5 ['// &
+!    & line%character()//']'
+!    !!
+!    line=replace( &
+!     & ut('a b ab baaa aaaa aa aa a a a aa aaaaaa'),&
+!     & ut('aa'),ut('CCCC'),occurrence=-1,repeat=1)
+!    write(*,*)'replace lastaa with CCCC ['//line%character()//']'
+!    !!
+!    write(*,*)character(replace(ut('myf90stuff.f90.f90'),&
+!    & ut('f90'),ut('for'),occurrence=-1,repeat=1))
+!    write(*,*)character(replace(ut('myf90stuff.f90.f90'),&
+!    & ut('f90'),ut('for'),occurrence=-2,repeat=2))
+!    !!
+!    end program demo_replace
 ! 
 !    Results:
 ! 
@@ -3423,38 +3439,37 @@ end function replace
 ! 
 !   Sample program:
 ! 
-!      program demo_join
-!      use M_unicode, only: join, ut=>unicode_type, ch=>character, assignment(=)
-!      use M_unicode, only: write(formatted)
-!      implicit none
-!      character(len=*),parameter :: w='((g0,/,g0))'
-!      character(len=*),parameter :: v='((g0,/,DT))'
-!      character(len=20),allocatable :: proverb(:)
-!      type(ut),allocatable       :: s(:)
-!      type(ut),allocatable       :: sep
-!        proverb=[ character(len=13) :: &
-!          & ' United'       ,&
-!          & '  we'          ,&
-!          & '   stand,'     ,&
-!          & '    divided'   ,&
-!          & '     we fall.' ]
-!        allocate(s(size(proverb))) ! avoid GNU Fortran (GCC) 16.0.0 bug
-!        s=proverb
-!        write(*,w) 'SIMPLE JOIN:         ', ch( join(s)               )
-!        write(*,w) 'JOIN WITH SEPARATOR: ', ch( join(s,sep=ut(' '))   )
-!        write(*,w) 'CUSTOM SEPARATOR:    ', ch( join(s,sep=ut('<-->')) )
-!        write(*,w) 'NO TRIMMING:         ', ch( join(s,clip=.false.)  )
+!    program demo_join
+!    use M_unicode, only: join, ut=>unicode_type, ch=>character, assignment(=)
+!    !use M_unicode, only: write(formatted)
+!    implicit none
+!    character(len=*),parameter :: w='((g0,/,g0))'
+!    !character(len=*),parameter :: v='((g0,/,DT))'
+!    character(len=20),allocatable :: proverb(:)
+!    type(ut),allocatable       :: s(:)
+!    type(ut),allocatable       :: sep
+!      proverb=[ character(len=13) :: &
+!        & ' United'       ,&
+!        & '  we'          ,&
+!        & '   stand,'     ,&
+!        & '    divided'   ,&
+!        & '     we fall.' ]
+!      allocate(s(size(proverb))) ! avoid GNU Fortran (GCC) 16.0.0 bug
+!      s=proverb
+!      write(*,w) 'SIMPLE JOIN:         ', ch( join(s)                )
+!      write(*,w) 'JOIN WITH SEPARATOR: ', ch( join(s,sep=ut(' '))    )
+!      write(*,w) 'CUSTOM SEPARATOR:    ', ch( join(s,sep=ut('<-->')) )
+!      write(*,w) 'NO TRIMMING:         ', ch( join(s,clip=.false.)   )
 ! 
-!        sep=ut()
-!        write(*,v) 'SIMPLE JOIN:         ', sep%join(s)
-!        sep=' '
-!        write(*,v) 'JOIN WITH SEPARATOR: ', sep%join(s)
-!        sep='<-->'
-!        write(*,v) 'CUSTOM SEPARATOR:    ', sep%join(s)
-!        sep=''
-!        write(*,v) 'NO TRIMMING:         ', sep%join(s,clip=.false.)
-!      end program demo_join
-! 
+!      sep=ut()
+!      write(*,w) 'SIMPLE JOIN:         ', ch(sep%join(s) )
+!      sep=' '
+!      write(*,w) 'JOIN WITH SEPARATOR: ', ch(sep%join(s) )
+!      sep='<-->'
+!      write(*,w) 'CUSTOM SEPARATOR:    ', ch(sep%join(s) )
+!      sep=''
+!      write(*,w) 'NO TRIMMING:         ', ch(sep%join(s,clip=.false.) )
+!    end program demo_join
 ! 
 !  Results:
 ! 
@@ -3766,54 +3781,55 @@ end subroutine split_pos
 !   Sample Program:
 ! 
 !     program demo_pad
-!      use M_unicode, only : pad, assignment(=)
-!      use M_unicode, only : write(formatted)
-!      use M_unicode, only : len
-!      use M_unicode, only : ut=> unicode_type
+!      use M_unicode, only  : pad, assignment(=)
+!      !use M_unicode, only : write(formatted)
+!      use M_unicode, only  : len
+!      use M_unicode, only  : ch=> character
+!      use M_unicode, only  : ut=> unicode_type
 !      implicit none
 !      type(ut)                   :: string
 !      type(ut)                   :: answer
 !      integer                    :: i
-!      character(len=*),parameter :: g='(*(g0))'
-!      character(len=*),parameter :: u='(*(DT))'
+!      !character(len=*),parameter :: u='(*(DT))'
+!      character(len=*),parameter :: u='(*(g0))'
 ! 
 !         string='abcdefghij'
 ! 
 !         write(*,*)'pad on right till 20 characters long'
 !         answer=pad(string,20)
-!         write(*,'("[",DT,"]",/)') answer
+!         write(*,'("[",g0,"]",/)') answer%character()
 ! 
 !         write(*,*)'original is not trimmed for short length requests'
 !         answer=pad(string,5)
-!         write(*,'("[",DT,"]",/)') answer
+!         write(*,'("[",g0,"]",/)') answer%character()
 ! 
 !         i=30
 !         write(*,*)'pad with specified string and left-justified integers'
-!         write(*,'(1x,DT,1x,i0)') &
-!          & pad(ut('CHAPTER 1 : The beginning '),i,ut('.') ), 1   , &
-!          & pad(ut('CHAPTER 2 : The end '),i,ut('.') ),       1234, &
-!          & pad(ut('APPENDIX '),i,ut('.') ),                  1235
+!         write(*,'(1x,g0,1x,i0)') &
+!          & ch(pad(ut('CHAPTER 1 : The beginning '),i,ut('.') )), 1   , &
+!          & ch(pad(ut('CHAPTER 2 : The end '),i,ut('.') )),       1234, &
+!          & ch(pad(ut('APPENDIX '),i,ut('.') )),                  1235
 ! 
 !         write(*,*)'pad with specified string and right-justified integers'
-!         write(*,'(1x,DT,i7)') &
-!          & pad(ut('CHAPTER 1 : The beginning '),i,ut('.') ), 1   , &
-!          & pad(ut('CHAPTER 2 : The end '),i,ut('.') ),       1234, &
-!          & pad(ut('APPENDIX '),i,ut('.') ),                  1235
+!         write(*,'(1x,g0,i7)') &
+!          & ch(pad(ut('CHAPTER 1 : The beginning '),i,ut('.') )), 1   , &
+!          & ch(pad(ut('CHAPTER 2 : The end '),i,ut('.') )),       1234, &
+!          & ch(pad(ut('APPENDIX '),i,ut('.') )),                  1235
 ! 
 !         write(*,*)'pad on left with zeros'
-!         write(*,u)pad(ut('12'),5,ut('0'),right=.false.)
+!         write(*,u)ch(pad(ut('12'),5,ut('0'),right=.false.))
 ! 
 !         write(*,*)'various lengths with clip .true. and .false.'
-!         write(*,u)pad(ut('12345 '),30,ut('_'),right=.false.)
-!         write(*,u)pad(ut('12345 '),30,ut('_'),right=.false.,clip=.true.)
-!         write(*,u)pad(ut('12345 '), 7,ut('_'),right=.false.)
-!         write(*,u)pad(ut('12345 '), 7,ut('_'),right=.false.,clip=.true.)
-!         write(*,u)pad(ut('12345 '), 6,ut('_'),right=.false.)
-!         write(*,u)pad(ut('12345 '), 6,ut('_'),right=.false.,clip=.true.)
-!         write(*,u)pad(ut('12345 '), 5,ut('_'),right=.false.)
-!         write(*,u)pad(ut('12345 '), 5,ut('_'),right=.false.,clip=.true.)
-!         write(*,u)pad(ut('12345 '), 4,ut('_'),right=.false.)
-!         write(*,u)pad(ut('12345 '), 4,ut('_'),right=.false.,clip=.true.)
+!         write(*,u)ch(pad(ut('12345 '),30,ut('_'),right=.false.))
+!         write(*,u)ch(pad(ut('12345 '),30,ut('_'),right=.false.,clip=.true.))
+!         write(*,u)ch(pad(ut('12345 '), 7,ut('_'),right=.false.))
+!         write(*,u)ch(pad(ut('12345 '), 7,ut('_'),right=.false.,clip=.true.))
+!         write(*,u)ch(pad(ut('12345 '), 6,ut('_'),right=.false.))
+!         write(*,u)ch(pad(ut('12345 '), 6,ut('_'),right=.false.,clip=.true.))
+!         write(*,u)ch(pad(ut('12345 '), 5,ut('_'),right=.false.))
+!         write(*,u)ch(pad(ut('12345 '), 5,ut('_'),right=.false.,clip=.true.))
+!         write(*,u)ch(pad(ut('12345 '), 4,ut('_'),right=.false.))
+!         write(*,u)ch(pad(ut('12345 '), 4,ut('_'),right=.false.,clip=.true.))
 !     end program demo_pad
 ! 
 !   Results:
@@ -4183,118 +4199,6 @@ logical                         :: is_eq
    end select
 end function oop_eq
 !===================================================================================================================================
-
-!> Write string to connected unformatted unit.
-subroutine write_unformatted(string, unit, iostat, iomsg)
-class(unicode_type),intent(in)  :: string
-integer,intent(in)              :: unit
-integer,intent(out)             :: iostat
-character(len=*),intent(inout)  :: iomsg
-
-   write(unit, iostat=iostat, iomsg=iomsg) string%byte()
-
-end subroutine write_unformatted
-
-!> Write string to connected formatted unit.
-subroutine write_formatted(string, unit, iotype, v_list, iostat, iomsg)
-class(unicode_type), intent(in) :: string
-integer, intent(in)             :: unit
-character(len=*), intent(in)    :: iotype
-integer, intent(in)             :: v_list(:)
-integer, intent(out)            :: iostat
-character(len=*), intent(inout) :: iomsg
-
-   select case(iotype)
-   case("LISTDIRECTED")
-      write(unit, '(a)', iostat=iostat, iomsg=iomsg) character(string)
-   case("NAMELIST")
-      error stop "[Fatal] This implementation does not support namelist output"
-   case default ! DT*
-      select case(size(v_list))
-      case(0) ! DT
-         write(unit, '(a)', iostat=iostat, iomsg=iomsg) character(string)
-      case default
-         error stop "[Fatal] This implementation does not support v_list formatters"
-      end select
-   end select
-
-end subroutine write_formatted
-
-!> Read from a connected unformatted unit into the string.
-subroutine read_unformatted(string, unit, iostat, iomsg)
-class(unicode_type),intent(inout)  :: string
-integer,intent(in)                 :: unit
-integer,intent(out)                :: iostat
-character(len=*),intent(inout)     :: iomsg
-character(len=:),allocatable       :: buffer
-integer                            :: chunk
-
-   chunk=1024
-   allocate(character(len=chunk)   :: buffer)
-   read(unit, iostat=iostat, iomsg=iomsg) buffer
-   string = buffer
-
-end subroutine read_unformatted
-
-!> Read from a connected formatted unit into the string.
-subroutine read_formatted(string, unit, iotype, v_list, iostat, iomsg)
-class(unicode_type), intent(inout) :: string
-integer, intent(in)                :: unit
-character(len=*), intent(in)       :: iotype
-integer, intent(in)                :: v_list(:)
-integer, intent(out)               :: iostat
-character(len=*), intent(inout)    :: iomsg
-character(len=:), allocatable      :: line
-
-   call unused_dummy_argument(v_list)
-
-   select case(iotype)
-   case("LISTDIRECTED")
-      call read_line(unit, line, iostat, iomsg)
-   case("NAMELIST")
-      error stop "[Fatal] This implementation does not support namelist input"
-   case default ! DT*
-      error stop "[Fatal] This implementation does not support dt formatters"
-   end select
-
-   string = line
-
-contains
-!> Do nothing but mark an unused dummy argument as such to acknowledge compile
-!> time warning like:
-!>
-!>   Warning: Unused dummy argument ‘dummy’ at (1) [-Wunused-dummy-argument]
-!>
-!> We deeply trust in the compiler to inline and optimize this piece of code away.
-elemental subroutine unused_dummy_argument(dummy)
-   class(*), intent(in) :: dummy
-   associate(dummy => dummy); end associate
-end subroutine unused_dummy_argument
-
-!> Internal routine to read a whole record from a formatted unit
-subroutine read_line(unit, line, iostat, iomsg)
-integer,intent(in)                       :: unit
-character(len=:),allocatable,intent(out) :: line
-integer,intent(out)                      :: iostat
-character(len=*),intent(inout)           :: iomsg
-integer,parameter                        :: buffer_size = 512
-character(len=buffer_size)               :: buffer
-integer                                  :: chunk
-   line = ''
-   do
-      read(unit, '(a)', iostat=iostat, iomsg=iomsg, size=chunk, advance='no') &
-         buffer
-      if (iostat > 0) exit
-      line = line // buffer(:chunk)
-      if (iostat < 0) exit
-   enddo
-
-   if (is_iostat_eor(iostat)) then
-      iostat = 0
-   endif
-end subroutine read_line
-
-end subroutine read_formatted
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================

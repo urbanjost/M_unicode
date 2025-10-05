@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="76.5% of total for modules and submodules.">1755 statements</a>
+                 title="75.6% of total for modules and submodules.">1677 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -172,8 +172,6 @@
             <a class="list-group-item" href="../module/m_unicode.html#interface-operator%28%3D%3D%29">operator(==)</a>
             <a class="list-group-item" href="../module/m_unicode.html#interface-operator%28gt%29">operator(>)</a>
             <a class="list-group-item" href="../module/m_unicode.html#interface-operator%28gt%3D%29">operator(>=)</a>
-            <a class="list-group-item" href="../module/m_unicode.html#interface-read%28formatted%29">read(formatted)</a>
-            <a class="list-group-item" href="../module/m_unicode.html#interface-read%28unformatted%29">read(unformatted)</a>
             <a class="list-group-item" href="../module/m_unicode.html#interface-repeat">repeat</a>
             <a class="list-group-item" href="../module/m_unicode.html#interface-scan">scan</a>
             <a class="list-group-item" href="../module/m_unicode.html#interface-sort">sort</a>
@@ -183,8 +181,6 @@
             <a class="list-group-item" href="../module/m_unicode.html#interface-unicode_type">unicode_type</a>
             <a class="list-group-item" href="../module/m_unicode.html#interface-utf8_to_codepoints">utf8_to_codepoints</a>
             <a class="list-group-item" href="../module/m_unicode.html#interface-verify">verify</a>
-            <a class="list-group-item" href="../module/m_unicode.html#interface-write%28formatted%29">write(formatted)</a>
-            <a class="list-group-item" href="../module/m_unicode.html#interface-write%28unformatted%29">write(unformatted)</a>
         </div>
       </div>
     </div>
@@ -233,11 +229,7 @@
     </div>
 
     <div class="col-md-9" id='text'>
-      <p>Write string to connected formatted unit.
-Write string to a connected unformatted unit.
-Read a connected formatted unit into the string.
-Read a connected unformatted unit into the string.</p>
-<p>In computing, Unicode characters are typically sorted using one of two methods:</p>
+      <p>In computing, Unicode characters are typically sorted using one of two methods:</p>
 <p>a simple binary code point sort or a more sophisticated,
 language-sensitive collation. The correct approach depends on whether a
 linguistically accurate &ldquo;alphabetical&rdquo; order is needed or if a simple,
@@ -397,7 +389,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~20"></span>
+              <span class="anchor" id="variable-string~19"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -450,7 +442,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~19"></span>
+              <span class="anchor" id="variable-string~18"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -538,7 +530,7 @@ parameter
           </li>
           <li class="list-group-item">
                 <h3>
-    private  subroutine assign_str_codes(lhs, rhs)  
+    private  subroutine assign_strs_char(lhs, rhs)  
 
     </h3>
   
@@ -572,6 +564,112 @@ parameter
         <tr>
             <td>
               <span class="anchor" id="variable-rhs~2"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private elemental subroutine assign_str_code(lhs, rhs)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~4"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~4"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private  subroutine assign_str_codes(lhs, rhs)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~3"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -619,7 +717,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~7"></span>
+              <span class="anchor" id="variable-string~6"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -662,7 +760,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~8"></span>
+              <span class="anchor" id="variable-string~7"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -705,7 +803,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~9"></span>
+              <span class="anchor" id="variable-string~8"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -763,7 +861,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~10"></span>
+              <span class="anchor" id="variable-string~9"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -821,7 +919,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~11"></span>
+              <span class="anchor" id="variable-string~10"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -894,7 +992,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~12"></span>
+              <span class="anchor" id="variable-string~11"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -967,7 +1065,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~13"></span>
+              <span class="anchor" id="variable-string~12"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1055,7 +1153,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~14"></span>
+              <span class="anchor" id="variable-string~13"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1299,7 +1397,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~17"></span>
+              <span class="anchor" id="variable-string~16"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1352,7 +1450,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~21"></span>
+              <span class="anchor" id="variable-string~20"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1425,7 +1523,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~22"></span>
+              <span class="anchor" id="variable-string~21"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1498,7 +1596,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~23"></span>
+              <span class="anchor" id="variable-string~22"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1581,7 +1679,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~6"></span>
+              <span class="anchor" id="variable-string~5"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1634,7 +1732,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~16"></span>
+              <span class="anchor" id="variable-string~15"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1687,7 +1785,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~11"></span>
+              <span class="anchor" id="variable-lhs~13"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1702,7 +1800,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~11"></span>
+              <span class="anchor" id="variable-rhs~13"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1745,7 +1843,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~10"></span>
+              <span class="anchor" id="variable-lhs~12"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1760,7 +1858,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~10"></span>
+              <span class="anchor" id="variable-rhs~12"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1803,7 +1901,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~9"></span>
+              <span class="anchor" id="variable-lhs~11"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1818,7 +1916,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~9"></span>
+              <span class="anchor" id="variable-rhs~11"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1871,7 +1969,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~12"></span>
+              <span class="anchor" id="variable-lhs~14"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1886,7 +1984,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~12"></span>
+              <span class="anchor" id="variable-rhs~14"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1929,7 +2027,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~13"></span>
+              <span class="anchor" id="variable-lhs~15"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1944,7 +2042,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~13"></span>
+              <span class="anchor" id="variable-rhs~15"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1987,7 +2085,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~14"></span>
+              <span class="anchor" id="variable-lhs~16"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2002,7 +2100,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~14"></span>
+              <span class="anchor" id="variable-rhs~16"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2055,7 +2153,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~21"></span>
+              <span class="anchor" id="variable-lhs~23"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2070,7 +2168,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~21"></span>
+              <span class="anchor" id="variable-rhs~23"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2113,7 +2211,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~22"></span>
+              <span class="anchor" id="variable-lhs~24"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2128,7 +2226,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~22"></span>
+              <span class="anchor" id="variable-rhs~24"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2171,7 +2269,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~23"></span>
+              <span class="anchor" id="variable-lhs~25"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2186,7 +2284,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~23"></span>
+              <span class="anchor" id="variable-rhs~25"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2239,7 +2337,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~15"></span>
+              <span class="anchor" id="variable-lhs~17"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2254,7 +2352,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~15"></span>
+              <span class="anchor" id="variable-rhs~17"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2297,7 +2395,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~16"></span>
+              <span class="anchor" id="variable-lhs~18"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2312,7 +2410,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~16"></span>
+              <span class="anchor" id="variable-rhs~18"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2355,7 +2453,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~17"></span>
+              <span class="anchor" id="variable-lhs~19"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2370,7 +2468,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~17"></span>
+              <span class="anchor" id="variable-rhs~19"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2423,7 +2521,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~18"></span>
+              <span class="anchor" id="variable-lhs~20"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2438,7 +2536,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~18"></span>
+              <span class="anchor" id="variable-rhs~20"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2481,7 +2579,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~19"></span>
+              <span class="anchor" id="variable-lhs~21"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2496,7 +2594,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~19"></span>
+              <span class="anchor" id="variable-rhs~21"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2539,7 +2637,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~20"></span>
+              <span class="anchor" id="variable-lhs~22"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2554,7 +2652,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~20"></span>
+              <span class="anchor" id="variable-rhs~22"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2607,7 +2705,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~8"></span>
+              <span class="anchor" id="variable-lhs~10"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2622,7 +2720,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~8"></span>
+              <span class="anchor" id="variable-rhs~10"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2665,7 +2763,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~7"></span>
+              <span class="anchor" id="variable-lhs~9"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2680,7 +2778,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~7"></span>
+              <span class="anchor" id="variable-rhs~9"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2723,7 +2821,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~6"></span>
+              <span class="anchor" id="variable-lhs~8"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2738,7 +2836,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~6"></span>
+              <span class="anchor" id="variable-rhs~8"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2791,7 +2889,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~3"></span>
+              <span class="anchor" id="variable-lhs~5"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2806,7 +2904,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~3"></span>
+              <span class="anchor" id="variable-rhs~5"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2849,7 +2947,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~4"></span>
+              <span class="anchor" id="variable-lhs~6"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2864,7 +2962,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~4"></span>
+              <span class="anchor" id="variable-rhs~6"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2907,7 +3005,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~5"></span>
+              <span class="anchor" id="variable-lhs~7"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2922,7 +3020,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~5"></span>
+              <span class="anchor" id="variable-rhs~7"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2975,7 +3073,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~8"></span>
+              <span class="anchor" id="variable-lhs~10"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2990,7 +3088,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~8"></span>
+              <span class="anchor" id="variable-rhs~10"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3033,7 +3131,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~7"></span>
+              <span class="anchor" id="variable-lhs~9"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3048,7 +3146,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~7"></span>
+              <span class="anchor" id="variable-rhs~9"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -3091,7 +3189,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~6"></span>
+              <span class="anchor" id="variable-lhs~8"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3106,7 +3204,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~6"></span>
+              <span class="anchor" id="variable-rhs~8"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3159,7 +3257,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~18"></span>
+              <span class="anchor" id="variable-lhs~20"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3174,7 +3272,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~18"></span>
+              <span class="anchor" id="variable-rhs~20"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3217,7 +3315,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~19"></span>
+              <span class="anchor" id="variable-lhs~21"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3232,7 +3330,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~19"></span>
+              <span class="anchor" id="variable-rhs~21"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -3275,7 +3373,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~20"></span>
+              <span class="anchor" id="variable-lhs~22"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -3290,7 +3388,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~20"></span>
+              <span class="anchor" id="variable-rhs~22"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3343,7 +3441,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~15"></span>
+              <span class="anchor" id="variable-lhs~17"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3358,7 +3456,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~15"></span>
+              <span class="anchor" id="variable-rhs~17"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3401,7 +3499,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~16"></span>
+              <span class="anchor" id="variable-lhs~18"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3416,7 +3514,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~16"></span>
+              <span class="anchor" id="variable-rhs~18"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -3459,7 +3557,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~17"></span>
+              <span class="anchor" id="variable-lhs~19"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -3474,7 +3572,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~17"></span>
+              <span class="anchor" id="variable-rhs~19"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3527,7 +3625,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~11"></span>
+              <span class="anchor" id="variable-lhs~13"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -3542,7 +3640,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~11"></span>
+              <span class="anchor" id="variable-rhs~13"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3585,7 +3683,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~10"></span>
+              <span class="anchor" id="variable-lhs~12"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3600,7 +3698,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~10"></span>
+              <span class="anchor" id="variable-rhs~12"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -3643,7 +3741,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~9"></span>
+              <span class="anchor" id="variable-lhs~11"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3658,7 +3756,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~9"></span>
+              <span class="anchor" id="variable-rhs~11"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3711,7 +3809,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~21"></span>
+              <span class="anchor" id="variable-lhs~23"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3726,7 +3824,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~21"></span>
+              <span class="anchor" id="variable-rhs~23"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3769,7 +3867,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~22"></span>
+              <span class="anchor" id="variable-lhs~24"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3784,7 +3882,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~22"></span>
+              <span class="anchor" id="variable-rhs~24"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -3827,7 +3925,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~23"></span>
+              <span class="anchor" id="variable-lhs~25"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -3842,7 +3940,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~23"></span>
+              <span class="anchor" id="variable-rhs~25"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3895,7 +3993,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~12"></span>
+              <span class="anchor" id="variable-lhs~14"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3910,7 +4008,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~12"></span>
+              <span class="anchor" id="variable-rhs~14"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3953,7 +4051,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~13"></span>
+              <span class="anchor" id="variable-lhs~15"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3968,7 +4066,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~13"></span>
+              <span class="anchor" id="variable-rhs~15"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -4011,7 +4109,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~14"></span>
+              <span class="anchor" id="variable-lhs~16"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -4026,7 +4124,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~14"></span>
+              <span class="anchor" id="variable-rhs~16"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4047,222 +4145,6 @@ parameter
     <small>logical</small>
     </h4>
     
-
-          </li>
-    </ul>
-  </div>
-
-              <div class="card">
-    <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-read%28formatted%29"></span>
-      <h3>public        interface <a href='../interface/read(formatted).html'>read(formatted)</a> 
-      </h3>
-    </div>
-    <ul class="list-group">
-          <li class="list-group-item">
-                <h3>
-    private  subroutine read_formatted(string, unit, iotype, v_list, iostat, iomsg)  
-
-    </h3>
-  <p>Read from a connected formatted unit into the string.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-string~37"></span>
-              class(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>string</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-unit~4"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>unit</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-iotype~2"></span>
-              character(len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>iotype</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-v_list~2"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>v_list</strong>(:)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-iostat~4"></span>
-              integer,
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>iostat</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-iomsg~4"></span>
-              character(len=*),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>iomsg</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-          </li>
-    </ul>
-  </div>
-
-              <div class="card">
-    <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-read%28unformatted%29"></span>
-      <h3>public        interface <a href='../interface/read(unformatted).html'>read(unformatted)</a> 
-      </h3>
-    </div>
-    <ul class="list-group">
-          <li class="list-group-item">
-                <h3>
-    private  subroutine read_unformatted(string, unit, iostat, iomsg)  
-
-    </h3>
-  <p>Read from a connected unformatted unit into the string.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-string~36"></span>
-              class(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>string</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-unit~3"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>unit</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-iostat~3"></span>
-              integer,
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>iostat</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-iomsg~3"></span>
-              character(len=*),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>iomsg</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
 
           </li>
     </ul>
@@ -4295,7 +4177,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~15"></span>
+              <span class="anchor" id="variable-string~14"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4363,7 +4245,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~31"></span>
+              <span class="anchor" id="variable-string~30"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4378,7 +4260,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~5"></span>
+              <span class="anchor" id="variable-set~4"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4431,100 +4313,7 @@ parameter
     private  subroutine sort_quick_rx(data, indx)  
 
     </h3>
-  <h2 id="name">NAME</h2>
-<div class="codehilite"><pre><span></span><code>sort_quick_rx(3f) - [M_unicode:sort:quicksort] indexed hybrid quicksort of an array
-(LICENSE:PD)
-</code></pre></div>
-
-<h2 id="synopsis">SYNOPSIS</h2>
-<div class="codehilite"><pre><span></span><code>  subroutine sort_quick_rx(data,index)
-
-      type(unicode_type),intent(in) :: data(:)
-      integer,intent(out)           :: indx(size(data))
-</code></pre></div>
-
-<h2 id="description">DESCRIPTION</h2>
-<div class="codehilite"><pre><span></span><code><span class="nv">A</span> <span class="nv">rank</span> <span class="nv">hybrid</span> <span class="nv">quicksort</span>. <span class="nv">The</span> <span class="nv">data</span> <span class="nv">is</span> <span class="nv">not</span> <span class="nv">moved</span>. <span class="nv">An</span> <span class="nv">integer</span> <span class="nv">array</span> <span class="nv">is</span>
-<span class="nv">generated</span> <span class="nv">instead</span> <span class="nv">with</span> <span class="nv">values</span> <span class="nv">that</span> <span class="nv">are</span> <span class="nv">indices</span> <span class="nv">to</span> <span class="nv">the</span> <span class="nv">sorted</span> <span class="nv">order</span>
-<span class="nv">of</span> <span class="nv">the</span> <span class="nv">data</span>. <span class="nv">This</span> <span class="nv">requires</span> <span class="nv">a</span> <span class="nv">second</span> <span class="nv">array</span> <span class="nv">the</span> <span class="nv">size</span> <span class="nv">of</span> <span class="nv">the</span> <span class="nv">input</span>
-<span class="nv">array</span>, <span class="nv">which</span> <span class="k">for</span> <span class="nv">large</span> <span class="nv">arrays</span> <span class="nv">would</span> <span class="nv">require</span> <span class="nv">a</span> <span class="nv">significant</span> <span class="nv">amount</span> <span class="nv">of</span>
-<span class="nv">memory</span>. <span class="nv">One</span> <span class="nv">major</span> <span class="nv">advantage</span> <span class="nv">of</span> <span class="nv">this</span> <span class="nv">method</span> <span class="nv">is</span> <span class="nv">that</span>
-<span class="nv">the</span> <span class="nv">indices</span> <span class="nv">can</span> <span class="nv">be</span> <span class="nv">used</span> <span class="nv">to</span> <span class="nv">access</span> <span class="nv">an</span> <span class="nv">entire</span> <span class="nv">user</span><span class="o">-</span><span class="nv">defined</span> <span class="nv">type</span>
-<span class="nv">in</span> <span class="nv">sorted</span> <span class="nv">order</span>. <span class="nv">This</span> <span class="nv">makes</span> <span class="nv">this</span> <span class="nv">seemingly</span> <span class="nv">simple</span> <span class="nv">sort</span> <span class="nv">procedure</span>
-<span class="nv">usuable</span> <span class="nv">with</span> <span class="nv">the</span> <span class="nv">vast</span> <span class="nv">majority</span> <span class="nv">of</span> <span class="nv">user</span><span class="o">-</span><span class="nv">defined</span> <span class="nv">types</span>.  <span class="nv">or</span> <span class="nv">other</span>
-<span class="nv">correlated</span> <span class="nv">data</span>.
-</code></pre></div>
-
-<h2 id="background">BACKGROUND</h2>
-<div class="codehilite"><pre><span></span><code><span class="n">From</span><span class="w"> </span><span class="n">Leonard</span><span class="w"> </span><span class="n">J</span><span class="p">.</span><span class="w"> </span><span class="n">Moss</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">SLAC</span><span class="o">:</span><span class="w"></span>
-
-<span class="n">Here</span><span class="err">&#39;</span><span class="n">s</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">hybrid</span><span class="w"> </span><span class="n">QuickSort</span><span class="w"> </span><span class="n">I</span><span class="w"> </span><span class="n">wrote</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">years</span><span class="w"> </span><span class="n">ago</span><span class="p">.</span><span class="w"> </span><span class="n">It</span><span class="err">&#39;</span><span class="n">s</span><span class="w"></span>
-<span class="n">based</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">suggestions</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">Knuth</span><span class="p">,</span><span class="w"> </span><span class="n">Volume</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">performs</span><span class="w"> </span><span class="n">much</span><span class="w"> </span><span class="n">better</span><span class="w"></span>
-<span class="n">than</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">pure</span><span class="w"> </span><span class="n">QuickSort</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="kt">short</span><span class="w"> </span><span class="n">or</span><span class="w"> </span><span class="n">partially</span><span class="w"> </span><span class="n">ordered</span><span class="w"> </span><span class="n">input</span><span class="w"> </span><span class="n">arrays</span><span class="p">.</span><span class="w"></span>
-
-<span class="n">This</span><span class="w"> </span><span class="n">routine</span><span class="w"> </span><span class="n">performs</span><span class="w"> </span><span class="n">an</span><span class="w"> </span><span class="k">in</span><span class="o">-</span><span class="n">memory</span><span class="w"> </span><span class="n">sort</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">first</span><span class="w"> </span><span class="n">N</span><span class="w"> </span><span class="n">elements</span><span class="w"> </span><span class="n">of</span><span class="w"></span>
-<span class="n">array</span><span class="w"> </span><span class="n">DATA</span><span class="p">,</span><span class="w"> </span><span class="n">returning</span><span class="w"> </span><span class="n">into</span><span class="w"> </span><span class="n">array</span><span class="w"> </span><span class="n">INDEX</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">indices</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">elements</span><span class="w"> </span><span class="n">of</span><span class="w"></span>
-<span class="n">DATA</span><span class="w"> </span><span class="n">arranged</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">ascending</span><span class="w"> </span><span class="n">order</span><span class="p">.</span><span class="w"> </span><span class="n">Thus</span><span class="p">,</span><span class="w"></span>
-
-<span class="w">   </span><span class="n">DATA</span><span class="p">(</span><span class="n">INDX</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="n">will</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">smallest</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">array</span><span class="w"> </span><span class="n">DATA</span><span class="p">;</span><span class="w"></span>
-<span class="w">   </span><span class="n">DATA</span><span class="p">(</span><span class="n">INDX</span><span class="p">(</span><span class="n">N</span><span class="p">))</span><span class="w"> </span><span class="n">will</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">largest</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">DATA</span><span class="p">.</span><span class="w"></span>
-
-<span class="n">The</span><span class="w"> </span><span class="n">original</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="n">physically</span><span class="w"> </span><span class="n">rearranged</span><span class="p">.</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">original</span><span class="w"> </span><span class="n">order</span><span class="w"></span>
-<span class="n">of</span><span class="w"> </span><span class="n">equal</span><span class="w"> </span><span class="n">input</span><span class="w"> </span><span class="n">values</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="n">necessarily</span><span class="w"> </span><span class="n">preserved</span><span class="p">.</span><span class="w"></span>
-
-<span class="n">sort_quick_rx</span><span class="p">(</span><span class="mf">3f</span><span class="p">)</span><span class="w"> </span><span class="n">uses</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">hybrid</span><span class="w"> </span><span class="n">QuickSort</span><span class="w"> </span><span class="n">algorithm</span><span class="p">,</span><span class="w"> </span><span class="n">based</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">several</span><span class="w"></span>
-<span class="n">suggestions</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">Knuth</span><span class="p">,</span><span class="w"> </span><span class="n">Volume</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">Section</span><span class="w"> </span><span class="mf">5.2.2</span><span class="p">.</span><span class="w"> </span><span class="n">In</span><span class="w"> </span><span class="n">particular</span><span class="p">,</span><span class="w"> </span><span class="n">the</span><span class="w"></span>
-<span class="s">&quot;pivot key&quot;</span><span class="w"> </span><span class="p">[</span><span class="n">my</span><span class="w"> </span><span class="n">term</span><span class="p">]</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">dividing</span><span class="w"> </span><span class="n">each</span><span class="w"> </span><span class="n">subsequence</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">chosen</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">be</span><span class="w"></span>
-<span class="n">the</span><span class="w"> </span><span class="n">median</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">last</span><span class="p">,</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">middle</span><span class="w"> </span><span class="n">values</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">subsequence</span><span class="p">;</span><span class="w"></span>
-<span class="n">and</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">QuickSort</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">cut</span><span class="w"> </span><span class="n">off</span><span class="w"> </span><span class="n">when</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">subsequence</span><span class="w"> </span><span class="n">has</span><span class="w"> </span><span class="mi">9</span><span class="w"> </span><span class="n">or</span><span class="w"> </span><span class="n">fewer</span><span class="w"></span>
-<span class="n">elements</span><span class="p">,</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">straight</span><span class="w"> </span><span class="n">insertion</span><span class="w"> </span><span class="n">sort</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">entire</span><span class="w"> </span><span class="n">array</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">done</span><span class="w"></span>
-<span class="n">at</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">end</span><span class="p">.</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">comparable</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">pure</span><span class="w"> </span><span class="n">insertion</span><span class="w"> </span><span class="n">sort</span><span class="w"> </span><span class="k">for</span><span class="w"></span>
-<span class="n">very</span><span class="w"> </span><span class="kt">short</span><span class="w"> </span><span class="n">arrays</span><span class="p">,</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">very</span><span class="w"> </span><span class="n">fast</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">very</span><span class="w"> </span><span class="n">large</span><span class="w"> </span><span class="n">arrays</span><span class="w"> </span><span class="p">(</span><span class="n">of</span><span class="w"> </span><span class="n">order</span><span class="w"> </span><span class="mi">12</span><span class="w"></span>
-<span class="n">micro</span><span class="o">-</span><span class="n">sec</span><span class="o">/</span><span class="n">element</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="mi">3081</span><span class="n">K</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">arrays</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="mi">10</span><span class="n">K</span><span class="w"> </span><span class="n">elements</span><span class="p">).</span><span class="w"> </span><span class="n">It</span><span class="w"> </span><span class="n">is</span><span class="w"></span>
-<span class="n">also</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="n">subject</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">poor</span><span class="w"> </span><span class="n">performance</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">pure</span><span class="w"> </span><span class="n">QuickSort</span><span class="w"> </span><span class="n">on</span><span class="w"></span>
-<span class="n">partially</span><span class="w"> </span><span class="n">ordered</span><span class="w"> </span><span class="n">data</span><span class="p">.</span><span class="w"></span>
-
-<span class="n">Complex</span><span class="w"> </span><span class="n">values</span><span class="w"> </span><span class="n">are</span><span class="w"> </span><span class="n">sorted</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">magnitude</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">sqrt</span><span class="p">(</span><span class="n">r</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">i</span><span class="o">**</span><span class="mi">2</span><span class="p">).</span><span class="w"></span>
-
-<span class="n">o</span><span class="w"> </span><span class="n">Created</span><span class="o">:</span><span class="w"> </span><span class="n">sortrx</span><span class="p">(</span><span class="mf">3f</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="mi">15</span><span class="w"> </span><span class="n">Jul</span><span class="w"> </span><span class="mi">1986</span><span class="p">,</span><span class="w"> </span><span class="n">Len</span><span class="w"> </span><span class="n">Moss</span><span class="w"></span>
-<span class="n">o</span><span class="w"> </span><span class="n">saved</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">url</span><span class="o">=</span><span class="p">(</span><span class="mo">0044</span><span class="p">)</span><span class="n">http</span><span class="o">:</span><span class="c1">//www.fortran.com/fortran/quick_sort2.f</span>
-<span class="n">o</span><span class="w"> </span><span class="n">changed</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">update</span><span class="w"> </span><span class="n">syntax</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">F77</span><span class="w"> </span><span class="n">style</span><span class="p">;</span><span class="w"> </span><span class="n">John</span><span class="w"> </span><span class="n">S</span><span class="p">.</span><span class="w"> </span><span class="n">Urban</span><span class="w"> </span><span class="mi">20161021</span><span class="w"></span>
-<span class="n">o</span><span class="w"> </span><span class="n">generalized</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">only</span><span class="w"> </span><span class="n">real</span><span class="w"> </span><span class="n">values</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">include</span><span class="w"> </span><span class="n">other</span><span class="w"> </span><span class="n">intrinsic</span><span class="w"> </span><span class="n">types</span><span class="p">;</span><span class="w"></span>
-<span class="w">  </span><span class="n">John</span><span class="w"> </span><span class="n">S</span><span class="p">.</span><span class="w"> </span><span class="n">Urban</span><span class="w"> </span><span class="mi">20210110</span><span class="w"></span>
-<span class="n">o</span><span class="w"> </span><span class="n">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="n">JSU</span><span class="w"> </span><span class="mi">2025-09</span><span class="mf">-20.</span><span class="w"> </span><span class="n">See</span><span class="w"> </span><span class="n">M_sort</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">other</span><span class="w"> </span><span class="n">types</span><span class="p">.</span><span class="w"></span>
-</code></pre></div>
-
-<h2 id="examples">EXAMPLES</h2>
-<p>Sample usage:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">program</span><span class="w"> </span><span class="n">demo_sort_quick_rx</span><span class="w"></span>
-<span class="n">use</span><span class="w"> </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="n">only</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">sort_quick_rx</span><span class="p">,</span><span class="w"> </span><span class="n">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">)</span><span class="w"></span>
-<span class="n">implicit</span><span class="w"> </span><span class="n">none</span><span class="w"></span>
-<span class="n">character</span><span class="p">(</span><span class="n">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="n">g</span><span class="o">=</span><span class="p">&#39;(</span><span class="o">*</span><span class="p">(</span><span class="n">g0</span><span class="p">))&#39;</span><span class="w"></span>
-<span class="k">integer</span><span class="p">,</span><span class="k">parameter</span><span class="w">  </span><span class="o">::</span><span class="w"> </span><span class="n">isz</span><span class="o">=</span><span class="mh">4</span><span class="w"></span>
-<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="n">rr</span><span class="p">(</span><span class="n">isz</span><span class="p">)</span><span class="w"></span>
-<span class="k">integer</span><span class="w">            </span><span class="o">::</span><span class="w"> </span><span class="n">ii</span><span class="p">(</span><span class="n">isz</span><span class="p">)</span><span class="w"></span>
-<span class="k">integer</span><span class="w">            </span><span class="o">::</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
-<span class="w">   </span><span class="n">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)&#39;</span><span class="n">sort</span><span class="w"> </span><span class="n">array</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">sort_quick_rx</span><span class="p">(</span><span class="mf">3f</span><span class="p">)&#39;</span><span class="w"></span>
-<span class="w">   </span><span class="n">rr</span><span class="p">(</span><span class="mh">1</span><span class="p">)</span><span class="o">=</span><span class="s">&quot;the&quot;</span><span class="w"></span>
-<span class="w">   </span><span class="n">rr</span><span class="p">(</span><span class="mh">2</span><span class="p">)</span><span class="o">=</span><span class="s">&quot;quick&quot;</span><span class="w"></span>
-<span class="w">   </span><span class="n">rr</span><span class="p">(</span><span class="mh">3</span><span class="p">)</span><span class="o">=</span><span class="s">&quot;brown&quot;</span><span class="w"></span>
-<span class="w">   </span><span class="n">rr</span><span class="p">(</span><span class="mh">4</span><span class="p">)</span><span class="o">=</span><span class="s">&quot;fox&quot;</span><span class="w"></span>
-<span class="w">   </span><span class="n">call</span><span class="w"> </span><span class="n">sort_quick_rx</span><span class="p">(</span><span class="n">rr</span><span class="p">,</span><span class="n">ii</span><span class="p">)</span><span class="w"></span>
-
-<span class="w">   </span><span class="n">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)&#39;</span><span class="n">original</span><span class="w"> </span><span class="n">order</span><span class="p">&#39;</span><span class="w"></span>
-<span class="w">   </span><span class="k">do</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mh">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">rr</span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="n">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="n">rr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">%</span><span class="n">character</span><span class="p">()</span><span class="w"></span>
-<span class="w">   </span><span class="n">enddo</span><span class="w"></span>
-
-<span class="w">   </span><span class="n">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)&#39;</span><span class="n">sorted</span><span class="w"> </span><span class="n">order</span><span class="p">&#39;</span><span class="w"></span>
-<span class="w">   </span><span class="k">do</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mh">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">rr</span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="n">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="n">rr</span><span class="p">(</span><span class="n">ii</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="o">%</span><span class="n">character</span><span class="p">()</span><span class="w"></span>
-<span class="w">   </span><span class="n">enddo</span><span class="w"></span>
-
-<span class="k">end</span><span class="w"> </span><span class="n">program</span><span class="w"> </span><span class="n">demo_sort_quick_rx</span><span class="w"></span>
-</code></pre></div>
-
-<p>Results:</p>
+  
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -4602,7 +4391,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~29"></span>
+              <span class="anchor" id="variable-string~28"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4617,7 +4406,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~3"></span>
+              <span class="anchor" id="variable-set~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4685,7 +4474,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~30"></span>
+              <span class="anchor" id="variable-string~29"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4700,7 +4489,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~4"></span>
+              <span class="anchor" id="variable-set~3"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4768,7 +4557,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~28"></span>
+              <span class="anchor" id="variable-string~27"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4783,7 +4572,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~2"></span>
+              <span class="anchor" id="variable-set"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4861,7 +4650,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~29"></span>
+              <span class="anchor" id="variable-string~28"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4876,7 +4665,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~3"></span>
+              <span class="anchor" id="variable-set~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4944,7 +4733,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~30"></span>
+              <span class="anchor" id="variable-string~29"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4959,7 +4748,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~4"></span>
+              <span class="anchor" id="variable-set~3"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -5027,7 +4816,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~28"></span>
+              <span class="anchor" id="variable-string~27"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -5042,7 +4831,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~2"></span>
+              <span class="anchor" id="variable-set"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -5120,7 +4909,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~18"></span>
+              <span class="anchor" id="variable-string~17"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -5173,7 +4962,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-codes~3"></span>
+              <span class="anchor" id="variable-codes~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -5216,7 +5005,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~2"></span>
+              <span class="anchor" id="variable-string"></span>
               character(len=*),
             </td>
 <td>intent(in),</td>
@@ -5458,7 +5247,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~32"></span>
+              <span class="anchor" id="variable-string~31"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -5473,7 +5262,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~6"></span>
+              <span class="anchor" id="variable-set~5"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -5509,222 +5298,6 @@ parameter
     <small>integer</small>
     </h4>
     
-
-          </li>
-    </ul>
-  </div>
-
-              <div class="card">
-    <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-write%28formatted%29"></span>
-      <h3>public        interface <a href='../interface/write(formatted).html'>write(formatted)</a> 
-      </h3>
-    </div>
-    <ul class="list-group">
-          <li class="list-group-item">
-                <h3>
-    private  subroutine write_formatted(string, unit, iotype, v_list, iostat, iomsg)  
-
-    </h3>
-  <p>Write string to connected formatted unit.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-string~35"></span>
-              class(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>string</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-unit~2"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>unit</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-iotype"></span>
-              character(len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>iotype</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-v_list"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>v_list</strong>(:)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-iostat~2"></span>
-              integer,
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>iostat</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-iomsg~2"></span>
-              character(len=*),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>iomsg</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-          </li>
-    </ul>
-  </div>
-
-              <div class="card">
-    <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-write%28unformatted%29"></span>
-      <h3>public        interface <a href='../interface/write(unformatted).html'>write(unformatted)</a> 
-      </h3>
-    </div>
-    <ul class="list-group">
-          <li class="list-group-item">
-                <h3>
-    private  subroutine write_unformatted(string, unit, iostat, iomsg)  
-
-    </h3>
-  <p>Write string to connected unformatted unit.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-string~34"></span>
-              class(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>string</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-unit"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>unit</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-iostat"></span>
-              integer,
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>iostat</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-iomsg"></span>
-              character(len=*),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>iomsg</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
 
           </li>
     </ul>
@@ -5923,7 +5496,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~2"></span>
+              <span class="anchor" id="variable-str"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -5938,7 +5511,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sep"></span>
+              <span class="anchor" id="variable-sep~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in),</td>
@@ -5998,7 +5571,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~4"></span>
+              <span class="anchor" id="variable-str~3"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -6043,7 +5616,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-line~4"></span>
+              <span class="anchor" id="variable-line~3"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -6058,7 +5631,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-length~5"></span>
+              <span class="anchor" id="variable-length~4"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -6313,7 +5886,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~3"></span>
+              <span class="anchor" id="variable-str~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -6362,7 +5935,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-10-04 23:48 +0000             </p>
+ on 2025-10-05 16:18 +0000             </p>
           </div>
         </div>
         <br>
