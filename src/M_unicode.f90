@@ -140,16 +140,14 @@
 !    use M_unicode,only : TOKENIZE, REPLACE, CHARACTER, UPPER, LOWER, LEN
 !    use M_unicode,only : unicode_type, assignment(=), operator(//)
 !    use M_unicode,only : ut => unicode_type, ch => character
-!    use M_unicode,only : read(formatted), write(formatted)
 !    type(unicode_type)             :: string
 !    type(unicode_type)             :: numeric, uppercase, lowercase
 !    type(unicode_type),allocatable :: array(:)
 !    character(len=*),parameter     :: all='(g0)'
-!    character(len=*),parameter     :: uni='(DT)'
-! 
-!     uppercase='АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ'
-!     lowercase='абвгґдеєжзиіїйклмнопрстуфхцчшщьюя'
-!     numeric='0123456789'
+!    !character(len=*),parameter     :: uni='(DT)'
+!    uppercase='АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ'
+!    lowercase='абвгґдеєжзиіїйклмнопрстуфхцчшщьюя'
+!    numeric='0123456789'
 ! 
 !     string=uppercase//' '//numeric//' '//lowercase
 ! 
@@ -160,24 +158,26 @@
 !     print all
 ! 
 !     print all, 'convert to all uppercase:'
-!     print uni, UPPER(string)
+!     print all, ch(UPPER(string))
 !     print all
 ! 
 !     print all, 'convert to all lowercase:'
-!     print uni, LOWER(string)
+!     print all, ch(LOWER(string))
 !     print all
 ! 
 !     print all, 'tokenize on spaces ... '
 !     call TOKENIZE(string,ut(' '),array)
 !     print all, '... writing with A or G format:',character(array)
-!     print uni, ut('... writing with DT format'),array
+!     !print uni, ut('... writing with DT format'),array
 !     print all
 ! 
 !     print all, 'case-insensitive replace:'
-!     print uni,  REPLACE(string, &
+!     print all,  ch( &
+!     & REPLACE(string, &
 !     & ut('клмнопрс'), &
 !     & ut('--------'), &
-!     & ignorecase=.true.)
+!     & ignorecase=.true.) )
+! 
 !     print all
 ! 
 !    end program demo_M_unicode
@@ -244,8 +244,6 @@ public :: ichar
 public :: lle, llt, lne, leq, lgt, lge
 public :: operator(<=), operator(<), operator(/=), operator(==), operator(>), operator(>=), operator(//)
 
-public :: write(formatted), write(unformatted)
-public :: read(formatted), read(unformatted)
 
 private :: a2s, s2a
 private :: binary_search
@@ -1831,14 +1829,6 @@ end type force_keywords
 ! of this type:
 !    type(force_keywords), optional, intent(in) :: force_kwargs
 
-!> Write string to connected formatted unit.
-interface write(formatted);   module procedure :: write_formatted;   end interface
-!> Write string to a connected unformatted unit.
-interface write(unformatted); module procedure :: write_unformatted; end interface
-!> Read a connected formatted unit into the string.
-interface read(formatted);    module procedure :: read_formatted;    end interface
-!> Read a connected unformatted unit into the string.
-interface read(unformatted);  module procedure :: read_unformatted;  end interface
 contains
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
@@ -3450,36 +3440,35 @@ end function replace
 !   Sample program:
 ! 
 !    program demo_join
-!    use M_unicode, only : join, ut=>unicode_type, ch=>character
-!    use M_unicode, only : assignment(=)
-!    use M_unicode, only : write(formatted)
+!    use M_unicode, only: join, ut=>unicode_type, ch=>character, assignment(=)
+!    !use M_unicode, only: write(formatted)
 !    implicit none
 !    character(len=*),parameter :: w='((g0,/,g0))'
-!    character(len=*),parameter :: v='((g0,/,DT))'
+!    !character(len=*),parameter :: v='((g0,/,DT))'
 !    character(len=20),allocatable :: proverb(:)
 !    type(ut),allocatable       :: s(:)
 !    type(ut),allocatable       :: sep
-!       proverb=[ character(len=13) :: &
+!      proverb=[ character(len=13) :: &
 !        & ' United'       ,&
 !        & '  we'          ,&
 !        & '   stand,'     ,&
 !        & '    divided'   ,&
 !        & '     we fall.' ]
-!       allocate(s(size(proverb))) ! avoid GNU Fortran (GCC) 16.0.0 bug
-!       s=proverb
-!       write(*,w) 'SIMPLE JOIN:         ', ch( join(s)               )
-!       write(*,w) 'JOIN WITH SEPARATOR: ', ch( join(s,sep=ut(' '))   )
-!       write(*,w) 'CUSTOM SEPARATOR:    ', ch( join(s,sep=ut('<-->')) )
-!       write(*,w) 'NO TRIMMING:         ', ch( join(s,clip=.false.)  )
+!      allocate(s(size(proverb))) ! avoid GNU Fortran (GCC) 16.0.0 bug
+!      s=proverb
+!      write(*,w) 'SIMPLE JOIN:         ', ch( join(s)                )
+!      write(*,w) 'JOIN WITH SEPARATOR: ', ch( join(s,sep=ut(' '))    )
+!      write(*,w) 'CUSTOM SEPARATOR:    ', ch( join(s,sep=ut('<-->')) )
+!      write(*,w) 'NO TRIMMING:         ', ch( join(s,clip=.false.)   )
 ! 
-!       sep=ut()
-!       write(*,v) 'SIMPLE JOIN:         ', sep%join(s)
-!       sep=' '
-!       write(*,v) 'JOIN WITH SEPARATOR: ', sep%join(s)
-!       sep='<-->'
-!       write(*,v) 'CUSTOM SEPARATOR:    ', sep%join(s)
-!       sep=''
-!       write(*,v) 'NO TRIMMING:         ', sep%join(s,clip=.false.)
+!      sep=ut()
+!      write(*,w) 'SIMPLE JOIN:         ', ch(sep%join(s) )
+!      sep=' '
+!      write(*,w) 'JOIN WITH SEPARATOR: ', ch(sep%join(s) )
+!      sep='<-->'
+!      write(*,w) 'CUSTOM SEPARATOR:    ', ch(sep%join(s) )
+!      sep=''
+!      write(*,w) 'NO TRIMMING:         ', ch(sep%join(s,clip=.false.) )
 !    end program demo_join
 ! 
 !  Results:
@@ -3792,53 +3781,55 @@ end subroutine split_pos
 !   Sample Program:
 ! 
 !     program demo_pad
-!      use M_unicode, only : pad, assignment(=)
-!      use M_unicode, only : write(formatted)
-!      use M_unicode, only : len
-!      use M_unicode, only : ut=> unicode_type
+!      use M_unicode, only  : pad, assignment(=)
+!      !use M_unicode, only : write(formatted)
+!      use M_unicode, only  : len
+!      use M_unicode, only  : ch=> character
+!      use M_unicode, only  : ut=> unicode_type
 !      implicit none
 !      type(ut)                   :: string
 !      type(ut)                   :: answer
 !      integer                    :: i
-!      character(len=*),parameter :: u='(*(DT))'
+!      !character(len=*),parameter :: u='(*(DT))'
+!      character(len=*),parameter :: u='(*(g0))'
 ! 
 !         string='abcdefghij'
 ! 
 !         write(*,*)'pad on right till 20 characters long'
 !         answer=pad(string,20)
-!         write(*,'("[",DT,"]",/)') answer
+!         write(*,'("[",g0,"]",/)') answer%character()
 ! 
 !         write(*,*)'original is not trimmed for short length requests'
 !         answer=pad(string,5)
-!         write(*,'("[",DT,"]",/)') answer
+!         write(*,'("[",g0,"]",/)') answer%character()
 ! 
 !         i=30
 !         write(*,*)'pad with specified string and left-justified integers'
-!         write(*,'(1x,DT,1x,i0)') &
-!          & pad(ut('CHAPTER 1 : The beginning '),i,ut('.') ), 1   , &
-!          & pad(ut('CHAPTER 2 : The end '),i,ut('.') ),       1234, &
-!          & pad(ut('APPENDIX '),i,ut('.') ),                  1235
+!         write(*,'(1x,g0,1x,i0)') &
+!          & ch(pad(ut('CHAPTER 1 : The beginning '),i,ut('.') )), 1   , &
+!          & ch(pad(ut('CHAPTER 2 : The end '),i,ut('.') )),       1234, &
+!          & ch(pad(ut('APPENDIX '),i,ut('.') )),                  1235
 ! 
 !         write(*,*)'pad with specified string and right-justified integers'
-!         write(*,'(1x,DT,i7)') &
-!          & pad(ut('CHAPTER 1 : The beginning '),i,ut('.') ), 1   , &
-!          & pad(ut('CHAPTER 2 : The end '),i,ut('.') ),       1234, &
-!          & pad(ut('APPENDIX '),i,ut('.') ),                  1235
+!         write(*,'(1x,g0,i7)') &
+!          & ch(pad(ut('CHAPTER 1 : The beginning '),i,ut('.') )), 1   , &
+!          & ch(pad(ut('CHAPTER 2 : The end '),i,ut('.') )),       1234, &
+!          & ch(pad(ut('APPENDIX '),i,ut('.') )),                  1235
 ! 
 !         write(*,*)'pad on left with zeros'
-!         write(*,u)pad(ut('12'),5,ut('0'),right=.false.)
+!         write(*,u)ch(pad(ut('12'),5,ut('0'),right=.false.))
 ! 
 !         write(*,*)'various lengths with clip .true. and .false.'
-!         write(*,u)pad(ut('12345 '),30,ut('_'),right=.false.)
-!         write(*,u)pad(ut('12345 '),30,ut('_'),right=.false.,clip=.true.)
-!         write(*,u)pad(ut('12345 '), 7,ut('_'),right=.false.)
-!         write(*,u)pad(ut('12345 '), 7,ut('_'),right=.false.,clip=.true.)
-!         write(*,u)pad(ut('12345 '), 6,ut('_'),right=.false.)
-!         write(*,u)pad(ut('12345 '), 6,ut('_'),right=.false.,clip=.true.)
-!         write(*,u)pad(ut('12345 '), 5,ut('_'),right=.false.)
-!         write(*,u)pad(ut('12345 '), 5,ut('_'),right=.false.,clip=.true.)
-!         write(*,u)pad(ut('12345 '), 4,ut('_'),right=.false.)
-!         write(*,u)pad(ut('12345 '), 4,ut('_'),right=.false.,clip=.true.)
+!         write(*,u)ch(pad(ut('12345 '),30,ut('_'),right=.false.))
+!         write(*,u)ch(pad(ut('12345 '),30,ut('_'),right=.false.,clip=.true.))
+!         write(*,u)ch(pad(ut('12345 '), 7,ut('_'),right=.false.))
+!         write(*,u)ch(pad(ut('12345 '), 7,ut('_'),right=.false.,clip=.true.))
+!         write(*,u)ch(pad(ut('12345 '), 6,ut('_'),right=.false.))
+!         write(*,u)ch(pad(ut('12345 '), 6,ut('_'),right=.false.,clip=.true.))
+!         write(*,u)ch(pad(ut('12345 '), 5,ut('_'),right=.false.))
+!         write(*,u)ch(pad(ut('12345 '), 5,ut('_'),right=.false.,clip=.true.))
+!         write(*,u)ch(pad(ut('12345 '), 4,ut('_'),right=.false.))
+!         write(*,u)ch(pad(ut('12345 '), 4,ut('_'),right=.false.,clip=.true.))
 !     end program demo_pad
 ! 
 !   Results:
@@ -4208,118 +4199,6 @@ logical                         :: is_eq
    end select
 end function oop_eq
 !===================================================================================================================================
-
-!> Write string to connected unformatted unit.
-subroutine write_unformatted(string, unit, iostat, iomsg)
-class(unicode_type),intent(in)  :: string
-integer,intent(in)              :: unit
-integer,intent(out)             :: iostat
-character(len=*),intent(inout)  :: iomsg
-
-   write(unit, iostat=iostat, iomsg=iomsg) string%byte()
-
-end subroutine write_unformatted
-
-!> Write string to connected formatted unit.
-subroutine write_formatted(string, unit, iotype, v_list, iostat, iomsg)
-class(unicode_type), intent(in) :: string
-integer, intent(in)             :: unit
-character(len=*), intent(in)    :: iotype
-integer, intent(in)             :: v_list(:)
-integer, intent(out)            :: iostat
-character(len=*), intent(inout) :: iomsg
-
-   select case(iotype)
-   case("LISTDIRECTED")
-      write(unit, '(a)', iostat=iostat, iomsg=iomsg) character(string)
-   case("NAMELIST")
-      error stop "[Fatal] This implementation does not support namelist output"
-   case default ! DT*
-      select case(size(v_list))
-      case(0) ! DT
-         write(unit, '(a)', iostat=iostat, iomsg=iomsg) character(string)
-      case default
-         error stop "[Fatal] This implementation does not support v_list formatters"
-      end select
-   end select
-
-end subroutine write_formatted
-
-!> Read from a connected unformatted unit into the string.
-subroutine read_unformatted(string, unit, iostat, iomsg)
-class(unicode_type),intent(inout)  :: string
-integer,intent(in)                 :: unit
-integer,intent(out)                :: iostat
-character(len=*),intent(inout)     :: iomsg
-character(len=:),allocatable       :: buffer
-integer                            :: chunk
-
-   chunk=1024
-   allocate(character(len=chunk)   :: buffer)
-   read(unit, iostat=iostat, iomsg=iomsg) buffer
-   string = buffer
-
-end subroutine read_unformatted
-
-!> Read from a connected formatted unit into the string.
-subroutine read_formatted(string, unit, iotype, v_list, iostat, iomsg)
-class(unicode_type), intent(inout) :: string
-integer, intent(in)                :: unit
-character(len=*), intent(in)       :: iotype
-integer, intent(in)                :: v_list(:)
-integer, intent(out)               :: iostat
-character(len=*), intent(inout)    :: iomsg
-character(len=:), allocatable      :: line
-
-   call unused_dummy_argument(v_list)
-
-   select case(iotype)
-   case("LISTDIRECTED")
-      call read_line(unit, line, iostat, iomsg)
-   case("NAMELIST")
-      error stop "[Fatal] This implementation does not support namelist input"
-   case default ! DT*
-      error stop "[Fatal] This implementation does not support dt formatters"
-   end select
-
-   string = line
-
-contains
-!> Do nothing but mark an unused dummy argument as such to acknowledge compile
-!> time warning like:
-!>
-!>   Warning: Unused dummy argument ‘dummy’ at (1) [-Wunused-dummy-argument]
-!>
-!> We deeply trust in the compiler to inline and optimize this piece of code away.
-elemental subroutine unused_dummy_argument(dummy)
-   class(*), intent(in) :: dummy
-   associate(dummy => dummy); end associate
-end subroutine unused_dummy_argument
-
-!> Internal routine to read a whole record from a formatted unit
-subroutine read_line(unit, line, iostat, iomsg)
-integer,intent(in)                       :: unit
-character(len=:),allocatable,intent(out) :: line
-integer,intent(out)                      :: iostat
-character(len=*),intent(inout)           :: iomsg
-integer,parameter                        :: buffer_size = 512
-character(len=buffer_size)               :: buffer
-integer                                  :: chunk
-   line = ''
-   do
-      read(unit, '(a)', iostat=iostat, iomsg=iomsg, size=chunk, advance='no') &
-         buffer
-      if (iostat > 0) exit
-      line = line // buffer(:chunk)
-      if (iostat < 0) exit
-   enddo
-
-   if (is_iostat_eor(iostat)) then
-      iostat = 0
-   endif
-end subroutine read_line
-
-end subroutine read_formatted
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
