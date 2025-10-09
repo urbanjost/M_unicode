@@ -65,6 +65,8 @@
 ! 
 !    WHITE SPACE
 ! 
+!     notabs     expand tab characters
+! 
 !    QUOTES
 ! 
 !    CHARACTER ARRAY VERSUS STRING
@@ -95,26 +97,25 @@
 !     using the // operator, as well as a number of intrinsic string
 !     routine overloads are provided:
 ! 
-!         adjustl             Left adjust a string
-!         adjustr             Right adjust a string
-!         index               Position of a substring within a string
-!         repeat              Repeated string concatenation
-!         scan                Scan a string for the presence of a set
-!                             of characters
-!         trim                Remove trailing blank characters of a string
-!         verify              Scan a string for the absence of a set of
-!                             characters
-!         len                 It returns the length of a character string
-!         char                converts an integer into a character
-!         ichar               converts a character into an integer
-!         len_trim            finds length of string with trailing spaces
-!                             ignored
-!         lgt                 Lexical greater than
-!         lge                 Lexical greater than or equal
-!         leq                 Lexical equal
-!         lne                 Lexical not equal
-!         lle                 Lexical less than or equal
-!         llt                 Lexical less than
+!         adjustl       Left adjust a string
+!         adjustr       Right adjust a string
+!         index         Position of a substring within a string
+!         repeat        Repeated string concatenation
+!         scan          Scan a string for the presence of a set
+!                       of characters
+!         trim          Remove trailing blank characters of a string
+!         verify        Scan a string for the absence of a set of characters
+!         len           It returns the length of a character string
+!         char          converts an integer into a character
+!         ichar         converts a character into an integer
+!         len_trim      finds length of string with trailing spaces
+!                       ignored
+!         lgt           Lexical greater than
+!         lge           Lexical greater than or equal
+!         leq           Lexical equal
+!         lne           Lexical not equal
+!         lle           Lexical less than or equal
+!         llt           Lexical less than
 ! 
 !    OOPS INTERFACE
 ! 
@@ -232,6 +233,7 @@ public :: utf8_to_codepoints,  codepoints_to_utf8
 public :: character
 public :: sort
 public :: upper, lower
+public :: notabs
 public :: replace
 public :: pad
 public :: join
@@ -340,6 +342,7 @@ contains
    ! transform
    procedure :: upper      => oop_upper
    procedure :: lower      => oop_lower
+   procedure :: notabs     => oop_notabs
 
    procedure :: sub        => oop_sub
    procedure :: replace    => oop_replace
@@ -3965,6 +3968,99 @@ integer                       :: i
 end function uverify
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
+! 
+! NAME
+!     notabs(3f) - [M_unicode:NONALPHA] function to expand tab characters
+!     (LICENSE:PD)
+! 
+! SYNOPSIS
+! 
+!     function notabs(INSTR) result(OUTSTR)
+! 
+!      type(unicode_type),intent=(in)  :: INSTR
+!      type(unicode_type)              :: OUTSTR
+! 
+! DESCRIPTION
+!     notabs(3) expands tabs in INSTR to spaces in OUTSTR. It assumes a
+!     tab is set every 8 characters. Trailing spaces are removed.
+! 
+! OPTIONS
+!      instr     Input line to remove tabs from
+! 
+! RETURNS
+!      outstr    Output string with tabs expanded.
+! 
+! EXAMPLES
+! 
+!    Sample program:
+! 
+!     program demo_notabs
+!     use M_unicode, only : notabs, ch=>character, replace
+!     use M_unicode, only : assign(=), unicode_type
+!     implicit none
+!     type(unicode_type)           :: in
+!     character(len=:),allocatable :: dat
+!     integer                      :: i
+!        dat='  this is my string  '
+!        ! change spaces to tabs to make a sample input
+!        do i=1,len(dat)
+!           if(dat(i:i) == ' ')dat(i:i)=char(9)
+!        enddo
+!        in=dat
+!        in=notabs(in)
+!        write(*,'("[",a,"]")')ch(in)
+!        in=replace(in,ut(' '),ut('_'))
+!        write(*,'("[",a,"]")')ch(in)
+!     end program demo_notabs
+! 
+!    Results:
+! 
+!     > [                this    is      my      string]
+!     > [________________this____is______my______string]
+! 
+! AUTHOR
+!      John S. Urban
+! 
+! LICENSE
+!     MI
+function notabs(instr) result(outstr)
+!@(#) M_unicode notabs(3f) convert tabs to spaces and trim line removing CRLF chars
+type(unicode_type),intent(in) :: instr     ! input line to scan for tab characters
+type(unicode_type)            :: outstr    ! tab-expanded version of INSTR produced
+integer,parameter             :: tabsize=8 ! assume a tab stop is set every 8th column
+integer                       :: ipos      ! position in OUTSTR to put next character of INSTR
+integer                       :: istep     ! counter advances thru string INSTR
+integer                       :: icount    ! number of tab characters in input
+integer                       :: i
+   ! count number of tab characters in input
+   icount=0
+   do i=1,size(instr%codes)
+      if(instr%codes(i)==9)icount=icount+1
+   enddo
+   ! initially set length of output to the maxiumum length that might result
+   allocate( outstr%codes(size(instr%codes)+8*icount) )
+   outstr%codes=32                        ! blank-fill string
+   ipos=1                                 ! where to put next character in output string OUTSTR
+   SCAN_LINE: do istep=1,len_trim(instr)  ! look through input string one character at a time
+      EXPAND_TABS : select case (instr%codes(istep)) ! take actions based on character found
+      case(9)        ! character is a horizontal tab so move pointer out to appropriate column
+         ipos = ipos + (tabsize - (mod(ipos-1,tabsize)))
+      case default   ! character is anything else other than a tab,newline,or return.
+         outstr%codes(ipos)=instr%codes(istep)
+         ipos=ipos+1
+      end select EXPAND_TABS
+   enddo SCAN_LINE
+   outstr=trim(outstr)
+end function notabs
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
+function oop_notabs(self) result (string_out)
+class(unicode_type),intent(in)     :: self
+type(unicode_type)                 :: string_out
+   string_out=notabs(self)
+end function oop_notabs
 !===================================================================================================================================
 function oop_upper(self) result (string_out)
 class(unicode_type),intent(in)     :: self

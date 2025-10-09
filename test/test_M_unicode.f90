@@ -5,6 +5,7 @@ use M_unicode, only : adjustl, adjustr, index
 use M_unicode, only : trim, len, len_trim
 use M_unicode, only : repeat
 use M_unicode, only : upper, lower
+use M_unicode, only : notabs
 use M_unicode, only : sort
 use M_unicode, only : scan, verify
 use M_unicode, only : tokenize, split
@@ -275,6 +276,21 @@ type(unicode_type)             :: ut_str
    call checkit('trim',astr,character(trim(ut_str%trim())),'  😃')
 
 end subroutine test_trim
+
+subroutine test_notabs()
+character(len=:),allocatable :: str
+type(unicode_type)           :: in
+type(unicode_type)           :: expected
+integer                      :: i
+   str='  this is my string  '
+   ! change spaces to tabs to make a sample input
+   do i=1,len(str)
+      if(str(i:i) == ' ')str(i:i)=char(9)
+   enddo
+   in=str
+   expected="                this    is      my      string"
+   call check('notabs',notabs(in).eq.expected,character(notabs(in)))
+end subroutine test_notabs
 
 subroutine test_upper()
 type(unicode_type) :: upp, low, temp
@@ -831,6 +847,7 @@ use testsuite_M_unicode
    call test_replace()
    call test_pad()
    call test_join()
+   call test_notabs()
    call test_other()
 
    write(*,g0)
