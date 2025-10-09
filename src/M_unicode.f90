@@ -65,7 +65,7 @@
 ! 
 !    WHITE SPACE
 ! 
-!     notabs     expand tab characters
+!     expandtabs     expand tab characters
 ! 
 !    QUOTES
 ! 
@@ -233,7 +233,7 @@ public :: utf8_to_codepoints,  codepoints_to_utf8
 public :: character
 public :: sort
 public :: upper, lower
-public :: notabs
+public :: expandtabs
 public :: replace
 public :: pad
 public :: join
@@ -342,7 +342,7 @@ contains
    ! transform
    procedure :: upper      => oop_upper
    procedure :: lower      => oop_lower
-   procedure :: notabs     => oop_notabs
+   procedure :: expandtabs => oop_expandtabs
 
    procedure :: sub        => oop_sub
    procedure :: replace    => oop_replace
@@ -3971,22 +3971,24 @@ end function uverify
 !===================================================================================================================================
 ! 
 ! NAME
-!     notabs(3f) - [M_unicode:NONALPHA] function to expand tab characters
+!     expandtabs(3f) - [M_unicode:NONALPHA] function to expand tab characters
 !     (LICENSE:PD)
 ! 
 ! SYNOPSIS
 ! 
-!     function notabs(INSTR) result(OUTSTR)
+!     function expandtabs(INSTR,TABSIZE) result(OUTSTR)
 ! 
 !      type(unicode_type),intent=(in)  :: INSTR
 !      type(unicode_type)              :: OUTSTR
+!      integer,intent(in),optional     :: TAB_SIZE
 ! 
 ! DESCRIPTION
-!     notabs(3) expands tabs in INSTR to spaces in OUTSTR. It assumes a
-!     tab is set every 8 characters. Trailing spaces are removed.
+!     expandtabs(3) expands tabs in INSTR to spaces in OUTSTR. It assumes a
+!     tab is set every 8 characters by default. Trailing spaces are removed.
 ! 
 ! OPTIONS
 !      instr     Input line to remove tabs from
+!      tab_size  spacing between tab stops.
 ! 
 ! RETURNS
 !      outstr    Output string with tabs expanded.
@@ -3995,11 +3997,12 @@ end function uverify
 ! 
 !    Sample program:
 ! 
-!     program demo_notabs
-!     use M_unicode, only : notabs, ch=>character, replace
-!     use M_unicode, only : assign(=), unicode_type
+!     program demo_expandtabs
+!     use M_unicode, only : expandtabs, ch=>character, replace
+!     use M_unicode, only : assignment(=), ut=> unicode_type
 !     implicit none
-!     type(unicode_type)           :: in
+!     type(ut)                     :: in
+!     type(ut)                     :: inexpanded
 !     character(len=:),allocatable :: dat
 !     integer                      :: i
 !        dat='  this is my string  '
@@ -4008,31 +4011,45 @@ end function uverify
 !           if(dat(i:i) == ' ')dat(i:i)=char(9)
 !        enddo
 !        in=dat
-!        in=notabs(in)
-!        write(*,'("[",a,"]")')ch(in)
-!        in=replace(in,ut(' '),ut('_'))
-!        write(*,'("[",a,"]")')ch(in)
-!     end program demo_notabs
+! 
+!        inexpanded=expandtabs(in)
+!        write(*,'("[",a,"]")')ch(inexpanded)
+!        inexpanded=replace(inexpanded,ut(' '),ut('_'))
+!        write(*,'("[",a,"]")')ch(inexpanded)
+! 
+!        write(*,'("[",a,"]")')ch(in%expandtabs())
+!        write(*,'("[",a,"]")')ch(in%expandtabs(tab_size=8))
+!        write(*,'("[",a,"]")')ch(in%expandtabs(tab_size=1))
+!        write(*,'("[",a,"]")')ch(in%expandtabs(tab_size=0))
+! 
+!     end program demo_expandtabs
 ! 
 !    Results:
 ! 
 !     > [                this    is      my      string]
 !     > [________________this____is______my______string]
+!     > [                this    is      my      string]
+!     > [                this    is      my      string]
+!     > [  this is my string]
+!     > [thisismystring]
 ! 
 ! AUTHOR
 !      John S. Urban
 ! 
 ! LICENSE
 !     MI
-function notabs(instr) result(outstr)
-!@(#) M_unicode notabs(3f) convert tabs to spaces and trim line removing CRLF chars
+function expandtabs(instr,tab_size) result(outstr)
+!@(#) M_unicode expandtabs(3f) convert tabs to spaces and trim line removing CRLF chars
 type(unicode_type),intent(in) :: instr     ! input line to scan for tab characters
 type(unicode_type)            :: outstr    ! tab-expanded version of INSTR produced
-integer,parameter             :: tabsize=8 ! assume a tab stop is set every 8th column
+integer,intent(in),optional   :: tab_size
 integer                       :: ipos      ! position in OUTSTR to put next character of INSTR
 integer                       :: istep     ! counter advances thru string INSTR
 integer                       :: icount    ! number of tab characters in input
 integer                       :: i
+integer                       :: tab_size_local
+   tab_size_local=8                        ! assume a tab stop is set every 8th column
+   if(present(tab_size))tab_size_local=tab_size
    ! count number of tab characters in input
    icount=0
    do i=1,size(instr%codes)
@@ -4040,27 +4057,30 @@ integer                       :: i
    enddo
    ! initially set length of output to the maxiumum length that might result
    allocate( outstr%codes(size(instr%codes)+8*icount) )
-   outstr%codes=32                        ! blank-fill string
-   ipos=1                                 ! where to put next character in output string OUTSTR
-   SCAN_LINE: do istep=1,len_trim(instr)  ! look through input string one character at a time
+   outstr%codes=32                         ! blank-fill string
+   ipos=1                                  ! where to put next character in output string OUTSTR
+   SCAN_LINE: do istep=1,len_trim(instr)   ! look through input string one character at a time
       EXPAND_TABS : select case (instr%codes(istep)) ! take actions based on character found
       case(9)        ! character is a horizontal tab so move pointer out to appropriate column
-         ipos = ipos + (tabsize - (mod(ipos-1,tabsize)))
-      case default   ! character is anything else other than a tab,newline,or return.
+         if(tab_size_local.gt.0)then
+            ipos = ipos + (tab_size_local - (mod(ipos-1,tab_size_local)))
+         endif
+      case default   ! character is anything else other than a tab
          outstr%codes(ipos)=instr%codes(istep)
          ipos=ipos+1
       end select EXPAND_TABS
    enddo SCAN_LINE
    outstr=trim(outstr)
-end function notabs
+end function expandtabs
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
-function oop_notabs(self) result (string_out)
+function oop_expandtabs(self,tab_size) result (string_out)
 class(unicode_type),intent(in)     :: self
+integer,intent(in),optional        :: tab_size
 type(unicode_type)                 :: string_out
-   string_out=notabs(self)
-end function oop_notabs
+   string_out=expandtabs(self,tab_size)
+end function oop_expandtabs
 !===================================================================================================================================
 function oop_upper(self) result (string_out)
 class(unicode_type),intent(in)     :: self

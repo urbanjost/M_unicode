@@ -5,7 +5,7 @@ use M_unicode, only : adjustl, adjustr, index
 use M_unicode, only : trim, len, len_trim
 use M_unicode, only : repeat
 use M_unicode, only : upper, lower
-use M_unicode, only : notabs
+use M_unicode, only : expandtabs
 use M_unicode, only : sort
 use M_unicode, only : scan, verify
 use M_unicode, only : tokenize, split
@@ -277,7 +277,7 @@ type(unicode_type)             :: ut_str
 
 end subroutine test_trim
 
-subroutine test_notabs()
+subroutine test_expandtabs()
 character(len=:),allocatable :: str
 type(unicode_type)           :: in
 type(unicode_type)           :: expected
@@ -289,8 +289,11 @@ integer                      :: i
    enddo
    in=str
    expected="                this    is      my      string"
-   call check('notabs',notabs(in).eq.expected,character(notabs(in)))
-end subroutine test_notabs
+   call check('expandtabs',expandtabs(in).eq.expected,character(expandtabs(in)))
+   call check('expandtabs',in%expandtabs().eq.expected,character(expandtabs(in)))
+   expected="thisismystring"
+   call check('expandtabs',in%expandtabs(tab_size=0).eq.expected,character(in%expandtabs(tab_size=0)))
+end subroutine test_expandtabs
 
 subroutine test_upper()
 type(unicode_type) :: upp, low, temp
@@ -847,7 +850,7 @@ use testsuite_M_unicode
    call test_replace()
    call test_pad()
    call test_join()
-   call test_notabs()
+   call test_expandtabs()
    call test_other()
 
    write(*,g0)
