@@ -30,14 +30,27 @@
 !     M_unicode(3f) - [M_unicode::INTRO] Unicode string module
 ! 
 ! DESCRIPTION
-!    The M_unicode(3fm) module is a collection of Fortran procedures
-!    that supplement the built-in intrinsic string routines. Routines
-!    for parsing, tokenizing, changing case, substituting new strings for
-!    substrings, locating strings with simple wildcard expressions, removing
-!    tabs and line terminators and other string manipulations are included.
+!    The M_unicode(3fm) module is a collection of Fortran string
+!    methods that work with UTF-8-encoded as well as ASCII-7 data via the
+!    user-defined type "unicode_type". The type supports allocatable ragged
+!    arrays where each element may be of differing length.
 ! 
-!    Arrays of the user-defined type UNICODE_TYPE allows each element to
-!    be of different lengths as well as providing an OOP interface.
+!    Routines for parsing, tokenizing, changing case, substituting
+!    new strings for substrings, locating strings with simple wildcard
+!    expressions, removing tabs and line terminators and other string
+!    manipulations are included.
+! 
+!    The M_unicode(3fm) module supplements the Fortran built-in
+!    intrinsics with overloads of operators and intrinsics that allow
+!    type(unicode_type) to be used with intrinsic names in the same manner
+!    the intrinsics operate on CHARACTER variables.
+! 
+!    Assignment, comparisons with standard operators, and concatenation
+!    using the // operator, in addition to the intrinsic string
+!    routines are supported.
+! 
+!    Nearly all the methods are available using OOP syntax as well as
+!    procedurally.
 ! 
 ! SYNOPSIS
 ! 
@@ -60,62 +73,60 @@
 ! 
 !    STRING LENGTH AND PADDING
 ! 
+!     len        return the length of a character string in glyphs
 !     len_trim   find location of last non-whitespace character
 !     pad        pad string to at least specified length with pattern string
 ! 
 !    WHITE SPACE
 ! 
-!     expandtabs     expand tab characters
+!     trim         Remove trailing blank characters of a string
+!     expandtabs   expand tab characters
+!     adjustl      Left adjust a string
+!     adjustr      Right adjust a string
 ! 
 !    QUOTES
 ! 
 !    CHARACTER ARRAY VERSUS STRING
 ! 
-!       character(VAR,start,end,inc)
-!       VAR%character(start,end,inc)
-!       VAR%bytes(start,end,inc)
-!       VAR%codepoint(start,end,inc)
+!     character(VAR,start,end,inc)
+!     VAR%character(start,end,inc)
+!     VAR%bytes(start,end,inc)
+!     VAR%codepoint(start,end,inc)
 ! 
 !    NONALPHA
+! 
+!    ENCODING
+! 
+!     char      converts an integer codepoint into a character
+!     ichar     converts a character into an integer codepoint
 ! 
 !    NUMERIC STRINGS
 ! 
 !    CHARACTER TESTS
 ! 
+!     lgt           Lexical greater than
+!     lge           Lexical greater than or equal
+!     leq           Lexical equal
+!     lne           Lexical not equal
+!     lle           Lexical less than or equal
+!     llt           Lexical less than
+! 
 !    BASE CONVERSION
+! 
+!    IO
+! 
+!     readline      read a line from a file
+! 
+!    LOCATION
+! 
+!     index         Position of a substring within a string
 ! 
 !    MISCELLANEOUS
 ! 
-!    INTRINSICS
-! 
-!     The M_unicode(3fm) module supplements the Fortran built-in
-!     intrinsics with overloads of operators and intrinsics that allow
-!     type(unicode_type) to be used with intrinsic names in the same manner
-!     the intrinsics operate on CHARACTER variables.
-! 
-!     Assignment, comparisons with standard operators, and concatenation
-!     using the // operator, as well as a number of intrinsic string
-!     routine overloads are provided:
-! 
-!         adjustl       Left adjust a string
-!         adjustr       Right adjust a string
-!         index         Position of a substring within a string
-!         repeat        Repeated string concatenation
-!         scan          Scan a string for the presence of a set
-!                       of characters
-!         trim          Remove trailing blank characters of a string
-!         verify        Scan a string for the absence of a set of characters
-!         len           It returns the length of a character string
-!         char          converts an integer into a character
-!         ichar         converts a character into an integer
-!         len_trim      finds length of string with trailing spaces
-!                       ignored
-!         lgt           Lexical greater than
-!         lge           Lexical greater than or equal
-!         leq           Lexical equal
-!         lne           Lexical not equal
-!         lle           Lexical less than or equal
-!         llt           Lexical less than
+!     repeat        Repeated string concatenation
+!     scan          Scan a string for the presence of a set
+!                   of characters
+!     verify        Scan a string for the absence of a set of characters
 ! 
 !    OOPS INTERFACE
 ! 
@@ -159,11 +170,11 @@
 !     print all
 ! 
 !     print all, 'convert to all uppercase:'
-!     print all, ch(UPPER(string))
+!     print all, ch( UPPER(string) )
 !     print all
 ! 
 !     print all, 'convert to all lowercase:'
-!     print all, ch(LOWER(string))
+!     print all, ch( string%LOWER() )
 !     print all
 ! 
 !     print all, 'tokenize on spaces ... '
@@ -222,7 +233,8 @@ module M_unicode
 ! first presented in https://fortran-lang.discourse.group/t/how-to-use-utf-8-in-gfortran/9949
 ! including enhancements and latin support from Francois Jacq, 2025-08
 !
-use,intrinsic :: iso_fortran_env, only : error_unit, stderr=>error_unit
+use,intrinsic :: iso_fortran_env, only : stdin=>input_unit
+use,intrinsic :: iso_fortran_env, only : stderr=>error_unit
 use,intrinsic :: iso_fortran_env, only : int8, int16, int32, int64
 use,intrinsic :: iso_fortran_env, only : real32, real64, real128
 implicit none
@@ -237,6 +249,7 @@ public :: expandtabs
 public :: replace
 public :: pad
 public :: join
+public :: readline
 
 public :: adjustl, adjustr, index, len, len_trim, repeat, trim
 public :: split, tokenize
@@ -284,6 +297,8 @@ interface assignment(=)
    module procedure :: assign_strs_char
    module procedure :: assign_str_code
    module procedure :: assign_str_codes
+   module procedure :: assign_char_str
+   module procedure :: assign_ints_str
 end interface assignment(=)
 
 interface character
@@ -2139,7 +2154,24 @@ end function new_codes
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
-! Assign a character sequence to a string.
+!> Assign a string to a character sequence
+
+subroutine assign_ints_str(lhs, rhs)
+integer,allocatable,intent(inout) :: lhs(:)
+type(unicode_type),intent(in)     :: rhs
+integer                           :: nerr
+   lhs=rhs%codes
+end subroutine assign_ints_str
+
+!> Assign a string to a character sequence
+subroutine assign_char_str(lhs, rhs)
+character(len=:),allocatable,intent(inout) :: lhs
+type(unicode_type),intent(in)              :: rhs
+integer                                    :: nerr
+   call codepoints_to_utf8_str(rhs%codes,lhs,nerr)
+end subroutine assign_char_str
+
+!> Assign a character sequence to a string.
 elemental subroutine assign_str_char(lhs, rhs)
 type(unicode_type), intent(inout) :: lhs
 character(len=*), intent(in)      :: rhs
@@ -2179,7 +2211,7 @@ end subroutine assign_str_code
 ! Returns the length of the character sequence represented by the string.
 elemental function len_str(string) result(length)
 type(unicode_type), intent(in) :: string
-integer :: length
+integer                        :: length
 
    if (allocated(string%codes)) then
       length = size(string%codes)
@@ -3448,11 +3480,11 @@ end function replace
 !    use M_unicode, only: join, ut=>unicode_type, ch=>character, assignment(=)
 !    !use M_unicode, only: write(formatted)
 !    implicit none
-!    character(len=*),parameter :: w='((g0,/,g0))'
-!    !character(len=*),parameter :: v='((g0,/,DT))'
+!    character(len=*),parameter    :: w='((g0,/,g0))'
+!    !character(len=*),parameter   :: v='((g0,/,DT))'
 !    character(len=20),allocatable :: proverb(:)
-!    type(ut),allocatable       :: s(:)
-!    type(ut),allocatable       :: sep
+!    type(ut),allocatable          :: s(:)
+!    type(ut),allocatable          :: sep
 !      proverb=[ character(len=13) :: &
 !        & ' United'       ,&
 !        & '  we'          ,&
@@ -4317,6 +4349,117 @@ logical                         :: is_eq
    end select
 end function oop_eq
 !===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
+! 
+! NAME
+!     readline(3f) - [M_unicode:READ] read a line from specified LUN into
+!                    string up to line length limit
+!     (LICENSE:MIT)
+! 
+! SYNTAX
+!    function readline(lun,iostat) result(line)
+! 
+!     integer,intent(in),optional  :: lun
+!     integer,intent(out),optional :: iostat
+!     type(unicode_type)           :: line
+! 
+! DESCRIPTION
+!    Read a line of any length up to programming environment maximum
+!    line length. Requires Fortran 2003+.
+! 
+!    It is primarily expected to be used when reading input which will
+!    then be parsed.
+! 
+!    The input file must have a PAD attribute of YES for the function
+!    to work properly, which is typically true.
+! 
+!    The simple use of a loop that repeatedly re-allocates a character
+!    variable in addition to reading the input file one buffer at a
+!    time could (depending on the programming environment used) be
+!    inefficient, as it could reallocate and allocate memory used for
+!    the output string with each buffer read.
+! 
+! OPTIONS
+!     LUN     optional LUN (Fortran logical I/O unit) number. Defaults
+!             to stdin.
+!     IOSTAT  status returned by READ(IOSTAT=IOS). If not zero, an error
+!             occurred or an end-of-file or end-of-record was encountered.
+! RETURNS
+!     LINE    line read.
+!             if IOSTAT is not zero, LINE returns the I/O error message.
+! 
+! EXAMPLE
+! 
+!    Sample program:
+! 
+!     program demo_readline
+!     use,intrinsic :: iso_fortran_env, only : stdin=>input_unit
+!     use,intrinsic :: iso_fortran_env, only : iostat_end
+!     use M_unicode, only : readline, assignment(=), ch=>character, ut=>unicode_type
+!     implicit none
+!     type(ut)                     :: line
+!     integer                      :: iostat
+!        open(unit=stdin,pad='yes')
+! 
+!        INFINITE: do
+!           line=readline(iostat=iostat)
+!           if(iostat.ne.0)exit
+!           write(*,'(a)')'['//ch(line)//']'
+!        enddo INFINITE
+! 
+!        if(iostat /= iostat_end)then
+!           write(*,*)'error reading input:',trim(line)
+!        endif
+! 
+!     end program demo_readline
+! 
+! AUTHOR
+!     John S. Urban
+! 
+! LICENSE
+!     MI
+function readline(lun,iostat) result(line)
+implicit none
+
+! @(#) M_unicode readline(3f) read a line from specified LUN into string up to line length limit
+
+type(unicode_type)               :: line
+integer,intent(in),optional      :: lun
+integer,intent(out),optional     :: iostat
+integer                          :: iostat_local
+character(len=4096)              :: message
+
+integer,parameter                :: buflen=1024
+character(len=:),allocatable     :: line_local
+character(len=buflen)            :: buffer
+integer                          :: isize
+integer                          :: lun_local
+
+   line_local=''
+   iostat_local=0
+   if(present(lun))then
+      lun_local=lun
+   else
+      lun_local=stdin
+   endif
+
+   INFINITE: do                               ! read characters from line and append to result
+      read(lun_local,pad='yes',iostat=iostat_local,fmt='(a)',advance='no', &
+      & size=isize,iomsg=message) buffer      ! read next buffer (might use stream I/O for files
+                                              ! other than stdin so system line limit is not limiting
+      if(isize > 0)line_local=line_local//buffer(:isize)    ! append what was read to result
+      if(is_iostat_eor(iostat_local))then     ! if hit EOR reading is complete unless backslash ends the line
+         iostat_local=0                       ! hitting end of record is not an error for this routine
+         exit INFINITE                        ! end of reading line
+     elseif(iostat_local /= 0)then            ! end of file or error
+        line=trim(message)
+        exit INFINITE
+     endif
+   enddo INFINITE
+   line=line_local                            ! trim line
+   if(present(iostat))iostat=iostat_local
+end function readline
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================

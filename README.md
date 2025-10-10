@@ -1,17 +1,13 @@
 ## Note:
-The intent is for the M_unicode module to be useful on many platforms, but
-currently it is primarily [tested](TEST.md) with GCC/gfortran, Intel/ifx
-and flang on Linux and Cygwin
-
 The UDDTIO (User-Defined Derived-Type Input/Output) procedures for use
 with the DT edit descriptor are still undergoing development.
 
 # M_unicode module 
 [![M_unicode module](docs/images/Phaistos_Disk_sideA.jpg)](https://github.com/urbanjost/M_unicode/releases/tag/v1.0.0)
 
-The **M_unicode** module provides support for directly operating on byte
-streams representing UTF-8 encoded text. ASCII-7 being a subset of UTF-8
-the procedures work with standard ASCII-7 text as well.
+The **M_unicode** module provides support for many string methods directly
+operating on byte streams representing UTF-8 encoded text. ASCII-7 being
+a subset of UTF-8 the procedures work with standard ASCII-7 text as well.
 
 A user-defined type called **unicode_type** provides an object-oriented
 interface supporting ragged arrays of strings and Unicode codepoints.
@@ -104,7 +100,10 @@ Unicode using 4-byte-per-character UCS-4 encoding for characters/glyphs,
 including an ability to automatically encode and decode data read and
 written to UTF-8 files.
 
-__But Unicode support is optional.__
+__But Unicode ISO-10646 support is optional, ragged string arrays are
+not supported as intrinsic types, no OOP interface is provided for the
+intrinsic methods and there are no functions provided to convert from
+UCS-4 to UTF-8 byte streams accept via reading and writing to files.__
 
 Where Unicode __is__ supported (ie. where CHARACTER(KIND="ISO_10646")
 is provided)
@@ -112,11 +111,11 @@ The [M_utf8](https://github.com/urbanjost/M_utf8) repository
 supplements Unicode usage -- emphasizing adherence to the standard to
 promote portability.
 
-When the compiler does __not__ support CHARACTER(KIND="ISO_10646") it
-still may support UTF-8 source files and permit entering multi-byte
-Unicode characters in comments and (more importantly) in constant
-strings. This is now very common, as nearly all current operating systems
-and many applications support UTF-8 text files.
+When the compiler does __not__ support CHARACTER(KIND="ISO_10646")
+it still may support UTF-8 source files and permit entering multi-byte
+Unicode characters in comments and (more importantly) in constant strings
+and data. This support is now very common, as nearly all current operating
+systems and many applications support UTF-8 text files.
 
 But whether in input and output files, or as what-you-see-is-what-you-get
 character constants the compiler will see this text as byte streams,
@@ -126,7 +125,7 @@ So it may often be easy to place Unicode characters in fixed messages,
 but if the text needs manipulated or processed in any way dealing with
 Unicode as a raw series of 8-bit-bytes becomes complex and non-intuitive.
 
-To keep processing of Unicode as simple as processing ASCII-7
+To keep processing of Unicode as simple as it is to process ASCII-7
 characters the **M_unicode** module provides a user-defined type named
 **UNICODE_TYPE** and a number of procedures for converting byte streams
 that represent UTF8-encoded text into Unicode code points (ie, 32-bit
@@ -167,7 +166,7 @@ characters to be represented in comments and character constants.
 
 But it is up to the processor whether it supports or even allows
 UTF-8 files.  In the past when UTF-8 file support was rare this meant
-using UTF-8 multi-byte characters in source files was likely to be very
+using UTF-8 multi-byte characters in source files was likely to be
 non-portable.  Now that UTF-8 files are supported on most systems this
 extension can be useful, particularly with compilers that do not support
 UCS-4 yet.
@@ -217,7 +216,7 @@ represent Unicode characters. If they are just to be read and written
 as-is as in the previous example program that is not a major concern;
 but if you are manipulating or processing the strings in significant
 ways you probably want to load the **M_unicode** module and convert the
-strings to TYPE(UNICODE_TYPE)
+strings to TYPE(UNICODE_TYPE).
 
 ![gmake](docs/images/gnu.gif)
 ## Download and Build with Make(1)
