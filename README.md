@@ -31,10 +31,16 @@ use M_unicode, only : character
 use M_unicode, only : &
    adjustl,  adjustr,   trim,    len,     len_trim,  &
    index,    scan,      verify,  repeat,  ichar,     &          
-   split,    tokenize,  upper,   lower,   sort,      &
-   pad,      join
+   split,    tokenize  
+
+! additional methods
+use M_unicode, only : &
+   upper,   lower,   sort,  expandtabs,     &
+   pad,      join,   fmt
 
 ! operators (and overloads) and assignment
+! using Unicode codepoints (NOT dictionary order)
+
 use M_unicode, only : assignment(=)
 use M_unicode, only : operator(<=), lle
 use M_unicode, only : operator(<),  llt

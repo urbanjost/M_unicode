@@ -1,12 +1,12 @@
      program demo_join
-     use M_unicode, only: join, ut=>unicode_type, ch=>character, assignment(=)
-     !use M_unicode, only: write(formatted)
+     use M_unicode,  only : join, ut=>unicode_type, ch=>character, assignment(=)
+     !use M_unicode, only : write(formatted)
      implicit none
-     character(len=*),parameter :: w='((g0,/,g0))'
-     !character(len=*),parameter :: v='((g0,/,DT))'
+     character(len=*),parameter    :: w='((g0,/,g0))'
+     !character(len=*),parameter   :: v='((g0,/,DT))'
      character(len=20),allocatable :: proverb(:)
-     type(ut),allocatable       :: s(:)
-     type(ut),allocatable       :: sep
+     type(ut),allocatable          :: s(:)
+     type(ut),allocatable          :: sep
        proverb=[ character(len=13) :: &
          & ' United'       ,&
          & '  we'          ,&

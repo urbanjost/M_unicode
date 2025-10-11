@@ -38,7 +38,7 @@ type(unicode_type) :: UT_bom
    write(stdout,'(a)') &
 
     ! Note: making the first line a comment precludes it being a cpp(1) directive
-    !       preventing the direcive from failing because something precedes the "#"
+    !       preventing the directive from failing because something precedes the "#"
     '!fortran ',&
     'program testit ! Unicode BOM encoded to utf-8 bytes by Fortran' ,&
     '   write(*,*)"This source file starts with BOM character"',&

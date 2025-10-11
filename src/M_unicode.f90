@@ -102,7 +102,11 @@
 ! 
 !    NUMERIC STRINGS
 ! 
+!     fmt       convert intrinsic to string using optional format
+! 
 !    CHARACTER TESTS
+! 
+!     ! based on Unicode codepoint, not dictionary order
 ! 
 !     lgt           Lexical greater than
 !     lge           Lexical greater than or equal
@@ -127,6 +131,7 @@
 !     scan          Scan a string for the presence of a set
 !                   of characters
 !     verify        Scan a string for the absence of a set of characters
+!     sort          Sort by Unicode codepoint value (not dictionary order)
 ! 
 !    OOPS INTERFACE
 ! 
@@ -246,6 +251,7 @@ public :: character
 public :: sort
 public :: upper, lower
 public :: expandtabs
+public :: fmt
 public :: replace
 public :: pad
 public :: join
@@ -358,6 +364,7 @@ contains
    procedure :: upper      => oop_upper
    procedure :: lower      => oop_lower
    procedure :: expandtabs => oop_expandtabs
+   procedure :: fmt        => oop_fmt
 
    procedure :: sub        => oop_sub
    procedure :: replace    => oop_replace
@@ -3477,20 +3484,22 @@ end function replace
 !   Sample program:
 ! 
 !    program demo_join
-!    use M_unicode, only: join, ut=>unicode_type, ch=>character, assignment(=)
-!    !use M_unicode, only: write(formatted)
+!    use M_unicode,  only : join, ut=>unicode_type, ch=>character, assignment(=)
+!    !use M_unicode, only : write(formatted)
 !    implicit none
 !    character(len=*),parameter    :: w='((g0,/,g0))'
 !    !character(len=*),parameter   :: v='((g0,/,DT))'
 !    character(len=20),allocatable :: proverb(:)
 !    type(ut),allocatable          :: s(:)
 !    type(ut),allocatable          :: sep
+! 
 !      proverb=[ character(len=13) :: &
 !        & ' United'       ,&
 !        & '  we'          ,&
 !        & '   stand,'     ,&
 !        & '    divided'   ,&
 !        & '     we fall.' ]
+! 
 !      allocate(s(size(proverb))) ! avoid GNU Fortran (GCC) 16.0.0 bug
 !      s=proverb
 !      write(*,w) 'SIMPLE JOIN:         ', ch( join(s)                )
@@ -4107,6 +4116,13 @@ end function expandtabs
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
+function oop_fmt(self,format) result (string_out)
+class(unicode_type),intent(in)     :: self
+character(len=*),optional          :: format
+type(unicode_type)                 :: string_out
+   string_out=fmt(self,format)
+end function oop_fmt
+!===================================================================================================================================
 function oop_expandtabs(self,tab_size) result (string_out)
 class(unicode_type),intent(in)     :: self
 integer,intent(in),optional        :: tab_size
@@ -4460,6 +4476,274 @@ integer                          :: lun_local
    line=line_local                            ! trim line
    if(present(iostat))iostat=iostat_local
 end function readline
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
+! 
+! NAME
+!     fmt(3f) - [M_unicode:TYPE] convert any intrinsic to a string using specified format
+!     (LICENSE:PD)
+! SYNOPSIS
+! 
+!     function fmt(value,format) result(string)
+! 
+!      class(*),intent(in),optional         :: value
+!      character(len=*),intent(in),optional :: format
+!      type(unicode_type)                   :: string
+! DESCRIPTION
+!     FMT(3f) converts any standard intrinsic value to a string using the specified
+!     format.
+! OPTIONS
+!     value    value to print the value of. May be of type INTEGER, LOGICAL,
+!              REAL, DOUBLEPRECISION, COMPLEX, or CHARACTER as well as
+!              TYPE(UNICODE_TYPE).
+!     format   format to use to print value. It is up to the user to use an
+!              appropriate format. The format does not require being
+!              surrounded by parenthesis. If not present a default is selected
+!              similar to what would be produced with free format, with
+!              trailing zeros removed.
+! RETURNS
+!     string   A string value
+! EXAMPLES
+! 
+!    Sample program:
+! 
+!      program demo_fmt
+!      use :: M_unicode, only : fmt
+!      implicit none
+!      character(len=:),allocatable :: Aoutput
+!      type(unicode_type) :: Uoutput
+! 
+!         Aoutput=fmt(10,"'[',i0,']'")
+!         write(*,*)'result is ',Aoutput
+! 
+!         Aoutput=fmt(10.0/3.0,"'[',g0.5,']'")
+!         write(*,*)'result is ',Aoutput
+! 
+!         Aoutput=fmt(.true.,"'The final answer is [',g0,']'")
+!         write(*,*)'result is ',Aoutput
+! 
+!      end program demo_fmt
+! 
+!    Results:
+! 
+!      result is [10]
+!      result is [3.3333]
+!      result is The final answer is [T]
+! 
+! AUTHOR
+!     John S. Urban
+! 
+! LICENSE
+!     MI
+recursive function fmt(generic,format) result (line)
+
+!@(#) M_unicode fmt(3f) convert any intrinsic to a string using specified format
+
+class(*),intent(in)                  :: generic
+character(len=*),intent(in),optional :: format
+type(unicode_type)                   :: line
+character(len=:),allocatable         :: aline
+character(len=:),allocatable         :: fmt_local
+character(len=:),allocatable         :: re,im
+integer                              :: iostat
+character(len=255)                   :: iomsg
+character(len=1),parameter           :: null=char(0)
+integer                              :: iilen
+logical                              :: trimit
+   if(present(format))then
+      fmt_local=format
+      trimit=.false.
+   else
+      fmt_local=''
+      trimit=.true.
+   endif
+   ! add ",a" and print null and use position of null to find length of output
+   ! add cannot use SIZE= or POS= or ADVANCE='NO' on WRITE() on INTERNAL READ,
+   ! and do not want to trim as trailing spaces can be significant
+   if(fmt_local == '')then
+      select type(generic)
+         type is (integer(kind=int8));     fmt_local='(i0,a)'
+         type is (integer(kind=int16));    fmt_local='(i0,a)'
+         type is (integer(kind=int32));    fmt_local='(i0,a)'
+         type is (integer(kind=int64));    fmt_local='(i0,a)'
+         type is (real(kind=real32));      fmt_local='(1pg0,a)'
+         type is (real(kind=real64));      fmt_local='(1pg0,a)'
+#ifdef FLOAT128
+         type is (real(kind=real128));     fmt_local='(1pg0,a)'
+#endif
+         type is (logical);                fmt_local='(l1,a)'
+         type is (character(len=*));       fmt_local='(a,a)'
+         type is (unicode_type);           fmt_local='(a,a)'
+         type is (complex);                fmt_local='("(",1pg0,",",1pg0,")",a)'
+         type is (complex(kind=real64));   fmt_local='("(",1pg0,",",1pg0,")",a)'
+         class default
+          fmt_local='(*(g0,1x)'
+          stop '<ERROR>*fmt* unknown type.'
+      end select
+   else
+      if(format(1:1) == '(')then
+         fmt_local=format(:len_trim(format)-1)//',a)'
+      else
+         fmt_local='('//fmt_local//',a)'
+      endif
+   endif
+   allocate(character(len=256) :: aline) ! cannot currently write into allocatable variable
+   iostat=0
+   select type(generic)
+     type is (integer(kind=int8));  write(aline,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
+     type is (integer(kind=int16)); write(aline,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
+     type is (integer(kind=int32)); write(aline,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
+     type is (integer(kind=int64)); write(aline,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
+     type is (real(kind=real32));   write(aline,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
+     type is (real(kind=real64));   write(aline,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
+#ifdef FLOAT128
+     type is (real(kind=real128));  write(aline,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
+#endif
+     type is (logical);             write(aline,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
+     type is (character(len=*));    write(aline,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
+     type is (unicode_type);        write(aline,fmt_local,iostat=iostat,iomsg=iomsg) character(generic),null
+     type is (complex);
+              if(trimit)then
+                 re=fmt(real(generic))
+                 im=fmt(aimag(generic))
+                 call trimzeros_(re)
+                 call trimzeros_(im)
+                 fmt_local='("(",g0,",",g0,")",a)'
+                 write(aline,fmt_local,iostat=iostat,iomsg=iomsg) trim(re),trim(im),null
+                 trimit=.false.
+              else
+                 write(aline,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
+              endif
+     type is (complex(kind=real64));
+              if(trimit)then
+                 re=fmt(real(generic))
+                 im=fmt(aimag(generic))
+                 call trimzeros_(re)
+                 call trimzeros_(im)
+                 fmt_local='("(",g0,",",g0,")",a)'
+                 write(aline,fmt_local,iostat=iostat,iomsg=iomsg) trim(re),trim(im),null
+                 trimit=.false.
+              else
+                 write(aline,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
+              endif
+     class default
+          stop '<ERROR>*fmt* unknown type'
+   end select
+   if(iostat /= 0)then
+      aline='<ERROR>'//trim(iomsg)
+   else
+      iilen=index(aline,null,back=.true.)
+      if(iilen == 0)iilen=len(aline)
+      aline=aline(:iilen-1)
+   endif
+
+   if(index(aline,'.') /= 0 .and. trimit) call trimzeros_(aline)
+   line=aline
+
+end function fmt
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
+! 
+! NAME
+!     trimzeros_(3fp) - [M_strings:TYPE] Delete trailing zeros from
+!     numeric decimal string
+!     (LICENSE:PD)
+! 
+! SYNOPSIS
+! 
+!     subroutine trimzeros_(str)
+! 
+!      character(len=*)  :: str
+! 
+! DESCRIPTION
+!     TRIMZEROS_(3f) deletes trailing zeros from a string representing a
+!     number. If the resulting string would end in a decimal point, one
+!     trailing zero is added.
+! 
+! OPTIONS
+!     str   input string will be assumed to be a numeric value and have
+!           trailing zeros removed
+! EXAMPLES
+! 
+!     Sample program:
+! 
+!        program demo_trimzeros_
+!        !use M_strings, only : trimzeros_
+!        character(len=:),allocatable :: string
+!           string= '123.450000000000'
+!           call trimzeros_(string)
+!           write(*,*)string
+!           string='12345'
+!           call trimzeros_(string)
+!           write(*,*)string
+!           string='12345.'
+!           call trimzeros_(string)
+!           write(*,*)string
+!           string='12345.00e3'
+!           call trimzeros_(string)
+!           write(*,*)string
+!        end program demo_trimzeros_
+! 
+!    Results:
+! 
+!      > 123.45
+!      > 12345
+!      > 12345
+!      > 12345e3
+! 
+! AUTHOR
+!     John S. Urban
+! 
+! LICENSE
+!     MI
+subroutine trimzeros_(string)
+
+! @(#) M_strings trimzeros_(3fp) Delete trailing zeros from numeric decimal string
+
+! if zero needs added at end assumes input string has room
+character(len=*)               :: string
+character(len=len(string) + 2) :: str
+character(len=len(string))     :: eexp        ! the exponent string if present
+integer                        :: ipos       ! where exponent letter appears if present
+integer                        :: i, ii
+intrinsic scan, index, len_trim
+   str = string                              ! working copy of string
+   ipos = scan(str, 'eEdD')                  ! find end of real number if string uses exponent notation
+   if (ipos > 0) then                        ! letter was found
+      eexp = str(ipos:)                      ! keep exponent string so it can be added back as a suffix
+      str = str(1:ipos - 1)                  ! just the real part, exponent removed will not have trailing zeros removed
+   endif
+   if (index(str, '.') == 0) then            ! if no decimal character in original string add one to end of string
+      ii = len_trim(str)
+      str(ii + 1:ii + 1) = '.'               ! add decimal to end of string
+   endif
+   do i = len_trim(str), 1, -1               ! scanning from end find a non-zero character
+      select case (str(i:i))
+      case ('0')                             ! found a trailing zero so keep trimming
+         cycle
+      case ('.')                             ! found a decimal character at end of remaining string
+         if (i <= 1) then
+            str = '0'
+         else
+            str = str(1:i - 1)
+         endif
+         exit
+      case default
+         str = str(1:i)                      ! found a non-zero character so trim string and exit
+         exit
+      end select
+   end do
+   if (ipos > 0) then                        ! if originally had an exponent place it back on
+      string = trim(str)//trim(eexp)
+   else
+      string = str
+   endif
+end subroutine trimzeros_
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
