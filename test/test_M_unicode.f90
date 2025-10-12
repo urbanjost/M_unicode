@@ -13,6 +13,7 @@ use M_unicode, only : ichar
 use M_unicode, only : replace
 use M_unicode, only : pad
 use M_unicode, only : join
+use M_unicode, only : fmt, afmt
 
 use M_unicode, only : assignment(=), unicode_type, operator(//)
 use M_unicode, only : operator(<=), lle
@@ -26,6 +27,7 @@ use M_unicode, only : character
 use M_unicode, only : utf8_to_codepoints,  codepoints_to_utf8
 
 use M_unicode, only : ut => unicode_type
+use M_unicode, only : ch => character
 
 implicit none
 character(len=*),parameter :: g0='(*(g0))'
@@ -294,6 +296,26 @@ integer                      :: i
    expected="thisismystring"
    call check('expandtabs',in%expandtabs(tab_size=0).eq.expected,character(in%expandtabs(tab_size=0)))
 end subroutine test_expandtabs
+
+subroutine test_fmt()
+
+  call  add('INTEGER',  fmt(10),            '10'       )
+  call  add('LOGICAL',  fmt(.false.),       'F'        )
+  call  add('LOGICAL',  fmt(.true.),        'T'        )
+  call  add('REAL',     fmt(100.0),         '100'      )
+  call  add('COMPLEX',  fmt((11.0,22.0)),   '(11,22)'  )
+  call  add('REAL',     fmt(100.0,'f0.2'),  '100.00'   )
+
+contains
+
+subroutine add(message,question,answer)
+character(len=*),intent(in)   :: message
+type(ut),intent(in)           :: question
+character(len=*),intent(in)   :: answer
+  call check('fmt',question.eq.answer,'testing '//message//' expected '//answer//' got '//ch(question))
+end subroutine add
+
+end subroutine test_fmt
 
 subroutine test_upper()
 type(unicode_type) :: upp, low, temp
@@ -851,6 +873,7 @@ use testsuite_M_unicode
    call test_pad()
    call test_join()
    call test_expandtabs()
+   call test_fmt()
    call test_other()
 
    write(*,g0)

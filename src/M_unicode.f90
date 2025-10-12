@@ -71,10 +71,13 @@
 !     upper   function converts string to uppercase
 !     lower   function converts string to miniscule
 ! 
-!    STRING LENGTH AND PADDING
+!    STRING LENGTH
 ! 
 !     len        return the length of a character string in glyphs
 !     len_trim   find location of last non-whitespace character
+! 
+!    PADDING
+! 
 !     pad        pad string to at least specified length with pattern string
 ! 
 !    WHITE SPACE
@@ -251,7 +254,7 @@ public :: character
 public :: sort
 public :: upper, lower
 public :: expandtabs
-public :: fmt
+public :: fmt, afmt
 public :: replace
 public :: pad
 public :: join
@@ -288,6 +291,10 @@ end interface verify
 interface scan
    module procedure :: uscan
 end interface scan
+
+interface fmt
+   module procedure :: fmt_ga, fmt_gs
+end interface fmt
 
 interface tokenize
    module procedure :: split_first_last, split_pos, split_tokens
@@ -4509,19 +4516,22 @@ end function readline
 !    Sample program:
 ! 
 !      program demo_fmt
-!      use :: M_unicode, only : fmt
+!      use :: M_unicode, only : ut=>unicode_type, assignment(=)
+!      use :: M_unicode, only : fmt, ch=>character
 !      implicit none
 !      character(len=:),allocatable :: Aoutput
-!      type(unicode_type) :: Uoutput
+!      type(ut)                     :: Uoutput
 ! 
+!         ! LHS may be character, unicode_type, or integer array
 !         Aoutput=fmt(10,"'[',i0,']'")
 !         write(*,*)'result is ',Aoutput
 ! 
-!         Aoutput=fmt(10.0/3.0,"'[',g0.5,']'")
+!         ! FORMAT may be CHARACTER or UNICODE_TYPE
+!         Aoutput=fmt(10.0/3.0,ut("'[',g0.5,']'"))
 !         write(*,*)'result is ',Aoutput
 ! 
-!         Aoutput=fmt(.true.,"'The final answer is [',g0,']'")
-!         write(*,*)'result is ',Aoutput
+!         Uoutput=fmt(.true.,"'The final answer is [',g0,']'")
+!         write(*,*)'result is ',ch(Uoutput)
 ! 
 !      end program demo_fmt
 ! 
@@ -4536,14 +4546,13 @@ end function readline
 ! 
 ! LICENSE
 !     MI
-recursive function fmt(generic,format) result (line)
+recursive function afmt(generic,format) result (line)
 
-!@(#) M_unicode fmt(3f) convert any intrinsic to a string using specified format
+!@(#) M_unicode afmt(3f) convert any intrinsic to a CHARACTER variable using specified format
 
 class(*),intent(in)                  :: generic
 character(len=*),intent(in),optional :: format
-type(unicode_type)                   :: line
-character(len=:),allocatable         :: aline
+character(len=:),allocatable         :: line
 character(len=:),allocatable         :: fmt_local
 character(len=:),allocatable         :: re,im
 integer                              :: iostat
@@ -4579,7 +4588,7 @@ logical                              :: trimit
          type is (complex(kind=real64));   fmt_local='("(",1pg0,",",1pg0,")",a)'
          class default
           fmt_local='(*(g0,1x)'
-          stop '<ERROR>*fmt* unknown type.'
+          stop '<ERROR>*afmt* unknown type.'
       end select
    else
       if(format(1:1) == '(')then
@@ -4588,60 +4597,80 @@ logical                              :: trimit
          fmt_local='('//fmt_local//',a)'
       endif
    endif
-   allocate(character(len=256) :: aline) ! cannot currently write into allocatable variable
+   allocate(character(len=256) :: line) ! cannot currently write into allocatable variable
    iostat=0
    select type(generic)
-     type is (integer(kind=int8));  write(aline,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
-     type is (integer(kind=int16)); write(aline,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
-     type is (integer(kind=int32)); write(aline,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
-     type is (integer(kind=int64)); write(aline,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
-     type is (real(kind=real32));   write(aline,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
-     type is (real(kind=real64));   write(aline,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
+     type is (integer(kind=int8));  write(line,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
+     type is (integer(kind=int16)); write(line,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
+     type is (integer(kind=int32)); write(line,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
+     type is (integer(kind=int64)); write(line,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
+     type is (real(kind=real32));   write(line,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
+     type is (real(kind=real64));   write(line,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
 #ifdef FLOAT128
-     type is (real(kind=real128));  write(aline,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
+     type is (real(kind=real128));  write(line,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
 #endif
-     type is (logical);             write(aline,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
-     type is (character(len=*));    write(aline,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
-     type is (unicode_type);        write(aline,fmt_local,iostat=iostat,iomsg=iomsg) character(generic),null
+     type is (logical);             write(line,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
+     type is (character(len=*));    write(line,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
+     type is (unicode_type);        write(line,fmt_local,iostat=iostat,iomsg=iomsg) character(generic),null
      type is (complex);
-              if(trimit)then
-                 re=fmt(real(generic))
-                 im=fmt(aimag(generic))
-                 call trimzeros_(re)
-                 call trimzeros_(im)
-                 fmt_local='("(",g0,",",g0,")",a)'
-                 write(aline,fmt_local,iostat=iostat,iomsg=iomsg) trim(re),trim(im),null
-                 trimit=.false.
-              else
-                 write(aline,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
-              endif
+        if(trimit)then
+           re=afmt(real(generic))
+           im=afmt(aimag(generic))
+           call trimzeros_(re)
+           call trimzeros_(im)
+           fmt_local='("(",g0,",",g0,")",a)'
+           write(line,fmt_local,iostat=iostat,iomsg=iomsg) trim(re),trim(im),null
+           trimit=.false.
+        else
+           write(line,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
+        endif
      type is (complex(kind=real64));
-              if(trimit)then
-                 re=fmt(real(generic))
-                 im=fmt(aimag(generic))
-                 call trimzeros_(re)
-                 call trimzeros_(im)
-                 fmt_local='("(",g0,",",g0,")",a)'
-                 write(aline,fmt_local,iostat=iostat,iomsg=iomsg) trim(re),trim(im),null
-                 trimit=.false.
-              else
-                 write(aline,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
-              endif
+        if(trimit)then
+           re=afmt(real(generic))
+           im=afmt(aimag(generic))
+           call trimzeros_(re)
+           call trimzeros_(im)
+           fmt_local='("(",g0,",",g0,")",a)'
+           write(line,fmt_local,iostat=iostat,iomsg=iomsg) trim(re),trim(im),null
+           trimit=.false.
+        else
+           write(line,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
+        endif
      class default
-          stop '<ERROR>*fmt* unknown type'
+        stop '<ERROR>*afmt* unknown type'
    end select
    if(iostat /= 0)then
-      aline='<ERROR>'//trim(iomsg)
+      line='<ERROR>'//trim(iomsg)
    else
-      iilen=index(aline,null,back=.true.)
-      if(iilen == 0)iilen=len(aline)
-      aline=aline(:iilen-1)
+      iilen=index(line,null,back=.true.)
+      if(iilen == 0)iilen=len(line)
+      line=line(:iilen-1)
    endif
 
-   if(index(aline,'.') /= 0 .and. trimit) call trimzeros_(aline)
-   line=aline
+   if(index(line,'.') /= 0 .and. trimit) call trimzeros_(line)
 
-end function fmt
+end function afmt
+!===================================================================================================================================
+recursive function fmt_ga(generic,format) result (line)
+
+!@(#) M_unicode afmt(3f) convert any intrinsic to a CHARACTER variable using specified format
+
+class(*),intent(in)                  :: generic
+character(len=*),intent(in),optional :: format
+type(unicode_type)                   :: line
+line=afmt(generic,format)
+end function fmt_ga
+recursive function fmt_gs(generic,format) result (line)
+
+!@(#) M_unicode afmt(3f) convert any intrinsic to a CHARACTER variable using specified format
+
+class(*),intent(in)                    :: generic
+type(unicode_type),intent(in)          :: format
+type(unicode_type)                     :: line
+character(len=:),allocatable           :: aformat
+   aformat=format
+   line=afmt(generic,aformat)
+end function fmt_gs
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
