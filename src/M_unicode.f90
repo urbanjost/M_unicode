@@ -54,7 +54,7 @@
 ! 
 ! SYNOPSIS
 ! 
-!   public entities:
+!   public methods:
 ! 
 !    TOKENS
 ! 
@@ -102,6 +102,7 @@
 ! 
 !     char      converts an integer codepoint into a character
 !     ichar     converts a character into an integer codepoint
+!     escape    expand C-like escape strings
 ! 
 !    NUMERIC STRINGS
 ! 
@@ -251,14 +252,16 @@ private
 public :: unicode_type
 public :: utf8_to_codepoints,  codepoints_to_utf8
 public :: character
-public :: sort
-public :: upper, lower
-public :: expandtabs
-public :: fmt, afmt
-public :: replace
-public :: pad
-public :: join
-public :: readline
+ public :: sort
+ public :: upper, lower
+ public :: expandtabs
+ public :: expand
+ public :: fmt
+public :: afmt
+ public :: replace
+ public :: pad
+ public :: join
+ public :: readline
 
 public :: adjustl, adjustr, index, len, len_trim, repeat, trim
 public :: split, tokenize
@@ -371,6 +374,7 @@ contains
    procedure :: upper      => oop_upper
    procedure :: lower      => oop_lower
    procedure :: expandtabs => oop_expandtabs
+   procedure :: expand     => oop_expand
    procedure :: fmt        => oop_fmt
 
    procedure :: sub        => oop_sub
@@ -2056,7 +2060,7 @@ end subroutine utf8_to_codepoints_chars
 !===================================================================================================================================
 pure function a2s(array)  result (string)
 
-! @(#) M_strs a2s(3fp) function to copy char array to string
+!@(#) M_unicode::a2s(3fp): function to copy char array to string
 
 character(len=1),intent(in) :: array(:)
 character(len=SIZE(array))  :: string
@@ -2071,7 +2075,7 @@ end function a2s
 !===================================================================================================================================
 pure function s2a(string)  RESULT (array)
 
-! @(#) M_strs s2a(3fp) function to copy string(1 Clen(string)) to char array
+!@(#) M_unicode::s2a(3fp): function to copy string(1 Clen(string)) to char array
 
 character(len=*),intent(in) :: string
 character(len=1)            :: array(len(string))
@@ -3006,7 +3010,7 @@ end function index_char_str
 !==================================================================================================================================!
 subroutine sort_quick_rx(data,indx)
 
-! ident_30="@(#) M_unicode sort_quick_rx(3f) indexed hybrid quicksort of a type(unicode_type) array"
+!@(#) M_unicode::sort_quick_rx(3f): indexed hybrid quicksort of a type(unicode_type) array
 
 type(unicode_type),intent(in)   :: data(:)
 integer(kind=int32),intent(out) :: indx(:)
@@ -3183,7 +3187,7 @@ end subroutine sort_quick_rx
 !===================================================================================================================================
 impure elemental function reverse(string) result (rev)
 
-! ident_22="@(#) M_unicode reverse(3f) Return a string reversed"
+!@(#) M_unicode::reverse(3f): Return a string reversed
 
 type(unicode_type),intent(in)  :: string   ! string to reverse
 type(unicode_type)             :: rev      ! return value (reversed string)
@@ -3308,7 +3312,7 @@ end function reverse
 !    MI
 function replace(target,old,new,force_,occurrence,repeat,ignorecase,changes,back) result (newline)
 
-! ident_12="@(#) M_unicode replace(3f) replace one substring for another in string"
+!@(#) M_unicode::replace(3f): replace one substring for another in string
 
 ! parameters
 type(unicode_type),intent(in)            :: target     ! input line to be changed
@@ -3550,7 +3554,7 @@ end function replace
 !     MI
 pure function join(str,sep,clip) result (string)
 
-!@(#) M_unicode join(3f) merge string array into a single string value adding specified separator
+!@(#) M_unicode join(3f): merge string array into a single string value adding specified separator
 
 type(unicode_type),intent(in)          :: str(:)
 type(unicode_type),intent(in),optional :: sep
@@ -3584,9 +3588,112 @@ end function join
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
+! 
+! NAME
+!  upper(3f) - [M_unicode:CASE] changes a string to uppercase
+!  (LICENSE:PD)
+! 
+! SYNOPSIS
+! 
+!     elemental pure function upper(str) result (string)
+! 
+!      character(*), intent(in)    :: str
+!      character(len(str))         :: string  ! output string
+! 
+! DESCRIPTION
+!    upper(string) returns a copy of the input string with all characters
+!    converted to uppercase, assuming Unicode character sets are being used.
+! 
+! OPTIONS
+!     str    string to convert to uppercase
+! 
+! RETURNS
+!     upper  copy of the input string with all characters converted to
+!            uppercase.
+! 
+! TRIVIA
+!     The terms "uppercase" and "lowercase" date back to the early days of
+!     the mechanical printing press. Individual metal alloy casts of each
+!     needed letter, or punctuation symbol, were meticulously added to a
+!     press block, by hand, before rolling out copies of a page. These
+!     metal casts were stored and organized in wooden cases. The more
+!     often needed miniscule letters were placed closer to hand, in the
+!     lower cases of the work bench. The less often needed, capitalized,
+!     majuscule letters, ended up in the harder to reach upper cases.
+! 
+! EXAMPLES
+! 
+!   Sample program:
+! 
+!    program demo_upper
+!    use iso_fortran_env, only : stdout => output_unit
+!    use M_unicode,       only : upper, unicode_type, assignment(=)
+!    use M_unicode,       only : ut => unicode_type, operator(==)
+!    implicit none
+!    character(len=*),parameter :: g='(*(g0))'
+!    type(unicode_type)         :: pangram
+!    type(unicode_type)         :: diacritics
+!    type(unicode_type)         :: expected
+! 
+!       ! a sentence containing every letter of the English alphabet
+!       ! often used to test telegraphs since the advent of the 19th century
+!       ! and as an exercise repetitively generated in typing classes
+!       pangram  = "The quick brown fox jumps over the lazy dog."
+!       expected = "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG."
+!       call test(pangram,expected)
+! 
+!       ! Slovak pangram
+!       pangram    = 'Vypätá dcéra grófa Maxwella s IQ nižším ako &
+!       &kôň núti čeľaď hrýzť hŕbu jabĺk.'
+!       expected   = 'VYPÄTÁ DCÉRA GRÓFA MAXWELLA S IQ NIŽŠÍM AKO &
+!       &KÔŇ NÚTI ČEĽAĎ HRÝZŤ HŔBU JABĹK.'
+!       call test(pangram,expected)
+! 
+!       ! contains each special Czech letter with diacritics exactly once
+!       print g,'("A horse that was too yellow-ish moaned devilish odes")'
+!       diacritics = 'Příliš žluťoučký kůň úpěl ďábelské ódy.'
+!       expected   = 'PŘÍLIŠ ŽLUŤOUČKÝ KŮŇ ÚPĚL ĎÁBELSKÉ ÓDY.'
+!       call test(diacritics,expected)
+! 
+!    contains
+!    subroutine test(in,expected)
+!    type(unicode_type),intent(in) :: in
+!    type(unicode_type),intent(in) :: expected
+!    type(unicode_type)            :: uppercase
+!    character(len=*),parameter    :: nl=new_line('A')
+!       write(stdout,g)in%character()
+!       uppercase=upper(in)
+!       write(stdout,g)uppercase%character()
+!       write(stdout,g)merge('PASSED','FAILED',uppercase == expected ),nl
+!    end subroutine test
+! 
+!    end program demo_upper
+! 
+!  Expected output
+! 
+!   > The quick brown fox jumps over the lazy dog.
+!   > THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG.
+!   > PASSED
+!   >
+!   > Vypätá dcéra grófa Maxwella s IQ nižším ako kôň núti ...
+!   > čeľaď hrýzť hŕbu jabĺk.
+!   > VYPÄTÁ DCÉRA GRÓFA MAXWELLA S IQ NIŽŠÍM AKO KÔŇ NÚTI ...
+!   > ČEĽAĎ HRÝZŤ HŔBU JABĹK.
+!   > PASSED
+!   >
+!   > ("A horse that was too yellow-ish moaned devilish odes")
+!   > Příliš žluťoučký kůň úpěl ďábelské ódy.
+!   > PŘÍLIŠ ŽLUŤOUČKÝ KŮŇ ÚPĚL ĎÁBELSKÉ ÓDY.
+!   > PASSED
+! 
+! AUTHOR
+!     John S. Urban
+! 
+! LICENSE
+!     MI
 elemental pure function upper(str) result (string)
 
-! ident_25="@(#) M_unicode upper(3f) returns an uppercase string"
+!@(#) M_unicode::upper(3f): returns an uppercase string
 
 type(unicode_type),intent(in) :: str                 ! input string to convert to all uppercase
 type(unicode_type)            :: string              ! output string that contains no miniscule letters
@@ -3612,9 +3719,113 @@ integer,parameter             :: diff = iachar('A') - iachar('a')
 
 end function upper
 
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
+! 
+! NAME
+!     lower(3f) - [M_unicode:CASE] changes a string to lowercase over
+!     specified range
+!     (LICENSE:PD)
+! 
+! SYNOPSIS
+! 
+!     elemental pure function lower(str) result (string)
+! 
+!      character(*), intent(in) :: str
+!      character(len(str))      :: string  ! output string
+! 
+! DESCRIPTION
+!       lower(str) returns a copy of the input string with all
+!       characters converted to miniscule (ie. "lowercase").
+! 
+! OPTIONS
+!     str    string to convert to miniscule
+! 
+! RETURNS
+!     lower  copy of the entire input string with all characters converted
+!            to miniscule.
+! 
+! TRIVIA
+!    The terms "uppercase" and "lowercase" date back to the early days
+!    of the mechanical printing press. Individual metal alloy casts of
+!    each needed letter or punctuation symbol were meticulously added to a
+!    press block, by hand, before rolling out copies of a page. These metal
+!    casts were stored and organized in wooden cases. The more-often-needed
+!    miniscule letters were placed closer to hand, in the lower cases of
+!    the work bench. The less often needed, capitalized, majuscule letters,
+!    ended up in the harder to reach upper cases.
+! 
+! EXAMPLES
+! 
+!     Sample program:
+! 
+!    program demo_lower
+!    use iso_fortran_env, only : stdout => output_unit
+!    use M_unicode,       only : lower, unicode_type, assignment(=)
+!    use M_unicode,       only : ut => unicode_type, operator(==)
+!    implicit none
+!    character(len=*),parameter :: g='(*(g0))'
+!    type(unicode_type) :: pangram
+!    type(unicode_type) :: diacritics
+!    type(unicode_type) :: expected
+! 
+!       ! a sentence containing every letter of the English alphabet
+!       pangram="THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG"
+!       expected="the quick brown fox jumps over the lazy dog"
+!       call test(pangram,expected)
+! 
+!       ! Slovak pangram
+!       PANGRAM    = 'VYPÄTÁ DCÉRA GRÓFA MAXWELLA S IQ NIŽŠÍM AKO &
+!       &KÔŇ NÚTI ČEĽAĎ HRÝZŤ HŔBU JABĹK.'
+!       expected   = 'vypätá dcéra grófa maxwella s iq nižším ako &
+!       &kôň núti čeľaď hrýzť hŕbu jabĺk.'
+!       call test(pangram,expected)
+! 
+!       ! contains each special Czech letter with diacritics exactly once
+!       DIACRITICS='PŘÍLIŠ ŽLUŤOUČKÝ KŮŇ ÚPĚL ĎÁBELSKÉ ÓDY.'
+!       expected ='příliš žluťoučký kůň úpěl ďábelské ódy.'
+!       print g,'("A horse that was too yellow-ish moaned devilish odes")'
+!       call test(diacritics,expected)
+! 
+!    contains
+!    subroutine test(in,expected)
+!    type(unicode_type),intent(in) :: in
+!    type(unicode_type),intent(in) :: expected
+!    type(unicode_type)            :: lowercase
+!    character(len=*),parameter    :: nl=new_line('A')
+!       write(stdout,g)in%character()
+!       lowercase=lower(in)
+!       write(stdout,g)lowercase%character()
+!       write(stdout,g)merge('PASSED','FAILED',lowercase == expected ),nl
+!    end subroutine test
+!    end program demo_lower
+! 
+!   Expected output
+! 
+!    > THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG
+!    > the quick brown fox jumps over the lazy dog
+!    > PASSED
+!    >
+!    > VYPÄTÁ DCÉRA GRÓFA MAXWELLA S IQ NIŽŠÍM AKO KÔŇ NÚTI ...
+!    > ČEĽAĎ HRÝZŤ HŔBU JABĹK.
+!    > vypätá dcéra grófa maxwella s iq nižším ako kôň núti ...
+!    > čeľaď hrýzť hŕbu jabĺk.
+!    > PASSED
+!    >
+!    > ("A horse that was too yellow-ish moaned devilish odes")
+!    > PŘÍLIŠ ŽLUŤOUČKÝ KŮŇ ÚPĚL ĎÁBELSKÉ ÓDY.
+!    > příliš žluťoučký kůň úpěl ďábelské ódy.
+!    > PASSED
+! 
+! AUTHOR
+!     John S. Urban
+! 
+! LICENSE
+!     MI
 elemental pure function lower(str) result (string)
 
-! ident_25="@(#) M_unicode lower(3f) returns a lowercase string"
+!@(#) M_unicode::lower(3f): returns a lowercase string
 
 type(unicode_type), intent(in) :: str                 ! input string to convert to all lowercase
 type(unicode_type)             :: string              ! output string that contains no miniscule letters
@@ -3801,11 +4012,11 @@ end subroutine split_pos
 ! 
 ! SYNOPSIS
 ! 
-!    function pad(str,length,pattern,right,clip) result(strout)
+!    function pad(str,length,pattern,right,clip) result(out)
 ! 
 !     type(unicode_type)                         :: str
 !     integer,intent(in)                         :: length
-!     type(unicode_type)                         :: strout
+!     type(unicode_type)                         :: out
 !     type(unicode_type),intent(in),optional     :: pattern
 !     logical,intent(in),optional                :: right
 !     logical,intent(in),optional                :: clip
@@ -3825,9 +4036,9 @@ end subroutine split_pos
 !    clip     trim spaces from input string ends. Defaults to .true.
 ! 
 ! RETURNS
-!    strout  The input string padded to the requested length or
-!            the trimmed input string if the input string is
-!            longer than the requested length.
+!    out  The input string padded to the requested length or
+!         the trimmed input string if the input string is
+!         longer than the requested length.
 ! 
 ! EXAMPLES
 ! 
@@ -3924,16 +4135,16 @@ end subroutine split_pos
 ! LICENSE
 !     MI
 !===================================================================================================================================
-function pad(line,length,pattern,right,clip) result(strout)
+impure elemental function pad(line,length,pattern,right,clip) result(out)
 
-!$@(#) M_unicode::pad(3f): return string padded to at least specified length
+!@(#) M_unicode::pad(3f): return string padded to at least specified length
 
 type(unicode_type),intent(in)          :: line
 integer,intent(in)                     :: length
 type(unicode_type),intent(in),optional :: pattern
 logical,optional,intent(in)            :: right
 logical,optional,intent(in)            :: clip
-type(unicode_type)                     :: strout
+type(unicode_type)                     :: out
 logical                                :: local_right
 logical                                :: local_clip
 type(unicode_type)                     :: local_pattern
@@ -3945,7 +4156,7 @@ if(  present(clip)     )then;  local_clip=clip;        else;  local_clip=.true. 
 if(  present(pattern)  )then;  local_pattern=pattern;  else;  local_pattern=' ' ;  endif
 
 if(len(local_pattern) == 0)then
-   strout=line
+   out=line
 else
 
    if(local_clip)then
@@ -3957,20 +4168,17 @@ else
    endif
 
    if(local_right)then
-      strout=local_line//repeat(local_pattern,newlen/len(local_pattern)+1)
+      out=local_line//repeat(local_pattern,newlen/len(local_pattern)+1)
    else
       ! make a line of pattern
-      strout=repeat(local_pattern, ceiling(real(newlen)/len(local_pattern)))
-      strout=strout%sub(1,newlen-len(local_line))//local_line
+      out=repeat(local_pattern, ceiling(real(newlen)/len(local_pattern)))
+      out=out%sub(1,newlen-len(local_line))//local_line
    endif
 
-   strout=strout%sub(1,newlen)
+   out=out%sub(1,newlen)
 
 endif
 end function pad
-!===================================================================================================================================
-!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
-!===================================================================================================================================
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
@@ -3996,7 +4204,7 @@ end function uscan
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 elemental impure function uverify(string,set,back) result(result)
-!@(#)  M_unicode::verify(3): determine position of a character in a string that does not appear in a given set of characters.
+!@(#) M_unicode::verify(3f): determine position of a character in a string that does not appear in a given set of characters.
 type(unicode_type),intent(in) :: string
 type(unicode_type),intent(in) :: set
 type(unicode_type)            :: str
@@ -4024,14 +4232,14 @@ end function uverify
 ! 
 ! SYNOPSIS
 ! 
-!     function expandtabs(INSTR,TABSIZE) result(OUTSTR)
+!     elemental function expandtabs(INSTR,TABSIZE) result(OUT)
 ! 
 !      type(unicode_type),intent=(in)  :: INSTR
-!      type(unicode_type)              :: OUTSTR
 !      integer,intent(in),optional     :: TAB_SIZE
+!      type(unicode_type)              :: OUT
 ! 
 ! DESCRIPTION
-!     expandtabs(3) expands tabs in INSTR to spaces in OUTSTR. It assumes a
+!     expandtabs(3) expands tabs in INSTR to spaces in OUT. It assumes a
 !     tab is set every 8 characters by default. Trailing spaces are removed.
 ! 
 ! OPTIONS
@@ -4039,7 +4247,7 @@ end function uverify
 !      tab_size  spacing between tab stops.
 ! 
 ! RETURNS
-!      outstr    Output string with tabs expanded.
+!      out       Output string with tabs expanded.
 ! 
 ! EXAMPLES
 ! 
@@ -4086,12 +4294,12 @@ end function uverify
 ! 
 ! LICENSE
 !     MI
-function expandtabs(instr,tab_size) result(outstr)
-!@(#) M_unicode expandtabs(3f) convert tabs to spaces and trim line removing CRLF chars
+elemental function expandtabs(instr,tab_size) result(out)
+!@(#) M_unicode::expandtabs(3f): convert tabs to spaces and trim line removing CRLF chars
 type(unicode_type),intent(in) :: instr     ! input line to scan for tab characters
-type(unicode_type)            :: outstr    ! tab-expanded version of INSTR produced
+type(unicode_type)            :: out       ! tab-expanded version of INSTR produced
 integer,intent(in),optional   :: tab_size
-integer                       :: ipos      ! position in OUTSTR to put next character of INSTR
+integer                       :: ipos      ! position in OUT to put next character of INSTR
 integer                       :: istep     ! counter advances thru string INSTR
 integer                       :: icount    ! number of tab characters in input
 integer                       :: i
@@ -4104,9 +4312,9 @@ integer                       :: tab_size_local
       if(instr%codes(i)==9)icount=icount+1
    enddo
    ! initially set length of output to the maxiumum length that might result
-   allocate( outstr%codes(size(instr%codes)+8*icount) )
-   outstr%codes=32                         ! blank-fill string
-   ipos=1                                  ! where to put next character in output string OUTSTR
+   allocate( out%codes(size(instr%codes)+8*icount) )
+   out%codes=32                         ! blank-fill string
+   ipos=1                                  ! where to put next character in output string OUT
    SCAN_LINE: do istep=1,len_trim(instr)   ! look through input string one character at a time
       EXPAND_TABS : select case (instr%codes(istep)) ! take actions based on character found
       case(9)        ! character is a horizontal tab so move pointer out to appropriate column
@@ -4114,12 +4322,198 @@ integer                       :: tab_size_local
             ipos = ipos + (tab_size_local - (mod(ipos-1,tab_size_local)))
          endif
       case default   ! character is anything else other than a tab
-         outstr%codes(ipos)=instr%codes(istep)
+         out%codes(ipos)=instr%codes(istep)
          ipos=ipos+1
       end select EXPAND_TABS
    enddo SCAN_LINE
-   outstr=trim(outstr)
+   out=trim(out)
 end function expandtabs
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
+! 
+! NAME
+!     expand(3f) - [M_unicode:NONALPHA] expand C-like escape sequences
+!     (LICENSE:PD)
+! 
+! SYNOPSIS
+! 
+!    function expand(line,escape) result(out)
+! 
+!     type(unicode_type)                    :: line
+!     character(len=1),intent(in),optional  :: escape
+!     type(unicode_type)                    :: out
+! 
+! DESCRIPTION
+!    EXPAND(3) expands sequences used to represent commonly used escape
+!    sequences or control characters. By default ...
+! 
+!    Escape sequences
+! 
+!     \      backslash
+!     a      alert (BEL) -- g is an alias for a
+!     b      backspace
+!     c      suppress further output
+!     e      escape
+!     f      form feed
+!     n      new line
+!     r      carriage return
+!     t      horizontal tab
+!     v      vertical tab
+! 
+!     oNNN   byte with octal value NNN (3 digits)
+!     dNNN   byte with decimal value NNN (3 digits)
+! 
+!     xHH        byte with hexadecimal value HH (2 digits);
+!                h is an alias for x
+!     uZZZZ      translate Unicode codepoint value to bytes
+!     UZZZZZZZZ  translate Unicode codepoint value to bytes
+! 
+!   The default escape character is the backslash, but this may be
+!   changed using the optional parameter ESCAPE.
+! 
+! EXAMPLES
+! 
+!   Sample Program:
+! 
+!     program demo_expand
+!        ! demonstrate filter to expand C-like escape sequences in input lines
+!        use M_unicode, only : expand, ut=>unicode_type,ch=>character
+!        use M_unicode, only : assignment(=)
+!        integer,parameter     :: iwidth=1024
+!        integer               :: i
+!        type(ut)              :: test
+!        character(len=iwidth),parameter :: input(*)=[ character(len=iwidth) :: &
+!           '\e[H\e[2J',&   ! home cursor and clear screen on ANSI terminals
+!           '\tABC\tabc',&  ! write some tabs in the output
+!           '\tA\a',&       ! ring bell at end if supported
+!           '\nONE\nTWO\nTHREE',&  ! place one word per line
+!           '\\']
+!           test=input
+!           test=trim(escape(test))
+! 
+!           write(*,'(a)')(ch(test(i)),i=1,size(input))
+!     end program demo_expand
+! 
+!  Results (with nonprintable characters shown visible):
+! 
+!      > ^[[H^[[2J
+!      > ^IABC^Iabc
+!      > ^IA^G
+!      >
+!      > ONE
+!      > TWO
+!      > THREE
+!      > \
+! 
+! AUTHOR
+!     John S. Urban
+! 
+! LICENSE
+!     MI
+impure elemental function expand(line,escape) result(out)
+
+!@(#) M_unicode::expand(3f): return string with escape sequences expanded
+
+type(unicode_type),intent(in)        :: line
+character(len=1),intent(in),optional :: escape ! Default is backslash
+type(unicode_type)                   :: out
+
+integer            :: esc    ! Default is backslash
+integer            :: i
+integer            :: lgth
+character(len=3)   :: thr
+character(len=4)   :: four
+character(len=8)   :: eight
+integer            :: xxx
+integer            :: iostat
+integer,parameter  :: horizontal_tab=9
+integer,parameter  :: alert=7
+integer,parameter  :: backspace=8
+integer,parameter  :: eskape=27
+integer,parameter  :: form_feed=12
+integer,parameter  :: newline=10
+integer,parameter  :: carriage_return=13
+integer,parameter  :: vertical_tab=11
+integer,parameter  :: a=ichar('a'),AA=ichar('A'),g=ichar('g'),GG=ichar('G')
+integer,parameter  :: b=ichar('b'),BB=ichar('B')
+integer,parameter  :: c=ichar('c'),CC=ichar('C')
+integer,parameter  :: d=ichar('d'),DD=ichar('D')
+integer,parameter  :: e=ichar('e'),EE=ichar('E')
+integer,parameter  :: f=ichar('f'),FF=ichar('F')
+integer,parameter  :: n=ichar('n'),NN=ichar('N')
+integer,parameter  :: o=ichar('o'),OO=ichar('O')
+integer,parameter  :: r=ichar('r'),RR=ichar('R')
+integer,parameter  :: t=ichar('t'),TT=ichar('T')
+integer,parameter  :: u=ichar('u'),UU=ichar('U')
+integer,parameter  :: v=ichar('v'),VV=ichar('V')
+integer,parameter  :: x=ichar('x'),XX=ichar('X'),h=ichar('h'),HH=ichar('H')
+   i=0 ! pointer into input
+
+   lgth=len_trim(line)
+   out=''
+
+   if(lgth == 0)return
+
+   if (present(escape))then
+      esc=ichar(escape)
+   else
+      esc=92
+   endif
+
+   EXP: do
+      i=i+1
+      if(i > lgth)exit
+      if(line%codes(i) == esc)then
+         i=i+1
+         if(i > lgth)exit
+         if(line%codes(i) /= esc)then
+            BACKSLASH: select case(line%codes(i))
+            case(a,AA,g,GG);out%codes=[out%codes,alert]
+            case(b,BB);out%codes=[out%codes,backspace]
+            case(c,CC);exit EXP                         ! suppress further output
+            case(d,DD) ! %d     Dnnn decimal value
+                   thr=character(line%sub(i+1,i+3))
+                   read(thr,'(i3)',iostat=iostat)xxx
+                   out=out//char(xxx)
+                   i=i+3
+            case(e,EE);out%codes=[out%codes, eskape ]
+            case(f,FF);out%codes=[out%codes, form_feed ]
+            case(n,NN);out%codes=[out%codes, newline]
+            case(o,OO)
+                   thr=character(line%sub(i+1,i+3))
+                   read(thr,'(o3)',iostat=iostat)xxx
+                   out%codes=[out%codes,xxx]
+                   i=i+3
+            case(r,RR);out%codes=[out%codes,carriage_return]
+            case(t,TT);out%codes=[out%codes,horizontal_tab]
+            case(v,VV);out%codes=[out%codes,vertical_tab]
+            case(x,XX,h,HH) ! %x xHH  byte with hexadecimal value HH (1 to 2 digits)
+                   thr=character(line%sub(i+1,i+2))
+                   read(thr,'(z2)',iostat=iostat)xxx
+                   out%codes=[out%codes,xxx]
+                   i=i+2
+            case(u) ! %uZZZZ  translate Unicode codepoint to bytes
+                   four=character(line%sub(i+1,i+4))
+                   read(four,'(z4)',iostat=iostat)xxx
+                   out%codes=[out%codes,xxx]
+                   i=i+4
+            case(UU) ! %UZZZZZZZZ  translate Unicode codepoint to bytes
+                   eight=character(line%sub(i+1,i+8))
+                   read(eight,'(z8)',iostat=iostat)xxx
+                   out%codes=[out%codes,xxx]
+                   i=i+8
+            end select BACKSLASH
+         else
+            out%codes=[out%codes,esc] ! escape character, defaults to backslash
+         endif
+      else
+         out%codes=[out%codes,line%codes(i)]
+      endif
+      if(i >= lgth)exit EXP
+   enddo EXP
+
+end function expand
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
@@ -4136,6 +4530,13 @@ integer,intent(in),optional        :: tab_size
 type(unicode_type)                 :: string_out
    string_out=expandtabs(self,tab_size)
 end function oop_expandtabs
+!===================================================================================================================================
+function oop_expand(self,escape) result (string_out)
+class(unicode_type),intent(in)       :: self
+character(len=1),intent(in),optional :: escape
+type(unicode_type)                   :: string_out
+   string_out=expand(self,escape)
+end function oop_expand
 !===================================================================================================================================
 function oop_upper(self) result (string_out)
 class(unicode_type),intent(in)     :: self
@@ -4183,7 +4584,7 @@ integer                        :: which
 end function oop_sub
 !===================================================================================================================================
 function oop_replace(self,old,new,occurrence,repeat,ignorecase,changes,back) result (newline)
-! ident_12="@(#) M_unicode replace(3f) replace one substring for another in string"
+!@(#) M_unicode::replace(3f): replace one substring for another in string
 class(unicode_type),intent(in) :: self       ! input line to be changed
 type(unicode_type),intent(in)  :: old        ! old substring to replace
 type(unicode_type),intent(in)  :: new        ! new substring
@@ -4198,24 +4599,24 @@ type(unicode_type) :: newline                ! output string buffer
    newline=replace(self,old,new,occurrence=occurrence,repeat=repeat,ignorecase=ignorecase,changes=changes,back=back)
 end function oop_replace
 !===================================================================================================================================
-function oop_join(self,array,clip) result (strout)
-!@(#) M_unicode oop_join(3f) merge string array into a single string value adding specified separator
+function oop_join(self,array,clip) result (out)
+!@(#) M_unicode::oop_join(3f): merge string array into a single string value adding specified separator
 
 class(unicode_type),intent(in) :: self
 type(unicode_type),intent(in)  :: array(:)
 logical,intent(in),optional    :: clip
-type(unicode_type)             :: strout
+type(unicode_type)             :: out
 
    if(allocated(self%codes))then
-      strout=join(array,self,clip)
+      out=join(array,self,clip)
    else
-      strout=join(array,unicode_type(''),clip)
+      out=join(array,unicode_type(''),clip)
    endif
 
 end function oop_join
 !===================================================================================================================================
-function oop_pad(self,length,pattern,right,clip) result (strout)
-! ident_12="@(#) M_unicode pad(3f) pad string with repeating pattern to at least specified length
+function oop_pad(self,length,pattern,right,clip) result (out)
+!@(#) M_unicode::pad(3f): pad string with repeating pattern to at least specified length
 
 class(unicode_type),intent(in)         :: self       ! input line to be changed
 integer,intent(in)                     :: length
@@ -4223,9 +4624,9 @@ type(unicode_type),intent(in),optional :: pattern
 logical,optional,intent(in)            :: right
 logical,optional,intent(in)            :: clip
 ! returns
-type(unicode_type)                     :: strout
+type(unicode_type)                     :: out
 
-   strout=pad(self,length,pattern,right,clip)
+   out=pad(self,length,pattern,right,clip)
 
 end function oop_pad
 !===================================================================================================================================
@@ -4445,7 +4846,7 @@ end function oop_eq
 function readline(lun,iostat) result(line)
 implicit none
 
-! @(#) M_unicode readline(3f) read a line from specified LUN into string up to line length limit
+!@(#) M_unicode::readline(3f): read a line from specified LUN into string up to line length limit
 
 type(unicode_type)               :: line
 integer,intent(in),optional      :: lun
@@ -4494,9 +4895,13 @@ end function readline
 ! 
 !     function fmt(value,format) result(string)
 ! 
-!      class(*),intent(in),optional         :: value
-!      character(len=*),intent(in),optional :: format
-!      type(unicode_type)                   :: string
+!      class(*),intent(in),optional           :: value
+! 
+!      character(len=*),intent(in),optional   :: format
+!         or
+!      type(unicode_type),intent(in),optional :: format
+! 
+!      type(unicode_type)                     :: string
 ! DESCRIPTION
 !     FMT(3f) converts any standard intrinsic value to a string using the specified
 !     format.
@@ -4516,22 +4921,28 @@ end function readline
 !    Sample program:
 ! 
 !      program demo_fmt
-!      use :: M_unicode, only : ut=>unicode_type, assignment(=)
-!      use :: M_unicode, only : fmt, ch=>character
+!      use :: M_unicode, only : fmt, assignment(=)
+!      use :: M_unicode, only : ut=>unicode_type, ch=>character
 !      implicit none
-!      character(len=:),allocatable :: Aoutput
-!      type(ut)                     :: Uoutput
+!      character(len=:),allocatable :: Astr, Aformat
+!      type(ut) :: Ustr, Uformat
 ! 
-!         ! LHS may be character, unicode_type, or integer array
-!         Aoutput=fmt(10,"'[',i0,']'")
-!         write(*,*)'result is ',Aoutput
+!         ! format can be CHARACTER
+!         Aformat="('[',i0,']')"
+!         Astr=fmt(10,Aformat)
+!         write(*,*)'result is ',Astr
 ! 
-!         ! FORMAT may be CHARACTER or UNICODE_TYPE
-!         Aoutput=fmt(10.0/3.0,ut("'[',g0.5,']'"))
-!         write(*,*)'result is ',Aoutput
+!         ! format can be string
+!         Astr=fmt(10.0/3.0,ut("'[',g0.5,']'"))
+!         write(*,*)'result is ',Astr
 ! 
-!         Uoutput=fmt(.true.,"'The final answer is [',g0,']'")
-!         write(*,*)'result is ',ch(Uoutput)
+!         ! Output is a string, so use ch()
+!         write(*,*)'result is ', ch(fmt(.true.,"'The answer is [',g0,']'"))
+! 
+!         ! OOP
+!         Ustr='A B C'
+!         Ustr=Ustr%fmt("'[',g0,']'")
+!         write(*,*)'result is ',ch(Ustr)
 ! 
 !      end program demo_fmt
 ! 
@@ -4540,6 +4951,7 @@ end function readline
 !      result is [10]
 !      result is [3.3333]
 !      result is The final answer is [T]
+!      result is [A B C]
 ! 
 ! AUTHOR
 !     John S. Urban
@@ -4548,7 +4960,7 @@ end function readline
 !     MI
 recursive function afmt(generic,format) result (line)
 
-!@(#) M_unicode afmt(3f) convert any intrinsic to a CHARACTER variable using specified format
+!@(#) M_unicode::afmt(3f): convert any intrinsic to a CHARACTER variable using specified format
 
 class(*),intent(in)                  :: generic
 character(len=*),intent(in),optional :: format
@@ -4653,7 +5065,7 @@ end function afmt
 !===================================================================================================================================
 recursive function fmt_ga(generic,format) result (line)
 
-!@(#) M_unicode afmt(3f) convert any intrinsic to a CHARACTER variable using specified format
+!@(#) M_unicode::afmt(3f): convert any intrinsic to a CHARACTER variable using specified format
 
 class(*),intent(in)                  :: generic
 character(len=*),intent(in),optional :: format
@@ -4662,7 +5074,7 @@ line=afmt(generic,format)
 end function fmt_ga
 recursive function fmt_gs(generic,format) result (line)
 
-!@(#) M_unicode afmt(3f) convert any intrinsic to a CHARACTER variable using specified format
+!@(#) M_unicode::afmt(3f): convert any intrinsic to a CHARACTER variable using specified format
 
 class(*),intent(in)                    :: generic
 type(unicode_type),intent(in)          :: format
@@ -4729,7 +5141,7 @@ end function fmt_gs
 !     MI
 subroutine trimzeros_(string)
 
-! @(#) M_strings trimzeros_(3fp) Delete trailing zeros from numeric decimal string
+!@(#) M_strings::trimzeros_(3fp): Delete trailing zeros from numeric decimal string
 
 ! if zero needs added at end assumes input string has room
 character(len=*)               :: string

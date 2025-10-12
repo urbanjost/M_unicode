@@ -35,8 +35,8 @@ use M_unicode, only : &
 
 ! additional methods
 use M_unicode, only : &
-   upper,   lower,   sort,  expandtabs,     &
-   pad,      join,   fmt
+   upper,   lower,   sort,  expandtabs, &
+   pad,      join,   fmt,   expand
 
 ! operators (and overloads) and assignment
 ! using Unicode codepoints (NOT dictionary order)

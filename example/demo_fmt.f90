@@ -2,18 +2,24 @@
      use :: M_unicode, only : fmt, assignment(=)
      use :: M_unicode, only : ut=>unicode_type, ch=>character
      implicit none
-     character(len=:),allocatable :: Aoutput
-     type(ut) :: Uoutput
+     character(len=:),allocatable :: Astr, Aformat
+     type(ut) :: Ustr, Uformat
 
         ! format can be CHARACTER
-        Aoutput=fmt(10,"'[',i0,']'")
-        write(*,*)'result is ',Aoutput
+        Aformat="('[',i0,']')"
+        Astr=fmt(10,Aformat)
+        write(*,*)'result is ',Astr
 
         ! format can be string
-        Aoutput=fmt(10.0/3.0,ut("'[',g0.5,']'"))
-        write(*,*)'result is ',Aoutput
+        Astr=fmt(10.0/3.0,ut("'[',g0.5,']'"))
+        write(*,*)'result is ',Astr
 
-        Uoutput=fmt(.true.,"'The final answer is [',g0,']'")
-        write(*,*)'result is ',ch(Uoutput)
+        ! Output is a string, so use ch()
+        write(*,*)'result is ', ch(fmt(.true.,"'The answer is [',g0,']'"))
+
+        ! OOP 
+        Ustr='A B C'
+        Ustr=Ustr%fmt("'[',g0,']'")
+        write(*,*)'result is ',ch(Ustr)
 
      end program demo_fmt
