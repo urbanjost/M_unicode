@@ -742,6 +742,10 @@ integer,allocatable :: ints(:)
    call check('expand',expand(ut('\')).eq.'\','backslash at end of line')
    call check('expand',expand(ut('text\0')).eq.'text'//char(0),'null at end')
    call check('expand',expand(ut('\122\123A')).eq.'RSA','two')
+
+   ! (kaufii hai?) [Literal Meaning: “Is there coffee?”] “Do you have coffee?” (Informal)
+   ut_str='\u0915\u0949\u092B\U0000093C\U00000940\x20\u0939\u0948\x3F'
+   call check('expand',expand(ut_str).eq.'कॉफ़ी है?','hexadecimal')
 end subroutine test_expand
 
 subroutine test_join()
