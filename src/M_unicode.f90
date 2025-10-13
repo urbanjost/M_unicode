@@ -4214,7 +4214,7 @@ integer                       :: pos
 integer                       :: i
    result=0
    do i=1,len(string)
-      str=string%character(i,i)
+      str=string%sub(i)
       pos=index(set,str,back)
       if(pos.eq.0)then
          result=i
@@ -4362,6 +4362,8 @@ end function expandtabs
 !     v      vertical tab
 ! 
 !     oNNN   byte with octal value NNN (3 digits)
+!     0-9    digits will be assumed an octal value till a
+!            non-octal value character is encountered
 !     dNNN   byte with decimal value NNN (3 digits)
 ! 
 !     xHH        byte with hexadecimal value HH (2 digits);
@@ -4375,25 +4377,58 @@ end function expandtabs
 ! EXAMPLES
 ! 
 !   Sample Program:
+!    program demo_expand
+!    ! demonstrate filter to expand C-like escape sequences in input lines
+!    use iso_fortran_env, only : stdout => output_unit
+!    use M_unicode,       only : ut=>unicode_type,ch=>character,len,expand
+!    use M_unicode,       only : assignment(=), trim
+!    implicit none
+!    type(ut),allocatable  :: poem(:)
+!    type(ut)              :: test(5)
+!    integer               :: i
 ! 
-!     program demo_expand
-!        ! demonstrate filter to expand C-like escape sequences in input lines
-!        use M_unicode, only : expand, ut=>unicode_type,ch=>character
-!        use M_unicode, only : assignment(=)
-!        integer,parameter     :: iwidth=1024
-!        integer               :: i
-!        type(ut)              :: test
-!        character(len=iwidth),parameter :: input(*)=[ character(len=iwidth) :: &
-!           '\e[H\e[2J',&   ! home cursor and clear screen on ANSI terminals
-!           '\tABC\tabc',&  ! write some tabs in the output
-!           '\tA\a',&       ! ring bell at end if supported
-!           '\nONE\nTWO\nTHREE',&  ! place one word per line
-!           '\\']
-!           test=input
-!           test=trim(escape(test))
+!       ! “The Crow and the Fox” by Jean de la Fontaine
+!       write(stdout,'(a,/)') &
+!       'Le Corbeau et le Renard -- Jean de la Fontaine'
 ! 
-!           write(*,'(a)')(ch(test(i)),i=1,size(input))
-!     end program demo_expand
+!       poem=[&
+!       ut( 'Le Corbeau et le Renard'                                   ),&
+!       ut( ''                                                          ),&
+!       ut( 'Ma\u00EEtre Corbeau, sur un arbre perch\u00E9,'            ),&
+!       ut( 'Tenait en son bec un fromage.'                             ),&
+!       ut( 'Ma\u00EEtre Renard, par l\u2019odeur all\u00E9ch\u00E9,'   ),&
+!       ut( 'Lui tint \U000000E0 peu pr\U000000E8s ce langage :'        ),&
+!       ut( '\U000000ABH\U000000E9 ! bonjour, Monsieur du Corbeau.'     ),&
+!       ut( 'Que vous \U000000EAtes joli ! que vous me semblez beau !'  ),&
+!       ut( 'Sans mentir, si votre ramage'                              ),&
+!       ut( 'Se rapporte \U000000E0 votre plumage,'                     ),&
+!       ut( 'Vous \xEAtes le Ph\xE9nix des h\xF4tes de ces bois.\xBB'   ),&
+!       ut( 'A ces mots le Corbeau ne se sent pas de joie ;'            ),&
+!       ut( 'Et pour montrer sa belle voix,'                            ),&
+!       ut( 'Il ouvre un large bec, laisse tomber sa proie.'            ),&
+!       ut( 'Le Renard s\u2019en saisit, et dit : \xABMon bon Monsieur,'),&
+!       ut( 'Apprenez que tout flatteur'                                ),&
+!       ut( 'Vit aux d\xE9pens de celui qui l\U00002019\u00E9coute :'   ),&
+!       ut( 'Cette le\xE7on vaut bien un fromage, sans doute.\xBB'      ),&
+!       ut( 'Le Corbeau, honteux et confus,'                            ),&
+!       ut( &
+!       'Jura, mais un peu tard, qu\u2019on ne l\u2019y prendrait plus.'),&
+!       ut( ' -- Jean de la Fontaine')]
+! 
+!       poem=expand(poem)
+!       write(stdout,'(g0)')ch(poem)
+! 
+!       test=[ &
+!        '\e[H\e[2J           ',& ! home cursor and clear screen
+!                                 ! on ANSI terminals
+!        '\tABC\tabc          ',& ! write some tabs in the output
+!        '\tA\a               ',& ! ring bell at end if supported
+!        '\nONE\nTWO\nTHREE   ',& ! place one word per line
+!        '\\                  ']
+!       test=trim(expand(test))
+!       write(*,'(a)')(test(i)%character(),i=1,size(test))
+! 
+! end program demo_expand
 ! 
 !  Results (with nonprintable characters shown visible):
 ! 
@@ -4419,22 +4454,26 @@ type(unicode_type),intent(in)        :: line
 character(len=1),intent(in),optional :: escape ! Default is backslash
 type(unicode_type)                   :: out
 
+character(len=:),allocatable :: buffer
+character(len=:),allocatable :: format
+
 integer            :: esc    ! Default is backslash
 integer            :: i
 integer            :: lgth
 character(len=3)   :: thr
 character(len=4)   :: four
 character(len=8)   :: eight
-integer            :: xxx
+integer            :: nnn
 integer            :: iostat
-integer,parameter  :: horizontal_tab=9
+integer            :: icount
 integer,parameter  :: alert=7
 integer,parameter  :: backspace=8
-integer,parameter  :: eskape=27
-integer,parameter  :: form_feed=12
+integer,parameter  :: horizontal_tab=9
 integer,parameter  :: newline=10
-integer,parameter  :: carriage_return=13
 integer,parameter  :: vertical_tab=11
+integer,parameter  :: form_feed=12
+integer,parameter  :: carriage_return=13
+integer,parameter  :: eskape=27
 integer,parameter  :: a=ichar('a'),AA=ichar('A'),g=ichar('g'),GG=ichar('G')
 integer,parameter  :: b=ichar('b'),BB=ichar('B')
 integer,parameter  :: c=ichar('c'),CC=ichar('C')
@@ -4466,7 +4505,10 @@ integer,parameter  :: x=ichar('x'),XX=ichar('X'),h=ichar('h'),HH=ichar('H')
       if(i > lgth)exit
       if(line%codes(i) == esc)then
          i=i+1
-         if(i > lgth)exit
+         if(i > lgth)then  ! esc at end of line
+            out%codes=[out%codes,esc]
+            exit
+         endif
          if(line%codes(i) /= esc)then
             BACKSLASH: select case(line%codes(i))
             case(a,AA,g,GG);out%codes=[out%codes,alert]
@@ -4474,35 +4516,47 @@ integer,parameter  :: x=ichar('x'),XX=ichar('X'),h=ichar('h'),HH=ichar('H')
             case(c,CC);exit EXP                         ! suppress further output
             case(d,DD) ! %d     Dnnn decimal value
                    thr=character(line%sub(i+1,i+3))
-                   read(thr,'(i3)',iostat=iostat)xxx
-                   out=out//char(xxx)
+                   read(thr,'(i3)',iostat=iostat)nnn
+                   out=out//char(nnn)
                    i=i+3
             case(e,EE);out%codes=[out%codes, eskape ]
             case(f,FF);out%codes=[out%codes, form_feed ]
             case(n,NN);out%codes=[out%codes, newline]
             case(o,OO)
                    thr=character(line%sub(i+1,i+3))
-                   read(thr,'(o3)',iostat=iostat)xxx
-                   out%codes=[out%codes,xxx]
+                   read(thr,'(o3)',iostat=iostat)nnn
+                   out%codes=[out%codes,nnn]
                    i=i+3
             case(r,RR);out%codes=[out%codes,carriage_return]
             case(t,TT);out%codes=[out%codes,horizontal_tab]
             case(v,VV);out%codes=[out%codes,vertical_tab]
             case(x,XX,h,HH) ! %x xHH  byte with hexadecimal value HH (1 to 2 digits)
                    thr=character(line%sub(i+1,i+2))
-                   read(thr,'(z2)',iostat=iostat)xxx
-                   out%codes=[out%codes,xxx]
+                   read(thr,'(z2)',iostat=iostat)nnn
+                   out%codes=[out%codes,nnn]
                    i=i+2
             case(u) ! %uZZZZ  translate Unicode codepoint to bytes
                    four=character(line%sub(i+1,i+4))
-                   read(four,'(z4)',iostat=iostat)xxx
-                   out%codes=[out%codes,xxx]
+                   read(four,'(z4)',iostat=iostat)nnn
+                   out%codes=[out%codes,nnn]
                    i=i+4
             case(UU) ! %UZZZZZZZZ  translate Unicode codepoint to bytes
                    eight=character(line%sub(i+1,i+8))
-                   read(eight,'(z8)',iostat=iostat)xxx
-                   out%codes=[out%codes,xxx]
+                   read(eight,'(z8)',iostat=iostat)nnn
+                   out%codes=[out%codes,nnn]
                    i=i+8
+            case(ichar('0'):ichar('7'));
+                buffer=line%sub(i,step=1)
+                icount=verify(buffer,'01234567')
+                if(icount.eq.0)icount=len(buffer)+1
+                icount=icount-1
+                buffer=character(line%sub(i,i+icount-1))
+                format='(o'//fmt(icount)//')'
+                read(buffer,format,iostat=iostat)nnn
+                out%codes=[out%codes,nnn]
+                i=i+icount-1
+            case default ! no match so just copy character, could produce warning
+                out%codes=[out%codes,line%codes(i)]
             end select BACKSLASH
          else
             out%codes=[out%codes,esc] ! escape character, defaults to backslash

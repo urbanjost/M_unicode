@@ -6,6 +6,7 @@ use M_unicode, only : trim, len, len_trim
 use M_unicode, only : repeat
 use M_unicode, only : upper, lower
 use M_unicode, only : expandtabs
+use M_unicode, only : expand
 use M_unicode, only : sort
 use M_unicode, only : scan, verify
 use M_unicode, only : tokenize, split
@@ -707,6 +708,42 @@ type(unicode_type)             :: ut_str
    call check('ichar',ichar(ut_str%sub(2,3)).eq.ichar('B'),'ichar(ut_str%sub(2,3))')
 end subroutine test_ichar
 
+subroutine test_expand()
+type(unicode_type)  :: ut_str
+integer,allocatable :: ints(:)
+!    \      backslash
+!    a      alert (BEL) -- g is an alias for a
+!    b      backspace
+!    c      suppress further output
+!    e      escape
+!    f      form feed
+!    n      new line
+!    r      carriage return
+!    t      horizontal tab
+!    v      vertical tab
+!
+!    oNNN   byte with octal value NNN (3 digits)
+!    0-9    up to three digits following will be treated
+!           as an octal value
+
+!    dNNN   byte with decimal value NNN (3 digits)
+
+!    xHH        byte with hexadecimal value HH (2 digits);
+!               h is an alias for x
+!    uZZZZ      translate Unicode codepoint value to bytes
+!    UZZZZZZZZ  translate Unicode codepoint value to bytes
+   ut_str='\\\a\b\e\f\n\r\t\v\c'
+   ints=[92,7,8,27,12,10,13,9,11]
+   ut_str=expand(ut_str)
+   call check('expand',len(ut_str).eq.9,'size')
+   if( len(ut_str).eq.9 )then
+      call check('expand',all(ut_str%codepoint().eq.ints),'codes')
+   endif
+   call check('expand',expand(ut('\')).eq.'\','backslash at end of line')
+   call check('expand',expand(ut('text\0')).eq.'text'//char(0),'null at end')
+   call check('expand',expand(ut('\122\123A')).eq.'RSA','two')
+end subroutine test_expand
+
 subroutine test_join()
 character(len=*),parameter :: w='((g0,/,g0))'
 character(len=*),parameter :: v='((g0,/,DT))'
@@ -849,7 +886,7 @@ program test_M_unicode
 use testsuite_M_unicode
    total = 0
 
-   write(*,g0)'encoding can be altered on an open file'
+   !write(*,g0)'encoding can be altered on an open file'
    !open (output_unit, encoding='UTF-8')
 
    call programming_environment()
@@ -874,6 +911,7 @@ use testsuite_M_unicode
    call test_join()
    call test_expandtabs()
    call test_fmt()
+   call test_expand()
    call test_other()
 
    write(*,g0)
