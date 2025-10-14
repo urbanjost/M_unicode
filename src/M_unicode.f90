@@ -346,7 +346,7 @@ interface operator(/=); module procedure :: lne_char_str,   lne_str_char,    lne
 interface operator(==); module procedure :: leq_char_str,   leq_str_char,    leq_str_str;     end interface operator(==)
 interface operator(>);  module procedure :: lgt_str_str,    lgt_str_char,    lgt_char_str;    end interface operator(>)
 interface operator(>=); module procedure :: lge_str_str,    lge_str_char,    lge_char_str;    end interface operator(>=)
-interface operator(//); module procedure :: concat_str_str, concat_str_char, concat_char_str; end interface operator(//)
+interface operator(//); module procedure :: concat_g_g; end interface operator(//)
 
 type :: unicode_type ! Unicode string type holding an arbitrary sequence of integer codes.
    !sequence ! not used for storage association; a kludge to prevent extending this type.
@@ -395,9 +395,8 @@ contains
 !   generic           :: operator(<=) => oop_le
 !   procedure,private :: ne => oop_ne
 !   generic           :: operator(/=) => oop_ne
-
-!   procedure,private :: string_append_value
-!   generic           :: operator(//) => string_append_value
+!   procedure,private :: oop_g_g
+!   generic           :: operator(//) => oop_g_g
 end type unicode_type
 
 ! Constructor for new string instances
@@ -2060,7 +2059,7 @@ end subroutine utf8_to_codepoints_chars
 !===================================================================================================================================
 pure function a2s(array)  result (string)
 
-!@(#) M_unicode::a2s(3fp): function to copy char array to string
+! ident_1="@(#) M_unicode a2s(3fp) function to copy char array to string"
 
 character(len=1),intent(in) :: array(:)
 character(len=SIZE(array))  :: string
@@ -2075,7 +2074,7 @@ end function a2s
 !===================================================================================================================================
 pure function s2a(string)  RESULT (array)
 
-!@(#) M_unicode::s2a(3fp): function to copy string(1 Clen(string)) to char array
+! ident_2="@(#) M_unicode s2a(3fp) function to copy string(1 Clen(string)) to char array"
 
 character(len=*),intent(in) :: string
 character(len=1)            :: array(len(string))
@@ -2450,7 +2449,9 @@ end function trim_str
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 impure elemental function adjustr_str(string) result(adjusted)
-!@(#) M_unicode::adjustr(3f): adjust string to right
+
+! ident_3="@(#) M_unicode adjustr(3f) adjust string to right"
+
 ! right-justify string by moving trailing spaces to beginning of string so length is retained even if spaces are of varied width
 
 type(unicode_type), intent(in) :: string
@@ -2477,33 +2478,6 @@ integer                        :: first
    adjusted%codes=cshift(string%codes,first-1)
 
 end function adjustl_str
-!===================================================================================================================================
-!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
-!===================================================================================================================================
-! Concatenate two character sequences, LHS, RHS or both can be represented by a byte string or unicode_type.
-!
-elemental function concat_str_str(lhs, rhs) result(lhsrhs)
-type(unicode_type), intent(in) :: lhs
-type(unicode_type), intent(in) :: rhs
-type(unicode_type)             :: lhsrhs
-   lhsrhs%codes = [lhs%codes,rhs%codes]
-end function concat_str_str
-
-elemental function concat_str_char(lhs, rhs) result(lhsrhs)
-type(unicode_type), intent(in) :: lhs
-character(len=*), intent(in)   :: rhs
-type(unicode_type)             :: lhsrhs
-   lhsrhs = unicode_type(rhs)
-   lhsrhs%codes = [lhs%codes, lhsrhs%codes]
-end function concat_str_char
-
-elemental function concat_char_str(lhs, rhs) result(lhsrhs)
-character(len=*), intent(in)   :: lhs
-type(unicode_type), intent(in) :: rhs
-type(unicode_type)             :: lhsrhs
-   lhsrhs = unicode_type(lhs)
-   lhsrhs%codes = [lhsrhs%codes,rhs%codes]
-end function concat_char_str
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
@@ -3010,7 +2984,7 @@ end function index_char_str
 !==================================================================================================================================!
 subroutine sort_quick_rx(data,indx)
 
-!@(#) M_unicode::sort_quick_rx(3f): indexed hybrid quicksort of a type(unicode_type) array
+! ident_4="@(#) M_unicode sort_quick_rx(3f) indexed hybrid quicksort of a type(unicode_type) array"
 
 type(unicode_type),intent(in)   :: data(:)
 integer(kind=int32),intent(out) :: indx(:)
@@ -3187,7 +3161,7 @@ end subroutine sort_quick_rx
 !===================================================================================================================================
 impure elemental function reverse(string) result (rev)
 
-!@(#) M_unicode::reverse(3f): Return a string reversed
+! ident_5="@(#) M_unicode reverse(3f) Return a string reversed"
 
 type(unicode_type),intent(in)  :: string   ! string to reverse
 type(unicode_type)             :: rev      ! return value (reversed string)
@@ -3312,7 +3286,7 @@ end function reverse
 !    MI
 function replace(target,old,new,force_,occurrence,repeat,ignorecase,changes,back) result (newline)
 
-!@(#) M_unicode::replace(3f): replace one substring for another in string
+! ident_6="@(#) M_unicode replace(3f) replace one substring for another in string"
 
 ! parameters
 type(unicode_type),intent(in)            :: target     ! input line to be changed
@@ -3465,7 +3439,7 @@ end function replace
 ! 
 ! SYNOPSIS
 ! 
-!     pure function join(str,sep,clip) result (string)
+!     impure function join(str,sep,clip) result (string)
 ! 
 !      type(unicode_type),intent(in)          :: str(:)
 !      type(unicode_type),intent(in),optional :: sep
@@ -3552,9 +3526,9 @@ end function replace
 ! 
 ! LICENSE
 !     MI
-pure function join(str,sep,clip) result (string)
+impure function join(str,sep,clip) result (string)
 
-!@(#) M_unicode join(3f): merge string array into a single string value adding specified separator
+! ident_7="@(#) M_unicode join(3f) merge string array into a single string value adding specified separator"
 
 type(unicode_type),intent(in)          :: str(:)
 type(unicode_type),intent(in),optional :: sep
@@ -3693,7 +3667,7 @@ end function join
 !     MI
 elemental pure function upper(str) result (string)
 
-!@(#) M_unicode::upper(3f): returns an uppercase string
+! ident_8="@(#) M_unicode upper(3f) returns an uppercase string"
 
 type(unicode_type),intent(in) :: str                 ! input string to convert to all uppercase
 type(unicode_type)            :: string              ! output string that contains no miniscule letters
@@ -3825,7 +3799,7 @@ end function upper
 !     MI
 elemental pure function lower(str) result (string)
 
-!@(#) M_unicode::lower(3f): returns a lowercase string
+! ident_9="@(#) M_unicode lower(3f) returns a lowercase string"
 
 type(unicode_type), intent(in) :: str                 ! input string to convert to all lowercase
 type(unicode_type)             :: string              ! output string that contains no miniscule letters
@@ -4137,7 +4111,7 @@ end subroutine split_pos
 !===================================================================================================================================
 impure elemental function pad(line,length,pattern,right,clip) result(out)
 
-!@(#) M_unicode::pad(3f): return string padded to at least specified length
+! ident_10="@(#) M_unicode pad(3f) return string padded to at least specified length"
 
 type(unicode_type),intent(in)          :: line
 integer,intent(in)                     :: length
@@ -4183,7 +4157,9 @@ end function pad
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 elemental pure function uscan(string,set,back) result(pos)
-!@(#) M_unicode::scan(3f):  Scan a string for the presence of a set of characters
+
+! ident_11="@(#) M_unicode scan(3f) Scan a string for the presence of a set of characters"
+
 type(unicode_type),intent(in) :: string
 type(unicode_type),intent(in) :: set
 logical,intent(in),optional   :: back
@@ -4204,7 +4180,9 @@ end function uscan
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 elemental impure function uverify(string,set,back) result(result)
-!@(#) M_unicode::verify(3f): determine position of a character in a string that does not appear in a given set of characters.
+
+! ident_12="@(#) M_unicode verify(3f) determine position of a character in a string that does not appear in a given set of characters."
+
 type(unicode_type),intent(in) :: string
 type(unicode_type),intent(in) :: set
 type(unicode_type)            :: str
@@ -4295,7 +4273,9 @@ end function uverify
 ! LICENSE
 !     MI
 elemental function expandtabs(instr,tab_size) result(out)
-!@(#) M_unicode::expandtabs(3f): convert tabs to spaces and trim line removing CRLF chars
+
+! ident_13="@(#) M_unicode expandtabs(3f) convert tabs to spaces and trim line removing CRLF chars"
+
 type(unicode_type),intent(in) :: instr     ! input line to scan for tab characters
 type(unicode_type)            :: out       ! tab-expanded version of INSTR produced
 integer,intent(in),optional   :: tab_size
@@ -4448,7 +4428,7 @@ end function expandtabs
 !     MI
 impure elemental function expand(line,escape) result(out)
 
-!@(#) M_unicode::expand(3f): return string with escape sequences expanded
+! ident_14="@(#) M_unicode expand(3f) return string with escape sequences expanded"
 
 type(unicode_type),intent(in)        :: line
 character(len=1),intent(in),optional :: escape ! Default is backslash
@@ -4571,6 +4551,23 @@ end function expand
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
+function concat_g_g(lhs,rhs) result (string)
+
+! ident_15="@(#) M_overload g_g(3f) convert two single intrinsic values or strings to a string"
+
+class(*),intent(in) :: lhs
+class(*),intent(in) :: rhs
+type(unicode_type)  :: string1
+type(unicode_type)  :: string2
+type(unicode_type)  :: string
+! use this instead of str() so character variables are not trimmed and/or spaces are not added
+   string1 = fmt(lhs)
+   string2 = fmt(rhs)
+   string%codes=[string1%codes,string2%codes]
+end function concat_g_g
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
 function oop_fmt(self,format) result (string_out)
 class(unicode_type),intent(in)     :: self
 character(len=*),optional          :: format
@@ -4638,7 +4635,9 @@ integer                        :: which
 end function oop_sub
 !===================================================================================================================================
 function oop_replace(self,old,new,occurrence,repeat,ignorecase,changes,back) result (newline)
-!@(#) M_unicode::replace(3f): replace one substring for another in string
+
+! ident_16="@(#) M_unicode replace(3f) replace one substring for another in string"
+
 class(unicode_type),intent(in) :: self       ! input line to be changed
 type(unicode_type),intent(in)  :: old        ! old substring to replace
 type(unicode_type),intent(in)  :: new        ! new substring
@@ -4654,7 +4653,9 @@ type(unicode_type) :: newline                ! output string buffer
 end function oop_replace
 !===================================================================================================================================
 function oop_join(self,array,clip) result (out)
-!@(#) M_unicode::oop_join(3f): merge string array into a single string value adding specified separator
+
+! ident_17="@(#) M_unicode oop_join(3f) merge string array into a single string value adding specified separator"
+
 
 class(unicode_type),intent(in) :: self
 type(unicode_type),intent(in)  :: array(:)
@@ -4670,7 +4671,8 @@ type(unicode_type)             :: out
 end function oop_join
 !===================================================================================================================================
 function oop_pad(self,length,pattern,right,clip) result (out)
-!@(#) M_unicode::pad(3f): pad string with repeating pattern to at least specified length
+
+! ident_18="@(#) M_unicode pad(3f) pad string with repeating pattern to at least specified length"
 
 class(unicode_type),intent(in)         :: self       ! input line to be changed
 integer,intent(in)                     :: length
@@ -4900,7 +4902,7 @@ end function oop_eq
 function readline(lun,iostat) result(line)
 implicit none
 
-!@(#) M_unicode::readline(3f): read a line from specified LUN into string up to line length limit
+! ident_19="@(#) M_unicode readline(3f) read a line from specified LUN into string up to line length limit"
 
 type(unicode_type)               :: line
 integer,intent(in),optional      :: lun
@@ -5014,7 +5016,7 @@ end function readline
 !     MI
 recursive function afmt(generic,format) result (line)
 
-!@(#) M_unicode::afmt(3f): convert any intrinsic to a CHARACTER variable using specified format
+! ident_20="@(#) M_unicode afmt(3f) convert any intrinsic to a CHARACTER variable using specified format"
 
 class(*),intent(in)                  :: generic
 character(len=*),intent(in),optional :: format
@@ -5049,7 +5051,9 @@ logical                              :: trimit
 #endif
          type is (logical);                fmt_local='(l1,a)'
          type is (character(len=*));       fmt_local='(a,a)'
+                 trimit=.false.
          type is (unicode_type);           fmt_local='(a,a)'
+                 trimit=.false.
          type is (complex);                fmt_local='("(",1pg0,",",1pg0,")",a)'
          type is (complex(kind=real64));   fmt_local='("(",1pg0,",",1pg0,")",a)'
          class default
@@ -5119,7 +5123,7 @@ end function afmt
 !===================================================================================================================================
 recursive function fmt_ga(generic,format) result (line)
 
-!@(#) M_unicode::afmt(3f): convert any intrinsic to a CHARACTER variable using specified format
+! ident_21="@(#) M_unicode afmt(3f) convert any intrinsic to a CHARACTER variable using specified format"
 
 class(*),intent(in)                  :: generic
 character(len=*),intent(in),optional :: format
@@ -5128,7 +5132,7 @@ line=afmt(generic,format)
 end function fmt_ga
 recursive function fmt_gs(generic,format) result (line)
 
-!@(#) M_unicode::afmt(3f): convert any intrinsic to a CHARACTER variable using specified format
+! ident_22="@(#) M_unicode afmt(3f) convert any intrinsic to a CHARACTER variable using specified format"
 
 class(*),intent(in)                    :: generic
 type(unicode_type),intent(in)          :: format
@@ -5195,7 +5199,7 @@ end function fmt_gs
 !     MI
 subroutine trimzeros_(string)
 
-!@(#) M_strings::trimzeros_(3fp): Delete trailing zeros from numeric decimal string
+! ident_23="@(#) M_strings trimzeros_(3fp) Delete trailing zeros from numeric decimal string"
 
 ! if zero needs added at end assumes input string has room
 character(len=*)               :: string

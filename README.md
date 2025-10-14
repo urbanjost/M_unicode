@@ -5,8 +5,11 @@ with the DT edit descriptor are still undergoing development.
 # M_unicode module 
 [![M_unicode module](docs/images/Phaistos_Disk_sideA.jpg)](https://github.com/urbanjost/M_unicode/releases/tag/v1.0.0)
 
-The **M_unicode** module provides support for many string methods directly
-operating on byte streams representing UTF-8 encoded text. ASCII-7 being
+The **M_unicode** module supports using UTF-8 encoded files as easily
+as ASCII-7 encoded files if not more so.
+
+The **M_unicode** module provides support for many string methods that
+operate on byte streams representing UTF-8 encoded text. ASCII-7 being
 a subset of UTF-8 the procedures work with standard ASCII-7 text as well.
 
 A user-defined type called **unicode_type** provides an object-oriented
@@ -38,8 +41,8 @@ use M_unicode, only : &
    upper,   lower,   sort,  expandtabs, &
    pad,      join,   fmt,   expand
 
-! operators (and overloads) and assignment
-! using Unicode codepoints (NOT dictionary order)
+! operators (and overloads) and SORT(3f) use
+! Unicode codepoints (NOT dictionary order)
 
 use M_unicode, only : assignment(=)
 use M_unicode, only : operator(<=), lle
@@ -57,9 +60,9 @@ use M_unicode, only : utf8_to_codepoints, codepoints_to_utf8
 !
 implicit none
 type(unicode_type)          :: ustr
-character(len=*), parameter :: g='(*(g0))'
-character(len=*), parameter :: gi='(*(g0,1x))'
-character(len=*), parameter :: gh='(*(z0,1x))'
+character(len=*), parameter :: g='(*(g0))', &
+                               gi='(*(g0,1x))', &
+                               gh='(*(z0,1x))'
 integer                     :: iostat
 
    ! Constructors
@@ -221,8 +224,7 @@ by the compiler as a string of bytes, and it is otherwise unaware they
 represent Unicode characters. If they are just to be read and written
 as-is as in the previous example program that is not a major concern;
 but if you are manipulating or processing the strings in significant
-ways you probably want to load the **M_unicode** module and convert the
-strings to TYPE(UNICODE_TYPE).
+ways is when you use the **M_unicode** module.
 
 ![gmake](docs/images/gnu.gif)
 ## Download and Build with Make(1)
@@ -430,14 +432,7 @@ While modern Fortran can handle Unicode characters, there might still be
 limitations compared to languages like C++ regarding the ease of use with
 complex Unicode features (e.g., surrogate pairs, text directionality,
 normalization). For many uses of Unicode support of codepoints and system
-support fort UTF-8 encoding is sufficient, however.
-
-### In summary:
-
-While it is possible to include multibyte Unicode characters in Fortran
-source files, especially with modern Fortran standards and supportive
-compilers, it requires careful consideration of the compiler's
-capabilities and the source file's encoding.
+support for UTF-8 encoding is sufficient, however.
 
  ## References
  * [![Unicode Home](docs/images/Unicode-Logo-Final-Blue-95x112.jpg)](https://home.unicode.org/)

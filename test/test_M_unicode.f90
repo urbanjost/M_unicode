@@ -280,6 +280,13 @@ type(unicode_type)             :: ut_str
 
 end subroutine test_trim
 
+subroutine test_concatenate()
+type(ut) :: str
+integer  :: ten=10,twenty=20
+   str='so '//ten//'+'//twenty//'='//ten+twenty//' 😃'
+   call check('//',str == 'so 10+20=30 😃','concatenate got '//str%character())
+end subroutine test_concatenate
+
 subroutine test_expandtabs()
 character(len=:),allocatable :: str
 type(unicode_type)           :: in
@@ -875,7 +882,7 @@ call check('replace',line==ut('ababbb'),'replace a with null instances 3 to 5 ['
 line=replace( &
  & ut('a b ab baaa aaaa aa aa a a a aa aaaaaa'),&
  & ut('aa'),ut('CCCC'),occurrence=-1,repeat=1)
-call check('replace', line == ut('a b ab baaa aaaa aa aa a a a aa aaaaCCCC'),'replace lastaa with CCCC ['//line%character()//']')
+call check('replace', line == ut('a b ab baaa aaaa aa aa a a a aa aaaaCCCC'),'replace last aa with CCCC ['//line%character()//']')
 ! 
 line=replace(ut('myf90stuff.f90.f90'),ut('f90'),ut('for'),occurrence=-1,repeat=1)
 call check('replace',line== 'myf90stuff.f90.for')
@@ -916,6 +923,7 @@ use testsuite_M_unicode
    call test_expandtabs()
    call test_fmt()
    call test_expand()
+   call test_concatenate()
    call test_other()
 
    write(*,g0)
