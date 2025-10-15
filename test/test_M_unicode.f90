@@ -463,7 +463,7 @@ character(len=128)  :: ascii7
 end subroutine test_lower
 
 subroutine test_tokenize()
-type(unicode_type),allocatable   :: tokens(:), expected(:), answer(:)
+type(unicode_type),allocatable   :: tokens(:), expected(:)
 type(unicode_type),allocatable   :: separators(:)
 type(unicode_type)               :: delims
 type(unicode_type)               :: herbs
@@ -563,7 +563,6 @@ character(len=*),parameter :: upagain=&
 ! or English translation
 ! "Fall seven times, stand up eight. Even if you fall down, you will get up again. Don't be discouraged, just keep walking forward."
 !
-integer                    :: i
    string=upagain
    write(*,g0)'original bytes  :', upagain
    !-------------------
@@ -756,14 +755,10 @@ integer,allocatable :: ints(:)
 end subroutine test_expand
 
 subroutine test_join()
-character(len=*),parameter :: w='((g0,/,g0))'
-character(len=*),parameter :: v='((g0,/,DT))'
 character(len=20),allocatable :: proverb(:)
 type(ut),allocatable       :: s(:)
 type(ut),allocatable       :: sep
-type(ut)                   :: string
 type(ut)                   :: expected
-integer                    :: i
    proverb=[ character(len=13) :: &
      & ' United'       ,&
      & '  we'          ,&
@@ -803,7 +798,6 @@ end subroutine test_join
 subroutine test_pad()
 type(ut)                   :: string
 type(ut)                   :: answer
-integer                    :: i
 ! 
    string='abcdefghij'
    answer='[abcdefghij          ]'

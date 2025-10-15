@@ -58,14 +58,14 @@
 ! 
 !    TOKENS
 ! 
-!     split   subroutine parses string using specified delimiter
-!             characters into tokens
-!     join    join elements of an array into a single string
+!     split     subroutine parses string using specified delimiter
+!               characters into tokens
+!     tokenize  Parse a string into tokens.
 ! 
 !    EDITING
 ! 
-!     replace    function non-recursively globally replaces old
-!                substring with new substring
+!     replace   function non-recursively globally replaces old
+!               substring with new substring
 !    CASE
 ! 
 !     upper   function converts string to uppercase
@@ -123,18 +123,24 @@
 ! 
 !    IO
 ! 
-!     readline      read a line from a file
+!     readline      read a text line from a file
 ! 
 !    LOCATION
 ! 
 !     index         Position of a substring within a string
+!     scan          Scan a string for the presence of a set
+!                   of characters
+!     verify        Scan a string for the absence of a set of characters
+! 
+!    CONCATENATION
+! 
+!     join          join elements of an array into a single string
+!    operator(//)   concatenate strings and/or convert intrinsics to
+!                   strings and concatenate
 ! 
 !    MISCELLANEOUS
 ! 
 !     repeat        Repeated string concatenation
-!     scan          Scan a string for the presence of a set
-!                   of characters
-!     verify        Scan a string for the absence of a set of characters
 !     sort          Sort by Unicode codepoint value (not dictionary order)
 ! 
 !    OOPS INTERFACE
@@ -152,7 +158,7 @@
 ! EXAMPLES
 ! 
 !     Each of the procedures includes an [example](example/) program in
-!     the corresponding man(1) page for the function.
+!     the corresponding man(1) page for the procedure.
 ! 
 !  Sample program:
 ! 
@@ -264,8 +270,10 @@ public :: afmt
  public :: readline
 
 public :: adjustl, adjustr, index, len, len_trim, repeat, trim
-public :: split, tokenize
-public :: scan,  verify
+public :: split
+public :: tokenize
+ public :: scan
+public :: verify
 public :: assignment(=)
 public :: ichar
 public :: lle, llt, lne, leq, lgt, lge
@@ -288,11 +296,13 @@ interface sort
 end interface sort
 
 interface verify
-   module procedure :: uverify
+   module procedure :: verify_uu
+   module procedure :: verify_ua
 end interface verify
 
 interface scan
-   module procedure :: uscan
+   module procedure :: scan_uu
+   module procedure :: scan_ua
 end interface scan
 
 interface fmt
@@ -4156,7 +4166,90 @@ end function pad
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
-elemental pure function uscan(string,set,back) result(pos)
+! 
+! NAME
+!   SCAN(3) ‐ [CHARACTER:SEARCH] Scan a string for the presence of a
+!   set of characters
+! 
+! SYNOPSIS
+!   result = scan( string, set, [,back] )
+! 
+!    elemental integer(kind=KIND) function scan(string,set,back)
+! 
+!     type(unicode_type),intent(in) :: string
+! 
+!     type(unicode_type),intent(in) :: set
+!        or
+!     character(len=*),intent(in)   :: set
+! 
+!     logical,intent(in),optional   :: back
+! 
+! CHARACTERISTICS
+!   +  STRING is a string of type unicode_type
+! 
+!   +  SET must be a string of type unicode_type or character
+! 
+!   +  BACK is a logical of default kind
+! 
+!   +  the result is an integer of default kind.
+! 
+! DESCRIPTION
+!   SCAN(3) scans a STRING for any of the characters in a SET of characters.
+! 
+!   If BACK is either absent or equals .false., this function returns the
+!   position of the leftmost character of STRING that is in SET. If BACK
+!   equals .true., the rightmost position is returned. If no character of
+!   SET is found in STRING, the result is zero.
+! 
+! OPTIONS
+!   +  STRING : the string to be scanned
+! 
+!   +  SET : the set of characters which will be matched
+! 
+!   +  BACK : if .true. the position of the rightmost character matched
+!      is returned, instead of the leftmost.
+! 
+! RESULT
+!   If BACK is absent or is present with the value false and if STRING
+!   contains at least one character that is in SET, the value of the result
+!   is the position of the leftmost character of STRING that is in SET.
+! 
+!   If BACK is present with the value true and if STRING contains at least
+!   one character that is in SET, the value of the result is the position
+!   of the rightmost character of STRING that is in SET.
+! 
+!   The value of the result is zero if no character of STRING is in SET
+!   or if the length of STRING or SET is zero.
+! 
+! EXAMPLES
+!   Sample program:
+! 
+!    program demo_scan
+!    implicit none
+!       write(*,*) scan("fortran", "ao")          ! 2, found ’o’
+!       write(*,*) scan("fortran", "ao", .true.)  ! 6, found ’a’
+!       write(*,*) scan("fortran", "c++")         ! 0, found none
+!    end program demo_scan
+! 
+!   Results:
+! 
+!    > 2
+!    > 6
+!    > 0
+! 
+! STANDARD
+!   Fortran 95 , with KIND argument ‐ Fortran 2003
+! 
+! SEE ALSO
+!   Functions that perform operations on character strings, return lengths
+!   of arguments, and search for certain arguments:
+! 
+!   +  ADJUSTL(3), ADJUSTR(3), INDEX(3), VERIFY(3)
+! 
+!   +  LEN_TRIM(3), LEN(3), REPEAT(3), TRIM(3)
+! 
+!   Fortran intrinsic descriptions (license: MIT) @urbanjost
+elemental pure function scan_uu(string,set,back) result(pos)
 
 ! ident_11="@(#) M_unicode scan(3f) Scan a string for the presence of a set of characters"
 
@@ -4175,11 +4268,22 @@ integer                       :: i
       pos = minval( [ (findloc(string%codes, set%codes(i), dim=1, back=back_local), i=1,size(set%codes) )])
    endif
 
-end function uscan
+end function scan_uu
+!===================================================================================================================================
+elemental pure function scan_ua(string,set,back) result(pos)
+! allow SET to be CHARACTER and not just TYPE(UNICODE_TYPE)
+type(unicode_type),intent(in) :: string
+character(len=*),intent(in)   :: set
+type(unicode_type)            :: set_u
+logical,intent(in),optional   :: back
+integer                       :: pos
+   set_u=set
+   pos = scan_uu(string,set_u,back)
+end function scan_ua
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
-elemental impure function uverify(string,set,back) result(result)
+elemental impure function verify_uu(string,set,back) result(result)
 
 ! ident_12="@(#) M_unicode verify(3f) determine position of a character in a string that does not appear in a given set of characters."
 
@@ -4199,7 +4303,17 @@ integer                       :: i
          exit
       endif
    enddo
-end function uverify
+end function verify_uu
+!===================================================================================================================================
+elemental impure function verify_ua(string,set,back) result(result)
+type(unicode_type),intent(in) :: string
+character(len=*),intent(in)   :: set
+type(unicode_type)            :: set_u
+logical,intent(in),optional   :: back
+integer                       :: result
+   set_u=set
+   result=verify_uu(string,set_u,back)
+end function verify_ua
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
@@ -4751,7 +4865,7 @@ class(unicode_type),intent(in)  ::  self
 class(unicode_type),intent(in)  ::  set
 logical,intent(in),optional     ::  back
 integer                         ::  pos
-   pos=uverify(self,set,back=back)
+   pos=verify_uu(self,set,back=back)
 end function oop_verify
 !===================================================================================================================================
 pure function oop_scan(self,set,back) result(pos)
@@ -4759,7 +4873,7 @@ class(unicode_type),intent(in)  ::  self
 class(unicode_type),intent(in)  ::  set
 logical,optional,intent(in)     ::  back
 integer                         ::  pos
-   pos=uscan(self,set,back=back)
+   pos=scan_uu(self,set,back=back)
 end function oop_scan
 !===================================================================================================================================
 function oop_tokenize(self,set) result(tokens)
@@ -4981,7 +5095,7 @@ end function readline
 !      use :: M_unicode, only : ut=>unicode_type, ch=>character
 !      implicit none
 !      character(len=:),allocatable :: Astr, Aformat
-!      type(ut) :: Ustr, Uformat
+!      type(ut) :: Ustr
 ! 
 !         ! format can be CHARACTER
 !         Aformat="('[',i0,']')"

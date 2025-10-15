@@ -5,7 +5,6 @@
     type(ut)                     :: in
     type(ut)                     :: inexpanded
     character(len=:),allocatable :: dat
-    character(len=128)           :: line
     integer                      :: i
        dat='  this is my string  '
        ! change spaces to tabs to make a sample input

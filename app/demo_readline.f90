@@ -12,10 +12,10 @@
        INFINITE: do
           line=readline(iostat=iostat)
           if(iostat.ne.0)exit
-	  aline=line
-	  ints=line
+          aline=line
+          ints=line
           write(*,'(*(g0,1x))')len(line),'['//aline//']',line%codepoint()
-	  ! alternatively
+          ! alternatively
           write(*,'(*(g0,1x))')len(line),'['//ch(line)//']',ints
        enddo INFINITE
 

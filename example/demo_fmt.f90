@@ -3,7 +3,7 @@
      use :: M_unicode, only : ut=>unicode_type, ch=>character
      implicit none
      character(len=:),allocatable :: Astr, Aformat
-     type(ut) :: Ustr, Uformat
+     type(ut) :: Ustr
 
         ! format can be CHARACTER
         Aformat="('[',i0,']')"
@@ -17,7 +17,7 @@
         ! Output is a string, so use ch()
         write(*,*)'result is ', ch(fmt(.true.,"'The answer is [',g0,']'"))
 
-        ! OOP 
+        ! OOP
         Ustr='A B C'
         Ustr=Ustr%fmt("'[',g0,']'")
         write(*,*)'result is ',ch(Ustr)
