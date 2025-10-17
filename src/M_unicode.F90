@@ -259,7 +259,8 @@ public :: unicode_type
 public :: utf8_to_codepoints,  codepoints_to_utf8
 public :: character
  public :: sort
- public :: upper, lower
+ public :: upper
+ public :: lower
  public :: expandtabs
  public :: expand
  public :: fmt
@@ -269,16 +270,23 @@ public :: afmt
  public :: join
  public :: readline
 
-public :: adjustl, adjustr, index, len, len_trim, repeat, trim
+public :: adjustl
+public :: adjustr
+public :: index
+public :: len
+public :: len_trim
+public :: repeat
+public :: trim
 public :: split
  public :: tokenize
  public :: scan
 public :: verify
-public :: assignment(=)
 public :: ichar
 public :: lle, llt, lne, leq, lgt, lge
+public :: assignment(=)
 public :: operator(<=), operator(<), operator(/=), operator(==), operator(>), operator(>=), operator(//)
 
+public :: write(formatted)
 
 private :: a2s, s2a
 private :: binary_search
@@ -1876,6 +1884,8 @@ end type force_keywords
 ! of this type:
 !    type(force_keywords), optional, intent(in) :: force_kwargs
 
+!> Write string to connected formatted unit.
+interface write(formatted);   module procedure :: write_formatted;   end interface
 contains
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
@@ -2430,7 +2440,8 @@ end function len_trim_str
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
-! return code value of first character of string like intrinsic ichar()
+! Return code value of first character of string like intrinsic ichar()
+!
 elemental function ichar_str(string) result(code)
 type(unicode_type), intent(in) :: string
 integer                        :: code
@@ -2475,6 +2486,81 @@ end function adjustr_str
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
+! 
+! NAME
+!   ADJUSTL(3) - [STRING:WHITESPACE] Left-justified a string
+! 
+! SYNOPSIS
+!   result = adjustl(string)
+! 
+!    elemental character(len=len(string),kind=KIND) function adjustl(string)
+! 
+!     character(len=*,kind=KIND),intent(in) :: string
+! 
+! CHARACTERISTICS
+!   + STRING is a character variable of any supported kind
+! 
+!   + The return value is a character variable of the same kind and
+!     length as STRING
+! 
+! DESCRIPTION
+!   adjustl(3) will left-justify a string by removing leading
+!   spaces. Spaces are inserted at the end of the string as needed.
+! 
+! OPTIONS
+!   +  STRING : the string to left-justify
+! 
+! RESULT
+!   A copy of STRING where leading spaces are removed and the same
+!   number of spaces are inserted on the end of STRING.
+! 
+! EXAMPLES
+!   Sample program:
+! 
+!    program demo_adjustl
+!    use M_unicode, only : ut=>unicode_type
+!    use M_unicode, only : ch=>character
+!    use M_unicode, only : adjustl, trim, len_trim, verify
+!    use M_unicode, only : write(formatted)
+!    use M_unicode, only : assignment(=)
+!    implicit none
+!    type(ut)                   :: usample, uout
+!    integer                    :: istart, iend
+!    character(len=*),parameter :: adt = '(a,"[",DT,"]")'
+! 
+!     ! basic use
+!       usample='   sample string   '
+!       write(*,adt) 'original: ',usample
+! 
+!     ! note a string stays the same length
+!     ! and is not trimmed by just an adjustl(3) call.
+!       write(*,adt) 'adjusted: ',adjustl(usample)
+! 
+!     ! a fixed‐length string can be trimmed using trim(3)
+!       uout=trim(adjustl(usample))
+!       write(*,adt) 'trimmed:  ',uout
+! 
+!     ! or alternatively you can select a substring without adjusting
+!       istart= max(1,verify(usample, ' ')) ! first non‐blank character
+!       iend = len_trim(usample)
+!       write(*,adt) 'substring:',usample%sub(istart,iend)
+! 
+!    end program demo_adjustl
+! 
+!   Results:
+! 
+!    > original: [   sample string   ]
+!    > adjusted: [sample string      ]
+!    > trimmed:  [sample string]
+!    > substring:[sample string]
+! 
+! STANDARD
+!   Fortran 95
+! 
+! SEE ALSO
+!   ADJUSTR(3), TRIM(3)
+! 
+!   Fortran descriptions (license: MIT) @urbanjos
 !left-justify string by  moving leading spaces to end of string so length is retained even if spaces are of varied width
 elemental function adjustl_str(string) result(adjusted)
 type(unicode_type), intent(in) :: string
@@ -3839,7 +3925,7 @@ end function lower
 !===================================================================================================================================
 ! 
 ! NAME
-!   TOKENIZE(3) ‐ [CHARACTER:PARSE] Parse a string into tokens.
+!   TOKENIZE(3) ‐ [STRING:PARSE] Parse a string into tokens.
 ! 
 ! SYNOPSIS
 !   TOKEN form (returns array of strings)
@@ -3940,14 +4026,16 @@ end function lower
 !   Sample of uses
 ! 
 !    program demo_tokenize
-!    !use M_strings, only : tokenize=>split2020
+!    use M_unicode, only : tokenize, ut=>unicode_type,ch=>character
+!    use M_unicode, only : assignment(=),operator(/=)
 !    implicit none
 ! 
 !    ! some useful formats
-!    character(len=*),parameter :: brackets=’(*("[",g0,"]":,","))’
-!    character(len=*),parameter :: a_commas=’(a,*(g0:,","))’
-!    character(len=*),parameter :: space=’(*(g0:,1x))’
-!    character(len=*),parameter :: gen=’(*(g0))’
+!    character(len=*),parameter ::       &
+!     & brackets='(*("[",g0,"]":,","))' ,&
+!     & a_commas='(a,*(g0:,","))'       ,&
+!     & space='(*(g0:,1x))'             ,&
+!     & gen='(*(g0))'
 ! 
 !    ! Execution of TOKEN form (return array of tokens)
 ! 
@@ -3955,16 +4043,16 @@ end function lower
 !       type(ut)             :: string
 !       type(ut),allocatable :: tokens(:)
 !       integer              :: i
-!          string = ’  first,second ,third       ’
-!          call tokenize(string, set=’;,’, tokens=tokens )
-!          write(*,brackets)tokens%character()
+!          string = '  first,second ,third       '
+!          call tokenize(string, set=';,', tokens=tokens )
+!          write(*,brackets)ch(tokens)
 ! 
-!          string = ’  first , second ,third       ’
-!          call tokenize(string, set=’ ,’, tokens=tokens )
+!          string = '  first , second ,third       '
+!          call tokenize(string, set=' ,', tokens=tokens )
 !          write(*,brackets)(tokens(i)%character(),i=1,size(tokens))
 !          ! remove blank tokens
-!          tokens=pack(tokens, tokens /= ’’ )
-!          write(*,brackets)tokens%character()
+!          tokens=pack(tokens, tokens /= '' )
+!          write(*,brackets)ch(tokens)
 ! 
 !       endblock
 ! 
@@ -3974,13 +4062,13 @@ end function lower
 !       type(ut)                   :: string
 !       character(len=*),parameter :: set = " ,"
 !       integer,allocatable        :: first(:), last(:)
-!          write(*,gen)repeat(’1234567890’,6)
-!          string = ’first,second,,fourth’
+!          write(*,gen)repeat('1234567890',6)
+!          string = 'first,second,,fourth'
 !          write(*,gen)ch(string)
 !          call tokenize (string, set, first, last)
-!          write(*,a_commas)’FIRST=’,first
-!          write(*,a_commas)’LAST=’,last
-!          write(*,a_commas)’HAS LENGTH=’,last‐first.gt.0
+!          write(*,a_commas)'FIRST=',first
+!          write(*,a_commas)'LAST=',last
+!          write(*,a_commas)'HAS LENGTH=',last-first.gt.0
 !       endblock
 ! 
 !       end program demo_tokenize
@@ -4368,7 +4456,7 @@ end function pad
 !===================================================================================================================================
 ! 
 ! NAME
-!   SCAN(3) ‐ [CHARACTER:SEARCH] Scan a string for the presence of a
+!   SCAN(3) ‐ [STRING:SEARCH] Scan a string for the presence of a
 !   set of characters
 ! 
 ! SYNOPSIS
@@ -4550,7 +4638,7 @@ end function scan_ua
 ! 
 !       program demo_verify
 !       use M_unicode
-!       use M_unicode, only : ut=>unicode_type
+!       use M_unicode, only : ut=>unicode_type, ch=>character
 !       implicit none
 !       ! some useful character sets
 !       character,parameter :: &
@@ -4587,7 +4675,6 @@ end function scan_ua
 !          ! check if all printable characters
 !          string="aB;cde,fgHI!Jklmno PQRSTU vwxyz"
 !          write(*,*)’isprint?’,verify(string,prnt) == 0
-! 
 ! 
 !          ! this now has a nonprintable tab character in it
 !          string(10:10)=char(11)
@@ -5344,7 +5431,6 @@ function oop_join(self,array,clip) result (out)
 
 ! ident_17="@(#) M_unicode oop_join(3f) merge string array into a single string value adding specified separator"
 
-
 class(unicode_type),intent(in) :: self
 type(unicode_type),intent(in)  :: array(:)
 logical,intent(in),optional    :: clip
@@ -5834,7 +5920,7 @@ end function fmt_gs
 !===================================================================================================================================
 ! 
 ! NAME
-!     trimzeros_(3fp) - [M_strings:TYPE] Delete trailing zeros from
+!     trimzeros_(3fp) - [M_unicode:TYPE] Delete trailing zeros from
 !     numeric decimal string
 !     (LICENSE:PD)
 ! 
@@ -5857,7 +5943,7 @@ end function fmt_gs
 !     Sample program:
 ! 
 !        program demo_trimzeros_
-!        !use M_strings, only : trimzeros_
+!        !use M_unicode, only : trimzeros_
 !        character(len=:),allocatable :: string
 !           string= '123.450000000000'
 !           call trimzeros_(string)
@@ -5887,7 +5973,7 @@ end function fmt_gs
 !     MI
 subroutine trimzeros_(string)
 
-! ident_23="@(#) M_strings trimzeros_(3fp) Delete trailing zeros from numeric decimal string"
+! ident_23="@(#) M_unicode trimzeros_(3fp) Delete trailing zeros from numeric decimal string"
 
 ! if zero needs added at end assumes input string has room
 character(len=*)               :: string
@@ -5931,6 +6017,30 @@ end subroutine trimzeros_
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
+!> Write string to connected formatted unit.
+subroutine write_formatted(string, unit, iotype, v_list, iostat, iomsg)
+class(unicode_type), intent(in) :: string
+integer, intent(in)             :: unit
+character(len=*), intent(in)    :: iotype
+integer, intent(in)             :: v_list(:)
+integer, intent(out)            :: iostat
+character(len=*), intent(inout) :: iomsg
+
+   select case(iotype)
+   case("LISTDIRECTED")
+      write(unit, '(a)', iostat=iostat, iomsg=iomsg) character(string)
+   case("NAMELIST")
+      error stop "[Fatal] This implementation does not support namelist output"
+   case default ! DT*
+      select case(size(v_list))
+      case(0) ! DT
+         write(unit, '(a)', iostat=iostat, iomsg=iomsg) character(string)
+      case default
+         error stop "[Fatal] This implementation does not support v_list formatters"
+      end select
+   end select
+
+end subroutine write_formatted
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
