@@ -271,7 +271,7 @@ public :: afmt
 
 public :: adjustl, adjustr, index, len, len_trim, repeat, trim
 public :: split
-public :: tokenize
+ public :: tokenize
  public :: scan
 public :: verify
 public :: assignment(=)
@@ -310,11 +310,11 @@ interface fmt
 end interface fmt
 
 interface tokenize
-   module procedure :: split_first_last, split_pos, split_tokens
+   module procedure :: split_first_last, split_first_last_uaii, split_pos, split_pos_uail, split_tokens, split_tokens_uauu
 end interface tokenize
 
 interface split
-   module procedure :: split_first_last, split_pos, split_tokens
+   module procedure :: split_first_last, split_first_last_uaii, split_pos, split_pos_uail, split_tokens, split_tokens_uauu
 end interface split
 
 ! Assign a character sequence to a string.
@@ -3837,6 +3837,179 @@ end function lower
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
+! 
+! NAME
+!   TOKENIZE(3) ‐ [CHARACTER:PARSE] Parse a string into tokens.
+! 
+! SYNOPSIS
+!   TOKEN form (returns array of strings)
+! 
+!    subroutine tokenize(string, set, tokens [, separator])
+! 
+!     type(unicode),intent(in) :: string
+!     type(unicode),intent(in) :: set
+!     type(unicode),allocatable,intent(out) :: tokens(:)
+!     type(unicode),allocatable,intent(out),optional :: separator(:)
+! 
+!   ARRAY BOUNDS form (returns arrays defining token positions)
+! 
+!    subroutine tokenize (string, set, first, last)
+! 
+!     type(unicode),intent(in) :: string
+!     type(unicode),intent(in) :: set
+!     integer,allocatable,intent(out) :: first(:)
+!     integer,allocatable,intent(out) :: last(:)
+! 
+! CHARACTERISTICS
+!   +  STRING ‐ a scalar of type string. It is an INTENT(IN)
+!      argument.
+! 
+!   +  SET ‐ a scalar of type string with the same kind type
+!      parameter as STRING. It is an INTENT(IN) argument.
+! 
+!   +  SEPARATOR ‐ (optional) shall be of type string. It is an
+!      INTENT(OUT)argument. It shall not be a coarray or a coindexed object.
+! 
+!   +  TOKENS ‐ of type string. It is an INTENT(OUT) argument. It shall
+!      not be a coarray or a coindexed object.
+! 
+!   +  FIRST,LAST ‐ an allocatable array of type integer and rank
+!      one. It is an INTENT(OUT) argument. It shall not be a coarray or a
+!      coindexed object.
+! 
+! DESCRIPTION
+!   TOKENIZE(3) parses a string into tokens. There are two forms of the
+!   subroutine TOKENIZE(3).
+! 
+!   +  The token form returns an array with one token per element,
+!      all of the same length as the longest token.
+! 
+!   +  The array bounds form returns two integer arrays. One
+!      contains the beginning position of the tokens and the other the end
+!      positions.
+! 
+!   Since the token form pads all the tokens to the same length the
+!   original number of trailing spaces of each token accept for the
+!   longest is lost.
+! 
+!   The array bounds form retains information regarding the exact token
+!   length even when padded by spaces.
+! 
+! OPTIONS
+!   •  STRING : The string to parse into tokens.
+! 
+!   +  SET :  Each character in SET is a token delimiter. A
+!      sequence of zero or more characters in STRING delimited by any token
+!      delimiter, or the beginning or end of STRING, comprise a token. Thus,
+!      two consecutive token delimiters in STRING, or a token delimiter
+!      in the first or last character of STRING, indicate a token with
+!      zero length.
+! 
+!   +  TOKENS : It shall be an allocatable array of rank one with
+!      deferred length. It is allocated with the lower bound equal to one
+!      and the upper bound equal to the number of tokens in STRING, and
+!      with character length equal to the length of the longest token.
+! 
+!      The tokens in STRING are assigned in the order found, as if by
+!      intrinsic assignment, to the elements of TOKENS, in array element
+!      order.
+! 
+!   +  FIRST : shall be an allocatable array of type integer and rank one.
+!      It is an INTENT(OUT) argument. It shall not be a coarray or
+!      a coindexed object.
+! 
+!      It is allocated with the lower bound equal to one and the upper
+!      bound equal to the number of tokens in STRING. Each element is
+!      assigned, in array element order, the starting position of each
+!      token in STRING, in the order found.
+! 
+!      If a token has zero length, the starting position is equal to
+!      one if the token is at the beginning of STRING, and one greater
+!      than the position of the preceding delimiter otherwise.
+! 
+!   +  LAST : It is allocated with the lower bound equal to one and the
+!      upper bound equal to the number of tokens in STRING. Each
+!      element is assigned, in array element order, the ending position
+!      of each token in STRING, in the order found.
+! 
+!      If a token has zero length, the ending position is one less than
+!      the starting position.
+! 
+! EXAMPLES
+! 
+!   Sample of uses
+! 
+!    program demo_tokenize
+!    !use M_strings, only : tokenize=>split2020
+!    implicit none
+! 
+!    ! some useful formats
+!    character(len=*),parameter :: brackets=’(*("[",g0,"]":,","))’
+!    character(len=*),parameter :: a_commas=’(a,*(g0:,","))’
+!    character(len=*),parameter :: space=’(*(g0:,1x))’
+!    character(len=*),parameter :: gen=’(*(g0))’
+! 
+!    ! Execution of TOKEN form (return array of tokens)
+! 
+!       block
+!       type(ut)             :: string
+!       type(ut),allocatable :: tokens(:)
+!       integer              :: i
+!          string = ’  first,second ,third       ’
+!          call tokenize(string, set=’;,’, tokens=tokens )
+!          write(*,brackets)tokens%character()
+! 
+!          string = ’  first , second ,third       ’
+!          call tokenize(string, set=’ ,’, tokens=tokens )
+!          write(*,brackets)(tokens(i)%character(),i=1,size(tokens))
+!          ! remove blank tokens
+!          tokens=pack(tokens, tokens /= ’’ )
+!          write(*,brackets)tokens%character()
+! 
+!       endblock
+! 
+!       ! Execution of BOUNDS form (return position of tokens)
+! 
+!       block
+!       type(ut)                   :: string
+!       character(len=*),parameter :: set = " ,"
+!       integer,allocatable        :: first(:), last(:)
+!          write(*,gen)repeat(’1234567890’,6)
+!          string = ’first,second,,fourth’
+!          write(*,gen)ch(string)
+!          call tokenize (string, set, first, last)
+!          write(*,a_commas)’FIRST=’,first
+!          write(*,a_commas)’LAST=’,last
+!          write(*,a_commas)’HAS LENGTH=’,last‐first.gt.0
+!       endblock
+! 
+!       end program demo_tokenize
+! 
+!   Results:
+! 
+!    > [  first     ],[second      ],[third       ]
+!    > [],[first],[],[],[second],[],[third],[],[],[],[],[]
+!    > [first ],[second],[third ]
+!    > 123456789012345678901234567890123456789012345678901234567890
+!    > first,second,,fourth
+!    > FIRST=1,7,14,15
+!    > LAST=5,12,13,20
+!    > HAS LENGTH=T,T,F,T
+! 
+! STANDARD
+!   Fortran 2023
+! 
+! SEE ALSO
+!   +  SPLIT(3) ‐ return tokens from a string, one at a time
+! 
+!   +  INDEX(3) ‐ Position of a substring within a string
+! 
+!   +  SCAN(3) ‐ Scan a string for the presence of a set of characters
+! 
+!   +  VERIFY(3) ‐ Position of a character in a string of characters
+!                  that does not appear in a given set of characters.
+! 
+!   (license: MIT) @urbanjos
 impure subroutine split_tokens(string, set, tokens, separator)
 ! Splits a string into tokens using characters in set as token delimiters.
 ! If present, separator contains the array of token delimiters.
@@ -3848,9 +4021,10 @@ type(unicode_type), allocatable, intent(out), optional :: separator(:)
 integer, allocatable                                   :: first(:), last(:)
 integer                                                :: n
 integer                                                :: imax
-! AUTHOR  : Milan Curcic, "milancurcic@hey.com"
-! LICENSE : MIT
-! VERSION : version 0.1.0, copyright 2020, Milan Curcic
+! AUTHOR   : Milan Curcic, "milancurcic@hey.com"
+! LICENSE  : MIT
+! VERSION  : version 0.1.0, copyright 2020, Milan Curcic
+! MODIFIED : 2025-10-15 UTF-8 version, urbanjost
 
     call split_first_last(string, set, first, last)
     ! maxval() of a zero-size array is set to a flag value not zero or length of character string
@@ -3873,6 +4047,16 @@ integer                                                :: imax
     endif
 
 end subroutine split_tokens
+!===================================================================================================================================
+impure subroutine split_tokens_uauu(string, set, tokens, separator)
+! Splits a string into tokens using characters in set as token delimiters.
+! If present, separator contains the array of token delimiters.
+type(unicode_type),intent(in)                       :: string
+character(len=*),intent(in)                         :: set
+type(unicode_type),allocatable,intent(out)          :: tokens(:)
+type(unicode_type),allocatable,intent(out),optional :: separator(:)
+   call split_tokens(string,unicode_type(set),tokens,separator)
+end subroutine split_tokens_uauu
 !===================================================================================================================================
 impure subroutine split_first_last(string, set, first, last)
 ! Computes the first and last indices of tokens in input string, delimited
@@ -3933,6 +4117,14 @@ integer                           :: slen
 
   end subroutine split_first_last
 !===================================================================================================================================
+impure subroutine split_first_last_uaii(string, set, first, last)
+type(unicode_type),intent(in)            :: string
+character(len=*),intent(in)              :: set
+integer,allocatable,intent(out)          :: first(:)
+integer,allocatable,intent(out),optional :: last(:)
+   call split_first_last(string,unicode_type(set),first,last)
+end subroutine split_first_last_uaii
+!===================================================================================================================================
 impure subroutine split_pos(string, set, pos, back)
 ! If back is absent, computes the leftmost token delimiter in string whose
 ! position is > pos. If back is present and true, computes the rightmost
@@ -3985,6 +4177,14 @@ integer                        :: n
     pos = result_pos
 
 end subroutine split_pos
+!===================================================================================================================================
+impure subroutine split_pos_uail(string, set, pos, back)
+type(unicode_type),intent(in) :: string
+character(len=*),intent(in)   :: set
+integer,intent(in out)        :: pos
+logical,intent(in),optional   :: back
+   call split_pos(string,unicode_type(set),pos,back)
+end subroutine split_pos_uail
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
@@ -4283,6 +4483,380 @@ end function scan_ua
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
+! 
+! 
+! NAME
+!   VERIFY(3) ‐ [STRING:SEARCH] Position of a character in a string of
+!   characters that does not appear in a given set of characters.
+! 
+! SYNOPSIS
+!   result = verify(string, set [,back] [,kind] )
+! 
+!            elemental integer(kind=KIND) function verify(string,set,back,KIND)
+! 
+!             type(unicode_type),intent(in) :: string
+! 
+!             type(unicode_type),intent(in) :: set
+!                or
+!             character(len=*),intent(in)   :: set
+! 
+!             logical,intent(in),optional   :: back
+! 
+! CHARACTERISTICS
+! 
+!   +  STRING  must be of type string
+! 
+!   +  SET  must be of type string or character.
+! 
+!   +  KIND must be a constant integer initialization expression of default kind
+! 
+!   +  BACK shall be of type logical.
+! 
+!   +  A default integer kind is returned.
+! 
+! DESCRIPTION
+!   VERIFY(3)  verifies  that  all  the characters in STRING belong to the set of
+!   characters in SET by identifying the position of the first character  in  the
+!   string that is not in the set.
+! 
+!   This makes it easy to verify strings are all uppercase or lowercase, follow a
+!   basic  syntax,  only contain printable characters, and many of the conditions
+!   tested  for  with  the  C  routines  ISALNUM(3c),  ISALPHA(3c),  ISASCII(3c),
+!   ISBLANK(3c), ISCNTRL(3c), ISDIGIT(3c), ISGRAPH(3c), ISLOWER(3c), ISPRINT(3c),
+!   ISPUNCT(3c),  ISSPACE(3c), ISUPPER(3c), and ISXDIGIT(3c); but for a string as
+!   well as an array of strings.
+! 
+! OPTIONS
+!   +  STRING : The string to search in for an unmatched character.
+! 
+!   +  SET : The set of characters that must be matched.
+! 
+!   +  BACK : The direction to look for an  unmatched  character.  The  left‐most
+!      unmatched  character  position  is  returned  unless  BACK  is present and
+!      .false., which causes the position of the right‐most  unmatched  character
+!      to be returned instead of the left‐most unmatched character.
+! 
+! RESULT
+!   If all characters of STRING are found in SET, the result is zero.
+! 
+!   If STRING is of zero length a zero (0) is always returned.
+! 
+!   Otherwise, if an unmatched character is found The position of  the  first  or
+!   last (if BACK is .false.) unmatched character in STRING is returned, starting
+!   with position one on the left end of the string.
+! 
+! EXAMPLES
+!   Sample program I:
+! 
+!       program demo_verify
+!       use M_unicode
+!       use M_unicode, only : ut=>unicode_type
+!       implicit none
+!       ! some useful character sets
+!       character,parameter :: &
+!        & int*(*)   = ’1234567890’, &
+!        & low*(*)   = ’abcdefghijklmnopqrstuvwxyz’, &
+!        & upp*(*)   = ’ABCDEFGHIJKLMNOPQRSTUVWXYZ’, &
+!        & punc*(*)  = "!""#$%&’()*+,‐./:;<=>?@[\]ˆ_‘{|}˜", &
+!        & blank*(*) = ’ ’, &
+!        & tab       = char(11), &
+!        & prnt*(*) = int//low//upp//blank//punc
+! 
+!       character(len=:),allocatable :: string_a
+!       type(unicode_type)           :: string_u
+!       integer :: i
+!           print *, ’basics:’
+!           print *, VERIFY (’ABBA’, ’A’)                ! has the value 2.
+!           print *, VERIFY (’ABBA’, ’A’, BACK = .TRUE.) ! has the value 3.
+!           print *, VERIFY (’ABBA’, ’AB’)               ! has the value 0.
+! 
+!          print *,’find first non‐uppercase letter’
+!          ! will produce the location of "d", because there is no match in UPP
+!          write(*,*) ’something unmatched’,verify(ut("ABCdEFG"), upp)
+! 
+!          print *,’if everything is matched return zero’
+!          ! will produce 0 as all letters have a match
+!          write(*,*) ’everything matched’,verify(ut("ffoorrttrraann"), "nartrof")
+! 
+!          print *,’easily categorize strings as uppercase, lowercase, ...’
+!          ! easy C‐like functionality but does entire strings not just characters
+!          write(*,*)’isdigit 123?’,verify(ut("123)", int) == 0
+!          write(*,*)’islower abc?’,verify(ut("abc)", low) == 0
+!          write(*,*)’isalpha aBc?’,verify(ut("aBc"), low//upp) == 0
+!          write(*,*)’isblank aBc dEf?’,verify(ut("aBc dEf"), blank//tab ) /= 0
+!          ! check if all printable characters
+!          string="aB;cde,fgHI!Jklmno PQRSTU vwxyz"
+!          write(*,*)’isprint?’,verify(string,prnt) == 0
+! 
+! 
+!          ! this now has a nonprintable tab character in it
+!          string(10:10)=char(11)
+!          write(*,*)’isprint?’,verify(string,prnt) == 0
+! 
+!          print *,’VERIFY(3) is very powerful using expressions as masks’
+!          ! verify(3) is often used in a logical expression
+!          string=" This is NOT all UPPERCASE "
+!          write(*,*)’all uppercase/spaces?’,verify(string, blank//upp) == 0
+!          string=" This IS all uppercase "
+!          write(*,*) ’string=[’//string//’]’
+!          write(*,*)’all uppercase/spaces?’,verify(string, blank//upp) == 0
+! 
+!         ! set and show complex string to be tested
+!          string=’  Check this out. Let me know  ’
+!          ! show the string being examined
+!          write(*,*) ’string=[’//string//’]’
+!          write(*,*) ’        ’//repeat(int,4) ! number line
+! 
+!          ! the Fortran functions returns a position just not a logical like C
+!          print *, ’returning a position not just a logical is useful’
+!          ! which can be very useful for parsing strings
+!          write(*,*)’first non‐blank character’,verify(string, blank)
+!          write(*,*)’last non‐blank character’,verify(string, blank,back=.true.)
+!          write(*,*)’first non‐letter non‐blank’,verify(string,low//upp//blank)
+! 
+!         !VERIFY(3) is elemental so you can check an array of strings in one call
+!         print *, ’elemental’
+!          ! are strings all letters (or blanks)?
+!          write(*,*) ’array of strings’,verify( &
+!          ! strings must all be same length, so force to length 10
+!          & [character(len=10) :: "YES","ok","000","good one","Nope!"], &
+!          & low//upp//blank) == 0
+! 
+!          ! rarer, but the set can be an array, not just the strings to test
+!          ! you could do ISPRINT() this (harder) way :>
+!          write(*,*)’isprint?’,.not.all(verify(ut("aBc"), [(char(i),i=32,126)])==1)
+!          ! instead of this way
+!          write(*,*)’isprint?’,verify(ut("aBc"),prnt) == 0
+! 
+!       end program demo_verify
+! 
+!   Results:
+! 
+!        >  basics:
+!        >            2
+!        >            3
+!        >            0
+!        >  find first non‐uppercase letter
+!        >  something unmatched           4
+!        >  if everything is matched return zero
+!        >  everything matched           0
+!        >  easily categorize strings as uppercase, lowercase, ...
+!        >  isdigit 123? T
+!        >  islower abc? T
+!        >  isalpha aBc? T
+!        >  isblank aBc dEf? T
+!        >  isprint? T
+!        >  isprint? F
+!        >  VERIFY(3) is very powerful using expressions as masks
+!        >  all uppercase/spaces? F
+!        >  string=[ This IS all uppercase ]
+!        >  all uppercase/spaces? F
+!        >  string=[  Check this out. Let me know  ]
+!        >          1234567890123456789012345678901234567890
+!        >  returning a position not just a logical is useful
+!        >  first non‐blank character           3
+!        >  last non‐blank character          29
+!        >  first non‐letter non‐blank          17
+!        >  elemental
+!        >  array of strings T T F T F
+!        >  isprint? T
+!        >  isprint? T
+! 
+!   Sample program II:
+! 
+!   Determine if strings are valid integer representations
+! 
+!       program fortran_ints
+!       implicit none
+!       integer :: i
+!       character(len=*),parameter :: ints(*)=[character(len=10) :: &
+!        ’+1 ’, &
+!        ’3044848 ’, &
+!        ’30.40 ’, &
+!        ’September ’, &
+!        ’1 2 3’, &
+!        ’  ‐3000 ’, &
+!        ’ ’]
+!          ! show the strings to test
+!          write(*,’("|",*(g0,"|"))’) ints
+!          ! show if strings pass or fail the test done by isint(3)
+!          write(*,’("|",*(1x,l1,8x,"|"))’) isint(ints)
+! 
+!       contains
+! 
+!       elemental function isint(line) result (lout)
+!       !
+!       ! determine if string is a valid integer representation
+!       ! ignoring trailing spaces and leading spaces
+!       !
+!       character(len=*),parameter   :: digits=’0123456789’
+!       character(len=*),intent(in)  :: line
+!       character(len=:),allocatable :: name
+!       logical                      :: lout
+!          lout=.false.
+!          ! make sure at least two characters long to simplify tests
+!          name=adjustl(line)//’  ’
+!          ! blank string
+!          if( name == ’’ )return
+!          ! allow one leading sign
+!          if( verify(name(1:1),’+‐’) == 0 ) name=name(2:)
+!          ! was just a sign
+!          if( name == ’’ )return
+!          lout=verify(trim(name), digits)  == 0
+!       end function isint
+! 
+!       end program fortran_ints
+! 
+!   Results:
+! 
+!       |+1       |3044848  |30.40    |September|1 2 3    |  ‐3000  |         |
+!       | T       | T       | F       | F       | F       | T       | F       |
+! 
+!   Sample program III:
+! 
+!   Determine if strings represent valid Fortran symbol names
+! 
+!       program fortran_symbol_name
+!       implicit none
+!       integer :: i
+!       character(len=*),parameter :: symbols(*)=[character(len=10) :: &
+!        ’A_ ’, &
+!        ’10 ’, &
+!        ’September ’, &
+!        ’A B’, &
+!        ’_A ’, &
+!        ’ ’]
+! 
+!          write(*,’("|",*(g0,"|"))’) symbols
+!          write(*,’("|",*(1x,l1,8x,"|"))’) fortran_name(symbols)
+! 
+!       contains
+! 
+!       elemental function fortran_name(line) result (lout)
+!       !
+!       ! determine if a string is a valid Fortran name
+!       ! ignoring trailing spaces (but not leading spaces)
+!       !
+!       character(len=*),parameter   :: int=’0123456789’
+!       character(len=*),parameter   :: lower=’abcdefghijklmnopqrstuvwxyz’
+!       character(len=*),parameter   :: upper=’ABCDEFGHIJKLMNOPQRSTUVWXYZ’
+!       character(len=*),parameter   :: allowed=upper//lower//int//’_’
+! 
+!       character(len=*),intent(in)  :: line
+!       character(len=:),allocatable :: name
+!       logical                      :: lout
+!          name=trim(line)
+!          if(len(name).ne.0)then
+!             ! first character is alphameric
+!             lout = verify(name(1:1), lower//upper) == 0  &
+!              ! other characters are allowed in a symbol name
+!              & .and. verify(name,allowed) == 0           &
+!              ! allowable length
+!              & .and. len(name) <= 63
+!          else
+!             lout = .false.
+!          endif
+!       end function fortran_name
+! 
+!       end program fortran_symbol_name
+! 
+!   Results:
+! 
+!           |A_        |10        |September |A B       |_A        |          |
+!           | T        | F        | T        | F        | F        | F        |
+! 
+!   Sample program IV:
+! 
+!   check if string is of form NN‐HHHHH
+! 
+!       program checkform
+!       ! check if string is of form NN‐HHHHH
+!       implicit none
+!       character(len=*),parameter :: int=’1234567890’
+!       character(len=*),parameter :: hex=’abcdefABCDEF0123456789’
+!       logical                    :: lout
+!       character(len=80)          :: chars
+! 
+!          chars=’32‐af43d’
+!          lout=.true.
+! 
+!          ! are the first two characters integer characters?
+!          lout = lout.and.(verify(chars(1:2), int) == 0)
+! 
+!          ! is the third character a dash?
+!          lout = lout.and.(verify(chars(3:3), ’‐’) == 0)
+! 
+!          ! is remaining string a valid representation of a hex value?
+!          lout = lout.and.(verify(chars(4:8), hex) == 0)
+! 
+!          if(lout)then
+!             write(*,*)trim(chars),’ passed’
+!          else
+!             write(*,*)trim(chars),’ failed’
+!          endif
+!       end program checkform
+! 
+!   Results:
+! 
+!           32‐af43d passed
+! 
+!   Sample program V:
+! 
+!   exploring uses of elemental functionality and dusty corners
+! 
+!       program more_verify
+!       implicit none
+!       character(len=*),parameter :: &
+!         & int=’0123456789’, &
+!         & low=’abcdefghijklmnopqrstuvwxyz’, &
+!         & upp=’ABCDEFGHIJKLMNOPQRSTUVWXYZ’, &
+!         & blank=’ ’
+!       ! note character variables in an array have to be of the same length
+!       character(len=6) :: strings(3)=["Go    ","right ","home! "]
+!       character(len=2) :: sets(3)=["do","re","me"]
+! 
+!         ! elemental ‐‐ you can use arrays for both strings and for sets
+! 
+!          ! check each string from right to left for non‐letter/non‐blank
+!          write(*,*)’last non‐letter’,verify(strings,upp//low//blank,back=.true.)
+! 
+!          ! even BACK can be an array
+!          ! find last non‐uppercase character in "Howdy "
+!          ! and first non‐lowercase in "there "
+!          write(*,*) verify(strings(1:2),[upp,low],back=[.true.,.false.])
+! 
+!          ! using a null string for a set is not well defined. Avoid it
+!          write(*,*) ’null’,verify("for tran ", "", .true.) ! 8,length of string?
+!          ! probably what you expected
+!          write(*,*) ’blank’,verify("for tran ", " ", .true.) ! 7,found ’n’
+! 
+!          ! first character in  "Go    " not in "do",
+!          ! and first letter in "right " not in "ri"
+!          ! and first letter in "home! " not in "me"
+!          write(*,*) verify(strings,sets)
+! 
+!       end program more_verify
+! 
+!   Results:
+! 
+!           > last non‐letter 0 0 5
+!           > 6 6
+!           > null 9
+!           > blank 8
+!           > 1 2 1
+! 
+! STANDARD
+!   Fortran 95 , with KIND argument ‐ Fortran 2003
+! 
+! SEE ALSO
+!   Functions that perform operations on character strings, return
+!   lengths of arguments, and search for certain arguments:
+! 
+!   +  ELEMENTAL: ADJUSTL(3), ADJUSTR(3), INDEX(3), SCAN(3),
+! 
+!   +  NONELEMENTAL: LEN_TRIM(3), LEN(3), REPEAT(3), TRIM(3)
+! 
+!   Fortran descriptions (license: MIT) @urbanjost
 elemental impure function verify_uu(string,set,back) result(result)
 
 ! ident_12="@(#) M_unicode verify(3f) determine position of a character in a string that does not appear in a given set of characters."

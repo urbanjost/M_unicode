@@ -1,5 +1,7 @@
 program checkform
+!
 ! check if string is of form NN‐HHHHH
+!
 use iso_fortran_env, only : stdout => output_unit
 use M_unicode,       only : verify, unicode_type, assignment(=)
 use M_unicode,       only : ut=>unicode_type

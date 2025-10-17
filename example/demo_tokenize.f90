@@ -1,56 +1,47 @@
-program demo_tokenize
-use iso_fortran_env, only : stdout => output_unit
-use M_unicode,       only : assignment(=), unicode_type, tokenize, len, character
-implicit none
-character(len=*),parameter       :: g0='(*(g0))'
-character(len=*),parameter       :: g1='(*(g0,1x))'
-type(unicode_type),allocatable   :: tokens(:)
-type(unicode_type),allocatable   :: separators(:)
-type(unicode_type)               :: delims
-type(unicode_type)               :: herbs
-integer,allocatable,dimension(:) :: begins
-integer,allocatable,dimension(:) :: ends
-integer                          :: i
+   program demo_tokenize
+   use M_unicode, only : tokenize, ut=>unicode_type,ch=>character
+   use M_unicode, only : assignment(=),operator(/=)
+   implicit none
 
-   delims = ',&'
-   herbs  = 'parsley,sage,rosemary,&thyme'
-   write(stdout,*)herbs%character()
+   ! some useful formats
+   character(len=*),parameter ::       &
+    & brackets='(*("[",g0,"]":,","))' ,&
+    & a_commas='(a,*(g0:,","))'       ,&
+    & space='(*(g0:,1x))'             ,&
+    & gen='(*(g0))'
 
-   write(stdout,g0)
+   ! Execution of TOKEN form (return array of tokens)
 
-   write(stdout,g0)'expecting'
-   write(stdout,g0)' tokens    =[parsley][sage][rosemary][][thyme]'
-   write(stdout,g0)' separators=,,,&'
-   CALL TOKENIZE (herbs, delims, tokens, separators)
-   write(stdout,g0)'got'
-   write(stdout,g0)" tokens    =",('['//tokens(i)%character(),']',i=1,size(tokens))
-   write(stdout,g0)" separators=",(separators(i)%character(),i=1,size(separators))
+      block
+      type(ut)             :: string
+      type(ut),allocatable :: tokens(:)
+      integer              :: i
+         string = '  first,second ,third       '
+         call tokenize(string, set=';,', tokens=tokens )
+         write(*,brackets)ch(tokens)
 
-   write(stdout,g0)
+         string = '  first , second ,third       '
+         call tokenize(string, set=' ,', tokens=tokens )
+         write(*,brackets)(tokens(i)%character(),i=1,size(tokens))
+         ! remove blank tokens
+         tokens=pack(tokens, tokens /= '' )
+         write(*,brackets)ch(tokens)
 
-   write(stdout,g0)'expecting'
-   write(stdout,*)'begins=',[1, 9, 14, 23, 24]
-   write(stdout,*)'ends=  ',[7, 12, 21, 22, 28]
-   CALL TOKENIZE (herbs, delims, begins, ends)
-   write(stdout,g0)'got'
-   write(stdout,*)'begins=',begins
-   write(stdout,*)'ends=  ',ends
+      endblock
 
-   write(stdout,g0)
+      ! Execution of BOUNDS form (return position of tokens)
 
-   write(stdout,g0)'OOP'
-   tokens=herbs%tokenize(delims)
-   write(stdout,g0)" tokens    =",('['//tokens(i)%character(),']',i=1,size(tokens))
-   herbs='parsley/sage/rosemary//thyme'
-   delims='/'
-   tokens=herbs%tokenize(delims)
-   write(stdout,g0)" tokens    =",('['//tokens(i)%character(),']',i=1,size(tokens))
-   herbs='parsley😃sage😃rosemary😃😃thyme'
-   delims='😃'
-   write(stdout,g0)' ',delims%character()
-   write(stdout,g1)' ',delims%codepoint()
-   tokens=herbs%tokenize(delims)
-   write(stdout,g0)" tokens    =",('['//tokens(i)%character(),']',i=1,size(tokens))
+      block
+      type(ut)                   :: string
+      character(len=*),parameter :: set = " ,"
+      integer,allocatable        :: first(:), last(:)
+         write(*,gen)repeat('1234567890',6)
+         string = 'first,second,,fourth'
+         write(*,gen)ch(string)
+         call tokenize (string, set, first, last)
+         write(*,a_commas)'FIRST=',first
+         write(*,a_commas)'LAST=',last
+         write(*,a_commas)'HAS LENGTH=',last-first.gt.0
+      endblock
 
-
-end program demo_tokenize
+      end program demo_tokenize
