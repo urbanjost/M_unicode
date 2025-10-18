@@ -272,8 +272,8 @@ public :: afmt
 
  public :: adjustl
  public :: adjustr
-public :: index
-public :: len
+ public :: index
+ public :: len
 public :: len_trim
 public :: repeat
 public :: trim
@@ -2245,6 +2245,106 @@ end subroutine assign_str_code
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
+! 
+! NAME
+!   LEN(3) ‐ [CHARACTER] Length of a string
+! 
+! SYNOPSIS
+!   result = len(string)
+! 
+!    elemental integer(kind=KIND) function len(string,KIND)
+! 
+!     type(unicode_type),intent(in) :: string
+! 
+! CHARACTERISTICS
+!   + STRING is a scalar or array character variable
+! 
+!   + KIND is a scalar integer constant expression.
+! 
+!   + the returned value is the same integer kind as the KIND argument,
+!     or of the default integer kind if KIND is not specified.
+! 
+! DESCRIPTION
+!   LEN(3) returns the length of a character string.
+! 
+!   If STRING is an array, the length of a single element of STRING is
+!   returned, as all elements of an array are the same length.
+! 
+!   Note that STRING need not be defined when this intrinsic is invoked,
+!   as only the length (not the content) of STRING is needed.
+! 
+! OPTIONS
+!   + STRING : A scalar or array string to return the length of. If it
+!     is an unallocated allocatable variable or a pointer that is not
+!     associated, its length type parameter shall not be deferred.
+! 
+!   + KIND : A constant indicating the kind parameter of the result.
+! 
+! RESULT
+!   The result has a value equal to the number of characters in STRING if
+!   it is scalar or in an element of STRING if it is an array.
+! 
+! EXAMPLES
+!   Sample program
+! 
+!    program demo_len
+!    use m_unicode, only : assignment(=), ut=>unicode_type, len
+!    use m_unicode, only : write(formatted)
+!    implicit none
+!    type(ut)             :: string
+!    type(ut),allocatable :: many_strings(:)
+!    integer                        :: ii
+!     ! BASIC USAGE
+!       string='Noho me ka hau’oli' ! (Be happy.)
+!       ii=len(string)
+!       write(*,'(DT,*(g0))')string, ' LEN=', ii
+! 
+!       string=' How long is this allocatable string? '
+!       write(*,'(DT,*(g0))')string, ' LEN=', len(string)
+! 
+!     ! STRINGS IN AN ARRAY MAY BE OF DIFFERENT LENGTHS
+!       many_strings = [ ut('Tom'), ut('Dick'), ut('Harry') ]
+!       write(*,'(*(g0,1x))')'length of elements of array=',len(many_strings)
+! 
+!       write(*,'(*(g0))')'length from type parameter inquiry=',string%len()
+! 
+!     ! LOOK AT HOW A PASSED STRING CAN BE USED ...
+!       call passed(ut(' how long? '))
+! 
+!    contains
+! 
+!       subroutine passed(str)
+!       type(ut),intent(in) :: str
+!          ! you can query the length of the passed variable
+!          ! when an interface is present
+!          write(*,'(*(g0))')'length of passed value is ', len(str)
+!       end subroutine passed
+! 
+!    end program demo_len
+! 
+!   Results:
+! 
+!    > Noho me ka hau’oli LEN=18
+!    >  How long is this allocatable string?  LEN=38
+!    > length of elements of array= 3 4 5
+!    > length from type parameter inquiry=38
+!    > length of passed value is 11
+! 
+! STANDARD
+!   FORTRAN 77 ; with KIND argument ‐ Fortran 2003
+! 
+! SEE ALSO
+!   len_trim(3), adjustr(3), trim(3), and adjustl(3) are related routines
+!   that allow you to deal with leading and trailing blanks.
+! 
+!   Functions that perform operations on character strings, return lengths
+!   of arguments, and search for certain arguments:
+! 
+!   +  ELEMENTAL: ADJUSTL(3), ADJUSTR(3), INDEX(3), SCAN(3), VERIFY(3)
+! 
+!   +  NONELEMENTAL: LEN_TRIM(3), LEN(3), REPEAT(3), TRIM(3)
+! 
+!   Fortran descriptions (license: MIT) @urbanjos
 ! Returns the length of the character sequence represented by the string.
 elemental function len_str(string) result(length)
 type(unicode_type), intent(in) :: string
