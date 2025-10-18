@@ -364,7 +364,7 @@ interface operator(/=); module procedure :: lne_char_str,   lne_str_char,    lne
 interface operator(==); module procedure :: leq_char_str,   leq_str_char,    leq_str_str;     end interface operator(==)
 interface operator(>);  module procedure :: lgt_str_str,    lgt_str_char,    lgt_char_str;    end interface operator(>)
 interface operator(>=); module procedure :: lge_str_str,    lge_str_char,    lge_char_str;    end interface operator(>=)
-interface operator(//); module procedure :: concat_g_g; end interface operator(//)
+interface operator(//); module procedure :: concat_g_g;                                       end interface operator(//)
 
 type :: unicode_type ! Unicode string type holding an arbitrary sequence of integer codes.
    !sequence ! not used for storage association; a kludge to prevent extending this type.
@@ -5527,16 +5527,18 @@ end function expand
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
+! worked fine with gfortran, ifx produced an error
+! ././src/M_unicode.F90(5530): error #9186: The dummy arguments of the
+! specific procedure defining a defined assignment or defined operator
+! cannot both be unlimited polymorphic.   [CONCAT_G_G]
+!
 function concat_g_g(lhs,rhs) result (string)
 
 ! ident_15="@(#) M_overload g_g(3f) convert two single intrinsic values or strings to a string"
-
-class(*),intent(in) :: lhs
-class(*),intent(in) :: rhs
-type(unicode_type)  :: string1
-type(unicode_type)  :: string2
-type(unicode_type)  :: string
+!
 ! use this instead of str() so character variables are not trimmed and/or spaces are not added
+class(*),intent(in) :: lhs, rhs
+type(unicode_type)  :: string1, string2, string
    string1 = fmt(lhs)
    string2 = fmt(rhs)
    string%codes=[string1%codes,string2%codes]
