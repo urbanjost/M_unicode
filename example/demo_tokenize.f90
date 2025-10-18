@@ -7,7 +7,6 @@
    character(len=*),parameter ::       &
     & brackets='(*("[",g0,"]":,","))' ,&
     & a_commas='(a,*(g0:,","))'       ,&
-    & space='(*(g0:,1x))'             ,&
     & gen='(*(g0))'
 
    ! Execution of TOKEN form (return array of tokens)

@@ -8,7 +8,6 @@
    type(ut),allocatable       :: array(:)
    integer                    :: i
    character(len=*),parameter :: bracket='("[",DT,"]")'
-   character(len=*),parameter :: gen='(*(g0))'
 
       call numberline(2)
 

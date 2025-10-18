@@ -14,7 +14,6 @@ character(len=*),parameter   :: &
 character(len=*),parameter   :: g= '(*(g0))'
 integer                      :: i
 integer                      :: ends(2)
-integer,allocatable          :: codes(:)
 character(len=:),allocatable :: argument
 type(unicode_type)           :: ustr
 
@@ -29,7 +28,7 @@ type(unicode_type)           :: ustr
    do i=ends(1),ends(2)
       ustr=i
       write(stdout,'(1x,i0)',advance='no') i          ! codepoint
-      write(stdout,'(1x,a)',advance='no'),ch(ustr)    ! character  
+      write(stdout,'(1x,a)',advance='no')ch(ustr)     ! character  
       write(stdout,'(1x,''U\'',z8.8)',advance='no')i  ! U\00000064
       write(stdout,form_zhtml,advance='no')i          ! &#x4EBA;
       write(stdout,form_html,advance='no')i           ! &#20154;

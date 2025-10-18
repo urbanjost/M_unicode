@@ -2641,7 +2641,6 @@ integer,intent(in),optional    :: glyphs
 type(unicode_type)             :: adjusted
 integer                        :: last
 integer                        :: i
-integer                        :: iend
    if(present(glyphs))then
       if(glyphs.le.0)then
          allocate(adjusted%codes(0))
@@ -4237,7 +4236,6 @@ end function lower
 !    character(len=*),parameter ::       &
 !     & brackets='(*("[",g0,"]":,","))' ,&
 !     & a_commas='(a,*(g0:,","))'       ,&
-!     & space='(*(g0:,1x))'             ,&
 !     & gen='(*(g0))'
 ! 
 !    ! Execution of TOKEN form (return array of tokens)
@@ -5547,16 +5545,16 @@ end function concat_g_g
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 function oop_fmt(self,format) result (string_out)
-class(unicode_type),intent(in)     :: self
-character(len=*),optional          :: format
-type(unicode_type)                 :: string_out
+class(unicode_type),intent(in) :: self
+character(len=*),optional      :: format
+type(unicode_type)             :: string_out
    string_out=fmt(self,format)
 end function oop_fmt
 !===================================================================================================================================
 function oop_expandtabs(self,tab_size) result (string_out)
-class(unicode_type),intent(in)     :: self
-integer,intent(in),optional        :: tab_size
-type(unicode_type)                 :: string_out
+class(unicode_type),intent(in) :: self
+integer,intent(in),optional    :: tab_size
+type(unicode_type)             :: string_out
    string_out=expandtabs(self,tab_size)
 end function oop_expandtabs
 !===================================================================================================================================
@@ -5568,28 +5566,29 @@ type(unicode_type)                   :: string_out
 end function oop_expand
 !===================================================================================================================================
 function oop_upper(self) result (string_out)
-class(unicode_type),intent(in)     :: self
-type(unicode_type)                 :: string_out
+class(unicode_type),intent(in) :: self
+type(unicode_type)             :: string_out
    string_out=upper(self)
 end function oop_upper
 !===================================================================================================================================
 function oop_lower(self) result (string_out)
-class(unicode_type),intent(in)     :: self
-type(unicode_type)                 :: string_out
+class(unicode_type),intent(in) :: self
+type(unicode_type)             :: string_out
    string_out=lower(self)
 end function oop_lower
 !===================================================================================================================================
-function oop_adjustl(self) result (string_out)
-class(unicode_type),intent(in)     :: self
-type(unicode_type)                 :: string_out
-   string_out=adjustl_str(self)
+function oop_adjustl(self,glyphs) result (string_out)
+class(unicode_type),intent(in) :: self
+integer,intent(in),optional    :: glyphs
+type(unicode_type)             :: string_out
+   string_out=adjustl_str(self,glyphs)
 end function oop_adjustl
 !===================================================================================================================================
-function oop_adjustr(self) result (string_out)
-
-class(unicode_type),intent(in)     :: self
-type(unicode_type)                 :: string_out
-   string_out=adjustr_str(self)
+function oop_adjustr(self,glyphs) result (string_out)
+class(unicode_type),intent(in) :: self
+integer,intent(in),optional    :: glyphs
+type(unicode_type)             :: string_out
+   string_out=adjustr_str(self,glyphs)
 end function oop_adjustr
 !===================================================================================================================================
 function oop_sub(self,first,last,step) result(str_out)
@@ -5724,18 +5723,18 @@ integer                         :: which
 end function oop_codepoint
 !===================================================================================================================================
 impure function oop_verify(self,set,back) result(pos)
-class(unicode_type),intent(in)  ::  self
-class(unicode_type),intent(in)  ::  set
-logical,intent(in),optional     ::  back
-integer                         ::  pos
+class(unicode_type),intent(in) :: self
+class(unicode_type),intent(in) :: set
+logical,intent(in),optional    :: back
+integer                        :: pos
    pos=verify_uu(self,set,back=back)
 end function oop_verify
 !===================================================================================================================================
 pure function oop_scan(self,set,back) result(pos)
-class(unicode_type),intent(in)  ::  self
-class(unicode_type),intent(in)  ::  set
-logical,optional,intent(in)     ::  back
-integer                         ::  pos
+class(unicode_type),intent(in) :: self
+class(unicode_type),intent(in) :: set
+logical,optional,intent(in)    :: back
+integer                        :: pos
    pos=scan_uu(self,set,back=back)
 end function oop_scan
 !===================================================================================================================================
