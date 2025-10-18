@@ -176,6 +176,10 @@ type(unicode_type)             :: ut_str
    astr=character(ut_str)
    call checkit('adjustl',astr,character(ut_str%adjustl()),'😃     ')
 
+   astr = "this is a string              "
+   ut_str =   "  this is a string    "
+   call checkit('adjustl',astr,character(ut_str%adjustl(30)),astr)
+
 end subroutine test_adjustl
 
 subroutine test_adjustr()
