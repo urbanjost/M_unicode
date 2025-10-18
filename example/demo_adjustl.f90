@@ -26,4 +26,9 @@
       iend = len_trim(usample)
       write(*,adt) 'substring:',usample%sub(istart,iend)
 
+      write(*,adt) 'substring:',adjustl(usample,30)
+      write(*,adt) 'substring:',adjustl(usample,20)
+      write(*,adt) 'substring:',adjustl(usample,10)
+      write(*,adt) 'substring:',adjustl(usample,0)
+
    end program demo_adjustl

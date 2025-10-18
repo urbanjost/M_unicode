@@ -270,8 +270,8 @@ public :: afmt
  public :: join
  public :: readline
 
-public :: adjustl
-public :: adjustr
+ public :: adjustl
+ public :: adjustr
 public :: index
 public :: len
 public :: len_trim
@@ -2469,18 +2469,202 @@ end function trim_str
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
-impure elemental function adjustr_str(string) result(adjusted)
+! 
+! NAME
+!   adjustr(3) - [string:whitespace] right-justify a string
+! 
+! SYNOPSIS
+!   result = adjustr(string,glyphs)
+! 
+!    elemental function adjustr(string)
+! 
+!     type(unicode_type)            :: adjustr
+!     type(unicode_type),intent(in) :: string
+!     integer,intent(in),optional   :: glyphs
+! 
+! CHARACTERISTICS
+!   + STRING is a string variable
+!   + GLYPHS is a default integer
+!   + the return value is a string variable
+! 
+! DESCRIPTION
+!   ADJUSTR(3) right-justifies a string by removing trailing spaces. Spaces
+!   are inserted at the start of the string as needed to retain the
+!   original length.
+! 
+! OPTIONS
+!   + STRING : the string to right-justify
+!   + GLYPHS : length in glyphs to extend to or truncate to
+! 
+! RESULT
+!   trailing spaces are removed and the same number of spaces are then
+!   inserted at the start of string.
+! 
+! EXAMPLES
+!   sample program:
+! 
+!    program demo_adjustr
+!    use M_unicode, only : ut=>unicode_type
+!    use M_unicode, only : adjustr, len
+!    use M_unicode, only : write(formatted)
+!    use M_unicode, only : assignment(=)
+!    implicit none
+!    type(ut)                   :: str
+!    type(ut),allocatable       :: array(:)
+!    integer                    :: i
+!    character(len=*),parameter :: bracket='("[",DT,"]")'
+!    character(len=*),parameter :: gen='(*(g0))'
+! 
+!       call numberline(2)
+! 
+!       ! basic usage
+!       str = '  sample string     '
+!       write(*,bracket) str
+!       str = adjustr(str)
+!       write(*,bracket) str
+! 
+!       call numberline(5)
+! 
+!       ! elemental
+!       array=ut([character(len=50) :: &
+!       '    एक (ek) ', &
+!       '       दो (do) ', &
+!       '          तीन(teen) ' ])
+! 
+!       ! print array unadjusted
+!       write(*,bracket)array
+!       !do i=1,size(array)
+!       !   write(*,'(*(g0,1x))')array(i)%codepoint()
+!       !enddo
+!       ! note 50 bytes is not necessarily 50 glyphs
+!       write(*,'(*(g0,1x))')'length in glyphs=',len(array)
+!       write(*,'(*(g0,1x))')'length in bytes=',(len(array(i)%character()),i=1,size(array))
+! 
+!       call numberline(5)
+! 
+!       ! print array right-justified
+!       write(*,bracket)adjustr(array)
+! 
+!       call numberline(5)
+! 
+!       ! print array right-justified specifying number of glyphs
+!       write(*,*)'set to 50'
+!       write(*,bracket)adjustr(array,50)
+! 
+!       write(*,*)'set to 60'
+!       call numberline(6)
+!       write(*,bracket)adjustr(array,60)
+!       write(*,*)'set to 40'
+!       call numberline(4)
+!       write(*,bracket)adjustr(array,40)
+!       write(*,*)'set to 10'
+!       call numberline(1)
+!       write(*,bracket)adjustr(array,10)
+!       write(*,*)'set to 5'
+!       write(*,bracket)adjustr(array,5)
+!       write(*,*)'set to 4'
+!       write(*,bracket)adjustr(array,4)
+!       write(*,*)'set to 1'
+!       write(*,bracket)adjustr(array,1)
+! 
+! contains
+!    subroutine numberline(ireps)
+!    integer,intent(in) :: ireps
+!       write(*,'(1x,a)')repeat('1234567890',ireps)
+!    end subroutine numberline
+! 
+!    end program demo_adjustr
+! 
+!   Results:
+! 
+!    >  12345678901234567890
+!    > [  sample string     ]
+!    > [       sample string]
+!    >  12345678901234567890123456789012345678901234567890
+!    > [    एक (ek)                                   ]
+!    > [       दो (do)                                ]
+!    > [          तीन(teen)                         ]
+!    > length in glyphs= 46 46 44
+!    > length in bytes= 50 50 50
+!    >  12345678901234567890123456789012345678901234567890
+!    > [                                       एक (ek)]
+!    > [                                       दो (do)]
+!    > [                                   तीन(teen)]
+!    >  12345678901234567890123456789012345678901234567890
+!    >  set to 50
+!    > [                                           एक (ek)]
+!    > [                                           दो (do)]
+!    > [                                         तीन(teen)]
+!    >  set to 60
+!    >  123456789012345678901234567890123456789012345678901234567890
+!    > [                                                     एक (ek)]
+!    > [                                                     दो (do)]
+!    > [                                                   तीन(teen)]
+!    >  set to 40
+!    >  1234567890123456789012345678901234567890
+!    > [                                 एक (ek)]
+!    > [                                 दो (do)]
+!    > [                               तीन(teen)]
+!    >  set to 10
+!    >  1234567890
+!    > [   एक (ek)]
+!    > [   दो (do)]
+!    > [ तीन(teen)]
+!    >  set to 5
+!    > [ (ek)]
+!    > [ (do)]
+!    > [teen)]
+!    >  set to 4
+!    > [(ek)]
+!    > [(do)]
+!    > [een)]
+!    >  set to 1
+!    > [)]
+!    > [)]
+!    > [)]
+! 
+! STANDARD
+!   Fortran 95
+! 
+! SEE ALSO
+!   ADJUSTL(3), TRIM(3)
+! 
+!   Fortran descriptions (license: mit) @urbanjos
+impure elemental function adjustr_str(string,glyphs) result(adjusted)
 
 ! ident_3="@(#) M_unicode adjustr(3f) adjust string to right"
 
 ! right-justify string by moving trailing spaces to beginning of string so length is retained even if spaces are of varied width
 
 type(unicode_type), intent(in) :: string
+integer,intent(in),optional    :: glyphs
 type(unicode_type)             :: adjusted
 integer                        :: last
-
-   last=len_trim_str(string)
-   adjusted%codes=cshift(string%codes,-(size(string%codes)-last))
+integer                        :: i
+integer                        :: iend
+   if(present(glyphs))then
+      if(glyphs.le.0)then
+         allocate(adjusted%codes(0))
+      elseif(glyphs.lt.size(string%codes))then ! shorter
+         adjusted%codes=adjustl(string)
+         adjusted=trim_str(adjusted)
+         if(size(adjusted%codes).lt.glyphs)then
+            adjusted%codes=[(32,i=1,glyphs-size(adjusted%codes)),adjusted%codes]
+         else
+            adjusted%codes=adjusted%codes(size(adjusted%codes)-glyphs+1:)
+         endif
+      elseif(glyphs.eq.size(string%codes))then
+         last=len_trim_str(string)
+         adjusted%codes=cshift(string%codes,-(size(string%codes)-last))
+      else ! longer than string length
+         adjusted%codes=[(32,i=1,glyphs-size(string%codes)),string%codes]
+         last=len_trim_str(adjusted)
+         adjusted%codes=cshift(adjusted%codes,-(size(adjusted%codes)-last))
+      endif
+   else
+      last=len_trim_str(string)
+      adjusted%codes=cshift(string%codes,-(size(string%codes)-last))
+   endif
 
 end function adjustr_str
 !===================================================================================================================================
@@ -2491,15 +2675,16 @@ end function adjustr_str
 !   ADJUSTL(3) - [STRING:WHITESPACE] Left-justified a string
 ! 
 ! SYNOPSIS
-!   result = adjustl(string)
+!   result = adjustl(string,glyphs)
 ! 
 !    elemental character(len=len(string),kind=KIND) function adjustl(string)
 ! 
 !     character(len=*,kind=KIND),intent(in) :: string
+!     integer,intent(in),optional           :: glyphs
 ! 
 ! CHARACTERISTICS
 !   + STRING is a character variable of any supported kind
-! 
+!   + GLYPHS is a default integer
 !   + The return value is a character variable of the same kind and
 !     length as STRING
 ! 
@@ -2509,6 +2694,7 @@ end function adjustr_str
 ! 
 ! OPTIONS
 !   +  STRING : the string to left-justify
+!   +  GLYPHS : the length of the output in glyphs
 ! 
 ! RESULT
 !   A copy of STRING where leading spaces are removed and the same
@@ -2545,6 +2731,11 @@ end function adjustr_str
 !       iend = len_trim(usample)
 !       write(*,adt) 'substring:',usample%sub(istart,iend)
 ! 
+!       write(*,adt) 'substring:',adjustl(usample,30)
+!       write(*,adt) 'substring:',adjustl(usample,20)
+!       write(*,adt) 'substring:',adjustl(usample,10)
+!       write(*,adt) 'substring:',adjustl(usample,0)
+! 
 !    end program demo_adjustl
 ! 
 !   Results:
@@ -2562,16 +2753,28 @@ end function adjustr_str
 ! 
 !   Fortran descriptions (license: MIT) @urbanjos
 !left-justify string by  moving leading spaces to end of string so length is retained even if spaces are of varied width
-elemental function adjustl_str(string) result(adjusted)
-type(unicode_type), intent(in) :: string
-type(unicode_type)             :: adjusted
-integer                        :: first
+elemental function adjustl_str(string,glyphs) result(adjusted)
+type(unicode_type),intent(in) :: string
+integer,intent(in),optional   :: glyphs
+type(unicode_type)            :: adjusted
+integer                       :: first
+integer                       :: i
 
    do first=1,size(string%codes),1
       if(any(string%codes(first).eq.unicode%SPACES))cycle
       exit
    enddo
    adjusted%codes=cshift(string%codes,first-1)
+   if(present(glyphs))then
+      if(glyphs.le.0)then
+         deallocate(adjusted%codes)
+         allocate(adjusted%codes(0))
+      elseif(glyphs.le.size(adjusted%codes))then
+         adjusted%codes=adjusted%codes(1:glyphs)
+      else
+         adjusted%codes=[adjusted%codes,(32,i=1,glyphs-size(adjusted%codes)+1)]
+      endif
+   endif
 
 end function adjustl_str
 !===================================================================================================================================
@@ -6034,7 +6237,9 @@ character(len=*), intent(inout) :: iomsg
    case default ! DT*
       select case(size(v_list))
       case(0) ! DT
-         write(unit, '(a)', iostat=iostat, iomsg=iomsg) character(string)
+         if(allocated(string%codes))then
+            write(unit, '(a)', iostat=iostat, iomsg=iomsg) character(string)
+         endif
       case default
          error stop "[Fatal] This implementation does not support v_list formatters"
       end select
