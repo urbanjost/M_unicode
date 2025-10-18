@@ -476,7 +476,7 @@ end interface unicode_type
 ! the period or comma.
 !
 ! thin space U+2009 8201 Common General Punctuation Separator, one-fifth
-! (sometimes one-sixth) of an em wide.  Recommended for use as a thousands
+! (sometimes one-sixth) of an em wide. Recommended for use as a thousands
 ! separator for measures made with SI units. Unlike U+2002 to U+2008,
 ! its width may get adjusted in typesetting.
 !
@@ -3037,9 +3037,117 @@ end function lgt_char_str
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
+! 
+! index(3)                                                                                                                     index(3)
+! 
+! NAME
+!   INDEX(3) ‐ [CHARACTER:SEARCH] Position of a substring within a string
+! 
+! SYNOPSIS
+!   result = index( string, substring [,back] [,kind] )
+! 
+!    elemental integer(kind=KIND) function index(string,substring,back,kind)
+! 
+!     character(len=*,kind=KIND),intent(in) :: string
+!     character(len=*,kind=KIND),intent(in) :: substring
+!     logical(kind=**),intent(in),optional :: back
+!     integer(kind=**),intent(in),optional :: kind
+! 
+! CHARACTERISTICS
+!   + STRING is a character variable of any kind
+! 
+!   + SUBSTRING is a character variable of the same kind as STRING
+! 
+!   + BACK is a logical variable of any supported kind
+! 
+!   + KIND is a scalar integer constant expression.
+! 
+! DESCRIPTION
+!   INDEX(3)  returns  the  position  of the start of the leftmost or
+!   rightmost occurrence of string SUBSTRING in STRING, counting from
+!   one. If SUBSTRING is not present in STRING, zero is returned.
+! 
+! OPTIONS
+!   + STRING : string to be searched for a match
+! 
+!   + SUBSTRING : string to attempt to locate in STRING
+! 
+!   + BACK : If the BACK argument is present and true, the return value
+!     is the start of  the  rightmost  occurrence  rather  than  the
+!     leftmost.
+! 
+!   + KIND : if KIND is present, the kind type parameter is that specified
+!     by the value of KIND; otherwise the kind type parameter is
+!     that of default integer type.
+! 
+! RESULT
+!   The result is the starting position of the first substring SUBSTRING
+!   found in STRING.
+! 
+!   If the length of SUBSTRING is longer than STRING the result is zero.
+! 
+!   If the substring is not found the result is zero.
+! 
+!   If BACK is .true. the greatest starting position is returned (that is,
+!   the  position  of  the  right‐most  match). Otherwise,  the smallest
+!   position starting a match (ie. the left‐most match) is returned.
+! 
+!   The position returned is measured from the left with the first character
+!   of STRING being position one.
+! 
+!   Otherwise, if no match is found zero is returned.
+! 
+! EXAMPLES
+!   Example program
+! 
+!    program demo_index
+!    use M_unicode, only : ut=>unicode_type
+!    use M_unicode, only : assignment(=)
+!    use M_unicode, only : index
+!    implicit none
+!    type(ut) :: str
+!    character(len=*),parameter :: all='(*(g0))'
+! 
+!       str='Huli i kēia kaula no kēia ʻōlelo'
+!       print all, index(str,'kēia').eq.8
+! 
+!       ! return value is counted from the left end even if BACK=.TRUE.
+!       print all, index(str,'kēia',back=.true.).eq.22
+! 
+!       ! INDEX is case‐sensitive
+!       print all, index(str,'Kēia').eq.0
+! 
+!       str='Search this string for this expression'
+!       print all, index(str,'this').eq.8
+!       print all, index(str,'this',back=.true.).eq.24
+!       print all, index(str,'This').eq.0
+! 
+!    end program demo_index
+! 
+!   Expected Results:
+! 
+!    > T
+!    > T
+!    > T
+!    > T
+!    > T
+!    > T
+! 
+! STANDARD
+!   FORTRAN 77 , with KIND argument Fortran 2003
+! 
+! SEE ALSO
+!   Functions that perform operations on character strings, return lengths
+!   of arguments, and search for certain arguments:
+! 
+!   +  ELEMENTAL: ADJUSTL(3), ADJUSTR(3), INDEX(3), SCAN(3), VERIFY(3)
+! 
+!   +  NONELEMENTAL: LEN_TRIM(3), LEN(3), REPEAT(3), TRIM(3)
+! 
+!   Fortran intrinsic description
 ! find location of substring within string
 
-elemental function index_str_str(string, substring,back) result(foundat)
+elemental function index_str_str(string, substring, back) result(foundat)
 type(unicode_type), intent(in) :: string
 type(unicode_type), intent(in) :: substring
 logical,intent(in),optional    :: back
@@ -3199,7 +3307,7 @@ end function index_char_str
 !    memory. One major advantage of this method is that the indices can
 !    be used to access an entire user-defined type in sorted order. This
 !    makes this seemingly simple sort procedure usuable with the vast
-!    majority of user-defined types.  or other correlated data.
+!    majority of user-defined types. or other correlated data.
 ! 
 ! BACKGROUND
 !     From Leonard J. Moss of SLAC:
@@ -4820,7 +4928,7 @@ end function scan_ua
 ! 
 !   +  SET : The set of characters that must be matched.
 ! 
-!   +  BACK : The direction to look for an  unmatched  character.  The  left‐most
+!   +  BACK : The direction to look for an  unmatched  character. The  left‐most
 !      unmatched  character  position  is  returned  unless  BACK  is present and
 !      .false., which causes the position of the right‐most  unmatched  character
 !      to be returned instead of the left‐most unmatched character.
