@@ -1,7 +1,7 @@
-program demo_expand
+program demo_escape
 ! demonstrate filter to expand C-like escape sequences in input lines
 use iso_fortran_env, only : stdout => output_unit
-use M_unicode,       only : ut=>unicode_type, ch=>character, len, expand
+use M_unicode,       only : ut=>unicode_type, ch=>character, len, escape
 use M_unicode,       only : assignment(=), trim
 implicit none
 type(ut),allocatable  :: poem(:)
@@ -34,7 +34,7 @@ integer               :: i
    ut( 'Jura, mais un peu tard, qu\U00002019on ne l\u2019y prendrait plus.' ), &
    ut( ' -- Jean de la Fontaine')]
 
-   poem=expand(poem)
+   poem=escape(poem)
    write(stdout,'(g0)')ch(poem)
 
    test=[ &
@@ -43,7 +43,7 @@ integer               :: i
     '\tA\a               ',& ! ring bell at end if supported
     '\nONE\nTWO\nTHREE   ',& ! place one word per line
     '\\                  ']
-   test=trim(expand(test))
+   test=trim(escape(test))
    write(*,'(a)')(test(i)%character(),i=1,size(test))
 
-end program demo_expand
+end program demo_escape

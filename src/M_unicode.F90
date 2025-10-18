@@ -262,7 +262,7 @@ public :: character
  public :: upper
  public :: lower
  public :: expandtabs
- public :: expand
+ public :: escape
  public :: fmt
 public :: afmt
  public :: replace
@@ -274,7 +274,7 @@ public :: afmt
  public :: adjustr
  public :: index
  public :: len
-public :: len_trim
+ public :: len_trim
 public :: repeat
 public :: trim
 public :: split
@@ -307,6 +307,13 @@ interface verify
    module procedure :: verify_uu
    module procedure :: verify_ua
 end interface verify
+
+interface escape
+   module procedure :: escape_uu
+   module procedure :: escape_ua
+   module procedure :: escape_au
+   module procedure :: escape_aa
+end interface escape
 
 interface scan
    module procedure :: scan_uu
@@ -392,7 +399,7 @@ contains
    procedure :: upper      => oop_upper
    procedure :: lower      => oop_lower
    procedure :: expandtabs => oop_expandtabs
-   procedure :: expand     => oop_expand
+   procedure :: escape     => oop_escape
    procedure :: fmt        => oop_fmt
 
    procedure :: sub        => oop_sub
@@ -2511,6 +2518,64 @@ end function char_strs_range_step
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
+! 
+! NAME
+!   repeat(3) - [character] repeated string concatenation
+! 
+! SYNOPSIS
+!   result = repeat(string, ncopies)
+! 
+!    type(unicode_type) function repeat(string, ncopies)
+! 
+!     type(unicode_type),intent(in) :: string
+!     integer,intent(in)            :: ncopies
+! 
+! CHARACTERISTICS
+!   + string is a scalar string type.
+!   + ncopies is a scalar integer.
+!   + the result is a new scalar of type string
+! 
+! DESCRIPTION
+!   repeat(3) concatenates copies of a string.
+! 
+! OPTIONS
+!   + string : the input string to repeat
+!   + ncopies : number of copies to make of string, greater than or
+!               equal to zero (0).
+! 
+! RESULT
+!   a new string built up from ncopies copies of string.
+! 
+! EXAMPLES
+!   sample program:
+! 
+!    program demo_repeat
+!    use M_unicode, only : ut=>unicode_type,repeat,escape
+!    implicit none
+!        write(*,'(a)') character(repeat(escape("\U000002C6 v"), 35))
+!        write(*,'(a)') repeat(ut("_"), 70)          ! line break
+!        write(*,'(a)') repeat(ut("1234567890"), 7)  ! number line
+!        write(*,'(a)') repeat(ut("         |"), 7)  !
+!    end program demo_repeat
+! 
+!  results:
+! 
+!   > ˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆv
+!   > ______________________________________________________________________
+!   > 1234567890123456789012345678901234567890123456789012345678901234567890
+!   >          |         |         |         |         |         |         |
+! 
+! STANDARD
+!   Fortran 95
+! 
+! SEE ALSO
+!   functions that perform operations on character strings:
+! 
+!   + elemental: adjustl(3), adjustr(3), index(3), scan(3), verify(3)
+! 
+!   + non-elemental: len_trim(3), len(3), repeat(3), trim(3)
+! 
+!   fortran descriptions (license: mit) @urbanjos
 ! Repeats the character sequence held by the string by the number of specified copies.
 ! This method is elemental and returns a scalar character value.
 elemental function repeat_str(string, ncopies) result(repeated_str)
@@ -2525,6 +2590,102 @@ end function repeat_str
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
+! 
+! NAME
+!   len_trim(3) - [character:whitespace] character length without trailing blank
+!   characters
+! 
+! SYNOPSIS
+!   result = len_trim(string [,kind])
+! 
+!          elemental integer(kind=kind) function len_trim(string,kind)
+! 
+!           character(len=*),intent(in) :: string
+!           integer(kind=kind),intent(in),optional :: kind
+! 
+! CHARACTERISTICS
+!   •  string is of type character
+! 
+!   •  kind  is  a  scalar integer constant expression specifying the kind of the
+!      returned value.
+! 
+!   •  the return value is of type integer and of kind kind. if kind  is  absent,
+!      the return value is of default integer kind.
+! 
+! DESCRIPTION
+!   len_trim(3)  returns  the length of a character string, ignoring any trailing
+!   blanks.
+! 
+! OPTIONS
+!   •  string : the input string whose length is to be measured.
+! 
+!   •  kind : indicates the kind parameter of the result.
+! 
+! RESULT
+!   the result equals the number  of  characters  remaining  after  any  trailing
+!   blanks in string are removed.
+! 
+!   if the input argument is of zero length or all blanks the result is zero.
+! 
+! EXAMPLES
+!   sample program
+! 
+!    program demo_len_trim
+!    use M_unicode, only : ut=>unicode_type, assignment(=)
+!    use M_unicode, only : len,len_trim
+!    use M_unicode, only : write(formatted)
+!    implicit none
+!    type(ut) :: string
+!    integer  :: i
+!    ! basic usage
+!       string=" how long is this string?     "
+!       print '(DT)',  string
+!       print *, 'untrimmed length=',len(string)
+!       print *, 'trimmed length=',len_trim(string)
+!       !
+!       ! print string, then print substring of string
+!       string='xxxxx   '
+!       write(*,'(*(DT))')string,string,string
+!       i=len_trim(string)
+!       print '(*(DT))',string%sub(1,i),string%sub(1,i),string%sub(1,i)
+!       !
+!       ! elemental example
+!       ele:block
+!       ! an array of strings may be used
+!       type(ut),allocatable :: tablet(:)
+!       tablet=[ &
+!       & ut(' how long is this string?     '),&
+!       & ut('and this one?')]
+!          write(*,*)'untrimmed length=  ',len(tablet)
+!          write(*,*)'trimmed length=    ',len_trim(tablet)
+!          write(*,*)'sum trimmed length=',sum(len_trim(tablet))
+!       endblock ele
+!       !
+!    end program demo_len_trim
+! 
+!   results:
+! 
+!    >  how long is this string?
+!    >  untrimmed length=          30
+!    >  trimmed length=          25
+!    > xxxxx   xxxxx   xxxxx
+!    > xxxxxxxxxxxxxxx
+!    >  untrimmed length=            30          13
+!    >  trimmed length=              25          13
+!    >  sum trimmed length=          38
+! 
+! STANDARD
+!   fortran 95 . kind argument added with fortran 2003.
+! 
+! SEE ALSO
+!   functions  that  perform  operations  on character strings, return lengths of
+!   arguments, and search for certain arguments:
+! 
+!   + elemental: adjustl(3), adjustr(3), index(3), scan(3), verify(3)
+! 
+!   + nonelemental: repeat(3), len(3), trim(3)
+! 
+!   fortran descriptions (license: mit) @urbanjos
 ! Returns length of character sequence without trailing spaces represented by the string.
 !
 elemental function len_trim_str(string) result(length)
@@ -5497,20 +5658,20 @@ end function expandtabs
 !===================================================================================================================================
 ! 
 ! NAME
-!     expand(3f) - [M_unicode:NONALPHA] expand C-like escape sequences
+!     escape(3f) - [M_unicode:NONALPHA] expand C-like escape sequences
 !     (LICENSE:PD)
 ! 
 ! SYNOPSIS
 ! 
-!    function expand(line,escape) result(out)
+!    function escape(line,utf8) result(out)
 ! 
 !     type(unicode_type)                    :: line
-!     character(len=1),intent(in),optional  :: escape
+!     character(len=1),intent(in),optional  :: protect
 !     type(unicode_type)                    :: out
 ! 
 ! DESCRIPTION
-!    EXPAND(3) expands sequences used to represent commonly used escape
-!    sequences or control characters. By default ...
+!    ESCAPE(3) expands commonly used escape sequences that
+!    represent glyphs or control characters. By default ...
 ! 
 !    Escape sequences
 ! 
@@ -5541,10 +5702,10 @@ end function expandtabs
 ! EXAMPLES
 ! 
 !   Sample Program:
-!    program demo_expand
+!    program demo_escape
 !    ! demonstrate filter to expand C-like escape sequences in input lines
 !    use iso_fortran_env, only : stdout => output_unit
-!    use M_unicode,       only : ut=>unicode_type,ch=>character,len,expand
+!    use M_unicode,       only : ut=>unicode_type,ch=>character,len,escape
 !    use M_unicode,       only : assignment(=), trim
 !    implicit none
 !    type(ut),allocatable  :: poem(:)
@@ -5579,7 +5740,7 @@ end function expandtabs
 !       'Jura, mais un peu tard, qu\u2019on ne l\u2019y prendrait plus.'),&
 !       ut( ' -- Jean de la Fontaine')]
 ! 
-!       poem=expand(poem)
+!       poem=escape(poem)
 !       write(stdout,'(g0)')ch(poem)
 ! 
 !       test=[ &
@@ -5589,10 +5750,10 @@ end function expandtabs
 !        '\tA\a               ',& ! ring bell at end if supported
 !        '\nONE\nTWO\nTHREE   ',& ! place one word per line
 !        '\\                  ']
-!       test=trim(expand(test))
+!       test=trim(escape(test))
 !       write(*,'(a)')(test(i)%character(),i=1,size(test))
 ! 
-! end program demo_expand
+! end program demo_escape
 ! 
 !  Results (with nonprintable characters shown visible):
 ! 
@@ -5610,13 +5771,13 @@ end function expandtabs
 ! 
 ! LICENSE
 !     MI
-impure elemental function expand(line,escape) result(out)
+impure elemental function escape_uu(line,protect) result(out)
 
-! ident_14="@(#) M_unicode expand(3f) return string with escape sequences expanded"
+! ident_14="@(#) M_unicode escape(3f) return string with escape sequences expanded"
 
-type(unicode_type),intent(in)        :: line
-character(len=1),intent(in),optional :: escape ! Default is backslash
-type(unicode_type)                   :: out
+type(unicode_type),intent(in)          :: line
+type(unicode_type),intent(in),optional :: protect ! default is backslash
+type(unicode_type)                     :: out
 
 character(len=:),allocatable :: buffer
 character(len=:),allocatable :: format
@@ -5658,8 +5819,12 @@ integer,parameter  :: x=ichar('x'),XX=ichar('X'),h=ichar('h'),HH=ichar('H')
 
    if(lgth == 0)return
 
-   if (present(escape))then
-      esc=ichar(escape)
+   if( present(protect) )then
+      if(size(protect%codes).lt.1)then
+         esc=0
+      else
+         esc=ichar(protect%sub(1,1))
+      endif
    else
       esc=92
    endif
@@ -5731,7 +5896,36 @@ integer,parameter  :: x=ichar('x'),XX=ichar('X'),h=ichar('h'),HH=ichar('H')
       if(i >= lgth)exit EXP
    enddo EXP
 
-end function expand
+end function escape_uu
+!===================================================================================================================================
+impure elemental function escape_aa(line,protect) result(out)
+character(len=*),intent(in)          :: line
+character(len=1),intent(in)          :: protect
+type(unicode_type)                   :: uline
+type(unicode_type)                   :: uprotect
+type(unicode_type)                   :: out
+   uline=line
+   uprotect=protect
+   out=escape(uline,uprotect)
+end function escape_aa
+!===================================================================================================================================
+impure elemental function escape_au(line,protect) result(out)
+character(len=*),intent(in)            :: line
+type(unicode_type),intent(in),optional :: protect
+type(unicode_type)                     :: uline
+type(unicode_type)                     :: out
+   uline=line
+   out=escape(uline,protect)
+end function escape_au
+!===================================================================================================================================
+impure elemental function escape_ua(line,protect) result(out)
+type(unicode_type),intent(in)        :: line
+character(len=1),intent(in)          :: protect
+type(unicode_type)                   :: uprotect
+type(unicode_type)                   :: out
+   uprotect=protect
+   out=escape(line,uprotect)
+end function escape_ua
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
@@ -5768,12 +5962,12 @@ type(unicode_type)             :: string_out
    string_out=expandtabs(self,tab_size)
 end function oop_expandtabs
 !===================================================================================================================================
-function oop_expand(self,escape) result (string_out)
+function oop_escape(self,protect) result (string_out)
 class(unicode_type),intent(in)       :: self
-character(len=1),intent(in),optional :: escape
+character(len=1),intent(in),optional :: protect
 type(unicode_type)                   :: string_out
-   string_out=expand(self,escape)
-end function oop_expand
+   string_out=escape(self,protect)
+end function oop_escape
 !===================================================================================================================================
 function oop_upper(self) result (string_out)
 class(unicode_type),intent(in) :: self

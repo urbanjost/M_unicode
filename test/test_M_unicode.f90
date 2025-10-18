@@ -6,7 +6,7 @@ use M_unicode, only : trim, len, len_trim
 use M_unicode, only : repeat
 use M_unicode, only : upper, lower
 use M_unicode, only : expandtabs
-use M_unicode, only : expand
+use M_unicode, only : escape
 use M_unicode, only : sort
 use M_unicode, only : scan, verify
 use M_unicode, only : tokenize, split
@@ -722,7 +722,7 @@ type(unicode_type)             :: ut_str
    call check('ichar',ichar(ut_str%sub(2,3)).eq.ichar('B'),'ichar(ut_str%sub(2,3))')
 end subroutine test_ichar
 
-subroutine test_expand()
+subroutine test_escape()
 type(unicode_type)  :: ut_str
 integer,allocatable :: ints(:)
 !    \      backslash
@@ -748,19 +748,19 @@ integer,allocatable :: ints(:)
 !    UZZZZZZZZ  translate Unicode codepoint value to bytes
    ut_str='\\\a\b\e\f\n\r\t\v\c'
    ints=[92,7,8,27,12,10,13,9,11]
-   ut_str=expand(ut_str)
-   call check('expand',len(ut_str).eq.9,'size')
+   ut_str=escape(ut_str)
+   call check('escape',len(ut_str).eq.9,'size')
    if( len(ut_str).eq.9 )then
-      call check('expand',all(ut_str%codepoint().eq.ints),'codes')
+      call check('escape',all(ut_str%codepoint().eq.ints),'codes')
    endif
-   call check('expand',expand(ut('\')).eq.'\','backslash at end of line')
-   call check('expand',expand(ut('text\0')).eq.'text'//char(0),'null at end')
-   call check('expand',expand(ut('\122\123A')).eq.'RSA','two')
+   call check('escape',escape(ut('\')).eq.'\','backslash at end of line')
+   call check('escape',escape(ut('text\0')).eq.'text'//char(0),'null at end')
+   call check('escape',escape(ut('\122\123A')).eq.'RSA','two')
 
    ! (kaufii hai?) [Literal Meaning: “Is there coffee?”] “Do you have coffee?” (Informal)
    ut_str='\u0915\u0949\u092B\U0000093C\U00000940\x20\u0939\u0948\x3F'
-   call check('expand',expand(ut_str).eq.'कॉफ़ी है?','hexadecimal')
-end subroutine test_expand
+   call check('escape',escape(ut_str).eq.'कॉफ़ी है?','hexadecimal')
+end subroutine test_escape
 
 subroutine test_join()
 character(len=20),allocatable :: proverb(:)
@@ -924,7 +924,7 @@ use testsuite_M_unicode
    call test_join()
    call test_expandtabs()
    call test_fmt()
-   call test_expand()
+   call test_escape()
    call test_concatenate()
    call test_other()
 
