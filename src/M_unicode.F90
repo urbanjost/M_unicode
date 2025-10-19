@@ -255,38 +255,39 @@ use,intrinsic :: iso_fortran_env, only : real32, real64, real128
 implicit none
 
 private
-public :: unicode_type
-public :: utf8_to_codepoints,  codepoints_to_utf8
-public :: character
- public :: sort
- public :: upper
- public :: lower
- public :: expandtabs
- public :: escape
- public :: fmt
-public :: afmt
- public :: replace
- public :: pad
- public :: join
- public :: readline
+PUBLIC :: UNICODE_TYPE
+PUBLIC :: UTF8_TO_CODEPOINTS
+PUBLIC :: CODEPOINTS_TO_UTF8
+PUBLIC :: CHARACTER
+public :: sort
+public :: upper
+public :: lower
+public :: expandtabs
+public :: escape
+public :: fmt
+PUBLIC :: AFMT
+public :: replace
+public :: pad
+public :: join
+public :: readline
 
- public :: adjustl
- public :: adjustr
- public :: index
- public :: len
- public :: len_trim
+public :: adjustl
+public :: adjustr
+public :: index
+public :: len
+public :: len_trim
 public :: repeat
 public :: trim
 public :: split
- public :: tokenize
- public :: scan
-public :: verify
-public :: ichar
-public :: lle, llt, lne, leq, lgt, lge
-public :: assignment(=)
-public :: operator(<=), operator(<), operator(/=), operator(==), operator(>), operator(>=), operator(//)
+public :: tokenize
+public :: scan
+PUBLIC :: VERIFY
+PUBLIC :: ICHAR
+PUBLIC :: LLE, LLT, LNE, LEQ, LGT, LGE
+PUBLIC :: ASSIGNMENT(=)
+PUBLIC :: OPERATOR(<=), OPERATOR(<), OPERATOR(/=), OPERATOR(==), OPERATOR(>), OPERATOR(>=), OPERATOR(//)
 
-public :: write(formatted)
+PUBLIC :: WRITE(FORMATTED)
 
 private :: a2s, s2a
 private :: binary_search
@@ -2552,7 +2553,7 @@ end function char_strs_range_step
 !    program demo_repeat
 !    use M_unicode, only : ut=>unicode_type,repeat,escape
 !    implicit none
-!        write(*,'(a)') character(repeat(escape("\U000002C6 v"), 35))
+!        write(*,'(a)') character(repeat(escape("\u2505*"), 35))
 !        write(*,'(a)') repeat(ut("_"), 70)          ! line break
 !        write(*,'(a)') repeat(ut("1234567890"), 7)  ! number line
 !        write(*,'(a)') repeat(ut("         |"), 7)  !
@@ -2560,7 +2561,7 @@ end function char_strs_range_step
 ! 
 !  results:
 ! 
-!   > ˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆvˆv
+!   > ‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*
 !   > ______________________________________________________________________
 !   > 1234567890123456789012345678901234567890123456789012345678901234567890
 !   >          |         |         |         |         |         |         |
@@ -2592,7 +2593,7 @@ end function repeat_str
 !===================================================================================================================================
 ! 
 ! NAME
-!   len_trim(3) - [character:whitespace] character length without trailing blank
+!   len_trim(3) - [STRING:WHITESPACE] string length without trailing blank
 !   characters
 ! 
 ! SYNOPSIS
@@ -2717,6 +2718,94 @@ end function ichar_str
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
+! 
+! NAME
+!   trim(3) - [string:whitespace] remove trailing blank characters from
+!             a string
+! 
+! SYNOPSIS
+!   result = trim(string)
+! 
+!    type(unicode_type) function trim(string)
+! 
+!     type(unicode_type),intent(in) :: string
+! 
+! CHARACTERISTICS
+! 
+!   + the result is a string.
+! 
+! DESCRIPTION
+!   trim(3) removes trailing blank characters from a string.
+! 
+! OPTIONS
+!   •  string : a string to trim
+! 
+! RESULT
+!   the result is the same as string except trailing blanks are removed.
+! 
+!   if  string  is composed entirely of blanks or has zero length, the
+!   result has zero length.
+! 
+! EXAMPLES
+!   sample program:
+! 
+!    program demo_trim
+!    use M_unicode, only : ut=>unicode_type, assignment(=)
+!    use M_unicode, only : trim, len
+!    use M_unicode, only : write(formatted)
+!    implicit none
+!    type(ut)                   :: str
+!    type(ut), allocatable      :: strs(:)
+!    character(len=*),parameter :: brackets='( *("[",DT,"]":,1x) )'
+!    integer                    :: i
+! 
+!       str='   trailing    '
+!       print brackets, str,trim(str) ! trims it
+! 
+!       str='   leading'
+!       print brackets, str,trim(str) ! no effect
+! 
+!       str='            '
+!       print brackets, str,trim(str) ! becomes zero length
+!       print *,  len(str), len(trim('               '))
+! 
+!       strs=[ut("Z "),ut(" a b c"),ut("ABC   "),ut("")]
+! 
+!       write(*,*)'untrimmed:'
+!       print brackets, (strs(i), i=1,size(strs))
+!       print brackets, strs
+! 
+!       write(*,*)'trimmed:'
+!       ! everything prints trimmed
+!       print brackets, (trim(strs(i)), i=1,size(strs))
+!       print brackets, trim(strs)
+! 
+!    end program demo_trim
+! 
+!   results:
+!    > [   trailing    ] [   trailing]
+!    > [   leading] [   leading]
+!    > [            ] []
+!    >           12           0
+!    >  untrimmed:
+!    > [Z ] [ a b c] [ABC   ] []
+!    > [Z ] [ a b c] [ABC   ] []
+!    >  trimmed:
+!    > [Z] [ a b c] [ABC] []
+!    > [Z] [ a b c] [ABC] []
+! 
+! STANDARD
+!   Fortran 95
+! 
+! SEE ALSO
+!   Functions that perform operations on character  strings,  return
+!   lengths  of arguments, and search for certain arguments:
+! 
+!   + elemental: adjustl(3), adjustr(3), index(3), scan(3), verify(3)
+! 
+!   + nonelemental: len_trim(3), len(3), repeat(3), trim(3)
+! 
+!   fortran descriptions (license: mit) @urbanjos
 ! This method is elemental and returns a scalar character value.
 elemental function trim_str(string) result(trimmed_str)
 type(unicode_type), intent(in) :: string
@@ -3302,7 +3391,7 @@ end function lgt_char_str
 ! index(3)                                                                                                                     index(3)
 ! 
 ! NAME
-!   INDEX(3) ‐ [CHARACTER:SEARCH] Position of a substring within a string
+!   INDEX(3) ‐ [STRING:SEARCH] Position of a substring within a string
 ! 
 ! SYNOPSIS
 !   result = index( string, substring [,back] [,kind] )
@@ -4496,6 +4585,158 @@ end function lower
 !===================================================================================================================================
 ! 
 ! NAME
+!   split(3) - [STRING:SPLIT] parse a string into tokens, one at a time.
+! 
+! SYNOPSIS
+!   call split (string, set, pos [, back])
+! 
+!    type(unicode_type),intent(in) :: string
+!    type(unicode_type),intent(in) :: set
+!    integer,intent(inout)         :: pos
+!    logical,intent(in),optional   :: back
+! 
+! CHARACTERISTICS
+!   + STRING is a scalar character variable
+!   + SET is a scalar string variable
+! 
+! DESCRIPTION
+!   Find the extent of consecutive tokens in a string. given a string and
+!   a position to start looking for a token return the position of the
+!   end of the token. a set of separator characters may be specified as
+!   well as the direction of parsing.
+! 
+!   typically consecutive calls are used to parse a string into a set of
+!   tokens by stepping through the start and end positions of each token.
+! 
+! OPTIONS
+!   + STRING : the string to search for tokens in.
+! 
+!   + SET : Each character in set is a token delimiter. a sequence of
+!     zero or more characters in string delimited by any token delimiter,
+!     or the beginning or end of string, comprise a token. thus, two
+!     consecutive token delimiters in STRING, or a token delimiter in the
+!     first or last character of STRING, indicate a token with zero length.
+! 
+!   + POS : on input, the position from which to start looking for the next
+!     separator from. This is typically the first character or the last
+!     returned value of POS if searching from left to right (ie. back is
+!     absent or .true.) or the last character or the last returned value
+!     of POS when searching from right to left (ie. when back is .FALSE.).
+! 
+!     If BACK is present with the value .TRUE., the value of pos shall be
+!     in the range 0 < POS <= len(STRING)+1; otherwise it shall be in the
+!     range 0 <= POS <= len(STRING).
+! 
+!     So POS on input is typically an end of the string or the position
+!     of a separator, probably from a previous call to split but POS on
+!     input can be any position in the range 1 <= POS <= len(STRING). if
+!     POS points to a non-separator character in the string the call is
+!     still valid but it will start searching from the specified position
+!     and that will result (somewhat obviously) in the string from POS on
+!     input to the returned POS being a partial token.
+! 
+!   + BACK : If BACK is absent or is present with the value .FALSE., POS is
+!     assigned the position of the leftmost token delimiter in string
+!     whose position is greater than POS, or if there is no such character,
+!     it is assigned a value one greater than the length of string. this
+!     identifies a token with starting position one greater than the value
+!     of POS on invocation, and ending position one less than the value
+!     of POS on return.
+! 
+!     If BACK is present with the value .TRUE., POS is assigned the
+!     position of the rightmost token delimiter in string whose position
+!     is less than POS, or if there is no such character, it is assigned
+!     the value zero. This identifies a token with ending position one
+!     less than the value of POS on invocation, and starting position one
+!     greater than the value of POS  on return.
+! 
+! EXAMPLE
+!   sample program:
+! 
+!    program demo_split
+!    use iso_fortran_env, only : stdout => output_unit
+!    use M_unicode,       only : unicode_type, assignment(=)
+!    use M_unicode,       only : split, len, character
+!    use M_unicode,       only : ut=>unicode_type
+!    implicit none
+!    character(len=*),parameter :: g='(*(g0,1x))'
+!    type(ut)                   :: proverb
+!    type(ut)                   :: delims
+!    type(ut),allocatable       :: array(:)
+!    integer                    :: first
+!    integer                    :: last
+!    integer                    :: pos
+!    integer                    :: i
+! 
+!       delims= '=|; '
+! 
+!       proverb="Más vale pájaro en mano, que ciento volando."
+!       call printwords(proverb)
+! 
+!       ! there really are not spaces between these glyphs
+!       array=[ &
+!        ut("七転び八起き。"), &
+!        ut("転んでもまた立ち上がる。"), &
+!        ut("くじけずに前を向いて歩いていこう。")]
+!       call printwords(array)
+! 
+!       write(stdout,g)'OOP'
+!       array=proverb%split(ut(' '))
+!       write(stdout,'(*(:"[",a,"]"))')(character(array(i)),i=1,size(array))
+! 
+!    contains
+!    impure elemental subroutine printwords(line)
+!    type(ut),intent(in) :: line
+!       pos = 0
+!       write(stdout,g)line%character(),len(line)
+!       do while (pos < len(line))
+!           first = pos + 1
+!           call split (line, delims, pos)
+!           last = pos - 1
+!           print g, line%character(first,last),first,last,pos
+!       end do
+!    end subroutine printwords
+! 
+!    end program demo_split
+! 
+! 
+!   Results:
+! 
+!    > Project is up to date
+!    > Más vale pájaro en mano, que ciento volando. 44
+!    > Más 1 3 4
+!    > vale 5 8 9
+!    > pájaro 10 15 16
+!    > en 17 18 19
+!    > mano, 20 24 25
+!    > que 26 28 29
+!    > ciento 30 35 36
+!    > volando. 37 44 45
+!    > 七転び八起き。 7
+!    > 七転び八起き。 1 7 8
+!    > 転んでもまた立ち上がる。 12
+!    > 転んでもまた立ち上がる。 1 12 13
+!    > くじけずに前を向いて歩いていこう。 17
+!    > くじけずに前を向いて歩いていこう。 1 17 18
+!    > OOP
+!    > [Más][vale][pájaro][en][mano,][que][ciento][volando.]
+! 
+! STANDARD
+!   Fortran 2023
+! 
+! SEE ALSO
+!   + tokenize(3) - parse a string into tokens
+!   + index(3) - position of a substring within a string
+!   + scan(3) - scan a string for the presence of a set of characters
+!   + verify(3)  -  position  of a character in a string of characters that does
+!     not appear in a given set of characters.
+! 
+!   Fortran descriptions (license: mit) @urbanjos
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
+! 
+! NAME
 !   TOKENIZE(3) ‐ [STRING:PARSE] Parse a string into tokens.
 ! 
 ! SYNOPSIS
@@ -5150,7 +5391,7 @@ end function scan_ua
 ! SYNOPSIS
 !   result = verify(string, set [,back] [,kind] )
 ! 
-!            elemental integer(kind=KIND) function verify(string,set,back,KIND)
+!            elemental integer function verify(string,set,back,KIND)
 ! 
 !             type(unicode_type),intent(in) :: string
 ! 
@@ -5163,25 +5404,20 @@ end function scan_ua
 ! CHARACTERISTICS
 ! 
 !   +  STRING  must be of type string
-! 
 !   +  SET  must be of type string or character.
-! 
-!   +  KIND must be a constant integer initialization expression of default kind
-! 
 !   +  BACK shall be of type logical.
-! 
 !   +  A default integer kind is returned.
 ! 
 ! DESCRIPTION
-!   VERIFY(3)  verifies  that  all  the characters in STRING belong to the set of
-!   characters in SET by identifying the position of the first character  in  the
+!   VERIFY(3) verifies that all the characters in STRING belong to the set of
+!   characters in SET by identifying the position of the first character in the
 !   string that is not in the set.
 ! 
 !   This makes it easy to verify strings are all uppercase or lowercase, follow a
-!   basic  syntax,  only contain printable characters, and many of the conditions
-!   tested  for  with  the  C  routines  ISALNUM(3c),  ISALPHA(3c),  ISASCII(3c),
+!   basic syntax, only contain printable characters, and many of the conditions
+!   tested for with the C routines ISALNUM(3c), ISALPHA(3c), ISASCII(3c),
 !   ISBLANK(3c), ISCNTRL(3c), ISDIGIT(3c), ISGRAPH(3c), ISLOWER(3c), ISPRINT(3c),
-!   ISPUNCT(3c),  ISSPACE(3c), ISUPPER(3c), and ISXDIGIT(3c); but for a string as
+!   ISPUNCT(3c), ISSPACE(3c), ISUPPER(3c), and ISXDIGIT(3c); but for a string as
 !   well as an array of strings.
 ! 
 ! OPTIONS
@@ -5189,9 +5425,9 @@ end function scan_ua
 ! 
 !   +  SET : The set of characters that must be matched.
 ! 
-!   +  BACK : The direction to look for an  unmatched  character. The  left‐most
-!      unmatched  character  position  is  returned  unless  BACK  is present and
-!      .false., which causes the position of the right‐most  unmatched  character
+!   +  BACK : The direction to look for an unmatched character. The left‐most
+!      unmatched character position isreturned unless BACK is present and
+!      .false., which causes the position of the right‐most unmatched character
 !      to be returned instead of the left‐most unmatched character.
 ! 
 ! RESULT
@@ -5199,7 +5435,7 @@ end function scan_ua
 ! 
 !   If STRING is of zero length a zero (0) is always returned.
 ! 
-!   Otherwise, if an unmatched character is found The position of  the  first  or
+!   Otherwise, if an unmatched character is found The position of the first or
 !   last (if BACK is .false.) unmatched character in STRING is returned, starting
 !   with position one on the left end of the string.
 ! 
@@ -5209,6 +5445,7 @@ end function scan_ua
 !       program demo_verify
 !       use M_unicode
 !       use M_unicode, only : ut=>unicode_type, ch=>character
+!       use M_unicode, only : write(formatted), assignment(=)
 !       implicit none
 !       ! some useful character sets
 !       character,parameter :: &
@@ -5223,7 +5460,7 @@ end function scan_ua
 !       character(len=:),allocatable :: string_a
 !       type(unicode_type)           :: string_u
 !       integer :: i
-!           print *, ’basics:’
+!           print , ’basics:’
 !           print *, VERIFY (’ABBA’, ’A’)                ! has the value 2.
 !           print *, VERIFY (’ABBA’, ’A’, BACK = .TRUE.) ! has the value 3.
 !           print *, VERIFY (’ABBA’, ’AB’)               ! has the value 0.
@@ -5324,6 +5561,7 @@ end function scan_ua
 !   Determine if strings are valid integer representations
 ! 
 !       program fortran_ints
+!       use M_unicode, only : ut=>unicode_type,assignment(=)
 !       implicit none
 !       integer :: i
 !       character(len=*),parameter :: ints(*)=[character(len=10) :: &
@@ -5335,13 +5573,14 @@ end function scan_ua
 !        ’  ‐3000 ’, &
 !        ’ ’]
 !          ! show the strings to test
-!          write(*,’("|",*(g0,"|"))’) ints
+!          write(*,’("|",*(DT,"|"))’) ints
 !          ! show if strings pass or fail the test done by isint(3)
 !          write(*,’("|",*(1x,l1,8x,"|"))’) isint(ints)
 ! 
 !       contains
 ! 
 !       elemental function isint(line) result (lout)
+!       use M_unicode, only : adjustl, verify, trim
 !       !
 !       ! determine if string is a valid integer representation
 !       ! ignoring trailing spaces and leading spaces
@@ -5426,32 +5665,43 @@ end function scan_ua
 ! 
 !   check if string is of form NN‐HHHHH
 ! 
-!       program checkform
-!       ! check if string is of form NN‐HHHHH
-!       implicit none
-!       character(len=*),parameter :: int=’1234567890’
-!       character(len=*),parameter :: hex=’abcdefABCDEF0123456789’
-!       logical                    :: lout
-!       character(len=80)          :: chars
+!    program checkform
+!    !
+!    ! check if string is of form NN‐HHHHH
+!    !
+!    use iso_fortran_env, only : stdout => output_unit
+!    use M_unicode,       only : verify, unicode_type, assignment(=)
+!    use M_unicode,       only : ut=>unicode_type
+!    implicit none
+!    character(len=*),parameter :: g='(*(g0,1x))'
 ! 
-!          chars=’32‐af43d’
-!          lout=.true.
+!    character(len=*),parameter :: int='1234567890'
+!    character(len=*),parameter :: hex='abcdefABCDEF0123456789'
+!    logical                    :: lout
+!    type(unicode_type)         :: chars
+!    type(unicode_type)         :: str
 ! 
-!          ! are the first two characters integer characters?
-!          lout = lout.and.(verify(chars(1:2), int) == 0)
+!       chars='32‐af43d'
+!       lout=.true.
 ! 
-!          ! is the third character a dash?
-!          lout = lout.and.(verify(chars(3:3), ’‐’) == 0)
+!       ! are the first two characters integer characters?
+!       str = chars%character(1,2)
+!       lout = (verify( str, ut(int) ) == 0) .and.lout
 ! 
-!          ! is remaining string a valid representation of a hex value?
-!          lout = lout.and.(verify(chars(4:8), hex) == 0)
+!       ! is the third character a dash?
+!       str = chars%character(3,3)
+!       lout = (verify( str, ut('‐-') ) == 0) .and.lout
 ! 
-!          if(lout)then
-!             write(*,*)trim(chars),’ passed’
-!          else
-!             write(*,*)trim(chars),’ failed’
-!          endif
-!       end program checkform
+!       ! is remaining string a valid representation of a hex value?
+!       str = chars%character(4,8)
+!       lout = (verify( str, ut(hex) ) == 0) .and.lout
+! 
+!       if(lout)then
+!          write(stdout,g)trim(chars%character()),' passed'
+!       else
+!          write(stdout,g)trim(chars%character()),' failed'
+!       endif
+!    end program checkform
 ! 
 !   Results:
 ! 
@@ -5546,6 +5796,16 @@ integer                       :: result
    result=verify_uu(string,set_u,back)
 end function verify_ua
 !===================================================================================================================================
+elemental impure function verify_au(string,set,back) result(result)
+character(len=*),intent(in)   :: string
+type(unicode_type),intent(in) :: set
+logical,intent(in),optional   :: back
+type(unicode_type)            :: ustring
+integer                       :: result
+   ustring=string
+   result=verify_uu(ustring,set,back)
+end function verify_au
+!===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 ! 
@@ -5562,19 +5822,19 @@ end function verify_ua
 !      type(unicode_type)              :: OUT
 ! 
 ! DESCRIPTION
-!     expandtabs(3) expands tabs in INSTR to spaces in OUT. It assumes a
-!     tab is set every 8 characters by default. Trailing spaces are removed.
+!    EXPANDTABS(3) expands tabs in INSTR to spaces in OUT. It assumes a
+!    tab is set every 8 characters by default. Trailing spaces are removed.
 ! 
 ! OPTIONS
-!      instr     Input line to remove tabs from
-!      tab_size  spacing between tab stops.
+!    instr     Input line to remove tabs from
+!    tab_size  spacing between tab stops.
 ! 
 ! RETURNS
-!      out       Output string with tabs expanded.
+!    out       Output string with tabs expanded.
 ! 
 ! EXAMPLES
 ! 
-!    Sample program:
+!  Sample program:
 ! 
 !     program demo_expandtabs
 !     use M_unicode, only : expandtabs, ch=>character, replace
