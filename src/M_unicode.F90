@@ -285,7 +285,7 @@ PUBLIC :: VERIFY
 public :: ichar
 PUBLIC :: LLE, LLT, LNE, LEQ, LGT, LGE
 PUBLIC :: OPERATOR(<=), OPERATOR(<), OPERATOR(/=), OPERATOR(==), OPERATOR(>), OPERATOR(>=), OPERATOR(//)
-PUBLIC :: ASSIGNMENT(=)
+public :: assignment(=)
 
 PUBLIC :: WRITE(FORMATTED)
 
@@ -307,6 +307,7 @@ end interface sort
 interface verify
    module procedure :: verify_uu
    module procedure :: verify_ua
+   module procedure :: verify_au
 end interface verify
 
 interface escape
@@ -2204,7 +2205,6 @@ end function new_codes
 subroutine assign_ints_str(lhs, rhs)
 integer,allocatable,intent(inout) :: lhs(:)
 type(unicode_type),intent(in)     :: rhs
-integer                           :: nerr
    lhs=rhs%codes
 end subroutine assign_ints_str
 
@@ -2337,9 +2337,6 @@ end subroutine assign_str_code
 !    > length of elements of array= 3 4 5
 !    > length from type parameter inquiry=38
 !    > length of passed value is 11
-! 
-! STANDARD
-!   FORTRAN 77 ; with KIND argument ‐ Fortran 2003
 ! 
 ! SEE ALSO
 !   len_trim(3), adjustr(3), trim(3), and adjustl(3) are related routines
@@ -2566,9 +2563,6 @@ end function char_strs_range_step
 !   > 1234567890123456789012345678901234567890123456789012345678901234567890
 !   >          |         |         |         |         |         |         |
 ! 
-! STANDARD
-!   Fortran 95
-! 
 ! SEE ALSO
 !   functions that perform operations on character strings:
 ! 
@@ -2675,9 +2669,6 @@ end function repeat_str
 !    >  trimmed length=              25          13
 !    >  sum trimmed length=          38
 ! 
-! STANDARD
-!   fortran 95 . kind argument added with fortran 2003.
-! 
 ! SEE ALSO
 !   functions  that  perform  operations  on character strings, return lengths of
 !   arguments, and search for certain arguments:
@@ -2729,21 +2720,17 @@ end function len_trim_str
 !   See IACHAR(3) for specifically working with the ASCII character set.
 ! 
 ! OPTIONS
-!   +  C : The input character to determine the decimal code of. The
-!          range of values capable of representation is processor-dependent.
+!   +  C : The input character to determine the decimal code of.
 ! 
 ! RESULT
-!    The code in the system default character set for the character being
+!    The pointcode in the Unicode character set for the character being
 !    queried is returned.
 ! 
-!    The result is the position of c in the processor collating
-!    sequence associated with the kind type parameter of c.
+!    The result is the position of C in the Unicode collating sequence,
+!    which is generally not the dictionary order in a particular language.
 ! 
 !    It is nonnegative and less than n, where n is the number of characters
 !    in the collating sequence.
-! 
-!    The kind type parameter of the result shall specify an integer kind
-!    that is capable of representing n.
 ! 
 !    For any characters C and D capable of representation in the processor,
 !    C <= D is true if and only if ICHAR(C) <= ICHAR(D) is true and C ==
@@ -2772,9 +2759,6 @@ end function len_trim_str
 !    > 😃 🩷 👣 🫒 🧲 ✔ 🟧 🟣
 !    > 128515 129655 128099 129746 129522 10004 128999 128995
 !    > 1F603 1FA77 1F463 1FAD2 1F9F2 2714 1F7E7 1F7E3
-! 
-! STANDARD
-!   Fortran 95, with kind argument - fortran 2003
 ! 
 ! SEE ALSO
 !   achar(3), char(3), iachar(3)
@@ -2880,9 +2864,6 @@ end function ichar_str
 !    >  trimmed:
 !    > [Z] [ a b c] [ABC] []
 !    > [Z] [ a b c] [ABC] []
-! 
-! STANDARD
-!   Fortran 95
 ! 
 ! SEE ALSO
 !   Functions that perform operations on character  strings,  return
@@ -3060,9 +3041,6 @@ end function trim_str
 !    > [)]
 !    > [)]
 ! 
-! STANDARD
-!   Fortran 95
-! 
 ! SEE ALSO
 !   ADJUSTL(3), TRIM(3)
 ! 
@@ -3180,9 +3158,6 @@ end function adjustr_str
 !    > adjusted: [sample string      ]
 !    > trimmed:  [sample string]
 !    > substring:[sample string]
-! 
-! STANDARD
-!   Fortran 95
 ! 
 ! SEE ALSO
 !   ADJUSTR(3), TRIM(3)
@@ -3569,9 +3544,6 @@ end function lgt_char_str
 !    > T
 !    > T
 !    > T
-! 
-! STANDARD
-!   FORTRAN 77 , with KIND argument Fortran 2003
 ! 
 ! SEE ALSO
 !   Functions that perform operations on character strings, return lengths
@@ -4808,9 +4780,6 @@ end function lower
 !    > OOP
 !    > [Más][vale][pájaro][en][mano,][que][ciento][volando.]
 ! 
-! STANDARD
-!   Fortran 2023
-! 
 ! SEE ALSO
 !   + tokenize(3) - parse a string into tokens
 !   + index(3) - position of a substring within a string
@@ -4981,9 +4950,6 @@ end function lower
 !    > FIRST=1,7,14,15
 !    > LAST=5,12,13,20
 !    > HAS LENGTH=T,T,F,T
-! 
-! STANDARD
-!   Fortran 2023
 ! 
 ! SEE ALSO
 !   +  SPLIT(3) ‐ return tokens from a string, one at a time
@@ -5423,9 +5389,6 @@ end function pad
 !    > 6
 !    > 0
 ! 
-! STANDARD
-!   Fortran 95 , with KIND argument ‐ Fortran 2003
-! 
 ! SEE ALSO
 !   Functions that perform operations on character strings, return lengths
 !   of arguments, and search for certain arguments:
@@ -5838,9 +5801,6 @@ end function scan_ua
 !           > null 9
 !           > blank 8
 !           > 1 2 1
-! 
-! STANDARD
-!   Fortran 95 , with KIND argument ‐ Fortran 2003
 ! 
 ! SEE ALSO
 !   Functions that perform operations on character strings, return
