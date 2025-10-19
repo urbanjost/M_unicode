@@ -282,10 +282,10 @@ public :: split
 public :: tokenize
 public :: scan
 PUBLIC :: VERIFY
-PUBLIC :: ICHAR
+public :: ichar
 PUBLIC :: LLE, LLT, LNE, LEQ, LGT, LGE
-PUBLIC :: ASSIGNMENT(=)
 PUBLIC :: OPERATOR(<=), OPERATOR(<), OPERATOR(/=), OPERATOR(==), OPERATOR(>), OPERATOR(>=), OPERATOR(//)
+PUBLIC :: ASSIGNMENT(=)
 
 PUBLIC :: WRITE(FORMATTED)
 
@@ -2702,6 +2702,93 @@ end function len_trim_str
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
+! 
+! NAME
+!   ichar(3) - [character:conversion] character-to-integer code conversion
+!   function
+! 
+! SYNOPSIS
+!   result = ichar(c)
+! 
+!     elemental integer function ichar(c,kind)
+! 
+!      type(unicode_type),intent(in) :: c
+! 
+! CHARACTERISTICS
+!   •  c is a scalar character
+! 
+!   •  the return value is of default integer kind.
+! 
+! DESCRIPTION
+!   ichar(3) returns the code for the character in the system's native
+!   character set. the correspondence between characters and their codes is
+!   not necessarily the same across different Fortran implementations. For
+!   example, a platform using EBCDIC would return different values than
+!   an ASCII platform.
+! 
+!   See IACHAR(3) for specifically working with the ASCII character set.
+! 
+! OPTIONS
+!   +  C : The input character to determine the decimal code of. The
+!          range of values capable of representation is processor-dependent.
+! 
+! RESULT
+!    The code in the system default character set for the character being
+!    queried is returned.
+! 
+!    The result is the position of c in the processor collating
+!    sequence associated with the kind type parameter of c.
+! 
+!    It is nonnegative and less than n, where n is the number of characters
+!    in the collating sequence.
+! 
+!    The kind type parameter of the result shall specify an integer kind
+!    that is capable of representing n.
+! 
+!    For any characters C and D capable of representation in the processor,
+!    C <= D is true if and only if ICHAR(C) <= ICHAR(D) is true and C ==
+!    D is true if and only if ICHAR(C) == ICHAR(D) is true.
+! 
+! EXAMPLES
+!   sample program:
+! 
+!    program demo_ichar
+!    use M_unicode, only : ut=>unicode_type, write(formatted)
+!    use M_unicode, only : ichar, write(formatted)
+!    implicit none
+!    type(ut),allocatable :: lets(:)
+!    integer,allocatable  :: ilets(:)
+! 
+!       lets=[ut('😃'),ut('🩷'),ut('👣'),ut('🫒'), &
+!            & ut('🧲'),ut('✔'),ut('🟧'),ut('🟣')]
+!       write(*,'(*(DT,1x))')lets
+!       ilets=ichar(lets)
+!       write(*,'(*(g0,1x))')ilets
+!       write(*,'(*(z0,1x))')ilets
+!    end program demo_ichar
+! 
+!   results:
+! 
+!    > 😃 🩷 👣 🫒 🧲 ✔ 🟧 🟣
+!    > 128515 129655 128099 129746 129522 10004 128999 128995
+!    > 1F603 1FA77 1F463 1FAD2 1F9F2 2714 1F7E7 1F7E3
+! 
+! STANDARD
+!   Fortran 95, with kind argument - fortran 2003
+! 
+! SEE ALSO
+!   achar(3), char(3), iachar(3)
+! 
+!   functions that perform operations on character strings, return
+!   lengths of arguments, and search for certain arguments:
+! 
+!   +  elemental: adjustl(3), adjustr(3), index(3),
+!      scan(3), verify(3)
+! 
+!   +  nonelemental: len_trim(3), len(3), repeat(3), trim(3)
+! 
+!   fortran descriptions (license: mit) @urbanjos
+!
 ! Return code value of first character of string like intrinsic ichar()
 !
 elemental function ichar_str(string) result(code)
