@@ -7,12 +7,14 @@
      character(len=20),allocatable :: proverb(:)
      type(ut),allocatable          :: s(:)
      type(ut),allocatable          :: sep
+
        proverb=[ character(len=13) :: &
          & ' United'       ,&
          & '  we'          ,&
          & '   stand,'     ,&
          & '    divided'   ,&
          & '     we fall.' ]
+
        allocate(s(size(proverb))) ! avoid GNU Fortran (GCC) 16.0.0 bug
        s=proverb
        write(*,w) 'SIMPLE JOIN:         ', ch( join(s)                )

@@ -1,5 +1,5 @@
    program demo_ichar
-   use M_unicode, only : assignment(=)
+   use M_unicode, only : assignment(=),ch=>character
    use M_unicode, only : ut=>unicode_type, write(formatted)
    use M_unicode, only : ichar, escape
    implicit none
@@ -20,6 +20,7 @@
           & '\U0001F9F2','\U00002714','\U0001F7E7','\U0001F7E3']
       lets=escape(lets)
       ! write as an array
+      write(*,'(*(a,1x))')ch(lets)
       write(*,'(*(z0,1x))')ichar(lets)
       ! OOPS
       write(*,'(*(z0,1x))')lets%ichar()

@@ -1,0 +1,522 @@
+<html> 
+<head> 
+<title> </title>
+<style> 
+px {font-family: "Lucida Console", Monaco, monospace }
+p { font-size:100%; line-height:1.1em; }
+body {xfont-style: sans-serif}
+body {
+color:#333; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:1em; line-height:1.3em; }
+a:visited { color:#666; }
+h1,h2,h3,h4,h5,h6 { color:#333; font-family:georgia, verdana, sans-serif; }
+h1 { font-size:150%; page-break-before:auto;background-color: #aaaaff}
+h2 { font-size:143%;color:teal; }
+h3 { font-size:134%;color:blue; }
+h4 { font-size:120%;color:gray; }
+img { max-width: 55em}
+p{ padding: 0;margin:0; }
+p{ padding-right:1.4em; }
+p{ padding-bottom:0.1em; }
+p{ padding-top:1em; }
+p{ whitespace: pre-wrap; }
+h5,h6 { font-size:100% }
+a.nav,a:link.nav, a:visited.nav { background-color:#FFF; color:#000; }
+XXtable { border:double #000; border-collapse:collapse; }
+XXtable { border-collapse:collapse; }
+XXtd { border:thin solid #888; }
+XXtd { border:none; }
+li { margin-bottom:0.5em; }
+blockquote { display:block; font-size:100%; line-height:1.1em; margin:0 0 0.5em; padding:0 2.5em; }
+pre { background-color:#DDD; font-size:100%; overflow:auto; padding:1em; }
+a,li span { color:#000; }
+a:hover, a.nav:hover, a:hover math { background-color:#000; color:#FFF; }
+#Container { margin:0 10px; text-align:center; background-color: #BBB}
+#Content { border-top:none; margin:auto; padding:0.3em; text-align:left; width:100%; max-width:55em; background:#FFF}
+span.webName { font-size:.5em; }
+textarea#content { font-size: 1em; line-height: 1.125; }
+h1#pageName { line-height:1em; margin:0.2em 0 0.2em 0; padding:0; }
+.property { color:#666; font-size:100%; }
+a.existingWikiWord[title]{ //border: 1px dashed #BBB; }
+.byline { color:#666; font-size:1.0em; font-style:italic; margin-bottom:1em; padding-top:1px; } 
+</style> 
+</head>
+<BODY bgcolor=#F0F0F0 text=#000000 link=#0000ff vlink=#C000C0 alink=#ff0000><A NAME=top></A>
+<!--
+<h5><a href="https://github.com/urbanjost/M_unicode">[UP]</a></h5>
+<button type="button" onclick="javascript:history.back()">Back</button>
+-->
+<div id="Container">
+<div id="Content">
+<CENTER>
+<H1><HR><I>Manual Reference Pages &nbsp;-&nbsp;</I><NOBR>M_unicode (3m_unicode)</NOBR><HR></H1>
+</CENTER>
+<A name=0>
+
+     <H3>NAME</H3>
+
+</A>
+<BLOCKQUOTE>
+M_unicode(3f) - [M_unicode::INTRO] Unicode string module
+<P>
+</BLOCKQUOTE>
+<A name=contents></A><H3>CONTENTS</H3></A>
+<BLOCKQUOTE>
+<A HREF=#1>Description</A><BR>
+<A HREF=#2>Synopsis</A><BR>
+<A HREF=#3>See Also</A><BR>
+<A HREF=#4>Examples</A><BR>
+<A HREF=#5>Author</A><BR>
+<A HREF=#6>License</A><BR>
+</BLOCKQUOTE>
+<A name=7>
+
+     <H3>DESCRIPTION</H3>
+
+</A>
+<BLOCKQUOTE>
+The M_unicode(3fm) module is a collection of Fortran string
+methods that work with UTF-8-encoded as well as ASCII-7 data via the
+user-defined type "unicode_type". The type supports allocatable ragged
+arrays where each element may be of differing length.
+<P>
+Routines for parsing, tokenizing, changing case, substituting
+new strings for substrings, locating strings with simple wildcard
+expressions, removing tabs and line terminators and other string
+manipulations are included.
+<P>
+The M_unicode(3fm) module supplements the Fortran built-in
+intrinsics with overloads of operators and intrinsics that allow
+type(unicode_type) to be used with intrinsic names in much the same
+manner the intrinsics operate on CHARACTER variables.
+<P>
+Other overloads of assignment, logical comparisons, and concatenation
+using the // operator with strings (and other types) are included
+as well as the intrinsics to make use of type(unicode_type) largely
+consistent with standard CHARACTER string manipulations.
+<P>
+Nearly all the methods are available using OOP syntax as well as
+procedurally.
+</BLOCKQUOTE>
+<A name=2>
+
+     <H3>SYNOPSIS</H3>
+
+</A>
+<BLOCKQUOTE>
+<P>
+public methods:
+</BLOCKQUOTE>
+<A name=>
+
+    <H4>&nbsp; &nbsp; TOKENS</H4>
+</A>
+<BLOCKQUOTE>
+<P>
+<TABLE cellpadding=3>
+<TR valign=top><TD width=6% nowrap>
+<B>split</B> </TD><TD valign=bottom>
+subroutine parses string using specified delimiter
+characters into tokens
+</TD></TR>
+<TR valign=top><TD colspan=2>
+<B>tokenize</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+Parse a string into tokens.
+</TD></TR>
+<TR></TR></TABLE></BLOCKQUOTE>
+<A name=>
+
+    <H4>&nbsp; &nbsp; EDITING</H4>
+</A>
+<BLOCKQUOTE>
+<P>
+<TABLE cellpadding=3>
+<TR valign=top><TD colspan=2>
+<B>replace</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+function non-recursively globally replaces old
+substring with new substring
+</TD></TR>
+<TR></TR></TABLE></BLOCKQUOTE>
+<A name=>
+
+    <H4>&nbsp; &nbsp; CASE</H4>
+</A>
+<BLOCKQUOTE>
+<P>
+<TABLE cellpadding=3>
+<TR valign=top><TD width=6% nowrap>
+<B>upper</B> </TD><TD valign=bottom>
+function converts string to uppercase
+</TD></TR>
+<TR valign=top><TD width=6% nowrap>
+<B>lower</B> </TD><TD valign=bottom>
+function converts string to miniscule
+</TD></TR>
+<TR></TR></TABLE></BLOCKQUOTE>
+<A name=>
+
+    <H4>&nbsp; &nbsp; STRING LENGTH</H4>
+</A>
+<BLOCKQUOTE>
+<P>
+<TABLE cellpadding=3>
+<TR valign=top><TD width=6% nowrap>
+<B>len</B> </TD><TD valign=bottom>
+return the length of a character string in glyphs
+</TD></TR>
+<TR valign=top><TD colspan=2>
+<B>len_trim</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+find location of last non-whitespace character
+</TD></TR>
+<TR></TR></TABLE></BLOCKQUOTE>
+<A name=>
+
+    <H4>&nbsp; &nbsp; PADDING</H4>
+</A>
+<BLOCKQUOTE>
+<P>
+<TABLE cellpadding=3>
+<TR valign=top><TD width=6% nowrap>
+<B>pad</B> </TD><TD valign=bottom>
+pad string to at least specified length with pattern string
+</TD></TR>
+<TR></TR></TABLE></BLOCKQUOTE>
+<A name=>
+
+    <H4>&nbsp; &nbsp; WHITE SPACE</H4>
+</A>
+<BLOCKQUOTE>
+<P>
+<TABLE cellpadding=3>
+<TR valign=top><TD width=6% nowrap>
+<B>trim</B> </TD><TD valign=bottom>
+Remove trailing blank characters of a string
+</TD></TR>
+<TR valign=top><TD colspan=2>
+<B>expandtabs</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+expand tab characters
+</TD></TR>
+<TR valign=top><TD colspan=2>
+<B>adjustl</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+Left adjust a string
+</TD></TR>
+<TR valign=top><TD colspan=2>
+<B>adjustr</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+Right adjust a string
+</TD></TR>
+<TR></TR></TABLE></BLOCKQUOTE>
+<A name=>
+
+    <H4>&nbsp; &nbsp; QUOTES</H4>
+</A>
+<BLOCKQUOTE>
+<P>
+</BLOCKQUOTE>
+<A name=>
+
+    <H4>&nbsp; &nbsp; CHARACTER ARRAY VERSUS STRING</H4>
+</A>
+<BLOCKQUOTE>
+<P>
+character(VAR,start,end,inc)
+VAR%character(start,end,inc)
+VAR%bytes(start,end,inc)
+VAR%codepoint(start,end,inc)
+</BLOCKQUOTE>
+<A name=>
+
+    <H4>&nbsp; &nbsp; NONALPHA</H4>
+</A>
+<BLOCKQUOTE>
+<P>
+</BLOCKQUOTE>
+<A name=>
+
+    <H4>&nbsp; &nbsp; ENCODING</H4>
+</A>
+<BLOCKQUOTE>
+<P>
+<TABLE cellpadding=3>
+<TR valign=top><TD width=6% nowrap>
+<B>char</B> </TD><TD valign=bottom>
+converts an integer codepoint into a character
+</TD></TR>
+<TR valign=top><TD width=6% nowrap>
+<B>ichar</B> </TD><TD valign=bottom>
+converts a character into an integer codepoint
+</TD></TR>
+<TR valign=top><TD width=6% nowrap>
+<B>escape</B> </TD><TD valign=bottom>
+expand C-like escape strings
+</TD></TR>
+<TR></TR></TABLE></BLOCKQUOTE>
+<A name=>
+
+    <H4>&nbsp; &nbsp; NUMERIC STRINGS</H4>
+</A>
+<BLOCKQUOTE>
+<P>
+<TABLE cellpadding=3>
+<TR valign=top><TD width=6% nowrap>
+<B>fmt</B> </TD><TD valign=bottom>
+convert intrinsic to string using optional format
+</TD></TR>
+<TR></TR></TABLE></BLOCKQUOTE>
+<A name=>
+
+    <H4>&nbsp; &nbsp; CHARACTER TESTS</H4>
+</A>
+<BLOCKQUOTE>
+<P>
+! based on Unicode codepoint, not dictionary order
+<TABLE cellpadding=3><!-- tsb: ! based on Unicode codepoint, not dictionary order
+ -->
+<TR></TR><TR></TR>
+<TR valign=top><TD width=6% nowrap>
+<B>lgt</B> </TD><TD valign=bottom>
+Lexical greater than
+</TD></TR>
+<TR valign=top><TD width=6% nowrap>
+<B>lge</B> </TD><TD valign=bottom>
+Lexical greater than or equal
+</TD></TR>
+<TR valign=top><TD width=6% nowrap>
+<B>leq</B> </TD><TD valign=bottom>
+Lexical equal
+</TD></TR>
+<TR valign=top><TD width=6% nowrap>
+<B>lne</B> </TD><TD valign=bottom>
+Lexical not equal
+</TD></TR>
+<TR valign=top><TD width=6% nowrap>
+<B>lle</B> </TD><TD valign=bottom>
+Lexical less than or equal
+</TD></TR>
+<TR valign=top><TD width=6% nowrap>
+<B>llt</B> </TD><TD valign=bottom>
+Lexical less than
+</TD></TR>
+<TR></TR></TABLE></BLOCKQUOTE>
+<A name=>
+
+    <H4>&nbsp; &nbsp; BASE CONVERSION</H4>
+</A>
+<BLOCKQUOTE>
+<P>
+</BLOCKQUOTE>
+<A name=>
+
+    <H4>&nbsp; &nbsp; IO</H4>
+</A>
+<BLOCKQUOTE>
+<P>
+<TABLE cellpadding=3>
+<TR valign=top><TD colspan=2>
+<B>readline</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+read a text line from a file
+</TD></TR>
+<TR></TR></TABLE></BLOCKQUOTE>
+<A name=>
+
+    <H4>&nbsp; &nbsp; LOCATION</H4>
+</A>
+<BLOCKQUOTE>
+<P>
+<TABLE cellpadding=3>
+<TR valign=top><TD width=6% nowrap>
+<B>index</B> </TD><TD valign=bottom>
+Position of a substring within a string
+</TD></TR>
+<TR valign=top><TD width=6% nowrap>
+<B>scan</B> </TD><TD valign=bottom>
+Scan a string for the presence of a set
+of characters
+</TD></TR>
+<TR valign=top><TD width=6% nowrap>
+<B>verify</B> </TD><TD valign=bottom>
+Scan a string for the absence of a set of characters
+</TD></TR>
+<TR></TR></TABLE></BLOCKQUOTE>
+<A name=>
+
+    <H4>&nbsp; &nbsp; CONCATENATION</H4>
+</A>
+<BLOCKQUOTE>
+<P>
+<TABLE cellpadding=3>
+<TR valign=top><TD width=6% nowrap>
+<B>join</B> </TD><TD valign=bottom>
+join elements of an array into a single string
+</TD></TR>
+<TR></TR></TABLE></BLOCKQUOTE>
+<TABLE cellpadding=3>
+<TR valign=top><TD colspan=2>
+<B>operator(//)</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+concatenate strings and/or convert intrinsics to
+strings and concatenate
+</TD></TR>
+<TR></TR></TABLE><A name=>
+
+    <H4>&nbsp; &nbsp; MISCELLANEOUS</H4>
+</A>
+<BLOCKQUOTE>
+<P>
+<TABLE cellpadding=3>
+<TR valign=top><TD width=6% nowrap>
+<B>repeat</B> </TD><TD valign=bottom>
+Repeated string concatenation
+</TD></TR>
+<TR valign=top><TD width=6% nowrap>
+<B>sort</B> </TD><TD valign=bottom>
+Sort by Unicode codepoint value (not dictionary order)
+</TD></TR>
+<TR></TR></TABLE></BLOCKQUOTE>
+<A name=>
+
+    <H4>&nbsp; &nbsp; OOPS INTERFACE</H4>
+</A>
+<BLOCKQUOTE>
+<P>
+An OOP (Object-Oriented Programming) interface to
+the M_unicode(3fm) module provides an alternative interface to all the
+same procedures except for SORT(3f) and CHAR(3f).
+</BLOCKQUOTE>
+<A name=3>
+
+     <H3>SEE ALSO</H3>
+
+</A>
+<BLOCKQUOTE>
+There are additional routines in other GPF modules for working with
+expressions (M_calculator), time strings (M_time), random strings
+(M_random, M_uuid), lists (M_list), and interfacing with the C regular
+expression library (M_regex).
+</BLOCKQUOTE>
+<A name=4>
+
+     <H3>EXAMPLES</H3>
+
+</A>
+<BLOCKQUOTE>
+<P>
+Each of the procedures includes an [example](example/) program in
+the corresponding man(1) page for the procedure.
+</BLOCKQUOTE>
+<P>
+Sample program:
+<P>
+<PRE>
+   program demo_M_unicode
+   use,intrinsic :: iso_fortran_env, only : stdout=&gt;output_unit
+   use M_unicode,only : TOKENIZE, REPLACE, CHARACTER, UPPER, LOWER, LEN
+   use M_unicode,only : unicode_type, assignment(=), operator(//)
+   use M_unicode,only : ut =&gt; unicode_type, ch =&gt; character
+   use M_unicode,only : write(formatted)
+   type(unicode_type)             :: string
+   type(unicode_type)             :: numeric, uppercase, lowercase
+   type(unicode_type),allocatable :: array(:)
+   character(len=*),parameter     :: all=&#146;(g0)&#146;
+   !character(len=*),parameter     :: uni=&#146;(DT)&#146;
+   uppercase=&#146;АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ&#146;
+   lowercase=&#146;абвгґдеєжзиіїйклмнопрстуфхцчшщьюя&#146;
+   numeric=&#146;0123456789&#146;
+<P>
+    string=uppercase//&#146; &#146;//numeric//&#146; &#146;//lowercase
+<P>
+    print all, &#146;Original string:&#146;
+    print all, ch(string)
+    print all, &#146;length in bytes :&#146;,len(string%character())
+    print all, &#146;length in glyphs:&#146;,len(string)
+    print all
+<P>
+    print all, &#146;convert to all uppercase:&#146;
+    print all, ch( UPPER(string) )
+    print all
+<P>
+    print all, &#146;convert to all lowercase:&#146;
+    print all, ch( string%LOWER() )
+    print all
+<P>
+    print all, &#146;tokenize on spaces &#46;&#46;&#46; &#146;
+    call TOKENIZE(string,ut(&#146; &#146;),array)
+    print all, &#146;&#46;&#46;&#46; writing with A or G format:&#146;,character(array)
+    !print uni, ut(&#146;&#46;&#46;&#46; writing with DT format&#146;),array
+    print all
+<P>
+    print all, &#146;case-insensitive replace:&#146;
+    print all,  ch( &
+    & REPLACE(string, &
+    & ut(&#146;клмнопрс&#146;), &
+    & ut(&#146;--------&#146;), &
+    & ignorecase=.true.) )
+<P>
+    print all
+<P>
+   end program demo_M_unicode
+<P>
+</PRE>
+Results:
+<P>
+<PRE>
+ Original string:
+ АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ 0123456789 абвгґдеєжзиіїйклмнопрстуфхцчшщьюя
+ length in bytes :
+ 144
+ length in glyphs:
+ 78
+<P>
+ convert to all uppercase:
+ АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ 0123456789 АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ
+<P>
+ convert to all lowercase:
+ абвгґдеєжзиіїйклмнопрстуфхцчшщьюя 0123456789 абвгґдеєжзиіїйклмнопрстуфхцчшщьюя
+<P>
+ tokenize on spaces &#46;&#46;&#46;
+ &#46;&#46;&#46; writing with A or G format:
+</PRE>
+<A name=>
+
+    <H4>&nbsp; &nbsp; АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ</H4>
+</A>
+<BLOCKQUOTE>
+0123456789
+абвгґдеєжзиіїйклмнопрстуфхцчшщьюя
+&#46;&#46;&#46; writing with DT format
+</BLOCKQUOTE>
+<A name=>
+
+    <H4>&nbsp; &nbsp; АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ</H4>
+</A>
+<BLOCKQUOTE>
+0123456789
+абвгґдеєжзиіїйклмнопрстуфхцчшщьюя
+<P>
+case-insensitive replace:
+АБВГҐДЕЄЖЗИІЇЙ-<B>-------ТУФХЦЧШЩЬЮЯ</B> 0123456789 абвгґдеєжзиіїй-<B>-------туфхцчшщьюя</B>
+</BLOCKQUOTE>
+<A name=5>
+
+     <H3>AUTHOR</H3>
+
+</A>
+<BLOCKQUOTE>
+John S. Urban
+</BLOCKQUOTE>
+<A name=6>
+
+     <H3>LICENSE</H3>
+
+</A>
+<BLOCKQUOTE>
+</BLOCKQUOTE>
+<A name=>
+
+    <H4>&nbsp; &nbsp; MIT</H4>
+</A>
+<BLOCKQUOTE>
+</BLOCKQUOTE>
+<P><HR>
+<br><br><center><img src="images/M_unicode.gif"></center>
+</div>
+</div>
+</body>
+</HTML>

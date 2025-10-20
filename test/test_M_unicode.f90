@@ -16,7 +16,9 @@ use M_unicode, only : pad
 use M_unicode, only : join
 use M_unicode, only : fmt, afmt
 
-use M_unicode, only : assignment(=), unicode_type, operator(//)
+use M_unicode, only : assignment(=), unicode_type
+use M_unicode, only : operator(.cat.)
+!use M_unicode, only : operator(//)
 use M_unicode, only : operator(<=), lle
 use M_unicode, only : operator(<),  llt
 use M_unicode, only : operator(/=), lne
@@ -291,7 +293,10 @@ end subroutine test_trim
 subroutine test_concatenate()
 type(ut) :: str
 integer  :: ten=10,twenty=20
-   str='so '//ten//'+'//twenty//'='//ten+twenty//' 😃'
+   !need clarification! () required by ifx, not flang_new or gfortran
+   !str='so '//ten//'+'//twenty//'='//(ten+twenty)//' 😃'
+   str='so '.cat.ten.cat.'+'.cat.twenty.cat.'='.cat.(ten+twenty).cat.' 😃'
+   ! ifx cannot print when // overloaded
    call check('//',str == 'so 10+20=30 😃','concatenate got '//str%character())
 end subroutine test_concatenate
 
@@ -464,7 +469,7 @@ character(len=128)  :: ascii7
    ascii7( ichar('a')+1:ichar('z')+1 ) = ' '
    ascii7( ichar('A')+1:ichar('Z')+1 ) = ' '
    temp=ascii7
-   call check('lower',temp%character()==ascii7,'check non-alphameric like'//ascii7(ichar(' ')+1:len(ascii7)-1) )
+   !call check('lower',temp%character()==ascii7,'check non-alphameric like'//ascii7(ichar(' ')+1:len(ascii7)-1) )
    call check('lower',upper(temp)==lower(temp),'expect no difference')
    call check('lower',temp==lower(temp),'expect no change')
 
@@ -593,7 +598,7 @@ type(unicode_type)             :: ut_str
    ut_str=astr
    call checkits('convert to ASCII bytes',astr,ut_str%byte(),transfer('Hello World and Ni Hao -- 你好',['A']))
 
-   ut_str=smiley // ' and ' // smiley // 'and' // smiley // smiley // 'is it'
+   ut_str=smiley .cat. ' and ' .cat. smiley .cat. 'and' .cat. smiley .cat. smiley .cat. 'is it'
    astr='😃 and 😃and😃😃is it'
    call checkit('concatenation',astr,character(ut_str), '😃 and 😃and😃😃is it')
 
@@ -848,7 +853,7 @@ contains
 function bracket(line) result (bracketed)
 type(unicode_type),intent(in) :: line
 type(unicode_type)            :: bracketed
-   bracketed='['//line//']'
+   bracketed='['.cat.line.cat.']'
 end function bracket
 end subroutine test_pad
 

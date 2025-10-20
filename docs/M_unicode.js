@@ -1,0 +1,25 @@
+function loadthem(){
+append("M_unicode.3m_unicode.html");
+append("adjustl.3m_unicode.html");
+append("adjustr.3m_unicode.html");
+append("escape.3m_unicode.html");
+append("expandtabs.3m_unicode.html");
+append("fmt.3m_unicode.html");
+append("ichar.3m_unicode.html");
+append("index.3m_unicode.html");
+append("join.3m_unicode.html");
+append("len.3m_unicode.html");
+append("len_trim.3m_unicode.html");
+append("lower.3m_unicode.html");
+append("pad.3m_unicode.html");
+append("readline.3m_unicode.html");
+append("repeat.3m_unicode.html");
+append("replace.3m_unicode.html");
+append("scan.3m_unicode.html");
+append("sort.3m_unicode.html");
+append("split.3m_unicode.html");
+append("tokenize.3m_unicode.html");
+append("trim.3m_unicode.html");
+append("upper.3m_unicode.html");
+append("verify.3m_unicode.html");
+}
