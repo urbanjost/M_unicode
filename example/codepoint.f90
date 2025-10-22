@@ -15,9 +15,9 @@ type(unicode_type) :: smiley
    write(stdout,*)'four CHARACTER strings becomes one UNICODE_TYPE string ',smiley%character()
 
    smiley=128515
-   write(stdout,*)'one pointcode ',smiley%character(),smiley%codepoint()
+   write(stdout,*)'one codepoint ',smiley%character(),smiley%codepoint()
 
    smiley=[128515,128515]
-   write(stdout,*)'array of pointcode ',smiley%character(),smiley%codepoint()
+   write(stdout,*)'array of codepoint ',smiley%character(),smiley%codepoint()
 
 end program test_for_iso_10646
