@@ -12,6 +12,7 @@ use M_unicode, only : scan, verify
 use M_unicode, only : tokenize, split
 use M_unicode, only : ichar
 use M_unicode, only : replace
+use M_unicode, only : sub
 use M_unicode, only : pad
 use M_unicode, only : join
 use M_unicode, only : fmt, afmt
@@ -857,6 +858,23 @@ type(unicode_type)            :: bracketed
 end function bracket
 end subroutine test_pad
 
+subroutine test_sub()
+type(unicode_type) :: line
+line='this is the string'
+call check('sub', 'this is the string'  == character( sub(line    ) ) )
+call check('sub', 'the string'          == character( sub(line, 9 ) ) ) 
+call check('sub', 'this is '  == character( sub(line,  1,        8) ) )
+call check('sub', 'the string'== character( sub(line,  9,len(line)) ) ) 
+call check('sub', 'is the'    == character( sub(line,  6,       11) ) )
+
+call check('sub', 'this is the string'  == character( line%sub(            ) ) )
+call check('sub', 'the string'          == character( line%sub( 9          ) ) )
+call check('sub', 'this is '            == character( line%sub( 1,        8) ) )
+call check('sub', 'the string'          == character( line%sub( 9,len(line)) ) )
+call check('sub', 'is the'              == character( line%sub( 6,       11) ) )
+!
+end subroutine test_sub
+
 subroutine test_replace()
 type(unicode_type) :: line
 ! 
@@ -893,9 +911,19 @@ call check('replace', line == ut('a b ab baaa aaaa aa aa a a a aa aaaaCCCC'),'re
 ! 
 line=replace(ut('myf90stuff.f90.f90'),ut('f90'),ut('for'),occurrence=-1,repeat=1)
 call check('replace',line== 'myf90stuff.f90.for')
+
 line=replace(ut('myf90stuff.f90.f90'),ut('f90'),ut('for'),occurrence=-2,repeat=2)
 call check('replace',line=='myforstuff.for.f90')
 ! 
+line='ABCDEFGHIJ'
+call check('replace',ut('ABCdEFGHIJ')==replace(line,4,4,'d'),ch('replace a column ['.cat.line%replace(4,4,'d') ))
+call check('replace',ut('ABCdEFGHIJ')==replace(line,4,4,'d'),'replace a column ')
+call check('replace',ut('ABCGHIJ')==replace(line,4,6,''),'remove columns ')
+
+call check('replace',ut('ABCDE')==replace(line,6,10,''),'remove columns ')
+call check('replace',ut('ABCDEend')==replace(line,6,10,'end'),'replace end')
+call check('replace',ut('startABCDEFGHIJ')==replace(line,1,3,'startDEFGHIJ'),'replace start')
+
 end subroutine test_replace
 
 end module testsuite_M_unicode
@@ -925,6 +953,7 @@ use testsuite_M_unicode
    call test_verify()
    call test_ichar()
    call test_replace()
+   call test_sub()
    call test_pad()
    call test_join()
    call test_expandtabs()

@@ -1,26 +1,28 @@
-adjustl (3m_unicode) - [M_unicode:WHITESPACE] Left-justified a string
-adjustr (3m_unicode) - [M_unicode:WHITESPACE] right-justify a string
-escape (3m_unicode)  - [M_unicode:NONALPHA] expand C-like escape sequences (LICENSE:MIT)
-expandtabs (3m_unicode) - [M_unicode:NONALPHA] function to expand tab characters (LICENSE:MIT)
-fmt (3m_unicode)     - [M_unicode:TYPE] convert any intrinsic to a string using specified format (LICENSE:MIT)
-ichar (3m_unicode)   - [M_unicode:CONVERSION] character-to-integer code conversion function
-index (3m_unicode)   - [M_unicode:SEARCH] Position of a substring within a string
-join (3m_unicode)    - [M_unicode:EDITING] append CHARACTER variable array into a single CHARACTER variable with specified separator (LICENSE:MIT)
-len (3m_unicode)     - [M_unicode] Length of a string
-len_trim (3m_unicode) - [M_unicode:WHITESPACE] string length without trailing blank characters
-lower (3m_unicode)   - [M_unicode:CASE] changes a string to lowercase over specified range (LICENSE:MIT)
-M_unicode (3m_unicode) - [M_unicode::INTRO] Unicode string module
-pad (3m_unicode)     - [M_unicode:LENGTH] return string padded to at least specified length (LICENSE:MIT)
-readline (3m_unicode) - [M_unicode:READ] read a line from specified LUN into string up to line length limit (LICENSE:MIT)
-repeat (3m_unicode)  - [M_unicode] repeated string concatenation
-replace (3m_unicode) - [M_unicode:EDITING] function replaces one substring for another in string (LICENSE:MIT)
-scan (3m_unicode)    - [M_unicode:SEARCH] Scan a string for the presence of a set of characters
-sort (3m_unicode)    - [M_unicode:SORT:QUICKSORT] indexed hybrid quicksort of an array (LICENSE:MIT)
-split (3m_unicode)   - [M_unicode:SPLIT] parse a string into tokens, one at a time.
-tokenize (3m_unicode) - [M_unicode:PARSE] Parse a string into tokens.
-trim (3m_unicode)    - [M_unicode:WHITESPACE] remove trailing blank characters from a string
-upper (3m_unicode)   - [M_unicode:CASE] changes a string to uppercase (LICENSE:MIT)
-verify (3m_unicode)  - [M_unicode:SEARCH] Position of a character in a string of characters that does not appear in a given set of characters.
+ join     - [EDITING] append CHARACTER variable array into a single CHARACTER variable with specified separator 
+ replace  - [EDITING] function replaces one substring for another in string
+
+adjustl  - [WHITESPACE] Left-justified a string
+adjustr  - [WHITESPACE] right-justify a string
+ escape   - [NONALPHA] expand C-like escape sequences
+ expandtabs  - [NONALPHA] function to expand tab characters
+ fmt      - [TYPE] convert any intrinsic to a string using specified format
+ichar    - [CONVERSION] character-to-integer code conversion function
+index    - [SEARCH] Position of a substring within a string
+len      - [M_unicode] Length of a string
+len_trim  - [WHITESPACE] string length without trailing blank characters
+ lower    - [CASE] changes a string to lowercase over specified range
+M_unicode  - [:INTRO] Unicode string module
+ pad      - [LENGTH] return string padded to at least specified length
+ readline  - [READ] read a line from specified LUN into string up to line length limit 
+repeat   - [M_unicode] repeated string concatenation
+scan     - [SEARCH] Scan a string for the presence of a set of characters
+ sort     - [SORT:QUICKSORT] indexed hybrid quicksort of an array 
+split    - [SPLIT] parse a string into tokens, one at a time.
+tokenize  - [PARSE] Parse a string into tokens.
+trim     - [WHITESPACE] remove trailing blank characters from a string
+ upper    - [CASE] changes a string to uppercase
+verify   - [SEARCH] Position of a character in a string of characters that does not appear in a given set of characters.
+
 adjustr(3m_unicode)					   adjustr(3m_unicode)
 
 NAME

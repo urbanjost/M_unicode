@@ -41,7 +41,7 @@ integer                       :: i
    write(stdout,cat)'adjustl:[',character(adjustl(uline)),']'
    write(stdout,cat)'cropped:[',character(trim(adjustl(uline))),']'
    write(stdout,gap)'codepoints:',uline%codepoint()
-   write(stdout,dash)'glyphs:',(character(uline%sub(i)),i=1,len(uline))
+   write(stdout,dash)'glyphs:',(character(uline%sub(i,i)),i=1,len(uline))
    write(stdout,*)
 end subroutine showme
 
