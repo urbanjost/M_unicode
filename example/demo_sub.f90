@@ -5,7 +5,6 @@
        implicit none
        type(ut)                   :: string
        type(ut)                   :: piece
-       integer                    :: i
           !
           string='abcdefghij'
           !
@@ -20,7 +19,6 @@
        contains
        subroutine printme(label)
        character(len=*),intent(in) :: label
-       character(len=*),parameter  :: g='(*(g0))'
           write(*,'(a,"[",g0,"]",/)') label, piece%character()
        end subroutine printme
        end program demo_sub

@@ -209,7 +209,6 @@ Sample program I:
     & tab       = char(11), &
     & prnt*(*) = int//low//upp//blank//punc
    !
-   character(len=:),allocatable :: stra
    type(ut)                     :: stru
    integer                      :: i
        print *, "basics:"
@@ -512,7 +511,6 @@ exploring uses of elemental functionality and dusty corners
    use M_unicode, only : ch=&gt;character
    implicit none
    character(len=*),parameter :: &
-     & int="0123456789", &
      & low="abcdefghijklmnopqrstuvwxyz", &
      & upp="ABCDEFGHIJKLMNOPQRSTUVWXYZ", &
      & blank=" "

@@ -154,7 +154,6 @@ Sample Program:
      implicit none
      type(ut)                   :: string
      type(ut)                   :: piece
-     integer                    :: i
         !
         string=&#146;abcdefghij&#146;
         !
@@ -169,7 +168,6 @@ Sample Program:
      contains
      subroutine printme(label)
      character(len=*),intent(in) :: label
-     character(len=*),parameter  :: g=&#146;(*(g0))&#146;
         write(*,&#146;(a,"[",g0,"]",/)&#146;) label, piece%character()
      end subroutine printme
      end program demo_sub

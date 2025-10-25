@@ -3003,7 +3003,6 @@ end function trim_str
 !!   type(ut),allocatable       :: array(:)
 !!   integer                    :: i
 !!   character(len=*),parameter :: bracket='("[",DT,"]")'
-!!   character(len=*),parameter :: gen='(*(g0))'
 !!       !
 !!       call numberline(2)
 !!       !
@@ -3868,7 +3867,6 @@ end function index_char_str
 !!    use M_unicode,       only : ch=>character
 !!    implicit none
 !!    character(len=*),parameter :: g='(*(g0,1x))'
-!!    character(len=*),parameter :: u='(*(DT,1x))'
 !!    integer,parameter          :: isz=4
 !!    type(unicode_type)         :: rr(isz)
 !!    integer                    :: ii(isz)
@@ -5808,7 +5806,6 @@ end function scan_ua
 !!     & tab       = char(11), &
 !!     & prnt*(*) = int//low//upp//blank//punc
 !!    !
-!!    character(len=:),allocatable :: stra
 !!    type(ut)                     :: stru
 !!    integer                      :: i
 !!        print *, "basics:"
@@ -6095,7 +6092,6 @@ end function scan_ua
 !!    use M_unicode, only : ch=>character
 !!    implicit none
 !!    character(len=*),parameter :: &
-!!      & int="0123456789", &
 !!      & low="abcdefghijklmnopqrstuvwxyz", &
 !!      & upp="ABCDEFGHIJKLMNOPQRSTUVWXYZ", &
 !!      & blank=" "
@@ -6626,7 +6622,6 @@ end function escape_ua
 !!      implicit none
 !!      type(ut)                   :: string
 !!      type(ut)                   :: piece
-!!      integer                    :: i
 !!         !
 !!         string='abcdefghij'
 !!         !
@@ -6641,7 +6636,6 @@ end function escape_ua
 !!      contains
 !!      subroutine printme(label)
 !!      character(len=*),intent(in) :: label
-!!      character(len=*),parameter  :: g='(*(g0))'
 !!         write(*,'(a,"[",g0,"]",/)') label, piece%character()
 !!      end subroutine printme
 !!      end program demo_sub
@@ -6850,12 +6844,6 @@ class(unicode_type),intent(in) :: self
 type(unicode_type)             :: string_out
    string_out=upper(self)
 end function oop_upper
-!===================================================================================================================================
-function oop_sort(self) result (indx)
-class(unicode_type),intent(in) :: self(:)
-integer,allocatable            :: indx(:)
-   call sort_quick_rx(self,indx)
-end function oop_sort
 !===================================================================================================================================
 function oop_lower(self) result (string_out)
 class(unicode_type),intent(in) :: self

@@ -16,7 +16,6 @@
     & tab       = char(11), &
     & prnt*(*) = int//low//upp//blank//punc
 
-   character(len=:),allocatable :: stra
    type(ut)                     :: stru
    integer                      :: i
        print *, "basics:"

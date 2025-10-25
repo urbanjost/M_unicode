@@ -70,7 +70,6 @@ EXAMPLES
     type(ut),allocatable       :: array(:)
     integer		       :: i
     character(len=*),parameter :: bracket='("[",DT,"]")'
-    character(len=*),parameter :: gen='(*(g0))'
 	!
 	call numberline(2)
 	!
@@ -1326,7 +1325,6 @@ EXAMPLES
       & tab	  = char(11), &
       & prnt*(*) = int//low//upp//blank//punc
      !
-     character(len=:),allocatable :: stra
      type(ut)			  :: stru
      integer			  :: i
 	 print *, "basics:"
@@ -1613,7 +1611,6 @@ EXAMPLES
      use M_unicode, only : ch=>character
      implicit none
      character(len=*),parameter :: &
-       & int="0123456789", &
        & low="abcdefghijklmnopqrstuvwxyz", &
        & upp="ABCDEFGHIJKLMNOPQRSTUVWXYZ", &
        & blank=" "
@@ -2217,7 +2214,6 @@ EXAMPLES
      use M_unicode,	  only : ch=>character
      implicit none
      character(len=*),parameter :: g='(*(g0,1x))'
-     character(len=*),parameter :: u='(*(DT,1x))'
      integer,parameter		:: isz=4
      type(unicode_type) 	:: rr(isz)
      integer			:: ii(isz)
@@ -2465,7 +2461,6 @@ EXAMPLES
        implicit none
        type(ut) 		  :: string
        type(ut) 		  :: piece
-       integer			  :: i
 	  !
 	  string='abcdefghij'
 	  !
@@ -2480,7 +2475,6 @@ EXAMPLES
        contains
        subroutine printme(label)
        character(len=*),intent(in) :: label
-       character(len=*),parameter  :: g='(*(g0))'
 	  write(*,'(a,"[",g0,"]",/)') label, piece%character()
        end subroutine printme
        end program demo_sub

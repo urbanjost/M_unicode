@@ -9,7 +9,6 @@ character(len=*),parameter   :: cat='(*(g0))'             ,&
                                 dash='(*(g0,"-"))'          ,&
                                 bracket='(*("[",g0,"]":))'
 type(unicode_type)           :: uline, substring
-character(len=*),parameter   :: smiley='😃'
 
    uline="   Until you stop, you won't be able to.   "
    call showme(uline)

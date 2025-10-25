@@ -4,7 +4,6 @@
    use M_unicode, only : ch=>character
    implicit none
    character(len=*),parameter :: &
-     & int="0123456789", &
      & low="abcdefghijklmnopqrstuvwxyz", &
      & upp="ABCDEFGHIJKLMNOPQRSTUVWXYZ", &
      & blank=" "

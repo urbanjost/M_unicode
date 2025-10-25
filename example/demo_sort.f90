@@ -5,7 +5,6 @@
      use M_unicode,       only : ch=>character
      implicit none
      character(len=*),parameter :: g='(*(g0,1x))'
-     character(len=*),parameter :: u='(*(DT,1x))'
      integer,parameter          :: isz=4
      type(unicode_type)         :: rr(isz)
      integer                    :: ii(isz)
