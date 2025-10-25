@@ -56,7 +56,7 @@ a.existingWikiWord[title]{ //border: 1px dashed #BBB; }
 
 </A>
 <BLOCKQUOTE>
-lower(3f) - [M_unicode:CASE] changes a string to lowercase over
+LOWER(3f) - [M_unicode:CASE] changes a string to lowercase over
 specified range
 (LICENSE:MIT)
 <P>
@@ -155,35 +155,34 @@ Sample program:
    type(unicode_type) :: pangram
    type(unicode_type) :: diacritics
    type(unicode_type) :: expected
-<P>
-      ! a sentence containing every letter of the English alphabet
-      pangram="THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG"
-      expected="the quick brown fox jumps over the lazy dog"
-      call test(pangram,expected)
-<P>
-      ! Slovak pangram
-      PANGRAM    = &#146;VYPÄTÁ DCÉRA GRÓFA MAXWELLA S IQ NIŽŠÍM AKO &
-      &KÔŇ NÚTI ČEĽAĎ HRÝZŤ HŔBU JABĹK.&#146;
-      expected   = &#146;vypätá dcéra grófa maxwella s iq nižším ako &
-      &kôň núti čeľaď hrýzť hŕbu jabĺk.&#146;
-      call test(pangram,expected)
-<P>
-      ! contains each special Czech letter with diacritics exactly once
-      DIACRITICS=&#146;PŘÍLIŠ ŽLUŤOUČKÝ KŮŇ ÚPĚL ĎÁBELSKÉ ÓDY.&#146;
-      expected =&#146;příliš žluťoučký kůň úpěl ďábelské ódy.&#146;
-      print g,&#146;("A horse that was too yellow-ish moaned devilish odes")&#146;
-      call test(diacritics,expected)
-<P>
+     !
+     ! a sentence containing every letter of the English alphabet
+     pangram="THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG"
+     expected="the quick brown fox jumps over the lazy dog"
+     call test(pangram,expected)
+     !
+     ! Slovak pangram
+     PANGRAM    = &#146;VYPÄTÁ DCÉRA GRÓFA MAXWELLA S IQ NIŽŠÍM AKO &
+     &KÔŇ NÚTI ČEĽAĎ HRÝZŤ HŔBU JABĹK.&#146;
+     expected   = &#146;vypätá dcéra grófa maxwella s iq nižším ako &
+     &kôň núti čeľaď hrýzť hŕbu jabĺk.&#146;
+     call test(pangram,expected)
+     !
+     ! contains each special Czech letter with diacritics exactly once
+     DIACRITICS=&#146;PŘÍLIŠ ŽLUŤOUČKÝ KŮŇ ÚPĚL ĎÁBELSKÉ ÓDY.&#146;
+     expected =&#146;příliš žluťoučký kůň úpěl ďábelské ódy.&#146;
+     print g,&#146;("A horse that was too yellow-ish moaned devilish odes")&#146;
+     call test(diacritics,expected)
    contains
    subroutine test(in,expected)
    type(unicode_type),intent(in) :: in
    type(unicode_type),intent(in) :: expected
    type(unicode_type)            :: lowercase
    character(len=*),parameter    :: nl=new_line(&#146;A&#146;)
-      write(stdout,g)in%character()
-      lowercase=lower(in)
-      write(stdout,g)lowercase%character()
-      write(stdout,g)merge(&#146;PASSED&#146;,&#146;FAILED&#146;,lowercase == expected ),nl
+       write(stdout,g)in%character()
+       lowercase=lower(in)
+       write(stdout,g)lowercase%character()
+       write(stdout,g)merge(&#146;PASSED&#146;,&#146;FAILED&#146;,lowercase == expected ),nl
    end subroutine test
    end program demo_lower
 <P>

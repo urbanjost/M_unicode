@@ -56,8 +56,9 @@ a.existingWikiWord[title]{ //border: 1px dashed #BBB; }
 
 </A>
 <BLOCKQUOTE>
-ichar(3) - [M_unicode:CONVERSION] character-to-integer code conversion
+ICHAR(3f) - [M_unicode:CONVERSION] character-to-integer code conversion
 function
+(LICENSE:MIT)
 <P>
 </BLOCKQUOTE>
 <A name=contents></A><H3>CONTENTS</H3></A>
@@ -136,7 +137,7 @@ C : The input character to determine the decimal code of.
 
 </A>
 <BLOCKQUOTE>
-The pointcode in the Unicode character set for the character being
+The codepoint in the Unicode character set for the character being
 queried is returned.
 <P>
 The result is the position of C in the Unicode collating sequence,
@@ -159,41 +160,75 @@ sample program:
 <P>
 <PRE>
    program demo_ichar
-   use M_unicode, only : assignment(=)
+   use M_unicode, only : assignment(=),ch=&gt;character
    use M_unicode, only : ut=&gt;unicode_type, write(formatted)
-   use M_unicode, only : ichar, escape
+   use M_unicode, only : ichar, escape, len
    implicit none
+   type(ut)             :: string
    type(ut),allocatable :: lets(:)
    integer,allocatable  :: ilets(:)
-<P>
-      lets=[ut(&#146;😃&#146;),ut(&#146;🩷&#146;),ut(&#146;👣&#146;),ut(&#146;🫒&#146;), &
-           & ut(&#146;🧲&#146;),ut(&#146;✔&#146;),ut(&#146;🟧&#146;),ut(&#146;🟣&#146;)]
-      write(*,&#146;(*(DT,1x))&#146;)lets
-      ilets=ichar(lets)
-      write(*,&#146;(*(g0,1x))&#146;)ilets
+   integer              :: i
+      !
+      ! create a string containing multibyte characters
+      string=[949, 8021, 961, 951, 954, 945, 33] ! eureka
+      write(*,&#146;(*(DT,1x,"(AKA. eureka!)"))&#146;)string
+      !
+      ! call ichar(3) on each glyph of the string to convert
+      ! the string to an array of integer codepoints
+      ilets=[(ichar(string%sub(i,i)),i=1,len(string))]
       write(*,&#146;(*(z0,1x))&#146;)ilets
+      !
+      ! note that the %codepoint method is commonly used to
+      ! convert a string to an integer array of codepoints
+      write(*,&#146;(*(z0,1x))&#146;)string%codepoint()
 <P>
-      ! alternatively define LETS with escape codes
-      if(allocated(lets))deallocate(lets)
-      allocate(lets(8)) ! gfortran bug
-      lets=[&#146;\U0001F603&#146;,&#146;\U0001FA77&#146;,&#146;\U0001F463&#146;,&#146;\U0001FAD2&#146;, &
-          & &#146;\U0001F9F2&#146;,&#146;\U00002714&#146;,&#146;\U0001F7E7&#146;,&#146;\U0001F7E3&#146;]
-      lets=escape(lets)
-      ! write as an array
-      write(*,&#146;(*(z0,1x))&#146;)ichar(lets)
+      ! elemental
+      write(*,&#146;("WRITING ISSUES:")&#146;)
+      !
+      ! define an array LETS with escape codes with one glyph per element
+      lets=[ut(&#146;\U03B5&#146;),ut(&#146;\U1F55&#146;),ut(&#146;\U03C1&#146;),ut(&#146;\U03B7&#146;), &
+          & ut(&#146;\U03BA&#146;),ut(&#146;\U03B1&#146;),ut(&#146;\U0021&#146;)]
+      lets=escape(lets) ! convert escape codes to glyphs
+      !
+      ! look at issues with converting to CHARACTER for simple printing
+      !
+      write(*,&#146;("each element is a single glyph ",*(g0,1x))&#146;)len(lets)
+      !
+      ! notice if you convert to an array of intrinsic CHARACTER type the
+      ! strings are all the same length in bytes; but unicode characters
+      ! can take various numbers of bytes
+      write(*,&#146;(*(g0,":"))&#146;)&#146;CHARACTER array elements have same length&#146;,&
+         & len(ch(lets))
+      ! this will not appear correctly because all elements are padded to
+      ! the same length in bytes
+      write(*,&#146;(*(a,":"))&#146;)ch(lets)
+      ! one element at a time will retain the size of each element
+      write(*,&#146;(*(a,":"))&#146;)(ch(lets(i:i)),i=1,size(lets))
+      !
+      ! the FIRST LETTER of each element is converted to a codepoint so
+      ! for the special case where each string element is a single glyph
+      ! an elemental approach works
+      write(*,&#146;("ELEMENTAL:",*(z0,1x))&#146;)ichar(lets)
+<P>
       ! OOPS
-      write(*,&#146;(*(z0,1x))&#146;)lets%ichar()
+      write(*,&#146;("OOPS:",*(z0,1x))&#146;)lets%ichar()
    end program demo_ichar
 <P>
 </PRE>
 results:
 <P>
 <PRE>
-   &gt; 😃 🩷 👣 🫒 🧲 ✔ 🟧 🟣
-   &gt; 128515 129655 128099 129746 129522 10004 128999 128995
-   &gt; 1F603 1FA77 1F463 1FAD2 1F9F2 2714 1F7E7 1F7E3
-   &gt; 1F603 1FA77 1F463 1FAD2 1F9F2 2714 1F7E7 1F7E3
-   &gt; 1F603 1FA77 1F463 1FAD2 1F9F2 2714 1F7E7 1F7E3
+   &gt; Project is up to date
+   &gt; εὕρηκα! (AKA. eureka!)
+   &gt; 3B5 1F55 3C1 3B7 3BA 3B1 21
+   &gt; 3B5 1F55 3C1 3B7 3BA 3B1 21
+   &gt; WRITING ISSUES:
+   &gt; each element is a single glyph 1 1 1 1 1 1 1
+   &gt; CHARACTER array elements have same length:3:
+   &gt; ε :ὕ:ρ :η :κ :α :!  :
+   &gt; ε:ὕ:ρ:η:κ:α:!:
+   &gt; ELEMENTAL:3B5 1F55 3C1 3B7 3BA 3B1 21
+   &gt; OOPS:3B5 1F55 3C1 3B7 3BA 3B1 21
 <P>
 </PRE>
 </BLOCKQUOTE>

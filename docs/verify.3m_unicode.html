@@ -57,8 +57,9 @@ a.existingWikiWord[title]{ //border: 1px dashed #BBB; }
 
 </A>
 <BLOCKQUOTE>
-VERIFY(3) - [M_unicode:SEARCH] Position of a character in a string of
+VERIFY(3f) - [M_unicode:SEARCH] Position of a character in a string of
 characters that does not appear in a given set of characters.
+(LICENSE:MIT)
 <P>
 </BLOCKQUOTE>
 <A name=contents></A><H3>CONTENTS</H3></A>
@@ -189,87 +190,93 @@ with position one on the left end of the string.
 Sample program I:
 <P>
 <PRE>
-      program demo_verify
-      use M_unicode
-      use M_unicode, only : ut=&gt;unicode_type, ch=&gt;character
-      use M_unicode, only : write(formatted), assignment(=)
-      implicit none
-      ! some useful character sets
-      character,parameter :: &
-       & int*(*)   = ’1234567890’, &
-       & low*(*)   = ’abcdefghijklmnopqrstuvwxyz’, &
-       & upp*(*)   = ’ABCDEFGHIJKLMNOPQRSTUVWXYZ’, &
-       & punc*(*)  = "!""#$%&’()*+,‐./:;&lt;=&gt;?@[\]ˆ_‘{|}˜", &
-       & blank*(*) = ’ ’, &
-       & tab       = char(11), &
-       & prnt*(*) = int//low//upp//blank//punc
-<P>
-      character(len=:),allocatable :: string_a
-      type(unicode_type)           :: string_u
-      integer :: i
-          print , ’basics:’
-          print *, VERIFY (’ABBA’, ’A’)                ! has the value 2.
-          print *, VERIFY (’ABBA’, ’A’, BACK = .TRUE.) ! has the value 3.
-          print *, VERIFY (’ABBA’, ’AB’)               ! has the value 0.
-<P>
-         print *,’find first non‐uppercase letter’
-         ! will produce the location of "d", because there is no match in UPP
-         write(*,*) ’something unmatched’,verify(ut("ABCdEFG"), upp)
-<P>
-         print *,’if everything is matched return zero’
-         ! will produce 0 as all letters have a match
-         write(*,*) ’everything matched’,verify(ut("ffoorrttrraann"), "nartrof")
-<P>
-         print *,’easily categorize strings as uppercase, lowercase, &#46;&#46;&#46;’
-         ! easy C‐like functionality but does entire strings not just characters
-         write(*,*)’isdigit 123?’,verify(ut("123)", int) == 0
-         write(*,*)’islower abc?’,verify(ut("abc)", low) == 0
-         write(*,*)’isalpha aBc?’,verify(ut("aBc"), low//upp) == 0
-         write(*,*)’isblank aBc dEf?’,verify(ut("aBc dEf"), blank//tab ) /= 0
-         ! check if all printable characters
-         string="aB;cde,fgHI!Jklmno PQRSTU vwxyz"
-         write(*,*)’isprint?’,verify(string,prnt) == 0
-<P>
-         ! this now has a nonprintable tab character in it
-         string(10:10)=char(11)
-         write(*,*)’isprint?’,verify(string,prnt) == 0
-<P>
-         print *,’VERIFY(3) is very powerful using expressions as masks’
-         ! verify(3) is often used in a logical expression
-         string=" This is NOT all UPPERCASE "
-         write(*,*)’all uppercase/spaces?’,verify(string, blank//upp) == 0
-         string=" This IS all uppercase "
-         write(*,*) ’string=[’//string//’]’
-         write(*,*)’all uppercase/spaces?’,verify(string, blank//upp) == 0
-<P>
-        ! set and show complex string to be tested
-         string=’  Check this out. Let me know  ’
-         ! show the string being examined
-         write(*,*) ’string=[’//string//’]’
-         write(*,*) ’        ’//repeat(int,4) ! number line
-<P>
-         ! the Fortran functions returns a position just not a logical like C
-         print *, ’returning a position not just a logical is useful’
-         ! which can be very useful for parsing strings
-         write(*,*)’first non‐blank character’,verify(string, blank)
-         write(*,*)’last non‐blank character’,verify(string, blank,back=.true.)
-         write(*,*)’first non‐letter non‐blank’,verify(string,low//upp//blank)
-<P>
-        !VERIFY(3) is elemental so you can check an array of strings in one call
-        print *, ’elemental’
-         ! are strings all letters (or blanks)?
-         write(*,*) ’array of strings’,verify( &
-         ! strings must all be same length, so force to length 10
-         & [character(len=10) :: "YES","ok","000","good one","Nope!"], &
-         & low//upp//blank) == 0
-<P>
-         ! rarer, but the set can be an array, not just the strings to test
-         ! you could do ISPRINT() this (harder) way :&gt;
-         write(*,*)’isprint?’,.not.all(verify(ut("aBc"), [(char(i),i=32,126)])==1)
-         ! instead of this way
-         write(*,*)’isprint?’,verify(ut("aBc"),prnt) == 0
-<P>
-      end program demo_verify
+   program demo_verify
+   ! general examples
+   use M_unicode, only : assignment(=)
+   use M_unicode, only : ut=&gt;unicode_type, ch=&gt;character
+   use M_unicode, only : write(formatted)
+   use M_unicode, only : operator(==)
+   use M_unicode, only : verify, replace
+   use M_unicode, only : operator(//)
+   implicit none
+   ! some useful character sets
+   character,parameter          :: &
+    & int*(*)   = "1234567890", &
+    & low*(*)   = "abcdefghijklmnopqrstuvwxyz", &
+    & upp*(*)   = "ABCDEFGHIJKLMNOPQRSTUVWXYZ", &
+    & punc*(*)  = "!""#$%&&#146;()*+,‐./:;&lt;=&gt;?@[\]&#146;_‘{|}˜", &
+    & blank*(*) = " ", &
+    & tab       = char(11), &
+    & prnt*(*) = int//low//upp//blank//punc
+   !
+   character(len=:),allocatable :: stra
+   type(ut)                     :: stru
+   integer                      :: i
+       print *, "basics:"
+       print *, VERIFY ("ABBA", "A")                ! has the value 2.
+       print *, VERIFY ("ABBA", "A", BACK = .TRUE.) ! has the value 3.
+       print *, VERIFY ("ABBA", "AB")               ! has the value 0.
+      !
+      print *,"find first non‐uppercase letter"
+      ! will produce the location of "d", because there is no match in UPP
+      write(*,*) "something unmatched",verify(ut("ABCdEFG"), upp)
+      !
+      print *,"if everything is matched return zero"
+      ! will produce 0 as all letters have a match
+      write(*,*) &
+      & "everything matched",verify(ut("ffoorrttrraann"), "nartrof")
+      !
+      print *,"easily categorize strings as uppercase, lowercase, &#46;&#46;&#46;"
+      ! C-like functionality but does entire strings not just characters
+      write(*,*)"isdigit 123?",verify(ut("123"), int) == 0
+      write(*,*)"islower abc?",verify(ut("abc"), low) == 0
+      write(*,*)"isalpha aBc?",verify(ut("aBc"), low//upp) == 0
+      write(*,*)"isblank aBc dEf?",verify(ut("aBc dEf"), blank//tab ) /= 0
+      ! check if all printable characters
+      stru="aB;cde,fgHI!Jklmno PQRSTU vwxyz"
+      write(*,*)"isprint?",verify(stru,prnt) == 0
+      !
+      ! this now has a nonprintable tab character in it
+      stru=replace(stru,10,10,ut(char(11)))
+      write(*,*)"isprint?",verify(stru,prnt) == 0
+      !
+      print *,"VERIFY(3) is very powerful using expressions as masks"
+      ! verify(3) is often used in a logical expression
+      stru=" This is NOT all UPPERCASE "
+      write(*,*)"all uppercase/spaces?",verify(stru, blank//upp) == 0
+      stru=" This IS all uppercase "
+      write(*,*) "stru=["//stru//"]"
+      write(*,*)"all uppercase/spaces?",verify(stru, blank//upp) == 0
+      !
+      ! set and show complex stru to be tested
+      stru="  Check this out. Let me know  "
+      ! show the stru being examined
+      write(*,*) "stru=["//stru//"]"
+      write(*,*) "        "//repeat(int,4) ! number line
+      !
+      ! function returns a position just not a logical like C
+      print *, "returning a position not just a logical is useful"
+      ! which can be very useful for parsing strings
+      write(*,*)"first non‐blank character",verify(stru, blank)
+      write(*,*)"last non‐blank character",verify(stru, blank,back=.true.)
+      write(*,*)"first non‐letter non‐blank",verify(stru,low//upp//blank)
+      !
+     !VERIFY(3) is elemental (can check an array of strings in one call)
+      print *, "elemental"
+      ! are strings all letters (or blanks)?
+      write(*,*) "array of strings",verify( &
+      ! strings must all be same length, so force to length 10
+      & [character(len=10) :: "YES","ok","000","good one","Nope!"], &
+      & low//upp//blank) == 0
+      !
+      ! rarer, but the set can be an array, not just the strings to test
+      ! you could do ISPRINT() this (harder) way :&gt;
+      write(*,*)"isprint?", &
+      & .not.all(verify(ut("aBc"), [(char(i),i=32,126)])==1)
+      ! instead of this way
+      write(*,*)"isprint?",verify(ut("aBc"),prnt) == 0
+      !
+   end program demo_verify
 <P>
 </PRE>
 Results:
@@ -311,55 +318,74 @@ Sample program II:
 Determine if strings are valid integer representations
 <P>
 <PRE>
-      program fortran_ints
-      use M_unicode, only : ut=&gt;unicode_type,assignment(=)
-      implicit none
-      integer :: i
-      character(len=*),parameter :: ints(*)=[character(len=10) :: &
-       ’+1 ’, &
-       ’3044848 ’, &
-       ’30.40 ’, &
-       ’September ’, &
-       ’1 2 3’, &
-       ’  ‐3000 ’, &
-       ’ ’]
-         ! show the strings to test
-         write(*,’("|",*(DT,"|"))’) ints
-         ! show if strings pass or fail the test done by isint(3)
-         write(*,’("|",*(1x,l1,8x,"|"))’) isint(ints)
+   program fortran_ints
+   use M_unicode, only : ut=&gt;unicode_type,assignment(=)
+   use M_unicode, only : adjustr, verify, trim, len
+   use M_unicode, only : write(formatted)
+   use M_unicode, only : operator(.cat.)
+   use M_unicode, only : operator(==)
+   implicit none
+   integer :: i
+   character(len=*),parameter :: asciiints(*)=[character(len=10) :: &
+    "+1 ", &
+    "3044848 ", &
+    "30.40 ", &
+    "September ", &
+    "1 2 3", &
+    "  -3000 ", &
+    " "]
+    type(ut),allocatable :: ints(:)
+    if(allocated(ints))deallocate(ints)
+    allocate(ints(size(asciiints))) ! gfortran bug
+    ints=asciiints
+    ints=trim(ints)
+    ! show if strings pass or fail the test done by isint(3)
+    write(*,"(&#146;is integer?&#146;)")
+    do i=1,size(ints)
+      write(*,&#146;("|",DT,T14,"|",l1,"|")&#146;) ints(i), isint(ints(i))
+    enddo
+    ! elemental
+    write(*,"(*(g0,1x))") isint(ints)
 <P>
-      contains
+   contains
 <P>
-      elemental function isint(line) result (lout)
-      use M_unicode, only : adjustl, verify, trim
-      !
-      ! determine if string is a valid integer representation
-      ! ignoring trailing spaces and leading spaces
-      !
-      character(len=*),parameter   :: digits=’0123456789’
-      character(len=*),intent(in)  :: line
-      character(len=:),allocatable :: name
-      logical                      :: lout
-         lout=.false.
-         ! make sure at least two characters long to simplify tests
-         name=adjustl(line)//’  ’
-         ! blank string
-         if( name == ’’ )return
-         ! allow one leading sign
-         if( verify(name(1:1),’+‐’) == 0 ) name=name(2:)
-         ! was just a sign
-         if( name == ’’ )return
-         lout=verify(trim(name), digits)  == 0
-      end function isint
+   impure elemental function isint(line) result (lout)
+   use M_unicode, only : adjustl, verify, trim
+   !
+   ! determine if string is a valid integer representation
+   ! ignoring trailing spaces and leading spaces
+   !
+   character(len=*),parameter :: digits="0123456789"
+   type(ut),intent(in)        :: line
+   type(ut)                   :: name
+   logical                    :: lout
+      lout=.false.
+      ! make sure at least two characters long to simplify tests
+      name=adjustl(line).cat.&#146;  &#146;
+      ! blank string
+      if( name == &#146;&#146; )return
+      ! allow one leading sign
+      if( verify(name%sub(1,1),ut(&#146;+‐-&#146;)) == 0 ) name=name%sub(2,len(name))
+      ! was just a sign
+      if( name == &#146;&#146; )return
+      lout=verify(trim(name), digits)  == 0
+   end function isint
 <P>
-      end program fortran_ints
+   end program fortran_ints
 <P>
 </PRE>
 Results:
 <P>
 <PRE>
-      |+1       |3044848  |30.40    |September|1 2 3    |  ‐3000  |         |
-      | T       | T       | F       | F       | F       | T       | F       |
+    &gt; is integer?
+    &gt; |+1          |T|
+    &gt; |3044848     |T|
+    &gt; |30.40       |F|
+    &gt; |September   |F|
+    &gt; |1 2 3       |F|
+    &gt; |  ‐3000     |T|
+    &gt; |            |F|
+    &gt; T T F F F T F
 <P>
 </PRE>
 Sample program III:
@@ -367,56 +393,62 @@ Sample program III:
 Determine if strings represent valid Fortran symbol names
 <P>
 <PRE>
-      program fortran_symbol_name
-      implicit none
-      integer :: i
-      character(len=*),parameter :: symbols(*)=[character(len=10) :: &
-       ’A_ ’, &
-       ’10 ’, &
-       ’September ’, &
-       ’A B’, &
-       ’_A ’, &
-       ’ ’]
+   program fortran_symbol_name
+   use M_unicode, only : ut=&gt;unicode_type, trim, verify, len
+   use M_unicode, only : ch=&gt;character
+   use M_unicode, only : write(formatted)
+   implicit none
+   integer :: i
+   type(ut),allocatable :: symbols(:)
+      symbols=[ &
+       ut(&#146;A_&#146;), ut(&#146;10&#146;), ut(&#146;a10&#146;), ut(&#146;September&#146;), ut(&#146;A B&#146;), &
+       ut(&#146;_A&#146;), ut(&#146; &#146;)]
 <P>
-         write(*,’("|",*(g0,"|"))’) symbols
-         write(*,’("|",*(1x,l1,8x,"|"))’) fortran_name(symbols)
+      do i=1,size(symbols)
+         write(*,&#146;(1x,DT,T11,"|",l2)&#146;)symbols(i),fortran_name(symbols(i))
+      enddo
 <P>
-      contains
+   contains
 <P>
-      elemental function fortran_name(line) result (lout)
-      !
-      ! determine if a string is a valid Fortran name
-      ! ignoring trailing spaces (but not leading spaces)
-      !
-      character(len=*),parameter   :: int=’0123456789’
-      character(len=*),parameter   :: lower=’abcdefghijklmnopqrstuvwxyz’
-      character(len=*),parameter   :: upper=’ABCDEFGHIJKLMNOPQRSTUVWXYZ’
-      character(len=*),parameter   :: allowed=upper//lower//int//’_’
+   impure elemental function fortran_name(line) result (lout)
+   !
+   ! determine if a string is a valid Fortran name
+   ! ignoring trailing spaces (but not leading spaces)
+   !
+   character(len=*),parameter :: int="0123456789"
+   character(len=*),parameter :: lower="abcdefghijklmnopqrstuvwxyz"
+   character(len=*),parameter :: upper="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+   character(len=*),parameter :: allowed=upper//lower//int//"_"
 <P>
-      character(len=*),intent(in)  :: line
-      character(len=:),allocatable :: name
-      logical                      :: lout
-         name=trim(line)
-         if(len(name).ne.0)then
-            ! first character is alphameric
-            lout = verify(name(1:1), lower//upper) == 0  &
-             ! other characters are allowed in a symbol name
-             & .and. verify(name,allowed) == 0           &
-             ! allowable length
-             & .and. len(name) &lt;= 63
-         else
-            lout = .false.
-         endif
-      end function fortran_name
+   type(ut),intent(in)        :: line
+   type(ut)                   :: name
+   logical                    :: lout
+      name=trim(line)
+      if(len(name).ne.0)then
+         ! first character is alphameric
+         lout = verify(name%sub(1,1), lower//upper) == 0  &
+          ! other characters are allowed in a symbol name
+          & .and. verify(name,allowed) == 0           &
+          ! allowable length
+          & .and. len(name) &lt;= 63
+      else
+         lout = .false.
+      endif
+   end function fortran_name
 <P>
-      end program fortran_symbol_name
+   end program fortran_symbol_name
 <P>
 </PRE>
 Results:
 <P>
 <PRE>
-          |A_        |10        |September |A B       |_A        |          |
-          | T        | F        | T        | F        | F        | F        |
+   &gt;  A_       | T
+   &gt;  10       | F
+   &gt;  a10      | T
+   &gt;  September| T
+   &gt;  A B      | F
+   &gt;  _A       | F
+   &gt;           | F
 <P>
 </PRE>
 Sample program IV:
@@ -424,7 +456,7 @@ Sample program IV:
 check if string is of form NN‐HHHHH
 <P>
 <PRE>
-   program checkform
+   program form
    !
    ! check if string is of form NN‐HHHHH
    !
@@ -433,34 +465,34 @@ check if string is of form NN‐HHHHH
    use M_unicode,       only : ut=&gt;unicode_type
    implicit none
    character(len=*),parameter :: g=&#146;(*(g0,1x))&#146;
-<P>
+   !
    character(len=*),parameter :: int=&#146;1234567890&#146;
    character(len=*),parameter :: hex=&#146;abcdefABCDEF0123456789&#146;
    logical                    :: lout
    type(unicode_type)         :: chars
    type(unicode_type)         :: str
-<P>
+      !
       chars=&#146;32‐af43d&#146;
       lout=.true.
-<P>
+      !
       ! are the first two characters integer characters?
       str = chars%character(1,2)
       lout = (verify( str, ut(int) ) == 0) .and.lout
-<P>
+      !
       ! is the third character a dash?
       str = chars%character(3,3)
       lout = (verify( str, ut(&#146;‐-&#146;) ) == 0) .and.lout
-<P>
+      !
       ! is remaining string a valid representation of a hex value?
       str = chars%character(4,8)
       lout = (verify( str, ut(hex) ) == 0) .and.lout
-<P>
+      !
       if(lout)then
          write(stdout,g)trim(chars%character()),&#146; passed&#146;
       else
          write(stdout,g)trim(chars%character()),&#146; failed&#146;
       endif
-   end program checkform
+   end program form
 <P>
 </PRE>
 Results:
@@ -474,48 +506,54 @@ Sample program V:
 exploring uses of elemental functionality and dusty corners
 <P>
 <PRE>
-      program more_verify
-      implicit none
-      character(len=*),parameter :: &
-        & int=’0123456789’, &
-        & low=’abcdefghijklmnopqrstuvwxyz’, &
-        & upp=’ABCDEFGHIJKLMNOPQRSTUVWXYZ’, &
-        & blank=’ ’
-      ! note character variables in an array have to be of the same length
-      character(len=6) :: strings(3)=["Go    ","right ","home! "]
-      character(len=2) :: sets(3)=["do","re","me"]
+   program more_verify
+   use M_unicode, only : ut=&gt;unicode_type, verify
+   use M_unicode, only : assignment(=)
+   use M_unicode, only : ch=&gt;character
+   implicit none
+   character(len=*),parameter :: &
+     & int="0123456789", &
+     & low="abcdefghijklmnopqrstuvwxyz", &
+     & upp="ABCDEFGHIJKLMNOPQRSTUVWXYZ", &
+     & blank=" "
+   ! note character variables in an array have to be of the same length
+   type(ut),allocatable :: strings(:)
+   type(ut),allocatable :: sets(:)
 <P>
-        ! elemental ‐‐ you can use arrays for both strings and for sets
+      strings=[ut("Go"),ut("right"),ut("home!")]
+      sets=[ut("do"),ut("re"),ut("me")]
 <P>
-         ! check each string from right to left for non‐letter/non‐blank
-         write(*,*)’last non‐letter’,verify(strings,upp//low//blank,back=.true.)
+     ! elemental ‐‐ you can use arrays for both strings and for sets
 <P>
-         ! even BACK can be an array
-         ! find last non‐uppercase character in "Howdy "
-         ! and first non‐lowercase in "there "
-         write(*,*) verify(strings(1:2),[upp,low],back=[.true.,.false.])
+      ! check each string from right to left for non‐letter/non‐blank
+      write(*,*)"last non‐letter",verify(strings,upp//low//blank,back=.true.)
 <P>
-         ! using a null string for a set is not well defined. Avoid it
-         write(*,*) ’null’,verify("for tran ", "", .true.) ! 8,length of string?
-         ! probably what you expected
-         write(*,*) ’blank’,verify("for tran ", " ", .true.) ! 7,found ’n’
+      ! even BACK can be an array
+      ! find last non‐uppercase character in "Go"
+      ! and first non‐lowercase in "right"
+      write(*,*) verify(strings(1:2),[upp,low],back=[.true.,.false.])
 <P>
-         ! first character in  "Go    " not in "do",
-         ! and first letter in "right " not in "ri"
-         ! and first letter in "home! " not in "me"
-         write(*,*) verify(strings,sets)
+      ! using a null string for a set is not well defined. Avoid it
+      write(*,*) "null",verify("for tran ", "", .true.) ! 8,length of string?
+      ! probably what you expected
+      write(*,*) "blank",verify("for tran ", " ", .true.) ! 7,found ’n’
 <P>
-      end program more_verify
+      ! first character in  "Go    " not in "do",
+      ! and first letter in "right " not in "ri"
+      ! and first letter in "home! " not in "me"
+      write(*,*) verify(strings,sets)
+<P>
+   end program more_verify
 <P>
 </PRE>
 Results:
 <P>
 <PRE>
-          &gt; last non‐letter 0 0 5
-          &gt; 6 6
-          &gt; null 9
-          &gt; blank 8
-          &gt; 1 2 1
+   &gt;  last non‐letter 0 0 5
+   &gt;  2 0
+   &gt;  null 9
+   &gt;  blank 8
+   &gt;  1 2 1
 <P>
 </PRE>
 </BLOCKQUOTE>

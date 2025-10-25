@@ -56,7 +56,8 @@ a.existingWikiWord[title]{ //border: 1px dashed #BBB; }
 
 </A>
 <BLOCKQUOTE>
-adjustr(3) - [M_unicode:WHITESPACE] right-justify a string
+ADJUSTR(3f) - [M_unicode:WHITESPACE] right-justify a string
+(LICENSE:MIT)
 <P>
 </BLOCKQUOTE>
 <A name=contents></A><H3>CONTENTS</H3></A>
@@ -119,7 +120,8 @@ the return value is a string variable
 <BLOCKQUOTE>
 ADJUSTR(3) right-justifies a string by removing trailing spaces. Spaces
 are inserted at the start of the string as needed to retain the
-original length.
+original length unless an explicit return length is specified by the
+GLYPHS parameter.
 </BLOCKQUOTE>
 <A name=4>
 
@@ -154,37 +156,38 @@ inserted at the start of string.
 
 </A>
 <BLOCKQUOTE>
+<P>
 sample program:
 <P>
 <PRE>
-   program demo_adjustr
-   use M_unicode, only : ut=&gt;unicode_type
-   use M_unicode, only : adjustr, len
-   use M_unicode, only : write(formatted)
-   use M_unicode, only : assignment(=)
-   implicit none
-   type(ut)                   :: str
-   type(ut),allocatable       :: array(:)
-   integer                    :: i
-   character(len=*),parameter :: bracket=&#146;("[",DT,"]")&#146;
-   character(len=*),parameter :: gen=&#146;(*(g0))&#146;
-<P>
+  program demo_adjustr
+  use M_unicode, only : ut=&gt;unicode_type
+  use M_unicode, only : adjustr, len
+  use M_unicode, only : write(formatted)
+  use M_unicode, only : assignment(=)
+  implicit none
+  type(ut)                   :: str
+  type(ut),allocatable       :: array(:)
+  integer                    :: i
+  character(len=*),parameter :: bracket=&#146;("[",DT,"]")&#146;
+  character(len=*),parameter :: gen=&#146;(*(g0))&#146;
+      !
       call numberline(2)
-<P>
+      !
       ! basic usage
       str = &#146;  sample string     &#146;
       write(*,bracket) str
       str = adjustr(str)
       write(*,bracket) str
-<P>
+      !
       call numberline(5)
-<P>
+      !
       ! elemental
       array=ut([character(len=50) :: &
       &#146;    एक (ek) &#146;, &
       &#146;       दो (do) &#146;, &
       &#146;          तीन(teen) &#146; ])
-<P>
+      !
       ! print array unadjusted
       write(*,bracket)array
       !do i=1,size(array)
@@ -193,18 +196,18 @@ sample program:
       ! note 50 bytes is not necessarily 50 glyphs
       write(*,&#146;(*(g0,1x))&#146;)&#146;length in glyphs=&#146;,len(array)
       write(*,&#146;(*(g0,1x))&#146;)&#146;length in bytes=&#146;,(len(array(i)%character()),i=1,size(array))
-<P>
+      !
       call numberline(5)
-<P>
+      !
       ! print array right-justified
       write(*,bracket)adjustr(array)
-<P>
+      !
       call numberline(5)
-<P>
+      !
       ! print array right-justified specifying number of glyphs
       write(*,*)&#146;set to 50&#146;
       write(*,bracket)adjustr(array,50)
-<P>
+      !
       write(*,*)&#146;set to 60&#146;
       call numberline(6)
       write(*,bracket)adjustr(array,60)
@@ -220,19 +223,16 @@ sample program:
       write(*,bracket)adjustr(array,4)
       write(*,*)&#146;set to 1&#146;
       write(*,bracket)adjustr(array,1)
-<P>
    contains
-   subroutine numberline(ireps)
-   integer,intent(in) :: ireps
-      write(*,&#146;(1x,a)&#146;)repeat(&#146;1234567890&#146;,ireps)
-   end subroutine numberline
-<P>
+      !
+      subroutine numberline(ireps)
+      integer,intent(in) :: ireps
+         write(*,&#146;(1x,a)&#146;)repeat(&#146;1234567890&#146;,ireps)
+      end subroutine numberline
    end program demo_adjustr
 <P>
-</PRE>
-Results:
+  Results:
 <P>
-<PRE>
    &gt;  12345678901234567890
    &gt; [  sample string     ]
    &gt; [       sample string]

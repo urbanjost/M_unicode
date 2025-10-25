@@ -1,5 +1,5 @@
 program uview
-! @(#) given starting and ending codepoint show unicode character in various formats
+! @(#) given starting and ending codepoint show unicode characters in various formats
 use, intrinsic :: iso_fortran_env, only : stdout => output_unit
 use M_unicode,                     only : unicode_type, assignment(=), len
 use M_unicode,                     only : ut=>unicode_type, ch=>character

@@ -56,7 +56,7 @@ a.existingWikiWord[title]{ //border: 1px dashed #BBB; }
 
 </A>
 <BLOCKQUOTE>
-fmt(3f) - [M_unicode:TYPE] convert any intrinsic to a string using specified format
+FMT(3f) - [M_unicode:CONVERSION] convert any intrinsic to a string using specified format
 (LICENSE:MIT)
 </BLOCKQUOTE>
 <A name=contents></A><H3>CONTENTS</H3></A>
@@ -147,24 +147,19 @@ Sample program:
      implicit none
      character(len=:),allocatable :: Astr, Aformat
      type(ut) :: Ustr
-<P>
         ! format can be CHARACTER
         Aformat="(&#146;[&#146;,i0,&#146;]&#146;)"
         Astr=fmt(10,Aformat)
         write(*,*)&#146;result is &#146;,Astr
-<P>
         ! format can be string
         Astr=fmt(10.0/3.0,ut("&#146;[&#146;,g0.5,&#146;]&#146;"))
         write(*,*)&#146;result is &#146;,Astr
-<P>
         ! Output is a string, so use ch()
         write(*,*)&#146;result is &#146;, ch(fmt(.true.,"&#146;The answer is [&#146;,g0,&#146;]&#146;"))
-<P>
         ! OOP
         Ustr=&#146;A B C&#146;
         Ustr=Ustr%fmt("&#146;[&#146;,g0,&#146;]&#146;")
         write(*,*)&#146;result is &#146;,ch(Ustr)
-<P>
      end program demo_fmt
 <P>
 </PRE>

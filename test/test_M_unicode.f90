@@ -859,7 +859,7 @@ end function bracket
 end subroutine test_pad
 
 subroutine test_sub()
-type(unicode_type) :: line
+type(unicode_type)           :: line
 line='this is the string'
 call check('sub', 'this is the string'  == character( sub(line    ) ) )
 call check('sub', 'the string'          == character( sub(line, 9 ) ) ) 
@@ -876,7 +876,8 @@ call check('sub', 'is the'              == character( line%sub( 6,       11) ) )
 end subroutine test_sub
 
 subroutine test_replace()
-type(unicode_type) :: line
+type(unicode_type)           :: line
+character(len=:),allocatable :: aline
 ! 
 call check('replace',&
  'this is the string' == character( replace(ut('Xis is Xe string'),ut('X'),ut('th') ) ) )
@@ -916,13 +917,38 @@ line=replace(ut('myf90stuff.f90.f90'),ut('f90'),ut('for'),occurrence=-2,repeat=2
 call check('replace',line=='myforstuff.for.f90')
 ! 
 line='ABCDEFGHIJ'
-call check('replace',ut('ABCdEFGHIJ')==replace(line,4,4,'d'),ch('replace a column ['.cat.line%replace(4,4,'d') ))
-call check('replace',ut('ABCdEFGHIJ')==replace(line,4,4,'d'),'replace a column ')
-call check('replace',ut('ABCGHIJ')==replace(line,4,6,''),'remove columns ')
+call check('replace',ut('ABCdEFGHIJ')   == replace(line,4,4,'d'),    'replace a column ')
+call check('replace',ut('ABCGHIJ')      == replace(line,4,6,''),     'remove columns in middle')
+call check('replace',ut('ABCDE')        == replace(line,6,10,''),    'remove columns at end')
+call check('replace',ut('ABCDEend')     == replace(line,6,10,'end'), 'replace end')
+call check('replace',ut('startDEFGHIJ') == replace(line,1,3,'start'),'replace start')
+call check('replace',ut('FGHIJ')        == replace(line,1,5,''),     'remove start '//ch(replace(line,1,5,'')))
+!
+! combinations of character and string parameters
+call check('replace',ut('ABC[def]GHIJ') == replace( line,   'DEF',    '[def]'), 'replace string')
+call check('replace',ut('ABC[def]GHIJ') == replace( line,ut('DEF'),ut('[def]')),'replace string')
+call check('replace',ut('ABC[def]GHIJ') == replace( line,   'DEF', ut('[def]')),'replace string')
+call check('replace',ut('ABC[def]GHIJ') == replace( line,ut('DEF'),   '[def]'), 'replace string')
+     aline=line
+call check('replace',ut('ABC[def]GHIJ') == replace(aline,   'DEF',    '[def]'), 'replace string')
+call check('replace',ut('ABC[def]GHIJ') == replace(aline,ut('DEF'),ut('[def]')),'replace string')
+call check('replace',ut('ABC[def]GHIJ') == replace(aline,   'DEF', ut('[def]')),'replace string')
+call check('replace',ut('ABC[def]GHIJ') == replace(aline,ut('DEF'),   '[def]'), 'replace string')
 
-call check('replace',ut('ABCDE')==replace(line,6,10,''),'remove columns ')
-call check('replace',ut('ABCDEend')==replace(line,6,10,'end'),'replace end')
-call check('replace',ut('startABCDEFGHIJ')==replace(line,1,3,'startDEFGHIJ'),'replace start')
+!ifx bug!call check('replace',ut('ABC[def]GHIJ') == line%replace(   'DEF',    '[def]'), 'replace string')
+!ifx bug!call check('replace',ut('ABC[def]GHIJ') == line%replace(ut('DEF'),ut('[def]')),'replace string')
+!ifx bug!call check('replace',ut('ABC[def]GHIJ') == line%replace(   'DEF', ut('[def]')),'replace string')
+!ifx bug!call check('replace',ut('ABC[def]GHIJ') == line%replace(ut('DEF'),   '[def]'), 'replace string')
+
+!ifx bug!call check('replace',ut('ABCdEFGHIJ')  == line%replace(4,4,'d'),     'oop replace a column')
+!ifx bug!call check('replace',ut('ABCDE')       == line%replace(6,10,''),     'oop remove columns')
+!ifx bug!call check('replace',ut('ABCDEend')    == line%replace(6,10,'end'),  'oop replace end')
+!ifx bug!call check('replace',ut('startDEFGHIJ')== line%replace(1,3,'start'), 'oop replace start')
+
+!ifx bug!call check('range',ut('ABCdEFGHIJ')  == line%range(4,4,'d'),     'oop remove a column')
+!ifx bug!call check('range',ut('ABCDE')       == line%range(6,10,''),     'oop remove columns')
+!ifx bug!call check('range',ut('ABCDEend')    == line%range(6,10,'end'),  'oop remove end')
+!ifx bug!call check('range',ut('startDEFGHIJ')== line%range(1,3,'start'), 'oop remove start')
 
 end subroutine test_replace
 

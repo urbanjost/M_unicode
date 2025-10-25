@@ -7,21 +7,22 @@
      character(len=20),allocatable :: proverb(:)
      type(ut),allocatable          :: s(:)
      type(ut),allocatable          :: sep
-
+       !
        proverb=[ character(len=13) :: &
          & ' United'       ,&
          & '  we'          ,&
          & '   stand,'     ,&
          & '    divided'   ,&
          & '     we fall.' ]
-
+       !
+       if(allocated(s))deallocate(s)
        allocate(s(size(proverb))) ! avoid GNU Fortran (GCC) 16.0.0 bug
        s=proverb
        write(*,w) 'SIMPLE JOIN:         ', ch( join(s)                )
        write(*,w) 'JOIN WITH SEPARATOR: ', ch( join(s,sep=ut(' '))    )
        write(*,w) 'CUSTOM SEPARATOR:    ', ch( join(s,sep=ut('<-->')) )
        write(*,w) 'NO TRIMMING:         ', ch( join(s,clip=.false.)   )
-
+       !
        sep=ut()
        write(*,w) 'SIMPLE JOIN:         ', ch(sep%join(s) )
        sep=' '

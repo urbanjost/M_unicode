@@ -56,7 +56,8 @@ a.existingWikiWord[title]{ //border: 1px dashed #BBB; }
 
 </A>
 <BLOCKQUOTE>
-TOKENIZE(3) - [M_unicode:PARSE] Parse a string into tokens.
+TOKENIZE(3f) - [M_unicode:PARSE] Parse a string into tokens.
+(LICENSE:MIT)
 <P>
 </BLOCKQUOTE>
 <A name=contents></A><H3>CONTENTS</H3></A>
@@ -245,15 +246,15 @@ Sample of uses
    use M_unicode, only : tokenize, ut=&gt;unicode_type,ch=&gt;character
    use M_unicode, only : assignment(=),operator(/=)
    implicit none
-<P>
+   !
    ! some useful formats
    character(len=*),parameter ::       &
     & brackets=&#146;(*("[",g0,"]":,","))&#146; ,&
     & a_commas=&#146;(a,*(g0:,","))&#146;       ,&
     & gen=&#146;(*(g0))&#146;
-<P>
+   !
    ! Execution of TOKEN form (return array of tokens)
-<P>
+   !
       block
       type(ut)             :: string
       type(ut),allocatable :: tokens(:)
@@ -268,11 +269,11 @@ Sample of uses
          ! remove blank tokens
          tokens=pack(tokens, tokens /= &#146;&#146; )
          write(*,brackets)ch(tokens)
-<P>
+   !
       endblock
-<P>
-      ! Execution of BOUNDS form (return position of tokens)
-<P>
+   !
+   ! Execution of BOUNDS form (return position of tokens)
+   !
       block
       type(ut)                   :: string
       character(len=*),parameter :: set = " ,"
@@ -285,8 +286,8 @@ Sample of uses
          write(*,a_commas)&#146;LAST=&#146;,last
          write(*,a_commas)&#146;HAS LENGTH=&#146;,last-first.gt.0
       endblock
-<P>
-      end program demo_tokenize
+   !
+   end program demo_tokenize
 <P>
 </PRE>
 Results:
@@ -338,7 +339,8 @@ that does not appear in a given set of characters.
 
 </A>
 <BLOCKQUOTE>
-John S. Urban
+Milan Curcic, "<A HREF="mailto:milancurcic@hey.com">milancurcic@hey.com</A>"
+John S. Urban -- UTF-8 version
 </BLOCKQUOTE>
 <A name=8>
 

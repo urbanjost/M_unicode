@@ -56,7 +56,8 @@ a.existingWikiWord[title]{ //border: 1px dashed #BBB; }
 
 </A>
 <BLOCKQUOTE>
-split(3) - [M_unicode:SPLIT] parse a string into tokens, one at a time.
+SPLIT(3f) - [M_unicode:PARSE] parse a string into tokens, one at a time.
+(LICENSE:MIT)
 <P>
 </BLOCKQUOTE>
 <A name=contents></A><H3>CONTENTS</H3></A>
@@ -208,9 +209,9 @@ sample program:
    integer                    :: last
    integer                    :: pos
    integer                    :: i
-<P>
+      !
       delims= &#146;=|; &#146;
-<P>
+      !
       proverb="Más vale pájaro en mano, que ciento volando."
       call printwords(proverb)
 <P>
@@ -220,11 +221,10 @@ sample program:
        ut("転んでもまた立ち上がる。"), &
        ut("くじけずに前を向いて歩いていこう。")]
       call printwords(array)
-<P>
+      !
       write(stdout,g)&#146;OOP&#146;
       array=proverb%split(ut(&#146; &#146;))
       write(stdout,&#146;(*(:"[",a,"]"))&#146;)(character(array(i)),i=1,size(array))
-<P>
    contains
    impure elemental subroutine printwords(line)
    type(ut),intent(in) :: line
@@ -237,7 +237,6 @@ sample program:
           print g, line%character(first,last),first,last,pos
       end do
    end subroutine printwords
-<P>
    end program demo_split
 <P>
 </PRE>
@@ -300,7 +299,8 @@ not appear in a given set of characters.
 
 </A>
 <BLOCKQUOTE>
-John S. Urban
+Milan Curcic, "<A HREF="mailto:milancurcic@hey.com">milancurcic@hey.com</A>"
+John S. Urban -- UTF-8 version
 </BLOCKQUOTE>
 <A name=8>
 

@@ -119,4 +119,4 @@ end program codepoints
 ! for the type being initialized; and no syntax to allow DATA to initialize a parameter (?)
 ! integer,save :: codes(9)
 ! data codes/ z'5DF1',z'6240',z'4E0D',z'6B32',z'FF0C',z'52FF',z'65BD',z'65BC',z'4EBA'/
-!
+

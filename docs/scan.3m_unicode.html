@@ -56,8 +56,9 @@ a.existingWikiWord[title]{ //border: 1px dashed #BBB; }
 
 </A>
 <BLOCKQUOTE>
-SCAN(3) - [M_unicode:SEARCH] Scan a string for the presence of a
+SCAN(3f) - [M_unicode:SEARCH] Scan a string for the presence of a
 set of characters
+(LICENSE:MIT)
 <P>
 </BLOCKQUOTE>
 <A name=contents></A><H3>CONTENTS</H3></A>
@@ -185,19 +186,47 @@ Sample program:
 <P>
 <PRE>
    program demo_scan
+   use iso_fortran_env, only : stdout =&gt; output_unit
+   use M_unicode,       only : scan, unicode_type, assignment(=)
+   use M_unicode,       only : ut=&gt;unicode_type
    implicit none
+   character(len=*),parameter :: g=&#146;(*(g0,1x))&#146;
+   type(ut)                   :: line
+   type(ut)                   :: set
+      !
       write(*,*) scan("fortran", "ao")          ! 2, found ’o’
       write(*,*) scan("fortran", "ao", .true.)  ! 6, found ’a’
       write(*,*) scan("fortran", "c++")         ! 0, found none
+      !
+      line=&#146;parsley😃sage😃rosemary😃😃thyme&#146;
+      set=&#146;😃&#146;
+      write(stdout,g) &#146;12345678901234567890123456789012345678901234567890&#146;
+      write(stdout,g) line%character()
+      write(stdout,g) scan(line, set)
+      write(stdout,g) scan(line, set, back=.true.)
+      write(stdout,g) scan(line, set, back=.false.)
+      write(stdout,g) scan(line, unicode_type("NOT"))
+      write(stdout,g) &#146;OOP&#146;
+      write(stdout,g) line%scan(set)
+      write(stdout,g) line%scan(ut("o"))
    end program demo_scan
 <P>
 </PRE>
 Results:
 <P>
 <PRE>
-   &gt; 2
-   &gt; 6
-   &gt; 0
+    &gt;            2
+    &gt;            6
+    &gt;            0
+    &gt; 12345678901234567890123456789012345678901234567890
+    &gt; parsley😃sage😃rosemary😃😃thyme
+    &gt; 8
+    &gt; 23
+    &gt; 8
+    &gt; 0
+    &gt; OOP
+    &gt; 8
+    &gt; 15
 <P>
 </PRE>
 </BLOCKQUOTE>

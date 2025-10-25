@@ -56,7 +56,7 @@ a.existingWikiWord[title]{ //border: 1px dashed #BBB; }
 
 </A>
 <BLOCKQUOTE>
-replace(3f) - [M_unicode:EDITING] function replaces one
+REPLACE(3f) - [M_unicode:EDITING] function replaces one
 substring for another in string
 (LICENSE:MIT)
 <P>
@@ -64,14 +64,15 @@ substring for another in string
 <A name=contents></A><H3>CONTENTS</H3></A>
 <BLOCKQUOTE>
 <A HREF=#1>Synopsis</A><BR>
-<A HREF=#2>Description</A><BR>
-<A HREF=#3>Options</A><BR>
-<A HREF=#4>Returns</A><BR>
-<A HREF=#5>Examples</A><BR>
-<A HREF=#6>Author</A><BR>
-<A HREF=#7>License</A><BR>
+<A HREF=#2>Characteristics</A><BR>
+<A HREF=#3>Description</A><BR>
+<A HREF=#4>Options</A><BR>
+<A HREF=#5>Returns</A><BR>
+<A HREF=#6>Examples</A><BR>
+<A HREF=#7>Author</A><BR>
+<A HREF=#8>License</A><BR>
 </BLOCKQUOTE>
-<A name=8>
+<A name=9>
 
      <H3>SYNOPSIS</H3>
 
@@ -81,49 +82,80 @@ substring for another in string
 syntax:
 <P>
 <PRE>
-      function replace(target,old,new,&
+      function replace(target,old,new,|target,new,start,end,&
        & occurrence, &
        & repeat, &
        & ignorecase, &
        & ierr,back) result (newline)
-      character(len=*)                     :: target
-      character(len=*),intent(in),optional :: old
-      character(len=*),intent(in),optional :: new
-      integer,intent(in),optional          :: occurrence
-      integer,intent(in),optional          :: repeat
-      logical,intent(in),optional          :: ignorecase
-      integer,intent(out),optional         :: changes
-      logical,intent(in),optional          :: back
-      character(len=:),allocatable         :: newline
+<P>
+      type(unicode_type)|character(len=*),intent(in) :: target
+<P>
+      type(unicode_type)|character(len=*),intent(in) :: old
+      type(unicode_type)|character(len=*),intent(in) :: new
+          or
+      type(unicode_type)|character(len=*),intent(in) :: new
+      integer, intent(in) :: start
+      integer, intent(in) :: end
+<P>
+      integer,intent(in),optional            :: occurrence
+      integer,intent(in),optional            :: repeat
+      logical,intent(in),optional            :: ignorecase
+      integer,intent(out),optional           :: changes
+      logical,intent(in),optional            :: back
+      character(len=:),allocatable           :: newline
 <P>
 </PRE>
 </BLOCKQUOTE>
 <A name=2>
 
+     <H3>CHARACTERISTICS</H3>
+
+</A>
+<BLOCKQUOTE>
+<TABLE cellpadding=3>
+<TR valign=top><TD width=3%>
+o
+</TD><TD>
+TARGET,OLD and NEW may be a string or a character variable.
+</TD></TR>
+<TR></TR></TABLE></BLOCKQUOTE>
+<A name=3>
+
      <H3>DESCRIPTION</H3>
 
 </A>
 <BLOCKQUOTE>
-Replace old substring with new value in string.
+Replace old substring with new value in string. Either a
+old and new string is specified, or a new string and a
+column range indicating the position of the text to replace
+is specified.
 </BLOCKQUOTE>
-<A name=3>
+<A name=4>
 
      <H3>OPTIONS</H3>
 
 </A>
 <BLOCKQUOTE>
 <TABLE cellpadding=3>
-<TR valign=top><TD width=6% nowrap>
-<B>target</B> </TD><TD valign=bottom>
+<TR valign=top><TD colspan=2>
+<B>target</B> </TD></TR><TR valign=top><TD width=3%>&nbsp;</TD><TD>
 input line to be changed
 </TD></TR>
-<TR valign=top><TD width=6% nowrap>
+<TR valign=top><TD width=3% nowrap>
 <B>old</B> </TD><TD valign=bottom>
 old substring to replace
 </TD></TR>
-<TR valign=top><TD width=6% nowrap>
+<TR valign=top><TD width=3% nowrap>
 <B>new</B> </TD><TD valign=bottom>
 new substring
+</TD></TR>
+<TR valign=top><TD colspan=2>
+<B>start</B> </TD></TR><TR valign=top><TD width=3%>&nbsp;</TD><TD>
+starting column of text to replace
+</TD></TR>
+<TR valign=top><TD width=3% nowrap>
+<B>end</B> </TD><TD valign=bottom>
+ending column of text to replace
 </TD></TR>
 <TR></TR></TABLE></BLOCKQUOTE>
 <A name=>
@@ -133,27 +165,27 @@ new substring
 <BLOCKQUOTE>
 <TABLE cellpadding=3>
 <TR valign=top><TD colspan=2>
-<B>occurrence</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+<B>occurrence</B> </TD></TR><TR valign=top><TD width=3%>&nbsp;</TD><TD>
 if present, start changing at the Nth occurrence of the
 OLD string.
 </TD></TR>
-<TR valign=top><TD width=6% nowrap>
-<B>repeat</B> </TD><TD valign=bottom>
+<TR valign=top><TD colspan=2>
+<B>repeat</B> </TD></TR><TR valign=top><TD width=3%>&nbsp;</TD><TD>
 number of replacements to perform. Defaults to a global
 replacement.
 </TD></TR>
 <TR valign=top><TD colspan=2>
-<B>ignorecase</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+<B>ignorecase</B> </TD></TR><TR valign=top><TD width=3%>&nbsp;</TD><TD>
 whether to ignore ASCII case or not. Defaults
 to .false. .
 </TD></TR>
-<TR valign=top><TD width=6% nowrap>
-<B>back</B> </TD><TD valign=bottom>
+<TR valign=top><TD colspan=2>
+<B>back</B> </TD></TR><TR valign=top><TD width=3%>&nbsp;</TD><TD>
 if true start replacing moving from the right end of the
 string moving left instead of from the left to the right.
 </TD></TR>
 <TR></TR></TABLE></BLOCKQUOTE>
-<A name=4>
+<A name=5>
 
      <H3>RETURNS</H3>
 
@@ -161,15 +193,15 @@ string moving left instead of from the left to the right.
 <BLOCKQUOTE>
 <TABLE cellpadding=3>
 <TR valign=top><TD colspan=2>
-<B>newline</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+<B>newline</B> </TD></TR><TR valign=top><TD width=3%>&nbsp;</TD><TD>
 allocatable string returned
 </TD></TR>
 <TR valign=top><TD colspan=2>
-<B>changes</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+<B>changes</B> </TD></TR><TR valign=top><TD width=3%>&nbsp;</TD><TD>
 count of changes made.
 </TD></TR>
 <TR></TR></TABLE></BLOCKQUOTE>
-<A name=5>
+<A name=6>
 
      <H3>EXAMPLES</H3>
 
@@ -186,44 +218,44 @@ Sample Program:
    use M_unicode, only : write(formatted)
    implicit none
    type(unicode_type) :: line
-   !!
+   !
    write(*,&#146;(DT)&#146;) &
    & replace(ut(&#146;Xis is Xe string&#146;),ut(&#146;X&#146;),ut(&#146;th&#146;) )
    write(*,&#146;(DT)&#146;) &
    & replace(ut(&#146;Xis is xe string&#146;),ut(&#146;x&#146;),ut(&#146;th&#146;),ignorecase=.true.)
    write(*,&#146;(DT)&#146;) &
    & replace(ut(&#146;Xis is xe string&#146;),ut(&#146;X&#146;),ut(&#146;th&#146;),ignorecase=.false.)
-   !!
+   !
    ! a null old substring means "at beginning of line"
    write(*,&#146;(DT)&#146;) &
    & replace(ut(&#146;my line of text&#146;),ut(&#146;&#146;),ut(&#146;BEFORE:&#146;))
-   !!
+   !
    ! a null new string deletes occurrences of the old substring
    write(*,&#146;(DT)&#146;) replace(ut(&#146;I wonder i ii iii&#146;),ut(&#146;i&#146;),ut(&#146;&#146;))
-   !!
+   !
    ! Examples of the use of RANGE
-   !!
+   !
    line=replace(ut(&#146;aaaaaaaaa&#146;),ut(&#146;a&#146;),ut(&#146;A&#146;),occurrence=1,repeat=1)
    write(*,*)&#146;replace first a with A [&#146;//line%character()//&#146;]&#146;
-   !!
+   !
    line=replace(ut(&#146;aaaaaaaaa&#146;),ut(&#146;a&#146;),ut(&#146;A&#146;),occurrence=3,repeat=3)
    write(*,*)&#146;replace a with A for 3rd to 5th occurrence [&#146; &
    & //line%character()//&#146;]&#146;
-   !!
+   !
    line=replace(ut(&#146;ababababa&#146;),ut(&#146;a&#146;),ut(&#146;&#146;),occurrence=3,repeat=3)
    write(*,*)&#146;replace a with null instances 3 to 5 [&#146;// &
    & line%character()//&#146;]&#146;
-   !!
+   !
    line=replace( &
     & ut(&#146;a b ab baaa aaaa aa aa a a a aa aaaaaa&#146;),&
     & ut(&#146;aa&#146;),ut(&#146;CCCC&#146;),occurrence=-1,repeat=1)
    write(*,*)&#146;replace lastaa with CCCC [&#146;//line%character()//&#146;]&#146;
-   !!
+   !
    write(*,&#146;(DT)&#146;)replace(ut(&#146;myf90stuff.f90.f90&#146;),&
    & ut(&#146;f90&#146;),ut(&#146;for&#146;),occurrence=-1,repeat=1)
    write(*,&#146;(DT)&#146;)replace(ut(&#146;myf90stuff.f90.f90&#146;),&
    & ut(&#146;f90&#146;),ut(&#146;for&#146;),occurrence=-2,repeat=2)
-   !!
+   !
    end program demo_replace
 <P>
 </PRE>
@@ -244,7 +276,7 @@ Results:
 <P>
 </PRE>
 </BLOCKQUOTE>
-<A name=6>
+<A name=7>
 
      <H3>AUTHOR</H3>
 
@@ -252,7 +284,7 @@ Results:
 <BLOCKQUOTE>
 John S. Urban
 </BLOCKQUOTE>
-<A name=7>
+<A name=8>
 
      <H3>LICENSE</H3>
 

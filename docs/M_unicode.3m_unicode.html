@@ -57,6 +57,7 @@ a.existingWikiWord[title]{ //border: 1px dashed #BBB; }
 </A>
 <BLOCKQUOTE>
 M_unicode(3f) - [M_unicode::INTRO] Unicode string module
+(LICENSE:MIT)
 <P>
 </BLOCKQUOTE>
 <A name=contents></A><H3>CONTENTS</H3></A>
@@ -213,15 +214,31 @@ Right adjust a string
 </BLOCKQUOTE>
 <A name=>
 
-    <H4>&nbsp; &nbsp; CHARACTER ARRAY VERSUS STRING</H4>
+    <H4>&nbsp; &nbsp; CHARACTER VERSUS STRING</H4>
 </A>
 <BLOCKQUOTE>
 <P>
-character(VAR,start,end,inc)
-VAR%character(start,end,inc)
-VAR%bytes(start,end,inc)
-VAR%codepoint(start,end,inc)
-</BLOCKQUOTE>
+<TABLE cellpadding=3>
+<TR valign=top><TD colspan=2>
+<B>character(STRING,start,end,inc)</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+converts a string to type CHARACTER.
+</TD></TR>
+<TR valign=top><TD colspan=2>
+<B>STRING%character(start,end,inc)</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+OOP syntax for converting a string to
+type CHARACTER.
+</TD></TR>
+<TR valign=top><TD colspan=2>
+<B>STRING%bytes(start,end,inc)</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+Convert to an array of
+CHARACTER(len=1) bytes.
+</TD></TR>
+<TR valign=top><TD colspan=2>
+<B>STRING%codepoint(start,end,inc)</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+converts a string to an INTEGER
+array of Unicode codepoints
+</TD></TR>
+<TR></TR></TABLE></BLOCKQUOTE>
 <A name=>
 
     <H4>&nbsp; &nbsp; NONALPHA</H4>
@@ -346,15 +363,15 @@ Scan a string for the absence of a set of characters
 <TR valign=top><TD width=6% nowrap>
 <B>join</B> </TD><TD valign=bottom>
 join elements of an array into a single string
+operator(.cat.),
 </TD></TR>
-<TR></TR></TABLE></BLOCKQUOTE>
-<TABLE cellpadding=3>
 <TR valign=top><TD colspan=2>
 <B>operator(//)</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
 concatenate strings and/or convert intrinsics to
 strings and concatenate
 </TD></TR>
-<TR></TR></TABLE><A name=>
+<TR></TR></TABLE></BLOCKQUOTE>
+<A name=>
 
     <H4>&nbsp; &nbsp; MISCELLANEOUS</H4>
 </A>
@@ -386,6 +403,10 @@ same procedures except for SORT(3f) and CHAR(3f).
 
 </A>
 <BLOCKQUOTE>
+All the procedure descriptions are conglomerated into the single file
+"manual.txt" for simple access not requiring access to man-pages or
+browsers.
+<P>
 There are additional routines in other GPF modules for working with
 expressions (M_calculator), time strings (M_time), random strings
 (M_random, M_uuid), lists (M_list), and interfacing with the C regular
@@ -398,8 +419,8 @@ expression library (M_regex).
 </A>
 <BLOCKQUOTE>
 <P>
-Each of the procedures includes an [example](example/) program in
-the corresponding man(1) page for the procedure.
+Each of the procedures includes an example program in the example/
+directory as well as a corresponding man(1) page for the procedure.
 </BLOCKQUOTE>
 <P>
 Sample program:
@@ -407,7 +428,7 @@ Sample program:
 <PRE>
    program demo_M_unicode
    use,intrinsic :: iso_fortran_env, only : stdout=&gt;output_unit
-   use M_unicode,only : TOKENIZE, REPLACE, CHARACTER, UPPER, LOWER, LEN
+   use M_unicode,only : tokenize, replace, character, upper, lower, len
    use M_unicode,only : unicode_type, assignment(=), operator(//)
    use M_unicode,only : ut =&gt; unicode_type, ch =&gt; character
    use M_unicode,only : write(formatted)
@@ -419,80 +440,72 @@ Sample program:
    uppercase=&#146;АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ&#146;
    lowercase=&#146;абвгґдеєжзиіїйклмнопрстуфхцчшщьюя&#146;
    numeric=&#146;0123456789&#146;
-<P>
-    string=uppercase//&#146; &#146;//numeric//&#146; &#146;//lowercase
-<P>
+    !
+    string=uppercase//numeric//lowercase
+    !
     print all, &#146;Original string:&#146;
     print all, ch(string)
     print all, &#146;length in bytes :&#146;,len(string%character())
     print all, &#146;length in glyphs:&#146;,len(string)
     print all
-<P>
+    !
     print all, &#146;convert to all uppercase:&#146;
     print all, ch( UPPER(string) )
     print all
-<P>
+    !
     print all, &#146;convert to all lowercase:&#146;
     print all, ch( string%LOWER() )
     print all
-<P>
+    !
     print all, &#146;tokenize on spaces &#46;&#46;&#46; &#146;
     call TOKENIZE(string,ut(&#146; &#146;),array)
     print all, &#146;&#46;&#46;&#46; writing with A or G format:&#146;,character(array)
     !print uni, ut(&#146;&#46;&#46;&#46; writing with DT format&#146;),array
     print all
-<P>
+    !
     print all, &#146;case-insensitive replace:&#146;
-    print all,  ch( &
+    print all, ch( &
     & REPLACE(string, &
     & ut(&#146;клмнопрс&#146;), &
     & ut(&#146;--------&#146;), &
     & ignorecase=.true.) )
-<P>
+    !
     print all
-<P>
+    !
    end program demo_M_unicode
 <P>
 </PRE>
 Results:
 <P>
 <PRE>
- Original string:
- АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ 0123456789 абвгґдеєжзиіїйклмнопрстуфхцчшщьюя
- length in bytes :
- 144
- length in glyphs:
- 78
+   &gt; Original string:
+   &gt; АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ0123456789 &#46;&#46;&#46;
+   &gt; абвгґдеєжзиіїйклмнопрстуфхцчшщьюя
+   &gt; length in bytes :
+   &gt; 144
+   &gt; length in glyphs:
+   &gt; 78
+   &gt;
+   &gt; convert to all uppercase:
+   &gt; АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ0123456789 &#46;&#46;&#46;
+   &gt; АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ
+   &gt;
+   &gt;
+   &gt; tokenize on spaces &#46;&#46;&#46;
+   &gt; &#46;&#46;&#46; writing with A or G format:
+   &gt; АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ
+   &gt; 0123456789
+   &gt; абвгґдеєжзиіїйклмнопрстуфхцчшщьюя
+   &gt; &#46;&#46;&#46; writing with DT format
+   &gt; АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ
+   &gt; 0123456789
+   &gt; абвгґдеєжзиіїйклмнопрстуфхцчшщьюя
+   &gt;
+   &gt; case-insensitive replace:
+   &gt; АБВГҐДЕЄЖЗИІЇЙ--------ТУФХЦЧШЩЬЮЯ0123456789 &#46;&#46;&#46;
+   &gt; абвгґдеєжзиіїй--------туфхцчшщьюя
 <P>
- convert to all uppercase:
- АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ 0123456789 АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ
-<P>
- convert to all lowercase:
- абвгґдеєжзиіїйклмнопрстуфхцчшщьюя 0123456789 абвгґдеєжзиіїйклмнопрстуфхцчшщьюя
-<P>
- tokenize on spaces &#46;&#46;&#46;
- &#46;&#46;&#46; writing with A or G format:
 </PRE>
-<A name=>
-
-    <H4>&nbsp; &nbsp; АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ</H4>
-</A>
-<BLOCKQUOTE>
-0123456789
-абвгґдеєжзиіїйклмнопрстуфхцчшщьюя
-&#46;&#46;&#46; writing with DT format
-</BLOCKQUOTE>
-<A name=>
-
-    <H4>&nbsp; &nbsp; АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ</H4>
-</A>
-<BLOCKQUOTE>
-0123456789
-абвгґдеєжзиіїйклмнопрстуфхцчшщьюя
-<P>
-case-insensitive replace:
-АБВГҐДЕЄЖЗИІЇЙ-<B>-------ТУФХЦЧШЩЬЮЯ</B> 0123456789 абвгґдеєжзиіїй-<B>-------туфхцчшщьюя</B>
-</BLOCKQUOTE>
 <A name=5>
 
      <H3>AUTHOR</H3>

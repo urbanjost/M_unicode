@@ -1,32 +1,31 @@
- join     - [EDITING] append CHARACTER variable array into a single CHARACTER variable with specified separator 
- replace  - [EDITING] function replaces one substring for another in string
-
-adjustl  - [WHITESPACE] Left-justified a string
-adjustr  - [WHITESPACE] right-justify a string
- escape   - [NONALPHA] expand C-like escape sequences
- expandtabs  - [NONALPHA] function to expand tab characters
- fmt      - [TYPE] convert any intrinsic to a string using specified format
-ichar    - [CONVERSION] character-to-integer code conversion function
-index    - [SEARCH] Position of a substring within a string
-len      - [M_unicode] Length of a string
-len_trim  - [WHITESPACE] string length without trailing blank characters
- lower    - [CASE] changes a string to lowercase over specified range
-M_unicode  - [:INTRO] Unicode string module
- pad      - [LENGTH] return string padded to at least specified length
- readline  - [READ] read a line from specified LUN into string up to line length limit 
-repeat   - [M_unicode] repeated string concatenation
-scan     - [SEARCH] Scan a string for the presence of a set of characters
- sort     - [SORT:QUICKSORT] indexed hybrid quicksort of an array 
-split    - [SPLIT] parse a string into tokens, one at a time.
-tokenize  - [PARSE] Parse a string into tokens.
-trim     - [WHITESPACE] remove trailing blank characters from a string
- upper    - [CASE] changes a string to uppercase
-verify   - [SEARCH] Position of a character in a string of characters that does not appear in a given set of characters.
-
+adjustl (3m_unicode) - [M_unicode:WHITESPACE] Left-justified a string (LICENSE:MIT)
+adjustr (3m_unicode) - [M_unicode:WHITESPACE] right-justify a string (LICENSE:MIT)
+escape (3m_unicode)  - [M_unicode:CONVERSION] expand C-like escape sequences (LICENSE:MIT)
+expandtabs (3m_unicode) - [M_unicode:WHITESPACE] function to expand tab characters (LICENSE:MIT)
+fmt (3m_unicode)     - [M_unicode:CONVERSION] convert any intrinsic to a string using specified format (LICENSE:MIT)
+ichar (3m_unicode)   - [M_unicode:CONVERSION] character-to-integer code conversion function (LICENSE:MIT)
+index (3m_unicode)   - [M_unicode:SEARCH] Position of a substring within a string (LICENSE:MIT)
+join (3m_unicode)    - [M_unicode:EDITING] append CHARACTER variable array into a single CHARACTER variable with specified separator (LICENSE:MIT)
+len (3m_unicode)     - [M_unicode:WHITESPACE] Length of a string (LICENSE:MIT)
+len_trim (3m_unicode) - [M_unicode:WHITESPACE] string length without trailing blank characters (LICENSE:MIT)
+lower (3m_unicode)   - [M_unicode:CASE] changes a string to lowercase over specified range (LICENSE:MIT)
+M_unicode (3m_unicode) - [M_unicode::INTRO] Unicode string module (LICENSE:MIT)
+pad (3m_unicode)     - [M_unicode:WHITESPACE] return string padded to at least specified length (LICENSE:MIT)
+readline (3m_unicode) - [M_unicode:READ] read a line from specified LUN into string up to line length limit (LICENSE:MIT)
+repeat (3m_unicode)  - [M_unicode] repeated string concatenation
+replace (3m_unicode) - [M_unicode:EDITING] function replaces one substring for another in string (LICENSE:MIT)
+scan (3m_unicode)    - [M_unicode:SEARCH] Scan a string for the presence of a set of characters (LICENSE:MIT)
+sort (3m_unicode)    - [M_unicode:SORT] indexed hybrid quicksort of an array (LICENSE:MIT)
+split (3m_unicode)   - [M_unicode:PARSE] parse a string into tokens, one at a time. (LICENSE:MIT)
+sub (3m_unicode)     - [M_unicode:EDITING] Return substring (LICENSE:MIT)
+tokenize (3m_unicode) - [M_unicode:PARSE] Parse a string into tokens. (LICENSE:MIT)
+trim (3m_unicode)    - [M_unicode:WHITESPACE] remove trailing blank characters from a string (LICENSE:MIT)
+upper (3m_unicode)   - [M_unicode:CASE] changes a string to uppercase (LICENSE:MIT)
+verify (3m_unicode)  - [M_unicode:SEARCH] Position of a character in a string of characters that does not appear in a given set of characters. (LICENSE:MIT)
 adjustr(3m_unicode)					   adjustr(3m_unicode)
 
 NAME
-  adjustr(3) - [M_unicode:WHITESPACE] right-justify a string
+  ADJUSTR(3f) - [M_unicode:WHITESPACE] right-justify a string (LICENSE:MIT)
 
 SYNOPSIS
   result = adjustr(string,glyphs)
@@ -46,7 +45,8 @@ CHARACTERISTICS
 
 DESCRIPTION
   ADJUSTR(3) right-justifies a string by removing trailing spaces. Spaces are
-  inserted at the start of the string as needed to retain the original length.
+  inserted at the start of the string as needed to retain the original length
+  unless an explicit return length is specified by the GLYPHS parameter.
 
 OPTIONS
   •  STRING : the string to right-justify
@@ -60,34 +60,34 @@ RESULT
 EXAMPLES
   sample program:
 
-     program demo_adjustr
-     use M_unicode, only : ut=>unicode_type
-     use M_unicode, only : adjustr, len
-     use M_unicode, only : write(formatted)
-     use M_unicode, only : assignment(=)
-     implicit none
-     type(ut)			:: str
-     type(ut),allocatable	:: array(:)
-     integer			:: i
-     character(len=*),parameter :: bracket='("[",DT,"]")'
-     character(len=*),parameter :: gen='(*(g0))'
-
+    program demo_adjustr
+    use M_unicode, only : ut=>unicode_type
+    use M_unicode, only : adjustr, len
+    use M_unicode, only : write(formatted)
+    use M_unicode, only : assignment(=)
+    implicit none
+    type(ut)		       :: str
+    type(ut),allocatable       :: array(:)
+    integer		       :: i
+    character(len=*),parameter :: bracket='("[",DT,"]")'
+    character(len=*),parameter :: gen='(*(g0))'
+	!
 	call numberline(2)
-
+	!
 	! basic usage
 	str = '  sample string	   '
 	write(*,bracket) str
 	str = adjustr(str)
 	write(*,bracket) str
-
+	!
 	call numberline(5)
-
+	!
 	! elemental
 	array=ut([character(len=50) :: &
 	'    एक (ek) ', &
 	'	दो (do) ', &
 	'	   तीन(teen) ' ])
-
+	!
 	! print array unadjusted
 	write(*,bracket)array
 	!do i=1,size(array)
@@ -96,18 +96,18 @@ EXAMPLES
 	! note 50 bytes is not necessarily 50 glyphs
 	write(*,'(*(g0,1x))')'length in glyphs=',len(array)
 	write(*,'(*(g0,1x))')'length in bytes=',(len(array(i)%character()),i=1,size(array))
-
+	!
 	call numberline(5)
-
+	!
 	! print array right-justified
 	write(*,bracket)adjustr(array)
-
+	!
 	call numberline(5)
-
+	!
 	! print array right-justified specifying number of glyphs
 	write(*,*)'set to 50'
 	write(*,bracket)adjustr(array,50)
-
+	!
 	write(*,*)'set to 60'
 	call numberline(6)
 	write(*,bracket)adjustr(array,60)
@@ -123,16 +123,15 @@ EXAMPLES
 	write(*,bracket)adjustr(array,4)
 	write(*,*)'set to 1'
 	write(*,bracket)adjustr(array,1)
-
      contains
-     subroutine numberline(ireps)
-     integer,intent(in) :: ireps
-	write(*,'(1x,a)')repeat('1234567890',ireps)
-     end subroutine numberline
-
+	!
+	subroutine numberline(ireps)
+	integer,intent(in) :: ireps
+	   write(*,'(1x,a)')repeat('1234567890',ireps)
+	end subroutine numberline
      end program demo_adjustr
 
-  Results:
+    Results:
 
      >	12345678901234567890
      > [  sample string     ]
@@ -188,11 +187,11 @@ AUTHOR
 
 LICENSE
    MIT
-			       October 19, 2025 	   adjustr(3m_unicode)
+			       October 25, 2025 	   adjustr(3m_unicode)
 expandtabs(3m_unicode)					expandtabs(3m_unicode)
 
 NAME
-  expandtabs(3f) - [M_unicode:NONALPHA] function to expand tab characters
+  EXPANDTABS(3f) - [M_unicode:WHITESPACE] function to expand tab characters
   (LICENSE:MIT)
 
 SYNOPSIS
@@ -234,17 +233,17 @@ EXAMPLES
 	    if(dat(i:i) == ' ')dat(i:i)=char(9)
 	 enddo
 	 in=dat
-
+	 !
 	 inexpanded=expandtabs(in)
 	 write(*,'("[",a,"]")')ch(inexpanded)
 	 inexpanded=replace(inexpanded,ut(' '),ut('_'))
 	 write(*,'("[",a,"]")')ch(inexpanded)
-
+	 !
 	 write(*,'("[",a,"]")')ch(in%expandtabs())
 	 write(*,'("[",a,"]")')ch(in%expandtabs(tab_size=8))
 	 write(*,'("[",a,"]")')ch(in%expandtabs(tab_size=1))
 	 write(*,'("[",a,"]")')ch(in%expandtabs(tab_size=0))
-
+	 !
       end program demo_expandtabs
 
   Results:
@@ -261,12 +260,12 @@ AUTHOR
 
 LICENSE
    MIT
-			       October 19, 2025 	expandtabs(3m_unicode)
+			       October 25, 2025 	expandtabs(3m_unicode)
 fmt(3m_unicode) 					       fmt(3m_unicode)
 
 NAME
-  fmt(3f) - [M_unicode:TYPE] convert any intrinsic to a string using specified
-  format (LICENSE:MIT)
+  FMT(3f) - [M_unicode:CONVERSION] convert any intrinsic to a string using
+  specified format (LICENSE:MIT)
 
 SYNOPSIS
   function fmt(value,format) result(string)
@@ -307,24 +306,19 @@ EXAMPLES
        implicit none
        character(len=:),allocatable :: Astr, Aformat
        type(ut) :: Ustr
-
 	  ! format can be CHARACTER
 	  Aformat="('[',i0,']')"
 	  Astr=fmt(10,Aformat)
 	  write(*,*)'result is ',Astr
-
 	  ! format can be string
 	  Astr=fmt(10.0/3.0,ut("'[',g0.5,']'"))
 	  write(*,*)'result is ',Astr
-
 	  ! Output is a string, so use ch()
 	  write(*,*)'result is ', ch(fmt(.true.,"'The answer is [',g0,']'"))
-
 	  ! OOP
 	  Ustr='A B C'
 	  Ustr=Ustr%fmt("'[',g0,']'")
 	  write(*,*)'result is ',ch(Ustr)
-
        end program demo_fmt
 
   Results:
@@ -339,46 +333,39 @@ AUTHOR
 
 LICENSE
    MIT
-			       October 19, 2025 	       fmt(3m_unicode)
+			       October 25, 2025 	       fmt(3m_unicode)
 len(3m_unicode) 					       len(3m_unicode)
 
 NAME
-  LEN(3) - [M_unicode] Length of a string
+  LEN(3f) - [M_unicode:WHITESPACE] Length of a string (LICENSE:MIT)
 
 SYNOPSIS
   result = len(string)
 
-     elemental integer(kind=KIND) function len(string,KIND)
+     elemental integer function len(string)
 
       type(unicode_type),intent(in) :: string
 
 CHARACTERISTICS
   •  STRING is a scalar or array character variable
 
-  •  KIND is a scalar integer constant expression.
-
   •  the returned value is the same integer kind as the KIND argument, or of
      the default integer kind if KIND is not specified.
 
 DESCRIPTION
-  LEN(3) returns the length of a character string.
+  LEN(3) returns the length of a type(unicode_type) string.
 
-  If STRING is an array, the length of a single element of STRING is returned,
-  as all elements of an array are the same length.
-
-  Note that STRING need not be defined when this intrinsic is invoked, as only
-  the length (not the content) of STRING is needed.
+  Note that unlike the intrinsic of the same name STRING needs to be defined
+  as the length of each element is not defined until allocated.
 
 OPTIONS
-  •  STRING : A scalar or array string to return the length of. If it is an
+  •  STRING : A scalar or array string to return the length(s) of. If it is an
      unallocated allocatable variable or a pointer that is not associated, its
      length type parameter shall not be deferred.
 
-  •  KIND : A constant indicating the kind parameter of the result.
-
 RESULT
   The result has a value equal to the number of characters in STRING if it is
-  scalar or in an element of STRING if it is an array.
+  scalar or the elements of STRING if it is an array.
 
 EXAMPLES
   Sample program
@@ -390,32 +377,32 @@ EXAMPLES
      type(ut)		  :: string
      type(ut),allocatable :: many_strings(:)
      integer			    :: ii
-      ! BASIC USAGE
-	string='Noho me ka hau’oli' ! (Be happy.)
-	ii=len(string)
-	write(*,'(DT,*(g0))')string, ' LEN=', ii
-
-	string=' How long is this allocatable string? '
-	write(*,'(DT,*(g0))')string, ' LEN=', len(string)
-
-      ! STRINGS IN AN ARRAY MAY BE OF DIFFERENT LENGTHS
-	many_strings = [ ut('Tom'), ut('Dick'), ut('Harry') ]
-	write(*,'(*(g0,1x))')'length of elements of array=',len(many_strings)
-
-	write(*,'(*(g0))')'length from type parameter inquiry=',string%len()
-
-      ! LOOK AT HOW A PASSED STRING CAN BE USED ...
-	call passed(ut(' how long? '))
-
+     ! BASIC USAGE
+       string='Noho me ka hau’oli' ! (Be happy.)
+       ii=len(string)
+       write(*,'(DT,*(g0))')string, ' LEN=', ii
+     !
+       string=' How long is this allocatable string? '
+       write(*,'(DT,*(g0))')string, ' LEN=', len(string)
+     !
+     ! STRINGS IN AN ARRAY MAY BE OF DIFFERENT LENGTHS
+       many_strings = [ ut('Tom'), ut('Dick'), ut('Harry') ]
+       write(*,'(*(g0,1x))')'length of elements of array=',len(many_strings)
+     !
+       write(*,'(*(g0))')'length from type parameter inquiry=',string%len()
+     !
+     ! LOOK AT HOW A PASSED STRING CAN BE USED ...
+       call passed(ut(' how long? '))
+     !
      contains
-
-	subroutine passed(str)
-	type(ut),intent(in) :: str
-	   ! you can query the length of the passed variable
-	   ! when an interface is present
-	   write(*,'(*(g0))')'length of passed value is ', len(str)
-	end subroutine passed
-
+     !
+     subroutine passed(str)
+     type(ut),intent(in) :: str
+	! you can query the length of the passed variable
+	! when an interface is present
+	write(*,'(*(g0))')'length of passed value is ', len(str)
+     end subroutine passed
+     !
      end program demo_len
 
   Results:
@@ -427,27 +414,23 @@ EXAMPLES
      > length of passed value is 11
 
 SEE ALSO
-  len_trim(3), adjustr(3), trim(3), and adjustl(3) are related routines that
-  allow you to deal with leading and trailing blanks.
+  functions that perform operations on character strings:
 
-  Functions that perform operations on character strings, return lengths of
-  arguments, and search for certain arguments:
+  •  elemental: adjustl(3), adjustr(3), index(3), scan(3), verify(3)
 
-  •  ELEMENTAL: ADJUSTL(3), ADJUSTR(3), INDEX(3), SCAN(3), VERIFY(3)
-
-  •  NONELEMENTAL: LEN_TRIM(3), LEN(3), REPEAT(3), TRIM(3)
+  •  non-elemental: len_trim(3), len(3), repeat(3), trim(3)
 
 AUTHOR
   John S. Urban
 
 LICENSE
    MIT
-			       October 19, 2025 	       len(3m_unicode)
+			       October 25, 2025 	       len(3m_unicode)
 len_trim(3m_unicode)					  len_trim(3m_unicode)
 
 NAME
-  len_trim(3) - [M_unicode:WHITESPACE] string length without trailing blank
-  characters
+  LEN_TRIM(3f) - [M_unicode:WHITESPACE] string length without trailing blank
+  characters (LICENSE:MIT)
 
 SYNOPSIS
   result = len_trim(string [,kind])
@@ -460,15 +443,15 @@ SYNOPSIS
 CHARACTERISTICS
   • string is of type character
 
-  • kind  is  a  scalar integer constant expression specifying the kind of the
-    returned value.
+  • kind is a scalar integer constant expression specifying the kind of the
+  returned value.
 
-  • the return value is of type integer and of kind kind. if kind  is  absent,
-    the return value is of default integer kind.
+  • the return value is of type integer and of kind kind. if kind is absent,
+  the return value is of default integer kind.
 
 DESCRIPTION
-  len_trim(3)
-    returns  the length of a character string, ignoring any trailing blanks.
+  len_trim(3) returns the length of a character string, ignoring any trailing
+  blanks.
 
 OPTIONS
   • string : the input string whose length is to be measured.
@@ -476,9 +459,8 @@ OPTIONS
   • kind : indicates the kind parameter of the result.
 
 RESULT
-  the result equals the number
-    of	characters  remaining  after  any  trailing blanks in string are
-    removed.
+  the result equals the number of characters remaining after any trailing
+  blanks in string are removed.
 
   if the input argument is of zero length or all blanks the result is zero.
 
@@ -530,9 +512,8 @@ EXAMPLES
      >	sum trimmed length=	     38
 
 SEE ALSO
-  functions
-    that  perform  operations  on character strings, return lengths of
-    arguments, and search for certain arguments:
+  functions that perform operations on character strings, return lengths of
+  arguments, and search for certain arguments:
 
   •  elemental: adjustl(3), adjustr(3), index(3), scan(3), verify(3)
 
@@ -543,11 +524,11 @@ AUTHOR
 
 LICENSE
    MIT
-			       October 19, 2025 	  len_trim(3m_unicode)
+			       October 25, 2025 	  len_trim(3m_unicode)
 lower(3m_unicode)					     lower(3m_unicode)
 
 NAME
-  lower(3f) - [M_unicode:CASE] changes a string to lowercase over specified
+  LOWER(3f) - [M_unicode:CASE] changes a string to lowercase over specified
   range (LICENSE:MIT)
 
 SYNOPSIS
@@ -591,35 +572,34 @@ EXAMPLES
      type(unicode_type) :: pangram
      type(unicode_type) :: diacritics
      type(unicode_type) :: expected
-
-	! a sentence containing every letter of the English alphabet
-	pangram="THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG"
-	expected="the quick brown fox jumps over the lazy dog"
-	call test(pangram,expected)
-
-	! Slovak pangram
-	PANGRAM    = 'VYPÄTÁ DCÉRA GRÓFA MAXWELLA S IQ NIŽŠÍM AKO &
-	&KÔŇ NÚTI ČEĽAĎ HRÝZŤ HŔBU JABĹK.'
-	expected   = 'vypätá dcéra grófa maxwella s iq nižším ako &
-	&kôň núti čeľaď hrýzť hŕbu jabĺk.'
-	call test(pangram,expected)
-
-	! contains each special Czech letter with diacritics exactly once
-	DIACRITICS='PŘÍLIŠ ŽLUŤOUČKÝ KŮŇ ÚPĚL ĎÁBELSKÉ ÓDY.'
-	expected ='příliš žluťoučký kůň úpěl ďábelské ódy.'
-	print g,'("A horse that was too yellow-ish moaned devilish odes")'
-	call test(diacritics,expected)
-
+       !
+       ! a sentence containing every letter of the English alphabet
+       pangram="THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG"
+       expected="the quick brown fox jumps over the lazy dog"
+       call test(pangram,expected)
+       !
+       ! Slovak pangram
+       PANGRAM	  = 'VYPÄTÁ DCÉRA GRÓFA MAXWELLA S IQ NIŽŠÍM AKO &
+       &KÔŇ NÚTI ČEĽAĎ HRÝZŤ HŔBU JABĹK.'
+       expected   = 'vypätá dcéra grófa maxwella s iq nižším ako &
+       &kôň núti čeľaď hrýzť hŕbu jabĺk.'
+       call test(pangram,expected)
+       !
+       ! contains each special Czech letter with diacritics exactly once
+       DIACRITICS='PŘÍLIŠ ŽLUŤOUČKÝ KŮŇ ÚPĚL ĎÁBELSKÉ ÓDY.'
+       expected ='příliš žluťoučký kůň úpěl ďábelské ódy.'
+       print g,'("A horse that was too yellow-ish moaned devilish odes")'
+       call test(diacritics,expected)
      contains
      subroutine test(in,expected)
      type(unicode_type),intent(in) :: in
      type(unicode_type),intent(in) :: expected
      type(unicode_type) 	   :: lowercase
      character(len=*),parameter    :: nl=new_line('A')
-	write(stdout,g)in%character()
-	lowercase=lower(in)
-	write(stdout,g)lowercase%character()
-	write(stdout,g)merge('PASSED','FAILED',lowercase == expected ),nl
+	 write(stdout,g)in%character()
+	 lowercase=lower(in)
+	 write(stdout,g)lowercase%character()
+	 write(stdout,g)merge('PASSED','FAILED',lowercase == expected ),nl
      end subroutine test
      end program demo_lower
 
@@ -645,11 +625,11 @@ AUTHOR
 
 LICENSE
    MIT
-			       October 19, 2025 	     lower(3m_unicode)
+			       October 25, 2025 	     lower(3m_unicode)
 M_unicode(3m_unicode)					 M_unicode(3m_unicode)
 
 NAME
-  M_unicode(3f) - [M_unicode::INTRO] Unicode string module
+  M_unicode(3f) - [M_unicode::INTRO] Unicode string module (LICENSE:MIT)
 
 DESCRIPTION
   The M_unicode(3fm) module is a collection of Fortran string methods that
@@ -721,9 +701,18 @@ SYNOPSIS
     Right adjust a string
 
    QUOTES
-   CHARACTER ARRAY VERSUS STRING
-  character(VAR,start,end,inc) VAR%character(start,end,inc)
-  VAR%bytes(start,end,inc) VAR%codepoint(start,end,inc)
+   CHARACTER VERSUS STRING
+  character(STRING,start,end,inc)
+    converts a string to type CHARACTER.
+
+  STRING%character(start,end,inc)
+    OOP syntax for converting a string to type CHARACTER.
+
+  STRING%bytes(start,end,inc)
+    Convert to an array of CHARACTER(len=1) bytes.
+
+  STRING%codepoint(start,end,inc)
+    converts a string to an INTEGER array of Unicode codepoints
 
    NONALPHA
    ENCODING
@@ -778,7 +767,7 @@ SYNOPSIS
 
    CONCATENATION
   join
-    join elements of an array into a single string
+    join elements of an array into a single string operator(.cat.),
 
   operator(//)
     concatenate strings and/or convert intrinsics to strings and concatenate
@@ -796,20 +785,24 @@ SYNOPSIS
   SORT(3f) and CHAR(3f).
 
 SEE ALSO
+  All the procedure descriptions are conglomerated into the single file
+  "manual.txt" for simple access not requiring access to man-pages or
+  browsers.
+
   There are additional routines in other GPF modules for working with
   expressions (M_calculator), time strings (M_time), random strings (M_random,
   M_uuid), lists (M_list), and interfacing with the C regular expression
   library (M_regex).
 
 EXAMPLES
-  Each of the procedures includes an [example](example/) program in the
-  corresponding man(1) page for the procedure.
+  Each of the procedures includes an example program in the example/ directory
+  as well as a corresponding man(1) page for the procedure.
 
   Sample program:
 
      program demo_M_unicode
      use,intrinsic :: iso_fortran_env, only : stdout=>output_unit
-     use M_unicode,only : TOKENIZE, REPLACE, CHARACTER, UPPER, LOWER, LEN
+     use M_unicode,only : tokenize, replace, character, upper, lower, len
      use M_unicode,only : unicode_type, assignment(=), operator(//)
      use M_unicode,only : ut => unicode_type, ch => character
      use M_unicode,only : write(formatted)
@@ -821,77 +814,79 @@ EXAMPLES
      uppercase='АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ'
      lowercase='абвгґдеєжзиіїйклмнопрстуфхцчшщьюя'
      numeric='0123456789'
-
-      string=uppercase//' '//numeric//' '//lowercase
-
+      !
+      string=uppercase//numeric//lowercase
+      !
       print all, 'Original string:'
       print all, ch(string)
       print all, 'length in bytes :',len(string%character())
       print all, 'length in glyphs:',len(string)
       print all
-
+      !
       print all, 'convert to all uppercase:'
       print all, ch( UPPER(string) )
       print all
-
+      !
       print all, 'convert to all lowercase:'
       print all, ch( string%LOWER() )
       print all
-
+      !
       print all, 'tokenize on spaces ... '
       call TOKENIZE(string,ut(' '),array)
       print all, '... writing with A or G format:',character(array)
       !print uni, ut('... writing with DT format'),array
       print all
-
+      !
       print all, 'case-insensitive replace:'
-      print all,  ch( &
+      print all, ch( &
       & REPLACE(string, &
       & ut('клмнопрс'), &
       & ut('--------'), &
       & ignorecase=.true.) )
-
+      !
       print all
-
+      !
      end program demo_M_unicode
 
   Results:
 
-   Original string:
-   АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ 0123456789 абвгґдеєжзиіїйклмнопрстуфхцчшщьюя
-   length in bytes :
-   144
-   length in glyphs:
-   78
-
-   convert to all uppercase:
-   АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ 0123456789 АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ
-
-   convert to all lowercase:
-   абвгґдеєжзиіїйклмнопрстуфхцчшщьюя 0123456789 абвгґдеєжзиіїйклмнопрстуфхцчшщьюя
-
-   tokenize on spaces ...
-   ... writing with A or G format:
-
-   АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ
-  0123456789 абвгґдеєжзиіїйклмнопрстуфхцчшщьюя
-
-   АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ
-  0123456789 абвгґдеєжзиіїйклмнопрстуфхцчшщьюя
-
-  case-insensitive replace: АБВГҐДЕЄЖЗИІЇЙ--------ТУФХЦЧШЩЬЮЯ 0123456789
-  абвгґдеєжзиіїй--------туфхцчшщьюя
+     > Original string:
+     > АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ0123456789 ...
+     > абвгґдеєжзиіїйклмнопрстуфхцчшщьюя
+     > length in bytes :
+     > 144
+     > length in glyphs:
+     > 78
+     >
+     > convert to all uppercase:
+     > АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ0123456789 ...
+     > АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ
+     >
+     >
+     > tokenize on spaces ...
+     > ... writing with A or G format:
+     > АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ
+     > 0123456789
+     > абвгґдеєжзиіїйклмнопрстуфхцчшщьюя
+     > ... writing with DT format
+     > АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ
+     > 0123456789
+     > абвгґдеєжзиіїйклмнопрстуфхцчшщьюя
+     >
+     > case-insensitive replace:
+     > АБВГҐДЕЄЖЗИІЇЙ--------ТУФХЦЧШЩЬЮЯ0123456789 ...
+     > абвгґдеєжзиіїй--------туфхцчшщьюя
 
 AUTHOR
   John S. Urban
 
 LICENSE
    MIT
-			       October 19, 2025 	 M_unicode(3m_unicode)
+			       October 25, 2025 	 M_unicode(3m_unicode)
 tokenize(3m_unicode)					  tokenize(3m_unicode)
 
 NAME
-  TOKENIZE(3) - [M_unicode:PARSE] Parse a string into tokens.
+  TOKENIZE(3f) - [M_unicode:PARSE] Parse a string into tokens.	(LICENSE:MIT)
 
 SYNOPSIS
   TOKEN form (returns array of strings)
@@ -988,15 +983,15 @@ EXAMPLES
      use M_unicode, only : tokenize, ut=>unicode_type,ch=>character
      use M_unicode, only : assignment(=),operator(/=)
      implicit none
-
+     !
      ! some useful formats
      character(len=*),parameter ::	 &
       & brackets='(*("[",g0,"]":,","))' ,&
       & a_commas='(a,*(g0:,","))'	,&
       & gen='(*(g0))'
-
+     !
      ! Execution of TOKEN form (return array of tokens)
-
+     !
 	block
 	type(ut)	     :: string
 	type(ut),allocatable :: tokens(:)
@@ -1011,11 +1006,11 @@ EXAMPLES
 	   ! remove blank tokens
 	   tokens=pack(tokens, tokens /= '' )
 	   write(*,brackets)ch(tokens)
-
+     !
 	endblock
-
-	! Execution of BOUNDS form (return position of tokens)
-
+     !
+     ! Execution of BOUNDS form (return position of tokens)
+     !
 	block
 	type(ut)		   :: string
 	character(len=*),parameter :: set = " ,"
@@ -1028,8 +1023,8 @@ EXAMPLES
 	   write(*,a_commas)'LAST=',last
 	   write(*,a_commas)'HAS LENGTH=',last-first.gt.0
 	endblock
-
-	end program demo_tokenize
+     !
+     end program demo_tokenize
 
   Results:
 
@@ -1053,16 +1048,16 @@ SEE ALSO
      not appear in a given set of characters.
 
 AUTHOR
-  John S. Urban
+  Milan Curcic, "milancurcic@hey.com" John S. Urban -- UTF-8 version
 
 LICENSE
    MIT
-			       October 19, 2025 	  tokenize(3m_unicode)
+			       October 25, 2025 	  tokenize(3m_unicode)
 trim(3m_unicode)					      trim(3m_unicode)
 
 NAME
-  trim(3) - [M_unicode:WHITESPACE] remove trailing blank characters from a
-  string
+  TRIM(3f) - [M_unicode:WHITESPACE] remove trailing blank characters from a
+  string (LICENSE:MIT)
 
 SYNOPSIS
   result = trim(string)
@@ -1078,14 +1073,13 @@ DESCRIPTION
   trim(3) removes trailing blank characters from a string.
 
 OPTIONS
-  • string : a string to trim
+  •  string : a string to trim
 
 RESULT
   the result is the same as string except trailing blanks are removed.
 
-  if
-    string  is composed entirely of blanks or has zero length, the result has
-    zero length.
+  if string is composed entirely of blanks or has zero length, the result has
+  zero length.
 
 EXAMPLES
   sample program:
@@ -1099,59 +1093,46 @@ EXAMPLES
      type(ut), allocatable	:: strs(:)
      character(len=*),parameter :: brackets='( *("[",DT,"]":,1x) )'
      integer			:: i
-
+	!
 	str='	trailing    '
 	print brackets, str,trim(str) ! trims it
-
+	!
 	str='	leading'
 	print brackets, str,trim(str) ! no effect
-
+	!
 	str='		 '
 	print brackets, str,trim(str) ! becomes zero length
 	print *,  len(str), len(trim('		     '))
-
+	!
 	strs=[ut("Z "),ut(" a b c"),ut("ABC   "),ut("")]
-
+	!
 	write(*,*)'untrimmed:'
 	print brackets, (strs(i), i=1,size(strs))
 	print brackets, strs
-
+	!
 	write(*,*)'trimmed:'
 	! everything prints trimmed
 	print brackets, (trim(strs(i)), i=1,size(strs))
 	print brackets, trim(strs)
-
+	!
      end program demo_trim
 
   results:
 
-    > [
-      trailing	  ] [	trailing]
-
-    > [
-      leading] [   leading]
-
-    > [
-      ] []
-
-    > 12	   0
-
-    > untrimmed:
-
-    > [Z ] [ a b c] [ABC
-      ] []
-
-    > [Z ] [ a b c] [ABC
-      ] []
-
-    > trimmed: > [Z] [ a b c] [ABC] [] > [Z] [ a b c] [ABC] []
+     > [   trailing    ] [   trailing]
+     > [   leading] [	leading]
+     > [	    ] []
+     >		 12	      0
+     >	untrimmed:
+     > [Z ] [ a b c] [ABC   ] []
+     > [Z ] [ a b c] [ABC   ] []
+     >	trimmed:
+     > [Z] [ a b c] [ABC] []
+     > [Z] [ a b c] [ABC] []
 
 SEE ALSO
-  Functions that perform operations on character
-    strings,  return
-
-  lengths
-    of arguments, and search for certain arguments:
+  Functions that perform operations on character strings, return lengths of
+  arguments, and search for certain arguments:
 
   •  elemental: adjustl(3), adjustr(3), index(3), scan(3), verify(3)
 
@@ -1162,11 +1143,11 @@ AUTHOR
 
 LICENSE
    MIT
-			       October 19, 2025 	      trim(3m_unicode)
+			       October 25, 2025 	      trim(3m_unicode)
 upper(3m_unicode)					     upper(3m_unicode)
 
 NAME
-  upper(3f) - [M_unicode:CASE] changes a string to uppercase (LICENSE:MIT)
+  UPPER(3f) - [M_unicode:CASE] changes a string to uppercase (LICENSE:MIT)
 
 SYNOPSIS
   elemental pure function upper(str) result (string)
@@ -1208,27 +1189,26 @@ EXAMPLES
      type(unicode_type) 	:: pangram
      type(unicode_type) 	:: diacritics
      type(unicode_type) 	:: expected
-
+	!
 	! a sentence containing every letter of the English alphabet
 	! often used to test telegraphs since the advent of the 19th century
 	! and as an exercise repetitively generated in typing classes
 	pangram  = "The quick brown fox jumps over the lazy dog."
 	expected = "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG."
 	call test(pangram,expected)
-
+	!
 	! Slovak pangram
 	pangram    = 'Vypätá dcéra grófa Maxwella s IQ nižším ako &
 	&kôň núti čeľaď hrýzť hŕbu jabĺk.'
 	expected   = 'VYPÄTÁ DCÉRA GRÓFA MAXWELLA S IQ NIŽŠÍM AKO &
 	&KÔŇ NÚTI ČEĽAĎ HRÝZŤ HŔBU JABĹK.'
 	call test(pangram,expected)
-
+	!
 	! contains each special Czech letter with diacritics exactly once
 	print g,'("A horse that was too yellow-ish moaned devilish odes")'
 	diacritics = 'Příliš žluťoučký kůň úpěl ďábelské ódy.'
 	expected   = 'PŘÍLIŠ ŽLUŤOUČKÝ KŮŇ ÚPĚL ĎÁBELSKÉ ÓDY.'
 	call test(diacritics,expected)
-
      contains
      subroutine test(in,expected)
      type(unicode_type),intent(in) :: in
@@ -1240,7 +1220,6 @@ EXAMPLES
 	write(stdout,g)uppercase%character()
 	write(stdout,g)merge('PASSED','FAILED',uppercase == expected ),nl
      end subroutine test
-
      end program demo_upper
 
   Expected output
@@ -1265,12 +1244,12 @@ AUTHOR
 
 LICENSE
    MIT
-			       October 19, 2025 	     upper(3m_unicode)
+			       October 25, 2025 	     upper(3m_unicode)
 verify(3m_unicode)					    verify(3m_unicode)
 
 NAME
-  VERIFY(3) - [M_unicode:SEARCH] Position of a character in a string of
-  characters that does not appear in a given set of characters.
+  VERIFY(3f) - [M_unicode:SEARCH] Position of a character in a string of
+  characters that does not appear in a given set of characters.  (LICENSE:MIT)
 
 SYNOPSIS
   result = verify(string, set [,back] [,kind] )
@@ -1328,87 +1307,93 @@ RESULT
 EXAMPLES
   Sample program I:
 
-	program demo_verify
-	use M_unicode
-	use M_unicode, only : ut=>unicode_type, ch=>character
-	use M_unicode, only : write(formatted), assignment(=)
-	implicit none
-	! some useful character sets
-	character,parameter :: &
-	 & int*(*)   = ’1234567890’, &
-	 & low*(*)   = ’abcdefghijklmnopqrstuvwxyz’, &
-	 & upp*(*)   = ’ABCDEFGHIJKLMNOPQRSTUVWXYZ’, &
-	 & punc*(*)  = "!""#$%&’()*+,‐./:;<=>?@[\]ˆ_‘{|}˜", &
-	 & blank*(*) = ’ ’, &
-	 & tab	     = char(11), &
-	 & prnt*(*) = int//low//upp//blank//punc
-
-	character(len=:),allocatable :: string_a
-	type(unicode_type)	     :: string_u
-	integer :: i
-	    print , ’basics:’
-	    print *, VERIFY (’ABBA’, ’A’)		 ! has the value 2.
-	    print *, VERIFY (’ABBA’, ’A’, BACK = .TRUE.) ! has the value 3.
-	    print *, VERIFY (’ABBA’, ’AB’)		 ! has the value 0.
-
-	   print *,’find first non‐uppercase letter’
-	   ! will produce the location of "d", because there is no match in UPP
-	   write(*,*) ’something unmatched’,verify(ut("ABCdEFG"), upp)
-
-	   print *,’if everything is matched return zero’
-	   ! will produce 0 as all letters have a match
-	   write(*,*) ’everything matched’,verify(ut("ffoorrttrraann"), "nartrof")
-
-	   print *,’easily categorize strings as uppercase, lowercase, ...’
-	   ! easy C‐like functionality but does entire strings not just characters
-	   write(*,*)’isdigit 123?’,verify(ut("123)", int) == 0
-	   write(*,*)’islower abc?’,verify(ut("abc)", low) == 0
-	   write(*,*)’isalpha aBc?’,verify(ut("aBc"), low//upp) == 0
-	   write(*,*)’isblank aBc dEf?’,verify(ut("aBc dEf"), blank//tab ) /= 0
-	   ! check if all printable characters
-	   string="aB;cde,fgHI!Jklmno PQRSTU vwxyz"
-	   write(*,*)’isprint?’,verify(string,prnt) == 0
-
-	   ! this now has a nonprintable tab character in it
-	   string(10:10)=char(11)
-	   write(*,*)’isprint?’,verify(string,prnt) == 0
-
-	   print *,’VERIFY(3) is very powerful using expressions as masks’
-	   ! verify(3) is often used in a logical expression
-	   string=" This is NOT all UPPERCASE "
-	   write(*,*)’all uppercase/spaces?’,verify(string, blank//upp) == 0
-	   string=" This IS all uppercase "
-	   write(*,*) ’string=[’//string//’]’
-	   write(*,*)’all uppercase/spaces?’,verify(string, blank//upp) == 0
-
-	  ! set and show complex string to be tested
-	   string=’  Check this out. Let me know  ’
-	   ! show the string being examined
-	   write(*,*) ’string=[’//string//’]’
-	   write(*,*) ’        ’//repeat(int,4) ! number line
-
-	   ! the Fortran functions returns a position just not a logical like C
-	   print *, ’returning a position not just a logical is useful’
-	   ! which can be very useful for parsing strings
-	   write(*,*)’first non‐blank character’,verify(string, blank)
-	   write(*,*)’last non‐blank character’,verify(string, blank,back=.true.)
-	   write(*,*)’first non‐letter non‐blank’,verify(string,low//upp//blank)
-
-	  !VERIFY(3) is elemental so you can check an array of strings in one call
-	  print *, ’elemental’
-	   ! are strings all letters (or blanks)?
-	   write(*,*) ’array of strings’,verify( &
-	   ! strings must all be same length, so force to length 10
-	   & [character(len=10) :: "YES","ok","000","good one","Nope!"], &
-	   & low//upp//blank) == 0
-
-	   ! rarer, but the set can be an array, not just the strings to test
-	   ! you could do ISPRINT() this (harder) way :>
-	   write(*,*)’isprint?’,.not.all(verify(ut("aBc"), [(char(i),i=32,126)])==1)
-	   ! instead of this way
-	   write(*,*)’isprint?’,verify(ut("aBc"),prnt) == 0
-
-	end program demo_verify
+     program demo_verify
+     ! general examples
+     use M_unicode, only : assignment(=)
+     use M_unicode, only : ut=>unicode_type, ch=>character
+     use M_unicode, only : write(formatted)
+     use M_unicode, only : operator(==)
+     use M_unicode, only : verify, replace
+     use M_unicode, only : operator(//)
+     implicit none
+     ! some useful character sets
+     character,parameter	  :: &
+      & int*(*)   = "1234567890", &
+      & low*(*)   = "abcdefghijklmnopqrstuvwxyz", &
+      & upp*(*)   = "ABCDEFGHIJKLMNOPQRSTUVWXYZ", &
+      & punc*(*)  = "!""#$%&'()*+,‐./:;<=>?@[\]'_‘{|}˜", &
+      & blank*(*) = " ", &
+      & tab	  = char(11), &
+      & prnt*(*) = int//low//upp//blank//punc
+     !
+     character(len=:),allocatable :: stra
+     type(ut)			  :: stru
+     integer			  :: i
+	 print *, "basics:"
+	 print *, VERIFY ("ABBA", "A")		      ! has the value 2.
+	 print *, VERIFY ("ABBA", "A", BACK = .TRUE.) ! has the value 3.
+	 print *, VERIFY ("ABBA", "AB") 	      ! has the value 0.
+	!
+	print *,"find first non‐uppercase letter"
+	! will produce the location of "d", because there is no match in UPP
+	write(*,*) "something unmatched",verify(ut("ABCdEFG"), upp)
+	!
+	print *,"if everything is matched return zero"
+	! will produce 0 as all letters have a match
+	write(*,*) &
+	& "everything matched",verify(ut("ffoorrttrraann"), "nartrof")
+	!
+	print *,"easily categorize strings as uppercase, lowercase, ..."
+	! C-like functionality but does entire strings not just characters
+	write(*,*)"isdigit 123?",verify(ut("123"), int) == 0
+	write(*,*)"islower abc?",verify(ut("abc"), low) == 0
+	write(*,*)"isalpha aBc?",verify(ut("aBc"), low//upp) == 0
+	write(*,*)"isblank aBc dEf?",verify(ut("aBc dEf"), blank//tab ) /= 0
+	! check if all printable characters
+	stru="aB;cde,fgHI!Jklmno PQRSTU vwxyz"
+	write(*,*)"isprint?",verify(stru,prnt) == 0
+	!
+	! this now has a nonprintable tab character in it
+	stru=replace(stru,10,10,ut(char(11)))
+	write(*,*)"isprint?",verify(stru,prnt) == 0
+	!
+	print *,"VERIFY(3) is very powerful using expressions as masks"
+	! verify(3) is often used in a logical expression
+	stru=" This is NOT all UPPERCASE "
+	write(*,*)"all uppercase/spaces?",verify(stru, blank//upp) == 0
+	stru=" This IS all uppercase "
+	write(*,*) "stru=["//stru//"]"
+	write(*,*)"all uppercase/spaces?",verify(stru, blank//upp) == 0
+	!
+	! set and show complex stru to be tested
+	stru="	Check this out. Let me know  "
+	! show the stru being examined
+	write(*,*) "stru=["//stru//"]"
+	write(*,*) "	    "//repeat(int,4) ! number line
+	!
+	! function returns a position just not a logical like C
+	print *, "returning a position not just a logical is useful"
+	! which can be very useful for parsing strings
+	write(*,*)"first non‐blank character",verify(stru, blank)
+	write(*,*)"last non‐blank character",verify(stru, blank,back=.true.)
+	write(*,*)"first non‐letter non‐blank",verify(stru,low//upp//blank)
+	!
+       !VERIFY(3) is elemental (can check an array of strings in one call)
+	print *, "elemental"
+	! are strings all letters (or blanks)?
+	write(*,*) "array of strings",verify( &
+	! strings must all be same length, so force to length 10
+	& [character(len=10) :: "YES","ok","000","good one","Nope!"], &
+	& low//upp//blank) == 0
+	!
+	! rarer, but the set can be an array, not just the strings to test
+	! you could do ISPRINT() this (harder) way :>
+	write(*,*)"isprint?", &
+	& .not.all(verify(ut("aBc"), [(char(i),i=32,126)])==1)
+	! instead of this way
+	write(*,*)"isprint?",verify(ut("aBc"),prnt) == 0
+	!
+     end program demo_verify
 
   Results:
 
@@ -1446,112 +1431,137 @@ EXAMPLES
 
   Determine if strings are valid integer representations
 
-	program fortran_ints
-	use M_unicode, only : ut=>unicode_type,assignment(=)
-	implicit none
-	integer :: i
-	character(len=*),parameter :: ints(*)=[character(len=10) :: &
-	 ’+1 ’, &
-	 ’3044848 ’, &
-	 ’30.40 ’, &
-	 ’September ’, &
-	 ’1 2 3’, &
-	 ’  ‐3000 ’, &
-	 ’ ’]
-	   ! show the strings to test
-	   write(*,’("|",*(DT,"|"))’) ints
-	   ! show if strings pass or fail the test done by isint(3)
-	   write(*,’("|",*(1x,l1,8x,"|"))’) isint(ints)
+     program fortran_ints
+     use M_unicode, only : ut=>unicode_type,assignment(=)
+     use M_unicode, only : adjustr, verify, trim, len
+     use M_unicode, only : write(formatted)
+     use M_unicode, only : operator(.cat.)
+     use M_unicode, only : operator(==)
+     implicit none
+     integer :: i
+     character(len=*),parameter :: asciiints(*)=[character(len=10) :: &
+      "+1 ", &
+      "3044848 ", &
+      "30.40 ", &
+      "September ", &
+      "1 2 3", &
+      "  -3000 ", &
+      " "]
+      type(ut),allocatable :: ints(:)
+      if(allocated(ints))deallocate(ints)
+      allocate(ints(size(asciiints))) ! gfortran bug
+      ints=asciiints
+      ints=trim(ints)
+      ! show if strings pass or fail the test done by isint(3)
+      write(*,"('is integer?')")
+      do i=1,size(ints)
+	write(*,'("|",DT,T14,"|",l1,"|")') ints(i), isint(ints(i))
+      enddo
+      ! elemental
+      write(*,"(*(g0,1x))") isint(ints)
 
-	contains
+     contains
 
-	elemental function isint(line) result (lout)
-	use M_unicode, only : adjustl, verify, trim
-	!
-	! determine if string is a valid integer representation
-	! ignoring trailing spaces and leading spaces
-	!
-	character(len=*),parameter   :: digits=’0123456789’
-	character(len=*),intent(in)  :: line
-	character(len=:),allocatable :: name
-	logical 		     :: lout
-	   lout=.false.
-	   ! make sure at least two characters long to simplify tests
-	   name=adjustl(line)//’  ’
-	   ! blank string
-	   if( name == ’’ )return
-	   ! allow one leading sign
-	   if( verify(name(1:1),’+‐’) == 0 ) name=name(2:)
-	   ! was just a sign
-	   if( name == ’’ )return
-	   lout=verify(trim(name), digits)  == 0
-	end function isint
+     impure elemental function isint(line) result (lout)
+     use M_unicode, only : adjustl, verify, trim
+     !
+     ! determine if string is a valid integer representation
+     ! ignoring trailing spaces and leading spaces
+     !
+     character(len=*),parameter :: digits="0123456789"
+     type(ut),intent(in)	:: line
+     type(ut)			:: name
+     logical			:: lout
+	lout=.false.
+	! make sure at least two characters long to simplify tests
+	name=adjustl(line).cat.'  '
+	! blank string
+	if( name == '' )return
+	! allow one leading sign
+	if( verify(name%sub(1,1),ut('+‐-')) == 0 ) name=name%sub(2,len(name))
+	! was just a sign
+	if( name == '' )return
+	lout=verify(trim(name), digits)  == 0
+     end function isint
 
-	end program fortran_ints
+     end program fortran_ints
 
   Results:
 
-	|+1	  |3044848  |30.40    |September|1 2 3	  |  ‐3000  |	      |
-	| T	  | T	    | F       | F	| F	  | T	    | F       |
+      > is integer?
+      > |+1	     |T|
+      > |3044848     |T|
+      > |30.40	     |F|
+      > |September   |F|
+      > |1 2 3	     |F|
+      > |  ‐3000     |T|
+      > |	     |F|
+      > T T F F F T F
 
   Sample program III:
 
   Determine if strings represent valid Fortran symbol names
 
-	program fortran_symbol_name
-	implicit none
-	integer :: i
-	character(len=*),parameter :: symbols(*)=[character(len=10) :: &
-	 ’A_ ’, &
-	 ’10 ’, &
-	 ’September ’, &
-	 ’A B’, &
-	 ’_A ’, &
-	 ’ ’]
+     program fortran_symbol_name
+     use M_unicode, only : ut=>unicode_type, trim, verify, len
+     use M_unicode, only : ch=>character
+     use M_unicode, only : write(formatted)
+     implicit none
+     integer :: i
+     type(ut),allocatable :: symbols(:)
+	symbols=[ &
+	 ut('A_'), ut('10'), ut('a10'), ut('September'), ut('A B'), &
+	 ut('_A'), ut(' ')]
 
-	   write(*,’("|",*(g0,"|"))’) symbols
-	   write(*,’("|",*(1x,l1,8x,"|"))’) fortran_name(symbols)
+	do i=1,size(symbols)
+	   write(*,'(1x,DT,T11,"|",l2)')symbols(i),fortran_name(symbols(i))
+	enddo
 
-	contains
+     contains
 
-	elemental function fortran_name(line) result (lout)
-	!
-	! determine if a string is a valid Fortran name
-	! ignoring trailing spaces (but not leading spaces)
-	!
-	character(len=*),parameter   :: int=’0123456789’
-	character(len=*),parameter   :: lower=’abcdefghijklmnopqrstuvwxyz’
-	character(len=*),parameter   :: upper=’ABCDEFGHIJKLMNOPQRSTUVWXYZ’
-	character(len=*),parameter   :: allowed=upper//lower//int//’_’
+     impure elemental function fortran_name(line) result (lout)
+     !
+     ! determine if a string is a valid Fortran name
+     ! ignoring trailing spaces (but not leading spaces)
+     !
+     character(len=*),parameter :: int="0123456789"
+     character(len=*),parameter :: lower="abcdefghijklmnopqrstuvwxyz"
+     character(len=*),parameter :: upper="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+     character(len=*),parameter :: allowed=upper//lower//int//"_"
 
-	character(len=*),intent(in)  :: line
-	character(len=:),allocatable :: name
-	logical 		     :: lout
-	   name=trim(line)
-	   if(len(name).ne.0)then
-	      ! first character is alphameric
-	      lout = verify(name(1:1), lower//upper) == 0  &
-	       ! other characters are allowed in a symbol name
-	       & .and. verify(name,allowed) == 0	   &
-	       ! allowable length
-	       & .and. len(name) <= 63
-	   else
-	      lout = .false.
-	   endif
-	end function fortran_name
+     type(ut),intent(in)	:: line
+     type(ut)			:: name
+     logical			:: lout
+	name=trim(line)
+	if(len(name).ne.0)then
+	   ! first character is alphameric
+	   lout = verify(name%sub(1,1), lower//upper) == 0  &
+	    ! other characters are allowed in a symbol name
+	    & .and. verify(name,allowed) == 0		&
+	    ! allowable length
+	    & .and. len(name) <= 63
+	else
+	   lout = .false.
+	endif
+     end function fortran_name
 
-	end program fortran_symbol_name
+     end program fortran_symbol_name
 
   Results:
 
-	    |A_        |10	  |September |A B	|_A	   |	      |
-	    | T        | F	  | T	     | F	| F	   | F	      |
+     >	A_	 | T
+     >	10	 | F
+     >	a10	 | T
+     >	September| T
+     >	A B	 | F
+     >	_A	 | F
+     >		 | F
 
   Sample program IV:
 
   check if string is of form NN‐HHHHH
 
-     program checkform
+     program form
      !
      ! check if string is of form NN‐HHHHH
      !
@@ -1560,34 +1570,34 @@ EXAMPLES
      use M_unicode,	  only : ut=>unicode_type
      implicit none
      character(len=*),parameter :: g='(*(g0,1x))'
-
+     !
      character(len=*),parameter :: int='1234567890'
      character(len=*),parameter :: hex='abcdefABCDEF0123456789'
      logical			:: lout
      type(unicode_type) 	:: chars
      type(unicode_type) 	:: str
-
+	!
 	chars='32‐af43d'
 	lout=.true.
-
+	!
 	! are the first two characters integer characters?
 	str = chars%character(1,2)
 	lout = (verify( str, ut(int) ) == 0) .and.lout
-
+	!
 	! is the third character a dash?
 	str = chars%character(3,3)
 	lout = (verify( str, ut('‐-') ) == 0) .and.lout
-
+	!
 	! is remaining string a valid representation of a hex value?
 	str = chars%character(4,8)
 	lout = (verify( str, ut(hex) ) == 0) .and.lout
-
+	!
 	if(lout)then
 	   write(stdout,g)trim(chars%character()),' passed'
 	else
 	   write(stdout,g)trim(chars%character()),' failed'
 	endif
-     end program checkform
+     end program form
 
   Results:
 
@@ -1597,46 +1607,52 @@ EXAMPLES
 
   exploring uses of elemental functionality and dusty corners
 
-	program more_verify
-	implicit none
-	character(len=*),parameter :: &
-	  & int=’0123456789’, &
-	  & low=’abcdefghijklmnopqrstuvwxyz’, &
-	  & upp=’ABCDEFGHIJKLMNOPQRSTUVWXYZ’, &
-	  & blank=’ ’
-	! note character variables in an array have to be of the same length
-	character(len=6) :: strings(3)=["Go    ","right ","home! "]
-	character(len=2) :: sets(3)=["do","re","me"]
+     program more_verify
+     use M_unicode, only : ut=>unicode_type, verify
+     use M_unicode, only : assignment(=)
+     use M_unicode, only : ch=>character
+     implicit none
+     character(len=*),parameter :: &
+       & int="0123456789", &
+       & low="abcdefghijklmnopqrstuvwxyz", &
+       & upp="ABCDEFGHIJKLMNOPQRSTUVWXYZ", &
+       & blank=" "
+     ! note character variables in an array have to be of the same length
+     type(ut),allocatable :: strings(:)
+     type(ut),allocatable :: sets(:)
 
-	  ! elemental ‐‐ you can use arrays for both strings and for sets
+	strings=[ut("Go"),ut("right"),ut("home!")]
+	sets=[ut("do"),ut("re"),ut("me")]
 
-	   ! check each string from right to left for non‐letter/non‐blank
-	   write(*,*)’last non‐letter’,verify(strings,upp//low//blank,back=.true.)
+       ! elemental ‐‐ you can use arrays for both strings and for sets
 
-	   ! even BACK can be an array
-	   ! find last non‐uppercase character in "Howdy "
-	   ! and first non‐lowercase in "there "
-	   write(*,*) verify(strings(1:2),[upp,low],back=[.true.,.false.])
+	! check each string from right to left for non‐letter/non‐blank
+	write(*,*)"last non‐letter",verify(strings,upp//low//blank,back=.true.)
 
-	   ! using a null string for a set is not well defined. Avoid it
-	   write(*,*) ’null’,verify("for tran ", "", .true.) ! 8,length of string?
-	   ! probably what you expected
-	   write(*,*) ’blank’,verify("for tran ", " ", .true.) ! 7,found ’n’
+	! even BACK can be an array
+	! find last non‐uppercase character in "Go"
+	! and first non‐lowercase in "right"
+	write(*,*) verify(strings(1:2),[upp,low],back=[.true.,.false.])
 
-	   ! first character in  "Go	" not in "do",
-	   ! and first letter in "right " not in "ri"
-	   ! and first letter in "home! " not in "me"
-	   write(*,*) verify(strings,sets)
+	! using a null string for a set is not well defined. Avoid it
+	write(*,*) "null",verify("for tran ", "", .true.) ! 8,length of string?
+	! probably what you expected
+	write(*,*) "blank",verify("for tran ", " ", .true.) ! 7,found ’n’
 
-	end program more_verify
+	! first character in  "Go    " not in "do",
+	! and first letter in "right " not in "ri"
+	! and first letter in "home! " not in "me"
+	write(*,*) verify(strings,sets)
+
+     end program more_verify
 
   Results:
 
-	    > last non‐letter 0 0 5
-	    > 6 6
-	    > null 9
-	    > blank 8
-	    > 1 2 1
+     >	last non‐letter 0 0 5
+     >	2 0
+     >	null 9
+     >	blank 8
+     >	1 2 1
 
 SEE ALSO
   Functions that perform operations on character strings, return lengths of
@@ -1651,11 +1667,11 @@ AUTHOR
 
 LICENSE
    MIT
-			       October 19, 2025 	    verify(3m_unicode)
+			       October 25, 2025 	    verify(3m_unicode)
 pad(3m_unicode) 					       pad(3m_unicode)
 
 NAME
-  pad(3f) - [M_unicode:LENGTH] return string padded to at least specified
+  PAD(3f) - [M_unicode:WHITESPACE] return string padded to at least specified
   length (LICENSE:MIT)
 
 SYNOPSIS
@@ -1698,59 +1714,59 @@ RETURNS
 EXAMPLES
   Sample Program:
 
-      program demo_pad
-       use M_unicode, only  : pad, assignment(=)
-       !use M_unicode, only : write(formatted)
-       use M_unicode, only  : len
-       use M_unicode, only  : ch=> character
-       use M_unicode, only  : ut=> unicode_type
-       implicit none
-       type(ut) 		  :: string
-       type(ut) 		  :: answer
-       integer			  :: i
-       !character(len=*),parameter :: u='(*(DT))'
-       character(len=*),parameter :: u='(*(g0))'
+    program demo_pad
+    use M_unicode, only  : pad, assignment(=)
+    !use M_unicode, only : write(formatted)
+    use M_unicode, only  : len
+    use M_unicode, only  : ch=> character
+    use M_unicode, only  : ut=> unicode_type
+    implicit none
+    type(ut)		       :: string
+    type(ut)		       :: answer
+    integer		       :: i
+    !character(len=*),parameter :: u='(*(DT))'
+    character(len=*),parameter :: u='(*(g0))'
+      !
+      string='abcdefghij'
+      !
+      write(*,*)'pad on right till 20 characters long'
+      answer=pad(string,20)
+      write(*,'("[",g0,"]",/)') answer%character()
+      !
+      write(*,*)'original is not trimmed for short length requests'
+      answer=pad(string,5)
+      write(*,'("[",g0,"]",/)') answer%character()
+      !
+      i=30
+      write(*,*)'pad with specified string and left-justified integers'
+      write(*,'(1x,g0,1x,i0)') &
+       & ch(pad(ut('CHAPTER 1 : The beginning '),i,ut('.') )), 1   , &
+       & ch(pad(ut('CHAPTER 2 : The end '),i,ut('.') )),       1234, &
+       & ch(pad(ut('APPENDIX '),i,ut('.') )),		       1235
+      !
+      write(*,*)'pad with specified string and right-justified integers'
+      write(*,'(1x,g0,i7)') &
+       & ch(pad(ut('CHAPTER 1 : The beginning '),i,ut('.') )), 1   , &
+       & ch(pad(ut('CHAPTER 2 : The end '),i,ut('.') )),       1234, &
+       & ch(pad(ut('APPENDIX '),i,ut('.') )),		       1235
+      !
+      write(*,*)'pad on left with zeros'
+      write(*,u)ch(pad(ut('12'),5,ut('0'),right=.false.))
+      !
+      write(*,*)'various lengths with clip .true. and .false.'
+      write(*,u)ch(pad(ut('12345 '),30,ut('_'),right=.false.))
+      write(*,u)ch(pad(ut('12345 '),30,ut('_'),right=.false.,clip=.true.))
+      write(*,u)ch(pad(ut('12345 '), 7,ut('_'),right=.false.))
+      write(*,u)ch(pad(ut('12345 '), 7,ut('_'),right=.false.,clip=.true.))
+      write(*,u)ch(pad(ut('12345 '), 6,ut('_'),right=.false.))
+      write(*,u)ch(pad(ut('12345 '), 6,ut('_'),right=.false.,clip=.true.))
+      write(*,u)ch(pad(ut('12345 '), 5,ut('_'),right=.false.))
+      write(*,u)ch(pad(ut('12345 '), 5,ut('_'),right=.false.,clip=.true.))
+      write(*,u)ch(pad(ut('12345 '), 4,ut('_'),right=.false.))
+      write(*,u)ch(pad(ut('12345 '), 4,ut('_'),right=.false.,clip=.true.))
+  end program demo_pad
 
-	  string='abcdefghij'
-
-	  write(*,*)'pad on right till 20 characters long'
-	  answer=pad(string,20)
-	  write(*,'("[",g0,"]",/)') answer%character()
-
-	  write(*,*)'original is not trimmed for short length requests'
-	  answer=pad(string,5)
-	  write(*,'("[",g0,"]",/)') answer%character()
-
-	  i=30
-	  write(*,*)'pad with specified string and left-justified integers'
-	  write(*,'(1x,g0,1x,i0)') &
-	   & ch(pad(ut('CHAPTER 1 : The beginning '),i,ut('.') )), 1   , &
-	   & ch(pad(ut('CHAPTER 2 : The end '),i,ut('.') )),	   1234, &
-	   & ch(pad(ut('APPENDIX '),i,ut('.') )),		   1235
-
-	  write(*,*)'pad with specified string and right-justified integers'
-	  write(*,'(1x,g0,i7)') &
-	   & ch(pad(ut('CHAPTER 1 : The beginning '),i,ut('.') )), 1   , &
-	   & ch(pad(ut('CHAPTER 2 : The end '),i,ut('.') )),	   1234, &
-	   & ch(pad(ut('APPENDIX '),i,ut('.') )),		   1235
-
-	  write(*,*)'pad on left with zeros'
-	  write(*,u)ch(pad(ut('12'),5,ut('0'),right=.false.))
-
-	  write(*,*)'various lengths with clip .true. and .false.'
-	  write(*,u)ch(pad(ut('12345 '),30,ut('_'),right=.false.))
-	  write(*,u)ch(pad(ut('12345 '),30,ut('_'),right=.false.,clip=.true.))
-	  write(*,u)ch(pad(ut('12345 '), 7,ut('_'),right=.false.))
-	  write(*,u)ch(pad(ut('12345 '), 7,ut('_'),right=.false.,clip=.true.))
-	  write(*,u)ch(pad(ut('12345 '), 6,ut('_'),right=.false.))
-	  write(*,u)ch(pad(ut('12345 '), 6,ut('_'),right=.false.,clip=.true.))
-	  write(*,u)ch(pad(ut('12345 '), 5,ut('_'),right=.false.))
-	  write(*,u)ch(pad(ut('12345 '), 5,ut('_'),right=.false.,clip=.true.))
-	  write(*,u)ch(pad(ut('12345 '), 4,ut('_'),right=.false.))
-	  write(*,u)ch(pad(ut('12345 '), 4,ut('_'),right=.false.,clip=.true.))
-      end program demo_pad
-
-  Results:
+    Results:
 
      >	pad on right till 20 characters long
      > [abcdefghij	    ]
@@ -1788,11 +1804,11 @@ AUTHOR
 
 LICENSE
    MIT
-			       October 19, 2025 	       pad(3m_unicode)
+			       October 25, 2025 	       pad(3m_unicode)
 readline(3m_unicode)					  readline(3m_unicode)
 
 NAME
-  readline(3f) - [M_unicode:READ] read a line from specified LUN into string
+  READLINE(3f) - [M_unicode:READ] read a line from specified LUN into string
   up to line length limit (LICENSE:MIT)
 
 SYNTAX
@@ -1835,23 +1851,31 @@ EXAMPLE
       program demo_readline
       use,intrinsic :: iso_fortran_env, only : stdin=>input_unit
       use,intrinsic :: iso_fortran_env, only : iostat_end
-      use M_unicode, only : readline, assignment(=)
-      use M_unicode, only : ch=>character, ut=>unicode_type
+      use M_unicode, only : readline, len, trim
+      use M_unicode, only : assignment(=), ch=>character, ut=>unicode_type
       implicit none
       type(ut)			   :: line
+      character(len=:),allocatable :: aline
+      integer,allocatable	   :: ints(:)
       integer			   :: iostat
 	 open(unit=stdin,pad='yes')
-
+	 !
 	 INFINITE: do
 	    line=readline(iostat=iostat)
 	    if(iostat.ne.0)exit
-	    write(*,'(a)')'['//ch(line)//']'
+	    ! write the length, line in brackets and its Unicode codepoints
+	    write(*,'(*(g0,1x))')len(line),'['//ch(line)//']',line%codepoint()
+	    ! or assign the string to an allocatable array of integers
+	    ints=line
+	    ! and the string to a character variable
+	    aline=line
+	    write(*,'(*(g0,1x))')len(line),'['//ch(line)//']',ints
 	 enddo INFINITE
-
+	 !
 	 if(iostat /= iostat_end)then
-	    write(*,*)'error reading input:',trim(line%character())
+	    write(*,*)'error reading input:',ch(trim(line))
 	 endif
-
+	 !
       end program demo_readline
 
 AUTHOR
@@ -1859,97 +1883,45 @@ AUTHOR
 
 LICENSE
    MIT
-			       October 19, 2025 	  readline(3m_unicode)
-repeat(3m_unicode)					    repeat(3m_unicode)
-
-NAME
-  repeat(3) - [M_unicode] repeated string concatenation
-
-SYNOPSIS
-  result = repeat(string, ncopies)
-
-     type(unicode_type) function repeat(string, ncopies)
-
-      type(unicode_type),intent(in) :: string
-      integer,intent(in)	    :: ncopies
-
-CHARACTERISTICS
-  •  string is a scalar string type.
-
-  •  ncopies is a scalar integer.
-
-  •  the result is a new scalar of type string
-
-DESCRIPTION
-  repeat(3) concatenates copies of a string.
-
-OPTIONS
-  •  string : the input string to repeat
-
-  •  ncopies : number of copies to make of string, greater than or equal to
-     zero (0).
-
-RESULT
-  a new string built up from ncopies copies of string.
-
-EXAMPLES
-  sample program:
-
-     program demo_repeat
-     use M_unicode, only : ut=>unicode_type,repeat,escape, write(formatted)
-     implicit none
-	 write(*,'(DT)') repeat(escape("\u2025*"), 35)
-	 write(*,'(DT)') repeat(ut("_"), 70)	      ! line break
-	 write(*,'(DT)') repeat(ut("1234567890"), 7)  ! number line
-	 write(*,'(DT)') repeat(ut("	     |"), 7)  !
-     end program demo_repeat
-
-  results:
-
-    > ‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*
-    > ______________________________________________________________________
-    > 1234567890123456789012345678901234567890123456789012345678901234567890
-    >	       |	 |	   |	     |	       |	 |	   |
-
-SEE ALSO
-  functions that perform operations on character strings:
-
-  •  elemental: adjustl(3), adjustr(3), index(3), scan(3), verify(3)
-
-  •  non-elemental: len_trim(3), len(3), repeat(3), trim(3)
-
-AUTHOR
-  John S. Urban
-
-LICENSE
-   MIT
-			       October 19, 2025 	    repeat(3m_unicode)
+			       October 25, 2025 	  readline(3m_unicode)
 replace(3m_unicode)					   replace(3m_unicode)
 
 NAME
-  replace(3f) - [M_unicode:EDITING] function replaces one substring for
+  REPLACE(3f) - [M_unicode:EDITING] function replaces one substring for
   another in string (LICENSE:MIT)
 
 SYNOPSIS
   syntax:
 
-	function replace(target,old,new,&
+	function replace(target,old,new,|target,new,start,end,&
 	 & occurrence, &
 	 & repeat, &
 	 & ignorecase, &
 	 & ierr,back) result (newline)
-	character(len=*)		     :: target
-	character(len=*),intent(in),optional :: old
-	character(len=*),intent(in),optional :: new
-	integer,intent(in),optional	     :: occurrence
-	integer,intent(in),optional	     :: repeat
-	logical,intent(in),optional	     :: ignorecase
-	integer,intent(out),optional	     :: changes
-	logical,intent(in),optional	     :: back
-	character(len=:),allocatable	     :: newline
+
+	type(unicode_type)|character(len=*),intent(in) :: target
+
+	type(unicode_type)|character(len=*),intent(in) :: old
+	type(unicode_type)|character(len=*),intent(in) :: new
+	    or
+	type(unicode_type)|character(len=*),intent(in) :: new
+	integer, intent(in) :: start
+	integer, intent(in) :: end
+
+	integer,intent(in),optional	       :: occurrence
+	integer,intent(in),optional	       :: repeat
+	logical,intent(in),optional	       :: ignorecase
+	integer,intent(out),optional	       :: changes
+	logical,intent(in),optional	       :: back
+	character(len=:),allocatable	       :: newline
+
+CHARACTERISTICS
+  •  TARGET,OLD and NEW may be a string or a character variable.
 
 DESCRIPTION
-  Replace old substring with new value in string.
+  Replace old substring with new value in string. Either a old and new string
+  is specified, or a new string and a column range indicating the position of
+  the text to replace is specified.
 
 OPTIONS
   target
@@ -1960,6 +1932,12 @@ OPTIONS
 
   new
     new substring
+
+  start
+    starting column of text to replace
+
+  end
+    ending column of text to replace
 
    KEYWORD REQUIRED
   occurrence
@@ -1992,44 +1970,44 @@ EXAMPLES
      use M_unicode, only : write(formatted)
      implicit none
      type(unicode_type) :: line
-     !!
+     !
      write(*,'(DT)') &
      & replace(ut('Xis is Xe string'),ut('X'),ut('th') )
      write(*,'(DT)') &
      & replace(ut('Xis is xe string'),ut('x'),ut('th'),ignorecase=.true.)
      write(*,'(DT)') &
      & replace(ut('Xis is xe string'),ut('X'),ut('th'),ignorecase=.false.)
-     !!
+     !
      ! a null old substring means "at beginning of line"
      write(*,'(DT)') &
      & replace(ut('my line of text'),ut(''),ut('BEFORE:'))
-     !!
+     !
      ! a null new string deletes occurrences of the old substring
      write(*,'(DT)') replace(ut('I wonder i ii iii'),ut('i'),ut(''))
-     !!
+     !
      ! Examples of the use of RANGE
-     !!
+     !
      line=replace(ut('aaaaaaaaa'),ut('a'),ut('A'),occurrence=1,repeat=1)
      write(*,*)'replace first a with A ['//line%character()//']'
-     !!
+     !
      line=replace(ut('aaaaaaaaa'),ut('a'),ut('A'),occurrence=3,repeat=3)
      write(*,*)'replace a with A for 3rd to 5th occurrence [' &
      & //line%character()//']'
-     !!
+     !
      line=replace(ut('ababababa'),ut('a'),ut(''),occurrence=3,repeat=3)
      write(*,*)'replace a with null instances 3 to 5 ['// &
      & line%character()//']'
-     !!
+     !
      line=replace( &
       & ut('a b ab baaa aaaa aa aa a a a aa aaaaaa'),&
       & ut('aa'),ut('CCCC'),occurrence=-1,repeat=1)
      write(*,*)'replace lastaa with CCCC ['//line%character()//']'
-     !!
+     !
      write(*,'(DT)')replace(ut('myf90stuff.f90.f90'),&
      & ut('f90'),ut('for'),occurrence=-1,repeat=1)
      write(*,'(DT)')replace(ut('myf90stuff.f90.f90'),&
      & ut('f90'),ut('for'),occurrence=-2,repeat=2)
-     !!
+     !
      end program demo_replace
 
   Results:
@@ -2051,12 +2029,12 @@ AUTHOR
 
 LICENSE
    MIT
-			       October 19, 2025 	   replace(3m_unicode)
+			       October 25, 2025 	   replace(3m_unicode)
 scan(3m_unicode)					      scan(3m_unicode)
 
 NAME
-  SCAN(3) - [M_unicode:SEARCH] Scan a string for the presence of a set of
-  characters
+  SCAN(3f) - [M_unicode:SEARCH] Scan a string for the presence of a set of
+  characters (LICENSE:MIT)
 
 SYNOPSIS
   result = scan( string, set, [,back] )
@@ -2112,17 +2090,45 @@ EXAMPLES
   Sample program:
 
      program demo_scan
+     use iso_fortran_env, only : stdout => output_unit
+     use M_unicode,	  only : scan, unicode_type, assignment(=)
+     use M_unicode,	  only : ut=>unicode_type
      implicit none
+     character(len=*),parameter :: g='(*(g0,1x))'
+     type(ut)			:: line
+     type(ut)			:: set
+	!
 	write(*,*) scan("fortran", "ao")	  ! 2, found ’o’
 	write(*,*) scan("fortran", "ao", .true.)  ! 6, found ’a’
 	write(*,*) scan("fortran", "c++")	  ! 0, found none
+	!
+	line='parsley😃sage😃rosemary😃😃thyme'
+	set='😃'
+	write(stdout,g) '12345678901234567890123456789012345678901234567890'
+	write(stdout,g) line%character()
+	write(stdout,g) scan(line, set)
+	write(stdout,g) scan(line, set, back=.true.)
+	write(stdout,g) scan(line, set, back=.false.)
+	write(stdout,g) scan(line, unicode_type("NOT"))
+	write(stdout,g) 'OOP'
+	write(stdout,g) line%scan(set)
+	write(stdout,g) line%scan(ut("o"))
      end program demo_scan
 
   Results:
 
-     > 2
-     > 6
-     > 0
+      > 	   2
+      > 	   6
+      > 	   0
+      > 12345678901234567890123456789012345678901234567890
+      > parsley😃sage😃rosemary😃😃thyme
+      > 8
+      > 23
+      > 8
+      > 0
+      > OOP
+      > 8
+      > 15
 
 SEE ALSO
   Functions that perform operations on character strings, return lengths of
@@ -2137,11 +2143,11 @@ AUTHOR
 
 LICENSE
    MIT
-			       October 19, 2025 	      scan(3m_unicode)
+			       October 25, 2025 	      scan(3m_unicode)
 sort(3m_unicode)					      sort(3m_unicode)
 
 NAME
-  sort(3f) - [M_unicode:SORT:QUICKSORT] indexed hybrid quicksort of an array
+  SORT(3f) - [M_unicode:SORT] indexed hybrid quicksort of an array
   (LICENSE:MIT)
 
 SYNOPSIS
@@ -2208,36 +2214,36 @@ EXAMPLES
      use iso_fortran_env, only : stdout => output_unit
      use M_unicode,	  only : sort, unicode_type, assignment(=)
      use M_unicode,	  only : ut=>unicode_type, write(formatted)
+     use M_unicode,	  only : ch=>character
      implicit none
      character(len=*),parameter :: g='(*(g0,1x))'
-     character(len=*),parameter :: dt='(*(dt,1x))'
+     character(len=*),parameter :: u='(*(DT,1x))'
      integer,parameter		:: isz=4
      type(unicode_type) 	:: rr(isz)
      integer			:: ii(isz)
      integer			:: i
-
+	!
 	write(stdout,g)'sort array with sort(3f)'
 	rr=[ &
 	 ut("the"),   &
 	 ut("quick"), &
 	 ut("brown"), &
 	 ut("fox") ]
-
+	!
 	write(stdout,g)'original order'
-	write(stdout,dt)rr
-
+	write(stdout,g)ch(rr)
+	!
 	call sort(rr,ii)
-
+	!
 	write(stdout,g)'sorted order'
 	! convert to character
 	do i=1,size(rr)
 	   write(stdout,'(i3.3,1x,a)')i,rr(ii(i))%character()
 	enddo
-
+	!
 	write(stdout,g)'reorder original'
 	rr=rr(ii)
-	write(stdout,dt)rr
-
+	write(stdout,g)ch(rr)
      end program demo_sort
 
   Results:
@@ -2258,11 +2264,12 @@ AUTHOR
 
 LICENSE
    MIT
-			       October 19, 2025 	      sort(3m_unicode)
+			       October 25, 2025 	      sort(3m_unicode)
 split(3m_unicode)					     split(3m_unicode)
 
 NAME
-  split(3) - [M_unicode:SPLIT] parse a string into tokens, one at a time.
+  SPLIT(3f) - [M_unicode:PARSE] parse a string into tokens, one at a time.
+  (LICENSE:MIT)
 
 SYNOPSIS
   call split (string, set, pos [, back])
@@ -2346,9 +2353,9 @@ EXAMPLE
      integer			:: last
      integer			:: pos
      integer			:: i
-
+	!
 	delims= '=|; '
-
+	!
 	proverb="Más vale pájaro en mano, que ciento volando."
 	call printwords(proverb)
 
@@ -2358,11 +2365,10 @@ EXAMPLE
 	 ut("転んでもまた立ち上がる。"), &
 	 ut("くじけずに前を向いて歩いていこう。")]
 	call printwords(array)
-
+	!
 	write(stdout,g)'OOP'
 	array=proverb%split(ut(' '))
 	write(stdout,'(*(:"[",a,"]"))')(character(array(i)),i=1,size(array))
-
      contains
      impure elemental subroutine printwords(line)
      type(ut),intent(in) :: line
@@ -2375,7 +2381,6 @@ EXAMPLE
 	    print g, line%character(first,last),first,last,pos
 	end do
      end subroutine printwords
-
      end program demo_split
 
   Results:
@@ -2410,16 +2415,92 @@ SEE ALSO
      not appear in a given set of characters.
 
 AUTHOR
+  Milan Curcic, "milancurcic@hey.com" John S. Urban -- UTF-8 version
+
+LICENSE
+   MIT
+			       October 25, 2025 	     split(3m_unicode)
+sub(3m_unicode) 					       sub(3m_unicode)
+
+NAME
+  SUB(3f) - [M_unicode:EDITING] Return substring (LICENSE:MIT)
+
+SYNOPSIS
+  function sub(str,left,right,step) result(section)
+
+      type(unicode_type)	  :: str
+      integer,intent(in),optional :: left
+      integer,intent(in),optional :: right
+      integer,intent(in),optional :: step
+
+DESCRIPTION
+  sub(3f) returns a substring from one column to another.
+
+OPTIONS
+  str
+    the input string to return a section of
+
+  left
+    column number of str starting section of str to return.  Defaults to 1
+    when STEP is positive, or right end of STR when STEP is negative.
+
+  right
+    column number of str ending section of str to return.  Defaults to right
+    end of STR when STEP is positive, or 1 when STEP is negative.
+
+  step
+    step to take from left column to right column.  Defaults to 1.
+
+RETURNS
+  out
+    The specified subsection of the input string
+
+EXAMPLES
+  Sample Program:
+
+      program demo_sub
+       use M_unicode, only : sub, assignment(=)
+       use M_unicode, only : len
+       use M_unicode, only : ut=> unicode_type
+       implicit none
+       type(ut) 		  :: string
+       type(ut) 		  :: piece
+       integer			  :: i
+	  !
+	  string='abcdefghij'
+	  !
+	  piece=sub(string,3,5)
+	  call printme('selected range:')
+	  piece=sub(string,6)
+	  call printme('from character to end:')
+	  piece=sub(string,5,5)
+	  call printme('single character:')
+	  piece=sub(string,step=-1)
+	  call printme('reverse string:')
+       contains
+       subroutine printme(label)
+       character(len=*),intent(in) :: label
+       character(len=*),parameter  :: g='(*(g0))'
+	  write(*,'(a,"[",g0,"]",/)') label, piece%character()
+       end subroutine printme
+       end program demo_sub
+
+  Results:
+
+SEE ALSO
+  adjustl(3f), adjustr(3f), repeat(3f), trim(3f), len_trim(3f), len(3f)
+
+AUTHOR
   John S. Urban
 
 LICENSE
    MIT
-			       October 19, 2025 	     split(3m_unicode)
+			       October 25, 2025 	       sub(3m_unicode)
 ichar(3m_unicode)					     ichar(3m_unicode)
 
 NAME
-  ichar(3) - [M_unicode:CONVERSION] character-to-integer code conversion
-  function
+  ICHAR(3f) - [M_unicode:CONVERSION] character-to-integer code conversion
+  function (LICENSE:MIT)
 
 SYNOPSIS
   result = ichar(c)
@@ -2446,7 +2527,7 @@ OPTIONS
   •  C : The input character to determine the decimal code of.
 
 RESULT
-  The pointcode in the Unicode character set for the character being queried
+  The codepoint in the Unicode character set for the character being queried
   is returned.
 
   The result is the position of C in the Unicode collating sequence, which is
@@ -2463,39 +2544,73 @@ EXAMPLES
   sample program:
 
      program demo_ichar
-     use M_unicode, only : assignment(=)
+     use M_unicode, only : assignment(=),ch=>character
      use M_unicode, only : ut=>unicode_type, write(formatted)
-     use M_unicode, only : ichar, escape
+     use M_unicode, only : ichar, escape, len
      implicit none
+     type(ut)		  :: string
      type(ut),allocatable :: lets(:)
      integer,allocatable  :: ilets(:)
-
-	lets=[ut('😃'),ut(''),ut('👣'),ut(''), &
-	     & ut('🧲'),ut('✔'),ut('🟧'),ut('🟣')]
-	write(*,'(*(DT,1x))')lets
-	ilets=ichar(lets)
-	write(*,'(*(g0,1x))')ilets
+     integer		  :: i
+	!
+	! create a string containing multibyte characters
+	string=[949, 8021, 961, 951, 954, 945, 33] ! eureka
+	write(*,'(*(DT,1x,"(AKA. eureka!)"))')string
+	!
+	! call ichar(3) on each glyph of the string to convert
+	! the string to an array of integer codepoints
+	ilets=[(ichar(string%sub(i,i)),i=1,len(string))]
 	write(*,'(*(z0,1x))')ilets
+	!
+	! note that the %codepoint method is commonly used to
+	! convert a string to an integer array of codepoints
+	write(*,'(*(z0,1x))')string%codepoint()
 
-	! alternatively define LETS with escape codes
-	if(allocated(lets))deallocate(lets)
-	allocate(lets(8)) ! gfortran bug
-	lets=['\U0001F603','\U0001FA77','\U0001F463','\U0001FAD2', &
-	    & '\U0001F9F2','\U00002714','\U0001F7E7','\U0001F7E3']
-	lets=escape(lets)
-	! write as an array
-	write(*,'(*(z0,1x))')ichar(lets)
+	! elemental
+	write(*,'("WRITING ISSUES:")')
+	!
+	! define an array LETS with escape codes with one glyph per element
+	lets=[ut('\U03B5'),ut('\U1F55'),ut('\U03C1'),ut('\U03B7'), &
+	    & ut('\U03BA'),ut('\U03B1'),ut('\U0021')]
+	lets=escape(lets) ! convert escape codes to glyphs
+	!
+	! look at issues with converting to CHARACTER for simple printing
+	!
+	write(*,'("each element is a single glyph ",*(g0,1x))')len(lets)
+	!
+	! notice if you convert to an array of intrinsic CHARACTER type the
+	! strings are all the same length in bytes; but unicode characters
+	! can take various numbers of bytes
+	write(*,'(*(g0,":"))')'CHARACTER array elements have same length',&
+	   & len(ch(lets))
+	! this will not appear correctly because all elements are padded to
+	! the same length in bytes
+	write(*,'(*(a,":"))')ch(lets)
+	! one element at a time will retain the size of each element
+	write(*,'(*(a,":"))')(ch(lets(i:i)),i=1,size(lets))
+	!
+	! the FIRST LETTER of each element is converted to a codepoint so
+	! for the special case where each string element is a single glyph
+	! an elemental approach works
+	write(*,'("ELEMENTAL:",*(z0,1x))')ichar(lets)
+
 	! OOPS
-	write(*,'(*(z0,1x))')lets%ichar()
+	write(*,'("OOPS:",*(z0,1x))')lets%ichar()
      end program demo_ichar
 
   results:
 
-     > 😃  👣  🧲 ✔ 🟧 🟣
-     > 128515 129655 128099 129746 129522 10004 128999 128995
-     > 1F603 1FA77 1F463 1FAD2 1F9F2 2714 1F7E7 1F7E3
-     > 1F603 1FA77 1F463 1FAD2 1F9F2 2714 1F7E7 1F7E3
-     > 1F603 1FA77 1F463 1FAD2 1F9F2 2714 1F7E7 1F7E3
+     > Project is up to date
+     > εὕρηκα! (AKA. eureka!)
+     > 3B5 1F55 3C1 3B7 3BA 3B1 21
+     > 3B5 1F55 3C1 3B7 3BA 3B1 21
+     > WRITING ISSUES:
+     > each element is a single glyph 1 1 1 1 1 1 1
+     > CHARACTER array elements have same length:3:
+     > ε :ὕ:ρ :η :κ :α :!  :
+     > ε:ὕ:ρ:η:κ:α:!:
+     > ELEMENTAL:3B5 1F55 3C1 3B7 3BA 3B1 21
+     > OOPS:3B5 1F55 3C1 3B7 3BA 3B1 21
 
 SEE ALSO
   achar(3), char(3), iachar(3)
@@ -2512,14 +2627,12 @@ AUTHOR
 
 LICENSE
    MIT
-			       October 19, 2025 	     ichar(3m_unicode)
+			       October 25, 2025 	     ichar(3m_unicode)
 index(3m_unicode)					     index(3m_unicode)
 
-	      index(3)
-		index(3)
-
 NAME
-  INDEX(3) - [M_unicode:SEARCH] Position of a substring within a string
+  INDEX(3f) - [M_unicode:SEARCH] Position of a substring within a string
+  (LICENSE:MIT)
 
 SYNOPSIS
   result = index( string, substring [,back] [,kind] )
@@ -2541,20 +2654,17 @@ CHARACTERISTICS
   •  KIND is a scalar integer constant expression.
 
 DESCRIPTION
-  INDEX(3)
-    returns  the  position  of the start of the leftmost or rightmost
-    occurrence of string SUBSTRING in STRING, counting from one. If SUBSTRING
-    is not present in STRING, zero is returned.
+  INDEX(3) returns the position of the start of the leftmost or rightmost
+  occurrence of string SUBSTRING in STRING, counting from one. If SUBSTRING is
+  not present in STRING, zero is returned.
 
 OPTIONS
   •  STRING : string to be searched for a match
 
   •  SUBSTRING : string to attempt to locate in STRING
 
-  •  BACK : If the BACK argument is present and true, the return value
-
-     is the start of
-       the  rightmost  occurrence  rather  than  the leftmost.
+  •  BACK : If the BACK argument is present and true, the return value is the
+     start of the rightmost occurrence rather than the leftmost.
 
   •  KIND : if KIND is present, the kind type parameter is that specified by
      the value of KIND; otherwise the kind type parameter is that of default
@@ -2568,11 +2678,9 @@ RESULT
 
   If the substring is not found the result is zero.
 
-  If BACK is .true. the greatest starting position is returned (that is,
-
-  the
-    position  of  the  right‐most  match). Otherwise,  the smallest position
-    starting a match (ie. the left‐most match) is returned.
+  If BACK is .true. the greatest starting position is returned (that is, the
+  position of the right‐most match). Otherwise, the smallest position starting
+  a match (ie. the left‐most match) is returned.
 
   The position returned is measured from the left with the first character of
   STRING being position one.
@@ -2590,29 +2698,29 @@ EXAMPLES
      type(ut)			:: str
      character(len=*),parameter :: all='(*(g0))'
      integer			:: ii
-
+	!
 	str='Huli i kēia kaula no kēia ʻōlelo'
 	!bug!print all, index(str,'kēia').eq.8
 	ii=index(str,'kēia'); print all, ii.eq.8
-
+	!
 	! return value is counted from the left end even if BACK=.TRUE.
 	!bug!print all, index(str,'kēia',back=.true.).eq.22
 	ii=index(str,'kēia',back=.true.); print all, ii.eq.22
-
-	! INDEX is case‐sensitive
+	!
+	! INDEX is case-sensitive
 	!bug!print all, index(str,'Kēia').eq.0
 	ii=index(str,'Kēia'); print all, ii.eq.0
-     !<<<<<<<<<<
-     !ifx bug: ifx (IFX) 2024.1.0 20240308
-     !
-     !example/demo_index.f90(17): error #6766: A binary defined OPERATOR
-     !definition is missing or incorrect.   [EQ]
-     !	      print all, index(str,'k  ia',back=.true.).eq.22
-     !--------------------------------------------------^
-     !Original works with gfortran and flang_new and this works with ifx
-     !	      ii=ndex(str,'k  ia',back=.true.)
-     !	  print all, ii.eq.22
-     !>>>>>>>>>>
+	!<<<<<<<<<<
+	!ifx bug: ifx (IFX) 2024.1.0 20240308
+	!
+	!example/demo_index.f90(17): error #6766: A binary defined OPERATOR
+	!definition is missing or incorrect.   [EQ]
+	!	 print all, index(str,'k  ia',back=.true.).eq.22
+	!--------------------------------------------------^
+	!Original works with gfortran and flang_new and this works with ifx
+	!	 ii=ndex(str,'k  ia',back=.true.)
+	!    print all, ii.eq.22
+	!>>>>>>>>>>
      end program demo_index
 
   Expected Results:
@@ -2637,11 +2745,11 @@ AUTHOR
 
 LICENSE
    MIT
-			       October 19, 2025 	     index(3m_unicode)
+			       October 25, 2025 	     index(3m_unicode)
 join(3m_unicode)					      join(3m_unicode)
 
 NAME
-  join(3f) - [M_unicode:EDITING] append CHARACTER variable array into a single
+  JOIN(3f) - [M_unicode:EDITING] append CHARACTER variable array into a single
   CHARACTER variable with specified separator (LICENSE:MIT)
 
 SYNOPSIS
@@ -2659,7 +2767,7 @@ DESCRIPTION
   string.
 
 OPTIONS
-  STR(:)
+  STR
     array of variables to be joined
 
   SEP
@@ -2687,21 +2795,22 @@ EXAMPLES
      character(len=20),allocatable :: proverb(:)
      type(ut),allocatable	   :: s(:)
      type(ut),allocatable	   :: sep
-
+       !
        proverb=[ character(len=13) :: &
 	 & ' United'	   ,&
 	 & '  we'	   ,&
 	 & '   stand,'	   ,&
 	 & '	divided'   ,&
 	 & '	 we fall.' ]
-
+       !
+       if(allocated(s))deallocate(s)
        allocate(s(size(proverb))) ! avoid GNU Fortran (GCC) 16.0.0 bug
        s=proverb
        write(*,w) 'SIMPLE JOIN: 	', ch( join(s)		      )
        write(*,w) 'JOIN WITH SEPARATOR: ', ch( join(s,sep=ut(' '))    )
        write(*,w) 'CUSTOM SEPARATOR:	', ch( join(s,sep=ut('<-->')) )
        write(*,w) 'NO TRIMMING: 	', ch( join(s,clip=.false.)   )
-
+       !
        sep=ut()
        write(*,w) 'SIMPLE JOIN: 	', ch(sep%join(s) )
        sep=' '
@@ -2714,33 +2823,33 @@ EXAMPLES
 
   Results:
 
-    >SIMPLE JOIN:
-    >Unitedwestand,dividedwe fall.
-    >JOIN WITH SEPARATOR:
-    >United we stand, divided we fall.
-    >CUSTOM SEPARATOR:
-    >United==>we==>stand,==>divided==>we fall.
-    >NO TRIMMING:
-    > United	     we 	    stand,	   divided	  we fall.
-    >SIMPLE JOIN:
-    >Unitedwestand,dividedwe fall.
-    >JOIN WITH SEPARATOR:
-    >United we stand, divided we fall.
-    >CUSTOM SEPARATOR:
-    >United==>we==>stand,==>divided==>we fall.
-    >NO TRIMMING:
-    > United	     we 	    stand,	   divided	  we fall.
+    > SIMPLE JOIN:
+    > Unitedwestand,dividedwe fall.
+    > JOIN WITH SEPARATOR:
+    > United we stand, divided we fall.
+    > CUSTOM SEPARATOR:
+    > United==>we==>stand,==>divided==>we fall.
+    > NO TRIMMING:
+    >  United	      we	     stand,	    divided	   we fall.
+    > SIMPLE JOIN:
+    > Unitedwestand,dividedwe fall.
+    > JOIN WITH SEPARATOR:
+    > United we stand, divided we fall.
+    > CUSTOM SEPARATOR:
+    > United==>we==>stand,==>divided==>we fall.
+    > NO TRIMMING:
+    >  United	      we	     stand,	    divided	   we fall.
 
 AUTHOR
   John S. Urban
 
 LICENSE
    MIT
-			       October 19, 2025 	      join(3m_unicode)
+			       October 25, 2025 	      join(3m_unicode)
 escape(3m_unicode)					    escape(3m_unicode)
 
 NAME
-  escape(3f) - [M_unicode:NONALPHA] expand C-like escape sequences
+  ESCAPE(3f) - [M_unicode:CONVERSION] expand C-like escape sequences
   (LICENSE:MIT)
 
 SYNOPSIS
@@ -2781,109 +2890,104 @@ DESCRIPTION
   the optional parameter ESCAPE.
 
 EXAMPLES
-  Sample Program: program demo_escape ! demonstrate filter to expand C-like
-  escape sequences in input lines use iso_fortran_env, only : stdout =>
-  output_unit
+  Sample Program:
 
-    use M_unicode,
-      only : ut=>unicode_type,ch=>character,len,escape
+     program demo_escape
+     ! demonstrate filter to expand C-like escape sequences in input lines
+     use iso_fortran_env, only : stdout => output_unit
+     use M_unicode,	  only : ut=>unicode_type,ch=>character,len,escape
+     use M_unicode,	  only : assignment(=), trim
+     implicit none
+     type(ut),allocatable  :: poem(:)
+     type(ut)		   :: test(5)
+     integer		   :: i
+	!
+	! “The Crow and the Fox” by Jean de la Fontaine
+	write(stdout,'(a,/)') &
+	'Le Corbeau et le Renard -- Jean de la Fontaine'
+	!
+	poem=[&
+	ut( 'Le Corbeau et le Renard'					),&
+	ut( ''								),&
+	ut( 'Ma\u00EEtre Corbeau, sur un arbre perch\u00E9,'		),&
+	ut( 'Tenait en son bec un fromage.'				),&
+	ut( 'Ma\u00EEtre Renard, par l\u2019odeur all\u00E9ch\u00E9,'	),&
+	ut( 'Lui tint \U000000E0 peu pr\U000000E8s ce langage :'	),&
+	ut( '\U000000ABH\U000000E9 ! bonjour, Monsieur du Corbeau.'	),&
+	ut( 'Que vous \U000000EAtes joli ! que vous me semblez beau !'	),&
+	ut( 'Sans mentir, si votre ramage'				),&
+	ut( 'Se rapporte \U000000E0 votre plumage,'			),&
+	ut( 'Vous \xEAtes le Ph\xE9nix des h\xF4tes de ces bois.\xBB'	),&
+	ut( 'A ces mots le Corbeau ne se sent pas de joie ;'		),&
+	ut( 'Et pour montrer sa belle voix,'				),&
+	ut( 'Il ouvre un large bec, laisse tomber sa proie.'		),&
+	ut( 'Le Renard s\u2019en saisit, et dit : \xABMon bon Monsieur,'),&
+	ut( 'Apprenez que tout flatteur'				),&
+	ut( 'Vit aux d\xE9pens de celui qui l\U00002019\u00E9coute :'	),&
+	ut( 'Cette le\xE7on vaut bien un fromage, sans doute.\xBB'	),&
+	ut( 'Le Corbeau, honteux et confus,'				),&
+	ut( &
+	'Jura, mais un peu tard, qu\u2019on ne l\u2019y prendrait plus.'),&
+	ut( ' -- Jean de la Fontaine')]
+	!
+	poem=escape(poem)
+	write(stdout,'(g0)')ch(poem)
+	!
+	test=[ &
+	 '\e[H\e[2J	      ',& ! home cursor and clear screen
+				  ! on ANSI terminals
+	 '\tABC\tabc	      ',& ! write some tabs in the output
+	 '\tA\a 	      ',& ! ring bell at end if supported
+	 '\nONE\nTWO\nTHREE   ',& ! place one word per line
+	 '\\		      ']
+	test=trim(escape(test))
+	write(*,'(a)')(test(i)%character(),i=1,size(test))
+	!
+     end program demo_escape
 
-    use M_unicode,
-      only : assignment(=), trim implicit none
+  Results (with nonprintable characters shown visible):
 
-    type(ut),allocatable
-      :: poem(:)
-
-    type(ut)
-      :: test(5)
-
-    integer
-      :: i
-
-	  ! “The Crow and the Fox” by Jean de la Fontaine
-	  write(stdout,'(a,/)') &
-	  'Le Corbeau et le Renard -- Jean de la Fontaine'
-
-	  poem=[&
-	  ut( 'Le Corbeau et le Renard' 				  ),&
-	  ut( ''							  ),&
-	  ut( 'Ma\u00EEtre Corbeau, sur un arbre perch\u00E9,'		  ),&
-	  ut( 'Tenait en son bec un fromage.'				  ),&
-	  ut( 'Ma\u00EEtre Renard, par l\u2019odeur all\u00E9ch\u00E9,'   ),&
-	  ut( 'Lui tint \U000000E0 peu pr\U000000E8s ce langage :'	  ),&
-	  ut( '\U000000ABH\U000000E9 ! bonjour, Monsieur du Corbeau.'	  ),&
-	  ut( 'Que vous \U000000EAtes joli ! que vous me semblez beau !'  ),&
-	  ut( 'Sans mentir, si votre ramage'				  ),&
-	  ut( 'Se rapporte \U000000E0 votre plumage,'			  ),&
-	  ut( 'Vous \xEAtes le Ph\xE9nix des h\xF4tes de ces bois.\xBB'   ),&
-	  ut( 'A ces mots le Corbeau ne se sent pas de joie ;'		  ),&
-	  ut( 'Et pour montrer sa belle voix,'				  ),&
-	  ut( 'Il ouvre un large bec, laisse tomber sa proie.'		  ),&
-	  ut( 'Le Renard s\u2019en saisit, et dit : \xABMon bon Monsieur,'),&
-	  ut( 'Apprenez que tout flatteur'				  ),&
-	  ut( 'Vit aux d\xE9pens de celui qui l\U00002019\u00E9coute :'   ),&
-	  ut( 'Cette le\xE7on vaut bien un fromage, sans doute.\xBB'	  ),&
-	  ut( 'Le Corbeau, honteux et confus,'				  ),&
-	  ut( &
-	  'Jura, mais un peu tard, qu\u2019on ne l\u2019y prendrait plus.'),&
-	  ut( ' -- Jean de la Fontaine')]
-
-	  poem=escape(poem)
-	  write(stdout,'(g0)')ch(poem)
-
-	  test=[ &
-	   '\e[H\e[2J		',& ! home cursor and clear screen
-				    ! on ANSI terminals
-	   '\tABC\tabc		',& ! write some tabs in the output
-	   '\tA\a		',& ! ring bell at end if supported
-	   '\nONE\nTWO\nTHREE	',& ! place one word per line
-	   '\\			']
-	  test=trim(escape(test))
-	  write(*,'(a)')(test(i)%character(),i=1,size(test))
-
-    end program demo_escape
-
-     Results (with nonprintable characters shown visible):
-
-	 > ^[[H^[[2J
-	 > ^IABC^Iabc
-	 > ^IA^G
-	 >
-	 > ONE
-	 > TWO
-	 > THREE
-	 > \
+       > ^[[H^[[2J
+       > ^IABC^Iabc
+       > ^IA^G
+       >
+       > ONE
+       > TWO
+       > THREE
+       > \
 
 AUTHOR
   John S. Urban
 
 LICENSE
    MIT
-			       October 19, 2025 	    escape(3m_unicode)
+			       October 25, 2025 	    escape(3m_unicode)
 adjustl(3m_unicode)					   adjustl(3m_unicode)
 
 NAME
-  ADJUSTL(3) - [M_unicode:WHITESPACE] Left-justified a string
+  ADJUSTL(3f) - [M_unicode:WHITESPACE] Left-justified a string (LICENSE:MIT)
 
 SYNOPSIS
   result = adjustl(string,glyphs)
 
-     elemental character(len=len(string),kind=KIND) function adjustl(string)
+     function adjustl(string,glyphs) result(out)
 
-      character(len=*,kind=KIND),intent(in) :: string
-      integer,intent(in),optional	    :: glyphs
+      type(unicode_type),intent(in) :: string
+      integer,intent(in),optional   :: glyphs
+      type(unicode_type)	    :: out
 
 CHARACTERISTICS
-  •  STRING is a character variable of any supported kind
+  •  STRING is a string variable of type(unicode_type)
 
   •  GLYPHS is a default integer
 
-  •  The return value is a character variable of the same kind and length as
-     STRING
+  •  The return value is a string variable of type(unicode_type)
 
 DESCRIPTION
   adjustl(3) will left-justify a string by removing leading spaces. Spaces are
-  inserted at the end of the string as needed.
+  inserted at the end of the string as needed to keep the number of glyphs on
+  output the same as the number on input unless overridden by the GLYPHS
+  parameter.
 
 OPTIONS
   •  STRING : the string to left-justify
@@ -2892,7 +2996,8 @@ OPTIONS
 
 RESULT
   A copy of STRING where leading spaces are removed and the same number of
-  spaces are inserted on the end of STRING.
+  spaces are inserted on the end of STRING unless GLYPHS is specified. Note
+  using GLYPHS can cause in string truncation.
 
 EXAMPLES
   Sample program:
@@ -2907,29 +3012,28 @@ EXAMPLES
      type(ut)			:: usample, uout
      integer			:: istart, iend
      character(len=*),parameter :: adt = '(a,"[",DT,"]")'
-
+      !
       ! basic use
 	usample='   sample string   '
 	write(*,adt) 'original: ',usample
-
+      !
       ! note a string stays the same length
       ! and is not trimmed by just an adjustl(3) call.
 	write(*,adt) 'adjusted: ',adjustl(usample)
-
+      !
       ! a fixed‐length string can be trimmed using trim(3)
 	uout=trim(adjustl(usample))
 	write(*,adt) 'trimmed:	',uout
-
+      !
       ! or alternatively you can select a substring without adjusting
 	istart= max(1,verify(usample, ' ')) ! first non‐blank character
 	iend = len_trim(usample)
 	write(*,adt) 'substring:',usample%sub(istart,iend)
-
+      !
 	write(*,adt) 'substring:',adjustl(usample,30)
 	write(*,adt) 'substring:',adjustl(usample,20)
 	write(*,adt) 'substring:',adjustl(usample,10)
 	write(*,adt) 'substring:',adjustl(usample,0)
-
      end program demo_adjustl
 
   Results:
@@ -2947,4 +3051,68 @@ AUTHOR
 
 LICENSE
    MIT
-			       October 19, 2025 	   adjustl(3m_unicode)
+			       October 25, 2025 	   adjustl(3m_unicode)
+repeat(3m_unicode)					    repeat(3m_unicode)
+
+NAME
+  repeat(3) - [M_unicode] repeated string concatenation
+
+SYNOPSIS
+  result = repeat(string, ncopies)
+
+     type(unicode_type) function repeat(string, ncopies)
+
+      type(unicode_type),intent(in) :: string
+      integer,intent(in)	    :: ncopies
+
+CHARACTERISTICS
+  •  string is a scalar string type.
+
+  •  ncopies is a scalar integer.
+
+  •  the result is a new scalar of type string
+
+DESCRIPTION
+  repeat(3) concatenates copies of a string.
+
+OPTIONS
+  •  string : the input string to repeat
+
+  •  ncopies : number of copies to make of string, greater than or equal to
+     zero (0).
+
+RESULT
+  a new string built up from ncopies copies of string.
+
+EXAMPLES
+  sample program:
+
+     program demo_repeat
+     use M_unicode, only : ut=>unicode_type,repeat,escape, write(formatted)
+     implicit none
+	 write(*,'(DT)') repeat(escape("\u2025*"), 35)
+	 write(*,'(DT)') repeat(ut("_"), 70)	      ! line break
+	 write(*,'(DT)') repeat(ut("1234567890"), 7)  ! number line
+	 write(*,'(DT)') repeat(ut("	     |"), 7)  !
+     end program demo_repeat
+
+  results:
+
+    >‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*
+    >______________________________________________________________________
+    >1234567890123456789012345678901234567890123456789012345678901234567890
+    >	      | 	|	  |	    |	      | 	|	  |
+
+SEE ALSO
+  functions that perform operations on character strings:
+
+  •  elemental: adjustl(3), adjustr(3), index(3), scan(3), verify(3)
+
+  •  non-elemental: len_trim(3), len(3), repeat(3), trim(3)
+
+AUTHOR
+  John S. Urban
+
+LICENSE
+   MIT
+			       October 24, 2025 	    repeat(3m_unicode)
