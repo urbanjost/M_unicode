@@ -56,7 +56,7 @@ a.existingWikiWord[title]{ //border: 1px dashed #BBB; }
 
 </A>
 <BLOCKQUOTE>
-escape(3f) - [M_unicode:NONALPHA] expand C-like escape sequences
+ESCAPE(3f) - [M_unicode:CONVERSION] expand C-like escape sequences
 (LICENSE:MIT)
 <P>
 </BLOCKQUOTE>
@@ -129,40 +129,22 @@ changed using the optional parameter ESCAPE.
 <BLOCKQUOTE>
 <P>
 Sample Program:
-program demo_escape
-! demonstrate filter to expand C-like escape sequences in input lines
-use iso_fortran_env, only : stdout =&gt; output_unit
-<BLOCKQUOTE>
-<TABLE cellpadding=3><!-- tsb: Sample Program:
- -->
-<TR></TR><TR></TR>
-<TR valign=top><TD colspan=2>
-<B>use M_unicode,</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
-only : ut=&gt;unicode_type,ch=&gt;character,len,escape
-</TD></TR>
-<TR valign=top><TD colspan=2>
-<B>use M_unicode,</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
-only : assignment(=), trim
-implicit none
-</TD></TR>
-<TR valign=top><TD colspan=2>
-<B>type(ut),allocatable</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
-:: poem(:)
-</TD></TR>
-<TR valign=top><TD colspan=2>
-<B>type(ut)</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
-:: test(5)
-</TD></TR>
-<TR valign=top><TD colspan=2>
-<B>integer</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
-:: i
-</TD></TR>
-<TR></TR></TABLE><!-- .nf -->
+<P>
 <PRE>
+   program demo_escape
+   ! demonstrate filter to expand C-like escape sequences in input lines
+   use iso_fortran_env, only : stdout =&gt; output_unit
+   use M_unicode,       only : ut=&gt;unicode_type,ch=&gt;character,len,escape
+   use M_unicode,       only : assignment(=), trim
+   implicit none
+   type(ut),allocatable  :: poem(:)
+   type(ut)              :: test(5)
+   integer               :: i
+      !
       ! “The Crow and the Fox” by Jean de la Fontaine
       write(stdout,&#146;(a,/)&#146;) &
       &#146;Le Corbeau et le Renard -- Jean de la Fontaine&#146;
-<P>
+      !
       poem=[&
       ut( &#146;Le Corbeau et le Renard&#146;                                   ),&
       ut( &#146;&#146;                                                          ),&
@@ -186,10 +168,10 @@ implicit none
       ut( &
       &#146;Jura, mais un peu tard, qu\u2019on ne l\u2019y prendrait plus.&#146;),&
       ut( &#146; -- Jean de la Fontaine&#146;)]
-<P>
+      !
       poem=escape(poem)
       write(stdout,&#146;(g0)&#146;)ch(poem)
-<P>
+      !
       test=[ &
        &#146;\e[H\e[2J           &#146;,& ! home cursor and clear screen
                                 ! on ANSI terminals
@@ -199,13 +181,13 @@ implicit none
        &#146;\\                  &#146;]
       test=trim(escape(test))
       write(*,&#146;(a)&#146;)(test(i)%character(),i=1,size(test))
+      !
+   end program demo_escape
 <P>
 </PRE>
-end program demo_escape
+Results (with nonprintable characters shown visible):
 <P>
 <PRE>
- Results (with nonprintable characters shown visible):
-<P>
      &gt; ^[[H^[[2J
      &gt; ^IABC^Iabc
      &gt; ^IA^G
@@ -216,7 +198,6 @@ end program demo_escape
      &gt; \
 <P>
 </PRE>
-</BLOCKQUOTE>
 </BLOCKQUOTE>
 <A name=4>
 

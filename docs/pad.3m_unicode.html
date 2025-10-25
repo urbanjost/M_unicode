@@ -56,7 +56,7 @@ a.existingWikiWord[title]{ //border: 1px dashed #BBB; }
 
 </A>
 <BLOCKQUOTE>
-pad(3f) - [M_unicode:LENGTH] return string padded to at least
+PAD(3f) - [M_unicode:WHITESPACE] return string padded to at least
 specified length
 (LICENSE:MIT)
 <P>
@@ -155,62 +155,62 @@ longer than the requested length.
 Sample Program:
 <P>
 <PRE>
-    program demo_pad
-     use M_unicode, only  : pad, assignment(=)
-     !use M_unicode, only : write(formatted)
-     use M_unicode, only  : len
-     use M_unicode, only  : ch=&gt; character
-     use M_unicode, only  : ut=&gt; unicode_type
-     implicit none
-     type(ut)                   :: string
-     type(ut)                   :: answer
-     integer                    :: i
-     !character(len=*),parameter :: u=&#146;(*(DT))&#146;
-     character(len=*),parameter :: u=&#146;(*(g0))&#146;
-<P>
-        string=&#146;abcdefghij&#146;
-<P>
-        write(*,*)&#146;pad on right till 20 characters long&#146;
-        answer=pad(string,20)
-        write(*,&#146;("[",g0,"]",/)&#146;) answer%character()
-<P>
-        write(*,*)&#146;original is not trimmed for short length requests&#146;
-        answer=pad(string,5)
-        write(*,&#146;("[",g0,"]",/)&#146;) answer%character()
-<P>
-        i=30
-        write(*,*)&#146;pad with specified string and left-justified integers&#146;
-        write(*,&#146;(1x,g0,1x,i0)&#146;) &
-         & ch(pad(ut(&#146;CHAPTER 1 : The beginning &#146;),i,ut(&#146;.&#146;) )), 1   , &
-         & ch(pad(ut(&#146;CHAPTER 2 : The end &#146;),i,ut(&#146;.&#146;) )),       1234, &
-         & ch(pad(ut(&#146;APPENDIX &#146;),i,ut(&#146;.&#146;) )),                  1235
-<P>
-        write(*,*)&#146;pad with specified string and right-justified integers&#146;
-        write(*,&#146;(1x,g0,i7)&#146;) &
-         & ch(pad(ut(&#146;CHAPTER 1 : The beginning &#146;),i,ut(&#146;.&#146;) )), 1   , &
-         & ch(pad(ut(&#146;CHAPTER 2 : The end &#146;),i,ut(&#146;.&#146;) )),       1234, &
-         & ch(pad(ut(&#146;APPENDIX &#146;),i,ut(&#146;.&#146;) )),                  1235
-<P>
-        write(*,*)&#146;pad on left with zeros&#146;
-        write(*,u)ch(pad(ut(&#146;12&#146;),5,ut(&#146;0&#146;),right=.false.))
-<P>
-        write(*,*)&#146;various lengths with clip .true. and .false.&#146;
-        write(*,u)ch(pad(ut(&#146;12345 &#146;),30,ut(&#146;_&#146;),right=.false.))
-        write(*,u)ch(pad(ut(&#146;12345 &#146;),30,ut(&#146;_&#146;),right=.false.,clip=.true.))
-        write(*,u)ch(pad(ut(&#146;12345 &#146;), 7,ut(&#146;_&#146;),right=.false.))
-        write(*,u)ch(pad(ut(&#146;12345 &#146;), 7,ut(&#146;_&#146;),right=.false.,clip=.true.))
-        write(*,u)ch(pad(ut(&#146;12345 &#146;), 6,ut(&#146;_&#146;),right=.false.))
-        write(*,u)ch(pad(ut(&#146;12345 &#146;), 6,ut(&#146;_&#146;),right=.false.,clip=.true.))
-        write(*,u)ch(pad(ut(&#146;12345 &#146;), 5,ut(&#146;_&#146;),right=.false.))
-        write(*,u)ch(pad(ut(&#146;12345 &#146;), 5,ut(&#146;_&#146;),right=.false.,clip=.true.))
-        write(*,u)ch(pad(ut(&#146;12345 &#146;), 4,ut(&#146;_&#146;),right=.false.))
-        write(*,u)ch(pad(ut(&#146;12345 &#146;), 4,ut(&#146;_&#146;),right=.false.,clip=.true.))
-    end program demo_pad
-<P>
+  program demo_pad
+  use M_unicode, only  : pad, assignment(=)
+  !use M_unicode, only : write(formatted)
+  use M_unicode, only  : len
+  use M_unicode, only  : ch=&gt; character
+  use M_unicode, only  : ut=&gt; unicode_type
+  implicit none
+  type(ut)                   :: string
+  type(ut)                   :: answer
+  integer                    :: i
+  !character(len=*),parameter :: u=&#146;(*(DT))&#146;
+  character(len=*),parameter :: u=&#146;(*(g0))&#146;
+    !
+    string=&#146;abcdefghij&#146;
+    !
+    write(*,*)&#146;pad on right till 20 characters long&#146;
+    answer=pad(string,20)
+    write(*,&#146;("[",g0,"]",/)&#146;) answer%character()
+    !
+    write(*,*)&#146;original is not trimmed for short length requests&#146;
+    answer=pad(string,5)
+    write(*,&#146;("[",g0,"]",/)&#146;) answer%character()
+    !
+    i=30
+    write(*,*)&#146;pad with specified string and left-justified integers&#146;
+    write(*,&#146;(1x,g0,1x,i0)&#146;) &
+     & ch(pad(ut(&#146;CHAPTER 1 : The beginning &#146;),i,ut(&#146;.&#146;) )), 1   , &
+     & ch(pad(ut(&#146;CHAPTER 2 : The end &#146;),i,ut(&#146;.&#146;) )),       1234, &
+     & ch(pad(ut(&#146;APPENDIX &#146;),i,ut(&#146;.&#146;) )),                  1235
+    !
+    write(*,*)&#146;pad with specified string and right-justified integers&#146;
+    write(*,&#146;(1x,g0,i7)&#146;) &
+     & ch(pad(ut(&#146;CHAPTER 1 : The beginning &#146;),i,ut(&#146;.&#146;) )), 1   , &
+     & ch(pad(ut(&#146;CHAPTER 2 : The end &#146;),i,ut(&#146;.&#146;) )),       1234, &
+     & ch(pad(ut(&#146;APPENDIX &#146;),i,ut(&#146;.&#146;) )),                  1235
+    !
+    write(*,*)&#146;pad on left with zeros&#146;
+    write(*,u)ch(pad(ut(&#146;12&#146;),5,ut(&#146;0&#146;),right=.false.))
+    !
+    write(*,*)&#146;various lengths with clip .true. and .false.&#146;
+    write(*,u)ch(pad(ut(&#146;12345 &#146;),30,ut(&#146;_&#146;),right=.false.))
+    write(*,u)ch(pad(ut(&#146;12345 &#146;),30,ut(&#146;_&#146;),right=.false.,clip=.true.))
+    write(*,u)ch(pad(ut(&#146;12345 &#146;), 7,ut(&#146;_&#146;),right=.false.))
+    write(*,u)ch(pad(ut(&#146;12345 &#146;), 7,ut(&#146;_&#146;),right=.false.,clip=.true.))
+    write(*,u)ch(pad(ut(&#146;12345 &#146;), 6,ut(&#146;_&#146;),right=.false.))
+    write(*,u)ch(pad(ut(&#146;12345 &#146;), 6,ut(&#146;_&#146;),right=.false.,clip=.true.))
+    write(*,u)ch(pad(ut(&#146;12345 &#146;), 5,ut(&#146;_&#146;),right=.false.))
+    write(*,u)ch(pad(ut(&#146;12345 &#146;), 5,ut(&#146;_&#146;),right=.false.,clip=.true.))
+    write(*,u)ch(pad(ut(&#146;12345 &#146;), 4,ut(&#146;_&#146;),right=.false.))
+    write(*,u)ch(pad(ut(&#146;12345 &#146;), 4,ut(&#146;_&#146;),right=.false.,clip=.true.))
 </PRE>
-Results:
+end program demo_pad
 <P>
 <PRE>
+  Results:
+<P>
    &gt;  pad on right till 20 characters long
    &gt; [abcdefghij          ]
    &gt;

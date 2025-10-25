@@ -56,7 +56,7 @@ a.existingWikiWord[title]{ //border: 1px dashed #BBB; }
 
 </A>
 <BLOCKQUOTE>
-sort(3f) - [M_unicode:SORT:QUICKSORT] indexed hybrid quicksort of
+SORT(3f) - [M_unicode:SORT] indexed hybrid quicksort of
 an array
 (LICENSE:MIT)
 <P>
@@ -181,36 +181,36 @@ Sample usage:
    use iso_fortran_env, only : stdout =&gt; output_unit
    use M_unicode,       only : sort, unicode_type, assignment(=)
    use M_unicode,       only : ut=&gt;unicode_type, write(formatted)
+   use M_unicode,       only : ch=&gt;character
    implicit none
    character(len=*),parameter :: g=&#146;(*(g0,1x))&#146;
-   character(len=*),parameter :: dt=&#146;(*(dt,1x))&#146;
+   character(len=*),parameter :: u=&#146;(*(DT,1x))&#146;
    integer,parameter          :: isz=4
    type(unicode_type)         :: rr(isz)
    integer                    :: ii(isz)
    integer                    :: i
-<P>
+      !
       write(stdout,g)&#146;sort array with sort(3f)&#146;
       rr=[ &
        ut("the"),   &
        ut("quick"), &
        ut("brown"), &
        ut("fox") ]
-<P>
+      !
       write(stdout,g)&#146;original order&#146;
-      write(stdout,dt)rr
-<P>
+      write(stdout,g)ch(rr)
+      !
       call sort(rr,ii)
-<P>
+      !
       write(stdout,g)&#146;sorted order&#146;
       ! convert to character
       do i=1,size(rr)
          write(stdout,&#146;(i3.3,1x,a)&#146;)i,rr(ii(i))%character()
       enddo
-<P>
+      !
       write(stdout,g)&#146;reorder original&#146;
       rr=rr(ii)
-      write(stdout,dt)rr
-<P>
+      write(stdout,g)ch(rr)
    end program demo_sort
 <P>
 </PRE>

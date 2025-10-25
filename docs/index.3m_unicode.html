@@ -50,22 +50,14 @@ a.existingWikiWord[title]{ //border: 1px dashed #BBB; }
 <CENTER>
 <H1><HR><I>Manual Reference Pages &nbsp;-&nbsp;</I><NOBR>index (3m_unicode)</NOBR><HR></H1>
 </CENTER>
-<BLOCKQUOTE>
-<TABLE cellpadding=3><!-- tsb: <H1><HR><I>Manual Reference Pages &nbsp;-&nbsp;</I><NOBR>index (3m_unicode)</NOBR><HR></H1>
- -->
-<TR></TR><TR></TR>
-<TR valign=top><TD colspan=2>
-<B>index(3)</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
-index(3)
-</TD></TR>
-<TR></TR></TABLE></BLOCKQUOTE>
 <A name=0>
 
      <H3>NAME</H3>
 
 </A>
 <BLOCKQUOTE>
-INDEX(3) - [M_unicode:SEARCH] Position of a substring within a string
+INDEX(3f) - [M_unicode:SEARCH] Position of a substring within a string
+(LICENSE:MIT)
 <P>
 </BLOCKQUOTE>
 <A name=contents></A><H3>CONTENTS</H3></A>
@@ -132,14 +124,10 @@ KIND is a scalar integer constant expression.
 
 </A>
 <BLOCKQUOTE>
-<TABLE cellpadding=3>
-<TR valign=top><TD colspan=2>
-<B>INDEX(3)</B> </TD></TR><TR valign=top><TD width=3%>&nbsp;</TD><TD>
-returns  the  position  of the start of the leftmost or
+INDEX(3) returns the position of the start of the leftmost or
 rightmost occurrence of string SUBSTRING in STRING, counting from
 one. If SUBSTRING is not present in STRING, zero is returned.
-</TD></TR>
-<TR></TR></TABLE></BLOCKQUOTE>
+</BLOCKQUOTE>
 <A name=4>
 
      <H3>OPTIONS</H3>
@@ -161,17 +149,10 @@ SUBSTRING : string to attempt to locate in STRING
 o
 </TD><TD>
 BACK : If the BACK argument is present and true, the return value
-<TABLE width=100% cellpadding=3><!-- tsb: BACK : If the BACK argument is present and true, the return value
- -->
-<TR></TR><TR></TR>
-<TR valign=top><TD colspan=2>
-<B>is the start of</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
-the  rightmost  occurrence  rather  than  the
+is the start of the rightmost occurrence rather than the
 leftmost.
 </TD></TR>
-<TR></TR></TABLE><!-- .IP \(bu 3 -->
-</TD></TR>
-<TR valign=top><TD width=6%>
+<TR valign=top><TD width=3%>
 o
 </TD><TD>
 KIND : if KIND is present, the kind type parameter is that specified
@@ -193,15 +174,10 @@ If the length of SUBSTRING is longer than STRING the result is zero.
 If the substring is not found the result is zero.
 <P>
 If BACK is .true. the greatest starting position is returned (that is,
-<TABLE cellpadding=3><!-- tsb: If BACK is .true. the greatest starting position is returned (that is,
- -->
-<TR></TR><TR></TR>
-<TR valign=top><TD width=6% nowrap>
-<B>the</B> </TD><TD valign=bottom>
-position  of  the  right‐most  match). Otherwise,  the smallest
+the position of the right‐most match). Otherwise, the smallest
 position starting a match (ie. the left‐most match) is returned.
-</TD></TR>
-<TR></TR></TABLE>The position returned is measured from the left with the first character
+<P>
+The position returned is measured from the left with the first character
 of STRING being position one.
 <P>
 Otherwise, if no match is found zero is returned.
@@ -223,29 +199,29 @@ Example program
    type(ut)                   :: str
    character(len=*),parameter :: all=&#146;(*(g0))&#146;
    integer                    :: ii
-<P>
+      !
       str=&#146;Huli i kēia kaula no kēia ʻōlelo&#146;
       !bug!print all, index(str,&#146;kēia&#146;).eq.8
       ii=index(str,&#146;kēia&#146;); print all, ii.eq.8
-<P>
+      !
       ! return value is counted from the left end even if BACK=.TRUE.
       !bug!print all, index(str,&#146;kēia&#146;,back=.true.).eq.22
       ii=index(str,&#146;kēia&#146;,back=.true.); print all, ii.eq.22
-<P>
-      ! INDEX is case‐sensitive
+      !
+      ! INDEX is case-sensitive
       !bug!print all, index(str,&#146;Kēia&#146;).eq.0
       ii=index(str,&#146;Kēia&#146;); print all, ii.eq.0
-   !&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
-   !ifx bug: ifx (IFX) 2024.1.0 20240308
-   !
-   !example/demo_index.f90(17): error #6766: A binary defined OPERATOR
-   !definition is missing or incorrect.   [EQ]
-   !        print all, index(str,&#146;k  ia&#146;,back=.true.).eq.22
-   !--------------------------------------------------^
-   !Original works with gfortran and flang_new and this works with ifx
-   !        ii=ndex(str,&#146;k  ia&#146;,back=.true.)
-   !    print all, ii.eq.22
-   !&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+      !&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+      !ifx bug: ifx (IFX) 2024.1.0 20240308
+      !
+      !example/demo_index.f90(17): error #6766: A binary defined OPERATOR
+      !definition is missing or incorrect.   [EQ]
+      !        print all, index(str,&#146;k  ia&#146;,back=.true.).eq.22
+      !--------------------------------------------------^
+      !Original works with gfortran and flang_new and this works with ifx
+      !        ii=ndex(str,&#146;k  ia&#146;,back=.true.)
+      !    print all, ii.eq.22
+      !&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
    end program demo_index
 <P>
 </PRE>

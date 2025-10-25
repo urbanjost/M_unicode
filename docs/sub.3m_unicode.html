@@ -48,7 +48,7 @@ a.existingWikiWord[title]{ //border: 1px dashed #BBB; }
 <div id="Container">
 <div id="Content">
 <CENTER>
-<H1><HR><I>Manual Reference Pages &nbsp;-&nbsp;</I><NOBR>readline (3m_unicode)</NOBR><HR></H1>
+<H1><HR><I>Manual Reference Pages &nbsp;-&nbsp;</I><NOBR>sub (3m_unicode)</NOBR><HR></H1>
 </CENTER>
 <A name=0>
 
@@ -56,33 +56,35 @@ a.existingWikiWord[title]{ //border: 1px dashed #BBB; }
 
 </A>
 <BLOCKQUOTE>
-READLINE(3f) - [M_unicode:READ] read a line from specified LUN into
-string up to line length limit
+SUB(3f) - [M_unicode:EDITING] Return substring
 (LICENSE:MIT)
 <P>
 </BLOCKQUOTE>
 <A name=contents></A><H3>CONTENTS</H3></A>
 <BLOCKQUOTE>
-<A HREF=#1>Syntax</A><BR>
+<A HREF=#1>Synopsis</A><BR>
 <A HREF=#2>Description</A><BR>
 <A HREF=#3>Options</A><BR>
 <A HREF=#4>Returns</A><BR>
-<A HREF=#5>Example</A><BR>
-<A HREF=#6>Author</A><BR>
-<A HREF=#7>License</A><BR>
+<A HREF=#5>Examples</A><BR>
+<A HREF=#6>See Also</A><BR>
+<A HREF=#7>Author</A><BR>
+<A HREF=#8>License</A><BR>
 </BLOCKQUOTE>
-<A name=8>
+<A name=9>
 
-     <H3>SYNTAX</H3>
+     <H3>SYNOPSIS</H3>
 
 </A>
 <BLOCKQUOTE>
-function readline(lun,iostat) result(line)
+<P>
+function sub(str,left,right,step) result(section)
 <P>
 <PRE>
-    integer,intent(in),optional  :: lun
-    integer,intent(out),optional :: iostat
-    type(unicode_type)           :: line
+    type(unicode_type)          :: str
+    integer,intent(in),optional :: left
+    integer,intent(in),optional :: right
+    integer,intent(in),optional :: step
 <P>
 </PRE>
 </BLOCKQUOTE>
@@ -92,20 +94,7 @@ function readline(lun,iostat) result(line)
 
 </A>
 <BLOCKQUOTE>
-Read a line of any length up to programming environment maximum
-line length. Requires Fortran 2003+.
-<P>
-It is primarily expected to be used when reading input which will
-then be parsed.
-<P>
-The input file must have a PAD attribute of YES for the function
-to work properly, which is typically true.
-<P>
-The simple use of a loop that repeatedly re-allocates a character
-variable in addition to reading the input file one buffer at a
-time could (depending on the programming environment used) be
-inefficient, as it could reallocate and allocate memory used for
-the output string with each buffer read.
+sub(3f) returns a substring from one column to another.
 </BLOCKQUOTE>
 <A name=3>
 
@@ -115,14 +104,25 @@ the output string with each buffer read.
 <BLOCKQUOTE>
 <TABLE cellpadding=3>
 <TR valign=top><TD width=6% nowrap>
-<B>LUN</B> </TD><TD valign=bottom>
-optional LUN (Fortran logical I/O unit) number. Defaults
-to stdin.
+<B>str</B> </TD><TD valign=bottom>
+the input string to return a section of
 </TD></TR>
 <TR valign=top><TD width=6% nowrap>
-<B>IOSTAT</B> </TD><TD valign=bottom>
-status returned by READ(IOSTAT=IOS). If not zero, an error
-occurred or an end-of-file or end-of-record was encountered.
+<B>left</B> </TD><TD valign=bottom>
+column number of str starting section of str to return.
+Defaults to 1 when STEP is positive, or right end of
+STR when STEP is negative.
+</TD></TR>
+<TR valign=top><TD width=6% nowrap>
+<B>right</B> </TD><TD valign=bottom>
+column number of str ending section of str to return.
+Defaults to right end of STR when STEP is positive, or
+1 when STEP is negative.
+</TD></TR>
+<TR valign=top><TD width=6% nowrap>
+<B>step</B> </TD><TD valign=bottom>
+step to take from left column to right column.
+Defaults to 1.
 </TD></TR>
 <TR></TR></TABLE></BLOCKQUOTE>
 <A name=4>
@@ -133,54 +133,59 @@ occurred or an end-of-file or end-of-record was encountered.
 <BLOCKQUOTE>
 <TABLE cellpadding=3>
 <TR valign=top><TD width=6% nowrap>
-<B>LINE</B> </TD><TD valign=bottom>
-line read.
-if IOSTAT is not zero, LINE returns the I/O error message.
+<B>out</B> </TD><TD valign=bottom>
+The specified subsection of the input string
 </TD></TR>
 <TR></TR></TABLE></BLOCKQUOTE>
 <A name=5>
 
-     <H3>EXAMPLE</H3>
+     <H3>EXAMPLES</H3>
 
 </A>
 <BLOCKQUOTE>
 <P>
-Sample program:
+Sample Program:
 <P>
 <PRE>
-    program demo_readline
-    use,intrinsic :: iso_fortran_env, only : stdin=&gt;input_unit
-    use,intrinsic :: iso_fortran_env, only : iostat_end
-    use M_unicode, only : readline, len, trim
-    use M_unicode, only : assignment(=), ch=&gt;character, ut=&gt;unicode_type
-    implicit none
-    type(ut)                     :: line
-    character(len=:),allocatable :: aline
-    integer,allocatable          :: ints(:)
-    integer                      :: iostat
-       open(unit=stdin,pad=&#146;yes&#146;)
-       !
-       INFINITE: do
-          line=readline(iostat=iostat)
-          if(iostat.ne.0)exit
-          ! write the length, line in brackets and its Unicode codepoints
-          write(*,&#146;(*(g0,1x))&#146;)len(line),&#146;[&#146;//ch(line)//&#146;]&#146;,line%codepoint()
-          ! or assign the string to an allocatable array of integers
-          ints=line
-          ! and the string to a character variable
-          aline=line
-          write(*,&#146;(*(g0,1x))&#146;)len(line),&#146;[&#146;//ch(line)//&#146;]&#146;,ints
-       enddo INFINITE
-       !
-       if(iostat /= iostat_end)then
-          write(*,*)&#146;error reading input:&#146;,ch(trim(line))
-       endif
-       !
-    end program demo_readline
+    program demo_sub
+     use M_unicode, only : sub, assignment(=)
+     use M_unicode, only : len
+     use M_unicode, only : ut=&gt; unicode_type
+     implicit none
+     type(ut)                   :: string
+     type(ut)                   :: piece
+     integer                    :: i
+        !
+        string=&#146;abcdefghij&#146;
+        !
+        piece=sub(string,3,5)
+        call printme(&#146;selected range:&#146;)
+        piece=sub(string,6)
+        call printme(&#146;from character to end:&#146;)
+        piece=sub(string,5,5)
+        call printme(&#146;single character:&#146;)
+        piece=sub(string,step=-1)
+        call printme(&#146;reverse string:&#146;)
+     contains
+     subroutine printme(label)
+     character(len=*),intent(in) :: label
+     character(len=*),parameter  :: g=&#146;(*(g0))&#146;
+        write(*,&#146;(a,"[",g0,"]",/)&#146;) label, piece%character()
+     end subroutine printme
+     end program demo_sub
 <P>
 </PRE>
+Results:
 </BLOCKQUOTE>
 <A name=6>
+
+     <H3>SEE ALSO</H3>
+
+</A>
+<BLOCKQUOTE>
+adjustl(3f), adjustr(3f), repeat(3f), trim(3f), len_trim(3f), len(3f)
+</BLOCKQUOTE>
+<A name=7>
 
      <H3>AUTHOR</H3>
 
@@ -188,7 +193,7 @@ Sample program:
 <BLOCKQUOTE>
 John S. Urban
 </BLOCKQUOTE>
-<A name=7>
+<A name=8>
 
      <H3>LICENSE</H3>
 
@@ -202,7 +207,7 @@ John S. Urban
 <BLOCKQUOTE>
 </BLOCKQUOTE>
 <P><HR>
-<br><br><center><img src="images/readline.gif"></center>
+<br><br><center><img src="images/sub.gif"></center>
 </div>
 </div>
 </body>

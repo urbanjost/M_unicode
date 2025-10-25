@@ -56,7 +56,7 @@ a.existingWikiWord[title]{ //border: 1px dashed #BBB; }
 
 </A>
 <BLOCKQUOTE>
-join(3f) - [M_unicode:EDITING] append CHARACTER variable array into
+JOIN(3f) - [M_unicode:EDITING] append CHARACTER variable array into
 a single CHARACTER variable with specified separator
 (LICENSE:MIT)
 <P>
@@ -107,7 +107,7 @@ default separator is a null string.
 <BLOCKQUOTE>
 <TABLE cellpadding=3>
 <TR valign=top><TD width=6% nowrap>
-<B>STR(:)</B> </TD><TD valign=bottom>
+<B>STR</B> </TD><TD valign=bottom>
 array of variables to be joined
 </TD></TR>
 <TR valign=top><TD width=6% nowrap>
@@ -154,21 +154,22 @@ Sample program:
    character(len=20),allocatable :: proverb(:)
    type(ut),allocatable          :: s(:)
    type(ut),allocatable          :: sep
-<P>
+     !
      proverb=[ character(len=13) :: &
        & &#146; United&#146;       ,&
        & &#146;  we&#146;          ,&
        & &#146;   stand,&#146;     ,&
        & &#146;    divided&#146;   ,&
        & &#146;     we fall.&#146; ]
-<P>
+     !
+     if(allocated(s))deallocate(s)
      allocate(s(size(proverb))) ! avoid GNU Fortran (GCC) 16.0.0 bug
      s=proverb
      write(*,w) &#146;SIMPLE JOIN:         &#146;, ch( join(s)                )
      write(*,w) &#146;JOIN WITH SEPARATOR: &#146;, ch( join(s,sep=ut(&#146; &#146;))    )
      write(*,w) &#146;CUSTOM SEPARATOR:    &#146;, ch( join(s,sep=ut(&#146;&lt;--&gt;&#146;)) )
      write(*,w) &#146;NO TRIMMING:         &#146;, ch( join(s,clip=.false.)   )
-<P>
+     !
      sep=ut()
      write(*,w) &#146;SIMPLE JOIN:         &#146;, ch(sep%join(s) )
      sep=&#146; &#146;
@@ -183,22 +184,22 @@ Sample program:
 Results:
 <P>
 <PRE>
-  &gt;SIMPLE JOIN:
-  &gt;Unitedwestand,dividedwe fall.
-  &gt;JOIN WITH SEPARATOR:
-  &gt;United we stand, divided we fall.
-  &gt;CUSTOM SEPARATOR:
-  &gt;United==&gt;we==&gt;stand,==&gt;divided==&gt;we fall.
-  &gt;NO TRIMMING:
-  &gt; United         we             stand,         divided        we fall.
-  &gt;SIMPLE JOIN:
-  &gt;Unitedwestand,dividedwe fall.
-  &gt;JOIN WITH SEPARATOR:
-  &gt;United we stand, divided we fall.
-  &gt;CUSTOM SEPARATOR:
-  &gt;United==&gt;we==&gt;stand,==&gt;divided==&gt;we fall.
-  &gt;NO TRIMMING:
-  &gt; United         we             stand,         divided        we fall.
+  &gt; SIMPLE JOIN:
+  &gt; Unitedwestand,dividedwe fall.
+  &gt; JOIN WITH SEPARATOR:
+  &gt; United we stand, divided we fall.
+  &gt; CUSTOM SEPARATOR:
+  &gt; United==&gt;we==&gt;stand,==&gt;divided==&gt;we fall.
+  &gt; NO TRIMMING:
+  &gt;  United         we             stand,         divided        we fall.
+  &gt; SIMPLE JOIN:
+  &gt; Unitedwestand,dividedwe fall.
+  &gt; JOIN WITH SEPARATOR:
+  &gt; United we stand, divided we fall.
+  &gt; CUSTOM SEPARATOR:
+  &gt; United==&gt;we==&gt;stand,==&gt;divided==&gt;we fall.
+  &gt; NO TRIMMING:
+  &gt;  United         we             stand,         divided        we fall.
 <P>
 </PRE>
 </BLOCKQUOTE>

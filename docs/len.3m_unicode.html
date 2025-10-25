@@ -56,7 +56,8 @@ a.existingWikiWord[title]{ //border: 1px dashed #BBB; }
 
 </A>
 <BLOCKQUOTE>
-LEN(3) - [M_unicode] Length of a string
+LEN(3f) - [M_unicode:WHITESPACE] Length of a string
+(LICENSE:MIT)
 <P>
 </BLOCKQUOTE>
 <A name=contents></A><H3>CONTENTS</H3></A>
@@ -80,7 +81,7 @@ LEN(3) - [M_unicode] Length of a string
 result = len(string)
 <P>
 <PRE>
-   elemental integer(kind=KIND) function len(string,KIND)
+   elemental integer function len(string)
 <P>
     type(unicode_type),intent(in) :: string
 <P>
@@ -101,11 +102,6 @@ STRING is a scalar or array character variable
 <TR valign=top><TD width=3%>
 o
 </TD><TD>
-KIND is a scalar integer constant expression.
-</TD></TR>
-<TR valign=top><TD width=3%>
-o
-</TD><TD>
 the returned value is the same integer kind as the KIND argument,
 or of the default integer kind if KIND is not specified.
 </TD></TR>
@@ -116,13 +112,10 @@ or of the default integer kind if KIND is not specified.
 
 </A>
 <BLOCKQUOTE>
-LEN(3) returns the length of a character string.
+LEN(3) returns the length of a type(unicode_type) string.
 <P>
-If STRING is an array, the length of a single element of STRING is
-returned, as all elements of an array are the same length.
-<P>
-Note that STRING need not be defined when this intrinsic is invoked,
-as only the length (not the content) of STRING is needed.
+Note that unlike the intrinsic of the same name STRING needs to be
+defined as the length of each element is not defined until allocated.
 </BLOCKQUOTE>
 <A name=4>
 
@@ -134,14 +127,9 @@ as only the length (not the content) of STRING is needed.
 <TR valign=top><TD width=3%>
 o
 </TD><TD>
-STRING : A scalar or array string to return the length of. If it
+STRING : A scalar or array string to return the length(s) of. If it
 is an unallocated allocatable variable or a pointer that is not
 associated, its length type parameter shall not be deferred.
-</TD></TR>
-<TR valign=top><TD width=3%>
-o
-</TD><TD>
-KIND : A constant indicating the kind parameter of the result.
 </TD></TR>
 <TR></TR></TABLE></BLOCKQUOTE>
 <A name=5>
@@ -151,7 +139,7 @@ KIND : A constant indicating the kind parameter of the result.
 </A>
 <BLOCKQUOTE>
 The result has a value equal to the number of characters in STRING if
-it is scalar or in an element of STRING if it is an array.
+it is scalar or the elements of STRING if it is an array.
 </BLOCKQUOTE>
 <A name=6>
 
@@ -169,32 +157,32 @@ Sample program
    type(ut)             :: string
    type(ut),allocatable :: many_strings(:)
    integer                        :: ii
-    ! BASIC USAGE
-      string=&#146;Noho me ka hau’oli&#146; ! (Be happy.)
-      ii=len(string)
-      write(*,&#146;(DT,*(g0))&#146;)string, &#146; LEN=&#146;, ii
-<P>
-      string=&#146; How long is this allocatable string? &#146;
-      write(*,&#146;(DT,*(g0))&#146;)string, &#146; LEN=&#146;, len(string)
-<P>
-    ! STRINGS IN AN ARRAY MAY BE OF DIFFERENT LENGTHS
-      many_strings = [ ut(&#146;Tom&#146;), ut(&#146;Dick&#146;), ut(&#146;Harry&#146;) ]
-      write(*,&#146;(*(g0,1x))&#146;)&#146;length of elements of array=&#146;,len(many_strings)
-<P>
-      write(*,&#146;(*(g0))&#146;)&#146;length from type parameter inquiry=&#146;,string%len()
-<P>
-    ! LOOK AT HOW A PASSED STRING CAN BE USED &#46;&#46;&#46;
-      call passed(ut(&#146; how long? &#146;))
-<P>
+   ! BASIC USAGE
+     string=&#146;Noho me ka hau’oli&#146; ! (Be happy.)
+     ii=len(string)
+     write(*,&#146;(DT,*(g0))&#146;)string, &#146; LEN=&#146;, ii
+   !
+     string=&#146; How long is this allocatable string? &#146;
+     write(*,&#146;(DT,*(g0))&#146;)string, &#146; LEN=&#146;, len(string)
+   !
+   ! STRINGS IN AN ARRAY MAY BE OF DIFFERENT LENGTHS
+     many_strings = [ ut(&#146;Tom&#146;), ut(&#146;Dick&#146;), ut(&#146;Harry&#146;) ]
+     write(*,&#146;(*(g0,1x))&#146;)&#146;length of elements of array=&#146;,len(many_strings)
+   !
+     write(*,&#146;(*(g0))&#146;)&#146;length from type parameter inquiry=&#146;,string%len()
+   !
+   ! LOOK AT HOW A PASSED STRING CAN BE USED &#46;&#46;&#46;
+     call passed(ut(&#146; how long? &#146;))
+   !
    contains
-<P>
-      subroutine passed(str)
-      type(ut),intent(in) :: str
-         ! you can query the length of the passed variable
-         ! when an interface is present
-         write(*,&#146;(*(g0))&#146;)&#146;length of passed value is &#146;, len(str)
-      end subroutine passed
-<P>
+   !
+   subroutine passed(str)
+   type(ut),intent(in) :: str
+      ! you can query the length of the passed variable
+      ! when an interface is present
+      write(*,&#146;(*(g0))&#146;)&#146;length of passed value is &#146;, len(str)
+   end subroutine passed
+   !
    end program demo_len
 <P>
 </PRE>
@@ -215,23 +203,19 @@ Results:
 
 </A>
 <BLOCKQUOTE>
-len_trim(3), adjustr(3), trim(3), and adjustl(3) are related routines
-that allow you to deal with leading and trailing blanks.
-<P>
-Functions that perform operations on character strings, return lengths
-of arguments, and search for certain arguments:
-<TABLE cellpadding=3><!-- tsb: Functions that perform operations on character strings, return lengths
+functions that perform operations on character strings:
+<TABLE cellpadding=3><!-- tsb: functions that perform operations on character strings:
  -->
 <TR></TR><TR></TR>
 <TR valign=top><TD width=3%>
 o
 </TD><TD>
-ELEMENTAL: ADJUSTL(3), ADJUSTR(3), INDEX(3), SCAN(3), VERIFY(3)
+elemental: adjustl(3), adjustr(3), index(3), scan(3), verify(3)
 </TD></TR>
 <TR valign=top><TD width=3%>
 o
 </TD><TD>
-NONELEMENTAL: LEN_TRIM(3), LEN(3), REPEAT(3), TRIM(3)
+non-elemental: len_trim(3), len(3), repeat(3), trim(3)
 </TD></TR>
 <TR></TR></TABLE></BLOCKQUOTE>
 <A name=8>

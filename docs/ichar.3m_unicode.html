@@ -56,8 +56,9 @@ a.existingWikiWord[title]{ //border: 1px dashed #BBB; }
 
 </A>
 <BLOCKQUOTE>
-ichar(3) - [M_unicode:CONVERSION] character-to-integer code conversion
+ICHAR(3f) - [M_unicode:CONVERSION] character-to-integer code conversion
 function
+(LICENSE:MIT)
 <P>
 </BLOCKQUOTE>
 <A name=contents></A><H3>CONTENTS</H3></A>
@@ -136,7 +137,7 @@ C : The input character to determine the decimal code of.
 
 </A>
 <BLOCKQUOTE>
-The pointcode in the Unicode character set for the character being
+The codepoint in the Unicode character set for the character being
 queried is returned.
 <P>
 The result is the position of C in the Unicode collating sequence,
@@ -159,20 +160,20 @@ sample program:
 <P>
 <PRE>
    program demo_ichar
-   use M_unicode, only : assignment(=)
+   use M_unicode, only : assignment(=),ch=&gt;character
    use M_unicode, only : ut=&gt;unicode_type, write(formatted)
    use M_unicode, only : ichar, escape
    implicit none
    type(ut),allocatable :: lets(:)
    integer,allocatable  :: ilets(:)
-<P>
+      !
       lets=[ut(&#146;😃&#146;),ut(&#146;🩷&#146;),ut(&#146;👣&#146;),ut(&#146;🫒&#146;), &
            & ut(&#146;🧲&#146;),ut(&#146;✔&#146;),ut(&#146;🟧&#146;),ut(&#146;🟣&#146;)]
       write(*,&#146;(*(DT,1x))&#146;)lets
       ilets=ichar(lets)
       write(*,&#146;(*(g0,1x))&#146;)ilets
       write(*,&#146;(*(z0,1x))&#146;)ilets
-<P>
+      !
       ! alternatively define LETS with escape codes
       if(allocated(lets))deallocate(lets)
       allocate(lets(8)) ! gfortran bug
@@ -180,6 +181,7 @@ sample program:
           & &#146;\U0001F9F2&#146;,&#146;\U00002714&#146;,&#146;\U0001F7E7&#146;,&#146;\U0001F7E3&#146;]
       lets=escape(lets)
       ! write as an array
+      write(*,&#146;(*(a,1x))&#146;)ch(lets)
       write(*,&#146;(*(z0,1x))&#146;)ichar(lets)
       ! OOPS
       write(*,&#146;(*(z0,1x))&#146;)lets%ichar()

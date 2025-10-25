@@ -56,7 +56,7 @@ a.existingWikiWord[title]{ //border: 1px dashed #BBB; }
 
 </A>
 <BLOCKQUOTE>
-upper(3f) - [M_unicode:CASE] changes a string to uppercase
+UPPER(3f) - [M_unicode:CASE] changes a string to uppercase
 (LICENSE:MIT)
 <P>
 </BLOCKQUOTE>
@@ -154,27 +154,26 @@ Sample program:
    type(unicode_type)         :: pangram
    type(unicode_type)         :: diacritics
    type(unicode_type)         :: expected
-<P>
+      !
       ! a sentence containing every letter of the English alphabet
       ! often used to test telegraphs since the advent of the 19th century
       ! and as an exercise repetitively generated in typing classes
       pangram  = "The quick brown fox jumps over the lazy dog."
       expected = "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG."
       call test(pangram,expected)
-<P>
+      !
       ! Slovak pangram
       pangram    = &#146;Vypätá dcéra grófa Maxwella s IQ nižším ako &
       &kôň núti čeľaď hrýzť hŕbu jabĺk.&#146;
       expected   = &#146;VYPÄTÁ DCÉRA GRÓFA MAXWELLA S IQ NIŽŠÍM AKO &
       &KÔŇ NÚTI ČEĽAĎ HRÝZŤ HŔBU JABĹK.&#146;
       call test(pangram,expected)
-<P>
+      !
       ! contains each special Czech letter with diacritics exactly once
       print g,&#146;("A horse that was too yellow-ish moaned devilish odes")&#146;
       diacritics = &#146;Příliš žluťoučký kůň úpěl ďábelské ódy.&#146;
       expected   = &#146;PŘÍLIŠ ŽLUŤOUČKÝ KŮŇ ÚPĚL ĎÁBELSKÉ ÓDY.&#146;
       call test(diacritics,expected)
-<P>
    contains
    subroutine test(in,expected)
    type(unicode_type),intent(in) :: in
@@ -186,7 +185,6 @@ Sample program:
       write(stdout,g)uppercase%character()
       write(stdout,g)merge(&#146;PASSED&#146;,&#146;FAILED&#146;,uppercase == expected ),nl
    end subroutine test
-<P>
    end program demo_upper
 <P>
 </PRE>

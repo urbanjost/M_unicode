@@ -18,6 +18,7 @@ append("replace.3m_unicode.html");
 append("scan.3m_unicode.html");
 append("sort.3m_unicode.html");
 append("split.3m_unicode.html");
+append("sub.3m_unicode.html");
 append("tokenize.3m_unicode.html");
 append("trim.3m_unicode.html");
 append("upper.3m_unicode.html");

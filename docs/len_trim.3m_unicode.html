@@ -56,8 +56,9 @@ a.existingWikiWord[title]{ //border: 1px dashed #BBB; }
 
 </A>
 <BLOCKQUOTE>
-len_trim(3) - [M_unicode:WHITESPACE] string length without trailing blank
+LEN_TRIM(3f) - [M_unicode:WHITESPACE] string length without trailing blank
 characters
+(LICENSE:MIT)
 <P>
 </BLOCKQUOTE>
 <A name=contents></A><H3>CONTENTS</H3></A>
@@ -94,64 +95,43 @@ result = len_trim(string [,kind])
 
 </A>
 <BLOCKQUOTE>
-<TABLE cellpadding=3>
-<TR valign=top><TD width=6% nowrap>
-<B>•</B> </TD><TD valign=bottom>
-string is of type character
-</TD></TR>
-<TR valign=top><TD width=6% nowrap>
-<B>•</B> </TD><TD valign=bottom>
-kind  is  a  scalar integer constant expression specifying the kind of the
+• string is of type character
+<P>
+• kind is a scalar integer constant expression specifying the kind of the
 returned value.
-</TD></TR>
-<TR valign=top><TD width=6% nowrap>
-<B>•</B> </TD><TD valign=bottom>
-the return value is of type integer and of kind kind. if kind  is  absent,
+<P>
+• the return value is of type integer and of kind kind. if kind is absent,
 the return value is of default integer kind.
-</TD></TR>
-<TR></TR></TABLE></BLOCKQUOTE>
+</BLOCKQUOTE>
 <A name=3>
 
      <H3>DESCRIPTION</H3>
 
 </A>
 <BLOCKQUOTE>
-<TABLE cellpadding=3>
-<TR valign=top><TD colspan=2>
-<B>len_trim(3)</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
-returns  the length of a character string, ignoring any trailing
+len_trim(3) returns the length of a character string, ignoring any trailing
 blanks.
-</TD></TR>
-<TR></TR></TABLE></BLOCKQUOTE>
+</BLOCKQUOTE>
 <A name=4>
 
      <H3>OPTIONS</H3>
 
 </A>
 <BLOCKQUOTE>
-<TABLE cellpadding=3>
-<TR valign=top><TD width=6% nowrap>
-<B>•</B> </TD><TD valign=bottom>
-string : the input string whose length is to be measured.
-</TD></TR>
-<TR valign=top><TD width=6% nowrap>
-<B>•</B> </TD><TD valign=bottom>
-kind : indicates the kind parameter of the result.
-</TD></TR>
-<TR></TR></TABLE></BLOCKQUOTE>
+• string : the input string whose length is to be measured.
+<P>
+• kind : indicates the kind parameter of the result.
+</BLOCKQUOTE>
 <A name=5>
 
      <H3>RESULT</H3>
 
 </A>
 <BLOCKQUOTE>
-<TABLE cellpadding=3>
-<TR valign=top><TD colspan=2>
-<B>the result equals the number</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
-of  characters  remaining  after  any  trailing
+the result equals the number of characters remaining after any trailing
 blanks in string are removed.
-</TD></TR>
-<TR></TR></TABLE>if the input argument is of zero length or all blanks the result is zero.
+<P>
+if the input argument is of zero length or all blanks the result is zero.
 </BLOCKQUOTE>
 <A name=6>
 
@@ -216,13 +196,11 @@ results:
 
 </A>
 <BLOCKQUOTE>
-<TABLE cellpadding=3>
-<TR valign=top><TD colspan=2>
-<B>functions</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
-that  perform  operations  on character strings, return lengths of
+functions that perform operations on character strings, return lengths of
 arguments, and search for certain arguments:
-</TD></TR>
-<TR></TR></TABLE><TABLE cellpadding=3>
+<TABLE cellpadding=3><!-- tsb: functions that perform operations on character strings, return lengths of
+ -->
+<TR></TR><TR></TR>
 <TR valign=top><TD width=3%>
 o
 </TD><TD>
