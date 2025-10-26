@@ -56,7 +56,7 @@ a.existingWikiWord[title]{ //border: 1px dashed #BBB; }
 
 </A>
 <BLOCKQUOTE>
-repeat(3) - [M_unicode] repeated string concatenation
+REPEAT(3) - [M_unicode:CHARACTER] Repeated string concatenation
 <P>
 </BLOCKQUOTE>
 <A name=contents></A><H3>CONTENTS</H3></A>
@@ -67,11 +67,10 @@ repeat(3) - [M_unicode] repeated string concatenation
 <A HREF=#4>Options</A><BR>
 <A HREF=#5>Result</A><BR>
 <A HREF=#6>Examples</A><BR>
-<A HREF=#7>See Also</A><BR>
-<A HREF=#8>Author</A><BR>
-<A HREF=#9>License</A><BR>
+<A HREF=#7>Standard</A><BR>
+<A HREF=#8>See Also</A><BR>
 </BLOCKQUOTE>
-<A name=10>
+<A name=9>
 
      <H3>SYNOPSIS</H3>
 
@@ -82,8 +81,8 @@ result = repeat(string, ncopies)
 <PRE>
    type(unicode_type) function repeat(string, ncopies)
 <P>
-    type(unicode_type),intent(in) :: string
-    integer,intent(in)            :: ncopies
+    type(unicode_type),intent(in)   :: string
+    integer(kind=**),intent(in)   :: ncopies
 <P>
 </PRE>
 </BLOCKQUOTE>
@@ -93,21 +92,22 @@ result = repeat(string, ncopies)
 
 </A>
 <BLOCKQUOTE>
+<P>
 <TABLE cellpadding=3>
 <TR valign=top><TD width=3%>
 o
 </TD><TD>
-string is a scalar string type.
+STRING is a scalar string of type(unicode_type).
 </TD></TR>
 <TR valign=top><TD width=3%>
 o
 </TD><TD>
-ncopies is a scalar integer.
+NCOPIES is a scalar integer.
 </TD></TR>
 <TR valign=top><TD width=3%>
 o
 </TD><TD>
-the result is a new scalar of type string
+the result is a new scalar string of type type(unicode_type)
 </TD></TR>
 <TR></TR></TABLE></BLOCKQUOTE>
 <A name=3>
@@ -116,7 +116,7 @@ the result is a new scalar of type string
 
 </A>
 <BLOCKQUOTE>
-repeat(3) concatenates copies of a string.
+REPEAT(3) concatenates copies of a string.
 </BLOCKQUOTE>
 <A name=4>
 
@@ -128,13 +128,13 @@ repeat(3) concatenates copies of a string.
 <TR valign=top><TD width=3%>
 o
 </TD><TD>
-string : the input string to repeat
+STRING : The input string to repeat
 </TD></TR>
 <TR valign=top><TD width=3%>
 o
 </TD><TD>
-ncopies : number of copies to make of string, greater than or
-equal to zero (0).
+NCOPIES : Number of copies to make of STRING, greater than or equal to
+zero (0).
 </TD></TR>
 <TR></TR></TABLE></BLOCKQUOTE>
 <A name=5>
@@ -143,7 +143,7 @@ equal to zero (0).
 
 </A>
 <BLOCKQUOTE>
-a new string built up from ncopies copies of string.
+A new string built up from NCOPIES copies of STRING.
 </BLOCKQUOTE>
 <A name=6>
 
@@ -151,70 +151,49 @@ a new string built up from ncopies copies of string.
 
 </A>
 <BLOCKQUOTE>
-sample program:
+Sample program:
 <P>
 <PRE>
-   program demo_repeat
-   use M_unicode, only : ut=&gt;unicode_type,repeat,escape, write(formatted)
-   implicit none
+    program demo_repeat
+    use M_unicode, only : ut=&gt;unicode_type,repeat,escape,write(formatted)
+    implicit none
        write(*,&#146;(DT)&#146;) repeat(escape("\u2025*"), 35)
        write(*,&#146;(DT)&#146;) repeat(ut("_"), 70)          ! line break
        write(*,&#146;(DT)&#146;) repeat(ut("1234567890"), 7)  ! number line
        write(*,&#146;(DT)&#146;) repeat(ut("         |"), 7)  !
-   end program demo_repeat
-<P>
-</PRE>
-results:
-<P>
-<PRE>
-  &gt;‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*‥*
-  &gt;______________________________________________________________________
-  &gt;1234567890123456789012345678901234567890123456789012345678901234567890
-  &gt;         |         |         |         |         |         |         |
+    end program demo_repeat
 <P>
 </PRE>
 </BLOCKQUOTE>
 <A name=7>
 
+     <H3>STANDARD</H3>
+
+</A>
+<BLOCKQUOTE>
+Fortran 95
+</BLOCKQUOTE>
+<A name=8>
+
      <H3>SEE ALSO</H3>
 
 </A>
 <BLOCKQUOTE>
-functions that perform operations on character strings:
-<TABLE cellpadding=3><!-- tsb: functions that perform operations on character strings:
+Functions that perform operations on character strings:
+<TABLE cellpadding=3><!-- tsb: Functions that perform operations on character strings:
  -->
 <TR></TR><TR></TR>
 <TR valign=top><TD width=3%>
 o
 </TD><TD>
-elemental: adjustl(3), adjustr(3), index(3), scan(3), verify(3)
+ELEMENTAL: ADJUSTL(3), ADJUSTR(3), INDEX(3), SCAN(3), VERIFY(3)
 </TD></TR>
 <TR valign=top><TD width=3%>
 o
 </TD><TD>
-non-elemental: len_trim(3), len(3), repeat(3), trim(3)
+NON-ELEMENTAL: LEN_TRIM(3), LEN(3), REPEAT(3), TRIM(3)
 </TD></TR>
-<TR></TR></TABLE></BLOCKQUOTE>
-<A name=8>
-
-     <H3>AUTHOR</H3>
-
-</A>
-<BLOCKQUOTE>
-John S. Urban
-</BLOCKQUOTE>
-<A name=9>
-
-     <H3>LICENSE</H3>
-
-</A>
-<BLOCKQUOTE>
-</BLOCKQUOTE>
-<A name=>
-
-    <H4>&nbsp; &nbsp; MIT</H4>
-</A>
-<BLOCKQUOTE>
+<TR></TR></TABLE>Fortran descriptions (license: MIT) @urbanjost
 </BLOCKQUOTE>
 <P><HR>
 <br><br><center><img src="images/repeat.gif"></center>

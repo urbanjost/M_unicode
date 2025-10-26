@@ -1,6 +1,6 @@
      program demo_len
-     use m_unicode, only : assignment(=), ut=>unicode_type, len
-     use m_unicode, only : write(formatted)
+     use M_unicode, only : assignment(=), ut=>unicode_type, len
+     use M_unicode, only : write(formatted)
      implicit none
      type(ut)             :: string
      type(ut),allocatable :: many_strings(:)

@@ -2,6 +2,8 @@ function loadthem(){
 append("M_unicode.3m_unicode.html");
 append("adjustl.3m_unicode.html");
 append("adjustr.3m_unicode.html");
+append("character.3m_unicode.html");
+append("codepoints_to_utf8.3m_unicode.html");
 append("escape.3m_unicode.html");
 append("expandtabs.3m_unicode.html");
 append("fmt.3m_unicode.html");
@@ -22,5 +24,6 @@ append("sub.3m_unicode.html");
 append("tokenize.3m_unicode.html");
 append("trim.3m_unicode.html");
 append("upper.3m_unicode.html");
+append("utf8_to_codepoints.3m_unicode.html");
 append("verify.3m_unicode.html");
 }

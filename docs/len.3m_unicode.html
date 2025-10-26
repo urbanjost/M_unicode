@@ -97,13 +97,12 @@ result = len(string)
 <TR valign=top><TD width=3%>
 o
 </TD><TD>
-STRING is a scalar or array character variable
+STRING is a scalar or array string variable
 </TD></TR>
 <TR valign=top><TD width=3%>
 o
 </TD><TD>
-the returned value is the same integer kind as the KIND argument,
-or of the default integer kind if KIND is not specified.
+the returned value is of default INTEGER kind
 </TD></TR>
 <TR></TR></TABLE></BLOCKQUOTE>
 <A name=3>
@@ -115,7 +114,9 @@ or of the default integer kind if KIND is not specified.
 LEN(3) returns the length of a type(unicode_type) string.
 <P>
 Note that unlike the intrinsic of the same name STRING needs to be
-defined as the length of each element is not defined until allocated.
+defined; as the length of each element is not defined until allocated;
+and the KIND parameter is not available for specifying the kind of the
+integer returned.
 </BLOCKQUOTE>
 <A name=4>
 
@@ -127,9 +128,9 @@ defined as the length of each element is not defined until allocated.
 <TR valign=top><TD width=3%>
 o
 </TD><TD>
-STRING : A scalar or array string to return the length(s) of. If it
-is an unallocated allocatable variable or a pointer that is not
-associated, its length type parameter shall not be deferred.
+STRING : A scalar or array string to return the length(s) of in glyph
+counts. If it is an unallocated allocatable variable or a pointer that
+is not associated, its length type parameter shall not be deferred.
 </TD></TR>
 <TR></TR></TABLE></BLOCKQUOTE>
 <A name=5>
@@ -138,7 +139,7 @@ associated, its length type parameter shall not be deferred.
 
 </A>
 <BLOCKQUOTE>
-The result has a value equal to the number of characters in STRING if
+The result has a value equal to the number of glyphs in STRING if
 it is scalar or the elements of STRING if it is an array.
 </BLOCKQUOTE>
 <A name=6>
@@ -151,8 +152,8 @@ Sample program
 <P>
 <PRE>
    program demo_len
-   use m_unicode, only : assignment(=), ut=&gt;unicode_type, len
-   use m_unicode, only : write(formatted)
+   use M_unicode, only : assignment(=), ut=&gt;unicode_type, len
+   use M_unicode, only : write(formatted)
    implicit none
    type(ut)             :: string
    type(ut),allocatable :: many_strings(:)
