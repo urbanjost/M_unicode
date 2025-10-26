@@ -11,7 +11,7 @@
      character(len=1),allocatable :: bytes(:)
      character(len=*),parameter   :: solid='(*(g0))'
      character(len=*),parameter   :: space='(*(g0,1x))'
-     character(len=*),parameter   :: z='(*(z0,1x))'
+     character(len=*),parameter   :: z='(a,*(z0,1x))'
      integer                      :: nerr
      ! BASIC USAGE: SCALAR CHARACTER VARIABLE
        write(*,space)'CODEPOINTS:', codepoints
