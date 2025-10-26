@@ -1,7 +1,7 @@
 adjustl (3m_unicode) - [M_unicode:WHITESPACE] Left-justified a string (LICENSE:MIT)
 adjustr (3m_unicode) - [M_unicode:WHITESPACE] right-justify a string (LICENSE:MIT)
 character (3m_unicode) - [M_unicode:WHITESPACE] convert type(unicode_type) string to a CHARACTER variable (LICENSE:MIT)
-codepoints_to_utf8 (3m_unicode) - [M_unicode:WHITESPACE] convert codepoints to CHARACTER (LICENSE:MIT)
+codepoints_to_utf8 (3m_unicode) - [M_unicode:CONVERSION] convert codepoints to CHARACTER (LICENSE:MIT)
 escape (3m_unicode)  - [M_unicode:CONVERSION] expand C-like escape sequences (LICENSE:MIT)
 expandtabs (3m_unicode) - [M_unicode:WHITESPACE] function to expand tab characters (LICENSE:MIT)
 fmt (3m_unicode)     - [M_unicode:CONVERSION] convert any intrinsic to a string using specified format (LICENSE:MIT)
@@ -23,7 +23,7 @@ sub (3m_unicode)     - [M_unicode:EDITING] Return substring (LICENSE:MIT)
 tokenize (3m_unicode) - [M_unicode:PARSE] Parse a string into tokens. (LICENSE:MIT)
 trim (3m_unicode)    - [M_unicode:WHITESPACE] remove trailing blank characters from a string (LICENSE:MIT)
 upper (3m_unicode)   - [M_unicode:CASE] changes a string to uppercase (LICENSE:MIT)
-utf8_to_codepoints (3m_unicode) - [M_unicode:ENCODING] Convert UTF-8-encoded data to Unicode codepoints (LICENSE:MIT)
+utf8_to_codepoints (3m_unicode) - [M_unicode:CONVERSION] Convert UTF-8-encoded data to Unicode codepoints (LICENSE:MIT)
 verify (3m_unicode)  - [M_unicode:SEARCH] Position of a character in a string of characters that does not appear in a given set of characters. (LICENSE:MIT)
 adjustr(3m_unicode)					   adjustr(3m_unicode)
 
@@ -193,7 +193,7 @@ LICENSE
 codepoints_to_utf8(3m_unicode)			codepoints_to_utf8(3m_unicode)
 
 NAME
-  codepoints_to_utf8(3f) - [M_unicode:WHITESPACE] convert codepoints to
+  CODEPOINTS_TO_UTF8(3f) - [M_unicode:CONVERSION] convert codepoints to
   CHARACTER (LICENSE:MIT)
 
 SYNOPSIS
@@ -248,7 +248,6 @@ EXAMPLES
      character(len=*),parameter   :: space='(*(g0,1x))'
      character(len=*),parameter   :: z='(*(z0,1x))'
      integer			  :: nerr
-     integer			  :: i
      ! BASIC USAGE: SCALAR CHARACTER VARIABLE
        write(*,space)'CODEPOINTS:', codepoints
        write(*,z)'HEXADECIMAL CODEPOINTS:', codepoints
@@ -820,7 +819,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       October 25, 2025 	  len_trim(3m_unicode)
+			       October 26, 2025 	  len_trim(3m_unicode)
 sort(3m_unicode)					      sort(3m_unicode)
 
 NAME
@@ -940,7 +939,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       October 25, 2025 	      sort(3m_unicode)
+			       October 26, 2025 	      sort(3m_unicode)
 split(3m_unicode)					     split(3m_unicode)
 
 NAME
@@ -1095,7 +1094,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       October 25, 2025 	     split(3m_unicode)
+			       October 26, 2025 	     split(3m_unicode)
 sub(3m_unicode) 					       sub(3m_unicode)
 
 NAME
@@ -1169,7 +1168,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       October 25, 2025 	       sub(3m_unicode)
+			       October 26, 2025 	       sub(3m_unicode)
 tokenize(3m_unicode)					  tokenize(3m_unicode)
 
 NAME
@@ -1339,7 +1338,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       October 25, 2025 	  tokenize(3m_unicode)
+			       October 26, 2025 	  tokenize(3m_unicode)
 trim(3m_unicode)					      trim(3m_unicode)
 
 NAME
@@ -1430,7 +1429,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       October 25, 2025 	      trim(3m_unicode)
+			       October 26, 2025 	      trim(3m_unicode)
 upper(3m_unicode)					     upper(3m_unicode)
 
 NAME
@@ -1531,12 +1530,12 @@ AUTHOR
 
 LICENSE
    MIT
-			       October 25, 2025 	     upper(3m_unicode)
+			       October 26, 2025 	     upper(3m_unicode)
 utf8_to_codepoints(3m_unicode)			utf8_to_codepoints(3m_unicode)
 
 NAME
-  utf8_to_codepoints(3f) - [M_unicode:ENCODING] Convert UTF-8-encoded data to
-  Unicode codepoints (LICENSE:MIT)
+  UTF8_TO_CODEPOINTS(3f) - [M_unicode:CONVERSION] Convert UTF-8-encoded data
+  to Unicode codepoints (LICENSE:MIT)
 
 SYNOPSIS
   pure subroutine utf8_to_codepoints_chars(utf8,unicode,nerr)
@@ -1648,7 +1647,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       October 25, 2025 utf8_to_codepoints(3m_unicode)
+			       October 26, 2025 utf8_to_codepoints(3m_unicode)
 verify(3m_unicode)					    verify(3m_unicode)
 
 NAME
@@ -2069,7 +2068,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       October 25, 2025 	    verify(3m_unicode)
+			       October 26, 2025 	    verify(3m_unicode)
 lower(3m_unicode)					     lower(3m_unicode)
 
 NAME
@@ -2170,7 +2169,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       October 25, 2025 	     lower(3m_unicode)
+			       October 26, 2025 	     lower(3m_unicode)
 M_unicode(3m_unicode)					 M_unicode(3m_unicode)
 
 NAME
@@ -2427,7 +2426,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       October 25, 2025 	 M_unicode(3m_unicode)
+			       October 26, 2025 	 M_unicode(3m_unicode)
 pad(3m_unicode) 					       pad(3m_unicode)
 
 NAME
@@ -2564,7 +2563,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       October 25, 2025 	       pad(3m_unicode)
+			       October 26, 2025 	       pad(3m_unicode)
 readline(3m_unicode)					  readline(3m_unicode)
 
 NAME
@@ -2643,7 +2642,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       October 25, 2025 	  readline(3m_unicode)
+			       October 26, 2025 	  readline(3m_unicode)
 repeat(3m_unicode)					    repeat(3m_unicode)
 
 NAME
@@ -2700,7 +2699,7 @@ SEE ALSO
 
   Fortran descriptions (license: MIT) @urbanjost
 
-			       October 25, 2025 	    repeat(3m_unicode)
+			       October 26, 2025 	    repeat(3m_unicode)
 replace(3m_unicode)					   replace(3m_unicode)
 
 NAME
@@ -2846,7 +2845,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       October 25, 2025 	   replace(3m_unicode)
+			       October 26, 2025 	   replace(3m_unicode)
 scan(3m_unicode)					      scan(3m_unicode)
 
 NAME
@@ -2960,7 +2959,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       October 25, 2025 	      scan(3m_unicode)
+			       October 26, 2025 	      scan(3m_unicode)
 expandtabs(3m_unicode)					expandtabs(3m_unicode)
 
 NAME
@@ -3305,11 +3304,11 @@ EXAMPLES
 	!
 	! using this syntax make sure to make the LEN value large enough
 	! that glyphs can take up to four bytes
-	array= ut([ character(len=50) :: &
+	array= ut([ character(len=60) :: &
 	'Confucius never claimed to be a prophet, '	  ,&
 	'but I think he foresaw AI! He said '		  ,&
 	''						  ,&
-	' "学而不思则罔，思而不学则殆"' 	     ,&
+	' "学而不思则罔，思而不学则殆"' 		  ,&
 	'or'						  ,&
 	' (xué ér bù sī zé wǎng, sī ér bù xué zé dài),'   ,&
 	'which is also' 				  ,&
@@ -3344,61 +3343,61 @@ EXAMPLES
 	! for certain effects, subject to font properties such as varying
 	! glyph widths.
 	write(*,'(*("[",g0,"]",/))')(ch(array(i)),i=1,size(array))
-	write(*,'(*("[",g0,"]",/))')(ch(pad(array(i),50)),i=1,size(array))
+	write(*,'(*("[",g0,"]",/))')(ch(pad(array(i),60)),i=1,size(array))
 	!
-  end program demo_character
+     end program demo_character
 
   Results:
 
-   > εὕρηκα!
-   > εὕρηκα!
-   > ρη
-   > !ακηρὕε
-   > εὕρηκα!
-   > [Confucius never claimed to be a prophet,		]
-   > [but I think he foresaw AI! He said		]
-   > [							]
-   > [ "学而不思则罔，思而不学则殆"	   ]
-   > [or						]
-   > [ (xué ér bù sī zé wǎng, sī ér bù xué zé]
-   > [which is also					]
-   > [ "To learn without thinking is to be lost,	]
-   > [ to think without learning is to be in danger".	]
-   >
-   > all elements the same length in BYTES:50
-   > lengths (in glyphs):50 50 50 24 50 39 50 50 50
-   > lengths after trimming (in glyphs):40 34 0 16 2 39 13 42 47
-   > [Confucius never claimed to be a prophet,		]
-   > [but I think he foresaw AI! He said		]
-   > [							]
-   > [ "学而不思则罔，思而不学则殆"	   ]
-   > [or						]
-   > [ (xué ér bù sī zé wǎng, sī ér bù xué zé]
-   > [which is also					]
-   > [ "To learn without thinking is to be lost,	]
-   > [ to think without learning is to be in danger".	]
-   >
-   >
-   > [Confucius never claimed to be a prophet,]
-   > [but I think he foresaw AI! He said]
-   > []
-   > [ "学而不思则罔，思而不学则殆"]
-   > [or]
-   > [ (xué ér bù sī zé wǎng, sī ér bù xué zé dài),]
-   > [which is also]
-   > [ "To learn without thinking is to be lost,]
-   > [ to think without learning is to be in danger".]
-   > [
-   > [Confucius never claimed to be a prophet,		]
-   > [but I think he foresaw AI! He said		]
-   > [							]
-   > ["学而不思则罔，思而不学则殆"				     ]
-   > [or						]
-   > [(xué ér bù sī zé wǎng, sī ér bù xué zé dài),	]
-   > [which is also					]
-   > ["To learn without thinking is to be lost, 	]
-   > [to think without learning is to be in danger".	]
-   > [
+      > εὕρηκα!
+      > εὕρηκα!
+      > ρη
+      > !ακηρὕε
+      > εὕρηκα!
+      > [Confucius never claimed to be a prophet,		     ]
+      > [but I think he foresaw AI! He said			     ]
+      > [							     ]
+      > [ "学而不思则罔，思而不学则殆"			]
+      > [or							     ]
+      > [ (xué ér bù sī zé wǎng, sī ér bù xué zé dài),	 ]
+      > [which is also						     ]
+      > [ "To learn without thinking is to be lost,		     ]
+      > [ to think without learning is to be in danger".	     ]
+      >
+      > all elements the same length in BYTES:60
+      > lengths (in glyphs):60 60 60 34 60 48 60 60 60
+      > lengths after trimming (in glyphs):40 34 0 16 2 45 13 42 47
+      > [Confucius never claimed to be a prophet,		  ]
+      > [but I think he foresaw AI! He said			  ]
+      > [							  ]
+      > [ "学而不思则罔，思而不学则殆"		     ]
+      > [or							  ]
+      > [ (xué ér bù sī zé wǎng, sī ér bù xué zé dài),]
+      > [which is also						  ]
+      > [ "To learn without thinking is to be lost,		  ]
+      > [ to think without learning is to be in danger".	  ]
+      >
+      >
+      > [Confucius never claimed to be a prophet,]
+      > [but I think he foresaw AI! He said]
+      > []
+      > [ "学而不思则罔，思而不学则殆"]
+      > [or]
+      > [ (xué ér bù sī zé wǎng, sī ér bù xué zé dài),]
+      > [which is also]
+      > [ "To learn without thinking is to be lost,]
+      > [ to think without learning is to be in danger".]
+      > [
+      > [Confucius never claimed to be a prophet,		     ]
+      > [but I think he foresaw AI! He said			     ]
+      > [							     ]
+      > ["学而不思则罔，思而不学则殆"					   ]
+      > [or							     ]
+      > [(xué ér bù sī zé wǎng, sī ér bù xué zé dài),		     ]
+      > [which is also						     ]
+      > ["To learn without thinking is to be lost,		     ]
+      > [to think without learning is to be in danger". 	     ]
+      > [
 
 SEE ALSO
   functions that perform operations on character strings:

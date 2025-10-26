@@ -13,7 +13,6 @@
      character(len=*),parameter   :: space='(*(g0,1x))'
      character(len=*),parameter   :: z='(*(z0,1x))'
      integer                      :: nerr
-     integer                      :: i
      ! BASIC USAGE: SCALAR CHARACTER VARIABLE
        write(*,space)'CODEPOINTS:', codepoints
        write(*,z)'HEXADECIMAL CODEPOINTS:', codepoints

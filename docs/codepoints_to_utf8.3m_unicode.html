@@ -56,7 +56,7 @@ a.existingWikiWord[title]{ //border: 1px dashed #BBB; }
 
 </A>
 <BLOCKQUOTE>
-codepoints_to_utf8(3f) - [M_unicode:WHITESPACE] convert codepoints
+CODEPOINTS_TO_UTF8(3f) - [M_unicode:CONVERSION] convert codepoints
 to CHARACTER
 (LICENSE:MIT)
 <P>
@@ -178,7 +178,6 @@ Sample program
    character(len=*),parameter   :: space=&#146;(*(g0,1x))&#146;
    character(len=*),parameter   :: z=&#146;(*(z0,1x))&#146;
    integer                      :: nerr
-   integer                      :: i
    ! BASIC USAGE: SCALAR CHARACTER VARIABLE
      write(*,space)&#146;CODEPOINTS:&#146;, codepoints
      write(*,z)&#146;HEXADECIMAL CODEPOINTS:&#146;, codepoints

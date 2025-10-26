@@ -182,11 +182,11 @@ Sample program
       !
       ! using this syntax make sure to make the LEN value large enough
       ! that glyphs can take up to four bytes
-      array= ut([ character(len=50) :: &
+      array= ut([ character(len=60) :: &
       &#146;Confucius never claimed to be a prophet, &#146;       ,&
       &#146;but I think he foresaw AI! He said &#146;             ,&
       &#146;&#146;                                                ,&
-      &#146; "学而不思则罔，思而不学则殆"&#146;              ,&
+      &#146; "学而不思则罔，思而不学则殆"&#146;                   ,&
       &#146;or&#146;                                              ,&
       &#146; (xué ér bù sī zé wǎng, sī ér bù xué zé dài),&#146;   ,&
       &#146;which is also&#146;                                   ,&
@@ -221,66 +221,66 @@ Sample program
       ! for certain effects, subject to font properties such as varying
       ! glyph widths.
       write(*,&#146;(*("[",g0,"]",/))&#146;)(ch(array(i)),i=1,size(array))
-      write(*,&#146;(*("[",g0,"]",/))&#146;)(ch(pad(array(i),50)),i=1,size(array))
+      write(*,&#146;(*("[",g0,"]",/))&#146;)(ch(pad(array(i),60)),i=1,size(array))
       !
-</PRE>
-end program demo_character
-</BLOCKQUOTE>
+   end program demo_character
 <P>
+</PRE>
 Results:
 <P>
 <PRE>
- &gt; εὕρηκα!
- &gt; εὕρηκα!
- &gt; ρη
- &gt; !ακηρὕε
- &gt; εὕρηκα!
- &gt; [Confucius never claimed to be a prophet,          ]
- &gt; [but I think he foresaw AI! He said                ]
- &gt; [                                                  ]
- &gt; [ "学而不思则罔，思而不学则殆"        ]
- &gt; [or                                                ]
- &gt; [ (xué ér bù sī zé wǎng, sī ér bù xué zé]
- &gt; [which is also                                     ]
- &gt; [ "To learn without thinking is to be lost,        ]
- &gt; [ to think without learning is to be in danger".   ]
- &gt;
- &gt; all elements the same length in BYTES:50
- &gt; lengths (in glyphs):50 50 50 24 50 39 50 50 50
- &gt; lengths after trimming (in glyphs):40 34 0 16 2 39 13 42 47
- &gt; [Confucius never claimed to be a prophet,          ]
- &gt; [but I think he foresaw AI! He said                ]
- &gt; [                                                  ]
- &gt; [ "学而不思则罔，思而不学则殆"        ]
- &gt; [or                                                ]
- &gt; [ (xué ér bù sī zé wǎng, sī ér bù xué zé]
- &gt; [which is also                                     ]
- &gt; [ "To learn without thinking is to be lost,        ]
- &gt; [ to think without learning is to be in danger".   ]
- &gt;
- &gt;
- &gt; [Confucius never claimed to be a prophet,]
- &gt; [but I think he foresaw AI! He said]
- &gt; []
- &gt; [ "学而不思则罔，思而不学则殆"]
- &gt; [or]
- &gt; [ (xué ér bù sī zé wǎng, sī ér bù xué zé dài),]
- &gt; [which is also]
- &gt; [ "To learn without thinking is to be lost,]
- &gt; [ to think without learning is to be in danger".]
- &gt; [
- &gt; [Confucius never claimed to be a prophet,          ]
- &gt; [but I think he foresaw AI! He said                ]
- &gt; [                                                  ]
- &gt; ["学而不思则罔，思而不学则殆"                                   ]
- &gt; [or                                                ]
- &gt; [(xué ér bù sī zé wǎng, sī ér bù xué zé dài),      ]
- &gt; [which is also                                     ]
- &gt; ["To learn without thinking is to be lost,         ]
- &gt; [to think without learning is to be in danger".    ]
- &gt; [
+    &gt; εὕρηκα!
+    &gt; εὕρηκα!
+    &gt; ρη
+    &gt; !ακηρὕε
+    &gt; εὕρηκα!
+    &gt; [Confucius never claimed to be a prophet,                    ]
+    &gt; [but I think he foresaw AI! He said                          ]
+    &gt; [                                                            ]
+    &gt; [ "学而不思则罔，思而不学则殆"                  ]
+    &gt; [or                                                          ]
+    &gt; [ (xué ér bù sī zé wǎng, sī ér bù xué zé dài),   ]
+    &gt; [which is also                                               ]
+    &gt; [ "To learn without thinking is to be lost,                  ]
+    &gt; [ to think without learning is to be in danger".             ]
+    &gt;
+    &gt; all elements the same length in BYTES:60
+    &gt; lengths (in glyphs):60 60 60 34 60 48 60 60 60
+    &gt; lengths after trimming (in glyphs):40 34 0 16 2 45 13 42 47
+    &gt; [Confucius never claimed to be a prophet,                 ]
+    &gt; [but I think he foresaw AI! He said                       ]
+    &gt; [                                                         ]
+    &gt; [ "学而不思则罔，思而不学则殆"               ]
+    &gt; [or                                                       ]
+    &gt; [ (xué ér bù sī zé wǎng, sī ér bù xué zé dài),]
+    &gt; [which is also                                            ]
+    &gt; [ "To learn without thinking is to be lost,               ]
+    &gt; [ to think without learning is to be in danger".          ]
+    &gt;
+    &gt;
+    &gt; [Confucius never claimed to be a prophet,]
+    &gt; [but I think he foresaw AI! He said]
+    &gt; []
+    &gt; [ "学而不思则罔，思而不学则殆"]
+    &gt; [or]
+    &gt; [ (xué ér bù sī zé wǎng, sī ér bù xué zé dài),]
+    &gt; [which is also]
+    &gt; [ "To learn without thinking is to be lost,]
+    &gt; [ to think without learning is to be in danger".]
+    &gt; [
+    &gt; [Confucius never claimed to be a prophet,                    ]
+    &gt; [but I think he foresaw AI! He said                          ]
+    &gt; [                                                            ]
+    &gt; ["学而不思则罔，思而不学则殆"                                      ]
+    &gt; [or                                                          ]
+    &gt; [(xué ér bù sī zé wǎng, sī ér bù xué zé dài),                ]
+    &gt; [which is also                                               ]
+    &gt; ["To learn without thinking is to be lost,                   ]
+    &gt; [to think without learning is to be in danger".              ]
+    &gt; [
 <P>
 </PRE>
+</BLOCKQUOTE>
 <A name=7>
 
      <H3>SEE ALSO</H3>

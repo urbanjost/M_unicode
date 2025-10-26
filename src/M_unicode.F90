@@ -1952,9 +1952,9 @@ contains
 !===================================================================================================================================
 !>
 !!##NAME
-!!   codepoints_to_utf8(3f) - [M_unicode:WHITESPACE] convert codepoints
-!!     to CHARACTER
-!!     (LICENSE:MIT)
+!!   CODEPOINTS_TO_UTF8(3f) - [M_unicode:CONVERSION] convert codepoints
+!!   to CHARACTER
+!!   (LICENSE:MIT)
 !!
 !!##SYNOPSIS
 !!
@@ -2011,7 +2011,6 @@ contains
 !!    character(len=*),parameter   :: space='(*(g0,1x))'
 !!    character(len=*),parameter   :: z='(*(z0,1x))'
 !!    integer                      :: nerr
-!!    integer                      :: i
 !!    ! BASIC USAGE: SCALAR CHARACTER VARIABLE
 !!      write(*,space)'CODEPOINTS:', codepoints
 !!      write(*,z)'HEXADECIMAL CODEPOINTS:', codepoints
@@ -2128,9 +2127,9 @@ end subroutine codepoints_to_utf8_chars
 !===================================================================================================================================
 !>
 !!##NAME
-!!   utf8_to_codepoints(3f) - [M_unicode:ENCODING] Convert UTF-8-encoded
+!!   UTF8_TO_CODEPOINTS(3f) - [M_unicode:CONVERSION] Convert UTF-8-encoded
 !!   data to Unicode codepoints
-!!     (LICENSE:MIT)
+!!   (LICENSE:MIT)
 !!
 !!##SYNOPSIS
 !!
@@ -2711,11 +2710,11 @@ end function len_str
 !!       !
 !!       ! using this syntax make sure to make the LEN value large enough
 !!       ! that glyphs can take up to four bytes
-!!       array= ut([ character(len=50) :: &
+!!       array= ut([ character(len=60) :: &
 !!       'Confucius never claimed to be a prophet, '       ,&
 !!       'but I think he foresaw AI! He said '             ,&
 !!       ''                                                ,&
-!!       ' "学而不思则罔，思而不学则殆"'              ,&
+!!       ' "学而不思则罔，思而不学则殆"'                   ,&
 !!       'or'                                              ,&
 !!       ' (xué ér bù sī zé wǎng, sī ér bù xué zé dài),'   ,&
 !!       'which is also'                                   ,&
@@ -2750,61 +2749,61 @@ end function len_str
 !!       ! for certain effects, subject to font properties such as varying
 !!       ! glyph widths.
 !!       write(*,'(*("[",g0,"]",/))')(ch(array(i)),i=1,size(array))
-!!       write(*,'(*("[",g0,"]",/))')(ch(pad(array(i),50)),i=1,size(array))
+!!       write(*,'(*("[",g0,"]",/))')(ch(pad(array(i),60)),i=1,size(array))
 !!       !
-!!   end program demo_character
+!!    end program demo_character
 !!
-!! Results:
+!!  Results:
 !!
-!!  > εὕρηκα!
-!!  > εὕρηκα!
-!!  > ρη
-!!  > !ακηρὕε
-!!  > εὕρηκα!
-!!  > [Confucius never claimed to be a prophet,          ]
-!!  > [but I think he foresaw AI! He said                ]
-!!  > [                                                  ]
-!!  > [ "学而不思则罔，思而不学则殆"        ]
-!!  > [or                                                ]
-!!  > [ (xué ér bù sī zé wǎng, sī ér bù xué zé]
-!!  > [which is also                                     ]
-!!  > [ "To learn without thinking is to be lost,        ]
-!!  > [ to think without learning is to be in danger".   ]
-!!  >
-!!  > all elements the same length in BYTES:50
-!!  > lengths (in glyphs):50 50 50 24 50 39 50 50 50
-!!  > lengths after trimming (in glyphs):40 34 0 16 2 39 13 42 47
-!!  > [Confucius never claimed to be a prophet,          ]
-!!  > [but I think he foresaw AI! He said                ]
-!!  > [                                                  ]
-!!  > [ "学而不思则罔，思而不学则殆"        ]
-!!  > [or                                                ]
-!!  > [ (xué ér bù sī zé wǎng, sī ér bù xué zé]
-!!  > [which is also                                     ]
-!!  > [ "To learn without thinking is to be lost,        ]
-!!  > [ to think without learning is to be in danger".   ]
-!!  >
-!!  >
-!!  > [Confucius never claimed to be a prophet,]
-!!  > [but I think he foresaw AI! He said]
-!!  > []
-!!  > [ "学而不思则罔，思而不学则殆"]
-!!  > [or]
-!!  > [ (xué ér bù sī zé wǎng, sī ér bù xué zé dài),]
-!!  > [which is also]
-!!  > [ "To learn without thinking is to be lost,]
-!!  > [ to think without learning is to be in danger".]
-!!  > [
-!!  > [Confucius never claimed to be a prophet,          ]
-!!  > [but I think he foresaw AI! He said                ]
-!!  > [                                                  ]
-!!  > ["学而不思则罔，思而不学则殆"                                   ]
-!!  > [or                                                ]
-!!  > [(xué ér bù sī zé wǎng, sī ér bù xué zé dài),      ]
-!!  > [which is also                                     ]
-!!  > ["To learn without thinking is to be lost,         ]
-!!  > [to think without learning is to be in danger".    ]
-!!  > [
+!!     > εὕρηκα!
+!!     > εὕρηκα!
+!!     > ρη
+!!     > !ακηρὕε
+!!     > εὕρηκα!
+!!     > [Confucius never claimed to be a prophet,                    ]
+!!     > [but I think he foresaw AI! He said                          ]
+!!     > [                                                            ]
+!!     > [ "学而不思则罔，思而不学则殆"                  ]
+!!     > [or                                                          ]
+!!     > [ (xué ér bù sī zé wǎng, sī ér bù xué zé dài),   ]
+!!     > [which is also                                               ]
+!!     > [ "To learn without thinking is to be lost,                  ]
+!!     > [ to think without learning is to be in danger".             ]
+!!     >
+!!     > all elements the same length in BYTES:60
+!!     > lengths (in glyphs):60 60 60 34 60 48 60 60 60
+!!     > lengths after trimming (in glyphs):40 34 0 16 2 45 13 42 47
+!!     > [Confucius never claimed to be a prophet,                 ]
+!!     > [but I think he foresaw AI! He said                       ]
+!!     > [                                                         ]
+!!     > [ "学而不思则罔，思而不学则殆"               ]
+!!     > [or                                                       ]
+!!     > [ (xué ér bù sī zé wǎng, sī ér bù xué zé dài),]
+!!     > [which is also                                            ]
+!!     > [ "To learn without thinking is to be lost,               ]
+!!     > [ to think without learning is to be in danger".          ]
+!!     >
+!!     >
+!!     > [Confucius never claimed to be a prophet,]
+!!     > [but I think he foresaw AI! He said]
+!!     > []
+!!     > [ "学而不思则罔，思而不学则殆"]
+!!     > [or]
+!!     > [ (xué ér bù sī zé wǎng, sī ér bù xué zé dài),]
+!!     > [which is also]
+!!     > [ "To learn without thinking is to be lost,]
+!!     > [ to think without learning is to be in danger".]
+!!     > [
+!!     > [Confucius never claimed to be a prophet,                    ]
+!!     > [but I think he foresaw AI! He said                          ]
+!!     > [                                                            ]
+!!     > ["学而不思则罔，思而不学则殆"                                      ]
+!!     > [or                                                          ]
+!!     > [(xué ér bù sī zé wǎng, sī ér bù xué zé dài),                ]
+!!     > [which is also                                               ]
+!!     > ["To learn without thinking is to be lost,                   ]
+!!     > [to think without learning is to be in danger".              ]
+!!     > [
 !!
 !!##SEE ALSO
 !!   functions that perform operations on character strings:

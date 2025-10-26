@@ -24,11 +24,11 @@
         !
         ! using this syntax make sure to make the LEN value large enough
         ! that glyphs can take up to four bytes
-        array= ut([ character(len=50) :: &
+        array= ut([ character(len=60) :: &
         'Confucius never claimed to be a prophet, '       ,&
         'but I think he foresaw AI! He said '             ,&
         ''                                                ,&
-        ' "学而不思则罔，思而不学则殆"'         ,&
+        ' "学而不思则罔，思而不学则殆"'              ,&
         'or'                                              ,&
         ' (xué ér bù sī zé wǎng, sī ér bù xué zé dài),'   ,&
         'which is also'                                   ,&
@@ -63,6 +63,6 @@
         ! for certain effects, subject to font properties such as varying
         ! glyph widths.
         write(*,'(*("[",g0,"]",/))')(ch(array(i)),i=1,size(array))
-        write(*,'(*("[",g0,"]",/))')(ch(pad(array(i),50)),i=1,size(array))
+        write(*,'(*("[",g0,"]",/))')(ch(pad(array(i),60)),i=1,size(array))
         !
-  end program demo_character
+     end program demo_character
