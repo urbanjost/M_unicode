@@ -430,6 +430,8 @@ contains
    ! METHODS (type-bound procedures) :
    ! conversion
    procedure :: character  => oop_character ! a single variable in UTF-8 encoding
+   procedure :: ch         => oop_character ! a single variable in UTF-8 encoding
+
    procedure :: codepoint  => oop_codepoint ! codes of each glyph
    procedure :: byte       => oop_byte      ! stream of bytes in UTF-8 encoding
    procedure :: ichar      => oop_ichar     ! code of a single character
@@ -444,6 +446,7 @@ contains
    procedure :: tokenize   => oop_tokenize
    procedure :: scan       => oop_scan
    procedure :: verify     => oop_verify
+
    ! transform
    procedure :: upper      => oop_upper
    procedure :: lower      => oop_lower
@@ -455,6 +458,9 @@ contains
    procedure :: pad        => oop_pad
    procedure :: join       => oop_join
 
+   procedure,private :: oop_transliterate_uu, oop_transliterate_aa, oop_transliterate_au, oop_transliterate_ua
+   generic, public   :: transliterate => oop_transliterate_uu, oop_transliterate_aa, oop_transliterate_au, oop_transliterate_ua
+
    procedure,private :: oop_replace_uuu
    procedure,private :: oop_replace_uaa
    procedure,private :: oop_replace_uau
@@ -463,6 +469,7 @@ contains
    procedure,private :: oop_section_ua
    generic,public    :: replace => oop_replace_uuu, oop_replace_uaa, oop_replace_uau, oop_replace_uua, &
                       & oop_section_uu, oop_section_ua
+
    generic,public    :: range => oop_section_uu, oop_section_ua
 
    !DECLARATION OF OVERLOADED OPERATORS FOR TYPE(UNICODE_TYPE)
@@ -7123,70 +7130,95 @@ end function section_aa
 ! 
 ! SYNOPSIS
 ! 
-!     pure function transliterate(instr,old_set,new_set) result(outstr)
+!     impure function transliterate(instr,old_set,new_set) result(outstr)
 ! 
-!      type(unicode_type|character(len=*)),intent(in)  :: instr
-!      type(unicode_type|character(len=*)),intent(in)  :: old_set
-!      type(unicode_type|character(len=*)),intent(in)  :: new_set
+!      type(unicode_type),intent(in)  :: instr
+!      type(unicode_type),intent(in)  :: old_set
+!      type(unicode_type),intent(in)  :: new_set
 !      type(unicode_type)             :: outstr
 ! 
+! CHARACTERISTICS
+! 
+!    Although a conversion might occur on each call, the input values
+!    may be CHARACTER as well as TYPE(UNICODE_TYPE).
+! 
 ! DESCRIPTION
-!     Translate, squeeze, and/or delete characters from the input string.
+!    Translate or delete characters from an input string.
+! 
 ! 
 ! OPTIONS
-!     instr    input string to change
-!     old_set  list of glyphs to change in INSTR if found
+!   instr    input string to change
+!   old_set  list of glyphs to change in INSTR if found
 ! 
-!              Each character in the input string that matches a character
-!              in the old set is replaced.
+!            Each glyph in the input string that matches a glyph
+!            in the old set is replaced.
+!   new_set  list of glyphs to replace glyphs in OLD_SET with.
 ! 
-!     new_set  list of glyphs to replace glyphs in OLD_SET with.
+!            If NEW_SET is the empty set glyphs in INSTR that
+!            match any in OLD_SET are deleted.
 ! 
-!              If the new_set is the empty set the matched glyphs
-!              are deleted.
-! 
-!              If the new_set is shorter than the old set the last glyphs
-!              in the new set is used to replace the remaining glyphs
-!              in the new set.
+!            If NEW_SET is shorter than OLD_SET the last glyph
+!            in NEW_SET is used to replace the remaining glyphs
+!            in NEW_SET.
 ! 
 ! RETURNS
-!     outstr   instr with substitutions applied
+!    outstr  INSTR with substitutions applied
 ! 
 ! EXAMPLES
 ! 
-!    Sample Program:
+!   Sample Program:
 ! 
-!     program demo_transliterate
+!    program demo_transliterate
 ! 
-!      use M_unicode, only : transliterate, ut=>unicode_type
-!      use M_unicode, only : write(formatted),ch=>character
-!      implicit none
-!      type(unicode_type)  :: STRING
+!     use M_unicode, only : transliterate,ut=>unicode_type
+!     use M_unicode, only : write(formatted),ch=>character
+!     use M_unicode, only : assignment(=)
+!     implicit none
+!     type(ut)  :: STRING, UPPER, LOWER
 ! 
-!      STRING='aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ'
+!        STRING='aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ'
+!        LOWER='abcdefghijklmnopqrstuvwxyz'
+!        UPPER='ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+!        call callit()
+!        !
+!        ! Greek Alphabet
+!        ! | Α α | Β β | Γ γ | Δ δ | Ε ε | Ζ ζ   |
+!        ! | Η η | Θ θ | Ι ι | Κ κ | Λ λ | Μ μ   |
+!        ! | Ν ν | Ξ ξ | Ο ο | Π π | Ρ ρ | Σ σ ς |
+!        ! | Τ τ | Υ υ | Φ φ | Χ χ | Ψ ψ | Ω ω   |
+!        !
+!        STRING='ΑαΒβΓγΔδΕεΖζΗηΘθΙιΚκΛλΜμΝνΞξΟοΠπΡρΣσςΤτΥυΦφΧχΨψΩω'
+!        ! ignoring ς for simplicity
+!        UPPER='ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ'
+!        LOWER='αβγδεζηθικλμνξοπρστυφχψω'
+!        call callit()
+!     contains
+!     subroutine callit()
+!          write(*,'(DT)') STRING
 ! 
-!      write(*,'(DT)') STRING%character()
+!          ! convert -7 string to uppercase:
+!          write(*,'(DT)') TRANSLITERATE(STRING , LOWER, UPPER )
 ! 
-!      ! convert an ASCII-7 string to uppercase:
-!      write(*,'DT')) TRANSLITERATE(STRING, &
-!      & 'abcdefghijklmnopqrstuvwxyz','ABCDEFGHIJKLMNOPQRSTUVWXYZ')
+!          ! change all miniscule letters to a colon (":"):
+!          write(*,'(DT)') TRANSLITERATE(STRING, LOWER, ':')
 ! 
-!      ! change all miniscule letters to a colon (":"):
-!      write(*,*) TRANSLITERATE(STRING, &
-!      & 'abcdefghijklmnopqrstuvwxyz',':')
+!          ! delete all miniscule letters
+!          write(*,'(DT)') TRANSLITERATE(STRING, LOWER, '')
 ! 
-!      ! delete all miniscule letters
-!      write(*,*) TRANSLITERATE(STRING, &
-!      & 'abcdefghijklmnopqrstuvwxyz','')
+!          end subroutine callit
 ! 
 !     end program demo_transliterate
 ! 
-!     Expected output
+!   Expected output
 ! 
-!      > aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ
-!      > AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPPQQRRSSTTUUVVWWXXYYZZ
-!      > :A:B:C:D:E:F:G:H:I:J:K:L:M:N:O:P:Q:R:S:T:U:V:W:X:Y:Z
-!      > ABCDEFGHIJKLMNOPQRSTUVWXYZ
+!     > aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ
+!     > AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPPQQRRSSTTUUVVWWXXYYZZ
+!     > :A:B:C:D:E:F:G:H:I:J:K:L:M:N:O:P:Q:R:S:T:U:V:W:X:Y:Z
+!     > ABCDEFGHIJKLMNOPQRSTUVWXYZ
+!     > ΑαΒβΓγΔδΕεΖζΗηΘθΙιΚκΛλΜμΝνΞξΟοΠπΡρΣσςΤτΥυΦφΧχΨψΩω
+!     > ΑΑΒΒΓΓΔΔΕΕΖΖΗΗΘΘΙΙΚΚΛΛΜΜΝΝΞΞΟΟΠΠΡΡΣΣςΤΤΥΥΦΦΧΧΨΨΩΩ
+!     > Α:Β:Γ:Δ:Ε:Ζ:Η:Θ:Ι:Κ:Λ:Μ:Ν:Ξ:Ο:Π:Ρ:Σ:ςΤ:Υ:Φ:Χ:Ψ:Ω:
+!     > ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣςΤΥΦΧΨΩ
 ! 
 ! AUTHOR
 !    John S. Urban
@@ -7286,16 +7318,37 @@ end function transliterate_auu
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
-function oop_transliterate_uuu(self,old_set,new_set) result (outstr)
-
+function oop_transliterate_uu(self,old_set,new_set) result (outstr)
 class(unicode_type),intent(in) :: self
 type(unicode_type),intent(in)  :: old_set
 type(unicode_type),intent(in)  :: new_set
 type(unicode_type)             :: outstr
-   outstr=transliterate(self,old_set,new_set)
-end function oop_transliterate_uuu
+   outstr=transliterate_uuu(self,old_set,new_set)
+end function oop_transliterate_uu
 !===================================================================================================================================
-!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+function oop_transliterate_ua(self,old_set,new_set) result (outstr)
+class(unicode_type),intent(in) :: self
+type(unicode_type),intent(in)  :: old_set
+character(len=*),intent(in)    :: new_set
+type(unicode_type)             :: outstr
+   outstr=transliterate_uua(self,old_set,new_set)
+end function oop_transliterate_ua
+!===================================================================================================================================
+function oop_transliterate_aa(self,old_set,new_set) result (outstr)
+class(unicode_type),intent(in) :: self
+character(len=*),intent(in)    :: old_set
+character(len=*),intent(in)    :: new_set
+type(unicode_type)             :: outstr
+   outstr=transliterate_uaa(self,old_set,new_set)
+end function oop_transliterate_aa
+!===================================================================================================================================
+function oop_transliterate_au(self,old_set,new_set) result (outstr)
+class(unicode_type),intent(in) :: self
+character(len=*),intent(in)    :: old_set
+type(unicode_type),intent(in)  :: new_set
+type(unicode_type)             :: outstr
+   outstr=transliterate_uau(self,old_set,new_set)
+end function oop_transliterate_au
 !===================================================================================================================================
 function oop_replace_uuu(self,old,new,occurrence,repeat,ignorecase,changes,back) result (newline)
 
@@ -7696,17 +7749,17 @@ implicit none
 
 ! ident_18="@(#) M_unicode readline(3f) read a line from specified LUN into string up to line length limit"
 
-type(unicode_type)               :: line
-integer,intent(in),optional      :: lun
-integer,intent(out),optional     :: iostat
-integer                          :: iostat_local
-character(len=4096)              :: message
+type(unicode_type)           :: line
+integer,intent(in),optional  :: lun
+integer,intent(out),optional :: iostat
+integer                      :: iostat_local
+character(len=4096)          :: message
 
-integer,parameter                :: buflen=1024
-character(len=:),allocatable     :: line_local
-character(len=buflen)            :: buffer
-integer                          :: isize
-integer                          :: lun_local
+integer,parameter            :: buflen=1024
+character(len=:),allocatable :: line_local
+character(len=buflen)        :: buffer
+integer                      :: isize
+integer                      :: lun_local
 
    line_local=''
    iostat_local=0
@@ -7921,10 +7974,10 @@ recursive function fmt_gs(generic,format) result (line)
 
 ! ident_21="@(#) M_unicode afmt(3f) convert any intrinsic to a CHARACTER variable using specified format"
 
-class(*),intent(in)                    :: generic
-type(unicode_type),intent(in)          :: format
-type(unicode_type)                     :: line
-character(len=:),allocatable           :: aformat
+class(*),intent(in)           :: generic
+type(unicode_type),intent(in) :: format
+type(unicode_type)            :: line
+character(len=:),allocatable  :: aformat
    aformat=format
    line=afmt(generic,aformat)
 end function fmt_gs
@@ -7990,7 +8043,7 @@ subroutine trimzeros_(string)
 ! if zero needs added at end assumes input string has room
 character(len=*)               :: string
 character(len=len(string) + 2) :: str
-character(len=len(string))     :: eexp        ! the exponent string if present
+character(len=len(string))     :: eexp       ! the exponent string if present
 integer                        :: ipos       ! where exponent letter appears if present
 integer                        :: i, ii
 intrinsic scan, index, len_trim
