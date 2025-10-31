@@ -515,7 +515,7 @@ contains
    procedure :: join       => oop_join
 
    procedure,private :: oop_transliterate_uu, oop_transliterate_aa, oop_transliterate_au, oop_transliterate_ua
-   generic, public   :: transliterate => oop_transliterate_uu, oop_transliterate_aa, oop_transliterate_au, oop_transliterate_ua 
+   generic, public   :: transliterate => oop_transliterate_uu, oop_transliterate_aa, oop_transliterate_au, oop_transliterate_ua
 
    procedure,private :: oop_replace_uuu
    procedure,private :: oop_replace_uaa
@@ -7307,7 +7307,7 @@ EXAMPLES
   Sample Program:
 
    program demo_transliterate
-    
+
     use M_unicode, only : transliterate,ut=>unicode_type
     use M_unicode, only : write(formatted),ch=>character
     use M_unicode, only : assignment(=)
@@ -7315,12 +7315,12 @@ EXAMPLES
     character(len=*),parameter :: u='(DT)'
     type(ut)  :: STRING, UPPER, LOWER
     type(ut)  :: MIDDLE_DOT
-    
+
        STRING='aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ'
        LOWER='abcdefghijklmnopqrstuvwxyz'
        UPPER='ABCDEFGHIJKLMNOPQRSTUVWXYZ'
        call callit()
-    
+
        print u,
        print u,ut('Greek')
        !
@@ -7334,34 +7334,53 @@ EXAMPLES
        UPPER='ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ'
        LOWER='αβγδεζηθικλμνξοπρστυφχψω'
        call callit()
-    
+
        ! OOP
        print u,
        print u,ut('OOP!')
        print u,STRING%TRANSLITERATE(UPPER,'_')
-    
+
        ! U+00B7 Middle Dot Unicode Character
        print u,STRING%TRANSLITERATE(LOWER,'·') ! ASCII bytes
        print u,STRING%TRANSLITERATE(LOWER,ut('·')) ! cast
        MIDDLE_DOT=int(z'00B7')
        print u,STRING%TRANSLITERATE(LOWER,MIDDLE_DOT) ! hexadecimal
-    
+
     contains
     subroutine callit()
          print u, STRING
-    
+
          ! convert -7 string to uppercase:
          print u, TRANSLITERATE(STRING , LOWER, UPPER )
-    
+
          ! change all miniscule letters to a colon (":"):
          print u, TRANSLITERATE(STRING, LOWER, ':')
-    
+
          ! delete all miniscule letters
          print u, TRANSLITERATE(STRING, LOWER, '')
-    
+
          end subroutine callit
-    
+
     end program demo_transliterate
+
+  Results:
+
+   > aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ
+   > AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPPQQRRSSTTUUVVWWXXYYZZ
+   > :A:B:C:D:E:F:G:H:I:J:K:L:M:N:O:P:Q:R:S:T:U:V:W:X:Y:Z
+   > ABCDEFGHIJKLMNOPQRSTUVWXYZ
+   >
+   > Greek
+   > ΑαΒβΓγΔδΕεΖζΗηΘθΙιΚκΛλΜμΝνΞξΟοΠπΡρΣσςΤτΥυΦφΧχΨψΩω
+   > ΑΑΒΒΓΓΔΔΕΕΖΖΗΗΘΘΙΙΚΚΛΛΜΜΝΝΞΞΟΟΠΠΡΡΣΣςΤΤΥΥΦΦΧΧΨΨΩΩ
+   > Α:Β:Γ:Δ:Ε:Ζ:Η:Θ:Ι:Κ:Λ:Μ:Ν:Ξ:Ο:Π:Ρ:Σ:ςΤ:Υ:Φ:Χ:Ψ:Ω:
+   > ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣςΤΥΦΧΨΩ
+   >
+   > OOP!
+   > _α_β_γ_δ_ε_ζ_η_θ_ι_κ_λ_μ_ν_ξ_ο_π_ρ_σς_τ_υ_φ_χ_ψ_ω
+   > Α·Β·Γ·Δ·Ε·Ζ·Η·Θ·Ι·Κ·Λ·Μ·Ν·Ξ·Ο·Π·Ρ·Σ·ςΤ·Υ·Φ·Χ·Ψ·Ω·
+   > Α·Β·Γ·Δ·Ε·Ζ·Η·Θ·Ι·Κ·Λ·Μ·Ν·Ξ·Ο·Π·Ρ·Σ·ςΤ·Υ·Φ·Χ·Ψ·Ω·
+   > Α·Β·Γ·Δ·Ε·Ζ·Η·Θ·Ι·Κ·Λ·Μ·Ν·Ξ·Ο·Π·Ρ·Σ·ςΤ·Υ·Φ·Χ·Ψ·Ω·
 
 AUTHOR
    John S. Urban

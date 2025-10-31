@@ -955,6 +955,7 @@ end subroutine test_replace
 
 subroutine test_transliterate()
 type(ut)  :: STRING, UPPER, LOWER, ANSWER, EXPECTED
+type(ut)  :: MIDDLE_DOT
    !
    ! | Α α | Β β | Γ γ | Δ δ | Ε ε | Ζ ζ   |
    ! | Η η | Θ θ | Ι ι | Κ κ | Λ λ | Μ μ   |
@@ -975,6 +976,24 @@ type(ut)  :: STRING, UPPER, LOWER, ANSWER, EXPECTED
    ANSWER=TRANSLITERATE(STRING, LOWER, '')      ! delete all miniscule letters
    EXPECTED='ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣςΤΥΦΧΨΩ'
    call check('transliterate', answer == expected, 'delete all miniscule letters')
+   ! OOP
+   EXPECTED='_α_β_γ_δ_ε_ζ_η_θ_ι_κ_λ_μ_ν_ξ_ο_π_ρ_σς_τ_υ_φ_χ_ψ_ω'
+   ANSWER=STRING%TRANSLITERATE(UPPER,'_')
+   call check('transliterate', answer == expected, 'OOP unicode:ASCII')
+
+   ! U+00B7 Middle Dot Unicode Character
+   EXPECTED='Α·Β·Γ·Δ·Ε·Ζ·Η·Θ·Ι·Κ·Λ·Μ·Ν·Ξ·Ο·Π·Ρ·Σ·ςΤ·Υ·Φ·Χ·Ψ·Ω·'
+   ANSWER=STRING%TRANSLITERATE(LOWER,'·') ! ASCII bytes
+   call check('transliterate', answer == expected, 'OOP unicode:ascii stream')
+
+   EXPECTED='Α·Β·Γ·Δ·Ε·Ζ·Η·Θ·Ι·Κ·Λ·Μ·Ν·Ξ·Ο·Π·Ρ·Σ·ςΤ·Υ·Φ·Χ·Ψ·Ω·'
+   ANSWER=STRING%TRANSLITERATE(LOWER,ut('·')) ! cast
+   call check('transliterate', answer == expected, 'OOP unicode:unicode')
+
+   EXPECTED='Α·Β·Γ·Δ·Ε·Ζ·Η·Θ·Ι·Κ·Λ·Μ·Ν·Ξ·Ο·Π·Ρ·Σ·ςΤ·Υ·Φ·Χ·Ψ·Ω·'
+   MIDDLE_DOT=int(z'00B7')
+   ANSWER=STRING%TRANSLITERATE(LOWER,MIDDLE_DOT) ! hexadecimal
+   call check('transliterate', answer == expected, 'OOP unicode:unicode')
 
 end subroutine test_transliterate
 
