@@ -839,7 +839,7 @@ DESCRIPTION
   large arrays would require a significant amount of memory. One major
   advantage of this method is that the indices can be used to access an entire
   user-defined type in sorted order. This makes this seemingly simple sort
-  procedure usuable with the vast majority of user-defined types. or other
+  procedure usable with the vast majority of user-defined types. or other
   correlated data.
 
 BACKGROUND

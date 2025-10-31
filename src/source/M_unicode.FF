@@ -31,22 +31,22 @@ NAME
     (LICENSE:MIT)
 
 DESCRIPTION
-   The M_unicode(3fm) module is a collection of Fortran string
+   The M_unicode(3f) module is a collection of Fortran string
    methods that work with UTF-8-encoded as well as ASCII-7 data via the
    user-defined type "unicode_type". The type supports allocatable ragged
    arrays where each element may be of differing length.
 
-   Routines for parsing, tokenizing, changing case, substituting
-   new strings for substrings, locating strings with simple wildcard
-   expressions, removing tabs and line terminators and other string
-   manipulations are included.
+   M_unicode(3f) includes routines for parsing, tokenizing, changing
+   case, substituting new strings for substrings, locating strings with
+   simple wildcard expressions, removing tabs and line terminators and
+   other string manipulations.
 
-   The M_unicode(3fm) module supplements the Fortran built-in
+   The M_unicode(3fm) module also supplements the Fortran built-in
    intrinsics with overloads of operators and intrinsics that allow
    type(unicode_type) to be used with intrinsic names in much the same
    manner the intrinsics operate on CHARACTER variables.
 
-   Other overloads of assignment, logical comparisons, and concatenation
+   Overloads of assignment, logical comparisons, and concatenation
    using the // operator with strings (and other types) are included
    as well as the intrinsics to make use of type(unicode_type) largely
    consistent with standard CHARACTER string manipulations.
@@ -68,6 +68,9 @@ SYNOPSIS
 
     replace   function non-recursively globally replaces old
               substring with new substring
+
+    transliterate  replace characters from old set with new set
+    
    CASE
 
     upper   function converts string to uppercase
@@ -153,9 +156,9 @@ SYNOPSIS
 
    OOPS INTERFACE
 
-    An OOP (Object-Oriented Programming) interface to
-    the M_unicode(3fm) module provides an alternative interface to all the
-    same procedures except for SORT(3f) and CHAR(3f).
+    An OOP (Object-Oriented Programming) interface to the M_unicode(3fm)
+    module provides an alternative interface to all the same procedures
+    except for SORT(3f) and CHAR(3f).
 
 SEE ALSO
     All the procedure descriptions are conglomerated into the single file
@@ -335,6 +338,7 @@ public :: escape
 public :: fmt
 PUBLIC :: AFMT
 public :: replace
+public :: transliterate
 public :: section
 public :: pad
 public :: join
@@ -437,6 +441,11 @@ interface replace
    module procedure :: replace_aaa, replace_aua, replace_aau, replace_auu
    module procedure :: section_uu, section_ua, section_au, section_aa
 end interface replace
+
+interface transliterate
+   module procedure :: transliterate_uuu, transliterate_uua, transliterate_uaa, transliterate_uau
+   module procedure :: transliterate_aaa, transliterate_aua, transliterate_aau, transliterate_auu
+end interface transliterate
 
 interface section
    module procedure :: section_uu, section_ua, section_au, section_aa
@@ -2781,7 +2790,7 @@ EXAMPLES
       ' to think without learning is to be in danger".'])
       !
       write(*,'(*(:,"[",g0,"]",/))')ch(array)
-      ! all elements will be the same length in bytes but not neccessarily
+      ! all elements will be the same length in bytes but not necessarily
       !in glyphs
       write(*,'(a,*(i0,1x))')'all elements the same length in BYTES:', &
               & len(ch(array))
@@ -4322,7 +4331,7 @@ DESCRIPTION
    array, which for large arrays would require a significant amount of
    memory. One major advantage of this method is that the indices can
    be used to access an entire user-defined type in sorted order. This
-   makes this seemingly simple sort procedure usuable with the vast
+   makes this seemingly simple sort procedure usable with the vast
    majority of user-defined types. or other correlated data.
 
 BACKGROUND
@@ -7241,6 +7250,210 @@ type(unicode_type)          :: out
 
    out=section_uu(unicode_type(str),first,last,unicode_type(new))
 end function section_aa
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
+$BLOCK COMMENT --file transliterate.3m_unicode.man
+NAME
+    transliterate(3f) - [M_unicode:EDITING] replace characters from old
+                        set with new set
+    (LICENSE:PD)
+
+SYNOPSIS
+
+    pure function transliterate(instr,old_set,new_set) result(outstr)
+
+     type(unicode_type),intent(in)  :: instr
+     type(unicode_type),intent(in)  :: old_set
+     type(unicode_type),intent(in)  :: new_set
+     type(unicode_type)             :: outstr
+
+DESCRIPTION
+    Translate, squeeze, and/or delete characters from the input string.
+
+OPTIONS
+    instr    input string to change
+    old_set  list of glyphs to change in INSTR if found
+
+             Each character in the input string that matches a character
+             in the old set is replaced.
+
+    new_set  list of glyphs to replace glyphs in OLD_SET with.
+
+             If the new_set is the empty set the matched glyphs
+             are deleted.
+
+             If the new_set is shorter than the old set the last glyphs
+             in the new set is used to replace the remaining glyphs
+             in the new set.
+
+RETURNS
+    outstr   instr with substitutions applied
+
+EXAMPLES
+
+  Sample Program:
+
+   program demo_transliterate
+    
+    use M_unicode, only : transliterate,ut=>unicode_type
+    use M_unicode, only : write(formatted),ch=>character
+    use M_unicode, only : assignment(=)
+    implicit none
+    type(ut)  :: STRING, UPPER, LOWER
+    
+       STRING='aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ'
+       LOWER='abcdefghijklmnopqrstuvwxyz'
+       UPPER='ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+       call callit()
+       ! 
+       ! Greek Alphabet
+       ! | Α α | Β β | Γ γ | Δ δ | Ε ε | Ζ ζ   |
+       ! | Η η | Θ θ | Ι ι | Κ κ | Λ λ | Μ μ   |
+       ! | Ν ν | Ξ ξ | Ο ο | Π π | Ρ ρ | Σ σ ς |
+       ! | Τ τ | Υ υ | Φ φ | Χ χ | Ψ ψ | Ω ω   |
+       !
+       STRING='ΑαΒβΓγΔδΕεΖζΗηΘθΙιΚκΛλΜμΝνΞξΟοΠπΡρΣσςΤτΥυΦφΧχΨψΩω'
+       ! ignoring ς for simplicity
+       UPPER='ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ'
+       LOWER='αβγδεζηθικλμνξοπρστυφχψω'
+       call callit()
+    contains
+    subroutine callit()
+         write(*,'(DT)') STRING
+    
+         ! convert -7 string to uppercase:
+         write(*,'(DT)') TRANSLITERATE(STRING , LOWER, UPPER )
+    
+         ! change all miniscule letters to a colon (":"):
+         write(*,'(DT)') TRANSLITERATE(STRING, LOWER, ':')
+    
+         ! delete all miniscule letters
+         write(*,'(DT)') TRANSLITERATE(STRING, LOWER, '')
+    
+         end subroutine callit
+    
+    end program demo_transliterate
+
+  Expected output
+
+    > aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ
+    > AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPPQQRRSSTTUUVVWWXXYYZZ
+    > :A:B:C:D:E:F:G:H:I:J:K:L:M:N:O:P:Q:R:S:T:U:V:W:X:Y:Z
+    > ABCDEFGHIJKLMNOPQRSTUVWXYZ                          
+    > ΑαΒβΓγΔδΕεΖζΗηΘθΙιΚκΛλΜμΝνΞξΟοΠπΡρΣσςΤτΥυΦφΧχΨψΩω
+    > ΑΑΒΒΓΓΔΔΕΕΖΖΗΗΘΘΙΙΚΚΛΛΜΜΝΝΞΞΟΟΠΠΡΡΣΣςΤΤΥΥΦΦΧΧΨΨΩΩ
+    > Α:Β:Γ:Δ:Ε:Ζ:Η:Θ:Ι:Κ:Λ:Μ:Ν:Ξ:Ο:Π:Ρ:Σ:ςΤ:Υ:Φ:Χ:Ψ:Ω:
+    > ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣςΤΥΦΧΨΩ                        
+
+AUTHOR
+   John S. Urban
+
+LICENSE
+    MIT
+$ENDBLOCK
+$!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+impure function transliterate_uuu(instr,old_set,new_set) result(outstr)
+
+$@(#) M_unicode transliterate(3f) replace characters from old set with new set
+
+type(unicode_type),intent(in) :: instr                  ! input string to change
+type(unicode_type),intent(in) :: old_set                ! set of characters to replace
+type(unicode_type),intent(in) :: new_set                ! new characters to replace old characters
+type(unicode_type)            :: outstr                 ! output string to generate
+integer                       :: i, ii, jj 
+
+   jj=size(new_set%codes)
+   if(jj /= 0)then
+      outstr=instr                                      ! initially assume output string equals input string
+      stepthru: do i = 1, size(instr%codes)
+         ii=findloc(old_set%codes,instr%codes(i),dim=1) ! see if current character is in old_set
+         if (ii /= 0)then
+            if(ii <= jj)then                            ! use corresponding character in new_set
+               outstr%codes(i) = new_set%codes(ii)
+            else
+               outstr%codes(i) = new_set%codes(jj)      ! new_set not as long as old_set; use last character in new_set
+            endif
+         endif
+      enddo stepthru
+   else                                                 ! new_set is null string so delete characters in old_set
+      outstr%codes=[(32,i=1,size(instr%codes))]
+      hopthru: do i = 1, size(instr%codes)
+         ii=findloc(old_set%codes,instr%codes(i),dim=1) ! see if current character is in old_set
+         if (ii == 0)then                               ! only keep characters not in old_set
+            jj=jj+1
+            outstr%codes(jj) = instr%codes(i)
+         endif
+      enddo hopthru
+   endif
+end function transliterate_uuu
+!-----------------------------------------------------------------------------------------------------------------------------------
+function transliterate_uua(instr,old_set,new_set) result (outstr)
+type(unicode_type),intent(in)  :: instr       
+type(unicode_type),intent(in)  :: old_set    
+character(len=*),intent(in)    :: new_set    
+type(unicode_type)             :: outstr  
+   outstr=transliterate_uuu(instr,old_set,unicode_type(new_set))
+end function transliterate_uua
+!-----------------------------------------------------------------------------------------------------------------------------------
+function transliterate_uaa(instr,old_set,new_set) result (outstr)
+type(unicode_type),intent(in)  :: instr       
+character(len=*),intent(in)    :: old_set    
+character(len=*),intent(in)    :: new_set    
+type(unicode_type)             :: outstr  
+   outstr=transliterate_uuu(instr,unicode_type(old_set),unicode_type(new_set))
+end function transliterate_uaa
+!-----------------------------------------------------------------------------------------------------------------------------------
+function transliterate_aaa(instr,old_set,new_set) result (outstr)
+character(len=*),intent(in)    :: instr       
+character(len=*),intent(in)    :: old_set    
+character(len=*),intent(in)    :: new_set    
+type(unicode_type)             :: outstr  
+   outstr=transliterate_uuu(unicode_type(instr),unicode_type(old_set),unicode_type(new_set))
+end function transliterate_aaa
+!-----------------------------------------------------------------------------------------------------------------------------------
+function transliterate_uau(instr,old_set,new_set) result (outstr)
+type(unicode_type),intent(in)  :: instr       
+character(len=*),intent(in)    :: old_set    
+type(unicode_type),intent(in)  :: new_set    
+type(unicode_type)             :: outstr  
+   outstr=transliterate_uuu(instr,unicode_type(old_set),new_set)
+end function transliterate_uau
+!-----------------------------------------------------------------------------------------------------------------------------------
+function transliterate_aau(instr,old_set,new_set) result (outstr)
+character(len=*),intent(in)    :: instr       
+character(len=*),intent(in)    :: old_set    
+type(unicode_type),intent(in)  :: new_set    
+type(unicode_type)             :: outstr  
+   outstr=transliterate_uuu(unicode_type(instr),unicode_type(old_set),new_set)
+end function transliterate_aau
+!-----------------------------------------------------------------------------------------------------------------------------------
+function transliterate_aua(instr,old_set,new_set) result (outstr)
+character(len=*),intent(in)    :: instr       
+type(unicode_type),intent(in)  :: old_set    
+character(len=*),intent(in)    :: new_set    
+type(unicode_type)             :: outstr  
+   outstr=transliterate_uuu(unicode_type(instr),old_set,unicode_type(new_set))
+end function transliterate_aua
+!-----------------------------------------------------------------------------------------------------------------------------------
+function transliterate_auu(instr,old_set,new_set) result (outstr)
+character(len=*),intent(in)    :: instr       
+type(unicode_type),intent(in)  :: old_set    
+type(unicode_type),intent(in)  :: new_set    
+type(unicode_type)             :: outstr  
+   outstr=transliterate_uuu(unicode_type(instr),old_set,new_set)
+end function transliterate_auu
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
+function oop_transliterate_uuu(self,old_set,new_set) result (outstr)
+
+class(unicode_type),intent(in) :: self       
+type(unicode_type),intent(in)  :: old_set    
+type(unicode_type),intent(in)  :: new_set    
+type(unicode_type)             :: outstr  
+   outstr=transliterate(self,old_set,new_set)
+end function oop_transliterate_uuu
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================

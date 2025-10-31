@@ -16,6 +16,7 @@ use M_unicode, only : sub
 use M_unicode, only : pad
 use M_unicode, only : join
 use M_unicode, only : fmt, afmt
+use M_unicode, only : transliterate
 
 use M_unicode, only : assignment(=), unicode_type
 use M_unicode, only : operator(.cat.)
@@ -952,6 +953,31 @@ call check('replace',ut('ABC[def]GHIJ') == replace(aline,ut('DEF'),   '[def]'), 
 
 end subroutine test_replace
 
+subroutine test_transliterate()
+type(ut)  :: STRING, UPPER, LOWER, ANSWER, EXPECTED
+   !
+   ! | Α α | Β β | Γ γ | Δ δ | Ε ε | Ζ ζ   |
+   ! | Η η | Θ θ | Ι ι | Κ κ | Λ λ | Μ μ   |
+   ! | Ν ν | Ξ ξ | Ο ο | Π π | Ρ ρ | Σ σ ς |
+   ! | Τ τ | Υ υ | Φ φ | Χ χ | Ψ ψ | Ω ω   |
+   !
+   STRING='ΑαΒβΓγΔδΕεΖζΗηΘθΙιΚκΛλΜμΝνΞξΟοΠπΡρΣσςΤτΥυΦφΧχΨψΩω'
+   ! ignoring ς for simplicity
+   UPPER='ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ'
+   LOWER='αβγδεζηθικλμνξοπρστυφχψω'
+   
+   ANSWER=TRANSLITERATE(STRING , LOWER, UPPER ) ! convert ASCII-7 string to uppercase:
+   EXPECTED='ΑΑΒΒΓΓΔΔΕΕΖΖΗΗΘΘΙΙΚΚΛΛΜΜΝΝΞΞΟΟΠΠΡΡΣΣςΤΤΥΥΦΦΧΧΨΨΩΩ'
+   call check('transliterate', answer == expected, 'one-to-one correspondence')
+   ANSWER=TRANSLITERATE(STRING, LOWER, ':')     ! change all miniscule letters to a colon (":"):
+   EXPECTED='Α:Β:Γ:Δ:Ε:Ζ:Η:Θ:Ι:Κ:Λ:Μ:Ν:Ξ:Ο:Π:Ρ:Σ:ςΤ:Υ:Φ:Χ:Ψ:Ω:'
+   call check('transliterate', answer == expected, 'set to a single character')
+   ANSWER=TRANSLITERATE(STRING, LOWER, '')      ! delete all miniscule letters
+   EXPECTED='ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣςΤΥΦΧΨΩ'
+   call check('transliterate', answer == expected, 'delete all miniscule letters')
+
+end subroutine test_transliterate
+
 end module testsuite_M_unicode
 
 program test_M_unicode
@@ -969,6 +995,7 @@ use testsuite_M_unicode
    call test_len()
    call test_index()
    call test_repeat()
+   call test_transliterate()
    call test_upper()
    call test_lower()
    call test_tokenize()
