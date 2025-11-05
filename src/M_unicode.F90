@@ -148,6 +148,11 @@
 !    operator(//)      concatenate strings and/or convert intrinsics to
 !                      strings and concatenate
 ! 
+!    SYSTEM
+! 
+!     get_env    Get environment variable
+!     get_arg    Get command line argument
+! 
 !    MISCELLANEOUS
 ! 
 !     repeat        Repeated string concatenation
@@ -305,6 +310,8 @@ public :: tokenize
 public :: scan
 public :: verify
 public :: ichar
+public :: get_env
+public :: get_arg
 PUBLIC :: LLE, LLT, LNE, LEQ, LGT, LGE
 PUBLIC :: OPERATOR(<=), OPERATOR(<), OPERATOR(/=), OPERATOR(==), OPERATOR(>), OPERATOR(>=)
 public :: assignment(=)
@@ -338,6 +345,18 @@ interface verify
    module procedure :: verify_ua
    module procedure :: verify_au
 end interface verify
+
+interface get_arg
+   module procedure :: get_arg_ia
+   module procedure :: get_arg_iu
+end interface get_arg
+
+interface get_env
+   module procedure :: get_env_uu
+   module procedure :: get_env_ua
+   module procedure :: get_env_au
+   module procedure :: get_env_aa
+end interface get_env
 
 interface escape
    module procedure :: escape_uu
@@ -457,6 +476,9 @@ contains
    procedure :: sub        => oop_sub
    procedure :: pad        => oop_pad
    procedure :: join       => oop_join
+
+   procedure :: get_env    => oop_get_env_uu, oop_get_env_ua
+   procedure :: get_arg    => oop_get_arg_iu, oop_get_arg_ia
 
    procedure,private :: oop_transliterate_uu, oop_transliterate_aa, oop_transliterate_au, oop_transliterate_ua
    generic, public   :: transliterate => oop_transliterate_uu, oop_transliterate_aa, oop_transliterate_au, oop_transliterate_ua
@@ -7174,14 +7196,18 @@ end function section_aa
 !     use M_unicode, only : write(formatted),ch=>character
 !     use M_unicode, only : assignment(=)
 !     implicit none
+!     character(len=*),parameter :: u='(DT)'
 !     type(ut)  :: STRING, UPPER, LOWER
+!     type(ut)  :: MIDDLE_DOT
 ! 
 !        STRING='aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ'
 !        LOWER='abcdefghijklmnopqrstuvwxyz'
 !        UPPER='ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 !        call callit()
+! 
+!        print u,
+!        print u,ut('Greek')
 !        !
-!        ! Greek Alphabet
 !        ! | Α α | Β β | Γ γ | Δ δ | Ε ε | Ζ ζ   |
 !        ! | Η η | Θ θ | Ι ι | Κ κ | Λ λ | Μ μ   |
 !        ! | Ν ν | Ξ ξ | Ο ο | Π π | Ρ ρ | Σ σ ς |
@@ -7192,33 +7218,53 @@ end function section_aa
 !        UPPER='ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ'
 !        LOWER='αβγδεζηθικλμνξοπρστυφχψω'
 !        call callit()
+! 
+!        ! OOP
+!        print u,
+!        print u,ut('OOP!')
+!        print u,STRING%TRANSLITERATE(UPPER,'_')
+! 
+!        ! U+00B7 Middle Dot Unicode Character
+!        print u,STRING%TRANSLITERATE(LOWER,'·') ! ASCII bytes
+!        print u,STRING%TRANSLITERATE(LOWER,ut('·')) ! cast
+!        MIDDLE_DOT=int(z'00B7')
+!        print u,STRING%TRANSLITERATE(LOWER,MIDDLE_DOT) ! hexadecimal
+! 
 !     contains
 !     subroutine callit()
-!          write(*,'(DT)') STRING
+!          print u, STRING
 ! 
 !          ! convert -7 string to uppercase:
-!          write(*,'(DT)') TRANSLITERATE(STRING , LOWER, UPPER )
+!          print u, TRANSLITERATE(STRING , LOWER, UPPER )
 ! 
 !          ! change all miniscule letters to a colon (":"):
-!          write(*,'(DT)') TRANSLITERATE(STRING, LOWER, ':')
+!          print u, TRANSLITERATE(STRING, LOWER, ':')
 ! 
 !          ! delete all miniscule letters
-!          write(*,'(DT)') TRANSLITERATE(STRING, LOWER, '')
+!          print u, TRANSLITERATE(STRING, LOWER, '')
 ! 
 !          end subroutine callit
 ! 
 !     end program demo_transliterate
 ! 
-!   Expected output
+!   Results:
 ! 
-!     > aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ
-!     > AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPPQQRRSSTTUUVVWWXXYYZZ
-!     > :A:B:C:D:E:F:G:H:I:J:K:L:M:N:O:P:Q:R:S:T:U:V:W:X:Y:Z
-!     > ABCDEFGHIJKLMNOPQRSTUVWXYZ
-!     > ΑαΒβΓγΔδΕεΖζΗηΘθΙιΚκΛλΜμΝνΞξΟοΠπΡρΣσςΤτΥυΦφΧχΨψΩω
-!     > ΑΑΒΒΓΓΔΔΕΕΖΖΗΗΘΘΙΙΚΚΛΛΜΜΝΝΞΞΟΟΠΠΡΡΣΣςΤΤΥΥΦΦΧΧΨΨΩΩ
-!     > Α:Β:Γ:Δ:Ε:Ζ:Η:Θ:Ι:Κ:Λ:Μ:Ν:Ξ:Ο:Π:Ρ:Σ:ςΤ:Υ:Φ:Χ:Ψ:Ω:
-!     > ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣςΤΥΦΧΨΩ
+!    > aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ
+!    > AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPPQQRRSSTTUUVVWWXXYYZZ
+!    > :A:B:C:D:E:F:G:H:I:J:K:L:M:N:O:P:Q:R:S:T:U:V:W:X:Y:Z
+!    > ABCDEFGHIJKLMNOPQRSTUVWXYZ
+!    >
+!    > Greek
+!    > ΑαΒβΓγΔδΕεΖζΗηΘθΙιΚκΛλΜμΝνΞξΟοΠπΡρΣσςΤτΥυΦφΧχΨψΩω
+!    > ΑΑΒΒΓΓΔΔΕΕΖΖΗΗΘΘΙΙΚΚΛΛΜΜΝΝΞΞΟΟΠΠΡΡΣΣςΤΤΥΥΦΦΧΧΨΨΩΩ
+!    > Α:Β:Γ:Δ:Ε:Ζ:Η:Θ:Ι:Κ:Λ:Μ:Ν:Ξ:Ο:Π:Ρ:Σ:ςΤ:Υ:Φ:Χ:Ψ:Ω:
+!    > ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣςΤΥΦΧΨΩ
+!    >
+!    > OOP!
+!    > _α_β_γ_δ_ε_ζ_η_θ_ι_κ_λ_μ_ν_ξ_ο_π_ρ_σς_τ_υ_φ_χ_ψ_ω
+!    > Α·Β·Γ·Δ·Ε·Ζ·Η·Θ·Ι·Κ·Λ·Μ·Ν·Ξ·Ο·Π·Ρ·Σ·ςΤ·Υ·Φ·Χ·Ψ·Ω·
+!    > Α·Β·Γ·Δ·Ε·Ζ·Η·Θ·Ι·Κ·Λ·Μ·Ν·Ξ·Ο·Π·Ρ·Σ·ςΤ·Υ·Φ·Χ·Ψ·Ω·
+!    > Α·Β·Γ·Δ·Ε·Ζ·Η·Θ·Ι·Κ·Λ·Μ·Ν·Ξ·Ο·Π·Ρ·Σ·ςΤ·Υ·Φ·Χ·Ψ·Ω·
 ! 
 ! AUTHOR
 !    John S. Urban
@@ -7315,6 +7361,191 @@ type(unicode_type),intent(in)  :: new_set
 type(unicode_type)             :: outstr
    outstr=transliterate_uuu(unicode_type(instr),old_set,new_set)
 end function transliterate_auu
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
+! NAME
+!    get_env(3f) - [M_unicode:WHITESPACE] function to expand tab characters
+!    (LICENSE:MIT)
+! 
+! SYNOPSIS
+! 
+!     elemental function get_env(name,default) result(out)
+! 
+!      type(unicode_type),intent=(in) :: name
+!      type(unicode_type),optional    :: default
+!      type(unicode_type)             :: out
+! 
+! CHARACTERISTICS
+!    NAME and DEFAULT may be default CHARACTER type as well.
+! 
+! DESCRIPTION
+!    get_env(3) gets the value of the requested environment variable
+!    as TYPE(UNICODE_TYPE) .
+! 
+! OPTIONS
+!    name     name of environment variable to return the value of.
+!             Typically the name may only contain the characters
+!             A-Z,a-z,0-9 and underscore; but allowed values are
+!             system-dependent.
+!    default  value to return if environment variable NAME is not set
+!             or set to a blank value
+! 
+! RETURNS
+!    out      value assigned based on value of environment variable NAME
+! 
+! EXAMPLES
+! 
+!  Sample program:
+! 
+!     program demo_get_env
+!     use M_unicode, only : get_env, ut=> unicode_type
+!     use M_unicode, only : assignment(=), operator(//)
+!     implicit none
+!     type(ut) :: name
+!     type(ut) :: default
+!     type(ut) :: value
+!     type(ut) :: smiley
+!     integer  :: i
+!     character(len=*),parameter :: bracket= '(1x,*("[",a,"]",:))'
+!        !
+!        smiley=128515 ! set with Unicode code point
+!        name='UTF8'   ! set with ASCII
+!        default='Have a nice day '//smiley//'!' ! set with unicode_type
+!        !
+!        ! arguments can be type(unicode_type) or character
+!        ! but type(unicode_type) is always returned
+!        value=get_env(name,             default             )
+!        value=get_env(name%character(), default%character() )
+!        value=get_env(name,             default%character() )
+!        value=get_env(name%character(), default             )
+!        !
+!        write(*,*)(value%character(i,i),i=1,value%len())
+!        !
+!        ! print each glyph surrounded by brackets
+!        write(*,bracket)(value%character(i,i),i=1,value%len())
+!        !
+!     end program demo_get_env
+! 
+!   Results:
+! 
+!     > Have a nice day 😃!
+!     > [H][a][v][e][ ][a][ ][n][i][c][e][ ][d][a][y][ ][😃][!]
+! 
+! AUTHOR
+!      John S. Urban
+! 
+! LICENSE
+!     MIT
+function get_env_aa(name,default) result(uvalue)
+! a function that makes calling get_environment_variable(3) simple
+use, intrinsic :: iso_fortran_env, only : stderr=>ERROR_UNIT
+implicit none
+character(len=*),intent(in)          :: name
+character(len=*),intent(in),optional :: default
+character(len=:),allocatable         :: value
+type(unicode_type)                   :: uvalue
+integer                              :: howbig
+integer                              :: stat
+integer                              :: length
+   length=0
+   value=""
+   if(name.ne."")then
+      call get_environment_variable( name, &
+      & length=howbig,status=stat,trim_name=.true.)
+      select case (stat)
+      case (1)
+       if(.not.present(default))then
+          write(stderr,*) &
+          & name, " is not defined in the environment"
+          value=""
+       endif
+      case (2)
+       write(stderr,*) &
+       & "This processor does not support environment variables. Boooh!"
+       value=""
+      case default
+       ! make string of sufficient size to hold value
+       if(allocated(value))deallocate(value)
+       allocate(character(len=max(howbig,1)) :: value)
+       ! get value
+       call get_environment_variable( &
+       & name,value,status=stat,trim_name=.true.)
+       if(stat.ne.0)value=""
+      end select
+   endif
+   if(value.eq."".and.present(default))value=default
+   uvalue=value
+end function get_env_aa
+
+function get_env_uu(name,default) result(value)
+! a function that makes calling get_environment_variable(3) simple
+type(unicode_type),intent(in)          :: name
+type(unicode_type),intent(in),optional :: default
+type(unicode_type)                     :: value
+character(len=:),allocatable           :: temp1
+character(len=:),allocatable           :: temp2
+integer                                :: nerr
+   call codepoints_to_utf8_str(name%codes,temp1,nerr)
+   if(present(default))then
+      call codepoints_to_utf8_str(default%codes,temp2,nerr)
+      value=get_env_aa(temp1,temp2)
+   else
+      value=get_env_aa(temp1)
+   endif
+end function get_env_uu
+
+function get_env_au(name,default) result(value)
+! a function that makes calling get_environment_variable(3) simple
+character(len=*),intent(in)   :: name
+type(unicode_type),intent(in) :: default
+type(unicode_type)            :: value
+character(len=:),allocatable  :: temp
+integer                       :: nerr
+   call codepoints_to_utf8_str(default%codes,temp,nerr)
+   value=get_env_aa(name,temp)
+end function get_env_au
+
+function get_env_ua(name,default) result(value)
+! a function that makes calling get_environment_variable(3) simple
+type(unicode_type),intent(in)        :: name
+character(len=*),intent(in)          :: default
+type(unicode_type)                   :: value
+character(len=:),allocatable         :: temp
+integer                              :: nerr
+   call codepoints_to_utf8_str(name%codes,temp,nerr)
+   value=get_env_aa(temp,default)
+end function get_env_ua
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
+function get_arg_ia(pos,default) result(value)
+! get nth argument from command line
+integer,intent(in)                   :: pos
+character(len=*),intent(in),optional :: default
+character(len=:),allocatable         :: temp
+type(unicode_type)                   :: value
+integer                              :: argument_length, istat
+   call get_command_argument(number=pos,length=argument_length)
+   if(allocated(temp))deallocate(temp)
+   allocate(character(len=argument_length) :: temp)
+   temp(:)=''
+   call get_command_argument(pos, temp, status=istat)
+   if(present(default))then
+      if(temp.eq.'')temp=default
+   endif
+   value=temp
+end function get_arg_ia
+
+function get_arg_iu(pos,default) result(value)
+integer,intent(in)            :: pos
+type(unicode_type),intent(in) :: default
+character(len=:),allocatable  :: temp
+type(unicode_type)            :: value
+integer                       :: nerr
+   call codepoints_to_utf8_str(default%codes,temp,nerr)
+   value=get_arg_ia(pos,temp)
+end function get_arg_iu
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
@@ -7488,6 +7719,36 @@ integer,intent(in),optional    :: first, last, step
 type(unicode_type)             :: str_out
    str_out=sub(self,first,last,step)
 end function oop_sub
+!===================================================================================================================================
+function oop_get_arg_ia(self,pos,default) result (value)
+class(unicode_type),intent(in)       :: self
+integer,intent(in)                   :: pos
+character(len=*),intent(in),optional :: default
+type(unicode_type)                   :: value
+   value=get_arg_ia(pos,default)
+end function oop_get_arg_ia
+!===================================================================================================================================
+function oop_get_arg_iu(self,pos,default) result (value)
+class(unicode_type),intent(in) :: self
+integer,intent(in)             :: pos
+type(unicode_type),intent(in)  :: default
+type(unicode_type)             :: value
+   value=get_arg_iu(pos,default)
+end function oop_get_arg_iu
+!===================================================================================================================================
+function oop_get_env_ua(self,default) result (value)
+class(unicode_type),intent(in) :: self     ! input line to be changed
+character(len=*),intent(in)    :: default  ! new substring
+type(unicode_type)             :: value    ! output string
+   value=get_env_ua(self,default)
+end function oop_get_env_ua
+!===================================================================================================================================
+function oop_get_env_uu(self,default) result (value)
+class(unicode_type),intent(in) :: self     ! input line to be changed
+type(unicode_type),intent(in)  :: default  ! new substring
+type(unicode_type)             :: value    ! output string
+   value=get_env_uu(self,default)
+end function oop_get_env_uu
 !===================================================================================================================================
 function oop_join(self,array,clip) result (out)
 
