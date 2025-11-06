@@ -534,7 +534,7 @@ contains
    procedure :: join       => oop_join
 
    procedure :: get_env    => oop_get_env_uu, oop_get_env_ua
-   procedure :: get_arg    => oop_get_arg_iu, oop_get_arg_ia
+   procedure :: get_arg    => oop_get_arg_iu
 
    procedure,private :: oop_transliterate_uu, oop_transliterate_aa, oop_transliterate_au, oop_transliterate_ua
    generic, public   :: transliterate => oop_transliterate_uu, oop_transliterate_aa, oop_transliterate_au, oop_transliterate_ua
@@ -7506,12 +7506,12 @@ end function transliterate_auu
 !===================================================================================================================================
 $BLOCK COMMENT --file get_env.3m_unicode.man
 NAME
-   get_env(3f) - [M_unicode:WHITESPACE] function to expand tab characters
+   get_env(3f) - [M_unicode:SYSTEM] return value of environment variable
    (LICENSE:MIT)
 
 SYNOPSIS
 
-    elemental function get_env(name,default) result(out)
+    impure elemental function get_env(name,default) result(out)
 
      type(unicode_type),intent=(in) :: name
      type(unicode_type),optional    :: default
@@ -7561,7 +7561,7 @@ EXAMPLES
        value=get_env(name,             default%character() )
        value=get_env(name%character(), default             )
        !
-       write(*,*)(value%character(i,i),i=1,value%len())
+       write(*,*)value%character()
        !
        ! print each glyph surrounded by brackets
        write(*,bracket)(value%character(i,i),i=1,value%len())
@@ -7580,7 +7580,7 @@ LICENSE
     MIT
 $ENDBLOCK
 $!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-function get_env_aa(name,default) result(uvalue)
+impure elemental function get_env_aa(name,default) result(uvalue)
 ! a function that makes calling get_environment_variable(3) simple
 use, intrinsic :: iso_fortran_env, only : stderr=>ERROR_UNIT
 implicit none
@@ -7621,7 +7621,7 @@ integer                              :: length
    uvalue=value
 end function get_env_aa
 
-function get_env_uu(name,default) result(value)
+impure elemental function get_env_uu(name,default) result(value)
 ! a function that makes calling get_environment_variable(3) simple
 type(unicode_type),intent(in)          :: name
 type(unicode_type),intent(in),optional :: default
@@ -7638,7 +7638,7 @@ integer                                :: nerr
    endif
 end function get_env_uu
 
-function get_env_au(name,default) result(value)
+impure elemental function get_env_au(name,default) result(value)
 ! a function that makes calling get_environment_variable(3) simple
 character(len=*),intent(in)   :: name
 type(unicode_type),intent(in) :: default
@@ -7649,7 +7649,7 @@ integer                       :: nerr
    value=get_env_aa(name,temp)
 end function get_env_au
 
-function get_env_ua(name,default) result(value)
+impure elemental function get_env_ua(name,default) result(value)
 ! a function that makes calling get_environment_variable(3) simple
 type(unicode_type),intent(in)        :: name
 character(len=*),intent(in)          :: default
@@ -7662,7 +7662,83 @@ end function get_env_ua
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
-function get_arg_ia(pos,default) result(value)
+$BLOCK COMMENT --file get_arg.3m_unicode.man
+NAME
+   get_arg(3f) - [M_unicode:SYSTEM] get command line argument
+   (LICENSE:MIT)
+
+SYNOPSIS
+
+    impure elemental function get_arg(position,default) result(out)
+
+     integer,intent=(in)         :: position
+     type(unicode_type),optional :: default
+     type(unicode_type)          :: out
+
+CHARACTERISTICS
+   DEFAULT may be default CHARACTER type as well.
+
+DESCRIPTION
+   get_arg(3) gets the value of the requested command line argument
+   as TYPE(UNICODE_TYPE) .
+
+OPTIONS
+   position Position on command line of requested argument. Zero returns
+	    the name of the command executed. Non-existent positions
+	    default to returning a null string.
+	    
+   default  value to return if argument is not set or set to a blank value
+
+RETURNS
+   out      value assigned based on value of environment variable NAME
+
+EXAMPLES
+
+ Sample program:
+
+    program demo_get_arg
+    use M_unicode, only : get_arg, ut=> unicode_type, ch=>character
+    use M_unicode, only : assignment(=), operator(//), write(formatted)
+    implicit none
+    integer  :: position 
+    type(ut) :: default
+    type(ut) :: value
+    type(ut) :: smiley
+    integer  :: i 
+    character(len=*),parameter :: bracket= '(1x,*("[",a,"]",:))'
+       !
+       smiley=128515 ! set with Unicode code point
+       default='Wish I was first '//smiley//'!' ! set with unicode_type
+       !
+       ! arguments can be type(unicode_type) or character
+       ! but type(unicode_type) is always returned
+       do position=0,command_argument_count()
+          value=get_arg(position, default             )
+          value=get_arg(position, default%character() )
+          !
+          write(*,*)value%character()
+          write(*,'(DT)')default%get_arg(position)
+          !
+          ! print each glyph surrounded by brackets
+          write(*,bracket)(value%character(i,i),i=1,value%len())
+       enddo
+       !
+    end program demo_get_arg
+
+  Results:
+
+   > demo_get_arg
+   > demo_get_arg
+   > [d][e][m][o][_][g][e][t][_][a][r][g]
+
+AUTHOR
+     John S. Urban
+
+LICENSE
+    MIT
+$ENDBLOCK
+$!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+impure elemental function get_arg_ia(pos,default) result(value)
 ! get nth argument from command line
 integer,intent(in)                   :: pos
 character(len=*),intent(in),optional :: default
@@ -7680,7 +7756,7 @@ integer                              :: argument_length, istat
    value=temp
 end function get_arg_ia
 
-function get_arg_iu(pos,default) result(value)
+impure elemental function get_arg_iu(pos,default) result(value)
 integer,intent(in)            :: pos
 type(unicode_type),intent(in) :: default
 character(len=:),allocatable  :: temp
@@ -7863,33 +7939,24 @@ type(unicode_type)             :: str_out
    str_out=sub(self,first,last,step)
 end function oop_sub
 !===================================================================================================================================
-function oop_get_arg_ia(self,pos,default) result (value)
+function oop_get_arg_iu(self,pos) result (value)
 class(unicode_type),intent(in)       :: self    
 integer,intent(in)                   :: pos
-character(len=*),intent(in),optional :: default  
 type(unicode_type)                   :: value 
-   value=get_arg_ia(pos,default)
-end function oop_get_arg_ia
-!===================================================================================================================================
-function oop_get_arg_iu(self,pos,default) result (value)
-class(unicode_type),intent(in) :: self     
-integer,intent(in)             :: pos
-type(unicode_type),intent(in)  :: default  
-type(unicode_type)             :: value    
-   value=get_arg_iu(pos,default)
+   value=get_arg_iu(pos,self)
 end function oop_get_arg_iu
 !===================================================================================================================================
 function oop_get_env_ua(self,default) result (value)
-class(unicode_type),intent(in) :: self     ! input line to be changed
-character(len=*),intent(in)    :: default  ! new substring
-type(unicode_type)             :: value    ! output string
+class(unicode_type),intent(in) :: self    
+character(len=*),intent(in)    :: default 
+type(unicode_type)             :: value   
    value=get_env_ua(self,default)
 end function oop_get_env_ua
 !===================================================================================================================================
 function oop_get_env_uu(self,default) result (value)
-class(unicode_type),intent(in) :: self     ! input line to be changed
-type(unicode_type),intent(in)  :: default  ! new substring
-type(unicode_type)             :: value    ! output string
+class(unicode_type),intent(in) :: self    
+type(unicode_type),intent(in)  :: default
+type(unicode_type)             :: value  
    value=get_env_uu(self,default)
 end function oop_get_env_uu
 !===================================================================================================================================
