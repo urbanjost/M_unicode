@@ -36,7 +36,7 @@
         ' to think without learning is to be in danger".'])
         !
         write(*,'(*(:,"[",g0,"]",/))')ch(array)
-        ! all elements will be the same length in bytes but not neccessarily
+        ! all elements will be the same length in bytes but not necessarily
         !in glyphs
         write(*,'(a,*(i0,1x))')'all elements the same length in BYTES:', &
                 & len(ch(array))

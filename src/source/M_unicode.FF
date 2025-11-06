@@ -7343,7 +7343,7 @@ EXAMPLES
        UPPER='ABCDEFGHIJKLMNOPQRSTUVWXYZ'
        call callit()
 
-       print u,
+       print u
        print u,ut('Greek')
        !
        ! | Α α | Β β | Γ γ | Δ δ | Ε ε | Ζ ζ   |
@@ -7358,7 +7358,7 @@ EXAMPLES
        call callit()
 
        ! OOP
-       print u,
+       print u
        print u,ut('OOP!')
        print u,STRING%TRANSLITERATE(UPPER,'_')
 
@@ -7527,8 +7527,8 @@ DESCRIPTION
 OPTIONS
    name     name of environment variable to return the value of.
             Typically the name may only contain the characters
-	    A-Z,a-z,0-9 and underscore; but allowed values are
-	    system-dependent.
+            A-Z,a-z,0-9 and underscore; but allowed values are
+            system-dependent.
    default  value to return if environment variable NAME is not set
             or set to a blank value
 
@@ -7543,7 +7543,7 @@ EXAMPLES
     use M_unicode, only : get_env, ut=> unicode_type
     use M_unicode, only : assignment(=), operator(//)
     implicit none
-    type(ut) :: name 
+    type(ut) :: name
     type(ut) :: default
     type(ut) :: value
     type(ut) :: smiley
@@ -7683,10 +7683,10 @@ DESCRIPTION
    as TYPE(UNICODE_TYPE) .
 
 OPTIONS
-   position Position on command line of requested argument. Zero returns
-	    the name of the command executed. Non-existent positions
-	    default to returning a null string.
-	    
+   position  Position on command line of requested argument. Zero returns
+             the name of the command executed. Non-existent positions
+             default to returning a null string.
+
    default  value to return if argument is not set or set to a blank value
 
 RETURNS
@@ -7700,11 +7700,11 @@ EXAMPLES
     use M_unicode, only : get_arg, ut=> unicode_type, ch=>character
     use M_unicode, only : assignment(=), operator(//), write(formatted)
     implicit none
-    integer  :: position 
+    integer  :: position
     type(ut) :: default
     type(ut) :: value
     type(ut) :: smiley
-    integer  :: i 
+    integer  :: i
     character(len=*),parameter :: bracket= '(1x,*("[",a,"]",:))'
        !
        smiley=128515 ! set with Unicode code point
@@ -7738,32 +7738,32 @@ LICENSE
     MIT
 $ENDBLOCK
 $!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-impure elemental function get_arg_ia(pos,default) result(value)
+impure elemental function get_arg_ia(position,default) result(value)
 ! get nth argument from command line
-integer,intent(in)                   :: pos
+integer,intent(in)                   :: position
 character(len=*),intent(in),optional :: default
 character(len=:),allocatable         :: temp
 type(unicode_type)                   :: value
 integer                              :: argument_length, istat
-   call get_command_argument(number=pos,length=argument_length)
+   call get_command_argument(number=position,length=argument_length)
    if(allocated(temp))deallocate(temp)
    allocate(character(len=argument_length) :: temp)
    temp(:)=''
-   call get_command_argument(pos, temp, status=istat)
+   call get_command_argument(position, temp, status=istat)
    if(present(default))then
       if(temp.eq.'')temp=default
    endif
    value=temp
 end function get_arg_ia
 
-impure elemental function get_arg_iu(pos,default) result(value)
-integer,intent(in)            :: pos
+impure elemental function get_arg_iu(position,default) result(value)
+integer,intent(in)            :: position
 type(unicode_type),intent(in) :: default
 character(len=:),allocatable  :: temp
 type(unicode_type)            :: value
 integer                       :: nerr
    call codepoints_to_utf8_str(default%codes,temp,nerr)
-   value=get_arg_ia(pos,temp)
+   value=get_arg_ia(position,temp)
 end function get_arg_iu
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
@@ -7939,24 +7939,24 @@ type(unicode_type)             :: str_out
    str_out=sub(self,first,last,step)
 end function oop_sub
 !===================================================================================================================================
-function oop_get_arg_iu(self,pos) result (value)
-class(unicode_type),intent(in)       :: self    
-integer,intent(in)                   :: pos
-type(unicode_type)                   :: value 
-   value=get_arg_iu(pos,self)
+function oop_get_arg_iu(self,position) result (value)
+class(unicode_type),intent(in)       :: self
+integer,intent(in)                   :: position
+type(unicode_type)                   :: value
+   value=get_arg_iu(position,self)
 end function oop_get_arg_iu
 !===================================================================================================================================
 function oop_get_env_ua(self,default) result (value)
-class(unicode_type),intent(in) :: self    
-character(len=*),intent(in)    :: default 
-type(unicode_type)             :: value   
+class(unicode_type),intent(in) :: self
+character(len=*),intent(in)    :: default
+type(unicode_type)             :: value
    value=get_env_ua(self,default)
 end function oop_get_env_ua
 !===================================================================================================================================
 function oop_get_env_uu(self,default) result (value)
-class(unicode_type),intent(in) :: self    
+class(unicode_type),intent(in) :: self
 type(unicode_type),intent(in)  :: default
-type(unicode_type)             :: value  
+type(unicode_type)             :: value
    value=get_env_uu(self,default)
 end function oop_get_env_uu
 !===================================================================================================================================

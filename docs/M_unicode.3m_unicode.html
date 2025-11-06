@@ -75,22 +75,22 @@ M_unicode(3f) - [M_unicode::INTRO] Unicode string module
 
 </A>
 <BLOCKQUOTE>
-The M_unicode(3fm) module is a collection of Fortran string
+The M_unicode(3f) module is a collection of Fortran string
 methods that work with UTF-8-encoded as well as ASCII-7 data via the
 user-defined type "unicode_type". The type supports allocatable ragged
 arrays where each element may be of differing length.
 <P>
-Routines for parsing, tokenizing, changing case, substituting
-new strings for substrings, locating strings with simple wildcard
-expressions, removing tabs and line terminators and other string
-manipulations are included.
+M_unicode(3f) includes routines for parsing, tokenizing, changing
+case, substituting new strings for substrings, locating strings with
+simple wildcard expressions, removing tabs and line terminators and
+other string manipulations.
 <P>
-The M_unicode(3fm) module supplements the Fortran built-in
+The M_unicode(3fm) module also supplements the Fortran built-in
 intrinsics with overloads of operators and intrinsics that allow
 type(unicode_type) to be used with intrinsic names in much the same
 manner the intrinsics operate on CHARACTER variables.
 <P>
-Other overloads of assignment, logical comparisons, and concatenation
+Overloads of assignment, logical comparisons, and concatenation
 using the // operator with strings (and other types) are included
 as well as the intrinsics to make use of type(unicode_type) largely
 consistent with standard CHARACTER string manipulations.
@@ -135,6 +135,10 @@ Parse a string into tokens.
 <B>replace</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
 function non-recursively globally replaces old
 substring with new substring
+</TD></TR>
+<TR valign=top><TD colspan=2>
+<B>transliterate</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+replace characters from old set with new set
 </TD></TR>
 <TR></TR></TABLE></BLOCKQUOTE>
 <A name=>
@@ -374,6 +378,22 @@ strings and concatenate
 <TR></TR></TABLE></BLOCKQUOTE>
 <A name=>
 
+    <H4>&nbsp; &nbsp; SYSTEM</H4>
+</A>
+<BLOCKQUOTE>
+<P>
+<TABLE cellpadding=3>
+<TR valign=top><TD colspan=2>
+<B>get_env</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+Get environment variable
+</TD></TR>
+<TR valign=top><TD colspan=2>
+<B>get_arg</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+Get command line argument
+</TD></TR>
+<TR></TR></TABLE></BLOCKQUOTE>
+<A name=>
+
     <H4>&nbsp; &nbsp; MISCELLANEOUS</H4>
 </A>
 <BLOCKQUOTE>
@@ -394,9 +414,9 @@ Sort by Unicode codepoint value (not dictionary order)
 </A>
 <BLOCKQUOTE>
 <P>
-An OOP (Object-Oriented Programming) interface to
-the M_unicode(3fm) module provides an alternative interface to all the
-same procedures except for SORT(3f) and CHAR(3f).
+An OOP (Object-Oriented Programming) interface to the M_unicode(3fm)
+module provides an alternative interface to all the same procedures
+except for SORT(3f) and CHAR(3f).
 </BLOCKQUOTE>
 <A name=3>
 

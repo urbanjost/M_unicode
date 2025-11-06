@@ -176,7 +176,7 @@ Sample program
    character(len=1),allocatable :: bytes(:)
    character(len=*),parameter   :: solid=&#146;(*(g0))&#146;
    character(len=*),parameter   :: space=&#146;(*(g0,1x))&#146;
-   character(len=*),parameter   :: z=&#146;(*(z0,1x))&#146;
+   character(len=*),parameter   :: z=&#146;(a,*(z0,1x))&#146;
    integer                      :: nerr
    ! BASIC USAGE: SCALAR CHARACTER VARIABLE
      write(*,space)&#146;CODEPOINTS:&#146;, codepoints
