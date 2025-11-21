@@ -91,20 +91,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 2.3% of total for procedures.">21 statements</a>
+                 title=" 1.6% of total for procedures.">21 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/M_unicode.f90"> Source File</a>
+              <a href="../src/M_unicode.F90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/m_unicode.f90.html'>M_unicode.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/m_unicode.html'>M_unicode</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/m_unicode.f90.html'>M_unicode.F90</a></li>
+                <li class="breadcrumb-item"><a href='../module/m_unicode__base.html'>M_unicode__base</a></li>
             <li class="breadcrumb-item active" aria-current="page">upper</li>
           </ol>
         </nav>
@@ -162,6 +162,108 @@
 </h2>
     
 
+    <h2 id="name">NAME</h2>
+<p>UPPER(3f) - [M_unicode:CASE] changes a string to uppercase
+  (LICENSE:MIT)</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<div class="codehilite"><pre><span></span><code> elemental pure function upper(str) result (string)
+
+  character(*), intent(in)    :: str
+  character(len(str))         :: string  ! output string
+</code></pre></div>
+
+<h2 id="description">DESCRIPTION</h2>
+<div class="codehilite"><pre><span></span><code>upper(string) returns a copy of the input string with all characters
+converted to uppercase, assuming Unicode character sets are being used.
+</code></pre></div>
+
+<h2 id="options">OPTIONS</h2>
+<div class="codehilite"><pre><span></span><code> str    string to convert to uppercase
+</code></pre></div>
+
+<h2 id="returns">RETURNS</h2>
+<div class="codehilite"><pre><span></span><code> upper  copy of the input string with all characters converted to
+        uppercase.
+</code></pre></div>
+
+<h2 id="trivia">TRIVIA</h2>
+<div class="codehilite"><pre><span></span><code> The terms &quot;uppercase&quot; and &quot;lowercase&quot; date back to the early days of
+ the mechanical printing press. Individual metal alloy casts of each
+ needed letter, or punctuation symbol, were meticulously added to a
+ press block, by hand, before rolling out copies of a page. These
+ metal casts were stored and organized in wooden cases. The more
+ often needed miniscule letters were placed closer to hand, in the
+ lower cases of the work bench. The less often needed, capitalized,
+ majuscule letters, ended up in the harder to reach upper cases.
+</code></pre></div>
+
+<h2 id="examples">EXAMPLES</h2>
+<p>Sample program:</p>
+<div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">demo_upper</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">stdout</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nx">output_unit</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">upper</span><span class="p">,</span><span class="w"> </span><span class="nx">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="nx">assignment</span><span class="p">(=)</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">ut</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nx">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="nx">operator</span><span class="p">(</span><span class="o">==</span><span class="p">)</span>
+<span class="nx">implicit</span><span class="w"> </span><span class="nx">none</span>
+<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">parameter</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">g</span><span class="p">=</span><span class="err">&#39;</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nx">g0</span><span class="p">))</span><span class="err">&#39;</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span><span class="w">         </span><span class="o">::</span><span class="w"> </span><span class="nx">pangram</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span><span class="w">         </span><span class="o">::</span><span class="w"> </span><span class="nx">diacritics</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span><span class="w">         </span><span class="o">::</span><span class="w"> </span><span class="nx">expected</span>
+<span class="w">   </span><span class="p">!</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">sentence</span><span class="w"> </span><span class="nx">containing</span><span class="w"> </span><span class="nx">every</span><span class="w"> </span><span class="nx">letter</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">English</span><span class="w"> </span><span class="nx">alphabet</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">often</span><span class="w"> </span><span class="nx">used</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">test</span><span class="w"> </span><span class="nx">telegraphs</span><span class="w"> </span><span class="nx">since</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">advent</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="mi">19</span><span class="nx">th</span><span class="w"> </span><span class="nx">century</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nx">an</span><span class="w"> </span><span class="nx">exercise</span><span class="w"> </span><span class="nx">repetitively</span><span class="w"> </span><span class="nx">generated</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nx">typing</span><span class="w"> </span><span class="nx">classes</span>
+<span class="w">   </span><span class="nx">pangram</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;The quick brown fox jumps over the lazy dog.&quot;</span>
+<span class="w">   </span><span class="nx">expected</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG.&quot;</span>
+<span class="w">   </span><span class="nx">call</span><span class="w"> </span><span class="nx">test</span><span class="p">(</span><span class="nx">pangram</span><span class="p">,</span><span class="nx">expected</span><span class="p">)</span>
+<span class="w">   </span><span class="p">!</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">Slovak</span><span class="w"> </span><span class="nx">pangram</span>
+<span class="w">   </span><span class="nx">pangram</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">Vypätá</span><span class="w"> </span><span class="nx">dcéra</span><span class="w"> </span><span class="nx">grófa</span><span class="w"> </span><span class="nx">Maxwella</span><span class="w"> </span><span class="nx">s</span><span class="w"> </span><span class="nx">IQ</span><span class="w"> </span><span class="nx">nižším</span><span class="w"> </span><span class="nx">ako</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">   </span><span class="o">&amp;</span><span class="nx">kôň</span><span class="w"> </span><span class="nx">núti</span><span class="w"> </span><span class="nx">čeľaď</span><span class="w"> </span><span class="nx">hrýzť</span><span class="w"> </span><span class="nx">hŕbu</span><span class="w"> </span><span class="nx">jabĺk</span><span class="p">.</span><span class="err">&#39;</span>
+<span class="w">   </span><span class="nx">expected</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">VYPÄTÁ</span><span class="w"> </span><span class="nx">DCÉRA</span><span class="w"> </span><span class="nx">GRÓFA</span><span class="w"> </span><span class="nx">MAXWELLA</span><span class="w"> </span><span class="nx">S</span><span class="w"> </span><span class="nx">IQ</span><span class="w"> </span><span class="nx">NIŽŠÍM</span><span class="w"> </span><span class="nx">AKO</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">   </span><span class="o">&amp;</span><span class="nx">KÔŇ</span><span class="w"> </span><span class="nx">NÚTI</span><span class="w"> </span><span class="nx">ČEĽAĎ</span><span class="w"> </span><span class="nx">HRÝZŤ</span><span class="w"> </span><span class="nx">HŔBU</span><span class="w"> </span><span class="nx">JABĹK</span><span class="p">.</span><span class="err">&#39;</span>
+<span class="w">   </span><span class="nx">call</span><span class="w"> </span><span class="nx">test</span><span class="p">(</span><span class="nx">pangram</span><span class="p">,</span><span class="nx">expected</span><span class="p">)</span>
+<span class="w">   </span><span class="p">!</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">contains</span><span class="w"> </span><span class="nx">each</span><span class="w"> </span><span class="nx">special</span><span class="w"> </span><span class="nx">Czech</span><span class="w"> </span><span class="nx">letter</span><span class="w"> </span><span class="nx">with</span><span class="w"> </span><span class="nx">diacritics</span><span class="w"> </span><span class="nx">exactly</span><span class="w"> </span><span class="nx">once</span>
+<span class="w">   </span><span class="nx">print</span><span class="w"> </span><span class="nx">g</span><span class="p">,</span><span class="err">&#39;</span><span class="p">(</span><span class="s">&quot;A horse that was too yellow-ish moaned devilish odes&quot;</span><span class="p">)</span><span class="err">&#39;</span>
+<span class="w">   </span><span class="nx">diacritics</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">Příliš</span><span class="w"> </span><span class="nx">žluťoučký</span><span class="w"> </span><span class="nx">kůň</span><span class="w"> </span><span class="nx">úpěl</span><span class="w"> </span><span class="nx">ďábelské</span><span class="w"> </span><span class="nx">ódy</span><span class="p">.</span><span class="err">&#39;</span>
+<span class="w">   </span><span class="nx">expected</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">PŘÍLIŠ</span><span class="w"> </span><span class="nx">ŽLUŤOUČKÝ</span><span class="w"> </span><span class="nx">KŮŇ</span><span class="w"> </span><span class="nx">ÚPĚL</span><span class="w"> </span><span class="nx">ĎÁBELSKÉ</span><span class="w"> </span><span class="nx">ÓDY</span><span class="p">.</span><span class="err">&#39;</span>
+<span class="w">   </span><span class="nx">call</span><span class="w"> </span><span class="nx">test</span><span class="p">(</span><span class="nx">diacritics</span><span class="p">,</span><span class="nx">expected</span><span class="p">)</span>
+<span class="nx">contains</span>
+<span class="nx">subroutine</span><span class="w"> </span><span class="nx">test</span><span class="p">(</span><span class="k">in</span><span class="p">,</span><span class="nx">expected</span><span class="p">)</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="k">in</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">expected</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span><span class="w">            </span><span class="o">::</span><span class="w"> </span><span class="nx">uppercase</span>
+<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">parameter</span><span class="w">    </span><span class="o">::</span><span class="w"> </span><span class="nx">nl</span><span class="p">=</span><span class="nx">new_line</span><span class="p">(</span><span class="sc">&#39;A&#39;</span><span class="p">)</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="nx">stdout</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span><span class="k">in</span><span class="o">%</span><span class="nx">character</span><span class="p">()</span>
+<span class="w">   </span><span class="nx">uppercase</span><span class="p">=</span><span class="nx">upper</span><span class="p">(</span><span class="k">in</span><span class="p">)</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="nx">stdout</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span><span class="nx">uppercase</span><span class="o">%</span><span class="nx">character</span><span class="p">()</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="nx">stdout</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span><span class="nx">merge</span><span class="p">(</span><span class="err">&#39;</span><span class="nx">PASSED</span><span class="sc">&#39;,&#39;</span><span class="nx">FAILED</span><span class="err">&#39;</span><span class="p">,</span><span class="nx">uppercase</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nx">expected</span><span class="w"> </span><span class="p">),</span><span class="nx">nl</span>
+<span class="nx">end</span><span class="w"> </span><span class="nx">subroutine</span><span class="w"> </span><span class="nx">test</span>
+<span class="nx">end</span><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_upper</span>
+</code></pre></div>
+
+<p>Expected output</p>
+<blockquote>
+<p>The quick brown fox jumps over the lazy dog.
+THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG.
+PASSED</p>
+<p>Vypätá dcéra grófa Maxwella s IQ nižším ako kôň núti &hellip;
+čeľaď hrýzť hŕbu jabĺk.
+VYPÄTÁ DCÉRA GRÓFA MAXWELLA S IQ NIŽŠÍM AKO KÔŇ NÚTI &hellip;
+ČEĽAĎ HRÝZŤ HŔBU JABĹK.
+PASSED</p>
+<p>(&ldquo;A horse that was too yellow-ish moaned devilish odes&rdquo;)
+Příliš žluťoučký kůň úpěl ďábelské ódy.
+PŘÍLIŠ ŽLUŤOUČKÝ KŮŇ ÚPĚL ĎÁBELSKÉ ÓDY.
+PASSED</p>
+</blockquote>
+<h2 id="author">AUTHOR</h2>
+<div class="codehilite"><pre><span></span><code> John S. Urban
+</code></pre></div>
+
+<h2 id="license">LICENSE</h2>
+<div class="codehilite"><pre><span></span><code> MIT
+</code></pre></div>
 
 
     <h3>Arguments</h3>
@@ -177,7 +279,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~2"></span>
+              <span class="anchor" id="variable-str~6"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -195,7 +297,7 @@
 
       <h3>Return Value
         <small>
-          <span class="anchor" id="variable-string~25"></span>
+          <span class="anchor" id="variable-string~32"></span>
           type(<a href='../type/unicode_type.html'>unicode_type</a>)
         </small>
       </h3>
@@ -214,33 +316,33 @@
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="k">elemental pure function </span><span class="n">upper</span><span class="p">(</span><span class="n">str</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="w"> </span><span class="p">(</span><span class="n">string</span><span class="p">)</span><span class="w"></span>
+    <div class="hl codehilite"><pre><span></span><span class="k">elemental pure function </span><span class="n">upper</span><span class="p">(</span><span class="n">str</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="w"> </span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
 
-<span class="c">! ident_25=&quot;@(#) M_unicode upper(3f) returns an uppercase string&quot;</span>
+<span class="c">! ident_8=&quot;@(#) M_unicode upper(3f) returns an uppercase string&quot;</span>
 
 <span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">str</span><span class="w">                 </span><span class="c">! input string to convert to all uppercase</span>
 <span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">string</span><span class="w">              </span><span class="c">! output string that contains no miniscule letters</span>
 <span class="kt">integer</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="w">                   </span><span class="c">! loop counter</span>
-<span class="kt">integer</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">pos</span><span class="w"></span>
-<span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">ade_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">),</span><span class="w"> </span><span class="n">ade_z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;z&#39;</span><span class="p">)</span><span class="w"></span>
-<span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">diff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="kt">integer</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">pos</span>
+<span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">ade_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">),</span><span class="w"> </span><span class="n">ade_z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;z&#39;</span><span class="p">)</span>
+<span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">diff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
 
-<span class="w">   </span><span class="n">string</span><span class="o">=</span><span class="n">str</span><span class="w"></span>
+<span class="w">   </span><span class="n">string</span><span class="o">=</span><span class="n">str</span>
 <span class="w">   </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">str</span><span class="p">)</span><span class="w">                           </span><span class="c">! step thru each letter in the string in specified range</span>
-<span class="w">      </span><span class="k">select case</span><span class="p">(</span><span class="n">str</span><span class="p">%</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="w"></span>
-<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="n">ade_a</span><span class="p">:</span><span class="n">ade_z</span><span class="p">)</span><span class="w"></span>
-<span class="w">         </span><span class="n">string</span><span class="p">%</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str</span><span class="p">%</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">diff</span><span class="w"></span>
-<span class="w">      </span><span class="k">case </span><span class="n">default</span><span class="w"></span>
-<span class="w">         </span><span class="n">pos</span><span class="o">=</span><span class="n">binary_search</span><span class="p">(</span><span class="n">low_to_up</span><span class="p">(:,</span><span class="mi">1</span><span class="p">),</span><span class="n">str</span><span class="p">%</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="k">select case</span><span class="p">(</span><span class="n">str</span><span class="p">%</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="n">ade_a</span><span class="p">:</span><span class="n">ade_z</span><span class="p">)</span>
+<span class="w">         </span><span class="n">string</span><span class="p">%</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str</span><span class="p">%</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">diff</span>
+<span class="w">      </span><span class="k">case </span><span class="n">default</span>
+<span class="w">         </span><span class="n">pos</span><span class="o">=</span><span class="n">binary_search</span><span class="p">(</span><span class="n">low_to_up</span><span class="p">(:,</span><span class="mi">1</span><span class="p">),</span><span class="n">str</span><span class="p">%</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
 <span class="w">         </span><span class="k">if</span><span class="p">(</span><span class="n">pos</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>
-<span class="k">            </span><span class="n">string</span><span class="p">%</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">low_to_up</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+<span class="k">            </span><span class="n">string</span><span class="p">%</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">low_to_up</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
 <span class="w">         </span><span class="k">endif</span>
 <span class="k">      end select</span>
 <span class="k">   enddo</span>
 
-<span class="k">   if</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">str</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="n">string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str</span><span class="w"></span>
+<span class="k">   if</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">str</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="n">string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str</span>
 
-<span class="k">end function </span><span class="n">upper</span><span class="w"></span>
+<span class="k">end function </span><span class="n">upper</span>
 </pre></div>
 
     </section>
@@ -264,7 +366,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-10-05 16:21 +0000             </p>
+ on 2025-11-21 18:13 +0000             </p>
           </div>
         </div>
         <br>

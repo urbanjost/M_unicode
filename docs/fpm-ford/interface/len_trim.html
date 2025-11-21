@@ -91,20 +91,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.3% of total for procedures.</p>Including implementation: 11 statements,  1.2% of total for procedures.">3 statements</a>
+                 title="<p> 0.2% of total for procedures.</p>Including implementation: 11 statements,  0.9% of total for procedures.">3 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/M_unicode.f90"> Source File</a>
+              <a href="../src/M_unicode.F90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/m_unicode.f90.html'>M_unicode.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/m_unicode.html'>M_unicode</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/m_unicode.f90.html'>M_unicode.F90</a></li>
+                <li class="breadcrumb-item"><a href='../module/m_unicode__base.html'>M_unicode__base</a></li>
             <li class="breadcrumb-item active" aria-current="page">len_trim</li>
           </ol>
         </nav>
@@ -173,7 +173,98 @@
     <div class="card-header codesum"><span class="anchor" id="proc-len_trim_str"></span> <h3>private elemental function len_trim_str(string) result(length)  
 </h3></div>
     <div class="card-body">
-        
+        <h2 id="name">NAME</h2>
+<p>LEN_TRIM(3f) - [M_unicode:WHITESPACE] string length without trailing blank
+   characters
+   (LICENSE:MIT)</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<p>result = len_trim(string)</p>
+<div class="codehilite"><pre><span></span><code>      elemental integer(kind=kind) function len_trim(string)
+
+       character(len=*),intent(in) :: string
+</code></pre></div>
+
+<h2 id="characteristics">CHARACTERISTICS</h2>
+<ul>
+<li>string is of type type(unicode_type)</li>
+<li>the return value is of type default integer.</li>
+</ul>
+<h2 id="description">DESCRIPTION</h2>
+<p>len_trim(3) returns the length of a string, ignoring any trailing
+   blanks.</p>
+<h2 id="options">OPTIONS</h2>
+<ul>
+<li>string : the input string whose length is to be measured.</li>
+</ul>
+<h2 id="result">RESULT</h2>
+<p>the result equals the number of glyphs remaining after any trailing
+   blanks in string are removed.</p>
+<p>if the input argument is of zero length or all blanks the result is zero.</p>
+<h2 id="examples">EXAMPLES</h2>
+<p>sample program</p>
+<div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">demo_len_trim</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">ut</span><span class="o">=&gt;</span><span class="nx">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="nx">assignment</span><span class="p">(=)</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">len</span><span class="p">,</span><span class="nx">len_trim</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">write</span><span class="p">(</span><span class="nx">formatted</span><span class="p">)</span>
+<span class="nx">implicit</span><span class="w"> </span><span class="nx">none</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="kt">string</span>
+<span class="nx">integer</span><span class="w">  </span><span class="o">::</span><span class="w"> </span><span class="nx">i</span>
+<span class="p">!</span><span class="w"> </span><span class="nx">basic</span><span class="w"> </span><span class="nx">usage</span>
+<span class="w">   </span><span class="kt">string</span><span class="p">=</span><span class="s">&quot; how long is this string?     &quot;</span>
+<span class="w">   </span><span class="nx">print</span><span class="w"> </span><span class="err">&#39;</span><span class="p">(</span><span class="nx">DT</span><span class="p">)</span><span class="err">&#39;</span><span class="p">,</span><span class="w">  </span><span class="kt">string</span>
+<span class="w">   </span><span class="nx">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">untrimmed</span><span class="w"> </span><span class="nx">length</span><span class="p">=</span><span class="err">&#39;</span><span class="p">,</span><span class="nx">len</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span>
+<span class="w">   </span><span class="nx">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">trimmed</span><span class="w"> </span><span class="nx">length</span><span class="p">=</span><span class="err">&#39;</span><span class="p">,</span><span class="nx">len_trim</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span>
+<span class="w">   </span><span class="p">!</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">print</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="nx">print</span><span class="w"> </span><span class="nx">substring</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="kt">string</span>
+<span class="w">   </span><span class="kt">string</span><span class="p">=</span><span class="err">&#39;</span><span class="nx">xxxxx</span><span class="w">   </span><span class="err">&#39;</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="err">&#39;</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nx">DT</span><span class="p">))</span><span class="err">&#39;</span><span class="p">)</span><span class="kt">string</span><span class="p">,</span><span class="kt">string</span><span class="p">,</span><span class="kt">string</span>
+<span class="w">   </span><span class="nx">i</span><span class="p">=</span><span class="nx">len_trim</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span>
+<span class="w">   </span><span class="nx">print</span><span class="w"> </span><span class="err">&#39;</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nx">DT</span><span class="p">))</span><span class="err">&#39;</span><span class="p">,</span><span class="kt">string</span><span class="o">%</span><span class="nx">sub</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nx">i</span><span class="p">),</span><span class="kt">string</span><span class="o">%</span><span class="nx">sub</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nx">i</span><span class="p">),</span><span class="kt">string</span><span class="o">%</span><span class="nx">sub</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nx">i</span><span class="p">)</span>
+<span class="w">   </span><span class="p">!</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">elemental</span><span class="w"> </span><span class="nx">example</span>
+<span class="w">   </span><span class="nx">ele</span><span class="p">:</span><span class="nx">block</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">an</span><span class="w"> </span><span class="nx">array</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">strings</span><span class="w"> </span><span class="nx">may</span><span class="w"> </span><span class="nx">be</span><span class="w"> </span><span class="nx">used</span>
+<span class="w">   </span><span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">),</span><span class="nx">allocatable</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">tablet</span><span class="p">(:)</span>
+<span class="w">   </span><span class="nx">tablet</span><span class="p">=[</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">   </span><span class="o">&amp;</span><span class="w"> </span><span class="nx">ut</span><span class="p">(</span><span class="err">&#39;</span><span class="w"> </span><span class="nx">how</span><span class="w"> </span><span class="nx">long</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="nx">this</span><span class="w"> </span><span class="kt">string</span><span class="p">?</span><span class="w">     </span><span class="err">&#39;</span><span class="p">),</span><span class="o">&amp;</span>
+<span class="w">   </span><span class="o">&amp;</span><span class="w"> </span><span class="nx">ut</span><span class="p">(</span><span class="err">&#39;</span><span class="k">and</span><span class="w"> </span><span class="nx">this</span><span class="w"> </span><span class="nx">one</span><span class="p">?</span><span class="err">&#39;</span><span class="p">)]</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="err">&#39;</span><span class="nx">untrimmed</span><span class="w"> </span><span class="nx">length</span><span class="p">=</span><span class="w">  </span><span class="err">&#39;</span><span class="p">,</span><span class="nx">len</span><span class="p">(</span><span class="nx">tablet</span><span class="p">)</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="err">&#39;</span><span class="nx">trimmed</span><span class="w"> </span><span class="nx">length</span><span class="p">=</span><span class="w">    </span><span class="err">&#39;</span><span class="p">,</span><span class="nx">len_trim</span><span class="p">(</span><span class="nx">tablet</span><span class="p">)</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="err">&#39;</span><span class="nx">sum</span><span class="w"> </span><span class="nx">trimmed</span><span class="w"> </span><span class="nx">length</span><span class="p">=</span><span class="err">&#39;</span><span class="p">,</span><span class="nx">sum</span><span class="p">(</span><span class="nx">len_trim</span><span class="p">(</span><span class="nx">tablet</span><span class="p">))</span>
+<span class="w">   </span><span class="nx">endblock</span><span class="w"> </span><span class="nx">ele</span>
+<span class="w">   </span><span class="p">!</span>
+<span class="nx">end</span><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_len_trim</span>
+</code></pre></div>
+
+<p>results:</p>
+<div class="codehilite"><pre><span></span><code>&gt;  how long is this string?
+&gt;  untrimmed length=          30
+&gt;  trimmed length=          25
+&gt; xxxxx   xxxxx   xxxxx
+&gt; xxxxxxxxxxxxxxx
+&gt;  untrimmed length=            30          13
+&gt;  trimmed length=              25          13
+&gt;  sum trimmed length=          38
+</code></pre></div>
+
+<h2 id="see-also">SEE ALSO</h2>
+<p>functions that perform operations on character strings, return lengths of
+   arguments, and search for certain arguments:</p>
+<ul>
+<li>
+<p>elemental: adjustl(3), adjustr(3), index(3), scan(3), verify(3)</p>
+</li>
+<li>
+<p>nonelemental: repeat(3), len(3), trim(3)</p>
+</li>
+</ul>
+<h2 id="author">AUTHOR</h2>
+<div class="codehilite"><pre><span></span><code> John S. Urban
+</code></pre></div>
+
+<h2 id="license">LICENSE</h2>
+<div class="codehilite"><pre><span></span><code> MIT
+</code></pre></div>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -188,7 +279,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~15"></span>
+              <span class="anchor" id="variable-string~22"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -230,7 +321,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-10-05 16:21 +0000             </p>
+ on 2025-11-21 18:13 +0000             </p>
           </div>
         </div>
         <br>

@@ -5,15 +5,22 @@ use M_unicode, only : adjustl, adjustr, index
 use M_unicode, only : trim, len, len_trim
 use M_unicode, only : repeat
 use M_unicode, only : upper, lower
+use M_unicode, only : expandtabs
+use M_unicode, only : escape
 use M_unicode, only : sort
 use M_unicode, only : scan, verify
 use M_unicode, only : tokenize, split
 use M_unicode, only : ichar
 use M_unicode, only : replace
+use M_unicode, only : sub
 use M_unicode, only : pad
 use M_unicode, only : join
+use M_unicode, only : fmt, afmt
+use M_unicode, only : transliterate
 
-use M_unicode, only : assignment(=), unicode_type, operator(//)
+use M_unicode, only : assignment(=), unicode_type
+use M_unicode, only : operator(.cat.)
+!use M_unicode, only : operator(//)
 use M_unicode, only : operator(<=), lle
 use M_unicode, only : operator(<),  llt
 use M_unicode, only : operator(/=), lne
@@ -25,6 +32,7 @@ use M_unicode, only : character
 use M_unicode, only : utf8_to_codepoints,  codepoints_to_utf8
 
 use M_unicode, only : ut => unicode_type
+use M_unicode, only : ch => character
 
 implicit none
 character(len=*),parameter :: g0='(*(g0))'
@@ -172,6 +180,10 @@ type(unicode_type)             :: ut_str
    astr=character(ut_str)
    call checkit('adjustl',astr,character(ut_str%adjustl()),'😃     ')
 
+   astr = "this is a string              "
+   ut_str =   "  this is a string    "
+   call checkit('adjustl',astr,character(ut_str%adjustl(30)),astr)
+
 end subroutine test_adjustl
 
 subroutine test_adjustr()
@@ -196,6 +208,10 @@ type(unicode_type)             :: ut_str
    ut_str=[32,32,int(z'1F603'),32,32,32]
    astr=character(ut_str)
    call checkit('adjustr',astr,character(ut_str%adjustr()),'     😃')
+
+   astr = "              this is a string"
+   ut_str =   "  this is a string    "
+   call checkit('adjustr',astr,character(ut_str%adjustr(30)),astr)
 
 end subroutine test_adjustr
 
@@ -276,6 +292,54 @@ type(unicode_type)             :: ut_str
 
 end subroutine test_trim
 
+subroutine test_concatenate()
+type(ut) :: str
+integer  :: ten=10,twenty=20
+   !need clarification! () required by ifx, not flang_new or gfortran
+   !str='so '//ten//'+'//twenty//'='//(ten+twenty)//' 😃'
+   str='so '.cat.ten.cat.'+'.cat.twenty.cat.'='.cat.(ten+twenty).cat.' 😃'
+   ! ifx cannot print when // overloaded
+   call check('//',str == 'so 10+20=30 😃','concatenate got '//str%character())
+end subroutine test_concatenate
+
+subroutine test_expandtabs()
+character(len=:),allocatable :: str
+type(unicode_type)           :: in
+type(unicode_type)           :: expected
+integer                      :: i
+   str='  this is my string  '
+   ! change spaces to tabs to make a sample input
+   do i=1,len(str)
+      if(str(i:i) == ' ')str(i:i)=char(9)
+   enddo
+   in=str
+   expected="                this    is      my      string"
+   call check('expandtabs',expandtabs(in).eq.expected,character(expandtabs(in)))
+   call check('expandtabs',in%expandtabs().eq.expected,character(expandtabs(in)))
+   expected="thisismystring"
+   call check('expandtabs',in%expandtabs(tab_size=0).eq.expected,character(in%expandtabs(tab_size=0)))
+end subroutine test_expandtabs
+
+subroutine test_fmt()
+
+  call  add('INTEGER',  fmt(10),            '10'       )
+  call  add('LOGICAL',  fmt(.false.),       'F'        )
+  call  add('LOGICAL',  fmt(.true.),        'T'        )
+  call  add('REAL',     fmt(100.0),         '100'      )
+  call  add('COMPLEX',  fmt((11.0,22.0)),   '(11,22)'  )
+  call  add('REAL',     fmt(100.0,'f0.2'),  '100.00'   )
+
+contains
+
+subroutine add(message,question,answer)
+character(len=*),intent(in)   :: message
+type(ut),intent(in)           :: question
+character(len=*),intent(in)   :: answer
+  call check('fmt',question.eq.answer,'testing '//message//' expected '//answer//' got '//ch(question))
+end subroutine add
+
+end subroutine test_fmt
+
 subroutine test_upper()
 type(unicode_type) :: upp, low, temp
 integer            :: i
@@ -326,6 +390,7 @@ character(len=128) :: ascii7
 
    call check('upper', upper(low)==upp )
    call check('upper', character(upper(low))==character(upp) )
+   call check('upper', upper(low)==upp )
 
    write(ascii7,g0)(achar(i),i=0,127)
    ascii7( ichar('a')+1:ichar('z')+1 ) = ' '
@@ -334,6 +399,9 @@ character(len=128) :: ascii7
    call check('upper',temp%character()==ascii7,'check non-alphameric like'//ascii7(ichar(' ')+1:len(ascii7)-1) )
    call check('upper',upper(temp)==lower(temp),'expect no difference')
    call check('upper',temp==upper(temp),'expect no change')
+
+   call check('%upper', low%upper()==upp )
+   call check('%upper', character(low%upper())==character(upp) )
 
 end subroutine test_upper
 
@@ -407,14 +475,22 @@ character(len=128)  :: ascii7
    ascii7( ichar('a')+1:ichar('z')+1 ) = ' '
    ascii7( ichar('A')+1:ichar('Z')+1 ) = ' '
    temp=ascii7
-   call check('lower',temp%character()==ascii7,'check non-alphameric like'//ascii7(ichar(' ')+1:len(ascii7)-1) )
+   !call check('lower',temp%character()==ascii7,'check non-alphameric like'//ascii7(ichar(' ')+1:len(ascii7)-1) )
    call check('lower',upper(temp)==lower(temp),'expect no difference')
    call check('lower',temp==lower(temp),'expect no change')
+
+   temp=upp%lower()
+   ! known conundrum at 82 i ı
+   write(*,*)character(temp,82,82)
+
+   ! ADE | 73  I | 105  i | ı
+   call check('%lower', temp == low )
+   call check('%lower', character(temp) == character(upp) )
 
 end subroutine test_lower
 
 subroutine test_tokenize()
-type(unicode_type),allocatable   :: tokens(:), expected(:), answer(:)
+type(unicode_type),allocatable   :: tokens(:), expected(:)
 type(unicode_type),allocatable   :: separators(:)
 type(unicode_type)               :: delims
 type(unicode_type)               :: herbs
@@ -514,7 +590,6 @@ character(len=*),parameter :: upagain=&
 ! or English translation
 ! "Fall seven times, stand up eight. Even if you fall down, you will get up again. Don't be discouraged, just keep walking forward."
 !
-integer                    :: i
    string=upagain
    write(*,g0)'original bytes  :', upagain
    !-------------------
@@ -537,7 +612,7 @@ type(unicode_type)             :: ut_str
    ut_str=astr
    call checkits('convert to ASCII bytes',astr,ut_str%byte(),transfer('Hello World and Ni Hao -- 你好',['A']))
 
-   ut_str=smiley // ' and ' // smiley // 'and' // smiley // smiley // 'is it'
+   ut_str=smiley .cat. ' and ' .cat. smiley .cat. 'and' .cat. smiley .cat. smiley .cat. 'is it'
    astr='😃 and 😃and😃😃is it'
    call checkit('concatenation',astr,character(ut_str), '😃 and 😃and😃😃is it')
 
@@ -666,15 +741,51 @@ type(unicode_type)             :: ut_str
    call check('ichar',ichar(ut_str%sub(2,3)).eq.ichar('B'),'ichar(ut_str%sub(2,3))')
 end subroutine test_ichar
 
+subroutine test_escape()
+type(unicode_type)  :: ut_str
+integer,allocatable :: ints(:)
+!    \      backslash
+!    a      alert (BEL) -- g is an alias for a
+!    b      backspace
+!    c      suppress further output
+!    e      escape
+!    f      form feed
+!    n      new line
+!    r      carriage return
+!    t      horizontal tab
+!    v      vertical tab
+!
+!    oNNN   byte with octal value NNN (3 digits)
+!    0-9    up to three digits following will be treated
+!           as an octal value
+
+!    dNNN   byte with decimal value NNN (3 digits)
+
+!    xHH        byte with hexadecimal value HH (2 digits);
+!               h is an alias for x
+!    uZZZZ      translate Unicode codepoint value to bytes
+!    UZZZZZZZZ  translate Unicode codepoint value to bytes
+   ut_str='\\\a\b\e\f\n\r\t\v\c'
+   ints=[92,7,8,27,12,10,13,9,11]
+   ut_str=escape(ut_str)
+   call check('escape',len(ut_str).eq.9,'size')
+   if( len(ut_str).eq.9 )then
+      call check('escape',all(ut_str%codepoint().eq.ints),'codes')
+   endif
+   call check('escape',escape(ut('\')).eq.'\','backslash at end of line')
+   call check('escape',escape(ut('text\0')).eq.'text'//char(0),'null at end')
+   call check('escape',escape(ut('\122\123A')).eq.'RSA','two')
+
+   ! (kaufii hai?) [Literal Meaning: “Is there coffee?”] “Do you have coffee?” (Informal)
+   ut_str='\u0915\u0949\u092B\U0000093C\U00000940\x20\u0939\u0948\x3F'
+   call check('escape',escape(ut_str).eq.'कॉफ़ी है?','hexadecimal')
+end subroutine test_escape
+
 subroutine test_join()
-character(len=*),parameter :: w='((g0,/,g0))'
-character(len=*),parameter :: v='((g0,/,DT))'
 character(len=20),allocatable :: proverb(:)
 type(ut),allocatable       :: s(:)
 type(ut),allocatable       :: sep
-type(ut)                   :: string
 type(ut)                   :: expected
-integer                    :: i
    proverb=[ character(len=13) :: &
      & ' United'       ,&
      & '  we'          ,&
@@ -714,7 +825,6 @@ end subroutine test_join
 subroutine test_pad()
 type(ut)                   :: string
 type(ut)                   :: answer
-integer                    :: i
 ! 
    string='abcdefghij'
    answer='[abcdefghij          ]'
@@ -757,12 +867,30 @@ contains
 function bracket(line) result (bracketed)
 type(unicode_type),intent(in) :: line
 type(unicode_type)            :: bracketed
-   bracketed='['//line//']'
+   bracketed='['.cat.line.cat.']'
 end function bracket
 end subroutine test_pad
 
+subroutine test_sub()
+type(unicode_type)           :: line
+line='this is the string'
+call check('sub', 'this is the string'  == character( sub(line    ) ) )
+call check('sub', 'the string'          == character( sub(line, 9 ) ) ) 
+call check('sub', 'this is '  == character( sub(line,  1,        8) ) )
+call check('sub', 'the string'== character( sub(line,  9,len(line)) ) ) 
+call check('sub', 'is the'    == character( sub(line,  6,       11) ) )
+
+call check('sub', 'this is the string'  == character( line%sub(            ) ) )
+call check('sub', 'the string'          == character( line%sub( 9          ) ) )
+call check('sub', 'this is '            == character( line%sub( 1,        8) ) )
+call check('sub', 'the string'          == character( line%sub( 9,len(line)) ) )
+call check('sub', 'is the'              == character( line%sub( 6,       11) ) )
+!
+end subroutine test_sub
+
 subroutine test_replace()
-type(unicode_type) :: line
+type(unicode_type)           :: line
+character(len=:),allocatable :: aline
 ! 
 call check('replace',&
  'this is the string' == character( replace(ut('Xis is Xe string'),ut('X'),ut('th') ) ) )
@@ -793,14 +921,93 @@ call check('replace',line==ut('ababbb'),'replace a with null instances 3 to 5 ['
 line=replace( &
  & ut('a b ab baaa aaaa aa aa a a a aa aaaaaa'),&
  & ut('aa'),ut('CCCC'),occurrence=-1,repeat=1)
-call check('replace', line == ut('a b ab baaa aaaa aa aa a a a aa aaaaCCCC'),'replace lastaa with CCCC ['//line%character()//']')
+call check('replace', line == ut('a b ab baaa aaaa aa aa a a a aa aaaaCCCC'),'replace last aa with CCCC ['//line%character()//']')
 ! 
 line=replace(ut('myf90stuff.f90.f90'),ut('f90'),ut('for'),occurrence=-1,repeat=1)
 call check('replace',line== 'myf90stuff.f90.for')
+
 line=replace(ut('myf90stuff.f90.f90'),ut('f90'),ut('for'),occurrence=-2,repeat=2)
 call check('replace',line=='myforstuff.for.f90')
 ! 
+line='ABCDEFGHIJ'
+call check('replace',ut('ABCdEFGHIJ')   == replace(line,4,4,'d'),    'replace a column ')
+call check('replace',ut('ABCGHIJ')      == replace(line,4,6,''),     'remove columns in middle')
+call check('replace',ut('ABCDE')        == replace(line,6,10,''),    'remove columns at end')
+call check('replace',ut('ABCDEend')     == replace(line,6,10,'end'), 'replace end')
+call check('replace',ut('startDEFGHIJ') == replace(line,1,3,'start'),'replace start')
+call check('replace',ut('FGHIJ')        == replace(line,1,5,''),     'remove start '//ch(replace(line,1,5,'')))
+!
+! combinations of character and string parameters
+call check('replace',ut('ABC[def]GHIJ') == replace( line,   'DEF',    '[def]'), 'replace string')
+call check('replace',ut('ABC[def]GHIJ') == replace( line,ut('DEF'),ut('[def]')),'replace string')
+call check('replace',ut('ABC[def]GHIJ') == replace( line,   'DEF', ut('[def]')),'replace string')
+call check('replace',ut('ABC[def]GHIJ') == replace( line,ut('DEF'),   '[def]'), 'replace string')
+     aline=line
+call check('replace',ut('ABC[def]GHIJ') == replace(aline,   'DEF',    '[def]'), 'replace string')
+call check('replace',ut('ABC[def]GHIJ') == replace(aline,ut('DEF'),ut('[def]')),'replace string')
+call check('replace',ut('ABC[def]GHIJ') == replace(aline,   'DEF', ut('[def]')),'replace string')
+call check('replace',ut('ABC[def]GHIJ') == replace(aline,ut('DEF'),   '[def]'), 'replace string')
+
+!ifx bug!call check('replace',ut('ABC[def]GHIJ') == line%replace(   'DEF',    '[def]'), 'replace string')
+!ifx bug!call check('replace',ut('ABC[def]GHIJ') == line%replace(ut('DEF'),ut('[def]')),'replace string')
+!ifx bug!call check('replace',ut('ABC[def]GHIJ') == line%replace(   'DEF', ut('[def]')),'replace string')
+!ifx bug!call check('replace',ut('ABC[def]GHIJ') == line%replace(ut('DEF'),   '[def]'), 'replace string')
+
+!ifx bug!call check('replace',ut('ABCdEFGHIJ')  == line%replace(4,4,'d'),     'oop replace a column')
+!ifx bug!call check('replace',ut('ABCDE')       == line%replace(6,10,''),     'oop remove columns')
+!ifx bug!call check('replace',ut('ABCDEend')    == line%replace(6,10,'end'),  'oop replace end')
+!ifx bug!call check('replace',ut('startDEFGHIJ')== line%replace(1,3,'start'), 'oop replace start')
+
+!ifx bug!call check('range',ut('ABCdEFGHIJ')  == line%range(4,4,'d'),     'oop remove a column')
+!ifx bug!call check('range',ut('ABCDE')       == line%range(6,10,''),     'oop remove columns')
+!ifx bug!call check('range',ut('ABCDEend')    == line%range(6,10,'end'),  'oop remove end')
+!ifx bug!call check('range',ut('startDEFGHIJ')== line%range(1,3,'start'), 'oop remove start')
+
 end subroutine test_replace
+
+subroutine test_transliterate()
+type(ut)  :: STRING, UPPER, LOWER, ANSWER, EXPECTED
+type(ut)  :: MIDDLE_DOT
+   !
+   ! | Α α | Β β | Γ γ | Δ δ | Ε ε | Ζ ζ   |
+   ! | Η η | Θ θ | Ι ι | Κ κ | Λ λ | Μ μ   |
+   ! | Ν ν | Ξ ξ | Ο ο | Π π | Ρ ρ | Σ σ ς |
+   ! | Τ τ | Υ υ | Φ φ | Χ χ | Ψ ψ | Ω ω   |
+   !
+   STRING='ΑαΒβΓγΔδΕεΖζΗηΘθΙιΚκΛλΜμΝνΞξΟοΠπΡρΣσςΤτΥυΦφΧχΨψΩω'
+   ! ignoring ς for simplicity
+   UPPER='ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ'
+   LOWER='αβγδεζηθικλμνξοπρστυφχψω'
+   
+   ANSWER=TRANSLITERATE(STRING , LOWER, UPPER ) ! convert ASCII-7 string to uppercase:
+   EXPECTED='ΑΑΒΒΓΓΔΔΕΕΖΖΗΗΘΘΙΙΚΚΛΛΜΜΝΝΞΞΟΟΠΠΡΡΣΣςΤΤΥΥΦΦΧΧΨΨΩΩ'
+   call check('transliterate', answer == expected, 'one-to-one correspondence')
+   ANSWER=TRANSLITERATE(STRING, LOWER, ':')     ! change all miniscule letters to a colon (":"):
+   EXPECTED='Α:Β:Γ:Δ:Ε:Ζ:Η:Θ:Ι:Κ:Λ:Μ:Ν:Ξ:Ο:Π:Ρ:Σ:ςΤ:Υ:Φ:Χ:Ψ:Ω:'
+   call check('transliterate', answer == expected, 'set to a single character')
+   ANSWER=TRANSLITERATE(STRING, LOWER, '')      ! delete all miniscule letters
+   EXPECTED='ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣςΤΥΦΧΨΩ'
+   call check('transliterate', answer == expected, 'delete all miniscule letters')
+   ! OOP
+   EXPECTED='_α_β_γ_δ_ε_ζ_η_θ_ι_κ_λ_μ_ν_ξ_ο_π_ρ_σς_τ_υ_φ_χ_ψ_ω'
+   ANSWER=STRING%TRANSLITERATE(UPPER,'_')
+   call check('transliterate', answer == expected, 'OOP unicode:ASCII')
+
+   ! U+00B7 Middle Dot Unicode Character
+   EXPECTED='Α·Β·Γ·Δ·Ε·Ζ·Η·Θ·Ι·Κ·Λ·Μ·Ν·Ξ·Ο·Π·Ρ·Σ·ςΤ·Υ·Φ·Χ·Ψ·Ω·'
+   ANSWER=STRING%TRANSLITERATE(LOWER,'·') ! ASCII bytes
+   call check('transliterate', answer == expected, 'OOP unicode:ascii stream')
+
+   EXPECTED='Α·Β·Γ·Δ·Ε·Ζ·Η·Θ·Ι·Κ·Λ·Μ·Ν·Ξ·Ο·Π·Ρ·Σ·ςΤ·Υ·Φ·Χ·Ψ·Ω·'
+   ANSWER=STRING%TRANSLITERATE(LOWER,ut('·')) ! cast
+   call check('transliterate', answer == expected, 'OOP unicode:unicode')
+
+   EXPECTED='Α·Β·Γ·Δ·Ε·Ζ·Η·Θ·Ι·Κ·Λ·Μ·Ν·Ξ·Ο·Π·Ρ·Σ·ςΤ·Υ·Φ·Χ·Ψ·Ω·'
+   MIDDLE_DOT=int(z'00B7')
+   ANSWER=STRING%TRANSLITERATE(LOWER,MIDDLE_DOT) ! hexadecimal
+   call check('transliterate', answer == expected, 'OOP unicode:unicode')
+
+end subroutine test_transliterate
 
 end module testsuite_M_unicode
 
@@ -808,7 +1015,7 @@ program test_M_unicode
 use testsuite_M_unicode
    total = 0
 
-   write(*,g0)'encoding can be altered on an open file'
+   !write(*,g0)'encoding can be altered on an open file'
    !open (output_unit, encoding='UTF-8')
 
    call programming_environment()
@@ -819,6 +1026,7 @@ use testsuite_M_unicode
    call test_len()
    call test_index()
    call test_repeat()
+   call test_transliterate()
    call test_upper()
    call test_lower()
    call test_tokenize()
@@ -829,8 +1037,13 @@ use testsuite_M_unicode
    call test_verify()
    call test_ichar()
    call test_replace()
+   call test_sub()
    call test_pad()
    call test_join()
+   call test_expandtabs()
+   call test_fmt()
+   call test_escape()
+   call test_concatenate()
    call test_other()
 
    write(*,g0)

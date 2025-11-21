@@ -11,7 +11,6 @@ character(len=*),parameter   :: form_codepoint= '(*(:"",i0,:","))'
 character(len=*),parameter   :: g= '(*(g0))'
 integer                      :: i
 integer,allocatable          :: codes(:)
-character(len=:),allocatable :: aline
 character(len=:),allocatable :: command_line
 type(unicode_type)           :: ustr
    command_line=getargs()          ! get string containing all command arguments as CHARACTER bytes
@@ -74,7 +73,7 @@ type(unicode_type)           :: ustr
    write(stdout,g,advance='no') '   std::u32string mystring = U"'
    codes=ustr%codepoint()
    do i=1,size(codes)
-      if(codes(i).lt.127)then      
+      if(codes(i).lt.127)then
          write(stdout,g,advance='no') achar(codes(i))
       else
          write(stdout,'(''U\'',z8.8)',advance='no') codes(i)
@@ -120,4 +119,4 @@ end program codepoints
 ! for the type being initialized; and no syntax to allow DATA to initialize a parameter (?)
 ! integer,save :: codes(9)
 ! data codes/ z'5DF1',z'6240',z'4E0D',z'6B32',z'FF0C',z'52FF',z'65BD',z'65BC',z'4EBA'/
-!
+

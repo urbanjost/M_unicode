@@ -91,20 +91,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 4.0% of total for procedures.">37 statements</a>
+                 title=" 3.0% of total for procedures.">39 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/M_unicode.f90"> Source File</a>
+              <a href="../src/M_unicode.F90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/m_unicode.f90.html'>M_unicode.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/m_unicode.html'>M_unicode</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/m_unicode.f90.html'>M_unicode.F90</a></li>
+                <li class="breadcrumb-item"><a href='../module/m_unicode__base.html'>M_unicode__base</a></li>
             <li class="breadcrumb-item active" aria-current="page">join</li>
           </ol>
         </nav>
@@ -158,10 +158,110 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public pure function join(str, sep, clip) result(string)  
+    <h2>public impure function join(str, sep, clip) result(string)  
 </h2>
     
 
+    <h2 id="name">NAME</h2>
+<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="n">JOIN</span><span class="p">(</span><span class="mi">3</span><span class="n">f</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">[</span><span class="n">M_unicode</span><span class="p">:</span><span class="n">EDITING</span><span class="p">]</span><span class="w"> </span><span class="n">append</span><span class="w"> </span><span class="n">CHARACTER</span><span class="w"> </span><span class="n">variable</span><span class="w"> </span><span class="n">array</span><span class="w"> </span><span class="n">into</span>
+<span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">single</span><span class="w"> </span><span class="n">CHARACTER</span><span class="w"> </span><span class="n">variable</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">specified</span><span class="w"> </span><span class="n">separator</span>
+<span class="w"> </span><span class="p">(</span><span class="n">LICENSE</span><span class="p">:</span><span class="n">MIT</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="synopsis">SYNOPSIS</h2>
+<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nx">impure</span><span class="w"> </span><span class="nx">function</span><span class="w"> </span><span class="nx">join</span><span class="p">(</span><span class="nx">str</span><span class="p">,</span><span class="nx">sep</span><span class="p">,</span><span class="nx">clip</span><span class="p">)</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="p">(</span><span class="kt">string</span><span class="p">)</span>
+
+<span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w">          </span><span class="o">::</span><span class="w"> </span><span class="nx">str</span><span class="p">(:)</span>
+<span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">),</span><span class="nx">optional</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">sep</span>
+<span class="w">  </span><span class="nx">logical</span><span class="p">,</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">),</span><span class="nx">optional</span><span class="w">            </span><span class="o">::</span><span class="w"> </span><span class="nx">clip</span>
+<span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">allocatable</span><span class="w">         </span><span class="o">::</span><span class="w"> </span><span class="kt">string</span>
+</code></pre></div>
+
+<h2 id="description">DESCRIPTION</h2>
+<div class="codehilite"><pre><span></span><code><span class="n">JOIN</span><span class="p">(</span><span class="mi">3</span><span class="n">f</span><span class="p">)</span><span class="w"> </span><span class="n">appends</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">elements</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">CHARACTER</span><span class="w"> </span><span class="n">array</span><span class="w"> </span><span class="n">into</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">single</span>
+<span class="n">CHARACTER</span><span class="w"> </span><span class="n">variable</span><span class="p">,</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">elements</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">N</span><span class="w"> </span><span class="n">joined</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">left</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">right</span><span class="o">.</span>
+<span class="n">By</span><span class="w"> </span><span class="n">default</span><span class="w"> </span><span class="n">each</span><span class="w"> </span><span class="n">element</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">trimmed</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">trailing</span><span class="w"> </span><span class="n">spaces</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">the</span>
+<span class="n">default</span><span class="w"> </span><span class="n">separator</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="nb nb-Type">null</span><span class="w"> </span><span class="n">string</span><span class="o">.</span>
+</code></pre></div>
+
+<h2 id="options">OPTIONS</h2>
+<div class="codehilite"><pre><span></span><code><span class="w">   </span><span class="n">STR</span><span class="w">     </span><span class="n">array</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">variables</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">joined</span>
+<span class="w">   </span><span class="n">SEP</span><span class="w">     </span><span class="n">separator</span><span class="w"> </span><span class="n">string</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">place</span><span class="w"> </span><span class="n">between</span><span class="w"> </span><span class="n">each</span><span class="w"> </span><span class="n">variable</span><span class="o">.</span><span class="w"> </span><span class="n">defaults</span>
+<span class="w">           </span><span class="n">to</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="nb nb-Type">null</span><span class="w"> </span><span class="n">string</span><span class="o">.</span>
+<span class="w">   </span><span class="n">CLIP</span><span class="w">    </span><span class="n">option</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">trim</span><span class="w"> </span><span class="n">each</span><span class="w"> </span><span class="n">element</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">STR</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">trailing</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">leading</span>
+<span class="w">           </span><span class="n">spaces</span><span class="o">.</span><span class="w"> </span><span class="n">Defaults</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="o">.</span><span class="n">TRUE</span><span class="o">.</span>
+</code></pre></div>
+
+<h2 id="returns">RETURNS</h2>
+<div class="codehilite"><pre><span></span><code><span class="w">   </span><span class="n">STRING</span><span class="w">  </span><span class="n">CHARACTER</span><span class="w"> </span><span class="n">variable</span><span class="w"> </span><span class="n">composed</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">elements</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">STR</span><span class="p">()</span>
+<span class="w">           </span><span class="n">appended</span><span class="w"> </span><span class="n">together</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">optional</span><span class="w"> </span><span class="n">separator</span><span class="w"> </span><span class="n">SEP</span><span class="w"> </span><span class="n">placed</span>
+<span class="w">           </span><span class="n">between</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">elements</span><span class="o">.</span>
+</code></pre></div>
+
+<h2 id="examples">EXAMPLES</h2>
+<p>Sample program:</p>
+<div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">demo_join</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w">  </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">join</span><span class="p">,</span><span class="w"> </span><span class="nx">ut</span><span class="o">=&gt;</span><span class="nx">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="nx">ch</span><span class="o">=&gt;</span><span class="nx">character</span><span class="p">,</span><span class="w"> </span><span class="nx">assignment</span><span class="p">(=)</span>
+<span class="p">!</span><span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">write</span><span class="p">(</span><span class="nx">formatted</span><span class="p">)</span>
+<span class="nx">implicit</span><span class="w"> </span><span class="nx">none</span>
+<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">parameter</span><span class="w">    </span><span class="o">::</span><span class="w"> </span><span class="nx">w</span><span class="p">=</span><span class="err">&#39;</span><span class="p">((</span><span class="nx">g0</span><span class="p">,</span><span class="o">/</span><span class="p">,</span><span class="nx">g0</span><span class="p">))</span><span class="err">&#39;</span>
+<span class="p">!</span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">parameter</span><span class="w">   </span><span class="o">::</span><span class="w"> </span><span class="nx">v</span><span class="p">=</span><span class="err">&#39;</span><span class="p">((</span><span class="nx">g0</span><span class="p">,</span><span class="o">/</span><span class="p">,</span><span class="nx">DT</span><span class="p">))</span><span class="err">&#39;</span>
+<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="mi">20</span><span class="p">),</span><span class="nx">allocatable</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">proverb</span><span class="p">(:)</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">),</span><span class="nx">allocatable</span><span class="w">          </span><span class="o">::</span><span class="w"> </span><span class="nx">s</span><span class="p">(:)</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">),</span><span class="nx">allocatable</span><span class="w">          </span><span class="o">::</span><span class="w"> </span><span class="nx">sep</span>
+<span class="w">  </span><span class="p">!</span>
+<span class="w">  </span><span class="nx">proverb</span><span class="p">=[</span><span class="w"> </span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="mi">13</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">    </span><span class="o">&amp;</span><span class="w"> </span><span class="err">&#39;</span><span class="w"> </span><span class="nx">United</span><span class="err">&#39;</span><span class="w">       </span><span class="p">,</span><span class="o">&amp;</span>
+<span class="w">    </span><span class="o">&amp;</span><span class="w"> </span><span class="err">&#39;</span><span class="w">  </span><span class="nx">we</span><span class="err">&#39;</span><span class="w">          </span><span class="p">,</span><span class="o">&amp;</span>
+<span class="w">    </span><span class="o">&amp;</span><span class="w"> </span><span class="err">&#39;</span><span class="w">   </span><span class="nx">stand</span><span class="p">,</span><span class="err">&#39;</span><span class="w">     </span><span class="p">,</span><span class="o">&amp;</span>
+<span class="w">    </span><span class="o">&amp;</span><span class="w"> </span><span class="err">&#39;</span><span class="w">    </span><span class="nx">divided</span><span class="err">&#39;</span><span class="w">   </span><span class="p">,</span><span class="o">&amp;</span>
+<span class="w">    </span><span class="o">&amp;</span><span class="w"> </span><span class="err">&#39;</span><span class="w">     </span><span class="nx">we</span><span class="w"> </span><span class="nx">fall</span><span class="p">.</span><span class="err">&#39;</span><span class="w"> </span><span class="p">]</span>
+<span class="w">  </span><span class="p">!</span>
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="nx">allocated</span><span class="p">(</span><span class="nx">s</span><span class="p">))</span><span class="nx">deallocate</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span>
+<span class="w">  </span><span class="nx">allocate</span><span class="p">(</span><span class="nx">s</span><span class="p">(</span><span class="nx">size</span><span class="p">(</span><span class="nx">proverb</span><span class="p">)))</span><span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">avoid</span><span class="w"> </span><span class="nx">GNU</span><span class="w"> </span><span class="nx">Fortran</span><span class="w"> </span><span class="p">(</span><span class="nx">GCC</span><span class="p">)</span><span class="w"> </span><span class="m m-Double">16.0.0</span><span class="w"> </span><span class="nx">bug</span>
+<span class="w">  </span><span class="nx">s</span><span class="p">=</span><span class="nx">proverb</span>
+<span class="w">  </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">w</span><span class="p">)</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">SIMPLE</span><span class="w"> </span><span class="nx">JOIN</span><span class="p">:</span><span class="w">         </span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">ch</span><span class="p">(</span><span class="w"> </span><span class="nx">join</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span><span class="w">                </span><span class="p">)</span>
+<span class="w">  </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">w</span><span class="p">)</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">JOIN</span><span class="w"> </span><span class="nx">WITH</span><span class="w"> </span><span class="nx">SEPARATOR</span><span class="p">:</span><span class="w"> </span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">ch</span><span class="p">(</span><span class="w"> </span><span class="nx">join</span><span class="p">(</span><span class="nx">s</span><span class="p">,</span><span class="nx">sep</span><span class="p">=</span><span class="nx">ut</span><span class="p">(</span><span class="sc">&#39; &#39;</span><span class="p">))</span><span class="w">    </span><span class="p">)</span>
+<span class="w">  </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">w</span><span class="p">)</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">CUSTOM</span><span class="w"> </span><span class="nx">SEPARATOR</span><span class="p">:</span><span class="w">    </span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">ch</span><span class="p">(</span><span class="w"> </span><span class="nx">join</span><span class="p">(</span><span class="nx">s</span><span class="p">,</span><span class="nx">sep</span><span class="p">=</span><span class="nx">ut</span><span class="p">(</span><span class="err">&#39;</span><span class="p">&lt;</span><span class="o">--</span><span class="p">&gt;</span><span class="err">&#39;</span><span class="p">))</span><span class="w"> </span><span class="p">)</span>
+<span class="w">  </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">w</span><span class="p">)</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">NO</span><span class="w"> </span><span class="nx">TRIMMING</span><span class="p">:</span><span class="w">         </span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">ch</span><span class="p">(</span><span class="w"> </span><span class="nx">join</span><span class="p">(</span><span class="nx">s</span><span class="p">,</span><span class="nx">clip</span><span class="p">=.</span><span class="kc">false</span><span class="p">.)</span><span class="w">   </span><span class="p">)</span>
+<span class="w">  </span><span class="p">!</span>
+<span class="w">  </span><span class="nx">sep</span><span class="p">=</span><span class="nx">ut</span><span class="p">()</span>
+<span class="w">  </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">w</span><span class="p">)</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">SIMPLE</span><span class="w"> </span><span class="nx">JOIN</span><span class="p">:</span><span class="w">         </span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">ch</span><span class="p">(</span><span class="nx">sep</span><span class="o">%</span><span class="nx">join</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
+<span class="w">  </span><span class="nx">sep</span><span class="p">=</span><span class="sc">&#39; &#39;</span>
+<span class="w">  </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">w</span><span class="p">)</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">JOIN</span><span class="w"> </span><span class="nx">WITH</span><span class="w"> </span><span class="nx">SEPARATOR</span><span class="p">:</span><span class="w"> </span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">ch</span><span class="p">(</span><span class="nx">sep</span><span class="o">%</span><span class="nx">join</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
+<span class="w">  </span><span class="nx">sep</span><span class="p">=</span><span class="err">&#39;</span><span class="p">&lt;</span><span class="o">--</span><span class="p">&gt;</span><span class="err">&#39;</span>
+<span class="w">  </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">w</span><span class="p">)</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">CUSTOM</span><span class="w"> </span><span class="nx">SEPARATOR</span><span class="p">:</span><span class="w">    </span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">ch</span><span class="p">(</span><span class="nx">sep</span><span class="o">%</span><span class="nx">join</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
+<span class="w">  </span><span class="nx">sep</span><span class="p">=</span><span class="err">&#39;&#39;</span>
+<span class="w">  </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">w</span><span class="p">)</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">NO</span><span class="w"> </span><span class="nx">TRIMMING</span><span class="p">:</span><span class="w">         </span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">ch</span><span class="p">(</span><span class="nx">sep</span><span class="o">%</span><span class="nx">join</span><span class="p">(</span><span class="nx">s</span><span class="p">,</span><span class="nx">clip</span><span class="p">=.</span><span class="kc">false</span><span class="p">.)</span><span class="w"> </span><span class="p">)</span>
+<span class="nx">end</span><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_join</span>
+</code></pre></div>
+
+<p>Results:</p>
+<blockquote>
+<p>SIMPLE JOIN:
+Unitedwestand,dividedwe fall.
+JOIN WITH SEPARATOR:
+United we stand, divided we fall.
+CUSTOM SEPARATOR:
+United==&gt;we==&gt;stand,==&gt;divided==&gt;we fall.
+NO TRIMMING:
+ United         we             stand,         divided        we fall.
+SIMPLE JOIN:
+Unitedwestand,dividedwe fall.
+JOIN WITH SEPARATOR:
+United we stand, divided we fall.
+CUSTOM SEPARATOR:
+United==&gt;we==&gt;stand,==&gt;divided==&gt;we fall.
+NO TRIMMING:
+ United         we             stand,         divided        we fall.</p>
+</blockquote>
+<h2 id="author">AUTHOR</h2>
+<div class="codehilite"><pre><span></span><code> John S. Urban
+</code></pre></div>
+
+<h2 id="license">LICENSE</h2>
+<div class="codehilite"><pre><span></span><code> MIT
+</code></pre></div>
 
 
     <h3>Arguments</h3>
@@ -177,7 +277,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str"></span>
+              <span class="anchor" id="variable-str~5"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -192,7 +292,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sep"></span>
+              <span class="anchor" id="variable-sep~3"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in),</td>
@@ -225,7 +325,7 @@
 
       <h3>Return Value
         <small>
-          <span class="anchor" id="variable-string~24"></span>
+          <span class="anchor" id="variable-string~31"></span>
           type(<a href='../type/unicode_type.html'>unicode_type</a>)
         </small>
       </h3>
@@ -244,39 +344,45 @@
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="k">pure function </span><span class="n">join</span><span class="p">(</span><span class="n">str</span><span class="p">,</span><span class="n">sep</span><span class="p">,</span><span class="n">clip</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="w"> </span><span class="p">(</span><span class="n">string</span><span class="p">)</span><span class="w"></span>
+    <div class="hl codehilite"><pre><span></span><span class="k">impure function </span><span class="n">join</span><span class="p">(</span><span class="n">str</span><span class="p">,</span><span class="n">sep</span><span class="p">,</span><span class="n">clip</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="w"> </span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
 
-<span class="c">!@(#) M_unicode join(3f) merge string array into a single string value adding specified separator</span>
+<span class="c">! ident_7=&quot;@(#) M_unicode join(3f) merge string array into a single string value adding specified separator&quot;</span>
 
-<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">str</span><span class="p">(:)</span><span class="w"></span>
-<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">sep</span><span class="w"></span>
-<span class="kt">logical</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">optional</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">clip</span><span class="w"></span>
-<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">temp</span><span class="w"></span>
-<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">sep_local</span><span class="w"></span>
-<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">string</span><span class="w"></span>
-<span class="kt">logical</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">clip_local</span><span class="w"></span>
-<span class="kt">integer</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
+<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">str</span><span class="p">(:)</span>
+<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">sep</span>
+<span class="kt">logical</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">optional</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">clip</span>
+<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">temp</span>
+<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">sep_local</span>
+<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">string</span>
+<span class="kt">logical</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">clip_local</span>
+<span class="kt">integer</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
 <span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">sep</span><span class="p">))</span><span class="k">then</span><span class="w">  </span><span class="p">;</span><span class="w"> </span><span class="n">sep_local</span><span class="o">=</span><span class="n">sep</span><span class="w">   </span><span class="p">;</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="n">sep_local</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="w">      </span><span class="p">;</span><span class="w"> </span><span class="k">endif</span>
 <span class="k">   if</span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">clip</span><span class="p">))</span><span class="k">then</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="n">clip_local</span><span class="o">=</span><span class="n">clip</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="n">clip_local</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="k">endif</span>
-<span class="k">   </span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="w"></span>
+<span class="k">   </span><span class="n">string</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
 <span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">str</span><span class="p">)</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>
-<span class="k">      do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">str</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="k">      do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">str</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span>
 <span class="w">         </span><span class="k">if</span><span class="p">(</span><span class="n">clip_local</span><span class="p">)</span><span class="k">then</span>
 <span class="k">            </span><span class="n">temp</span><span class="o">=</span><span class="nb">adjustl</span><span class="p">(</span><span class="n">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="w"> </span><span class="c">! avoid gfortran GNU Fortran (GCC) 16.0.0 20250727 (experimental) bug</span>
-<span class="w">            </span><span class="n">string</span><span class="o">=</span><span class="n">string</span><span class="o">//</span><span class="nb">trim</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span><span class="o">//</span><span class="n">sep_local</span><span class="w"></span>
-<span class="w">            </span><span class="c">!string=string//adjustl(trim(str))//sep_local ! produces no left adjust in gfortran as the moment</span>
+<span class="w">            </span><span class="c">!gfortran!string=string//adjustl(trim(str))//sep_local ! produces no left adjust in gfortran as the moment</span>
+<span class="w">            </span><span class="c">!ifx!string=string//trim(temp)//sep_local</span>
+<span class="w">            </span><span class="n">temp</span><span class="o">=</span><span class="nb">trim</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+<span class="w">            </span><span class="n">string</span><span class="o">=</span><span class="p">[</span><span class="n">string</span><span class="p">%</span><span class="n">codes</span><span class="p">,</span><span class="n">temp</span><span class="p">%</span><span class="n">codes</span><span class="p">,</span><span class="n">sep_local</span><span class="p">%</span><span class="n">codes</span><span class="p">]</span>
 <span class="w">         </span><span class="k">else</span>
-<span class="k">            </span><span class="n">string</span><span class="o">=</span><span class="n">string</span><span class="o">//</span><span class="n">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">//</span><span class="n">sep_local</span><span class="w"></span>
+<span class="w">            </span><span class="c">!string=string//str(i)//sep_local</span>
+<span class="w">            </span><span class="n">string</span><span class="o">=</span><span class="p">[</span><span class="n">string</span><span class="p">%</span><span class="n">codes</span><span class="p">,</span><span class="n">str</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">codes</span><span class="p">,</span><span class="n">sep_local</span><span class="p">%</span><span class="n">codes</span><span class="p">]</span>
 <span class="w">         </span><span class="k">endif</span>
 <span class="k">      enddo</span>
 <span class="k">      if</span><span class="p">(</span><span class="n">clip_local</span><span class="p">)</span><span class="k">then</span>
-<span class="k">         </span><span class="n">temp</span><span class="o">=</span><span class="nb">adjustl</span><span class="p">(</span><span class="n">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="w"></span>
-<span class="w">         </span><span class="n">string</span><span class="o">=</span><span class="n">string</span><span class="o">//</span><span class="nb">trim</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span><span class="w"></span>
+<span class="k">         </span><span class="n">temp</span><span class="o">=</span><span class="nb">adjustl</span><span class="p">(</span><span class="n">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+<span class="w">         </span><span class="c">!string=[string//trim(temp)</span>
+<span class="w">         </span><span class="n">temp</span><span class="o">=</span><span class="nb">trim</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+<span class="w">         </span><span class="n">string</span><span class="o">=</span><span class="p">[</span><span class="n">string</span><span class="p">%</span><span class="n">codes</span><span class="p">,</span><span class="n">temp</span><span class="p">%</span><span class="n">codes</span><span class="p">]</span>
 <span class="w">      </span><span class="k">else</span>
-<span class="k">         </span><span class="n">string</span><span class="o">=</span><span class="n">string</span><span class="o">//</span><span class="n">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="c">!string=string//str(i)</span>
+<span class="w">         </span><span class="n">string</span><span class="o">=</span><span class="p">[</span><span class="n">string</span><span class="p">%</span><span class="n">codes</span><span class="p">,</span><span class="n">str</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">codes</span><span class="p">]</span>
 <span class="w">      </span><span class="k">endif</span>
 <span class="k">   endif</span>
-<span class="k">end function </span><span class="n">join</span><span class="w"></span>
+<span class="k">end function </span><span class="n">join</span>
 </pre></div>
 
     </section>
@@ -300,7 +406,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-10-05 16:21 +0000             </p>
+ on 2025-11-21 18:13 +0000             </p>
           </div>
         </div>
         <br>

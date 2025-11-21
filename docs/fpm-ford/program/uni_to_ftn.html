@@ -90,7 +90,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 3.1% of total for programs.">22 statements</a>
+                 title=" 1.6% of total for programs.">22 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -131,10 +131,10 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../program/uni_to_ftn.html#variable-command_line">command_line</a>
-            <a class="list-group-item" href="../program/uni_to_ftn.html#variable-form">form</a>
-            <a class="list-group-item" href="../program/uni_to_ftn.html#variable-g">g</a>
-            <a class="list-group-item" href="../program/uni_to_ftn.html#variable-i~37">i</a>
+            <a class="list-group-item" href="../program/uni_to_ftn.html#variable-command_line~3">command_line</a>
+            <a class="list-group-item" href="../program/uni_to_ftn.html#variable-form~2">form</a>
+            <a class="list-group-item" href="../program/uni_to_ftn.html#variable-g~7">g</a>
+            <a class="list-group-item" href="../program/uni_to_ftn.html#variable-i~56">i</a>
         </div>
       </div>
     </div>
@@ -155,7 +155,7 @@
       </a>
       <div id="funcs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../program/uni_to_ftn.html#proc-getargs">getargs</a>
+            <a class="list-group-item" href="../program/uni_to_ftn.html#proc-getargs~2">getargs</a>
         </div>
       </div>
     </div>
@@ -211,7 +211,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-command_line"></span>
+              <span class="anchor" id="variable-command_line~3"></span>
               character(len=:),
             </td>
             <td>
@@ -227,7 +227,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-form"></span>
+              <span class="anchor" id="variable-form~2"></span>
               character(len=*),
             </td>
             <td>
@@ -243,7 +243,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-g"></span>
+              <span class="anchor" id="variable-g~7"></span>
               character(len=*),
             </td>
             <td>
@@ -259,7 +259,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~37"></span>
+              <span class="anchor" id="variable-i~56"></span>
               integer
             </td>
             <td>
@@ -287,7 +287,7 @@ parameter
     <section>
     <h2>Functions</h2>
       <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-getargs"></span> <h3> function <a href='../proc/getargs.html'>getargs</a>() result(command_line)  
+    <div class="card-header codesum"><span class="anchor" id="proc-getargs~2"></span> <h3> function <a href='../proc/getargs~2.html'>getargs</a>() result(command_line)  
 </h3></div>
     <div class="card-body">
           
@@ -312,34 +312,34 @@ parameter
 
     <section>
     <h2 id="src">Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="k">program </span><span class="n">uni_to_ftn</span><span class="w"></span>
+    <div class="hl codehilite"><pre><span></span><span class="k">program </span><span class="n">uni_to_ftn</span>
 <span class="c">! @(#) take command line argument utf-8 text and generate Fortran statement that represents the string</span>
-<span class="k">use</span><span class="p">,</span><span class="w"> </span><span class="k">intrinsic</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">output_unit</span><span class="w"></span>
+<span class="k">use</span><span class="p">,</span><span class="w"> </span><span class="k">intrinsic</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">output_unit</span>
 <span class="k">implicit none</span>
-<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">form</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;(&quot;char(int(z&#39;&#39;&quot;,z0,&quot;&#39;&#39;))&quot;:,&quot;// &amp;&quot;)&#39;</span><span class="w"></span>
-<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">g</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;(*(g0))&#39;</span><span class="w"></span>
-<span class="kt">integer</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
-<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">command_line</span><span class="w"></span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">form</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;(&quot;char(int(z&#39;&#39;&quot;,z0,&quot;&#39;&#39;))&quot;:,&quot;// &amp;&quot;)&#39;</span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">g</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;(*(g0))&#39;</span>
+<span class="kt">integer</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">command_line</span>
 
 <span class="w">   </span><span class="n">command_line</span><span class="o">=</span><span class="n">getargs</span><span class="p">()</span><span class="w">          </span><span class="c">! get string containing all command arguments as CHARACTER bytes</span>
 
 <span class="w">   </span><span class="c">! write the command line out as a Fortran variable expression using the CHAR() function</span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;! ENCODING:[&#39;</span><span class="p">,</span><span class="n">command_line</span><span class="o">//</span><span class="s1">&#39;]&#39;</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;character(len=*),parameter :: variable= &amp;&#39;</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">form</span><span class="p">)(</span><span class="nb">ichar</span><span class="p">(</span><span class="n">command_line</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">)),</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">command_line</span><span class="p">))</span><span class="w"></span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;! ENCODING:[&#39;</span><span class="p">,</span><span class="n">command_line</span><span class="o">//</span><span class="s1">&#39;]&#39;</span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;character(len=*),parameter :: variable= &amp;&#39;</span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">form</span><span class="p">)(</span><span class="nb">ichar</span><span class="p">(</span><span class="n">command_line</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">)),</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">command_line</span><span class="p">))</span>
 <span class="k">contains</span>
 
-<span class="k">function </span><span class="n">getargs</span><span class="p">()</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">command_line</span><span class="p">)</span><span class="w"></span>
-<span class="kt">integer</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">length</span><span class="w"></span>
-<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">command_line</span><span class="w"></span>
+<span class="k">function </span><span class="n">getargs</span><span class="p">()</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">command_line</span><span class="p">)</span>
+<span class="kt">integer</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">length</span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">command_line</span>
 <span class="w">   </span><span class="k">call </span><span class="nb">get_command</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="n">length</span><span class="p">)</span><span class="w">                 </span><span class="c">! get command line length</span>
 <span class="w">   </span><span class="k">allocate</span><span class="p">(</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">length</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">command_line</span><span class="p">)</span><span class="w"> </span><span class="c">! allocate string big enough to hold command line</span>
 <span class="w">   </span><span class="k">call </span><span class="nb">get_command</span><span class="p">(</span><span class="n">command</span><span class="o">=</span><span class="n">command_line</span><span class="p">)</span><span class="w">          </span><span class="c">! get command line as a string</span>
 <span class="w">   </span><span class="k">call </span><span class="nb">get_command_argument</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">length</span><span class="o">=</span><span class="n">length</span><span class="p">)</span><span class="w">      </span><span class="c">! remove argument 0</span>
-<span class="w">   </span><span class="n">command_line</span><span class="o">=</span><span class="n">command_line</span><span class="p">(</span><span class="n">length</span><span class="o">+</span><span class="mi">2</span><span class="p">:)</span><span class="w"></span>
-<span class="k">end function </span><span class="n">getargs</span><span class="w"></span>
+<span class="w">   </span><span class="n">command_line</span><span class="o">=</span><span class="n">command_line</span><span class="p">(</span><span class="n">length</span><span class="o">+</span><span class="mi">2</span><span class="p">:)</span>
+<span class="k">end function </span><span class="n">getargs</span>
 
-<span class="k">end program </span><span class="n">uni_to_ftn</span><span class="w"></span>
+<span class="k">end program </span><span class="n">uni_to_ftn</span>
 </pre></div>
 
     </section>
@@ -362,7 +362,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-10-05 16:21 +0000             </p>
+ on 2025-11-21 18:13 +0000             </p>
           </div>
         </div>
         <br>

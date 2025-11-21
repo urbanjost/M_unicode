@@ -90,7 +90,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 2.2% of total for programs.">16 statements</a>
+                 title=" 1.1% of total for programs.">16 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -131,8 +131,8 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../program/testit~2.html#variable-low~4">low</a>
-            <a class="list-group-item" href="../program/testit~2.html#variable-upp~3">upp</a>
+            <a class="list-group-item" href="../program/testit~2.html#variable-low~7">low</a>
+            <a class="list-group-item" href="../program/testit~2.html#variable-upp~6">upp</a>
         </div>
       </div>
     </div>
@@ -199,7 +199,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-low~4"></span>
+              <span class="anchor" id="variable-low~7"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>)
             </td>
             <td>
@@ -215,7 +215,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-upp~3"></span>
+              <span class="anchor" id="variable-upp~6"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>)
             </td>
             <td>
@@ -245,11 +245,11 @@
 
     <section>
     <h2 id="src">Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="k">program </span><span class="n">testit</span><span class="w"></span>
-<span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">output_unit</span><span class="w"></span>
-<span class="k">use </span><span class="n">M_unicode</span><span class="w"></span>
+    <div class="hl codehilite"><pre><span></span><span class="k">program </span><span class="n">testit</span>
+<span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">output_unit</span>
+<span class="k">use </span><span class="n">M_unicode</span>
 <span class="k">implicit none</span>
-<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">upp</span><span class="p">,</span><span class="w"> </span><span class="n">low</span><span class="w"></span>
+<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">upp</span><span class="p">,</span><span class="w"> </span><span class="n">low</span>
 <span class="w">   </span><span class="c">!</span>
 <span class="w">   </span><span class="c">! remember unicode characters are multi-byte so be careful</span>
 <span class="w">   </span><span class="c">! with older compilers to not exceed 132 bytes per line</span>
@@ -272,7 +272,7 @@
 <span class="s1">   &amp;ộớờởỡợụủứừửữựỳỵỷỹἀἁἂἃἄἅἆἇἐἑἒἓἔἕἠἡἢἣἤἥἦἧἰἱ&amp;</span>
 <span class="s1">   &amp;ἲἳἴἵἶἷὀὁὂὃὄὅὑὓὕὗὠὡὢὣὤὥὦὧᾀᾁᾂᾃᾄᾅᾆᾇᾐᾑᾒᾓᾔᾕᾖᾗ&amp;</span>
 <span class="s1">   &amp;ᾠᾡᾢᾣᾤᾥᾦᾧᾰᾱῐῑῠῡⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩ&amp;</span>
-<span class="s1">   &amp;ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ&#39;</span><span class="w"></span>
+<span class="s1">   &amp;ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ&#39;</span>
 <span class="w">   </span><span class="n">upp</span><span class="o">=</span><span class="s1">&#39;&amp;</span>
 <span class="s1">   &amp;ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊË&amp;</span>
 <span class="s1">   &amp;ÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸĀĂĄĆĈĊČĎĐĒĔĖĘĚĜĞĠĢĤĦĨĪĬ&amp;</span>
@@ -292,19 +292,19 @@
 <span class="s1">   &amp;ἺἻἼἽἾἿὈὉὊὋὌὍὙὛὝὟὨὩὪὫὬὭὮὯ&amp;</span>
 <span class="s1">   &amp;ᾈᾉᾊᾋᾌᾍᾎᾏᾘᾙᾚᾛᾜᾝᾞᾟᾨᾩᾪᾫᾬᾭᾮᾯᾸᾹ&amp;</span>
 <span class="s1">   &amp;ῘῙῨῩⒶⒷⒸⒹⒺⒻⒼⒽⒾⒿⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏ&amp;</span>
-<span class="s1">   &amp;ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ&#39;</span><span class="w"></span>
+<span class="s1">   &amp;ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ&#39;</span>
 
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="n">low</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="kt">character</span><span class="p">(</span><span class="n">upper</span><span class="p">(</span><span class="n">low</span><span class="p">))</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="kt">character</span><span class="p">(</span><span class="n">upp</span><span class="p">)</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="kt">character</span><span class="p">(</span><span class="n">upp</span><span class="p">%</span><span class="n">lower</span><span class="p">())</span><span class="w"></span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="n">low</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="kt">character</span><span class="p">(</span><span class="n">upper</span><span class="p">(</span><span class="n">low</span><span class="p">))</span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="kt">character</span><span class="p">(</span><span class="n">upp</span><span class="p">)</span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="kt">character</span><span class="p">(</span><span class="n">upp</span><span class="p">%</span><span class="n">lower</span><span class="p">())</span>
 
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="s1">&#39;Note &quot;i&quot; and &quot;I&quot; are a special case;&#39;</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="s1">&#39;uppercase of &quot;i&quot; is &quot;I&quot; (dotless) by default and&#39;</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="s1">&#39;lowercase of &quot;I&quot; (dotless) is &quot;i&quot; (dotted) by default.&#39;</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="s1">&#39;For the others LETTER=lower(upper(LETTER)) and LETTER=upper(lower(LETTER))&#39;</span><span class="w"></span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="s1">&#39;Note &quot;i&quot; and &quot;I&quot; are a special case;&#39;</span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="s1">&#39;uppercase of &quot;i&quot; is &quot;I&quot; (dotless) by default and&#39;</span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="s1">&#39;lowercase of &quot;I&quot; (dotless) is &quot;i&quot; (dotted) by default.&#39;</span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="s1">&#39;For the others LETTER=lower(upper(LETTER)) and LETTER=upper(lower(LETTER))&#39;</span>
 
-<span class="k">end program </span><span class="n">testit</span><span class="w"></span>
+<span class="k">end program </span><span class="n">testit</span>
 </pre></div>
 
     </section>
@@ -327,7 +327,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-10-05 16:21 +0000             </p>
+ on 2025-11-21 18:13 +0000             </p>
           </div>
         </div>
         <br>

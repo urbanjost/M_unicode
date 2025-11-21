@@ -102,70 +102,81 @@ twitter:
 website:
 -->
 <h2 id="note">Note:</h2>
-<p>The intent is for the M_unicode module to be useful on many platforms, but
-currently it is primarily <a href="TEST.md">tested</a> with GCC/gfortran, Intel/ifx
-and flang on Linux and Cygwin</p>
 <p>The UDDTIO (User-Defined Derived-Type Input/Output) procedures for use
 with the DT edit descriptor are still undergoing development.</p>
 <h1 id="m_unicode-module">M_unicode module</h1>
 <p><a href="https://github.com/urbanjost/M_unicode/releases/tag/v1.0.0"><img alt="M_unicode module" src="docs/images/Phaistos_Disk_sideA.jpg"></a></p>
-<p>The <strong>M_unicode</strong> module provides support for directly operating on byte
-streams representing UTF-8 encoded text. ASCII-7 being a subset of UTF-8
-the procedures work with standard ASCII-7 text as well.</p>
+<p>The <strong>M_unicode</strong> module supports using UTF-8 encoded files and data as
+easily as ASCII-7 encoded files.</p>
+<p>It fully implements the basics discussed in the Fortran Wiki <a href="https://fortranwiki.org/fortran/show/Unicode">Unicode
+Lessons</a>.</p>
+<p>Furthermore, the <strong>M_unicode</strong> module supports many string methods that
+operate on byte streams representing UTF-8 encoded text such as case
+conversion and sorting.</p>
+<p>ASCII-7 being a subset of UTF-8 the procedures work with standard ASCII-7
+text as well.</p>
 <p>A user-defined type called <strong>unicode_type</strong> provides an object-oriented
 interface supporting ragged arrays of strings and Unicode codepoints.</p>
 <p>The procedural interface supports all basic character intrinsics and
 operators.</p>
-<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">testit</span><span class="w"></span>
-<span class="k">use</span><span class="p">,</span><span class="w"> </span><span class="k">intrinsic</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="o">=&gt;</span><span class="n">output_unit</span><span class="w"></span>
+<p>Over 45 example programs are included, as well as man-pages describing
+the procedures in *roff and html format, and a basic set of unit tests.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">testit</span>
+<span class="k">use</span><span class="p">,</span><span class="w"> </span><span class="k">intrinsic</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="o">=&gt;</span><span class="n">output_unit</span>
 
 <span class="c">! explicit USE statements for each feature:</span>
 <span class="c">!</span>
 <span class="c">! user-defined type to hold Unicode text</span>
-<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">unicode_type</span><span class="w"></span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">unicode_type</span>
 
 <span class="c">! convert unicode_type to CHARACTER variables</span>
-<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kt">character</span><span class="w"></span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kt">character</span>
 
 <span class="c">! intrinsic overloads</span>
-<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">   </span><span class="nb">adjustl</span><span class="p">,</span><span class="w">  </span><span class="nb">adjustr</span><span class="p">,</span><span class="w">   </span><span class="nb">trim</span><span class="p">,</span><span class="w">    </span><span class="nb">len</span><span class="p">,</span><span class="w">     </span><span class="nb">len_trim</span><span class="p">,</span><span class="w">  </span><span class="p">&amp;</span><span class="w"></span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">   </span><span class="nb">adjustl</span><span class="p">,</span><span class="w">  </span><span class="nb">adjustr</span><span class="p">,</span><span class="w">   </span><span class="nb">trim</span><span class="p">,</span><span class="w">    </span><span class="nb">len</span><span class="p">,</span><span class="w">     </span><span class="nb">len_trim</span><span class="p">,</span><span class="w">  </span><span class="p">&amp;</span>
 <span class="w">   </span><span class="nb">index</span><span class="p">,</span><span class="w">    </span><span class="nb">scan</span><span class="p">,</span><span class="w">      </span><span class="nb">verify</span><span class="p">,</span><span class="w">  </span><span class="nb">repeat</span><span class="p">,</span><span class="w">  </span><span class="nb">ichar</span><span class="p">,</span><span class="w">     </span><span class="p">&amp;</span><span class="w">          </span>
-<span class="w">   </span><span class="n">split</span><span class="p">,</span><span class="w">    </span><span class="n">tokenize</span><span class="p">,</span><span class="w">  </span><span class="n">upper</span><span class="p">,</span><span class="w">   </span><span class="n">lower</span><span class="p">,</span><span class="w">   </span><span class="n">sort</span><span class="p">,</span><span class="w">      </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">   </span><span class="n">pad</span><span class="p">,</span><span class="w">      </span><span class="n">join</span><span class="w"></span>
+<span class="w">   </span><span class="n">split</span><span class="p">,</span><span class="w">    </span><span class="n">tokenize</span><span class="w">  </span>
 
-<span class="c">! operators (and overloads) and assignment</span>
-<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">)</span><span class="w"></span>
+<span class="c">! additional methods</span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">   </span><span class="n">upper</span><span class="p">,</span><span class="w">   </span><span class="n">lower</span><span class="p">,</span><span class="w">   </span><span class="n">sort</span><span class="p">,</span><span class="w">  </span><span class="n">expandtabs</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">   </span><span class="n">pad</span><span class="p">,</span><span class="w">      </span><span class="n">join</span><span class="p">,</span><span class="w">   </span><span class="n">fmt</span><span class="p">,</span><span class="w">   </span><span class="n">escape</span>
+
+<span class="c">! operators (and overloads) and SORT(3f) use</span>
+<span class="c">! Unicode codepoints (NOT dictionary order)</span>
+
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">)</span>
 <span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">&lt;=</span><span class="p">),</span><span class="w"> </span><span class="nb">lle</span>
 <span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">&lt;</span><span class="p">),</span><span class="w">  </span><span class="nb">llt</span>
-<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">/=</span><span class="p">),</span><span class="w"> </span><span class="n">lne</span><span class="w"></span>
-<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">==</span><span class="p">),</span><span class="w"> </span><span class="n">leq</span><span class="w"></span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">/=</span><span class="p">),</span><span class="w"> </span><span class="n">lne</span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">==</span><span class="p">),</span><span class="w"> </span><span class="n">leq</span>
 <span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">&gt;</span><span class="p">),</span><span class="w">  </span><span class="nb">lgt</span>
 <span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">&gt;=</span><span class="p">),</span><span class="w"> </span><span class="nb">lge</span>
-<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">//</span><span class="p">)</span><span class="w"></span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">//</span><span class="p">)</span>
 
 <span class="c">! low-level text conversion to integer codepoint arrays:</span>
-<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">utf8_to_codepoints</span><span class="p">,</span><span class="w"> </span><span class="n">codepoints_to_utf8</span><span class="w"></span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">utf8_to_codepoints</span><span class="p">,</span><span class="w"> </span><span class="n">codepoints_to_utf8</span>
 
 <span class="c">! sample usage:</span>
 <span class="c">!</span>
 <span class="k">implicit none</span>
-<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">ustr</span><span class="w"></span>
-<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">g</span><span class="o">=</span><span class="s1">&#39;(*(g0))&#39;</span><span class="w"></span>
-<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">gi</span><span class="o">=</span><span class="s1">&#39;(*(g0,1x))&#39;</span><span class="w"></span>
-<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">gh</span><span class="o">=</span><span class="s1">&#39;(*(z0,1x))&#39;</span><span class="w"></span>
-<span class="kt">integer</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">iostat</span><span class="w"></span>
+<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">ustr</span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">g</span><span class="o">=</span><span class="s1">&#39;(*(g0))&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                               </span><span class="n">gi</span><span class="o">=</span><span class="s1">&#39;(*(g0,1x))&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                               </span><span class="n">gh</span><span class="o">=</span><span class="s1">&#39;(*(z0,1x))&#39;</span>
+<span class="kt">integer</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">iostat</span>
 
 <span class="w">   </span><span class="c">! Constructors</span>
 <span class="w">   </span><span class="c">! UNICODE_VARIABLE= UNICODE_VARIABLE|CHARACTER(LEN=*)|INTEGER_ARRAY</span>
 
 <span class="w">   </span><span class="c">! assign UTF-8 string to OOP object.</span>
-<span class="w">   </span><span class="n">ustr</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Hello World and Ni Hao -- 你好  &#39;</span><span class="w"></span>
+<span class="w">   </span><span class="n">ustr</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Hello World and Ni Hao -- 你好  &#39;</span>
 
 <span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="kt">character</span><span class="p">(</span><span class="n">ustr</span><span class="p">)</span><span class="w"> </span><span class="c">! convert to intrinsic CHARACTER variable</span>
-<span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">ustr</span><span class="p">)</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="nb">len_trim</span><span class="p">(</span><span class="n">ustr</span><span class="p">)</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="nb">index</span><span class="p">(</span><span class="n">ustr</span><span class="p">,</span><span class="s1">&#39;你&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">ustr</span><span class="p">)</span>
+<span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="nb">len_trim</span><span class="p">(</span><span class="n">ustr</span><span class="p">)</span>
+<span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="nb">index</span><span class="p">(</span><span class="n">ustr</span><span class="p">,</span><span class="s1">&#39;你&#39;</span><span class="p">)</span>
 
 <span class="w">   </span><span class="c">! OOPS</span>
 <span class="w">   </span><span class="c">! VARIABLE%CHARACTER(start,end,step) returns a CHARACTER string</span>
@@ -178,7 +189,7 @@ operators.</p>
 <span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">gi</span><span class="p">)</span><span class="w"> </span><span class="n">ustr</span><span class="p">%</span><span class="n">codepoint</span><span class="p">()</span><span class="w">      </span><span class="c">! convert to Unicode codepoints</span>
 <span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">gh</span><span class="p">)</span><span class="w"> </span><span class="n">ustr</span><span class="p">%</span><span class="n">codepoint</span><span class="p">()</span><span class="w">      </span><span class="c">! Hexadecimal values of codepoints</span>
 
-<span class="k">end program </span><span class="n">testit</span><span class="w"></span>
+<span class="k">end program </span><span class="n">testit</span>
 </code></pre></div>
 
 <h2 id="expected-output">Expected output:</h2>
@@ -199,24 +210,27 @@ Hello World and Ni Hao -- 你好
 Unicode using 4-byte-per-character UCS-4 encoding for characters/glyphs,
 including an ability to automatically encode and decode data read and
 written to UTF-8 files.</p>
-<p><strong>But Unicode support is optional.</strong></p>
+<p><strong>But Unicode ISO-10646 support is optional, ragged string arrays are
+not supported as intrinsic types, no OOP interface is provided for the
+intrinsic methods and there are no functions provided to convert from
+UCS-4 to UTF-8 byte streams accept via reading and writing to files.</strong></p>
 <p>Where Unicode <strong>is</strong> supported (ie. where CHARACTER(KIND=&rdquo;ISO_10646&rdquo;)
 is provided)
 The <a href="https://github.com/urbanjost/M_utf8">M_utf8</a> repository
 supplements Unicode usage &ndash; emphasizing adherence to the standard to
 promote portability.</p>
-<p>When the compiler does <strong>not</strong> support CHARACTER(KIND=&rdquo;ISO_10646&rdquo;) it
-still may support UTF-8 source files and permit entering multi-byte
-Unicode characters in comments and (more importantly) in constant
-strings. This is now very common, as nearly all current operating systems
-and many applications support UTF-8 text files.</p>
+<p>When the compiler does <strong>not</strong> support CHARACTER(KIND=&rdquo;ISO_10646&rdquo;)
+it still may support UTF-8 source files and permit entering multi-byte
+Unicode characters in comments and (more importantly) in constant strings
+and data. This support is now very common, as nearly all current operating
+systems and many applications support UTF-8 text files.</p>
 <p>But whether in input and output files, or as what-you-see-is-what-you-get
 character constants the compiler will see this text as byte streams,
 and will be unaware of how many Unicode glyphs/characters are represented.</p>
 <p>So it may often be easy to place Unicode characters in fixed messages,
 but if the text needs manipulated or processed in any way dealing with
 Unicode as a raw series of 8-bit-bytes becomes complex and non-intuitive.</p>
-<p>To keep processing of Unicode as simple as processing ASCII-7
+<p>To keep processing of Unicode as simple as it is to process ASCII-7
 characters the <strong>M_unicode</strong> module provides a user-defined type named
 <strong>UNICODE_TYPE</strong> and a number of procedures for converting byte streams
 that represent UTF8-encoded text into Unicode code points (ie, 32-bit
@@ -239,12 +253,12 @@ processor?  Possibilities include the extended ASCII characters or
 multi-byte characters as defined for UTF-8 text files. The standard
 states that, whatever those &ldquo;additional characters&rdquo; are, they may appear
 in character constants:</p>
-<div class="codehilite"><pre><span></span><code><span class="mf">6.1.6</span><span class="w">   </span><span class="n">Other</span><span class="w"> </span><span class="n">characters</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><code><span class="mf">6.1.6</span><span class="w">   </span><span class="n">Other</span><span class="w"> </span><span class="n">characters</span>
 
-<span class="n">Additional</span><span class="w"> </span><span class="n">characters</span><span class="w"> </span><span class="n">may</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">representable</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">processor</span><span class="p">,</span><span class="w"> </span><span class="n">but</span><span class="w"></span>
-<span class="n">shall</span><span class="w"> </span><span class="n">appear</span><span class="w"> </span><span class="kr">on</span><span class="n">ly</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">comments</span><span class="w"> </span><span class="p">(</span><span class="mf">6.3.2.3</span><span class="p">,</span><span class="w"> </span><span class="mf">6.3.3.2</span><span class="p">),</span><span class="w"> </span><span class="n">character</span><span class="w"> </span><span class="n">constants</span><span class="w"></span>
-<span class="p">(</span><span class="mf">7.4.4</span><span class="p">),</span><span class="w"> </span><span class="kr">input</span><span class="o">/</span><span class="n">output</span><span class="w"> </span><span class="n">records</span><span class="w"> </span><span class="p">(</span><span class="mf">12.2.2</span><span class="p">),</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">character</span><span class="w"> </span><span class="n">string</span><span class="w"> </span><span class="n">edit</span><span class="w"></span>
-<span class="n">descriptors</span><span class="w"> </span><span class="p">(</span><span class="mf">13.3.2</span><span class="p">)</span><span class="mf">.</span><span class="w"></span>
+<span class="n">Additional</span><span class="w"> </span><span class="n">characters</span><span class="w"> </span><span class="n">may</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">representable</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">processor</span><span class="p">,</span><span class="w"> </span><span class="n">but</span>
+<span class="n">shall</span><span class="w"> </span><span class="n">appear</span><span class="w"> </span><span class="kr">on</span><span class="n">ly</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">comments</span><span class="w"> </span><span class="p">(</span><span class="mf">6.3.2.3</span><span class="p">,</span><span class="w"> </span><span class="mf">6.3.3.2</span><span class="p">),</span><span class="w"> </span><span class="n">character</span><span class="w"> </span><span class="n">constants</span>
+<span class="p">(</span><span class="mf">7.4.4</span><span class="p">),</span><span class="w"> </span><span class="kr">input</span><span class="o">/</span><span class="n">output</span><span class="w"> </span><span class="n">records</span><span class="w"> </span><span class="p">(</span><span class="mf">12.2.2</span><span class="p">),</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">character</span><span class="w"> </span><span class="n">string</span><span class="w"> </span><span class="n">edit</span>
+<span class="n">descriptors</span><span class="w"> </span><span class="p">(</span><span class="mf">13.3.2</span><span class="p">)</span><span class="mf">.</span>
 </code></pre></div>
 
 <p>Since ASCII-7-bit is a subset of UTF-8 it is very likely that if your
@@ -252,7 +266,7 @@ system supports UTF-8 files that it therefore will allow multi-byte
 characters to be represented in comments and character constants.</p>
 <p>But it is up to the processor whether it supports or even allows
 UTF-8 files.  In the past when UTF-8 file support was rare this meant
-using UTF-8 multi-byte characters in source files was likely to be very
+using UTF-8 multi-byte characters in source files was likely to be
 non-portable.  Now that UTF-8 files are supported on most systems this
 extension can be useful, particularly with compilers that do not support
 UCS-4 yet.</p>
@@ -267,21 +281,21 @@ of the <strong>M_unicode</strong> module, UTF-8 files display properly.</p>
 and selecting a font that supports the Unicode characters of interest.</p>
 <p>Without using any Fortran Unicode support features, if the output
 is redirected to a file does it appear correctly?</p>
-<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">multibyte</span><span class="w"></span>
-<span class="k">use</span><span class="p">,</span><span class="w"> </span><span class="k">intrinsic</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="o">=&gt;</span><span class="n">output_unit</span><span class="w"></span>
-<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">all</span><span class="o">=</span><span class="s1">&#39;(*(g0))&#39;</span><span class="w"></span>
-<span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iostat</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">   </span><span class="s1">&#39;Confucius never claimed to be a prophet, &#39;</span><span class="w">       </span><span class="p">,&amp;</span><span class="w"></span>
-<span class="w">   </span><span class="s1">&#39;but I think he foresaw AI! He said &#39;</span><span class="w">             </span><span class="p">,&amp;</span><span class="w"></span>
-<span class="w">   </span><span class="s1">&#39;&#39;</span><span class="w">                                                </span><span class="p">,&amp;</span><span class="w"></span>
-<span class="w">   </span><span class="s1">&#39; &quot;学而不思则罔，思而不学则殆&quot;&#39;</span><span class="w">                   </span><span class="p">,&amp;</span><span class="w"></span>
-<span class="w">   </span><span class="s1">&#39;or&#39;</span><span class="w">                                              </span><span class="p">,&amp;</span><span class="w"></span>
-<span class="w">   </span><span class="s1">&#39; (xué ér bù sī zé wǎng, sī ér bù xué zé dài),&#39;</span><span class="w">   </span><span class="p">,&amp;</span><span class="w"></span>
-<span class="w">   </span><span class="s1">&#39;which is also&#39;</span><span class="w">                                   </span><span class="p">,&amp;</span><span class="w"></span>
-<span class="w">   </span><span class="s1">&#39; &quot;To learn without thinking is to be lost, &#39;</span><span class="w">     </span><span class="p">,&amp;</span><span class="w"></span>
-<span class="w">   </span><span class="s1">&#39; to think without learning is to be in danger&quot;.&#39;</span><span class="w"></span>
-<span class="k">end program </span><span class="n">multibyte</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">multibyte</span>
+<span class="k">use</span><span class="p">,</span><span class="w"> </span><span class="k">intrinsic</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="o">=&gt;</span><span class="n">output_unit</span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">all</span><span class="o">=</span><span class="s1">&#39;(*(g0))&#39;</span>
+<span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iostat</span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">   </span><span class="s1">&#39;Confucius never claimed to be a prophet, &#39;</span><span class="w">       </span><span class="p">,&amp;</span>
+<span class="w">   </span><span class="s1">&#39;but I think he foresaw AI! He said &#39;</span><span class="w">             </span><span class="p">,&amp;</span>
+<span class="w">   </span><span class="s1">&#39;&#39;</span><span class="w">                                                </span><span class="p">,&amp;</span>
+<span class="w">   </span><span class="s1">&#39; &quot;学而不思则罔，思而不学则殆&quot;&#39;</span><span class="w">                   </span><span class="p">,&amp;</span>
+<span class="w">   </span><span class="s1">&#39;or&#39;</span><span class="w">                                              </span><span class="p">,&amp;</span>
+<span class="w">   </span><span class="s1">&#39; (xué ér bù sī zé wǎng, sī ér bù xué zé dài),&#39;</span><span class="w">   </span><span class="p">,&amp;</span>
+<span class="w">   </span><span class="s1">&#39;which is also&#39;</span><span class="w">                                   </span><span class="p">,&amp;</span>
+<span class="w">   </span><span class="s1">&#39; &quot;To learn without thinking is to be lost, &#39;</span><span class="w">     </span><span class="p">,&amp;</span>
+<span class="w">   </span><span class="s1">&#39; to think without learning is to be in danger&quot;.&#39;</span>
+<span class="k">end program </span><span class="n">multibyte</span>
 </code></pre></div>
 
 <p>Does the text display properly when written to the screen?  If it does
@@ -293,36 +307,35 @@ by the compiler as a string of bytes, and it is otherwise unaware they
 represent Unicode characters. If they are just to be read and written
 as-is as in the previous example program that is not a major concern;
 but if you are manipulating or processing the strings in significant
-ways you probably want to load the <strong>M_unicode</strong> module and convert the
-strings to TYPE(UNICODE_TYPE)</p>
+ways is when you use the <strong>M_unicode</strong> module.</p>
 <p><img alt="gmake" src="docs/images/gnu.gif"></p>
 <h2 id="download-and-build-with-make1">Download and Build with Make(1)</h2>
 <p>Compile the M_unicode module and build all the example programs.</p>
-<div class="codehilite"><pre><span></span><code>   git clone https://github.com/urbanjost/M_unicode.git
-   <span class="nb">cd</span> M_unicode/src
-   <span class="c1"># change Makefile if not using one of the listed compilers</span>
+<div class="codehilite"><pre><span></span><code><span class="w">   </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/urbanjost/M_unicode.git
+<span class="w">   </span><span class="nb">cd</span><span class="w"> </span>M_unicode/src
+<span class="w">   </span><span class="c1"># change Makefile if not using one of the listed compilers</span>
 
-   <span class="c1"># for gfortran</span>
-   make clean
-   make gfortran
+<span class="w">   </span><span class="c1"># for gfortran</span>
+<span class="w">   </span>make<span class="w"> </span>clean
+<span class="w">   </span>make<span class="w"> </span>gfortran
 
-   <span class="c1"># for ifort</span>
-   make clean
-   make ifort
+<span class="w">   </span><span class="c1"># for ifort</span>
+<span class="w">   </span>make<span class="w"> </span>clean
+<span class="w">   </span>make<span class="w"> </span>ifort
 
-   <span class="c1"># for nvfortran</span>
-   make clean
-   make nvfortran
+<span class="w">   </span><span class="c1"># for nvfortran</span>
+<span class="w">   </span>make<span class="w"> </span>clean
+<span class="w">   </span>make<span class="w"> </span>nvfortran
 
-   <span class="c1"># display other options (test, run, doxygen, ford, ...)</span>
-   make <span class="nb">help</span>
+<span class="w">   </span><span class="c1"># display other options (test, run, doxygen, ford, ...)</span>
+<span class="w">   </span>make<span class="w"> </span><span class="nb">help</span>
 </code></pre></div>
 
 <p>To install you then generally copy the <em>.mod file and </em>.a file to
    an appropriate directory.  Unfortunately, the specifics vary but in
    general if you have a directory $HOME/.local/lib and copy those files
    there then you can generally enter something like</p>
-<div class="codehilite"><pre><span></span><code>     gfortran -L<span class="nv">$HOME</span>/.local/lib -lM_unicode  myprogram.f90 -o myprogram
+<div class="codehilite"><pre><span></span><code><span class="w">     </span>gfortran<span class="w"> </span>-L<span class="nv">$HOME</span>/.local/lib<span class="w"> </span>-lM_unicode<span class="w">  </span>myprogram.f90<span class="w"> </span>-o<span class="w"> </span>myprogram
 </code></pre></div>
 
 <p>There are different methods for adding the directory to your default
@@ -331,7 +344,7 @@ strings to TYPE(UNICODE_TYPE)</p>
    in the $LD_LIBRARY_PATH or $LIBRARY_PATH environment variable, and
    then the -L option will not be required (or it&rsquo;s equivalent in your
    programming environment).</p>
-<div class="codehilite"><pre><span></span><code>       <span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$HOME</span>/.local/lib:<span class="nv">$LD_LIBRARY_PATH</span>
+<div class="codehilite"><pre><span></span><code><span class="w">       </span><span class="nb">export</span><span class="w"> </span><span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$HOME</span>/.local/lib:<span class="nv">$LD_LIBRARY_PATH</span>
 </code></pre></div>
 
 <p><strong>NOTE</strong>: If you use multiple Fortran compilers you may need to create
@@ -339,12 +352,12 @@ strings to TYPE(UNICODE_TYPE)</p>
    as $HOME/.local/lib/gfortran/.</p>
 <h3 id="creating-a-shared-library">Creating a shared library</h3>
 <p>If you desire a shared library as well, for gfortran you may enter</p>
-<div class="codehilite"><pre><span></span><code>     make clean gfortran gfortran_install
+<div class="codehilite"><pre><span></span><code><span class="w">     </span>make<span class="w"> </span>clean<span class="w"> </span>gfortran<span class="w"> </span>gfortran_install
 </code></pre></div>
 
 <p>and everything needed by gfortran will be placed in libgfortran/ that
    you may add to an appropriate area, such as $HOME/.local/lib/gfortran/.</p>
-<div class="codehilite"><pre><span></span><code>     make clean ifort ifort_install <span class="c1"># same for ifort</span>
+<div class="codehilite"><pre><span></span><code><span class="w">     </span>make<span class="w"> </span>clean<span class="w"> </span>ifort<span class="w"> </span>ifort_install<span class="w"> </span><span class="c1"># same for ifort</span>
 </code></pre></div>
 
 <p>does the same for the ifort compiler and places the output in libifort/.</p>
@@ -362,15 +375,15 @@ strings to TYPE(UNICODE_TYPE)</p>
 <h2 id="build-with-fpm">Build with FPM</h2>
 <p>Alternatively, fpm(1) users may download the github repository and build it with
    fpm ( as described at <a href="https://github.com/fortran-lang/fpm">Fortran Package Manager</a> )</p>
-<div class="codehilite"><pre><span></span><code>        git clone https://github.com/urbanjost/M_unicode.git
-        <span class="nb">cd</span> M_unicode
-        fpm <span class="nb">test</span>   <span class="c1"># build and test the module</span>
-        fpm install <span class="c1"># install the module (in the default location)</span>
+<div class="codehilite"><pre><span></span><code><span class="w">        </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/urbanjost/M_unicode.git
+<span class="w">        </span><span class="nb">cd</span><span class="w"> </span>M_unicode
+<span class="w">        </span>fpm<span class="w"> </span><span class="nb">test</span><span class="w">   </span><span class="c1"># build and test the module</span>
+<span class="w">        </span>fpm<span class="w"> </span>install<span class="w"> </span><span class="c1"># install the module (in the default location)</span>
 </code></pre></div>
 
 <p>or just list it as a dependency in your fpm.toml project file.</p>
-<div class="codehilite"><pre><span></span><code><span class="w">        </span><span class="k">[dependencies]</span><span class="w"></span>
-<span class="w">        </span><span class="n">M_unicode</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">git</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;https://github.com/urbanjost/M_unicode.git&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><code><span class="w">        </span><span class="k">[dependencies]</span>
+<span class="w">        </span><span class="n">M_unicode</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">git</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;https://github.com/urbanjost/M_unicode.git&quot;</span><span class="w"> </span><span class="p">}</span>
 </code></pre></div>
 
 <hr>
@@ -378,76 +391,76 @@ strings to TYPE(UNICODE_TYPE)</p>
 <h2 id="download-and-build-using-cmake">Download and Build using cmake</h2>
 <p>To download the github repository and build and install with cmake
 (you may wish to change the install path in src/CMakeLists.txt first) :</p>
-<div class="codehilite"><pre><span></span><code>      git clone https://github.com/urbanjost/M_unicode.git
-      <span class="nb">cd</span> M_unicode
+<div class="codehilite"><pre><span></span><code><span class="w">      </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/urbanjost/M_unicode.git
+<span class="w">      </span><span class="nb">cd</span><span class="w"> </span>M_unicode
 
-      <span class="c1"># Create a Build Directory:</span>
-      mkdir -p build
+<span class="w">      </span><span class="c1"># Create a Build Directory:</span>
+<span class="w">      </span>mkdir<span class="w"> </span>-p<span class="w"> </span>build
 
-      <span class="nb">cd</span> build
-      cmake -S ../src -B .
+<span class="w">      </span><span class="nb">cd</span><span class="w"> </span>build
+<span class="w">      </span>cmake<span class="w"> </span>-S<span class="w"> </span>../src<span class="w"> </span>-B<span class="w"> </span>.
 
-      <span class="c1"># Configure the Build, specifying your preferred compiler (ifort, flang, etc.):</span>
-      cmake . -DCMAKE_Fortran_COMPILER<span class="o">=</span>gfortran
+<span class="w">      </span><span class="c1"># Configure the Build, specifying your preferred compiler (ifort, flang, etc.):</span>
+<span class="w">      </span>cmake<span class="w"> </span>.<span class="w"> </span>-DCMAKE_Fortran_COMPILER<span class="o">=</span>gfortran
 
-      <span class="c1"># Build the Project:</span>
-      cmake --build .
+<span class="w">      </span><span class="c1"># Build the Project:</span>
+<span class="w">      </span>cmake<span class="w"> </span>--build<span class="w"> </span>.
 
-      <span class="c1">#This creates:</span>
-      <span class="c1">#</span>
-      <span class="c1">#    build/lib/libM_unicode.a (the static library).</span>
-      <span class="c1">#    build/include/*.mod (module files).</span>
-      <span class="c1">#    build/test/* (test executables).</span>
-      <span class="c1">#    build/example/* (example executables).</span>
+<span class="w">      </span><span class="c1">#This creates:</span>
+<span class="w">      </span><span class="c1">#</span>
+<span class="w">      </span><span class="c1">#    build/lib/libM_unicode.a (the static library).</span>
+<span class="w">      </span><span class="c1">#    build/include/*.mod (module files).</span>
+<span class="w">      </span><span class="c1">#    build/test/* (test executables).</span>
+<span class="w">      </span><span class="c1">#    build/example/* (example executables).</span>
 
-      <span class="c1"># OPTIONAL SECTION:</span>
+<span class="w">      </span><span class="c1"># OPTIONAL SECTION:</span>
 
-      <span class="c1"># Verify build</span>
-      ls build/lib/libM_unicode.a
-      ls build/include/*.mod
-      ls build/test/*
-      ls build/example/*
+<span class="w">      </span><span class="c1"># Verify build</span>
+<span class="w">      </span>ls<span class="w"> </span>build/lib/libM_unicode.a
+<span class="w">      </span>ls<span class="w"> </span>build/include/*.mod
+<span class="w">      </span>ls<span class="w"> </span>build/test/*
+<span class="w">      </span>ls<span class="w"> </span>build/example/*
 
-      <span class="c1">#Optionally Run Tests and Examples:</span>
-      <span class="k">for</span> name <span class="k">in</span> ./test/* ./example/*
-      <span class="k">do</span>
-         <span class="nv">$name</span>
-      <span class="k">done</span>
+<span class="w">      </span><span class="c1">#Optionally Run Tests and Examples:</span>
+<span class="w">      </span><span class="k">for</span><span class="w"> </span>name<span class="w"> </span><span class="k">in</span><span class="w"> </span>./test/*<span class="w"> </span>./example/*
+<span class="w">      </span><span class="k">do</span>
+<span class="w">         </span><span class="nv">$name</span>
+<span class="w">      </span><span class="k">done</span>
 
-      <span class="c1">#Install (Optional):</span>
-      <span class="c1"># This installs the library and module files to the system</span>
-      <span class="c1"># (e.g., /usr/local/lib/ and /usr/local/include/).</span>
-      cmake --install .
+<span class="w">      </span><span class="c1">#Install (Optional):</span>
+<span class="w">      </span><span class="c1"># This installs the library and module files to the system</span>
+<span class="w">      </span><span class="c1"># (e.g., /usr/local/lib/ and /usr/local/include/).</span>
+<span class="w">      </span>cmake<span class="w"> </span>--install<span class="w"> </span>.
 
-      <span class="c1"># if you have insufficient permissions sudo(1) may be required</span>
-      <span class="c1"># to perform the install</span>
-      <span class="c1">#sudo cmake --install .</span>
+<span class="w">      </span><span class="c1"># if you have insufficient permissions sudo(1) may be required</span>
+<span class="w">      </span><span class="c1"># to perform the install</span>
+<span class="w">      </span><span class="c1">#sudo cmake --install .</span>
 
-      <span class="c1"># Verify installation</span>
-      ls /usr/local/lib/libM_unicode.a
-      ls /usr/local/include/*.mod
+<span class="w">      </span><span class="c1"># Verify installation</span>
+<span class="w">      </span>ls<span class="w"> </span>/usr/local/lib/libM_unicode.a
+<span class="w">      </span>ls<span class="w"> </span>/usr/local/include/*.mod
 
-      <span class="c1"># Cleaning Up: To clean artifacts, remove the build/ directory:</span>
-      rm -rf build
+<span class="w">      </span><span class="c1"># Cleaning Up: To clean artifacts, remove the build/ directory:</span>
+<span class="w">      </span>rm<span class="w"> </span>-rf<span class="w"> </span>build
 </code></pre></div>
 
 <h2 id="supports-meson">Supports Meson</h2>
 <p>Alternatively, meson(1) users may download the github repository and build it with
    meson ( as described at <a href="https://mesonbuild.com/">Meson Build System</a> )</p>
-<div class="codehilite"><pre><span></span><code>        git clone https://github.com/urbanjost/M_unicode.git
-        <span class="nb">cd</span> M_unicode
-        meson setup _build
-        meson <span class="nb">test</span> -C _build  <span class="c1"># build and test the module</span>
+<div class="codehilite"><pre><span></span><code><span class="w">        </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/urbanjost/M_unicode.git
+<span class="w">        </span><span class="nb">cd</span><span class="w"> </span>M_unicode
+<span class="w">        </span>meson<span class="w"> </span>setup<span class="w"> </span>_build
+<span class="w">        </span>meson<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-C<span class="w"> </span>_build<span class="w">  </span><span class="c1"># build and test the module</span>
 
-        <span class="c1"># install the module (in the &lt;DIR&gt; location)</span>
-        <span class="c1"># --destdir is only on newer versions of meson</span>
-        meson install -C _build --destdir &lt;DIR&gt;
-        <span class="c1"># older method if --destdir is not available</span>
-        env <span class="nv">DESTDIR</span><span class="o">=</span>&lt;DIR&gt; meson install -C _build
+<span class="w">        </span><span class="c1"># install the module (in the &lt;DIR&gt; location)</span>
+<span class="w">        </span><span class="c1"># --destdir is only on newer versions of meson</span>
+<span class="w">        </span>meson<span class="w"> </span>install<span class="w"> </span>-C<span class="w"> </span>_build<span class="w"> </span>--destdir<span class="w"> </span>&lt;DIR&gt;
+<span class="w">        </span><span class="c1"># older method if --destdir is not available</span>
+<span class="w">        </span>env<span class="w"> </span><span class="nv">DESTDIR</span><span class="o">=</span>&lt;DIR&gt;<span class="w"> </span>meson<span class="w"> </span>install<span class="w"> </span>-C<span class="w"> </span>_build
 </code></pre></div>
 
 <p>or just list it as a <a href="https://mesonbuild.com/Subprojects.html">subproject dependency</a> in your meson.build project file.</p>
-<div class="codehilite"><pre><span></span><code><span class="w">        </span><span class="n">M_unicode_dep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">subproject</span><span class="p">(</span><span class="s">&#39;M_unicode&#39;</span><span class="p">).</span><span class="n">get_variable</span><span class="p">(</span><span class="s">&#39;M_unicode_dep&#39;</span><span class="p">)</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><code><span class="w">        </span><span class="n">M_unicode_dep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">subproject</span><span class="p">(</span><span class="s">&#39;M_unicode&#39;</span><span class="p">).</span><span class="n">get_variable</span><span class="p">(</span><span class="s">&#39;M_unicode_dep&#39;</span><span class="p">)</span>
 </code></pre></div>
 
 <h2 id="summary">Summary</h2>
@@ -483,12 +496,7 @@ inappropriate points.</p>
 limitations compared to languages like C++ regarding the ease of use with
 complex Unicode features (e.g., surrogate pairs, text directionality,
 normalization). For many uses of Unicode support of codepoints and system
-support fort UTF-8 encoding is sufficient, however.</p>
-<h3 id="in-summary">In summary:</h3>
-<p>While it is possible to include multibyte Unicode characters in Fortran
-source files, especially with modern Fortran standards and supportive
-compilers, it requires careful consideration of the compiler&rsquo;s
-capabilities and the source file&rsquo;s encoding.</p>
+support for UTF-8 encoding is sufficient, however.</p>
 <p>## References
  * <a href="https://home.unicode.org/"><img alt="Unicode Home" src="docs/images/Unicode-Logo-Final-Blue-95x112.jpg"></a></p>
 <ul>
@@ -539,7 +547,7 @@ including features and enhancements from Francois Jacq.</p>
           <div class="col-xs-6 col-sm-3">
             <div>
               <h3>Source Files</h3>
-              <ul><li><a href='sourcefile/bom_start.f90.html'>bom_start.f90</a></li><li><a href='sourcefile/codepoint.f90.html'>codepoint.f90</a></li><li><a href='sourcefile/codepoints.f90.html'>codepoints.f90</a></li><li><a href='sourcefile/construct.f90.html'>construct.f90</a></li><li><a href='sourcefile/count_glyphs.f90.html'>count_glyphs.f90</a></li><li><a href='sourcefile/demo_join.f90.html'>demo_join.f90</a></li><li><a href='sourcefile/demo_lower.f90.html'>demo_lower.f90</a></li><li><a href='sourcefile/demo_m_unicode.f90.html'>demo_M_unicode.f90</a></li><li><a href='sourcefile/demo_pad.f90.html'>demo_pad.f90</a></li><li><a href='sourcefile/demo_replace.f90.html'>demo_replace.f90</a></li></ul>
+              <ul><li><a href='sourcefile/bom_start.f90.html'>bom_start.f90</a></li><li><a href='sourcefile/codepoint.f90.html'>codepoint.f90</a></li><li><a href='sourcefile/concatenate.f90.html'>concatenate.f90</a></li><li><a href='sourcefile/construct.f90.html'>construct.f90</a></li><li><a href='sourcefile/count_glyphs.f90.html'>count_glyphs.f90</a></li><li><a href='sourcefile/demo_adjustl.f90.html'>demo_adjustl.f90</a></li><li><a href='sourcefile/demo_adjustr.f90.html'>demo_adjustr.f90</a></li><li><a href='sourcefile/demo_character.f90.html'>demo_character.f90</a></li><li><a href='sourcefile/demo_codepoints_to_utf8.f90.html'>demo_codepoints_to_utf8.f90</a></li><li><a href='sourcefile/demo_escape.f90.html'>demo_escape.f90</a></li></ul>
             </div>
             <div>
               <ul>
@@ -550,7 +558,7 @@ including features and enhancements from Francois Jacq.</p>
           <div class="col-xs-6 col-sm-3">
             <div>
               <h3>Modules</h3>
-              <ul><li><a href='module/m_unicode.html'>M_unicode</a></li><li><a href='module/testsuite_m_unicode.html'>testsuite_M_unicode</a></li></ul>
+              <ul><li><a href='module/m_unicode.html'>M_unicode</a></li><li><a href='module/m_unicode__base.html'>M_unicode__base</a></li><li><a href='module/testsuite_m_unicode.html'>testsuite_M_unicode</a></li></ul>
             </div>
             <div>
               <ul>
@@ -561,7 +569,7 @@ including features and enhancements from Francois Jacq.</p>
           <div class="col-xs-6 col-sm-3">
             <div>
               <h3>Procedures</h3>
-              <ul><li><a href='interface/adjustl.html'>adjustl</a></li><li><a href='interface/adjustr.html'>adjustr</a></li><li><a href='interface/assignment(=).html'>assignment(=)</a></li><li><a href='interface/character.html'>character</a></li><li><a href='proc/check.html'>check</a></li><li><a href='proc/checkit.html'>checkit</a></li><li><a href='proc/checkits.html'>checkits</a></li><li><a href='proc/checkits_l.html'>checkits_l</a></li><li><a href='interface/codepoints_to_utf8.html'>codepoints_to_utf8</a></li><li><a href='proc/getargs.html'>getargs</a></li></ul>
+              <ul><li><a href='interface/adjustl.html'>adjustl</a></li><li><a href='interface/adjustr.html'>adjustr</a></li><li><a href='proc/afmt.html'>afmt</a></li><li><a href='interface/assignment(=).html'>assignment(=)</a></li><li><a href='proc/callit.html'>callit</a></li><li><a href='interface/character.html'>character</a></li><li><a href='proc/check.html'>check</a></li><li><a href='proc/checkit.html'>checkit</a></li><li><a href='proc/checkits.html'>checkits</a></li><li><a href='proc/checkits_l.html'>checkits_l</a></li></ul>
             </div>
             <div>
               <ul>
@@ -596,7 +604,7 @@ including features and enhancements from Francois Jacq.</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-10-05 16:21 +0000             </p>
+ on 2025-11-21 18:13 +0000             </p>
           </div>
         </div>
         <br>

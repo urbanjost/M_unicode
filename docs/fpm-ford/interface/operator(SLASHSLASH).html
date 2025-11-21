@@ -91,19 +91,19 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.3% of total for procedures.</p>Including implementation: 23 statements,  2.5% of total for procedures.">3 statements</a>
+                 title="<p> 0.2% of total for procedures.</p>Including implementation: 10 statements,  0.8% of total for procedures.">3 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/M_unicode.f90"> Source File</a>
+              <a href="../src/M_unicode.F90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/m_unicode.f90.html'>M_unicode.f90</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/m_unicode.f90.html'>M_unicode.F90</a></li>
                 <li class="breadcrumb-item"><a href='../module/m_unicode.html'>M_unicode</a></li>
             <li class="breadcrumb-item active" aria-current="page">operator(//)</li>
           </ol>
@@ -150,9 +150,7 @@
       </a>
       <div id="modprocs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../interface/operator(SLASHSLASH).html#moduleprocedure-concat_str_str">concat_str_str</a>
-            <a class="list-group-item" href="../interface/operator(SLASHSLASH).html#moduleprocedure-concat_str_char">concat_str_char</a>
-            <a class="list-group-item" href="../interface/operator(SLASHSLASH).html#moduleprocedure-concat_char_str">concat_char_str</a>
+            <a class="list-group-item" href="../interface/operator(SLASHSLASH).html#moduleprocedure-concat_g_g~2">concat_g_g</a>
         </div>
       </div>
     </div>
@@ -172,10 +170,11 @@
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-concat_str_str"></span> <h3>private elemental function concat_str_str(lhs, rhs) result(lhsrhs)  
+    <div class="card-header codesum"><span class="anchor" id="proc-concat_g_g"></span> <h3>public  function <a href='../proc/concat_g_g.html'>concat_g_g</a>(lhs, rhs) result(string)  
 </h3></div>
     <div class="card-body">
-        
+          
+  
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -190,8 +189,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~5"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+              <span class="anchor" id="variable-lhs~27"></span>
+              class(*),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -200,13 +199,13 @@
             <td>::</td>
             <td><strong>lhs</strong></td>
             <td>
-                
+
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~5"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+              <span class="anchor" id="variable-rhs~27"></span>
+              class(*),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -215,125 +214,7 @@
             <td>::</td>
             <td><strong>rhs</strong></td>
             <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
 
-    <h4>
-    Return Value
-    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
-    </h4>
-    
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-concat_str_char"></span> <h3>private elemental function concat_str_char(lhs, rhs) result(lhsrhs)  
-</h3></div>
-    <div class="card-body">
-        
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lhs~6"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rhs~6"></span>
-              character(len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
-    </h4>
-    
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-concat_char_str"></span> <h3>private elemental function concat_char_str(lhs, rhs) result(lhsrhs)  
-</h3></div>
-    <div class="card-body">
-        
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lhs~7"></span>
-              character(len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rhs~7"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rhs</strong></td>
-            <td>
-                
             </td>
         </tr>
     </tbody>
@@ -365,7 +246,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-10-05 16:21 +0000             </p>
+ on 2025-11-21 18:13 +0000             </p>
           </div>
         </div>
         <br>

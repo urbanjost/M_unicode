@@ -91,20 +91,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.3% of total for procedures.</p>Including implementation: 12 statements,  1.3% of total for procedures.">3 statements</a>
+                 title="<p> 0.2% of total for procedures.</p>Including implementation: 12 statements,  0.9% of total for procedures.">3 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/M_unicode.f90"> Source File</a>
+              <a href="../src/M_unicode.F90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/m_unicode.f90.html'>M_unicode.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/m_unicode.html'>M_unicode</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/m_unicode.f90.html'>M_unicode.F90</a></li>
+                <li class="breadcrumb-item"><a href='../module/m_unicode__base.html'>M_unicode__base</a></li>
             <li class="breadcrumb-item active" aria-current="page">len</li>
           </ol>
         </nav>
@@ -173,7 +173,95 @@
     <div class="card-header codesum"><span class="anchor" id="proc-len_str"></span> <h3>private elemental function len_str(string) result(length)  
 </h3></div>
     <div class="card-body">
-        
+        <h2 id="name">NAME</h2>
+<p>LEN(3f) - [M_unicode:WHITESPACE] Length of a string
+     (LICENSE:MIT)</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<p>result = len(string)</p>
+<div class="codehilite"><pre><span></span><code><span class="nx">elemental</span><span class="w"> </span><span class="nx">integer</span><span class="w"> </span><span class="nx">function</span><span class="w"> </span><span class="nx">len</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span>
+
+<span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="kt">string</span>
+</code></pre></div>
+
+<h2 id="characteristics">CHARACTERISTICS</h2>
+<ul>
+<li>STRING is a scalar or array string variable</li>
+<li>the returned value is of default INTEGER kind</li>
+</ul>
+<h2 id="description">DESCRIPTION</h2>
+<p>LEN(3) returns the length of a type(unicode_type) string.</p>
+<p>Note that unlike the intrinsic of the same name STRING needs to be
+   defined; as the length of each element is not defined until allocated;
+   and the KIND parameter is not available for specifying the kind of the
+   integer returned.</p>
+<h2 id="options">OPTIONS</h2>
+<ul>
+<li>STRING : A scalar or array string to return the length(s) of in glyph
+     counts. If it is an unallocated allocatable variable or a pointer that
+     is not associated, its length type parameter shall not be deferred.</li>
+</ul>
+<h2 id="result">RESULT</h2>
+<p>The result has a value equal to the number of glyphs in STRING if
+   it is scalar or the elements of STRING if it is an array.</p>
+<h2 id="examples">EXAMPLES</h2>
+<p>Sample program</p>
+<div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">demo_len</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">assignment</span><span class="p">(=),</span><span class="w"> </span><span class="nx">ut</span><span class="o">=&gt;</span><span class="nx">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="nx">len</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">write</span><span class="p">(</span><span class="nx">formatted</span><span class="p">)</span>
+<span class="nx">implicit</span><span class="w"> </span><span class="nx">none</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">)</span><span class="w">             </span><span class="o">::</span><span class="w"> </span><span class="kt">string</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">),</span><span class="nx">allocatable</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">many_strings</span><span class="p">(:)</span>
+<span class="nx">integer</span><span class="w">                        </span><span class="o">::</span><span class="w"> </span><span class="nx">ii</span>
+<span class="p">!</span><span class="w"> </span><span class="nx">BASIC</span><span class="w"> </span><span class="nx">USAGE</span>
+<span class="w">  </span><span class="kt">string</span><span class="p">=</span><span class="err">&#39;</span><span class="nx">Noho</span><span class="w"> </span><span class="nx">me</span><span class="w"> </span><span class="nx">ka</span><span class="w"> </span><span class="nx">hau</span><span class="err">’</span><span class="nx">oli</span><span class="err">&#39;</span><span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="p">(</span><span class="nx">Be</span><span class="w"> </span><span class="nx">happy</span><span class="p">.)</span>
+<span class="w">  </span><span class="nx">ii</span><span class="p">=</span><span class="nx">len</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span>
+<span class="w">  </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="err">&#39;</span><span class="p">(</span><span class="nx">DT</span><span class="p">,</span><span class="o">*</span><span class="p">(</span><span class="nx">g0</span><span class="p">))</span><span class="err">&#39;</span><span class="p">)</span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="err">&#39;</span><span class="w"> </span><span class="nx">LEN</span><span class="p">=</span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">ii</span>
+<span class="p">!</span>
+<span class="w">  </span><span class="kt">string</span><span class="p">=</span><span class="err">&#39;</span><span class="w"> </span><span class="nx">How</span><span class="w"> </span><span class="nx">long</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="nx">this</span><span class="w"> </span><span class="nx">allocatable</span><span class="w"> </span><span class="kt">string</span><span class="p">?</span><span class="w"> </span><span class="err">&#39;</span>
+<span class="w">  </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="err">&#39;</span><span class="p">(</span><span class="nx">DT</span><span class="p">,</span><span class="o">*</span><span class="p">(</span><span class="nx">g0</span><span class="p">))</span><span class="err">&#39;</span><span class="p">)</span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="err">&#39;</span><span class="w"> </span><span class="nx">LEN</span><span class="p">=</span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">len</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span>
+<span class="p">!</span>
+<span class="p">!</span><span class="w"> </span><span class="nx">STRINGS</span><span class="w"> </span><span class="nx">IN</span><span class="w"> </span><span class="nx">AN</span><span class="w"> </span><span class="nx">ARRAY</span><span class="w"> </span><span class="nx">MAY</span><span class="w"> </span><span class="nx">BE</span><span class="w"> </span><span class="nx">OF</span><span class="w"> </span><span class="nx">DIFFERENT</span><span class="w"> </span><span class="nx">LENGTHS</span>
+<span class="w">  </span><span class="nx">many_strings</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="nx">ut</span><span class="p">(</span><span class="err">&#39;</span><span class="nx">Tom</span><span class="err">&#39;</span><span class="p">),</span><span class="w"> </span><span class="nx">ut</span><span class="p">(</span><span class="err">&#39;</span><span class="nx">Dick</span><span class="err">&#39;</span><span class="p">),</span><span class="w"> </span><span class="nx">ut</span><span class="p">(</span><span class="err">&#39;</span><span class="nx">Harry</span><span class="err">&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">]</span>
+<span class="w">  </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="err">&#39;</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nx">g0</span><span class="p">,</span><span class="mi">1</span><span class="nx">x</span><span class="p">))</span><span class="sc">&#39;)&#39;</span><span class="nx">length</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">elements</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">array</span><span class="p">=</span><span class="err">&#39;</span><span class="p">,</span><span class="nx">len</span><span class="p">(</span><span class="nx">many_strings</span><span class="p">)</span>
+<span class="p">!</span>
+<span class="w">  </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="err">&#39;</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nx">g0</span><span class="p">))</span><span class="sc">&#39;)&#39;</span><span class="nx">length</span><span class="w"> </span><span class="nx">from</span><span class="w"> </span><span class="k">type</span><span class="w"> </span><span class="nx">parameter</span><span class="w"> </span><span class="nx">inquiry</span><span class="p">=</span><span class="err">&#39;</span><span class="p">,</span><span class="kt">string</span><span class="o">%</span><span class="nx">len</span><span class="p">()</span>
+<span class="p">!</span>
+<span class="p">!</span><span class="w"> </span><span class="nx">LOOK</span><span class="w"> </span><span class="nx">AT</span><span class="w"> </span><span class="nx">HOW</span><span class="w"> </span><span class="nx">A</span><span class="w"> </span><span class="nx">PASSED</span><span class="w"> </span><span class="nx">STRING</span><span class="w"> </span><span class="nx">CAN</span><span class="w"> </span><span class="nx">BE</span><span class="w"> </span><span class="nx">USED</span><span class="w"> </span><span class="o">...</span>
+<span class="w">  </span><span class="nx">call</span><span class="w"> </span><span class="nx">passed</span><span class="p">(</span><span class="nx">ut</span><span class="p">(</span><span class="err">&#39;</span><span class="w"> </span><span class="nx">how</span><span class="w"> </span><span class="nx">long</span><span class="p">?</span><span class="w"> </span><span class="err">&#39;</span><span class="p">))</span>
+<span class="p">!</span>
+<span class="nx">contains</span>
+<span class="p">!</span>
+<span class="nx">subroutine</span><span class="w"> </span><span class="nx">passed</span><span class="p">(</span><span class="nx">str</span><span class="p">)</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">str</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">you</span><span class="w"> </span><span class="nx">can</span><span class="w"> </span><span class="nx">query</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">length</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">passed</span><span class="w"> </span><span class="nx">variable</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">when</span><span class="w"> </span><span class="nx">an</span><span class="w"> </span><span class="kd">interface</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="nx">present</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="err">&#39;</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nx">g0</span><span class="p">))</span><span class="sc">&#39;)&#39;</span><span class="nx">length</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">passed</span><span class="w"> </span><span class="nx">value</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">len</span><span class="p">(</span><span class="nx">str</span><span class="p">)</span>
+<span class="nx">end</span><span class="w"> </span><span class="nx">subroutine</span><span class="w"> </span><span class="nx">passed</span>
+<span class="p">!</span>
+<span class="nx">end</span><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_len</span>
+</code></pre></div>
+
+<p>Results:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">&gt;</span><span class="w"> </span><span class="nx">Noho</span><span class="w"> </span><span class="nx">me</span><span class="w"> </span><span class="nx">ka</span><span class="w"> </span><span class="nx">hau</span><span class="err">’</span><span class="nx">oli</span><span class="w"> </span><span class="nx">LEN</span><span class="p">=</span><span class="mi">18</span>
+<span class="p">&gt;</span><span class="w">  </span><span class="nx">How</span><span class="w"> </span><span class="nx">long</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="nx">this</span><span class="w"> </span><span class="nx">allocatable</span><span class="w"> </span><span class="kt">string</span><span class="p">?</span><span class="w">  </span><span class="nx">LEN</span><span class="p">=</span><span class="mi">38</span>
+<span class="p">&gt;</span><span class="w"> </span><span class="nx">length</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">elements</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">array</span><span class="p">=</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">5</span>
+<span class="p">&gt;</span><span class="w"> </span><span class="nx">length</span><span class="w"> </span><span class="nx">from</span><span class="w"> </span><span class="k">type</span><span class="w"> </span><span class="nx">parameter</span><span class="w"> </span><span class="nx">inquiry</span><span class="p">=</span><span class="mi">38</span>
+<span class="p">&gt;</span><span class="w"> </span><span class="nx">length</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">passed</span><span class="w"> </span><span class="nx">value</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="mi">11</span>
+</code></pre></div>
+
+<h2 id="see-also">SEE ALSO</h2>
+<p>functions that perform operations on character strings:</p>
+<ul>
+<li>elemental: adjustl(3), adjustr(3), index(3), scan(3), verify(3)</li>
+<li>non-elemental: len_trim(3), len(3), repeat(3), trim(3)</li>
+</ul>
+<h2 id="author">AUTHOR</h2>
+<div class="codehilite"><pre><span></span><code> John S. Urban
+</code></pre></div>
+
+<h2 id="license">LICENSE</h2>
+<div class="codehilite"><pre><span></span><code> MIT
+</code></pre></div>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -188,7 +276,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~5"></span>
+              <span class="anchor" id="variable-string~12"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -230,7 +318,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-10-05 16:21 +0000             </p>
+ on 2025-11-21 18:13 +0000             </p>
           </div>
         </div>
         <br>

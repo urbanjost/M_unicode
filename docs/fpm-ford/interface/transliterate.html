@@ -1,0 +1,924 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="Fortran Unicode when ISO_10646 is not supported">
+    <meta name="author" content="John S. Urban" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>transliterate &ndash; M_unicode</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">M_unicode </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>transliterate
+      <small>Interface</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title="<p> 0.3% of total for procedures.</p>Including implementation: 83 statements,  6.4% of total for procedures.">4 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/M_unicode.F90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/m_unicode.f90.html'>M_unicode.F90</a></li>
+                <li class="breadcrumb-item"><a href='../module/m_unicode__base.html'>M_unicode__base</a></li>
+            <li class="breadcrumb-item active" aria-current="page">transliterate</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#modprocs-0"
+         aria-expanded="false" aria-controls="modprocs-0">
+         <h4 class="card-header bg-primary text-white">Module Procedures</h4>
+      </a>
+      <div id="modprocs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../interface/transliterate.html#moduleprocedure-transliterate_uuu">transliterate_uuu</a>
+            <a class="list-group-item" href="../interface/transliterate.html#moduleprocedure-transliterate_uua">transliterate_uua</a>
+            <a class="list-group-item" href="../interface/transliterate.html#moduleprocedure-transliterate_uaa">transliterate_uaa</a>
+            <a class="list-group-item" href="../interface/transliterate.html#moduleprocedure-transliterate_uau">transliterate_uau</a>
+            <a class="list-group-item" href="../interface/transliterate.html#moduleprocedure-transliterate_aaa">transliterate_aaa</a>
+            <a class="list-group-item" href="../interface/transliterate.html#moduleprocedure-transliterate_aua">transliterate_aua</a>
+            <a class="list-group-item" href="../interface/transliterate.html#moduleprocedure-transliterate_aau">transliterate_aau</a>
+            <a class="list-group-item" href="../interface/transliterate.html#moduleprocedure-transliterate_auu">transliterate_auu</a>
+        </div>
+      </div>
+    </div>
+
+  
+
+
+  </div>
+
+    </div>
+
+    <div class="col-md-9" id='text'>
+      <h2>public interface transliterate</h2>
+      
+
+
+
+        <h2>Module Procedures</h2>
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-transliterate_uuu"></span> <h3>private impure function transliterate_uuu(instr, old_set, new_set) result(outstr)  
+</h3></div>
+    <div class="card-body">
+        <h2 id="name">NAME</h2>
+<div class="codehilite"><pre><span></span><code> transliterate(3f) - [M_unicode:EDITING] replace characters from old
+                     set with new set
+ (LICENSE:PD)
+</code></pre></div>
+
+<h2 id="synopsis">SYNOPSIS</h2>
+<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nx">impure</span><span class="w"> </span><span class="nx">function</span><span class="w"> </span><span class="nx">transliterate</span><span class="p">(</span><span class="nx">instr</span><span class="p">,</span><span class="nx">old_set</span><span class="p">,</span><span class="nx">new_set</span><span class="p">)</span><span class="w"> </span><span class="nx">result</span><span class="p">(</span><span class="nx">outstr</span><span class="p">)</span>
+
+<span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w">  </span><span class="o">::</span><span class="w"> </span><span class="nx">instr</span>
+<span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w">  </span><span class="o">::</span><span class="w"> </span><span class="nx">old_set</span>
+<span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w">  </span><span class="o">::</span><span class="w"> </span><span class="nx">new_set</span>
+<span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span><span class="w">             </span><span class="o">::</span><span class="w"> </span><span class="nx">outstr</span>
+</code></pre></div>
+
+<h2 id="characteristics">CHARACTERISTICS</h2>
+<div class="codehilite"><pre><span></span><code>Although a conversion might occur on each call, the input values
+may be CHARACTER as well as TYPE(UNICODE_TYPE).
+</code></pre></div>
+
+<h2 id="description">DESCRIPTION</h2>
+<div class="codehilite"><pre><span></span><code>Translate or delete characters from an input string.
+</code></pre></div>
+
+<h2 id="options">OPTIONS</h2>
+<p>instr    input string to change
+   old_set  list of glyphs to change in INSTR if found</p>
+<div class="codehilite"><pre><span></span><code>        Each glyph in the input string that matches a glyph
+        in the old set is replaced.
+</code></pre></div>
+
+<p>new_set  list of glyphs to replace glyphs in OLD_SET with.</p>
+<div class="codehilite"><pre><span></span><code>        If NEW_SET is the empty set glyphs in INSTR that
+        match any in OLD_SET are deleted.
+
+        If NEW_SET is shorter than OLD_SET the last glyph
+        in NEW_SET is used to replace the remaining glyphs
+        in NEW_SET.
+</code></pre></div>
+
+<h2 id="returns">RETURNS</h2>
+<div class="codehilite"><pre><span></span><code>outstr  INSTR with substitutions applied
+</code></pre></div>
+
+<h2 id="examples">EXAMPLES</h2>
+<p>Sample Program:</p>
+<div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">demo_transliterate</span>
+
+<span class="w"> </span><span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">transliterate</span><span class="p">,</span><span class="nx">ut</span><span class="o">=&gt;</span><span class="nx">unicode_type</span>
+<span class="w"> </span><span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">write</span><span class="p">(</span><span class="nx">formatted</span><span class="p">),</span><span class="nx">ch</span><span class="o">=&gt;</span><span class="nx">character</span>
+<span class="w"> </span><span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">assignment</span><span class="p">(=)</span>
+<span class="w"> </span><span class="nx">implicit</span><span class="w"> </span><span class="nx">none</span>
+<span class="w"> </span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">parameter</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">u</span><span class="p">=</span><span class="err">&#39;</span><span class="p">(</span><span class="nx">DT</span><span class="p">)</span><span class="err">&#39;</span>
+<span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">)</span><span class="w">  </span><span class="o">::</span><span class="w"> </span><span class="nx">STRING</span><span class="p">,</span><span class="w"> </span><span class="nx">UPPER</span><span class="p">,</span><span class="w"> </span><span class="nx">LOWER</span>
+<span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">)</span><span class="w">  </span><span class="o">::</span><span class="w"> </span><span class="nx">MIDDLE_DOT</span>
+
+<span class="w">    </span><span class="nx">STRING</span><span class="p">=</span><span class="err">&#39;</span><span class="nx">aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ</span><span class="err">&#39;</span>
+<span class="w">    </span><span class="nx">LOWER</span><span class="p">=</span><span class="err">&#39;</span><span class="nx">abcdefghijklmnopqrstuvwxyz</span><span class="err">&#39;</span>
+<span class="w">    </span><span class="nx">UPPER</span><span class="p">=</span><span class="err">&#39;</span><span class="nx">ABCDEFGHIJKLMNOPQRSTUVWXYZ</span><span class="err">&#39;</span>
+<span class="w">    </span><span class="nx">call</span><span class="w"> </span><span class="nx">callit</span><span class="p">()</span>
+
+<span class="w">    </span><span class="nx">print</span><span class="w"> </span><span class="nx">u</span>
+<span class="w">    </span><span class="nx">print</span><span class="w"> </span><span class="nx">u</span><span class="p">,</span><span class="nx">ut</span><span class="p">(</span><span class="err">&#39;</span><span class="nx">Greek</span><span class="err">&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">!</span>
+<span class="w">    </span><span class="p">!</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">Α</span><span class="w"> </span><span class="nx">α</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">Β</span><span class="w"> </span><span class="nx">β</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">Γ</span><span class="w"> </span><span class="nx">γ</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">Δ</span><span class="w"> </span><span class="nx">δ</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">Ε</span><span class="w"> </span><span class="nx">ε</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">Ζ</span><span class="w"> </span><span class="nx">ζ</span><span class="w">   </span><span class="o">|</span>
+<span class="w">    </span><span class="p">!</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">Η</span><span class="w"> </span><span class="nx">η</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">Θ</span><span class="w"> </span><span class="nx">θ</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">Ι</span><span class="w"> </span><span class="nx">ι</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">Κ</span><span class="w"> </span><span class="nx">κ</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">Λ</span><span class="w"> </span><span class="nx">λ</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">Μ</span><span class="w"> </span><span class="nx">μ</span><span class="w">   </span><span class="o">|</span>
+<span class="w">    </span><span class="p">!</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">Ν</span><span class="w"> </span><span class="nx">ν</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">Ξ</span><span class="w"> </span><span class="nx">ξ</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">Ο</span><span class="w"> </span><span class="nx">ο</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">Π</span><span class="w"> </span><span class="nx">π</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">Ρ</span><span class="w"> </span><span class="nx">ρ</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">Σ</span><span class="w"> </span><span class="nx">σ</span><span class="w"> </span><span class="nx">ς</span><span class="w"> </span><span class="o">|</span>
+<span class="w">    </span><span class="p">!</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">Τ</span><span class="w"> </span><span class="nx">τ</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">Υ</span><span class="w"> </span><span class="nx">υ</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">Φ</span><span class="w"> </span><span class="nx">φ</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">Χ</span><span class="w"> </span><span class="nx">χ</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">Ψ</span><span class="w"> </span><span class="nx">ψ</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">Ω</span><span class="w"> </span><span class="nx">ω</span><span class="w">   </span><span class="o">|</span>
+<span class="w">    </span><span class="p">!</span>
+<span class="w">    </span><span class="nx">STRING</span><span class="p">=</span><span class="err">&#39;</span><span class="nx">ΑαΒβΓγΔδΕεΖζΗηΘθΙιΚκΛλΜμΝνΞξΟοΠπΡρΣσςΤτΥυΦφΧχΨψΩω</span><span class="err">&#39;</span>
+<span class="w">    </span><span class="p">!</span><span class="w"> </span><span class="nx">ignoring</span><span class="w"> </span><span class="nx">ς</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nx">simplicity</span>
+<span class="w">    </span><span class="nx">UPPER</span><span class="p">=</span><span class="err">&#39;</span><span class="nx">ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ</span><span class="err">&#39;</span>
+<span class="w">    </span><span class="nx">LOWER</span><span class="p">=</span><span class="err">&#39;</span><span class="nx">αβγδεζηθικλμνξοπρστυφχψω</span><span class="err">&#39;</span>
+<span class="w">    </span><span class="nx">call</span><span class="w"> </span><span class="nx">callit</span><span class="p">()</span>
+
+<span class="w">    </span><span class="p">!</span><span class="w"> </span><span class="nx">OOP</span>
+<span class="w">    </span><span class="nx">print</span><span class="w"> </span><span class="nx">u</span>
+<span class="w">    </span><span class="nx">print</span><span class="w"> </span><span class="nx">u</span><span class="p">,</span><span class="nx">ut</span><span class="p">(</span><span class="err">&#39;</span><span class="nx">OOP</span><span class="p">!</span><span class="err">&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">print</span><span class="w"> </span><span class="nx">u</span><span class="p">,</span><span class="nx">STRING</span><span class="o">%</span><span class="nx">TRANSLITERATE</span><span class="p">(</span><span class="nx">UPPER</span><span class="p">,</span><span class="sc">&#39;_&#39;</span><span class="p">)</span>
+
+<span class="w">    </span><span class="p">!</span><span class="w"> </span><span class="nx">U</span><span class="o">+</span><span class="mi">00</span><span class="nx">B7</span><span class="w"> </span><span class="nx">Middle</span><span class="w"> </span><span class="nx">Dot</span><span class="w"> </span><span class="nx">Unicode</span><span class="w"> </span><span class="nx">Character</span>
+<span class="w">    </span><span class="nx">print</span><span class="w"> </span><span class="nx">u</span><span class="p">,</span><span class="nx">STRING</span><span class="o">%</span><span class="nx">TRANSLITERATE</span><span class="p">(</span><span class="nx">LOWER</span><span class="p">,</span><span class="sc">&#39;·&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">ASCII</span><span class="w"> </span><span class="nx">bytes</span>
+<span class="w">    </span><span class="nx">print</span><span class="w"> </span><span class="nx">u</span><span class="p">,</span><span class="nx">STRING</span><span class="o">%</span><span class="nx">TRANSLITERATE</span><span class="p">(</span><span class="nx">LOWER</span><span class="p">,</span><span class="nx">ut</span><span class="p">(</span><span class="sc">&#39;·&#39;</span><span class="p">))</span><span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">cast</span>
+<span class="w">    </span><span class="nx">MIDDLE_DOT</span><span class="p">=</span><span class="nx">int</span><span class="p">(</span><span class="nx">z</span><span class="err">&#39;</span><span class="mi">00</span><span class="nx">B7</span><span class="err">&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">print</span><span class="w"> </span><span class="nx">u</span><span class="p">,</span><span class="nx">STRING</span><span class="o">%</span><span class="nx">TRANSLITERATE</span><span class="p">(</span><span class="nx">LOWER</span><span class="p">,</span><span class="nx">MIDDLE_DOT</span><span class="p">)</span><span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">hexadecimal</span>
+
+<span class="w"> </span><span class="nx">contains</span>
+<span class="w"> </span><span class="nx">subroutine</span><span class="w"> </span><span class="nx">callit</span><span class="p">()</span>
+<span class="w">      </span><span class="nx">print</span><span class="w"> </span><span class="nx">u</span><span class="p">,</span><span class="w"> </span><span class="nx">STRING</span>
+
+<span class="w">      </span><span class="p">!</span><span class="w"> </span><span class="nx">convert</span><span class="w"> </span><span class="o">-</span><span class="mi">7</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">uppercase</span><span class="p">:</span>
+<span class="w">      </span><span class="nx">print</span><span class="w"> </span><span class="nx">u</span><span class="p">,</span><span class="w"> </span><span class="nx">TRANSLITERATE</span><span class="p">(</span><span class="nx">STRING</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="nx">LOWER</span><span class="p">,</span><span class="w"> </span><span class="nx">UPPER</span><span class="w"> </span><span class="p">)</span>
+
+<span class="w">      </span><span class="p">!</span><span class="w"> </span><span class="nx">change</span><span class="w"> </span><span class="nx">all</span><span class="w"> </span><span class="nx">miniscule</span><span class="w"> </span><span class="nx">letters</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">colon</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;:&quot;</span><span class="p">):</span>
+<span class="w">      </span><span class="nx">print</span><span class="w"> </span><span class="nx">u</span><span class="p">,</span><span class="w"> </span><span class="nx">TRANSLITERATE</span><span class="p">(</span><span class="nx">STRING</span><span class="p">,</span><span class="w"> </span><span class="nx">LOWER</span><span class="p">,</span><span class="w"> </span><span class="sc">&#39;:&#39;</span><span class="p">)</span>
+
+<span class="w">      </span><span class="p">!</span><span class="w"> </span><span class="nx">delete</span><span class="w"> </span><span class="nx">all</span><span class="w"> </span><span class="nx">miniscule</span><span class="w"> </span><span class="nx">letters</span>
+<span class="w">      </span><span class="nx">print</span><span class="w"> </span><span class="nx">u</span><span class="p">,</span><span class="w"> </span><span class="nx">TRANSLITERATE</span><span class="p">(</span><span class="nx">STRING</span><span class="p">,</span><span class="w"> </span><span class="nx">LOWER</span><span class="p">,</span><span class="w"> </span><span class="err">&#39;&#39;</span><span class="p">)</span>
+
+<span class="w">      </span><span class="nx">end</span><span class="w"> </span><span class="nx">subroutine</span><span class="w"> </span><span class="nx">callit</span>
+
+<span class="w"> </span><span class="nx">end</span><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_transliterate</span>
+</code></pre></div>
+
+<p>Results:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">&gt; </span><span class="ge">aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ</span>
+<span class="k">&gt; </span><span class="ge">AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPPQQRRSSTTUUVVWWXXYYZZ</span>
+<span class="k">&gt; </span><span class="ge">:A:B:C:D:E:F:G:H:I:J:K:L:M:N:O:P:Q:R:S:T:U:V:W:X:Y:Z</span>
+<span class="k">&gt; </span><span class="ge">ABCDEFGHIJKLMNOPQRSTUVWXYZ</span>
+<span class="k">&gt;</span>
+<span class="ge">&gt; Greek</span>
+<span class="k">&gt; </span><span class="ge">ΑαΒβΓγΔδΕεΖζΗηΘθΙιΚκΛλΜμΝνΞξΟοΠπΡρΣσςΤτΥυΦφΧχΨψΩω</span>
+<span class="k">&gt; </span><span class="ge">ΑΑΒΒΓΓΔΔΕΕΖΖΗΗΘΘΙΙΚΚΛΛΜΜΝΝΞΞΟΟΠΠΡΡΣΣςΤΤΥΥΦΦΧΧΨΨΩΩ</span>
+<span class="k">&gt; </span><span class="ge">Α:Β:Γ:Δ:Ε:Ζ:Η:Θ:Ι:Κ:Λ:Μ:Ν:Ξ:Ο:Π:Ρ:Σ:ςΤ:Υ:Φ:Χ:Ψ:Ω:</span>
+<span class="k">&gt; </span><span class="ge">ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣςΤΥΦΧΨΩ</span>
+<span class="k">&gt;</span>
+<span class="ge">&gt; OOP!</span>
+<span class="k">&gt; </span><span class="ge">_α_β_γ_δ_ε_ζ_η_θ_ι_κ_λ_μ_ν_ξ_ο_π_ρ_σς_τ_υ_φ_χ_ψ_ω</span>
+<span class="k">&gt; </span><span class="ge">Α·Β·Γ·Δ·Ε·Ζ·Η·Θ·Ι·Κ·Λ·Μ·Ν·Ξ·Ο·Π·Ρ·Σ·ςΤ·Υ·Φ·Χ·Ψ·Ω·</span>
+<span class="k">&gt; </span><span class="ge">Α·Β·Γ·Δ·Ε·Ζ·Η·Θ·Ι·Κ·Λ·Μ·Ν·Ξ·Ο·Π·Ρ·Σ·ςΤ·Υ·Φ·Χ·Ψ·Ω·</span>
+<span class="k">&gt; </span><span class="ge">Α·Β·Γ·Δ·Ε·Ζ·Η·Θ·Ι·Κ·Λ·Μ·Ν·Ξ·Ο·Π·Ρ·Σ·ςΤ·Υ·Φ·Χ·Ψ·Ω·</span>
+</code></pre></div>
+
+<h2 id="author">AUTHOR</h2>
+<div class="codehilite"><pre><span></span><code>John S. Urban
+</code></pre></div>
+
+<h2 id="license">LICENSE</h2>
+<div class="codehilite"><pre><span></span><code> MIT
+</code></pre></div>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-instr~2"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>instr</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-old_set"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>old_set</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-new_set"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>new_set</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-transliterate_uua"></span> <h3>private  function transliterate_uua(instr, old_set, new_set) result(outstr)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-instr~3"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>instr</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-old_set~2"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>old_set</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-new_set~2"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>new_set</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-transliterate_uaa"></span> <h3>private  function transliterate_uaa(instr, old_set, new_set) result(outstr)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-instr~4"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>instr</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-old_set~3"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>old_set</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-new_set~3"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>new_set</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-transliterate_uau"></span> <h3>private  function transliterate_uau(instr, old_set, new_set) result(outstr)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-instr~6"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>instr</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-old_set~5"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>old_set</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-new_set~5"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>new_set</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-transliterate_aaa"></span> <h3>private  function transliterate_aaa(instr, old_set, new_set) result(outstr)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-instr~5"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>instr</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-old_set~4"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>old_set</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-new_set~4"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>new_set</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-transliterate_aua"></span> <h3>private  function transliterate_aua(instr, old_set, new_set) result(outstr)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-instr~8"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>instr</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-old_set~7"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>old_set</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-new_set~7"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>new_set</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-transliterate_aau"></span> <h3>private  function transliterate_aau(instr, old_set, new_set) result(outstr)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-instr~7"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>instr</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-old_set~6"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>old_set</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-new_set~6"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>new_set</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-transliterate_auu"></span> <h3>private  function transliterate_auu(instr, old_set, new_set) result(outstr)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-instr~9"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>instr</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-old_set~8"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>old_set</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-new_set~8"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>new_set</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+</div>
+  </div>
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              M_unicode
+ was developed by John S. Urban<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2025-11-21 18:13 +0000             </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

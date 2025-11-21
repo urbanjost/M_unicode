@@ -8,7 +8,7 @@ type(unicode_type),allocatable :: poem(:)
 integer :: i
 
    ! “The Crow and the Fox” by Jean de la Fontaine
-   write(stdout,'(a,/)') 'Le Corbeau et le Renard -- Jean de la Fontaine' 
+   write(stdout,'(a,/)') 'Le Corbeau et le Renard -- Jean de la Fontaine'
 
    poem=[&
    ut( 'Le Corbeau et le Renard'                             ), &

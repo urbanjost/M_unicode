@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.5% of total for source files.">16 statements</a>
+                 title=" 0.3% of total for source files.">16 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -170,11 +170,11 @@
 
       <section>
         <h2><span class="anchor" id="src"></span>Source Code</h2>
-        <div class="hl codehilite"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="k">program </span><span class="n">testit</span><span class="w"></span>
-<a id="ln-2" name="ln-2" href="#ln-2"></a><span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">output_unit</span><span class="w"></span>
-<a id="ln-3" name="ln-3" href="#ln-3"></a><span class="k">use </span><span class="n">M_unicode</span><span class="w"></span>
+        <div class="hl codehilite"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="k">program </span><span class="n">testit</span>
+<a id="ln-2" name="ln-2" href="#ln-2"></a><span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">output_unit</span>
+<a id="ln-3" name="ln-3" href="#ln-3"></a><span class="k">use </span><span class="n">M_unicode</span>
 <a id="ln-4" name="ln-4" href="#ln-4"></a><span class="k">implicit none</span>
-<a id="ln-5" name="ln-5" href="#ln-5"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">upp</span><span class="p">,</span><span class="w"> </span><span class="n">low</span><span class="w"></span>
+<a id="ln-5" name="ln-5" href="#ln-5"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">upp</span><span class="p">,</span><span class="w"> </span><span class="n">low</span>
 <a id="ln-6" name="ln-6" href="#ln-6"></a><span class="w">   </span><span class="c">!</span>
 <a id="ln-7" name="ln-7" href="#ln-7"></a><span class="w">   </span><span class="c">! remember unicode characters are multi-byte so be careful</span>
 <a id="ln-8" name="ln-8" href="#ln-8"></a><span class="w">   </span><span class="c">! with older compilers to not exceed 132 bytes per line</span>
@@ -197,7 +197,7 @@
 <a id="ln-25" name="ln-25" href="#ln-25"></a><span class="s1">   &amp;ộớờởỡợụủứừửữựỳỵỷỹἀἁἂἃἄἅἆἇἐἑἒἓἔἕἠἡἢἣἤἥἦἧἰἱ&amp;</span>
 <a id="ln-26" name="ln-26" href="#ln-26"></a><span class="s1">   &amp;ἲἳἴἵἶἷὀὁὂὃὄὅὑὓὕὗὠὡὢὣὤὥὦὧᾀᾁᾂᾃᾄᾅᾆᾇᾐᾑᾒᾓᾔᾕᾖᾗ&amp;</span>
 <a id="ln-27" name="ln-27" href="#ln-27"></a><span class="s1">   &amp;ᾠᾡᾢᾣᾤᾥᾦᾧᾰᾱῐῑῠῡⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩ&amp;</span>
-<a id="ln-28" name="ln-28" href="#ln-28"></a><span class="s1">   &amp;ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ&#39;</span><span class="w"></span>
+<a id="ln-28" name="ln-28" href="#ln-28"></a><span class="s1">   &amp;ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ&#39;</span>
 <a id="ln-29" name="ln-29" href="#ln-29"></a><span class="w">   </span><span class="n">upp</span><span class="o">=</span><span class="s1">&#39;&amp;</span>
 <a id="ln-30" name="ln-30" href="#ln-30"></a><span class="s1">   &amp;ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊË&amp;</span>
 <a id="ln-31" name="ln-31" href="#ln-31"></a><span class="s1">   &amp;ÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸĀĂĄĆĈĊČĎĐĒĔĖĘĚĜĞĠĢĤĦĨĪĬ&amp;</span>
@@ -217,19 +217,19 @@
 <a id="ln-45" name="ln-45" href="#ln-45"></a><span class="s1">   &amp;ἺἻἼἽἾἿὈὉὊὋὌὍὙὛὝὟὨὩὪὫὬὭὮὯ&amp;</span>
 <a id="ln-46" name="ln-46" href="#ln-46"></a><span class="s1">   &amp;ᾈᾉᾊᾋᾌᾍᾎᾏᾘᾙᾚᾛᾜᾝᾞᾟᾨᾩᾪᾫᾬᾭᾮᾯᾸᾹ&amp;</span>
 <a id="ln-47" name="ln-47" href="#ln-47"></a><span class="s1">   &amp;ῘῙῨῩⒶⒷⒸⒹⒺⒻⒼⒽⒾⒿⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏ&amp;</span>
-<a id="ln-48" name="ln-48" href="#ln-48"></a><span class="s1">   &amp;ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ&#39;</span><span class="w"></span>
+<a id="ln-48" name="ln-48" href="#ln-48"></a><span class="s1">   &amp;ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ&#39;</span>
 <a id="ln-49" name="ln-49" href="#ln-49"></a>
-<a id="ln-50" name="ln-50" href="#ln-50"></a><span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="n">low</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="w"></span>
-<a id="ln-51" name="ln-51" href="#ln-51"></a><span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="kt">character</span><span class="p">(</span><span class="n">upper</span><span class="p">(</span><span class="n">low</span><span class="p">))</span><span class="w"></span>
-<a id="ln-52" name="ln-52" href="#ln-52"></a><span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="kt">character</span><span class="p">(</span><span class="n">upp</span><span class="p">)</span><span class="w"></span>
-<a id="ln-53" name="ln-53" href="#ln-53"></a><span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="kt">character</span><span class="p">(</span><span class="n">upp</span><span class="p">%</span><span class="n">lower</span><span class="p">())</span><span class="w"></span>
+<a id="ln-50" name="ln-50" href="#ln-50"></a><span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="n">low</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span>
+<a id="ln-51" name="ln-51" href="#ln-51"></a><span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="kt">character</span><span class="p">(</span><span class="n">upper</span><span class="p">(</span><span class="n">low</span><span class="p">))</span>
+<a id="ln-52" name="ln-52" href="#ln-52"></a><span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="kt">character</span><span class="p">(</span><span class="n">upp</span><span class="p">)</span>
+<a id="ln-53" name="ln-53" href="#ln-53"></a><span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="kt">character</span><span class="p">(</span><span class="n">upp</span><span class="p">%</span><span class="n">lower</span><span class="p">())</span>
 <a id="ln-54" name="ln-54" href="#ln-54"></a>
-<a id="ln-55" name="ln-55" href="#ln-55"></a><span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="s1">&#39;Note &quot;i&quot; and &quot;I&quot; are a special case;&#39;</span><span class="w"></span>
-<a id="ln-56" name="ln-56" href="#ln-56"></a><span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="s1">&#39;uppercase of &quot;i&quot; is &quot;I&quot; (dotless) by default and&#39;</span><span class="w"></span>
-<a id="ln-57" name="ln-57" href="#ln-57"></a><span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="s1">&#39;lowercase of &quot;I&quot; (dotless) is &quot;i&quot; (dotted) by default.&#39;</span><span class="w"></span>
-<a id="ln-58" name="ln-58" href="#ln-58"></a><span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="s1">&#39;For the others LETTER=lower(upper(LETTER)) and LETTER=upper(lower(LETTER))&#39;</span><span class="w"></span>
+<a id="ln-55" name="ln-55" href="#ln-55"></a><span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="s1">&#39;Note &quot;i&quot; and &quot;I&quot; are a special case;&#39;</span>
+<a id="ln-56" name="ln-56" href="#ln-56"></a><span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="s1">&#39;uppercase of &quot;i&quot; is &quot;I&quot; (dotless) by default and&#39;</span>
+<a id="ln-57" name="ln-57" href="#ln-57"></a><span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="s1">&#39;lowercase of &quot;I&quot; (dotless) is &quot;i&quot; (dotted) by default.&#39;</span>
+<a id="ln-58" name="ln-58" href="#ln-58"></a><span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="s1">&#39;For the others LETTER=lower(upper(LETTER)) and LETTER=upper(lower(LETTER))&#39;</span>
 <a id="ln-59" name="ln-59" href="#ln-59"></a>
-<a id="ln-60" name="ln-60" href="#ln-60"></a><span class="k">end program </span><span class="n">testit</span><span class="w"></span>
+<a id="ln-60" name="ln-60" href="#ln-60"></a><span class="k">end program </span><span class="n">testit</span>
 </pre></div>
 
       </section>
@@ -251,7 +251,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-10-05 16:21 +0000             </p>
+ on 2025-11-21 18:13 +0000             </p>
           </div>
         </div>
         <br>

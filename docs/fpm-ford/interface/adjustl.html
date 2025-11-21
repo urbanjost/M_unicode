@@ -91,20 +91,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.3% of total for procedures.</p>Including implementation: 13 statements,  1.4% of total for procedures.">3 statements</a>
+                 title="<p> 0.2% of total for procedures.</p>Including implementation: 25 statements,  1.9% of total for procedures.">3 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/M_unicode.f90"> Source File</a>
+              <a href="../src/M_unicode.F90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/m_unicode.f90.html'>M_unicode.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/m_unicode.html'>M_unicode</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/m_unicode.f90.html'>M_unicode.F90</a></li>
+                <li class="breadcrumb-item"><a href='../module/m_unicode__base.html'>M_unicode__base</a></li>
             <li class="breadcrumb-item active" aria-current="page">adjustl</li>
           </ol>
         </nav>
@@ -170,10 +170,94 @@
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-adjustl_str"></span> <h3>private elemental function adjustl_str(string) result(adjusted)  
+    <div class="card-header codesum"><span class="anchor" id="proc-adjustl_str"></span> <h3>private elemental function adjustl_str(string, glyphs) result(adjusted)  
 </h3></div>
     <div class="card-body">
-        
+        <h2 id="name">NAME</h2>
+<p>ADJUSTL(3f) - [M_unicode:WHITESPACE] Left-justified a string
+                 (LICENSE:MIT)</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<p>result = adjustl(string,glyphs)</p>
+<div class="codehilite"><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="nf">adjustl(string,glyphs) result</span><span class="p">(</span>out<span class="p">)</span>
+
+<span class="w"> </span><span class="nb">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="nb">string</span>
+<span class="w"> </span><span class="n">integer</span><span class="p">,</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="n">optional</span><span class="w">   </span><span class="p">::</span><span class="w"> </span><span class="n">glyphs</span>
+<span class="w"> </span><span class="nb">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">            </span><span class="p">::</span><span class="w"> </span><span class="n">out</span>
+</code></pre></div>
+
+<h2 id="characteristics">CHARACTERISTICS</h2>
+<ul>
+<li>STRING is a string variable of type(unicode_type)</li>
+<li>GLYPHS is a default integer</li>
+<li>The return value is a string variable of type(unicode_type)</li>
+</ul>
+<h2 id="description">DESCRIPTION</h2>
+<p>adjustl(3) will left-justify a string by removing leading spaces. Spaces
+   are inserted at the end of the string as needed to keep the number of
+   glyphs on output the same as the number on input unless overridden by
+   the GLYPHS parameter.</p>
+<h2 id="options">OPTIONS</h2>
+<ul>
+<li>STRING : the string to left-justify</li>
+<li>GLYPHS : the length of the output in glyphs</li>
+</ul>
+<h2 id="result">RESULT</h2>
+<p>A copy of STRING where leading spaces are removed and the same
+   number of spaces are inserted on the end of STRING unless GLYPHS is
+   specified. Note using GLYPHS can cause in string truncation.</p>
+<h2 id="examples">EXAMPLES</h2>
+<p>Sample program:</p>
+<div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">demo_adjustl</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">ut</span><span class="o">=&gt;</span><span class="nx">unicode_type</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">ch</span><span class="o">=&gt;</span><span class="nx">character</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">adjustl</span><span class="p">,</span><span class="w"> </span><span class="nx">trim</span><span class="p">,</span><span class="w"> </span><span class="nx">len_trim</span><span class="p">,</span><span class="w"> </span><span class="nx">verify</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">write</span><span class="p">(</span><span class="nx">formatted</span><span class="p">)</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">assignment</span><span class="p">(=)</span>
+<span class="nx">implicit</span><span class="w"> </span><span class="nx">none</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">)</span><span class="w">                   </span><span class="o">::</span><span class="w"> </span><span class="nx">usample</span><span class="p">,</span><span class="w"> </span><span class="nx">uout</span>
+<span class="nx">integer</span><span class="w">                    </span><span class="o">::</span><span class="w"> </span><span class="nx">istart</span><span class="p">,</span><span class="w"> </span><span class="nx">iend</span>
+<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">parameter</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">adt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="err">&#39;</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span><span class="s">&quot;[&quot;</span><span class="p">,</span><span class="nx">DT</span><span class="p">,</span><span class="s">&quot;]&quot;</span><span class="p">)</span><span class="err">&#39;</span>
+<span class="w"> </span><span class="p">!</span>
+<span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">basic</span><span class="w"> </span><span class="nx">use</span>
+<span class="w">   </span><span class="nx">usample</span><span class="p">=</span><span class="err">&#39;</span><span class="w">   </span><span class="nx">sample</span><span class="w"> </span><span class="kt">string</span><span class="w">   </span><span class="err">&#39;</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">adt</span><span class="p">)</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">original</span><span class="p">:</span><span class="w"> </span><span class="err">&#39;</span><span class="p">,</span><span class="nx">usample</span>
+<span class="w"> </span><span class="p">!</span>
+<span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">note</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="nx">stays</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">same</span><span class="w"> </span><span class="nx">length</span>
+<span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="nx">trimmed</span><span class="w"> </span><span class="nx">by</span><span class="w"> </span><span class="nx">just</span><span class="w"> </span><span class="nx">an</span><span class="w"> </span><span class="nx">adjustl</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="nx">call</span><span class="p">.</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">adt</span><span class="p">)</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">adjusted</span><span class="p">:</span><span class="w"> </span><span class="err">&#39;</span><span class="p">,</span><span class="nx">adjustl</span><span class="p">(</span><span class="nx">usample</span><span class="p">)</span>
+<span class="w"> </span><span class="p">!</span>
+<span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">fixed</span><span class="err">‐</span><span class="nx">length</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="nx">can</span><span class="w"> </span><span class="nx">be</span><span class="w"> </span><span class="nx">trimmed</span><span class="w"> </span><span class="nx">using</span><span class="w"> </span><span class="nx">trim</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="w">   </span><span class="nx">uout</span><span class="p">=</span><span class="nx">trim</span><span class="p">(</span><span class="nx">adjustl</span><span class="p">(</span><span class="nx">usample</span><span class="p">))</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">adt</span><span class="p">)</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">trimmed</span><span class="p">:</span><span class="w">  </span><span class="err">&#39;</span><span class="p">,</span><span class="nx">uout</span>
+<span class="w"> </span><span class="p">!</span>
+<span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="nx">alternatively</span><span class="w"> </span><span class="nx">you</span><span class="w"> </span><span class="nx">can</span><span class="w"> </span><span class="nx">select</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">substring</span><span class="w"> </span><span class="nx">without</span><span class="w"> </span><span class="nx">adjusting</span>
+<span class="w">   </span><span class="nx">istart</span><span class="p">=</span><span class="w"> </span><span class="nx">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nx">verify</span><span class="p">(</span><span class="nx">usample</span><span class="p">,</span><span class="w"> </span><span class="sc">&#39; &#39;</span><span class="p">))</span><span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">first</span><span class="w"> </span><span class="nx">non</span><span class="err">‐</span><span class="nx">blank</span><span class="w"> </span><span class="nx">character</span>
+<span class="w">   </span><span class="nx">iend</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">len_trim</span><span class="p">(</span><span class="nx">usample</span><span class="p">)</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">adt</span><span class="p">)</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">substring</span><span class="p">:</span><span class="err">&#39;</span><span class="p">,</span><span class="nx">usample</span><span class="o">%</span><span class="nx">sub</span><span class="p">(</span><span class="nx">istart</span><span class="p">,</span><span class="nx">iend</span><span class="p">)</span>
+<span class="w"> </span><span class="p">!</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">adt</span><span class="p">)</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">substring</span><span class="p">:</span><span class="err">&#39;</span><span class="p">,</span><span class="nx">adjustl</span><span class="p">(</span><span class="nx">usample</span><span class="p">,</span><span class="mi">30</span><span class="p">)</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">adt</span><span class="p">)</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">substring</span><span class="p">:</span><span class="err">&#39;</span><span class="p">,</span><span class="nx">adjustl</span><span class="p">(</span><span class="nx">usample</span><span class="p">,</span><span class="mi">20</span><span class="p">)</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">adt</span><span class="p">)</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">substring</span><span class="p">:</span><span class="err">&#39;</span><span class="p">,</span><span class="nx">adjustl</span><span class="p">(</span><span class="nx">usample</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">adt</span><span class="p">)</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">substring</span><span class="p">:</span><span class="err">&#39;</span><span class="p">,</span><span class="nx">adjustl</span><span class="p">(</span><span class="nx">usample</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+<span class="nx">end</span><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_adjustl</span>
+</code></pre></div>
+
+<p>Results:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;</span><span class="w"> </span><span class="n">original</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="w">   </span><span class="n">sample</span><span class="w"> </span><span class="n">string</span><span class="w">   </span><span class="p">]</span>
+<span class="o">&gt;</span><span class="w"> </span><span class="n">adjusted</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="n">sample</span><span class="w"> </span><span class="n">string</span><span class="w">      </span><span class="p">]</span>
+<span class="o">&gt;</span><span class="w"> </span><span class="n">trimmed</span><span class="o">:</span><span class="w">  </span><span class="p">[</span><span class="n">sample</span><span class="w"> </span><span class="n">string</span><span class="p">]</span>
+<span class="o">&gt;</span><span class="w"> </span><span class="n">substring</span><span class="o">:</span><span class="p">[</span><span class="n">sample</span><span class="w"> </span><span class="n">string</span><span class="p">]</span>
+</code></pre></div>
+
+<h2 id="see-also">SEE ALSO</h2>
+<p>ADJUSTR(3), TRIM(3)</p>
+<h2 id="author">AUTHOR</h2>
+<div class="codehilite"><pre><span></span><code> John S. Urban
+</code></pre></div>
+
+<h2 id="license">LICENSE</h2>
+<div class="codehilite"><pre><span></span><code> MIT
+</code></pre></div>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -188,7 +272,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~19"></span>
+              <span class="anchor" id="variable-string~26"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -197,6 +281,21 @@
             </td>
             <td>::</td>
             <td><strong>string</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-glyphs~2"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>glyphs</strong></td>
             <td>
                 
             </td>
@@ -230,7 +329,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-10-05 16:21 +0000             </p>
+ on 2025-11-21 18:13 +0000             </p>
           </div>
         </div>
         <br>

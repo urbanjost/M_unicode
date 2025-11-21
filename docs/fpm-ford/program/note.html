@@ -90,7 +90,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 2.1% of total for programs.">15 statements</a>
+                 title=" 1.1% of total for programs.">15 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -132,7 +132,7 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../program/note.html#variable-manicules">manicules</a>
-            <a class="list-group-item" href="../program/note.html#variable-uline~2">uline</a>
+            <a class="list-group-item" href="../program/note.html#variable-uline~4">uline</a>
         </div>
       </div>
     </div>
@@ -215,7 +215,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uline~2"></span>
+              <span class="anchor" id="variable-uline~4"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>)
             </td>
             <td>
@@ -245,13 +245,13 @@ parameter
 
     <section>
     <h2 id="src">Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="k">program </span><span class="n">note</span><span class="w"></span>
-<span class="k">use</span><span class="p">,</span><span class="k">intrinsic</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">output_unit</span><span class="w"></span>
-<span class="k">use</span><span class="p">,</span><span class="k">intrinsic</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">int8</span><span class="p">,</span><span class="n">int16</span><span class="p">,</span><span class="n">int32</span><span class="p">,</span><span class="n">int64</span><span class="w"></span>
-<span class="k">use </span><span class="n">M_unicode</span><span class="w"></span>
+    <div class="hl codehilite"><pre><span></span><span class="k">program </span><span class="n">note</span>
+<span class="k">use</span><span class="p">,</span><span class="k">intrinsic</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">output_unit</span>
+<span class="k">use</span><span class="p">,</span><span class="k">intrinsic</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">int8</span><span class="p">,</span><span class="n">int16</span><span class="p">,</span><span class="n">int32</span><span class="p">,</span><span class="n">int64</span>
+<span class="k">use </span><span class="n">M_unicode</span>
 <span class="k">implicit none</span>
-<span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">manicules</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;261A&#39;</span><span class="p">),</span><span class="w"> </span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;261B&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">]</span><span class="w"></span>
-<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">uline</span><span class="w"></span>
+<span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">manicules</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;261A&#39;</span><span class="p">),</span><span class="w"> </span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;261B&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">]</span>
+<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">uline</span>
 <span class="c">! </span>
 <span class="c">! manicule</span>
 <span class="c">! </span>
@@ -317,17 +317,17 @@ parameter
 <span class="c">! the word &#39;black&#39; to mean &#39;solid&#39; and &#39;white&#39; to mean &#39;outlined&#39;. The</span>
 <span class="c">! actual colour is a user choice, for example ☚ and ☞.</span>
 
-<span class="w">   </span><span class="n">uline</span><span class="o">=</span><span class="n">manicules</span><span class="w"></span>
+<span class="w">   </span><span class="n">uline</span><span class="o">=</span><span class="n">manicules</span>
 
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(*(g0))&#39;</span><span class="p">)</span><span class="n">uline</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="w"></span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(*(g0))&#39;</span><span class="p">)</span><span class="n">uline</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span>
 
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(&quot;CHARACTER STRING  :&quot;,*(g0))&#39;</span><span class="p">)</span><span class="n">uline</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(&quot;SINGLE CHARACTERS :&quot;,*(g0))&#39;</span><span class="p">)</span><span class="n">uline</span><span class="p">%</span><span class="k">byte</span><span class="p">()</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(&quot;HEX BYTES         :&quot;,*(z0,1x))&#39;</span><span class="p">)</span><span class="nb">ichar</span><span class="p">(</span><span class="n">uline</span><span class="p">%</span><span class="k">byte</span><span class="p">())</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(&quot;UNICODE CODEPOINTS:&quot;,*(g0,1x))&#39;</span><span class="p">)</span><span class="n">uline</span><span class="p">%</span><span class="n">codepoint</span><span class="p">()</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(&quot;HEX CODEPOINTS    :&quot;,*(z0,1x))&#39;</span><span class="p">)</span><span class="n">uline</span><span class="p">%</span><span class="n">codepoint</span><span class="p">()</span><span class="w"></span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(&quot;CHARACTER STRING  :&quot;,*(g0))&#39;</span><span class="p">)</span><span class="n">uline</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(&quot;SINGLE CHARACTERS :&quot;,*(g0))&#39;</span><span class="p">)</span><span class="n">uline</span><span class="p">%</span><span class="k">byte</span><span class="p">()</span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(&quot;HEX BYTES         :&quot;,*(z0,1x))&#39;</span><span class="p">)</span><span class="nb">ichar</span><span class="p">(</span><span class="n">uline</span><span class="p">%</span><span class="k">byte</span><span class="p">())</span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(&quot;UNICODE CODEPOINTS:&quot;,*(g0,1x))&#39;</span><span class="p">)</span><span class="n">uline</span><span class="p">%</span><span class="n">codepoint</span><span class="p">()</span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(&quot;HEX CODEPOINTS    :&quot;,*(z0,1x))&#39;</span><span class="p">)</span><span class="n">uline</span><span class="p">%</span><span class="n">codepoint</span><span class="p">()</span>
 
-<span class="k">end program </span><span class="n">note</span><span class="w"></span>
+<span class="k">end program </span><span class="n">note</span>
 </pre></div>
 
     </section>
@@ -350,7 +350,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-10-05 16:21 +0000             </p>
+ on 2025-11-21 18:13 +0000             </p>
           </div>
         </div>
         <br>

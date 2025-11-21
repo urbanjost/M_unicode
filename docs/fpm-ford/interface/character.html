@@ -91,20 +91,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.7% of total for procedures.</p>Including implementation: 122 statements, 13.2% of total for procedures.">6 statements</a>
+                 title="<p> 0.5% of total for procedures.</p>Including implementation: 126 statements,  9.8% of total for procedures.">6 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/M_unicode.f90"> Source File</a>
+              <a href="../src/M_unicode.F90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/m_unicode.f90.html'>M_unicode.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/m_unicode.html'>M_unicode</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/m_unicode.f90.html'>M_unicode.F90</a></li>
+                <li class="breadcrumb-item"><a href='../module/m_unicode__base.html'>M_unicode__base</a></li>
             <li class="breadcrumb-item active" aria-current="page">character</li>
           </ol>
         </nav>
@@ -150,14 +150,14 @@
       </a>
       <div id="modprocs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../interface/character.html#moduleprocedure-char_str">char_str</a>
-            <a class="list-group-item" href="../interface/character.html#moduleprocedure-char_strs">char_strs</a>
-            <a class="list-group-item" href="../interface/character.html#moduleprocedure-char_str_pos">char_str_pos</a>
-            <a class="list-group-item" href="../interface/character.html#moduleprocedure-char_strs_pos">char_strs_pos</a>
-            <a class="list-group-item" href="../interface/character.html#moduleprocedure-char_str_range">char_str_range</a>
-            <a class="list-group-item" href="../interface/character.html#moduleprocedure-char_strs_range">char_strs_range</a>
-            <a class="list-group-item" href="../interface/character.html#moduleprocedure-char_str_range_step">char_str_range_step</a>
-            <a class="list-group-item" href="../interface/character.html#moduleprocedure-char_strs_range_step">char_strs_range_step</a>
+            <a class="list-group-item" href="../interface/character.html#moduleprocedure-str_to_char">str_to_char</a>
+            <a class="list-group-item" href="../interface/character.html#moduleprocedure-strs_to_chars">strs_to_chars</a>
+            <a class="list-group-item" href="../interface/character.html#moduleprocedure-str_to_char_pos">str_to_char_pos</a>
+            <a class="list-group-item" href="../interface/character.html#moduleprocedure-strs_to_chars_pos">strs_to_chars_pos</a>
+            <a class="list-group-item" href="../interface/character.html#moduleprocedure-str_to_char_range">str_to_char_range</a>
+            <a class="list-group-item" href="../interface/character.html#moduleprocedure-strs_to_chars_range">strs_to_chars_range</a>
+            <a class="list-group-item" href="../interface/character.html#moduleprocedure-str_to_char_range_step">str_to_char_range_step</a>
+            <a class="list-group-item" href="../interface/character.html#moduleprocedure-strs_to_chars_range_step">strs_to_chars_range_step</a>
         </div>
       </div>
     </div>
@@ -177,10 +177,184 @@
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-char_str"></span> <h3>private pure function char_str(string) result(aline)  
+    <div class="card-header codesum"><span class="anchor" id="proc-str_to_char"></span> <h3>private pure function str_to_char(string) result(aline)  
 </h3></div>
     <div class="card-body">
-        
+        <h2 id="name">NAME</h2>
+<div class="codehilite"><pre><span></span><code><span class="n">CHARACTER</span><span class="p">(</span><span class="mi">3</span><span class="n">f</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">[</span><span class="n">M_unicode</span><span class="p">:</span><span class="n">WHITESPACE</span><span class="p">]</span><span class="w"> </span><span class="nb">convert</span><span class="w"> </span><span class="n">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span>
+<span class="n">string</span><span class="w">  </span><span class="n">to</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">CHARACTER</span><span class="w"> </span><span class="n">variable</span>
+<span class="p">(</span><span class="n">LICENSE</span><span class="p">:</span><span class="n">MIT</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="synopsis">SYNOPSIS</h2>
+<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">character</span><span class="p">(</span><span class="nx">STRING</span><span class="p">,</span><span class="nx">start</span><span class="p">,</span><span class="nx">end</span><span class="p">,</span><span class="nx">inc</span><span class="p">)</span>
+<span class="w">  </span><span class="k">or</span>
+<span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">STRING</span><span class="o">%</span><span class="nx">character</span><span class="p">(</span><span class="nx">start</span><span class="p">,</span><span class="nx">end</span><span class="p">,</span><span class="nx">inc</span><span class="p">)</span>
+
+<span class="w">  </span><span class="nx">elemental</span><span class="w"> </span><span class="nx">function</span><span class="w"> </span><span class="nx">character</span><span class="p">(</span><span class="kt">string</span><span class="p">,</span><span class="nx">start</span><span class="p">,</span><span class="nx">end</span><span class="p">,</span><span class="nx">inc</span><span class="p">)</span>
+
+<span class="w">   </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="kt">string</span>
+<span class="w">   </span><span class="nx">integer</span><span class="p">,</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w">            </span><span class="o">::</span><span class="w"> </span><span class="nx">start</span>
+<span class="w">   </span><span class="nx">integer</span><span class="p">,</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w">            </span><span class="o">::</span><span class="w"> </span><span class="nx">end</span>
+<span class="w">   </span><span class="nx">integer</span><span class="p">,</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w">            </span><span class="o">::</span><span class="w"> </span><span class="nx">inc</span>
+</code></pre></div>
+
+<h2 id="characteristics">CHARACTERISTICS</h2>
+<ul>
+<li>STRING is a scalar or array string variable</li>
+<li>the returned value is a CHARACTER scalar or array</li>
+</ul>
+<h2 id="description">DESCRIPTION</h2>
+<p>CHARACTER(3f) returns a CHARACTER variable given a string variable
+   of type type(unicode_type).</p>
+<h2 id="options">OPTIONS</h2>
+<ul>
+<li>STRING : A scalar or array string to convert to intrinsic CHARACTER
+              type.</li>
+</ul>
+<h2 id="result">RESULT</h2>
+<p>The result converts each string to bytes stored in CHARACTER variables.
+   All elements will be padded to the same length of the longest element;
+   as all elements of a CHARACTER array are required to be of the same length.</p>
+<p>Commonly used to pass data to procedures requiring CHARACTER variables
+   or for printing when the DT format is not used..</p>
+<h2 id="examples">EXAMPLES</h2>
+<p>Sample program</p>
+<div class="codehilite"><pre><span></span><code><span class="n">program</span><span class="w"> </span><span class="n">demo_character</span>
+<span class="n">use</span><span class="w"> </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="n">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ut</span><span class="o">=&gt;</span><span class="n">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="n">ch</span><span class="o">=&gt;</span><span class="n">character</span><span class="p">,</span><span class="w"> </span><span class="n">trim</span><span class="p">,</span><span class="w"> </span><span class="n">len</span><span class="p">,</span><span class="w"> </span><span class="n">pad</span>
+<span class="n">use</span><span class="w"> </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="n">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">write</span><span class="p">(</span><span class="n">formatted</span><span class="p">),</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">)</span>
+<span class="n">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">             </span><span class="p">::</span><span class="w"> </span><span class="n">ustr</span>
+<span class="n">type</span><span class="p">(</span><span class="n">ut</span><span class="p">),</span><span class="n">allocatable</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">array</span><span class="p">(:)</span>
+<span class="n">integer</span><span class="w">              </span><span class="p">::</span><span class="w"> </span><span class="n">i</span>
+<span class="n">character</span><span class="p">(</span><span class="n">len</span><span class="o">=*</span><span class="p">),</span><span class="n">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">all</span><span class="o">=</span><span class="s1">&#39;(*(g0))&#39;</span>
+
+<span class="w">   </span><span class="n">ustr</span><span class="o">=</span><span class="p">[</span><span class="mi">949</span><span class="p">,</span><span class="w"> </span><span class="mi">8021</span><span class="p">,</span><span class="w"> </span><span class="mi">961</span><span class="p">,</span><span class="w"> </span><span class="mi">951</span><span class="p">,</span><span class="w"> </span><span class="mi">954</span><span class="p">,</span><span class="w"> </span><span class="mi">945</span><span class="p">,</span><span class="w"> </span><span class="mi">33</span><span class="p">]</span><span class="w"> </span><span class="o">!</span><span class="w"> </span><span class="n">eureka</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">codepoints</span>
+<span class="w">   </span><span class="o">!</span><span class="w"> </span><span class="n">when</span><span class="w"> </span><span class="n">doing</span><span class="w"> </span><span class="n">I</span><span class="o">/</span><span class="n">O</span><span class="w"> </span><span class="n">using</span><span class="w"> </span><span class="n">DT</span><span class="w"> </span><span class="n">might</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">most</span><span class="w"> </span><span class="n">intuitive</span>
+<span class="w">   </span><span class="o">!</span><span class="w"> </span><span class="n">but</span><span class="w"> </span><span class="n">sometimes</span><span class="w"> </span><span class="n">converting</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">intrinsic</span><span class="w"> </span><span class="n">character</span><span class="w"> </span><span class="n">variables</span>
+<span class="w">   </span><span class="o">!</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">preferred</span>
+<span class="w">   </span><span class="n">write</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">all</span><span class="p">)</span><span class="w">  </span><span class="n">ch</span><span class="p">(</span><span class="n">ustr</span><span class="p">)</span><span class="w">      </span><span class="o">!</span><span class="w"> </span><span class="nb">convert</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">CHARACTER</span><span class="w"> </span><span class="n">variable</span>
+<span class="w">   </span><span class="n">write</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">all</span><span class="p">)</span><span class="w">  </span><span class="n">ustr</span><span class="o">%</span><span class="n">character</span><span class="p">()</span><span class="w">      </span><span class="o">!</span><span class="w"> </span><span class="nb">convert</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">CHARACTER</span><span class="w"> </span><span class="n">variable</span>
+<span class="w">   </span><span class="o">!</span><span class="w"> </span><span class="n">you</span><span class="w"> </span><span class="n">can</span><span class="w"> </span><span class="n">select</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="nb">range</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">glyphs</span>
+<span class="w">   </span><span class="n">write</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">all</span><span class="p">)</span><span class="w">  </span><span class="n">ustr</span><span class="o">%</span><span class="n">character</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="o">!</span><span class="w"> </span><span class="n">similar</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">LINE</span><span class="p">(</span><span class="mi">3</span><span class="p">:</span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="k">for</span>
+<span class="w">                                      </span><span class="o">!</span><span class="w"> </span><span class="n">CHARACTER</span><span class="w"> </span><span class="n">variables</span>
+<span class="w">   </span><span class="o">!</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">even</span><span class="w"> </span><span class="n">reverse</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">string</span>
+<span class="w">   </span><span class="n">write</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">all</span><span class="p">)</span><span class="w">  </span><span class="n">ustr</span><span class="o">%</span><span class="n">character</span><span class="p">(</span><span class="n">len</span><span class="p">(</span><span class="n">ustr</span><span class="p">),</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">!</span><span class="w"> </span><span class="n">reverse</span><span class="w"> </span><span class="n">string</span>
+<span class="w">   </span><span class="o">!</span><span class="w"> </span><span class="n">note</span><span class="w"> </span><span class="n">that</span><span class="w"> </span><span class="n">OOP</span><span class="w"> </span><span class="n">syntax</span><span class="w"> </span><span class="n">provides</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">few</span><span class="w"> </span><span class="n">other</span><span class="w"> </span><span class="n">options</span>
+<span class="w">   </span><span class="n">write</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">all</span><span class="p">)</span><span class="w">  </span><span class="n">ustr</span><span class="o">%</span><span class="n">byte</span><span class="p">()</span><span class="w"> </span><span class="o">!</span><span class="w"> </span><span class="nb">convert</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">CHARACTER</span><span class="p">(</span><span class="n">LEN</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">type</span>
+
+<span class="w">   </span><span class="o">!</span><span class="w"> </span><span class="n">arrays</span>
+<span class="w">   </span><span class="o">!</span>
+<span class="w">   </span><span class="o">!</span><span class="w"> </span><span class="n">using</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">syntax</span><span class="w"> </span><span class="n">make</span><span class="w"> </span><span class="n">sure</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">make</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">LEN</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="n">large</span><span class="w"> </span><span class="n">enough</span>
+<span class="w">   </span><span class="o">!</span><span class="w"> </span><span class="n">that</span><span class="w"> </span><span class="n">glyphs</span><span class="w"> </span><span class="n">can</span><span class="w"> </span><span class="n">take</span><span class="w"> </span><span class="n">up</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">four</span><span class="w"> </span><span class="n">bytes</span>
+<span class="w">   </span><span class="n">array</span><span class="o">=</span><span class="w"> </span><span class="n">ut</span><span class="p">([</span><span class="w"> </span><span class="n">character</span><span class="p">(</span><span class="n">len</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">   </span><span class="s1">&#39;Confucius never claimed to be a prophet, &#39;</span><span class="w">       </span><span class="p">,</span><span class="o">&amp;</span>
+<span class="w">   </span><span class="s1">&#39;but I think he foresaw AI! He said &#39;</span><span class="w">             </span><span class="p">,</span><span class="o">&amp;</span>
+<span class="w">   </span><span class="s1">&#39;&#39;</span><span class="w">                                                </span><span class="p">,</span><span class="o">&amp;</span>
+<span class="w">   </span><span class="s1">&#39; &quot;学而不思则罔，思而不学则殆&quot;&#39;</span><span class="w">                   </span><span class="p">,</span><span class="o">&amp;</span>
+<span class="w">   </span><span class="s1">&#39;or&#39;</span><span class="w">                                              </span><span class="p">,</span><span class="o">&amp;</span>
+<span class="w">   </span><span class="s1">&#39; (xué ér bù sī zé wǎng, sī ér bù xué zé dài),&#39;</span><span class="w">   </span><span class="p">,</span><span class="o">&amp;</span>
+<span class="w">   </span><span class="s1">&#39;which is also&#39;</span><span class="w">                                   </span><span class="p">,</span><span class="o">&amp;</span>
+<span class="w">   </span><span class="s1">&#39; &quot;To learn without thinking is to be lost, &#39;</span><span class="w">     </span><span class="p">,</span><span class="o">&amp;</span>
+<span class="w">   </span><span class="s1">&#39; to think without learning is to be in danger&quot;.&#39;</span><span class="p">])</span>
+<span class="w">   </span><span class="o">!</span>
+<span class="w">   </span><span class="n">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(*(:,&quot;[&quot;,g0,&quot;]&quot;,/))&#39;</span><span class="p">)</span><span class="n">ch</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+<span class="w">   </span><span class="o">!</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="n">elements</span><span class="w"> </span><span class="n">will</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">same</span><span class="w"> </span><span class="n">length</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">bytes</span><span class="w"> </span><span class="n">but</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">necessarily</span>
+<span class="w">   </span><span class="o">!</span><span class="ow">in</span><span class="w"> </span><span class="n">glyphs</span>
+<span class="w">   </span><span class="n">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(a,*(i0,1x))&#39;</span><span class="p">)</span><span class="s1">&#39;all elements the same length in BYTES:&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">           </span><span class="o">&amp;</span><span class="w"> </span><span class="n">len</span><span class="p">(</span><span class="n">ch</span><span class="p">(</span><span class="n">array</span><span class="p">))</span>
+<span class="w">   </span><span class="n">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(a,*(i0,1x))&#39;</span><span class="p">)</span><span class="s1">&#39;lengths (in glyphs):&#39;</span><span class="p">,</span><span class="n">len</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+<span class="w">   </span><span class="n">array</span><span class="o">=</span><span class="n">trim</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+<span class="w">   </span><span class="n">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(a,*(i0,1x))&#39;</span><span class="p">)</span><span class="s1">&#39;lengths after trimming (in glyphs):&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">           </span><span class="o">&amp;</span><span class="w"> </span><span class="n">len</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+<span class="w">   </span><span class="n">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(:*(:,&quot;[&quot;,g0,&quot;]&quot;,/))&#39;</span><span class="p">)</span><span class="n">ch</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+<span class="w">   </span><span class="n">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
+<span class="w">   </span><span class="o">!</span>
+<span class="w">   </span><span class="o">!</span><span class="w"> </span><span class="n">using</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">syntax</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">elements</span><span class="w"> </span><span class="n">will</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">different</span><span class="w"> </span><span class="n">lengths</span>
+<span class="w">   </span><span class="n">array</span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">   </span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;Confucius never claimed to be a prophet,&#39;</span><span class="p">)</span><span class="w">      </span><span class="p">,</span><span class="o">&amp;</span>
+<span class="w">   </span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;but I think he foresaw AI! He said&#39;</span><span class="p">)</span><span class="w">            </span><span class="p">,</span><span class="o">&amp;</span>
+<span class="w">   </span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="w">                                              </span><span class="p">,</span><span class="o">&amp;</span>
+<span class="w">   </span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39; &quot;学而不思则罔，思而不学则殆&quot;&#39;</span><span class="p">)</span><span class="w">                    </span><span class="p">,</span><span class="o">&amp;</span>
+<span class="w">   </span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;or&#39;</span><span class="p">)</span><span class="w">                                            </span><span class="p">,</span><span class="o">&amp;</span>
+<span class="w">   </span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39; (xué ér bù sī zé wǎng, sī ér bù xué zé dài),&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">,</span><span class="o">&amp;</span>
+<span class="w">   </span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;which is also&#39;</span><span class="p">)</span><span class="w">                                 </span><span class="p">,</span><span class="o">&amp;</span>
+<span class="w">   </span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39; &quot;To learn without thinking is to be lost,&#39;</span><span class="p">)</span><span class="w">    </span><span class="p">,</span><span class="o">&amp;</span>
+<span class="w">   </span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39; to think without learning is to be in danger&quot;.&#39;</span><span class="p">)]</span>
+<span class="w">   </span><span class="o">!</span><span class="w"> </span><span class="n">but</span><span class="w"> </span><span class="n">using</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">CHARACTER</span><span class="w"> </span><span class="n">function</span><span class="w"> </span><span class="n">will</span><span class="w"> </span><span class="n">still</span><span class="w"> </span><span class="n">make</span><span class="w"> </span><span class="n">them</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">same</span>
+<span class="w">   </span><span class="o">!</span><span class="w"> </span><span class="n">length</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">bytes</span><span class="w"> </span><span class="n">so</span><span class="w"> </span><span class="n">you</span><span class="w"> </span><span class="n">might</span><span class="w"> </span><span class="n">want</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="nb">print</span><span class="w"> </span><span class="n">them</span><span class="w"> </span><span class="n">individually</span>
+<span class="w">   </span><span class="o">!</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">certain</span><span class="w"> </span><span class="n">effects</span><span class="p">,</span><span class="w"> </span><span class="n">subject</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">font</span><span class="w"> </span><span class="n">properties</span><span class="w"> </span><span class="n">such</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">varying</span>
+<span class="w">   </span><span class="o">!</span><span class="w"> </span><span class="n">glyph</span><span class="w"> </span><span class="n">widths</span><span class="o">.</span>
+<span class="w">   </span><span class="n">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(*(&quot;[&quot;,g0,&quot;]&quot;,/))&#39;</span><span class="p">)(</span><span class="n">ch</span><span class="p">(</span><span class="n">array</span><span class="p">(</span><span class="n">i</span><span class="p">)),</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">array</span><span class="p">))</span>
+<span class="w">   </span><span class="n">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(*(&quot;[&quot;,g0,&quot;]&quot;,/))&#39;</span><span class="p">)(</span><span class="n">ch</span><span class="p">(</span><span class="n">pad</span><span class="p">(</span><span class="n">array</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="mi">60</span><span class="p">)),</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">array</span><span class="p">))</span>
+<span class="w">   </span><span class="o">!</span>
+<span class="n">end</span><span class="w"> </span><span class="n">program</span><span class="w"> </span><span class="n">demo_character</span>
+</code></pre></div>
+
+<p>Results:</p>
+<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">εὕρηκα</span><span class="err">!</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">εὕρηκα</span><span class="err">!</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">ρη</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="err">!</span><span class="n">ακηρὕε</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">εὕρηκα</span><span class="err">!</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">Confucius never claimed to be a prophet,                    </span><span class="o">]</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">but I think he foresaw AI! He said                          </span><span class="o">]</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">                                                            </span><span class="o">]</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n"> &quot;学而不思则罔，思而不学则殆&quot;                  </span><span class="o">]</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">or                                                          </span><span class="o">]</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n"> (xué ér bù sī zé wǎng, sī ér bù xué zé dài),   </span><span class="o">]</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">which is also                                               </span><span class="o">]</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n"> &quot;To learn without thinking is to be lost,                  </span><span class="o">]</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n"> to think without learning is to be in danger&quot;.             </span><span class="o">]</span>
+<span class="w"> </span><span class="o">&gt;</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="ow">all</span><span class="w"> </span><span class="n">elements</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">same</span><span class="w"> </span><span class="n">length</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nl">BYTES</span><span class="p">:</span><span class="mi">60</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">lengths</span><span class="w"> </span><span class="p">(</span><span class="ow">in</span><span class="w"> </span><span class="n">glyphs</span><span class="p">)</span><span class="err">:</span><span class="mi">60</span><span class="w"> </span><span class="mi">60</span><span class="w"> </span><span class="mi">60</span><span class="w"> </span><span class="mi">34</span><span class="w"> </span><span class="mi">60</span><span class="w"> </span><span class="mi">48</span><span class="w"> </span><span class="mi">60</span><span class="w"> </span><span class="mi">60</span><span class="w"> </span><span class="mi">60</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">lengths</span><span class="w"> </span><span class="k">after</span><span class="w"> </span><span class="n">trimming</span><span class="w"> </span><span class="p">(</span><span class="ow">in</span><span class="w"> </span><span class="n">glyphs</span><span class="p">)</span><span class="err">:</span><span class="mi">40</span><span class="w"> </span><span class="mi">34</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">16</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">45</span><span class="w"> </span><span class="mi">13</span><span class="w"> </span><span class="mi">42</span><span class="w"> </span><span class="mi">47</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">Confucius never claimed to be a prophet,                 </span><span class="o">]</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">but I think he foresaw AI! He said                       </span><span class="o">]</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">                                                         </span><span class="o">]</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n"> &quot;学而不思则罔，思而不学则殆&quot;               </span><span class="o">]</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">or                                                       </span><span class="o">]</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n"> (xué ér bù sī zé wǎng, sī ér bù xué zé dài),</span><span class="o">]</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">which is also                                            </span><span class="o">]</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n"> &quot;To learn without thinking is to be lost,               </span><span class="o">]</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n"> to think without learning is to be in danger&quot;.          </span><span class="o">]</span>
+<span class="w"> </span><span class="o">&gt;</span>
+<span class="w"> </span><span class="o">&gt;</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">Confucius never claimed to be a prophet,</span><span class="o">]</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">but I think he foresaw AI! He said</span><span class="o">]</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="err">[]</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n"> &quot;学而不思则罔，思而不学则殆&quot;</span><span class="o">]</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">or</span><span class="o">]</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n"> (xué ér bù sī zé wǎng, sī ér bù xué zé dài),</span><span class="o">]</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">which is also</span><span class="o">]</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n"> &quot;To learn without thinking is to be lost,</span><span class="o">]</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n"> to think without learning is to be in danger&quot;.</span><span class="o">]</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span>
+<span class="n"> &gt; [Confucius never claimed to be a prophet,                    </span><span class="o">]</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">but I think he foresaw AI! He said                          </span><span class="o">]</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">                                                            </span><span class="o">]</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">&quot;学而不思则罔，思而不学则殆&quot;                                      </span><span class="o">]</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">or                                                          </span><span class="o">]</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">(xué ér bù sī zé wǎng, sī ér bù xué zé dài),                </span><span class="o">]</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">which is also                                               </span><span class="o">]</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">&quot;To learn without thinking is to be lost,                   </span><span class="o">]</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">to think without learning is to be in danger&quot;.              </span><span class="o">]</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="err">[</span>
+</code></pre></div>
+
+<h2 id="see-also">SEE ALSO</h2>
+<p>functions that perform operations on character strings:</p>
+<ul>
+<li>elemental: adjustl(3), adjustr(3), index(3), scan(3), verify(3)</li>
+<li>non-elemental: len_trim(3), len(3), repeat(3), trim(3)</li>
+</ul>
+<h2 id="author">AUTHOR</h2>
+<div class="codehilite"><pre><span></span><code> John S. Urban
+</code></pre></div>
+
+<h2 id="license">LICENSE</h2>
+<div class="codehilite"><pre><span></span><code> MIT
+</code></pre></div>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -195,7 +369,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~6"></span>
+              <span class="anchor" id="variable-string~13"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -221,7 +395,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-char_strs"></span> <h3>private pure function char_strs(string) result(lines)  
+    <div class="card-header codesum"><span class="anchor" id="proc-strs_to_chars"></span> <h3>private pure function strs_to_chars(string) result(lines)  
 </h3></div>
     <div class="card-body">
         
@@ -239,7 +413,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~7"></span>
+              <span class="anchor" id="variable-string~14"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -265,7 +439,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-char_str_pos"></span> <h3>private pure function char_str_pos(string, pos) result(aline)  
+    <div class="card-header codesum"><span class="anchor" id="proc-str_to_char_pos"></span> <h3>private pure function str_to_char_pos(string, pos) result(aline)  
 </h3></div>
     <div class="card-body">
         
@@ -283,7 +457,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~8"></span>
+              <span class="anchor" id="variable-string~15"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -298,7 +472,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pos"></span>
+              <span class="anchor" id="variable-pos~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -324,7 +498,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-char_strs_pos"></span> <h3>private pure function char_strs_pos(string, pos) result(aline)  
+    <div class="card-header codesum"><span class="anchor" id="proc-strs_to_chars_pos"></span> <h3>private pure function strs_to_chars_pos(string, pos) result(aline)  
 </h3></div>
     <div class="card-body">
         
@@ -342,7 +516,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~9"></span>
+              <span class="anchor" id="variable-string~16"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -357,7 +531,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pos~2"></span>
+              <span class="anchor" id="variable-pos~4"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -383,7 +557,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-char_str_range"></span> <h3>private pure function char_str_range(string, first, last) result(aline)  
+    <div class="card-header codesum"><span class="anchor" id="proc-str_to_char_range"></span> <h3>private pure function str_to_char_range(string, first, last) result(aline)  
 </h3></div>
     <div class="card-body">
         
@@ -401,155 +575,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~10"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>string</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-first"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>first</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-last"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>last</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>character(len=:), allocatable</small>
-    </h4>
-    
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-char_strs_range"></span> <h3>private pure function char_strs_range(string, first, last) result(lines)  
-</h3></div>
-    <div class="card-body">
-        
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-string~11"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>string</strong>(:)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-first~2"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>first</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-last~2"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>last</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>character(len=:), allocatable, (:)</small>
-    </h4>
-    
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-char_str_range_step"></span> <h3>private pure function char_str_range_step(string, first, last, step) result(aline)  
-</h3></div>
-    <div class="card-body">
-        
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-string~12"></span>
+              <span class="anchor" id="variable-string~17"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -592,21 +618,6 @@
                 
             </td>
         </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-step"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>step</strong></td>
-            <td>
-                
-            </td>
-        </tr>
     </tbody>
   </table>
 
@@ -620,7 +631,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-char_strs_range_step"></span> <h3>private pure function char_strs_range_step(string, first, last, step) result(lines)  
+    <div class="card-header codesum"><span class="anchor" id="proc-strs_to_chars_range"></span> <h3>private pure function strs_to_chars_range(string, first, last) result(lines)  
 </h3></div>
     <div class="card-body">
         
@@ -638,7 +649,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~13"></span>
+              <span class="anchor" id="variable-string~18"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -669,6 +680,169 @@
         <tr>
             <td>
               <span class="anchor" id="variable-last~4"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>last</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>character(len=:), allocatable, (:)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-str_to_char_range_step"></span> <h3>private pure function str_to_char_range_step(string, first, last, step) result(aline)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-string~19"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>string</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-first~5"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>first</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-last~5"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>last</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-step"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>step</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>character(len=:), allocatable</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-strs_to_chars_range_step"></span> <h3>private pure function strs_to_chars_range_step(string, first, last, step) result(lines)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-string~20"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>string</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-first~6"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>first</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-last~6"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -725,7 +899,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-10-05 16:21 +0000             </p>
+ on 2025-11-21 18:13 +0000             </p>
           </div>
         </div>
         <br>

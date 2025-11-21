@@ -91,20 +91,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.3% of total for procedures.</p>Including implementation: 107 statements, 11.6% of total for procedures.">3 statements</a>
+                 title="<p> 0.2% of total for procedures.</p>Including implementation: 130 statements, 10.1% of total for procedures.">3 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/M_unicode.f90"> Source File</a>
+              <a href="../src/M_unicode.F90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/m_unicode.f90.html'>M_unicode.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/m_unicode.html'>M_unicode</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/m_unicode.f90.html'>M_unicode.F90</a></li>
+                <li class="breadcrumb-item"><a href='../module/m_unicode__base.html'>M_unicode__base</a></li>
             <li class="breadcrumb-item active" aria-current="page">tokenize</li>
           </ol>
         </nav>
@@ -151,8 +151,11 @@
       <div id="modprocs-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../interface/tokenize.html#moduleprocedure-split_first_last~2">split_first_last</a>
+            <a class="list-group-item" href="../interface/tokenize.html#moduleprocedure-split_first_last_uaii~2">split_first_last_uaii</a>
             <a class="list-group-item" href="../interface/tokenize.html#moduleprocedure-split_pos~2">split_pos</a>
+            <a class="list-group-item" href="../interface/tokenize.html#moduleprocedure-split_pos_uail~2">split_pos_uail</a>
             <a class="list-group-item" href="../interface/tokenize.html#moduleprocedure-split_tokens~2">split_tokens</a>
+            <a class="list-group-item" href="../interface/tokenize.html#moduleprocedure-split_tokens_uauu~2">split_tokens_uauu</a>
         </div>
       </div>
     </div>
@@ -190,7 +193,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~28"></span>
+              <span class="anchor" id="variable-string~36"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -205,7 +208,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~2"></span>
+              <span class="anchor" id="variable-set~5"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -220,7 +223,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first~7"></span>
+              <span class="anchor" id="variable-first~9"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -235,11 +238,95 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~8"></span>
+              <span class="anchor" id="variable-last~10"></span>
               integer,
             </td>
 <td>intent(out),</td>
               <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>last</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-split_first_last_uaii"></span> <h3>private impure subroutine split_first_last_uaii(string, set, first, last)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-string~37"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>string</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-set~6"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>set</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-first~10"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>first</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-last~11"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
               allocatable
             </td>
             <td>::</td>
@@ -274,7 +361,518 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~29"></span>
+              <span class="anchor" id="variable-string~38"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>string</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-set~7"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>set</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pos~7"></span>
+              integer,
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>pos</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-back~12"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>back</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-split_pos_uail"></span> <h3>private impure subroutine split_pos_uail(string, set, pos, back)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-string~39"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>string</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-set~8"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>set</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pos~8"></span>
+              integer,
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>pos</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-back~13"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>back</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-split_tokens"></span> <h3>private impure subroutine split_tokens(string, set, tokens, separator)  
+</h3></div>
+    <div class="card-body">
+        <h2 id="name">NAME</h2>
+<p>SPLIT(3f) - [M_unicode:PARSE] parse a string into tokens, one at a time.
+   (LICENSE:MIT)</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<p>call split (string, set, pos [, back])</p>
+<div class="codehilite"><pre><span></span><code><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="kt">string</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">set</span>
+<span class="nx">integer</span><span class="p">,</span><span class="nx">intent</span><span class="p">(</span><span class="nx">inout</span><span class="p">)</span><span class="w">         </span><span class="o">::</span><span class="w"> </span><span class="nx">pos</span>
+<span class="nx">logical</span><span class="p">,</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">),</span><span class="nx">optional</span><span class="w">   </span><span class="o">::</span><span class="w"> </span><span class="nx">back</span>
+</code></pre></div>
+
+<h2 id="characteristics">CHARACTERISTICS</h2>
+<ul>
+<li>STRING is a scalar character variable</li>
+<li>SET is a scalar string variable</li>
+</ul>
+<h2 id="description">DESCRIPTION</h2>
+<p>Find the extent of consecutive tokens in a string. given a string and
+   a position to start looking for a token return the position of the
+   end of the token. a set of separator characters may be specified as
+   well as the direction of parsing.</p>
+<p>typically consecutive calls are used to parse a string into a set of
+   tokens by stepping through the start and end positions of each token.</p>
+<h2 id="options">OPTIONS</h2>
+<ul>
+<li>
+<p>STRING : the string to search for tokens in.</p>
+</li>
+<li>
+<p>SET : Each character in set is a token delimiter. a sequence of
+     zero or more characters in string delimited by any token delimiter,
+     or the beginning or end of string, comprise a token. thus, two
+     consecutive token delimiters in STRING, or a token delimiter in the
+     first or last character of STRING, indicate a token with zero length.</p>
+</li>
+<li>
+<p>POS : on input, the position from which to start looking for the next
+     separator from. This is typically the first character or the last
+     returned value of POS if searching from left to right (ie. back is
+     absent or .true.) or the last character or the last returned value
+     of POS when searching from right to left (ie. when back is .FALSE.).</p>
+<p>If BACK is present with the value .TRUE., the value of pos shall be
+ in the range 0 &lt; POS &lt;= len(STRING)+1; otherwise it shall be in the
+ range 0 &lt;= POS &lt;= len(STRING).</p>
+<p>So POS on input is typically an end of the string or the position
+ of a separator, probably from a previous call to split but POS on
+ input can be any position in the range 1 &lt;= POS &lt;= len(STRING). if
+ POS points to a non-separator character in the string the call is
+ still valid but it will start searching from the specified position
+ and that will result (somewhat obviously) in the string from POS on
+ input to the returned POS being a partial token.</p>
+</li>
+<li>
+<p>BACK : If BACK is absent or is present with the value .FALSE., POS is
+     assigned the position of the leftmost token delimiter in string
+     whose position is greater than POS, or if there is no such character,
+     it is assigned a value one greater than the length of string. this
+     identifies a token with starting position one greater than the value
+     of POS on invocation, and ending position one less than the value
+     of POS on return.</p>
+<p>If BACK is present with the value .TRUE., POS is assigned the
+ position of the rightmost token delimiter in string whose position
+ is less than POS, or if there is no such character, it is assigned
+ the value zero. This identifies a token with ending position one
+ less than the value of POS on invocation, and starting position one
+ greater than the value of POS  on return.</p>
+</li>
+</ul>
+<h2 id="example">EXAMPLE</h2>
+<p>sample program:</p>
+<div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">demo_split</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">stdout</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nx">output_unit</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="nx">assignment</span><span class="p">(=)</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">split</span><span class="p">,</span><span class="w"> </span><span class="nx">len</span><span class="p">,</span><span class="w"> </span><span class="nx">character</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">ut</span><span class="o">=&gt;</span><span class="nx">unicode_type</span>
+<span class="nx">implicit</span><span class="w"> </span><span class="nx">none</span>
+<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">parameter</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">g</span><span class="p">=</span><span class="err">&#39;</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nx">g0</span><span class="p">,</span><span class="mi">1</span><span class="nx">x</span><span class="p">))</span><span class="err">&#39;</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">)</span><span class="w">                   </span><span class="o">::</span><span class="w"> </span><span class="nx">proverb</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">)</span><span class="w">                   </span><span class="o">::</span><span class="w"> </span><span class="nx">delims</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">),</span><span class="nx">allocatable</span><span class="w">       </span><span class="o">::</span><span class="w"> </span><span class="nx">array</span><span class="p">(:)</span>
+<span class="nx">integer</span><span class="w">                    </span><span class="o">::</span><span class="w"> </span><span class="nx">first</span>
+<span class="nx">integer</span><span class="w">                    </span><span class="o">::</span><span class="w"> </span><span class="nx">last</span>
+<span class="nx">integer</span><span class="w">                    </span><span class="o">::</span><span class="w"> </span><span class="nx">pos</span>
+<span class="nx">integer</span><span class="w">                    </span><span class="o">::</span><span class="w"> </span><span class="nx">i</span>
+<span class="w">   </span><span class="p">!</span>
+<span class="w">   </span><span class="nx">delims</span><span class="p">=</span><span class="w"> </span><span class="err">&#39;</span><span class="p">=</span><span class="o">|</span><span class="p">;</span><span class="w"> </span><span class="err">&#39;</span>
+<span class="w">   </span><span class="p">!</span>
+<span class="w">   </span><span class="nx">proverb</span><span class="p">=</span><span class="s">&quot;Más vale pájaro en mano, que ciento volando.&quot;</span>
+<span class="w">   </span><span class="nx">call</span><span class="w"> </span><span class="nx">printwords</span><span class="p">(</span><span class="nx">proverb</span><span class="p">)</span>
+
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">there</span><span class="w"> </span><span class="nx">really</span><span class="w"> </span><span class="nx">are</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="nx">spaces</span><span class="w"> </span><span class="nx">between</span><span class="w"> </span><span class="nx">these</span><span class="w"> </span><span class="nx">glyphs</span>
+<span class="w">   </span><span class="nx">array</span><span class="p">=[</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">    </span><span class="nx">ut</span><span class="p">(</span><span class="s">&quot;七転び八起き。&quot;</span><span class="p">),</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">    </span><span class="nx">ut</span><span class="p">(</span><span class="s">&quot;転んでもまた立ち上がる。&quot;</span><span class="p">),</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">    </span><span class="nx">ut</span><span class="p">(</span><span class="s">&quot;くじけずに前を向いて歩いていこう。&quot;</span><span class="p">)]</span>
+<span class="w">   </span><span class="nx">call</span><span class="w"> </span><span class="nx">printwords</span><span class="p">(</span><span class="nx">array</span><span class="p">)</span>
+<span class="w">   </span><span class="p">!</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="nx">stdout</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span><span class="err">&#39;</span><span class="nx">OOP</span><span class="err">&#39;</span>
+<span class="w">   </span><span class="nx">array</span><span class="p">=</span><span class="nx">proverb</span><span class="o">%</span><span class="nx">split</span><span class="p">(</span><span class="nx">ut</span><span class="p">(</span><span class="sc">&#39; &#39;</span><span class="p">))</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="nx">stdout</span><span class="p">,</span><span class="err">&#39;</span><span class="p">(</span><span class="o">*</span><span class="p">(:</span><span class="s">&quot;[&quot;</span><span class="p">,</span><span class="nx">a</span><span class="p">,</span><span class="s">&quot;]&quot;</span><span class="p">))</span><span class="err">&#39;</span><span class="p">)(</span><span class="nx">character</span><span class="p">(</span><span class="nx">array</span><span class="p">(</span><span class="nx">i</span><span class="p">)),</span><span class="nx">i</span><span class="p">=</span><span class="mi">1</span><span class="p">,</span><span class="nx">size</span><span class="p">(</span><span class="nx">array</span><span class="p">))</span>
+<span class="nx">contains</span>
+<span class="nx">impure</span><span class="w"> </span><span class="nx">elemental</span><span class="w"> </span><span class="nx">subroutine</span><span class="w"> </span><span class="nx">printwords</span><span class="p">(</span><span class="nx">line</span><span class="p">)</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">line</span>
+<span class="w">   </span><span class="nx">pos</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="nx">stdout</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span><span class="nx">line</span><span class="o">%</span><span class="nx">character</span><span class="p">(),</span><span class="nx">len</span><span class="p">(</span><span class="nx">line</span><span class="p">)</span>
+<span class="w">   </span><span class="nx">do</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="nx">pos</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="nx">len</span><span class="p">(</span><span class="nx">line</span><span class="p">))</span>
+<span class="w">       </span><span class="nx">first</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">pos</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">       </span><span class="nx">call</span><span class="w"> </span><span class="nx">split</span><span class="w"> </span><span class="p">(</span><span class="nx">line</span><span class="p">,</span><span class="w"> </span><span class="nx">delims</span><span class="p">,</span><span class="w"> </span><span class="nx">pos</span><span class="p">)</span>
+<span class="w">       </span><span class="nx">last</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">pos</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">       </span><span class="nx">print</span><span class="w"> </span><span class="nx">g</span><span class="p">,</span><span class="w"> </span><span class="nx">line</span><span class="o">%</span><span class="nx">character</span><span class="p">(</span><span class="nx">first</span><span class="p">,</span><span class="nx">last</span><span class="p">),</span><span class="nx">first</span><span class="p">,</span><span class="nx">last</span><span class="p">,</span><span class="nx">pos</span>
+<span class="w">   </span><span class="nx">end</span><span class="w"> </span><span class="nx">do</span>
+<span class="nx">end</span><span class="w"> </span><span class="nx">subroutine</span><span class="w"> </span><span class="nx">printwords</span>
+<span class="nx">end</span><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_split</span>
+</code></pre></div>
+
+<p>Results:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;</span><span class="w"> </span><span class="n">Project</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">up</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nc">date</span>
+<span class="o">&gt;</span><span class="w"> </span><span class="n">Más</span><span class="w"> </span><span class="n">vale</span><span class="w"> </span><span class="n">pájaro</span><span class="w"> </span><span class="n">en</span><span class="w"> </span><span class="n">mano</span><span class="p">,</span><span class="w"> </span><span class="n">que</span><span class="w"> </span><span class="n">ciento</span><span class="w"> </span><span class="n">volando</span><span class="p">.</span><span class="w"> </span><span class="mi">44</span>
+<span class="o">&gt;</span><span class="w"> </span><span class="n">Más</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">4</span>
+<span class="o">&gt;</span><span class="w"> </span><span class="n">vale</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="mi">9</span>
+<span class="o">&gt;</span><span class="w"> </span><span class="n">pájaro</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="mi">15</span><span class="w"> </span><span class="mi">16</span>
+<span class="o">&gt;</span><span class="w"> </span><span class="n">en</span><span class="w"> </span><span class="mi">17</span><span class="w"> </span><span class="mi">18</span><span class="w"> </span><span class="mi">19</span>
+<span class="o">&gt;</span><span class="w"> </span><span class="n">mano</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="w"> </span><span class="mi">24</span><span class="w"> </span><span class="mi">25</span>
+<span class="o">&gt;</span><span class="w"> </span><span class="n">que</span><span class="w"> </span><span class="mi">26</span><span class="w"> </span><span class="mi">28</span><span class="w"> </span><span class="mi">29</span>
+<span class="o">&gt;</span><span class="w"> </span><span class="n">ciento</span><span class="w"> </span><span class="mi">30</span><span class="w"> </span><span class="mi">35</span><span class="w"> </span><span class="mi">36</span>
+<span class="o">&gt;</span><span class="w"> </span><span class="n">volando</span><span class="p">.</span><span class="w"> </span><span class="mi">37</span><span class="w"> </span><span class="mi">44</span><span class="w"> </span><span class="mi">45</span>
+<span class="o">&gt;</span><span class="w"> </span><span class="n">七転び八起き</span><span class="err">。</span><span class="w"> </span><span class="mi">7</span>
+<span class="o">&gt;</span><span class="w"> </span><span class="n">七転び八起き</span><span class="err">。</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="mi">8</span>
+<span class="o">&gt;</span><span class="w"> </span><span class="n">転んでもまた立ち上がる</span><span class="err">。</span><span class="w"> </span><span class="mi">12</span>
+<span class="o">&gt;</span><span class="w"> </span><span class="n">転んでもまた立ち上がる</span><span class="err">。</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">12</span><span class="w"> </span><span class="mi">13</span>
+<span class="o">&gt;</span><span class="w"> </span><span class="n">くじけずに前を向いて歩いていこう</span><span class="err">。</span><span class="w"> </span><span class="mi">17</span>
+<span class="o">&gt;</span><span class="w"> </span><span class="n">くじけずに前を向いて歩いていこう</span><span class="err">。</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">17</span><span class="w"> </span><span class="mi">18</span>
+<span class="o">&gt;</span><span class="w"> </span><span class="n">OOP</span>
+<span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">Más</span><span class="o">][</span><span class="n">vale</span><span class="o">][</span><span class="n">pájaro</span><span class="o">][</span><span class="n">en</span><span class="o">][</span><span class="n">mano,</span><span class="o">][</span><span class="n">que</span><span class="o">][</span><span class="n">ciento</span><span class="o">][</span><span class="n">volando.</span><span class="o">]</span>
+</code></pre></div>
+
+<h2 id="see-also">SEE ALSO</h2>
+<ul>
+<li>tokenize(3) - parse a string into tokens</li>
+<li>index(3) - position of a substring within a string</li>
+<li>scan(3) - scan a string for the presence of a set of characters</li>
+<li>verify(3)  -  position  of a character in a string of characters that does
+     not appear in a given set of characters.</li>
+</ul>
+<h2 id="author">AUTHOR</h2>
+<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="n">Milan</span><span class="w"> </span><span class="n">Curcic</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;milancurcic@hey.com&quot;</span>
+<span class="w"> </span><span class="n">John</span><span class="w"> </span><span class="n">S</span><span class="p">.</span><span class="w"> </span><span class="n">Urban</span><span class="w"> </span><span class="c1">-- UTF-8 version</span>
+</code></pre></div>
+
+<h2 id="license">LICENSE</h2>
+<div class="codehilite"><pre><span></span><code> MIT
+</code></pre></div>
+
+<h2 id="name_1">NAME</h2>
+<p>TOKENIZE(3f) - [M_unicode:PARSE] Parse a string into tokens.
+   (LICENSE:MIT)</p>
+<h2 id="synopsis_1">SYNOPSIS</h2>
+<p>TOKEN form (returns array of strings)</p>
+<div class="codehilite"><pre><span></span><code><span class="nx">subroutine</span><span class="w"> </span><span class="nx">tokenize</span><span class="p">(</span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">set</span><span class="p">,</span><span class="w"> </span><span class="nx">tokens</span><span class="w"> </span><span class="p">[,</span><span class="w"> </span><span class="nx">separator</span><span class="p">])</span>
+
+<span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="kt">string</span>
+<span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">set</span>
+<span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode</span><span class="p">),</span><span class="nx">allocatable</span><span class="p">,</span><span class="nx">intent</span><span class="p">(</span><span class="nx">out</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">tokens</span><span class="p">(:)</span>
+<span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode</span><span class="p">),</span><span class="nx">allocatable</span><span class="p">,</span><span class="nx">intent</span><span class="p">(</span><span class="nx">out</span><span class="p">),</span><span class="nx">optional</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">separator</span><span class="p">(:)</span>
+</code></pre></div>
+
+<p>ARRAY BOUNDS form (returns arrays defining token positions)</p>
+<div class="codehilite"><pre><span></span><code><span class="nx">subroutine</span><span class="w"> </span><span class="nx">tokenize</span><span class="w"> </span><span class="p">(</span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">set</span><span class="p">,</span><span class="w"> </span><span class="nx">first</span><span class="p">,</span><span class="w"> </span><span class="nx">last</span><span class="p">)</span>
+
+<span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="kt">string</span>
+<span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">set</span>
+<span class="w"> </span><span class="nx">integer</span><span class="p">,</span><span class="nx">allocatable</span><span class="p">,</span><span class="nx">intent</span><span class="p">(</span><span class="nx">out</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">first</span><span class="p">(:)</span>
+<span class="w"> </span><span class="nx">integer</span><span class="p">,</span><span class="nx">allocatable</span><span class="p">,</span><span class="nx">intent</span><span class="p">(</span><span class="nx">out</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">last</span><span class="p">(:)</span>
+</code></pre></div>
+
+<h2 id="characteristics_1">CHARACTERISTICS</h2>
+<ul>
+<li>
+<p>STRING ‐ a scalar of type string. It is an INTENT(IN)
+      argument.</p>
+</li>
+<li>
+<p>SET ‐ a scalar of type string with the same kind type
+      parameter as STRING. It is an INTENT(IN) argument.</p>
+</li>
+<li>
+<p>SEPARATOR ‐ (optional) shall be of type string. It is an
+      INTENT(OUT)argument. It shall not be a coarray or a coindexed object.</p>
+</li>
+<li>
+<p>TOKENS ‐ of type string. It is an INTENT(OUT) argument. It shall
+      not be a coarray or a coindexed object.</p>
+</li>
+<li>
+<p>FIRST,LAST ‐ an allocatable array of type integer and rank
+      one. It is an INTENT(OUT) argument. It shall not be a coarray or a
+      coindexed object.</p>
+</li>
+</ul>
+<h2 id="description_1">DESCRIPTION</h2>
+<p>TOKENIZE(3) parses a string into tokens. There are two forms of the
+   subroutine TOKENIZE(3).</p>
+<ul>
+<li>
+<p>The token form returns an array with one token per element,
+      all of the same length as the longest token.</p>
+</li>
+<li>
+<p>The array bounds form returns two integer arrays. One
+      contains the beginning position of the tokens and the other the end
+      positions.</p>
+</li>
+</ul>
+<p>Since the token form pads all the tokens to the same length the
+   original number of trailing spaces of each token accept for the
+   longest is lost.</p>
+<p>The array bounds form retains information regarding the exact token
+   length even when padded by spaces.</p>
+<h2 id="options_1">OPTIONS</h2>
+<p>•  STRING : The string to parse into tokens.</p>
+<ul>
+<li>
+<p>SET :  Each character in SET is a token delimiter. A
+      sequence of zero or more characters in STRING delimited by any token
+      delimiter, or the beginning or end of STRING, comprise a token. Thus,
+      two consecutive token delimiters in STRING, or a token delimiter
+      in the first or last character of STRING, indicate a token with
+      zero length.</p>
+</li>
+<li>
+<p>TOKENS : It shall be an allocatable array of rank one with
+      deferred length. It is allocated with the lower bound equal to one
+      and the upper bound equal to the number of tokens in STRING, and
+      with character length equal to the length of the longest token.</p>
+<p>The tokens in STRING are assigned in the order found, as if by
+  intrinsic assignment, to the elements of TOKENS, in array element
+  order.</p>
+</li>
+<li>
+<p>FIRST : shall be an allocatable array of type integer and rank one.
+      It is an INTENT(OUT) argument. It shall not be a coarray or
+      a coindexed object.</p>
+<p>It is allocated with the lower bound equal to one and the upper
+  bound equal to the number of tokens in STRING. Each element is
+  assigned, in array element order, the starting position of each
+  token in STRING, in the order found.</p>
+<p>If a token has zero length, the starting position is equal to
+  one if the token is at the beginning of STRING, and one greater
+  than the position of the preceding delimiter otherwise.</p>
+</li>
+<li>
+<p>LAST : It is allocated with the lower bound equal to one and the
+      upper bound equal to the number of tokens in STRING. Each
+      element is assigned, in array element order, the ending position
+      of each token in STRING, in the order found.</p>
+<p>If a token has zero length, the ending position is one less than
+  the starting position.</p>
+</li>
+</ul>
+<h2 id="examples">EXAMPLES</h2>
+<p>Sample of uses</p>
+<div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">demo_tokenize</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">tokenize</span><span class="p">,</span><span class="w"> </span><span class="nx">ut</span><span class="o">=&gt;</span><span class="nx">unicode_type</span><span class="p">,</span><span class="nx">ch</span><span class="o">=&gt;</span><span class="nx">character</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">assignment</span><span class="p">(=),</span><span class="nx">operator</span><span class="p">(</span><span class="o">/=</span><span class="p">)</span>
+<span class="nx">implicit</span><span class="w"> </span><span class="nx">none</span>
+<span class="p">!</span>
+<span class="p">!</span><span class="w"> </span><span class="nx">some</span><span class="w"> </span><span class="nx">useful</span><span class="w"> </span><span class="nx">formats</span>
+<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">parameter</span><span class="w"> </span><span class="o">::</span><span class="w">       </span><span class="o">&amp;</span>
+<span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="nx">brackets</span><span class="p">=</span><span class="err">&#39;</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="s">&quot;[&quot;</span><span class="p">,</span><span class="nx">g0</span><span class="p">,</span><span class="s">&quot;]&quot;</span><span class="p">:,</span><span class="s">&quot;,&quot;</span><span class="p">))</span><span class="err">&#39;</span><span class="w"> </span><span class="p">,</span><span class="o">&amp;</span>
+<span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="nx">a_commas</span><span class="p">=</span><span class="err">&#39;</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span><span class="o">*</span><span class="p">(</span><span class="nx">g0</span><span class="p">:,</span><span class="s">&quot;,&quot;</span><span class="p">))</span><span class="err">&#39;</span><span class="w">       </span><span class="p">,</span><span class="o">&amp;</span>
+<span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="nx">gen</span><span class="p">=</span><span class="err">&#39;</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nx">g0</span><span class="p">))</span><span class="err">&#39;</span>
+<span class="p">!</span>
+<span class="p">!</span><span class="w"> </span><span class="nx">Execution</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">TOKEN</span><span class="w"> </span><span class="nx">form</span><span class="w"> </span><span class="p">(</span><span class="k">return</span><span class="w"> </span><span class="nx">array</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">tokens</span><span class="p">)</span>
+<span class="p">!</span>
+<span class="w">   </span><span class="nx">block</span>
+<span class="w">   </span><span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">)</span><span class="w">             </span><span class="o">::</span><span class="w"> </span><span class="kt">string</span>
+<span class="w">   </span><span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">),</span><span class="nx">allocatable</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">tokens</span><span class="p">(:)</span>
+<span class="w">   </span><span class="nx">integer</span><span class="w">              </span><span class="o">::</span><span class="w"> </span><span class="nx">i</span>
+<span class="w">      </span><span class="kt">string</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="err">&#39;</span><span class="w">  </span><span class="nx">first</span><span class="p">,</span><span class="nx">second</span><span class="w"> </span><span class="p">,</span><span class="nx">third</span><span class="w">       </span><span class="err">&#39;</span>
+<span class="w">      </span><span class="nx">call</span><span class="w"> </span><span class="nx">tokenize</span><span class="p">(</span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">set</span><span class="p">=</span><span class="err">&#39;</span><span class="p">;,</span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">tokens</span><span class="p">=</span><span class="nx">tokens</span><span class="w"> </span><span class="p">)</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">brackets</span><span class="p">)</span><span class="nx">ch</span><span class="p">(</span><span class="nx">tokens</span><span class="p">)</span>
+
+<span class="w">      </span><span class="kt">string</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="err">&#39;</span><span class="w">  </span><span class="nx">first</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="nx">second</span><span class="w"> </span><span class="p">,</span><span class="nx">third</span><span class="w">       </span><span class="err">&#39;</span>
+<span class="w">      </span><span class="nx">call</span><span class="w"> </span><span class="nx">tokenize</span><span class="p">(</span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">set</span><span class="p">=</span><span class="err">&#39;</span><span class="w"> </span><span class="p">,</span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">tokens</span><span class="p">=</span><span class="nx">tokens</span><span class="w"> </span><span class="p">)</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">brackets</span><span class="p">)(</span><span class="nx">tokens</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span><span class="o">%</span><span class="nx">character</span><span class="p">(),</span><span class="nx">i</span><span class="p">=</span><span class="mi">1</span><span class="p">,</span><span class="nx">size</span><span class="p">(</span><span class="nx">tokens</span><span class="p">))</span>
+<span class="w">      </span><span class="p">!</span><span class="w"> </span><span class="nx">remove</span><span class="w"> </span><span class="nx">blank</span><span class="w"> </span><span class="nx">tokens</span>
+<span class="w">      </span><span class="nx">tokens</span><span class="p">=</span><span class="nx">pack</span><span class="p">(</span><span class="nx">tokens</span><span class="p">,</span><span class="w"> </span><span class="nx">tokens</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="err">&#39;&#39;</span><span class="w"> </span><span class="p">)</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">brackets</span><span class="p">)</span><span class="nx">ch</span><span class="p">(</span><span class="nx">tokens</span><span class="p">)</span>
+<span class="p">!</span>
+<span class="w">   </span><span class="nx">endblock</span>
+<span class="p">!</span>
+<span class="p">!</span><span class="w"> </span><span class="nx">Execution</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">BOUNDS</span><span class="w"> </span><span class="nx">form</span><span class="w"> </span><span class="p">(</span><span class="k">return</span><span class="w"> </span><span class="nx">position</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">tokens</span><span class="p">)</span>
+<span class="p">!</span>
+<span class="w">   </span><span class="nx">block</span>
+<span class="w">   </span><span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">)</span><span class="w">                   </span><span class="o">::</span><span class="w"> </span><span class="kt">string</span>
+<span class="w">   </span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">parameter</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">set</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot; ,&quot;</span>
+<span class="w">   </span><span class="nx">integer</span><span class="p">,</span><span class="nx">allocatable</span><span class="w">        </span><span class="o">::</span><span class="w"> </span><span class="nx">first</span><span class="p">(:),</span><span class="w"> </span><span class="nx">last</span><span class="p">(:)</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">gen</span><span class="p">)</span><span class="nx">repeat</span><span class="p">(</span><span class="err">&#39;</span><span class="mi">1234567890</span><span class="err">&#39;</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span>
+<span class="w">      </span><span class="kt">string</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">first</span><span class="p">,</span><span class="nx">second</span><span class="p">,,</span><span class="nx">fourth</span><span class="err">&#39;</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">gen</span><span class="p">)</span><span class="nx">ch</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span>
+<span class="w">      </span><span class="nx">call</span><span class="w"> </span><span class="nx">tokenize</span><span class="w"> </span><span class="p">(</span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">set</span><span class="p">,</span><span class="w"> </span><span class="nx">first</span><span class="p">,</span><span class="w"> </span><span class="nx">last</span><span class="p">)</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">a_commas</span><span class="p">)</span><span class="err">&#39;</span><span class="nx">FIRST</span><span class="p">=</span><span class="err">&#39;</span><span class="p">,</span><span class="nx">first</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">a_commas</span><span class="p">)</span><span class="err">&#39;</span><span class="nx">LAST</span><span class="p">=</span><span class="err">&#39;</span><span class="p">,</span><span class="nx">last</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">a_commas</span><span class="p">)</span><span class="err">&#39;</span><span class="nx">HAS</span><span class="w"> </span><span class="nx">LENGTH</span><span class="p">=</span><span class="err">&#39;</span><span class="p">,</span><span class="nx">last</span><span class="o">-</span><span class="nx">first</span><span class="p">.</span><span class="nx">gt</span><span class="m m-Double">.0</span>
+<span class="w">   </span><span class="nx">endblock</span>
+<span class="p">!</span>
+<span class="nx">end</span><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_tokenize</span>
+</code></pre></div>
+
+<p>Results:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">  first     </span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="n">second      </span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="n">third       </span><span class="o">]</span>
+<span class="o">&gt;</span><span class="w"> </span><span class="err">[]</span><span class="p">,</span><span class="o">[</span><span class="n">first</span><span class="o">]</span><span class="p">,</span><span class="err">[]</span><span class="p">,</span><span class="err">[]</span><span class="p">,</span><span class="o">[</span><span class="n">second</span><span class="o">]</span><span class="p">,</span><span class="err">[]</span><span class="p">,</span><span class="o">[</span><span class="n">third</span><span class="o">]</span><span class="p">,</span><span class="err">[]</span><span class="p">,</span><span class="err">[]</span><span class="p">,</span><span class="err">[]</span><span class="p">,</span><span class="err">[]</span><span class="p">,</span><span class="err">[]</span>
+<span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">first </span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="n">second</span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="n">third </span><span class="o">]</span>
+<span class="o">&gt;</span><span class="w"> </span><span class="mi">123456789012345678901234567890123456789012345678901234567890</span>
+<span class="o">&gt;</span><span class="w"> </span><span class="k">first</span><span class="p">,</span><span class="k">second</span><span class="p">,,</span><span class="n">fourth</span>
+<span class="o">&gt;</span><span class="w"> </span><span class="k">FIRST</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mi">15</span>
+<span class="o">&gt;</span><span class="w"> </span><span class="k">LAST</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">20</span>
+<span class="o">&gt;</span><span class="w"> </span><span class="n">HAS</span><span class="w"> </span><span class="n">LENGTH</span><span class="o">=</span><span class="n">T</span><span class="p">,</span><span class="n">T</span><span class="p">,</span><span class="n">F</span><span class="p">,</span><span class="n">T</span>
+</code></pre></div>
+
+<h2 id="see-also_1">SEE ALSO</h2>
+<ul>
+<li>
+<p>SPLIT(3) ‐ return tokens from a string, one at a time</p>
+</li>
+<li>
+<p>INDEX(3) ‐ Position of a substring within a string</p>
+</li>
+<li>
+<p>SCAN(3) ‐ Scan a string for the presence of a set of characters</p>
+</li>
+<li>
+<p>VERIFY(3) ‐ Position of a character in a string of characters
+                  that does not appear in a given set of characters.</p>
+</li>
+</ul>
+<h2 id="author_1">AUTHOR</h2>
+<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="n">Milan</span><span class="w"> </span><span class="n">Curcic</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;milancurcic@hey.com&quot;</span>
+<span class="w"> </span><span class="n">John</span><span class="w"> </span><span class="n">S</span><span class="p">.</span><span class="w"> </span><span class="n">Urban</span><span class="w"> </span><span class="c1">-- UTF-8 version</span>
+</code></pre></div>
+
+<h2 id="license_1">LICENSE</h2>
+<div class="codehilite"><pre><span></span><code> MIT
+</code></pre></div>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-string~34"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -304,30 +902,30 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pos~5"></span>
-              integer,
+              <span class="anchor" id="variable-tokens~2"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
-<td>intent(inout)</td>
+<td>intent(out),</td>
               <td></td>            <td>
-              
+              allocatable
             </td>
             <td>::</td>
-            <td><strong>pos</strong></td>
+            <td><strong>tokens</strong>(:)</td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-back~5"></span>
-              logical,
+              <span class="anchor" id="variable-separator"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              allocatable
             </td>
             <td>::</td>
-            <td><strong>back</strong></td>
+            <td><strong>separator</strong>(:)</td>
             <td>
                 
             </td>
@@ -340,7 +938,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-split_tokens"></span> <h3>private impure subroutine split_tokens(string, set, tokens, separator)  
+    <div class="card-header codesum"><span class="anchor" id="proc-split_tokens_uauu"></span> <h3>private impure subroutine split_tokens_uauu(string, set, tokens, separator)  
 </h3></div>
     <div class="card-body">
         
@@ -358,7 +956,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~27"></span>
+              <span class="anchor" id="variable-string~35"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -373,8 +971,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+              <span class="anchor" id="variable-set~4"></span>
+              character(len=*),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -388,7 +986,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tokens"></span>
+              <span class="anchor" id="variable-tokens~3"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(out),</td>
@@ -403,7 +1001,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-separator"></span>
+              <span class="anchor" id="variable-separator~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(out),</td>
@@ -440,7 +1038,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-10-05 16:21 +0000             </p>
+ on 2025-11-21 18:13 +0000             </p>
           </div>
         </div>
         <br>

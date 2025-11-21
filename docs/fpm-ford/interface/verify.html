@@ -91,20 +91,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.3% of total for procedures.</p>Including implementation: 21 statements,  2.3% of total for procedures.">3 statements</a>
+                 title="<p> 0.4% of total for procedures.</p>Including implementation: 41 statements,  3.2% of total for procedures.">5 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/M_unicode.f90"> Source File</a>
+              <a href="../src/M_unicode.F90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/m_unicode.f90.html'>M_unicode.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/m_unicode.html'>M_unicode</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/m_unicode.f90.html'>M_unicode.F90</a></li>
+                <li class="breadcrumb-item"><a href='../module/m_unicode__base.html'>M_unicode__base</a></li>
             <li class="breadcrumb-item active" aria-current="page">verify</li>
           </ol>
         </nav>
@@ -150,7 +150,9 @@
       </a>
       <div id="modprocs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../interface/verify.html#moduleprocedure-uverify">uverify</a>
+            <a class="list-group-item" href="../interface/verify.html#moduleprocedure-verify_uu">verify_uu</a>
+            <a class="list-group-item" href="../interface/verify.html#moduleprocedure-verify_ua">verify_ua</a>
+            <a class="list-group-item" href="../interface/verify.html#moduleprocedure-verify_au">verify_au</a>
         </div>
       </div>
     </div>
@@ -170,7 +172,497 @@
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-uverify"></span> <h3>private impure elemental function uverify(string, set, back) result(result)  
+    <div class="card-header codesum"><span class="anchor" id="proc-verify_uu"></span> <h3>private impure elemental function verify_uu(string, set, back) result(result)  
+</h3></div>
+    <div class="card-body">
+        <h2 id="name">NAME</h2>
+<p>VERIFY(3f) - [M_unicode:SEARCH] Position of a character in a string of
+   characters that does not appear in a given set of characters.
+   (LICENSE:MIT)</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<p>result = verify(string, set [,back] [,kind] )</p>
+<div class="codehilite"><pre><span></span><code><span class="w">        </span><span class="nx">elemental</span><span class="w"> </span><span class="nx">integer</span><span class="w"> </span><span class="nx">function</span><span class="w"> </span><span class="nx">verify</span><span class="p">(</span><span class="kt">string</span><span class="p">,</span><span class="nx">set</span><span class="p">,</span><span class="nx">back</span><span class="p">,</span><span class="nx">KIND</span><span class="p">)</span>
+
+<span class="w">         </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="kt">string</span>
+
+<span class="w">         </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">set</span>
+<span class="w">            </span><span class="k">or</span>
+<span class="w">         </span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w">   </span><span class="o">::</span><span class="w"> </span><span class="nx">set</span>
+
+<span class="w">         </span><span class="nx">logical</span><span class="p">,</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">),</span><span class="nx">optional</span><span class="w">   </span><span class="o">::</span><span class="w"> </span><span class="nx">back</span>
+</code></pre></div>
+
+<h2 id="characteristics">CHARACTERISTICS</h2>
+<ul>
+<li>STRING  must be of type string</li>
+<li>SET  must be of type string or character.</li>
+<li>BACK shall be of type logical.</li>
+<li>A default integer kind is returned.</li>
+</ul>
+<h2 id="description">DESCRIPTION</h2>
+<p>VERIFY(3) verifies that all the characters in STRING belong to the set of
+   characters in SET by identifying the position of the first character in the
+   string that is not in the set.</p>
+<p>This makes it easy to verify strings are all uppercase or lowercase, follow a
+   basic syntax, only contain printable characters, and many of the conditions
+   tested for with the C routines ISALNUM(3c), ISALPHA(3c), ISASCII(3c),
+   ISBLANK(3c), ISCNTRL(3c), ISDIGIT(3c), ISGRAPH(3c), ISLOWER(3c), ISPRINT(3c),
+   ISPUNCT(3c), ISSPACE(3c), ISUPPER(3c), and ISXDIGIT(3c); but for a string as
+   well as an array of strings.</p>
+<h2 id="options">OPTIONS</h2>
+<ul>
+<li>
+<p>STRING : The string to search in for an unmatched character.</p>
+</li>
+<li>
+<p>SET : The set of characters that must be matched.</p>
+</li>
+<li>
+<p>BACK : The direction to look for an unmatched character. The left‐most
+      unmatched character position isreturned unless BACK is present and
+      .false., which causes the position of the right‐most unmatched character
+      to be returned instead of the left‐most unmatched character.</p>
+</li>
+</ul>
+<h2 id="result">RESULT</h2>
+<p>If all characters of STRING are found in SET, the result is zero.</p>
+<p>If STRING is of zero length a zero (0) is always returned.</p>
+<p>Otherwise, if an unmatched character is found The position of the first or
+   last (if BACK is .false.) unmatched character in STRING is returned, starting
+   with position one on the left end of the string.</p>
+<h2 id="examples">EXAMPLES</h2>
+<p>Sample program I:</p>
+<div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">demo_verify</span>
+<span class="p">!</span><span class="w"> </span><span class="nx">general</span><span class="w"> </span><span class="nx">examples</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">assignment</span><span class="p">(=)</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">ut</span><span class="o">=&gt;</span><span class="nx">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="nx">ch</span><span class="o">=&gt;</span><span class="nx">character</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">write</span><span class="p">(</span><span class="nx">formatted</span><span class="p">)</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">operator</span><span class="p">(</span><span class="o">==</span><span class="p">)</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">verify</span><span class="p">,</span><span class="w"> </span><span class="nx">replace</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">operator</span><span class="p">(</span><span class="c1">//)</span>
+<span class="nx">implicit</span><span class="w"> </span><span class="nx">none</span>
+<span class="p">!</span><span class="w"> </span><span class="nx">some</span><span class="w"> </span><span class="nx">useful</span><span class="w"> </span><span class="nx">character</span><span class="w"> </span><span class="nx">sets</span>
+<span class="nx">character</span><span class="p">,</span><span class="nx">parameter</span><span class="w">          </span><span class="o">::</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="nx">int</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;1234567890&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="nx">low</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;abcdefghijklmnopqrstuvwxyz&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="nx">upp</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="nx">punc</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;!&quot;&quot;#$%&amp;&#39;()*+,‐./:;&lt;=&gt;?@[\]&#39;_‘{|}˜&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="nx">blank</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="nx">tab</span><span class="w">       </span><span class="p">=</span><span class="w"> </span><span class="nx">char</span><span class="p">(</span><span class="mi">11</span><span class="p">),</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="nx">prnt</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">int</span><span class="c1">//low//upp//blank//punc</span>
+<span class="p">!</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">)</span><span class="w">                     </span><span class="o">::</span><span class="w"> </span><span class="nx">stru</span>
+<span class="nx">integer</span><span class="w">                      </span><span class="o">::</span><span class="w"> </span><span class="nx">i</span>
+<span class="w">    </span><span class="nx">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;basics:&quot;</span>
+<span class="w">    </span><span class="nx">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nx">VERIFY</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;ABBA&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;A&quot;</span><span class="p">)</span><span class="w">                </span><span class="p">!</span><span class="w"> </span><span class="nx">has</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">value</span><span class="w"> </span><span class="mi">2</span><span class="p">.</span>
+<span class="w">    </span><span class="nx">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nx">VERIFY</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;ABBA&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;A&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">BACK</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">.</span><span class="nx">TRUE</span><span class="p">.)</span><span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">has</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">value</span><span class="w"> </span><span class="mi">3</span><span class="p">.</span>
+<span class="w">    </span><span class="nx">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nx">VERIFY</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;ABBA&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;AB&quot;</span><span class="p">)</span><span class="w">               </span><span class="p">!</span><span class="w"> </span><span class="nx">has</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">value</span><span class="w"> </span><span class="mi">0</span><span class="p">.</span>
+<span class="w">   </span><span class="p">!</span>
+<span class="w">   </span><span class="nx">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="s">&quot;find first non‐uppercase letter&quot;</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">will</span><span class="w"> </span><span class="nx">produce</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">location</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="s">&quot;d&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">because</span><span class="w"> </span><span class="nx">there</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="nx">no</span><span class="w"> </span><span class="k">match</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nx">UPP</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s">&quot;something unmatched&quot;</span><span class="p">,</span><span class="nx">verify</span><span class="p">(</span><span class="nx">ut</span><span class="p">(</span><span class="s">&quot;ABCdEFG&quot;</span><span class="p">),</span><span class="w"> </span><span class="nx">upp</span><span class="p">)</span>
+<span class="w">   </span><span class="p">!</span>
+<span class="w">   </span><span class="nx">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="s">&quot;if everything is matched return zero&quot;</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">will</span><span class="w"> </span><span class="nx">produce</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nx">all</span><span class="w"> </span><span class="nx">letters</span><span class="w"> </span><span class="nx">have</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="k">match</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">   </span><span class="o">&amp;</span><span class="w"> </span><span class="s">&quot;everything matched&quot;</span><span class="p">,</span><span class="nx">verify</span><span class="p">(</span><span class="nx">ut</span><span class="p">(</span><span class="s">&quot;ffoorrttrraann&quot;</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;nartrof&quot;</span><span class="p">)</span>
+<span class="w">   </span><span class="p">!</span>
+<span class="w">   </span><span class="nx">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="s">&quot;easily categorize strings as uppercase, lowercase, ...&quot;</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">C</span><span class="o">-</span><span class="k">like</span><span class="w"> </span><span class="nx">functionality</span><span class="w"> </span><span class="nx">but</span><span class="w"> </span><span class="nx">does</span><span class="w"> </span><span class="nx">entire</span><span class="w"> </span><span class="nx">strings</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="nx">just</span><span class="w"> </span><span class="nx">characters</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s">&quot;isdigit 123?&quot;</span><span class="p">,</span><span class="nx">verify</span><span class="p">(</span><span class="nx">ut</span><span class="p">(</span><span class="s">&quot;123&quot;</span><span class="p">),</span><span class="w"> </span><span class="nx">int</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s">&quot;islower abc?&quot;</span><span class="p">,</span><span class="nx">verify</span><span class="p">(</span><span class="nx">ut</span><span class="p">(</span><span class="s">&quot;abc&quot;</span><span class="p">),</span><span class="w"> </span><span class="nx">low</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s">&quot;isalpha aBc?&quot;</span><span class="p">,</span><span class="nx">verify</span><span class="p">(</span><span class="nx">ut</span><span class="p">(</span><span class="s">&quot;aBc&quot;</span><span class="p">),</span><span class="w"> </span><span class="nx">low</span><span class="c1">//upp) == 0</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s">&quot;isblank aBc dEf?&quot;</span><span class="p">,</span><span class="nx">verify</span><span class="p">(</span><span class="nx">ut</span><span class="p">(</span><span class="s">&quot;aBc dEf&quot;</span><span class="p">),</span><span class="w"> </span><span class="nx">blank</span><span class="c1">//tab ) /= 0</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">check</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nx">all</span><span class="w"> </span><span class="nx">printable</span><span class="w"> </span><span class="nx">characters</span>
+<span class="w">   </span><span class="nx">stru</span><span class="p">=</span><span class="s">&quot;aB;cde,fgHI!Jklmno PQRSTU vwxyz&quot;</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s">&quot;isprint?&quot;</span><span class="p">,</span><span class="nx">verify</span><span class="p">(</span><span class="nx">stru</span><span class="p">,</span><span class="nx">prnt</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">   </span><span class="p">!</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">this</span><span class="w"> </span><span class="nx">now</span><span class="w"> </span><span class="nx">has</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">nonprintable</span><span class="w"> </span><span class="nx">tab</span><span class="w"> </span><span class="nx">character</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nx">it</span>
+<span class="w">   </span><span class="nx">stru</span><span class="p">=</span><span class="nx">replace</span><span class="p">(</span><span class="nx">stru</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="nx">ut</span><span class="p">(</span><span class="nx">char</span><span class="p">(</span><span class="mi">11</span><span class="p">)))</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s">&quot;isprint?&quot;</span><span class="p">,</span><span class="nx">verify</span><span class="p">(</span><span class="nx">stru</span><span class="p">,</span><span class="nx">prnt</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">   </span><span class="p">!</span>
+<span class="w">   </span><span class="nx">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="s">&quot;VERIFY(3) is very powerful using expressions as masks&quot;</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">verify</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="nx">often</span><span class="w"> </span><span class="nx">used</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">logical</span><span class="w"> </span><span class="nx">expression</span>
+<span class="w">   </span><span class="nx">stru</span><span class="p">=</span><span class="s">&quot; This is NOT all UPPERCASE &quot;</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s">&quot;all uppercase/spaces?&quot;</span><span class="p">,</span><span class="nx">verify</span><span class="p">(</span><span class="nx">stru</span><span class="p">,</span><span class="w"> </span><span class="nx">blank</span><span class="c1">//upp) == 0</span>
+<span class="w">   </span><span class="nx">stru</span><span class="p">=</span><span class="s">&quot; This IS all uppercase &quot;</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s">&quot;stru=[&quot;</span><span class="c1">//stru//&quot;]&quot;</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s">&quot;all uppercase/spaces?&quot;</span><span class="p">,</span><span class="nx">verify</span><span class="p">(</span><span class="nx">stru</span><span class="p">,</span><span class="w"> </span><span class="nx">blank</span><span class="c1">//upp) == 0</span>
+<span class="w">   </span><span class="p">!</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">set</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="nx">show</span><span class="w"> </span><span class="nx">complex</span><span class="w"> </span><span class="nx">stru</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">be</span><span class="w"> </span><span class="nx">tested</span>
+<span class="w">   </span><span class="nx">stru</span><span class="p">=</span><span class="s">&quot;  Check this out. Let me know  &quot;</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">show</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">stru</span><span class="w"> </span><span class="nx">being</span><span class="w"> </span><span class="nx">examined</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s">&quot;stru=[&quot;</span><span class="c1">//stru//&quot;]&quot;</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s">&quot;        &quot;</span><span class="c1">//repeat(int,4) ! number line</span>
+<span class="w">   </span><span class="p">!</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">function</span><span class="w"> </span><span class="nx">returns</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">position</span><span class="w"> </span><span class="nx">just</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">logical</span><span class="w"> </span><span class="k">like</span><span class="w"> </span><span class="nx">C</span>
+<span class="w">   </span><span class="nx">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;returning a position not just a logical is useful&quot;</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">which</span><span class="w"> </span><span class="nx">can</span><span class="w"> </span><span class="nx">be</span><span class="w"> </span><span class="nx">very</span><span class="w"> </span><span class="nx">useful</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nx">parsing</span><span class="w"> </span><span class="nx">strings</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s">&quot;first non‐blank character&quot;</span><span class="p">,</span><span class="nx">verify</span><span class="p">(</span><span class="nx">stru</span><span class="p">,</span><span class="w"> </span><span class="nx">blank</span><span class="p">)</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s">&quot;last non‐blank character&quot;</span><span class="p">,</span><span class="nx">verify</span><span class="p">(</span><span class="nx">stru</span><span class="p">,</span><span class="w"> </span><span class="nx">blank</span><span class="p">,</span><span class="nx">back</span><span class="p">=.</span><span class="kc">true</span><span class="p">.)</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s">&quot;first non‐letter non‐blank&quot;</span><span class="p">,</span><span class="nx">verify</span><span class="p">(</span><span class="nx">stru</span><span class="p">,</span><span class="nx">low</span><span class="c1">//upp//blank)</span>
+<span class="w">   </span><span class="p">!</span>
+<span class="w">  </span><span class="p">!</span><span class="nx">VERIFY</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="nx">elemental</span><span class="w"> </span><span class="p">(</span><span class="nx">can</span><span class="w"> </span><span class="nx">check</span><span class="w"> </span><span class="nx">an</span><span class="w"> </span><span class="nx">array</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">strings</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nx">one</span><span class="w"> </span><span class="nx">call</span><span class="p">)</span>
+<span class="w">   </span><span class="nx">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;elemental&quot;</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">are</span><span class="w"> </span><span class="nx">strings</span><span class="w"> </span><span class="nx">all</span><span class="w"> </span><span class="nx">letters</span><span class="w"> </span><span class="p">(</span><span class="k">or</span><span class="w"> </span><span class="nx">blanks</span><span class="p">)?</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s">&quot;array of strings&quot;</span><span class="p">,</span><span class="nx">verify</span><span class="p">(</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">strings</span><span class="w"> </span><span class="nx">must</span><span class="w"> </span><span class="nx">all</span><span class="w"> </span><span class="nx">be</span><span class="w"> </span><span class="nx">same</span><span class="w"> </span><span class="nx">length</span><span class="p">,</span><span class="w"> </span><span class="nx">so</span><span class="w"> </span><span class="nx">force</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">length</span><span class="w"> </span><span class="mi">10</span>
+<span class="w">   </span><span class="o">&amp;</span><span class="w"> </span><span class="p">[</span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="s">&quot;YES&quot;</span><span class="p">,</span><span class="s">&quot;ok&quot;</span><span class="p">,</span><span class="s">&quot;000&quot;</span><span class="p">,</span><span class="s">&quot;good one&quot;</span><span class="p">,</span><span class="s">&quot;Nope!&quot;</span><span class="p">],</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">   </span><span class="o">&amp;</span><span class="w"> </span><span class="nx">low</span><span class="c1">//upp//blank) == 0</span>
+<span class="w">   </span><span class="p">!</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">rarer</span><span class="p">,</span><span class="w"> </span><span class="nx">but</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">set</span><span class="w"> </span><span class="nx">can</span><span class="w"> </span><span class="nx">be</span><span class="w"> </span><span class="nx">an</span><span class="w"> </span><span class="nx">array</span><span class="p">,</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="nx">just</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">strings</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">test</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">you</span><span class="w"> </span><span class="nx">could</span><span class="w"> </span><span class="nx">do</span><span class="w"> </span><span class="nx">ISPRINT</span><span class="p">()</span><span class="w"> </span><span class="nx">this</span><span class="w"> </span><span class="p">(</span><span class="nx">harder</span><span class="p">)</span><span class="w"> </span><span class="nx">way</span><span class="w"> </span><span class="p">:&gt;</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s">&quot;isprint?&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">   </span><span class="o">&amp;</span><span class="w"> </span><span class="p">.</span><span class="k">not</span><span class="p">.</span><span class="nx">all</span><span class="p">(</span><span class="nx">verify</span><span class="p">(</span><span class="nx">ut</span><span class="p">(</span><span class="s">&quot;aBc&quot;</span><span class="p">),</span><span class="w"> </span><span class="p">[(</span><span class="nx">char</span><span class="p">(</span><span class="nx">i</span><span class="p">),</span><span class="nx">i</span><span class="p">=</span><span class="mi">32</span><span class="p">,</span><span class="mi">126</span><span class="p">)])</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">instead</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">this</span><span class="w"> </span><span class="nx">way</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s">&quot;isprint?&quot;</span><span class="p">,</span><span class="nx">verify</span><span class="p">(</span><span class="nx">ut</span><span class="p">(</span><span class="s">&quot;aBc&quot;</span><span class="p">),</span><span class="nx">prnt</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">   </span><span class="p">!</span>
+<span class="nx">end</span><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_verify</span>
+</code></pre></div>
+
+<p>Results:</p>
+<div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="o">&gt;</span><span class="w">  </span><span class="nv">basics</span>:
+<span class="w">    </span><span class="o">&gt;</span><span class="w">            </span><span class="mi">2</span>
+<span class="w">    </span><span class="o">&gt;</span><span class="w">            </span><span class="mi">3</span>
+<span class="w">    </span><span class="o">&gt;</span><span class="w">            </span><span class="mi">0</span>
+<span class="w">    </span><span class="o">&gt;</span><span class="w">  </span><span class="nv">find</span><span class="w"> </span><span class="nv">first</span><span class="w"> </span><span class="nv">non</span>‐<span class="nv">uppercase</span><span class="w"> </span><span class="nv">letter</span>
+<span class="w">    </span><span class="o">&gt;</span><span class="w">  </span><span class="nv">something</span><span class="w"> </span><span class="nv">unmatched</span><span class="w">           </span><span class="mi">4</span>
+<span class="w">    </span><span class="o">&gt;</span><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="nv">everything</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">matched</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nv">zero</span>
+<span class="w">    </span><span class="o">&gt;</span><span class="w">  </span><span class="nv">everything</span><span class="w"> </span><span class="nv">matched</span><span class="w">           </span><span class="mi">0</span>
+<span class="w">    </span><span class="o">&gt;</span><span class="w">  </span><span class="nv">easily</span><span class="w"> </span><span class="nv">categorize</span><span class="w"> </span><span class="nv">strings</span><span class="w"> </span><span class="nv">as</span><span class="w"> </span><span class="nv">uppercase</span>,<span class="w"> </span><span class="nv">lowercase</span>,<span class="w"> </span>...
+<span class="w">    </span><span class="o">&gt;</span><span class="w">  </span><span class="nv">isdigit</span><span class="w"> </span><span class="mi">123</span>?<span class="w"> </span><span class="nv">T</span>
+<span class="w">    </span><span class="o">&gt;</span><span class="w">  </span><span class="nv">islower</span><span class="w"> </span><span class="nv">abc</span>?<span class="w"> </span><span class="nv">T</span>
+<span class="w">    </span><span class="o">&gt;</span><span class="w">  </span><span class="nv">isalpha</span><span class="w"> </span><span class="nv">aBc</span>?<span class="w"> </span><span class="nv">T</span>
+<span class="w">    </span><span class="o">&gt;</span><span class="w">  </span><span class="nv">isblank</span><span class="w"> </span><span class="nv">aBc</span><span class="w"> </span><span class="nv">dEf</span>?<span class="w"> </span><span class="nv">T</span>
+<span class="w">    </span><span class="o">&gt;</span><span class="w">  </span><span class="nv">isprint</span>?<span class="w"> </span><span class="nv">T</span>
+<span class="w">    </span><span class="o">&gt;</span><span class="w">  </span><span class="nv">isprint</span>?<span class="w"> </span><span class="nv">F</span>
+<span class="w">    </span><span class="o">&gt;</span><span class="w">  </span><span class="nv">VERIFY</span><span class="ss">(</span><span class="mi">3</span><span class="ss">)</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">very</span><span class="w"> </span><span class="nv">powerful</span><span class="w"> </span><span class="nv">using</span><span class="w"> </span><span class="nv">expressions</span><span class="w"> </span><span class="nv">as</span><span class="w"> </span><span class="nv">masks</span>
+<span class="w">    </span><span class="o">&gt;</span><span class="w">  </span><span class="nv">all</span><span class="w"> </span><span class="nv">uppercase</span><span class="o">/</span><span class="nv">spaces</span>?<span class="w"> </span><span class="nv">F</span>
+<span class="w">    </span><span class="o">&gt;</span><span class="w">  </span><span class="nv">string</span><span class="o">=</span>[<span class="w"> </span><span class="nv">This</span><span class="w"> </span><span class="nv">IS</span><span class="w"> </span><span class="nv">all</span><span class="w"> </span><span class="nv">uppercase</span><span class="w"> </span>]
+<span class="w">    </span><span class="o">&gt;</span><span class="w">  </span><span class="nv">all</span><span class="w"> </span><span class="nv">uppercase</span><span class="o">/</span><span class="nv">spaces</span>?<span class="w"> </span><span class="nv">F</span>
+<span class="w">    </span><span class="o">&gt;</span><span class="w">  </span><span class="nv">string</span><span class="o">=</span>[<span class="w">  </span><span class="nv">Check</span><span class="w"> </span><span class="nv">this</span><span class="w"> </span><span class="nv">out</span>.<span class="w"> </span><span class="nv">Let</span><span class="w"> </span><span class="nv">me</span><span class="w"> </span><span class="nv">know</span><span class="w">  </span>]
+<span class="w">    </span><span class="o">&gt;</span><span class="w">          </span><span class="mi">1234567890123456789012345678901234567890</span>
+<span class="w">    </span><span class="o">&gt;</span><span class="w">  </span><span class="nv">returning</span><span class="w"> </span><span class="nv">a</span><span class="w"> </span><span class="nv">position</span><span class="w"> </span><span class="nv">not</span><span class="w"> </span><span class="nv">just</span><span class="w"> </span><span class="nv">a</span><span class="w"> </span><span class="nv">logical</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">useful</span>
+<span class="w">    </span><span class="o">&gt;</span><span class="w">  </span><span class="nv">first</span><span class="w"> </span><span class="nv">non</span>‐<span class="nv">blank</span><span class="w"> </span><span class="nv">character</span><span class="w">           </span><span class="mi">3</span>
+<span class="w">    </span><span class="o">&gt;</span><span class="w">  </span><span class="nv">last</span><span class="w"> </span><span class="nv">non</span>‐<span class="nv">blank</span><span class="w"> </span><span class="nv">character</span><span class="w">          </span><span class="mi">29</span>
+<span class="w">    </span><span class="o">&gt;</span><span class="w">  </span><span class="nv">first</span><span class="w"> </span><span class="nv">non</span>‐<span class="nv">letter</span><span class="w"> </span><span class="nv">non</span>‐<span class="nv">blank</span><span class="w">          </span><span class="mi">17</span>
+<span class="w">    </span><span class="o">&gt;</span><span class="w">  </span><span class="nv">elemental</span>
+<span class="w">    </span><span class="o">&gt;</span><span class="w">  </span><span class="nv">array</span><span class="w"> </span><span class="nv">of</span><span class="w"> </span><span class="nv">strings</span><span class="w"> </span><span class="nv">T</span><span class="w"> </span><span class="nv">T</span><span class="w"> </span><span class="nv">F</span><span class="w"> </span><span class="nv">T</span><span class="w"> </span><span class="nv">F</span>
+<span class="w">    </span><span class="o">&gt;</span><span class="w">  </span><span class="nv">isprint</span>?<span class="w"> </span><span class="nv">T</span>
+<span class="w">    </span><span class="o">&gt;</span><span class="w">  </span><span class="nv">isprint</span>?<span class="w"> </span><span class="nv">T</span>
+</code></pre></div>
+
+<p>Sample program II:</p>
+<p>Determine if strings are valid integer representations</p>
+<div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">fortran_ints</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">ut</span><span class="o">=&gt;</span><span class="nx">unicode_type</span><span class="p">,</span><span class="nx">assignment</span><span class="p">(=)</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">adjustr</span><span class="p">,</span><span class="w"> </span><span class="nx">verify</span><span class="p">,</span><span class="w"> </span><span class="nx">trim</span><span class="p">,</span><span class="w"> </span><span class="nx">len</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">write</span><span class="p">(</span><span class="nx">formatted</span><span class="p">)</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">operator</span><span class="p">(.</span><span class="nx">cat</span><span class="p">.)</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">operator</span><span class="p">(</span><span class="o">==</span><span class="p">)</span>
+<span class="nx">implicit</span><span class="w"> </span><span class="nx">none</span>
+<span class="nx">integer</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">i</span>
+<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">parameter</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">asciiints</span><span class="p">(</span><span class="o">*</span><span class="p">)=[</span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w"> </span><span class="s">&quot;+1 &quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w"> </span><span class="s">&quot;3044848 &quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w"> </span><span class="s">&quot;30.40 &quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w"> </span><span class="s">&quot;September &quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w"> </span><span class="s">&quot;1 2 3&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w"> </span><span class="s">&quot;  -3000 &quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">]</span>
+<span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">),</span><span class="nx">allocatable</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">ints</span><span class="p">(:)</span>
+<span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="nx">allocated</span><span class="p">(</span><span class="nx">ints</span><span class="p">))</span><span class="nx">deallocate</span><span class="p">(</span><span class="nx">ints</span><span class="p">)</span>
+<span class="w"> </span><span class="nx">allocate</span><span class="p">(</span><span class="nx">ints</span><span class="p">(</span><span class="nx">size</span><span class="p">(</span><span class="nx">asciiints</span><span class="p">)))</span><span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">gfortran</span><span class="w"> </span><span class="nx">bug</span>
+<span class="w"> </span><span class="nx">ints</span><span class="p">=</span><span class="nx">asciiints</span>
+<span class="w"> </span><span class="nx">ints</span><span class="p">=</span><span class="nx">trim</span><span class="p">(</span><span class="nx">ints</span><span class="p">)</span>
+<span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">show</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nx">strings</span><span class="w"> </span><span class="nx">pass</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="nx">fail</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">test</span><span class="w"> </span><span class="nx">done</span><span class="w"> </span><span class="nx">by</span><span class="w"> </span><span class="nx">isint</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="w"> </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s">&quot;(&#39;is integer?&#39;)&quot;</span><span class="p">)</span>
+<span class="w"> </span><span class="nx">do</span><span class="w"> </span><span class="nx">i</span><span class="p">=</span><span class="mi">1</span><span class="p">,</span><span class="nx">size</span><span class="p">(</span><span class="nx">ints</span><span class="p">)</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="err">&#39;</span><span class="p">(</span><span class="s">&quot;|&quot;</span><span class="p">,</span><span class="nx">DT</span><span class="p">,</span><span class="nx">T14</span><span class="p">,</span><span class="s">&quot;|&quot;</span><span class="p">,</span><span class="nx">l1</span><span class="p">,</span><span class="s">&quot;|&quot;</span><span class="p">)</span><span class="err">&#39;</span><span class="p">)</span><span class="w"> </span><span class="nx">ints</span><span class="p">(</span><span class="nx">i</span><span class="p">),</span><span class="w"> </span><span class="nx">isint</span><span class="p">(</span><span class="nx">ints</span><span class="p">(</span><span class="nx">i</span><span class="p">))</span>
+<span class="w"> </span><span class="nx">enddo</span>
+<span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">elemental</span>
+<span class="w"> </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s">&quot;(*(g0,1x))&quot;</span><span class="p">)</span><span class="w"> </span><span class="nx">isint</span><span class="p">(</span><span class="nx">ints</span><span class="p">)</span>
+
+<span class="nx">contains</span>
+
+<span class="nx">impure</span><span class="w"> </span><span class="nx">elemental</span><span class="w"> </span><span class="nx">function</span><span class="w"> </span><span class="nx">isint</span><span class="p">(</span><span class="nx">line</span><span class="p">)</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="p">(</span><span class="nx">lout</span><span class="p">)</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">adjustl</span><span class="p">,</span><span class="w"> </span><span class="nx">verify</span><span class="p">,</span><span class="w"> </span><span class="nx">trim</span>
+<span class="p">!</span>
+<span class="p">!</span><span class="w"> </span><span class="nx">determine</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">valid</span><span class="w"> </span><span class="nx">integer</span><span class="w"> </span><span class="nx">representation</span>
+<span class="p">!</span><span class="w"> </span><span class="nx">ignoring</span><span class="w"> </span><span class="nx">trailing</span><span class="w"> </span><span class="nx">spaces</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="nx">leading</span><span class="w"> </span><span class="nx">spaces</span>
+<span class="p">!</span>
+<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">parameter</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">digits</span><span class="p">=</span><span class="s">&quot;0123456789&quot;</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w">        </span><span class="o">::</span><span class="w"> </span><span class="nx">line</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">)</span><span class="w">                   </span><span class="o">::</span><span class="w"> </span><span class="nx">name</span>
+<span class="nx">logical</span><span class="w">                    </span><span class="o">::</span><span class="w"> </span><span class="nx">lout</span>
+<span class="w">   </span><span class="nx">lout</span><span class="p">=.</span><span class="kc">false</span><span class="p">.</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">make</span><span class="w"> </span><span class="nx">sure</span><span class="w"> </span><span class="nx">at</span><span class="w"> </span><span class="nx">least</span><span class="w"> </span><span class="nx">two</span><span class="w"> </span><span class="nx">characters</span><span class="w"> </span><span class="nx">long</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">simplify</span><span class="w"> </span><span class="nx">tests</span>
+<span class="w">   </span><span class="nx">name</span><span class="p">=</span><span class="nx">adjustl</span><span class="p">(</span><span class="nx">line</span><span class="p">).</span><span class="nx">cat</span><span class="p">.</span><span class="err">&#39;</span><span class="w">  </span><span class="err">&#39;</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">blank</span><span class="w"> </span><span class="kt">string</span>
+<span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="nx">name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="err">&#39;&#39;</span><span class="w"> </span><span class="p">)</span><span class="k">return</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">allow</span><span class="w"> </span><span class="nx">one</span><span class="w"> </span><span class="nx">leading</span><span class="w"> </span><span class="nx">sign</span>
+<span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="nx">verify</span><span class="p">(</span><span class="nx">name</span><span class="o">%</span><span class="nx">sub</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="nx">ut</span><span class="p">(</span><span class="err">&#39;</span><span class="o">+</span><span class="err">‐</span><span class="o">-</span><span class="err">&#39;</span><span class="p">))</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="nx">name</span><span class="p">=</span><span class="nx">name</span><span class="o">%</span><span class="nx">sub</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="nx">len</span><span class="p">(</span><span class="nx">name</span><span class="p">))</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">was</span><span class="w"> </span><span class="nx">just</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">sign</span>
+<span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="nx">name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="err">&#39;&#39;</span><span class="w"> </span><span class="p">)</span><span class="k">return</span>
+<span class="w">   </span><span class="nx">lout</span><span class="p">=</span><span class="nx">verify</span><span class="p">(</span><span class="nx">trim</span><span class="p">(</span><span class="nx">name</span><span class="p">),</span><span class="w"> </span><span class="nx">digits</span><span class="p">)</span><span class="w">  </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span>
+<span class="nx">end</span><span class="w"> </span><span class="nx">function</span><span class="w"> </span><span class="nx">isint</span>
+
+<span class="nx">end</span><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">fortran_ints</span>
+</code></pre></div>
+
+<p>Results:</p>
+<div class="codehilite"><pre><span></span><code> &gt; is integer?
+ &gt; |+1          |T|
+ &gt; |3044848     |T|
+ &gt; |30.40       |F|
+ &gt; |September   |F|
+ &gt; |1 2 3       |F|
+ &gt; |  ‐3000     |T|
+ &gt; |            |F|
+ &gt; T T F F F T F
+</code></pre></div>
+
+<p>Sample program III:</p>
+<p>Determine if strings represent valid Fortran symbol names</p>
+<div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">fortran_symbol_name</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">ut</span><span class="o">=&gt;</span><span class="nx">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="nx">trim</span><span class="p">,</span><span class="w"> </span><span class="nx">verify</span><span class="p">,</span><span class="w"> </span><span class="nx">len</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">ch</span><span class="o">=&gt;</span><span class="nx">character</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">write</span><span class="p">(</span><span class="nx">formatted</span><span class="p">)</span>
+<span class="nx">implicit</span><span class="w"> </span><span class="nx">none</span>
+<span class="nx">integer</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">i</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">),</span><span class="nx">allocatable</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">symbols</span><span class="p">(:)</span>
+<span class="w">   </span><span class="nx">symbols</span><span class="p">=[</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">    </span><span class="nx">ut</span><span class="p">(</span><span class="err">&#39;</span><span class="nx">A_</span><span class="err">&#39;</span><span class="p">),</span><span class="w"> </span><span class="nx">ut</span><span class="p">(</span><span class="err">&#39;</span><span class="mi">10</span><span class="err">&#39;</span><span class="p">),</span><span class="w"> </span><span class="nx">ut</span><span class="p">(</span><span class="err">&#39;</span><span class="nx">a10</span><span class="err">&#39;</span><span class="p">),</span><span class="w"> </span><span class="nx">ut</span><span class="p">(</span><span class="err">&#39;</span><span class="nx">September</span><span class="err">&#39;</span><span class="p">),</span><span class="w"> </span><span class="nx">ut</span><span class="p">(</span><span class="err">&#39;</span><span class="nx">A</span><span class="w"> </span><span class="nx">B</span><span class="err">&#39;</span><span class="p">),</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">    </span><span class="nx">ut</span><span class="p">(</span><span class="err">&#39;</span><span class="nx">_A</span><span class="err">&#39;</span><span class="p">),</span><span class="w"> </span><span class="nx">ut</span><span class="p">(</span><span class="sc">&#39; &#39;</span><span class="p">)]</span>
+
+<span class="w">   </span><span class="nx">do</span><span class="w"> </span><span class="nx">i</span><span class="p">=</span><span class="mi">1</span><span class="p">,</span><span class="nx">size</span><span class="p">(</span><span class="nx">symbols</span><span class="p">)</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="err">&#39;</span><span class="p">(</span><span class="mi">1</span><span class="nx">x</span><span class="p">,</span><span class="nx">DT</span><span class="p">,</span><span class="nx">T11</span><span class="p">,</span><span class="s">&quot;|&quot;</span><span class="p">,</span><span class="nx">l2</span><span class="p">)</span><span class="err">&#39;</span><span class="p">)</span><span class="nx">symbols</span><span class="p">(</span><span class="nx">i</span><span class="p">),</span><span class="nx">fortran_name</span><span class="p">(</span><span class="nx">symbols</span><span class="p">(</span><span class="nx">i</span><span class="p">))</span>
+<span class="w">   </span><span class="nx">enddo</span>
+
+<span class="nx">contains</span>
+
+<span class="nx">impure</span><span class="w"> </span><span class="nx">elemental</span><span class="w"> </span><span class="nx">function</span><span class="w"> </span><span class="nx">fortran_name</span><span class="p">(</span><span class="nx">line</span><span class="p">)</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="p">(</span><span class="nx">lout</span><span class="p">)</span>
+<span class="p">!</span>
+<span class="p">!</span><span class="w"> </span><span class="nx">determine</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">valid</span><span class="w"> </span><span class="nx">Fortran</span><span class="w"> </span><span class="nx">name</span>
+<span class="p">!</span><span class="w"> </span><span class="nx">ignoring</span><span class="w"> </span><span class="nx">trailing</span><span class="w"> </span><span class="nx">spaces</span><span class="w"> </span><span class="p">(</span><span class="nx">but</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="nx">leading</span><span class="w"> </span><span class="nx">spaces</span><span class="p">)</span>
+<span class="p">!</span>
+<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">parameter</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">int</span><span class="p">=</span><span class="s">&quot;0123456789&quot;</span>
+<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">parameter</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">lower</span><span class="p">=</span><span class="s">&quot;abcdefghijklmnopqrstuvwxyz&quot;</span>
+<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">parameter</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">upper</span><span class="p">=</span><span class="s">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;</span>
+<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">parameter</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">allowed</span><span class="p">=</span><span class="nx">upper</span><span class="c1">//lower//int//&quot;_&quot;</span>
+
+<span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w">        </span><span class="o">::</span><span class="w"> </span><span class="nx">line</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">)</span><span class="w">                   </span><span class="o">::</span><span class="w"> </span><span class="nx">name</span>
+<span class="nx">logical</span><span class="w">                    </span><span class="o">::</span><span class="w"> </span><span class="nx">lout</span>
+<span class="w">   </span><span class="nx">name</span><span class="p">=</span><span class="nx">trim</span><span class="p">(</span><span class="nx">line</span><span class="p">)</span>
+<span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="nx">len</span><span class="p">(</span><span class="nx">name</span><span class="p">).</span><span class="nx">ne</span><span class="m m-Double">.0</span><span class="p">)</span><span class="k">then</span>
+<span class="w">      </span><span class="p">!</span><span class="w"> </span><span class="nx">first</span><span class="w"> </span><span class="nx">character</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="nx">alphameric</span>
+<span class="w">      </span><span class="nx">lout</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">verify</span><span class="p">(</span><span class="nx">name</span><span class="o">%</span><span class="nx">sub</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="nx">lower</span><span class="c1">//upper) == 0  &amp;</span>
+<span class="w">       </span><span class="p">!</span><span class="w"> </span><span class="nx">other</span><span class="w"> </span><span class="nx">characters</span><span class="w"> </span><span class="nx">are</span><span class="w"> </span><span class="nx">allowed</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">symbol</span><span class="w"> </span><span class="nx">name</span>
+<span class="w">       </span><span class="o">&amp;</span><span class="w"> </span><span class="p">.</span><span class="k">and</span><span class="p">.</span><span class="w"> </span><span class="nx">verify</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span><span class="nx">allowed</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w">           </span><span class="o">&amp;</span>
+<span class="w">       </span><span class="p">!</span><span class="w"> </span><span class="nx">allowable</span><span class="w"> </span><span class="nx">length</span>
+<span class="w">       </span><span class="o">&amp;</span><span class="w"> </span><span class="p">.</span><span class="k">and</span><span class="p">.</span><span class="w"> </span><span class="nx">len</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">63</span>
+<span class="w">   </span><span class="k">else</span>
+<span class="w">      </span><span class="nx">lout</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">.</span><span class="kc">false</span><span class="p">.</span>
+<span class="w">   </span><span class="nx">endif</span>
+<span class="nx">end</span><span class="w"> </span><span class="nx">function</span><span class="w"> </span><span class="nx">fortran_name</span>
+
+<span class="nx">end</span><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">fortran_symbol_name</span>
+</code></pre></div>
+
+<p>Results:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">&gt; </span><span class="ge"> A_       | T</span>
+<span class="k">&gt; </span><span class="ge"> 10       | F</span>
+<span class="k">&gt; </span><span class="ge"> a10      | T</span>
+<span class="k">&gt; </span><span class="ge"> September| T</span>
+<span class="k">&gt; </span><span class="ge"> A B      | F</span>
+<span class="k">&gt; </span><span class="ge"> _A       | F</span>
+<span class="k">&gt; </span><span class="ge">          | F</span>
+</code></pre></div>
+
+<p>Sample program IV:</p>
+<p>check if string is of form NN‐HHHHH</p>
+<div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">form</span>
+<span class="p">!</span>
+<span class="p">!</span><span class="w"> </span><span class="nx">check</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">form</span><span class="w"> </span><span class="nx">NN</span><span class="err">‐</span><span class="nx">HHHHH</span>
+<span class="p">!</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">stdout</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nx">output_unit</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">verify</span><span class="p">,</span><span class="w"> </span><span class="nx">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="nx">assignment</span><span class="p">(=)</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">ut</span><span class="o">=&gt;</span><span class="nx">unicode_type</span>
+<span class="nx">implicit</span><span class="w"> </span><span class="nx">none</span>
+<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">parameter</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">g</span><span class="p">=</span><span class="err">&#39;</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nx">g0</span><span class="p">,</span><span class="mi">1</span><span class="nx">x</span><span class="p">))</span><span class="err">&#39;</span>
+<span class="p">!</span>
+<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">parameter</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">int</span><span class="p">=</span><span class="err">&#39;</span><span class="mi">1234567890</span><span class="err">&#39;</span>
+<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">parameter</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">hex</span><span class="p">=</span><span class="err">&#39;</span><span class="nx">abcdefABCDEF0123456789</span><span class="err">&#39;</span>
+<span class="nx">logical</span><span class="w">                    </span><span class="o">::</span><span class="w"> </span><span class="nx">lout</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span><span class="w">         </span><span class="o">::</span><span class="w"> </span><span class="nx">chars</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span><span class="w">         </span><span class="o">::</span><span class="w"> </span><span class="nx">str</span>
+<span class="w">   </span><span class="p">!</span>
+<span class="w">   </span><span class="nx">chars</span><span class="p">=</span><span class="err">&#39;</span><span class="mi">32</span><span class="err">‐</span><span class="nx">af43d</span><span class="err">&#39;</span>
+<span class="w">   </span><span class="nx">lout</span><span class="p">=.</span><span class="kc">true</span><span class="p">.</span>
+<span class="w">   </span><span class="p">!</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">are</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">first</span><span class="w"> </span><span class="nx">two</span><span class="w"> </span><span class="nx">characters</span><span class="w"> </span><span class="nx">integer</span><span class="w"> </span><span class="nx">characters</span><span class="p">?</span>
+<span class="w">   </span><span class="nx">str</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">chars</span><span class="o">%</span><span class="nx">character</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">   </span><span class="nx">lout</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">(</span><span class="nx">verify</span><span class="p">(</span><span class="w"> </span><span class="nx">str</span><span class="p">,</span><span class="w"> </span><span class="nx">ut</span><span class="p">(</span><span class="nx">int</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="k">and</span><span class="p">.</span><span class="nx">lout</span>
+<span class="w">   </span><span class="p">!</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">third</span><span class="w"> </span><span class="nx">character</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">dash</span><span class="p">?</span>
+<span class="w">   </span><span class="nx">str</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">chars</span><span class="o">%</span><span class="nx">character</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="w">   </span><span class="nx">lout</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">(</span><span class="nx">verify</span><span class="p">(</span><span class="w"> </span><span class="nx">str</span><span class="p">,</span><span class="w"> </span><span class="nx">ut</span><span class="p">(</span><span class="err">&#39;‐</span><span class="o">-</span><span class="err">&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="k">and</span><span class="p">.</span><span class="nx">lout</span>
+<span class="w">   </span><span class="p">!</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="nx">remaining</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">valid</span><span class="w"> </span><span class="nx">representation</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">hex</span><span class="w"> </span><span class="nx">value</span><span class="p">?</span>
+<span class="w">   </span><span class="nx">str</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">chars</span><span class="o">%</span><span class="nx">character</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">8</span><span class="p">)</span>
+<span class="w">   </span><span class="nx">lout</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">(</span><span class="nx">verify</span><span class="p">(</span><span class="w"> </span><span class="nx">str</span><span class="p">,</span><span class="w"> </span><span class="nx">ut</span><span class="p">(</span><span class="nx">hex</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="k">and</span><span class="p">.</span><span class="nx">lout</span>
+<span class="w">   </span><span class="p">!</span>
+<span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="nx">lout</span><span class="p">)</span><span class="k">then</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="nx">stdout</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span><span class="nx">trim</span><span class="p">(</span><span class="nx">chars</span><span class="o">%</span><span class="nx">character</span><span class="p">()),</span><span class="err">&#39;</span><span class="w"> </span><span class="nx">passed</span><span class="err">&#39;</span>
+<span class="w">   </span><span class="k">else</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="nx">stdout</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span><span class="nx">trim</span><span class="p">(</span><span class="nx">chars</span><span class="o">%</span><span class="nx">character</span><span class="p">()),</span><span class="err">&#39;</span><span class="w"> </span><span class="nx">failed</span><span class="err">&#39;</span>
+<span class="w">   </span><span class="nx">endif</span>
+<span class="nx">end</span><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">form</span>
+</code></pre></div>
+
+<p>Results:</p>
+<div class="codehilite"><pre><span></span><code>       32‐af43d passed
+</code></pre></div>
+
+<p>Sample program V:</p>
+<p>exploring uses of elemental functionality and dusty corners</p>
+<div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">more_verify</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">ut</span><span class="o">=&gt;</span><span class="nx">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="nx">verify</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">assignment</span><span class="p">(=)</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">ch</span><span class="o">=&gt;</span><span class="nx">character</span>
+<span class="nx">implicit</span><span class="w"> </span><span class="nx">none</span>
+<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">parameter</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">  </span><span class="o">&amp;</span><span class="w"> </span><span class="nx">low</span><span class="p">=</span><span class="s">&quot;abcdefghijklmnopqrstuvwxyz&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">  </span><span class="o">&amp;</span><span class="w"> </span><span class="nx">upp</span><span class="p">=</span><span class="s">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">  </span><span class="o">&amp;</span><span class="w"> </span><span class="nx">blank</span><span class="p">=</span><span class="s">&quot; &quot;</span>
+<span class="p">!</span><span class="w"> </span><span class="nx">note</span><span class="w"> </span><span class="nx">character</span><span class="w"> </span><span class="nx">variables</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nx">an</span><span class="w"> </span><span class="nx">array</span><span class="w"> </span><span class="nx">have</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">be</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">same</span><span class="w"> </span><span class="nx">length</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">),</span><span class="nx">allocatable</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">strings</span><span class="p">(:)</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">),</span><span class="nx">allocatable</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">sets</span><span class="p">(:)</span>
+
+<span class="w">   </span><span class="nx">strings</span><span class="p">=[</span><span class="nx">ut</span><span class="p">(</span><span class="s">&quot;Go&quot;</span><span class="p">),</span><span class="nx">ut</span><span class="p">(</span><span class="s">&quot;right&quot;</span><span class="p">),</span><span class="nx">ut</span><span class="p">(</span><span class="s">&quot;home!&quot;</span><span class="p">)]</span>
+<span class="w">   </span><span class="nx">sets</span><span class="p">=[</span><span class="nx">ut</span><span class="p">(</span><span class="s">&quot;do&quot;</span><span class="p">),</span><span class="nx">ut</span><span class="p">(</span><span class="s">&quot;re&quot;</span><span class="p">),</span><span class="nx">ut</span><span class="p">(</span><span class="s">&quot;me&quot;</span><span class="p">)]</span>
+
+<span class="w">  </span><span class="p">!</span><span class="w"> </span><span class="nx">elemental</span><span class="w"> </span><span class="err">‐‐</span><span class="w"> </span><span class="nx">you</span><span class="w"> </span><span class="nx">can</span><span class="w"> </span><span class="nx">use</span><span class="w"> </span><span class="nx">arrays</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nx">both</span><span class="w"> </span><span class="nx">strings</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nx">sets</span>
+
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">check</span><span class="w"> </span><span class="nx">each</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="nx">from</span><span class="w"> </span><span class="nx">right</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">left</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nx">non</span><span class="err">‐</span><span class="nx">letter</span><span class="o">/</span><span class="nx">non</span><span class="err">‐</span><span class="nx">blank</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s">&quot;last non‐letter&quot;</span><span class="p">,</span><span class="nx">verify</span><span class="p">(</span><span class="nx">strings</span><span class="p">,</span><span class="nx">upp</span><span class="c1">//low//blank,back=.true.)</span>
+
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">even</span><span class="w"> </span><span class="nx">BACK</span><span class="w"> </span><span class="nx">can</span><span class="w"> </span><span class="nx">be</span><span class="w"> </span><span class="nx">an</span><span class="w"> </span><span class="nx">array</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">find</span><span class="w"> </span><span class="nx">last</span><span class="w"> </span><span class="nx">non</span><span class="err">‐</span><span class="nx">uppercase</span><span class="w"> </span><span class="nx">character</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s">&quot;Go&quot;</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="nx">first</span><span class="w"> </span><span class="nx">non</span><span class="err">‐</span><span class="nx">lowercase</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s">&quot;right&quot;</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="nx">verify</span><span class="p">(</span><span class="nx">strings</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">),[</span><span class="nx">upp</span><span class="p">,</span><span class="nx">low</span><span class="p">],</span><span class="nx">back</span><span class="p">=[.</span><span class="kc">true</span><span class="p">.,.</span><span class="kc">false</span><span class="p">.])</span>
+
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">using</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">null</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">set</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="nx">well</span><span class="w"> </span><span class="nx">defined</span><span class="p">.</span><span class="w"> </span><span class="nx">Avoid</span><span class="w"> </span><span class="nx">it</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s">&quot;null&quot;</span><span class="p">,</span><span class="nx">verify</span><span class="p">(</span><span class="s">&quot;for tran &quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="kc">true</span><span class="p">.)</span><span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="nx">length</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="kt">string</span><span class="p">?</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">probably</span><span class="w"> </span><span class="nx">what</span><span class="w"> </span><span class="nx">you</span><span class="w"> </span><span class="nx">expected</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s">&quot;blank&quot;</span><span class="p">,</span><span class="nx">verify</span><span class="p">(</span><span class="s">&quot;for tran &quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="kc">true</span><span class="p">.)</span><span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="nx">found</span><span class="w"> </span><span class="err">’</span><span class="nx">n</span><span class="err">’</span>
+
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">first</span><span class="w"> </span><span class="nx">character</span><span class="w"> </span><span class="k">in</span><span class="w">  </span><span class="s">&quot;Go    &quot;</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s">&quot;do&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="nx">first</span><span class="w"> </span><span class="nx">letter</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s">&quot;right &quot;</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s">&quot;ri&quot;</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="nx">first</span><span class="w"> </span><span class="nx">letter</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s">&quot;home! &quot;</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s">&quot;me&quot;</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="nx">verify</span><span class="p">(</span><span class="nx">strings</span><span class="p">,</span><span class="nx">sets</span><span class="p">)</span>
+
+<span class="nx">end</span><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">more_verify</span>
+</code></pre></div>
+
+<p>Results:</p>
+<div class="codehilite"><pre><span></span><code>&gt;  last non‐letter 0 0 5
+&gt;  2 0
+&gt;  null 9
+&gt;  blank 8
+&gt;  1 2 1
+</code></pre></div>
+
+<h2 id="see-also">SEE ALSO</h2>
+<p>Functions that perform operations on character strings, return
+   lengths of arguments, and search for certain arguments:</p>
+<ul>
+<li>
+<p>ELEMENTAL: ADJUSTL(3), ADJUSTR(3), INDEX(3), SCAN(3),</p>
+</li>
+<li>
+<p>NONELEMENTAL: LEN_TRIM(3), LEN(3), REPEAT(3), TRIM(3)</p>
+</li>
+</ul>
+<h2 id="author">AUTHOR</h2>
+<div class="codehilite"><pre><span></span><code> John S. Urban
+</code></pre></div>
+
+<h2 id="license">LICENSE</h2>
+<div class="codehilite"><pre><span></span><code> MIT
+</code></pre></div>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-string~42"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>string</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-set~11"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>set</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-back~16"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>back</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-verify_ua"></span> <h3>private impure elemental function verify_ua(string, set, back) result(result)  
 </h3></div>
     <div class="card-body">
         
@@ -188,7 +680,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~31"></span>
+              <span class="anchor" id="variable-string~43"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -203,7 +695,81 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~5"></span>
+              <span class="anchor" id="variable-set~12"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>set</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-back~17"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>back</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-verify_au"></span> <h3>private impure elemental function verify_au(string, set, back) result(result)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-string~44"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>string</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-set~13"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -218,7 +784,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-back~7"></span>
+              <span class="anchor" id="variable-back~18"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -260,7 +826,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-10-05 16:21 +0000             </p>
+ on 2025-11-21 18:13 +0000             </p>
           </div>
         </div>
         <br>

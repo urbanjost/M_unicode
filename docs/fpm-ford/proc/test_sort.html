@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 2.9% of total for procedures.">27 statements</a>
+                 title=" 2.1% of total for procedures.">27 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -133,7 +133,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../proc/test_sort.html#variable-array~5">array</a>
+            <a class="list-group-item" href="../proc/test_sort.html#variable-array">array</a>
         </div>
       </div>
     </div>
@@ -206,7 +206,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~5"></span>
+              <span class="anchor" id="variable-array"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
               <td>public,</td>
@@ -253,8 +253,8 @@
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="k">subroutine </span><span class="n">test_sort</span><span class="p">()</span><span class="w"></span>
-<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">array</span><span class="p">(:)</span><span class="w"></span>
+    <div class="hl codehilite"><pre><span></span><span class="k">subroutine </span><span class="n">test_sort</span><span class="p">()</span>
+<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">array</span><span class="p">(:)</span>
 
 <span class="c">! create using ASCII array</span>
 <span class="c">! --------------------------------</span>
@@ -263,36 +263,36 @@
 <span class="c">! Fortran runtime error: Array bound mismatch for dimension 1 of array &#39;array&#39; (25769804402/12)</span>
 <span class="c">! --------------------------------</span>
 <span class="k">allocate</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="mi">12</span><span class="p">))</span><span class="w">  </span><span class="c">! gfortran requires this</span>
-<span class="k">array</span><span class="p">(:)</span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s1">&#39;red    &#39;</span><span class="p">,</span><span class="s1">&#39;green  &#39;</span><span class="p">,</span><span class="s1">&#39;blue   &#39;</span><span class="p">,</span><span class="s1">&#39;yellow &#39;</span><span class="p">,</span><span class="s1">&#39;orange &#39;</span><span class="p">,</span><span class="s1">&#39;black  &#39;</span><span class="p">,</span><span class="s1">&#39;white  &#39;</span><span class="p">,</span><span class="s1">&#39;brown  &#39;</span><span class="p">,</span><span class="s1">&#39;gray   &#39;</span><span class="p">,</span><span class="s1">&#39;cyan   &#39;</span><span class="p">,</span><span class="s1">&#39;magenta&#39;</span><span class="p">,</span><span class="s1">&#39;purple &#39;</span><span class="p">]</span><span class="w"></span>
-<span class="k">call </span><span class="n">chk</span><span class="p">()</span><span class="w"></span>
+<span class="k">array</span><span class="p">(:)</span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s1">&#39;red    &#39;</span><span class="p">,</span><span class="s1">&#39;green  &#39;</span><span class="p">,</span><span class="s1">&#39;blue   &#39;</span><span class="p">,</span><span class="s1">&#39;yellow &#39;</span><span class="p">,</span><span class="s1">&#39;orange &#39;</span><span class="p">,</span><span class="s1">&#39;black  &#39;</span><span class="p">,</span><span class="s1">&#39;white  &#39;</span><span class="p">,</span><span class="s1">&#39;brown  &#39;</span><span class="p">,</span><span class="s1">&#39;gray   &#39;</span><span class="p">,</span><span class="s1">&#39;cyan   &#39;</span><span class="p">,</span><span class="s1">&#39;magenta&#39;</span><span class="p">,</span><span class="s1">&#39;purple &#39;</span><span class="p">]</span>
+<span class="k">call </span><span class="n">chk</span><span class="p">()</span>
 
 <span class="c">! create using UNICODE_TYPE array</span>
-<span class="k">array</span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;RED&#39;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;GREEN&#39;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;BLUE&#39;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;YELLOW&#39;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;ORANGE&#39;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;BLACK&#39;</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="p">&amp;</span><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;WHITE&#39;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;BROWN&#39;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;GRAY&#39;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;CYAN&#39;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;MAGENTA&#39;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;PURPLE&#39;</span><span class="p">)]</span><span class="w"></span>
-<span class="k">call </span><span class="n">chk</span><span class="p">()</span><span class="w"></span>
+<span class="k">array</span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;RED&#39;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;GREEN&#39;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;BLUE&#39;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;YELLOW&#39;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;ORANGE&#39;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;BLACK&#39;</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="p">&amp;</span><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;WHITE&#39;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;BROWN&#39;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;GRAY&#39;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;CYAN&#39;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;MAGENTA&#39;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;PURPLE&#39;</span><span class="p">)]</span>
+<span class="k">call </span><span class="n">chk</span><span class="p">()</span>
 
 <span class="k">contains</span>
-<span class="k">subroutine </span><span class="n">chk</span><span class="p">()</span><span class="w"></span>
-<span class="kt">integer</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="n">temp</span><span class="w"></span>
-<span class="kt">integer</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="n">csz</span><span class="w"></span>
-<span class="kt">integer</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
-<span class="kt">integer</span><span class="p">,</span><span class="k">allocatable</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">ints</span><span class="p">(:)</span><span class="w"></span>
-<span class="w">   </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">allocated</span><span class="p">(</span><span class="n">ints</span><span class="p">))</span><span class="k">deallocate</span><span class="p">(</span><span class="n">ints</span><span class="p">)</span><span class="w"></span>
-<span class="w">   </span><span class="k">allocate</span><span class="p">(</span><span class="n">ints</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="k">array</span><span class="p">)))</span><span class="w"></span>
-<span class="w">   </span><span class="k">call </span><span class="n">sort</span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="n">ints</span><span class="p">)</span><span class="w"></span>
-<span class="w">   </span><span class="n">csz</span><span class="o">=</span><span class="n">size</span><span class="p">(</span><span class="k">array</span><span class="p">)</span><span class="w"></span>
-<span class="w">   </span><span class="k">array</span><span class="o">=</span><span class="k">array</span><span class="p">(</span><span class="n">ints</span><span class="p">)</span><span class="w"></span>
+<span class="k">subroutine </span><span class="n">chk</span><span class="p">()</span>
+<span class="kt">integer</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="n">temp</span>
+<span class="kt">integer</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="n">csz</span>
+<span class="kt">integer</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
+<span class="kt">integer</span><span class="p">,</span><span class="k">allocatable</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">ints</span><span class="p">(:)</span>
+<span class="w">   </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">allocated</span><span class="p">(</span><span class="n">ints</span><span class="p">))</span><span class="k">deallocate</span><span class="p">(</span><span class="n">ints</span><span class="p">)</span>
+<span class="w">   </span><span class="k">allocate</span><span class="p">(</span><span class="n">ints</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="k">array</span><span class="p">)))</span>
+<span class="w">   </span><span class="k">call </span><span class="n">sort</span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="n">ints</span><span class="p">)</span>
+<span class="w">   </span><span class="n">csz</span><span class="o">=</span><span class="n">size</span><span class="p">(</span><span class="k">array</span><span class="p">)</span>
+<span class="w">   </span><span class="k">array</span><span class="o">=</span><span class="k">array</span><span class="p">(</span><span class="n">ints</span><span class="p">)</span>
 
-<span class="w">   </span><span class="n">temp</span><span class="o">=</span><span class="n">total</span><span class="w"></span>
+<span class="w">   </span><span class="n">temp</span><span class="o">=</span><span class="n">total</span>
 <span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;sort&#39;</span><span class="p">,</span><span class="k">all</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">csz</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">le</span><span class="p">.</span><span class="w"> </span><span class="k">array</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="n">csz</span><span class="p">)),</span><span class="s1">&#39;sort array&#39;</span><span class="p">)</span><span class="w"> </span><span class="c">! verify in ascending order</span>
 <span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="n">total</span><span class="p">.</span><span class="n">ne</span><span class="p">.</span><span class="n">temp</span><span class="p">)</span><span class="k">then</span>
-<span class="k">      do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="k">array</span><span class="p">)</span><span class="w"></span>
-<span class="w">         </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g0</span><span class="p">)</span><span class="k">array</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="kt">character</span><span class="p">()</span><span class="w"></span>
+<span class="k">      do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="k">array</span><span class="p">)</span>
+<span class="w">         </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g0</span><span class="p">)</span><span class="k">array</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="kt">character</span><span class="p">()</span>
 <span class="w">      </span><span class="k">enddo</span>
 <span class="k">   endif</span>
-<span class="k">end subroutine </span><span class="n">chk</span><span class="w"></span>
+<span class="k">end subroutine </span><span class="n">chk</span>
 
-<span class="k">end subroutine </span><span class="n">test_sort</span><span class="w"></span>
+<span class="k">end subroutine </span><span class="n">test_sort</span>
 </pre></div>
 
     </section>
@@ -316,7 +316,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-10-05 16:21 +0000             </p>
+ on 2025-11-21 18:13 +0000             </p>
           </div>
         </div>
         <br>

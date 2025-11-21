@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.6% of total for source files.">19 statements</a>
+                 title=" 0.4% of total for source files.">19 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -170,13 +170,13 @@
 
       <section>
         <h2><span class="anchor" id="src"></span>Source Code</h2>
-        <div class="hl codehilite"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="k">program </span><span class="n">multi_line</span><span class="w"></span>
-<a id="ln-2" name="ln-2" href="#ln-2"></a><span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">output_unit</span><span class="w"></span>
-<a id="ln-3" name="ln-3" href="#ln-3"></a><span class="k">use </span><span class="n">M_unicode</span><span class="w"></span>
-<a id="ln-4" name="ln-4" href="#ln-4"></a><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ut</span><span class="o">=&gt;</span><span class="n">unicode_type</span><span class="w"></span>
+        <div class="hl codehilite"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="k">program </span><span class="n">multi_line</span>
+<a id="ln-2" name="ln-2" href="#ln-2"></a><span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">output_unit</span>
+<a id="ln-3" name="ln-3" href="#ln-3"></a><span class="k">use </span><span class="n">M_unicode</span>
+<a id="ln-4" name="ln-4" href="#ln-4"></a><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ut</span><span class="o">=&gt;</span><span class="n">unicode_type</span>
 <a id="ln-5" name="ln-5" href="#ln-5"></a><span class="k">implicit none</span>
-<a id="ln-6" name="ln-6" href="#ln-6"></a><span class="kt">integer</span><span class="w">              </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">longest</span><span class="w"></span>
-<a id="ln-7" name="ln-7" href="#ln-7"></a><span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">upagain</span><span class="p">(:)</span><span class="w"></span>
+<a id="ln-6" name="ln-6" href="#ln-6"></a><span class="kt">integer</span><span class="w">              </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">longest</span>
+<a id="ln-7" name="ln-7" href="#ln-7"></a><span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">upagain</span><span class="p">(:)</span>
 <a id="ln-8" name="ln-8" href="#ln-8"></a>
 <a id="ln-9" name="ln-9" href="#ln-9"></a><span class="n">upagain</span><span class="o">=</span><span class="p">[</span><span class="w"> </span><span class="p">&amp;</span><span class="w">                                </span><span class="c">! ROMANIZATION                         ! ENGLISH</span>
 <a id="ln-10" name="ln-10" href="#ln-10"></a><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">&quot;七転び八起き。&quot;</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w">                   </span><span class="c">! Nanakorobi yaoki.                    ! Fall seven times, stand up eight.</span>
@@ -184,18 +184,18 @@
 <a id="ln-12" name="ln-12" href="#ln-12"></a><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">&quot;くじけずに前を向いて歩いていこう。&quot;</span><span class="p">)]</span><span class="w"> </span><span class="c">! Kujikezu ni mae o muite aruite ikou. ! Don&#39;t be discouraged, just keep walking forward.</span>
 <a id="ln-13" name="ln-13" href="#ln-13"></a><span class="c">!</span>
 <a id="ln-14" name="ln-14" href="#ln-14"></a><span class="w">   </span><span class="n">longest</span><span class="o">=</span><span class="mi">0</span><span class="w"> </span><span class="c">! get longest trimmed line</span>
-<a id="ln-15" name="ln-15" href="#ln-15"></a><span class="w">   </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">upagain</span><span class="p">)</span><span class="w"></span>
-<a id="ln-16" name="ln-16" href="#ln-16"></a><span class="w">      </span><span class="n">longest</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="n">longest</span><span class="p">,</span><span class="nb">len_trim</span><span class="p">(</span><span class="n">upagain</span><span class="p">(</span><span class="n">i</span><span class="p">)))</span><span class="w"></span>
-<a id="ln-17" name="ln-17" href="#ln-17"></a><span class="w">      </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">&#39;LEN=&#39;</span><span class="p">,</span><span class="nb">len_trim</span><span class="p">(</span><span class="n">upagain</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="w"></span>
+<a id="ln-15" name="ln-15" href="#ln-15"></a><span class="w">   </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">upagain</span><span class="p">)</span>
+<a id="ln-16" name="ln-16" href="#ln-16"></a><span class="w">      </span><span class="n">longest</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="n">longest</span><span class="p">,</span><span class="nb">len_trim</span><span class="p">(</span><span class="n">upagain</span><span class="p">(</span><span class="n">i</span><span class="p">)))</span>
+<a id="ln-17" name="ln-17" href="#ln-17"></a><span class="w">      </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">&#39;LEN=&#39;</span><span class="p">,</span><span class="nb">len_trim</span><span class="p">(</span><span class="n">upagain</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
 <a id="ln-18" name="ln-18" href="#ln-18"></a><span class="w">   </span><span class="k">enddo</span>
-<a id="ln-19" name="ln-19" href="#ln-19"></a><span class="k">   write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">&#39;longest=&#39;</span><span class="p">,</span><span class="n">longest</span><span class="w"></span>
+<a id="ln-19" name="ln-19" href="#ln-19"></a><span class="k">   write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">&#39;longest=&#39;</span><span class="p">,</span><span class="n">longest</span>
 <a id="ln-20" name="ln-20" href="#ln-20"></a>
-<a id="ln-21" name="ln-21" href="#ln-21"></a><span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"></span>
-<a id="ln-22" name="ln-22" href="#ln-22"></a><span class="w">   </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">upagain</span><span class="p">)</span><span class="w"></span>
-<a id="ln-23" name="ln-23" href="#ln-23"></a><span class="w">      </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="kt">character</span><span class="p">(</span><span class="n">upagain</span><span class="p">(</span><span class="n">i</span><span class="p">)),</span><span class="nb">len_trim</span><span class="p">(</span><span class="n">upagain</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="w"></span>
+<a id="ln-21" name="ln-21" href="#ln-21"></a><span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
+<a id="ln-22" name="ln-22" href="#ln-22"></a><span class="w">   </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">upagain</span><span class="p">)</span>
+<a id="ln-23" name="ln-23" href="#ln-23"></a><span class="w">      </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="kt">character</span><span class="p">(</span><span class="n">upagain</span><span class="p">(</span><span class="n">i</span><span class="p">)),</span><span class="nb">len_trim</span><span class="p">(</span><span class="n">upagain</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
 <a id="ln-24" name="ln-24" href="#ln-24"></a><span class="w">   </span><span class="k">enddo</span>
 <a id="ln-25" name="ln-25" href="#ln-25"></a>
-<a id="ln-26" name="ln-26" href="#ln-26"></a><span class="k">end program </span><span class="n">multi_line</span><span class="w"></span>
+<a id="ln-26" name="ln-26" href="#ln-26"></a><span class="k">end program </span><span class="n">multi_line</span>
 </pre></div>
 
       </section>
@@ -217,7 +217,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-10-05 16:21 +0000             </p>
+ on 2025-11-21 18:13 +0000             </p>
           </div>
         </div>
         <br>

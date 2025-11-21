@@ -90,7 +90,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 2.8% of total for programs.">20 statements</a>
+                 title=" 1.6% of total for programs.">23 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -131,9 +131,9 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../program/demo_scan.html#variable-g~9">g</a>
-            <a class="list-group-item" href="../program/demo_scan.html#variable-line~9">line</a>
-            <a class="list-group-item" href="../program/demo_scan.html#variable-set~11">set</a>
+            <a class="list-group-item" href="../program/demo_scan.html#variable-g~5">g</a>
+            <a class="list-group-item" href="../program/demo_scan.html#variable-line~10">line</a>
+            <a class="list-group-item" href="../program/demo_scan.html#variable-set~2">set</a>
         </div>
       </div>
     </div>
@@ -200,7 +200,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-g~9"></span>
+              <span class="anchor" id="variable-g~5"></span>
               character(len=*),
             </td>
             <td>
@@ -216,7 +216,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-line~9"></span>
+              <span class="anchor" id="variable-line~10"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>)
             </td>
             <td>
@@ -232,7 +232,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~11"></span>
+              <span class="anchor" id="variable-set~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>)
             </td>
             <td>
@@ -262,27 +262,31 @@ parameter
 
     <section>
     <h2 id="src">Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="k">program </span><span class="n">demo_scan</span><span class="w"></span>
-<span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">output_unit</span><span class="w"></span>
-<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nb">scan</span><span class="p">,</span><span class="w"> </span><span class="n">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">)</span><span class="w"></span>
-<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ut</span><span class="o">=&gt;</span><span class="n">unicode_type</span><span class="w"></span>
-<span class="k">implicit none</span>
-<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">g</span><span class="o">=</span><span class="s1">&#39;(*(g0,1x))&#39;</span><span class="w"></span>
-<span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">line</span><span class="w"></span>
-<span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">set</span><span class="w"></span>
-
-<span class="w">   </span><span class="n">line</span><span class="o">=</span><span class="s1">&#39;parsley😃sage😃rosemary😃😃thyme&#39;</span><span class="w"></span>
-<span class="w">   </span><span class="n">set</span><span class="o">=</span><span class="s1">&#39;😃&#39;</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;123456789012345678901234567890123456789012345678901234567890&#39;</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="n">line</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="nb">scan</span><span class="p">(</span><span class="n">line</span><span class="p">,</span><span class="w"> </span><span class="n">set</span><span class="p">)</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="nb">scan</span><span class="p">(</span><span class="n">line</span><span class="p">,</span><span class="w"> </span><span class="n">set</span><span class="p">,</span><span class="w"> </span><span class="n">back</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.)</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="nb">scan</span><span class="p">(</span><span class="n">line</span><span class="p">,</span><span class="w"> </span><span class="n">set</span><span class="p">,</span><span class="w"> </span><span class="n">back</span><span class="o">=</span><span class="p">.</span><span class="n">false</span><span class="p">.)</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="nb">scan</span><span class="p">(</span><span class="n">line</span><span class="p">,</span><span class="w"> </span><span class="n">unicode_type</span><span class="p">(</span><span class="s2">&quot;NOT&quot;</span><span class="p">))</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;OOP&#39;</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="n">line</span><span class="p">%</span><span class="nb">scan</span><span class="p">(</span><span class="n">set</span><span class="p">)</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="n">line</span><span class="p">%</span><span class="nb">scan</span><span class="p">(</span><span class="n">ut</span><span class="p">(</span><span class="s2">&quot;o&quot;</span><span class="p">))</span><span class="w"></span>
-<span class="k">end program </span><span class="n">demo_scan</span><span class="w"></span>
+    <div class="hl codehilite"><pre><span></span><span class="w">     </span><span class="k">program </span><span class="n">demo_scan</span>
+<span class="w">     </span><span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">output_unit</span>
+<span class="w">     </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nb">scan</span><span class="p">,</span><span class="w"> </span><span class="n">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">)</span>
+<span class="w">     </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ut</span><span class="o">=&gt;</span><span class="n">unicode_type</span>
+<span class="w">     </span><span class="k">implicit none</span>
+<span class="k">     </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">g</span><span class="o">=</span><span class="s1">&#39;(*(g0,1x))&#39;</span>
+<span class="w">     </span><span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">line</span>
+<span class="w">     </span><span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">set</span>
+<span class="w">        </span><span class="c">!</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="nb">scan</span><span class="p">(</span><span class="s2">&quot;fortran&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;ao&quot;</span><span class="p">)</span><span class="w">          </span><span class="c">! 2, found ’o’</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="nb">scan</span><span class="p">(</span><span class="s2">&quot;fortran&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;ao&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.)</span><span class="w">  </span><span class="c">! 6, found ’a’</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="nb">scan</span><span class="p">(</span><span class="s2">&quot;fortran&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;c++&quot;</span><span class="p">)</span><span class="w">         </span><span class="c">! 0, found none</span>
+<span class="w">        </span><span class="c">!</span>
+<span class="w">        </span><span class="n">line</span><span class="o">=</span><span class="s1">&#39;parsley😃sage😃rosemary😃😃thyme&#39;</span>
+<span class="w">        </span><span class="n">set</span><span class="o">=</span><span class="s1">&#39;😃&#39;</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;12345678901234567890123456789012345678901234567890&#39;</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="n">line</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="nb">scan</span><span class="p">(</span><span class="n">line</span><span class="p">,</span><span class="w"> </span><span class="n">set</span><span class="p">)</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="nb">scan</span><span class="p">(</span><span class="n">line</span><span class="p">,</span><span class="w"> </span><span class="n">set</span><span class="p">,</span><span class="w"> </span><span class="n">back</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.)</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="nb">scan</span><span class="p">(</span><span class="n">line</span><span class="p">,</span><span class="w"> </span><span class="n">set</span><span class="p">,</span><span class="w"> </span><span class="n">back</span><span class="o">=</span><span class="p">.</span><span class="n">false</span><span class="p">.)</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="nb">scan</span><span class="p">(</span><span class="n">line</span><span class="p">,</span><span class="w"> </span><span class="n">unicode_type</span><span class="p">(</span><span class="s2">&quot;NOT&quot;</span><span class="p">))</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;OOP&#39;</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="n">line</span><span class="p">%</span><span class="nb">scan</span><span class="p">(</span><span class="n">set</span><span class="p">)</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="n">line</span><span class="p">%</span><span class="nb">scan</span><span class="p">(</span><span class="n">ut</span><span class="p">(</span><span class="s2">&quot;o&quot;</span><span class="p">))</span>
+<span class="w">     </span><span class="k">end program </span><span class="n">demo_scan</span>
 </pre></div>
 
     </section>
@@ -305,7 +309,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-10-05 16:21 +0000             </p>
+ on 2025-11-21 18:13 +0000             </p>
           </div>
         </div>
         <br>

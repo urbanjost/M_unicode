@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 2.1% of total for procedures.">19 statements</a>
+                 title=" 1.5% of total for procedures.">19 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -134,8 +134,8 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../proc/test_index.html#variable-astr">astr</a>
-            <a class="list-group-item" href="../proc/test_index.html#variable-string~34">string</a>
-            <a class="list-group-item" href="../proc/test_index.html#variable-substring~5">substring</a>
+            <a class="list-group-item" href="../proc/test_index.html#variable-string">string</a>
+            <a class="list-group-item" href="../proc/test_index.html#variable-substring">substring</a>
         </div>
       </div>
     </div>
@@ -214,7 +214,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~34"></span>
+              <span class="anchor" id="variable-string"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
               <td>public</td>
@@ -231,7 +231,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-substring~5"></span>
+              <span class="anchor" id="variable-substring"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
               <td>public</td>
@@ -262,27 +262,27 @@
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="k">subroutine </span><span class="n">test_index</span><span class="p">()</span><span class="w"></span>
-<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="n">substring</span><span class="w"></span>
-<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">astr</span><span class="w"></span>
-<span class="w">   </span><span class="n">string</span><span class="o">=</span><span class="s2">&quot; can you find me here? &quot;</span><span class="w"></span>
-<span class="w">   </span><span class="n">substring</span><span class="o">=</span><span class="s2">&quot;find me&quot;</span><span class="w"></span>
-<span class="w">   </span><span class="n">astr</span><span class="o">=</span><span class="kt">character</span><span class="p">(</span><span class="n">substring</span><span class="p">)</span><span class="w"></span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;index &#39;</span><span class="o">//</span><span class="n">string</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">substring</span><span class="p">%</span><span class="kt">character</span><span class="p">(),</span><span class="nb">index</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="n">substring</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="mi">10</span><span class="p">)</span><span class="w"></span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;index &#39;</span><span class="o">//</span><span class="n">string</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">astr</span><span class="p">,</span><span class="nb">index</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="n">astr</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="mi">10</span><span class="p">)</span><span class="w"></span>
+    <div class="hl codehilite"><pre><span></span><span class="k">subroutine </span><span class="n">test_index</span><span class="p">()</span>
+<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="n">substring</span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">astr</span>
+<span class="w">   </span><span class="n">string</span><span class="o">=</span><span class="s2">&quot; can you find me here? &quot;</span>
+<span class="w">   </span><span class="n">substring</span><span class="o">=</span><span class="s2">&quot;find me&quot;</span>
+<span class="w">   </span><span class="n">astr</span><span class="o">=</span><span class="kt">character</span><span class="p">(</span><span class="n">substring</span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;index &#39;</span><span class="o">//</span><span class="n">string</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">substring</span><span class="p">%</span><span class="kt">character</span><span class="p">(),</span><span class="nb">index</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="n">substring</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="mi">10</span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;index &#39;</span><span class="o">//</span><span class="n">string</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">astr</span><span class="p">,</span><span class="nb">index</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="n">astr</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="mi">10</span><span class="p">)</span>
 
-<span class="w">   </span><span class="n">string</span><span class="o">=</span><span class="s2">&quot; can you find me here? &quot;</span><span class="w"></span>
-<span class="w">   </span><span class="n">substring</span><span class="o">=</span><span class="s2">&quot;not there&quot;</span><span class="w"></span>
-<span class="w">   </span><span class="n">astr</span><span class="o">=</span><span class="kt">character</span><span class="p">(</span><span class="n">substring</span><span class="p">)</span><span class="w"></span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;index &#39;</span><span class="o">//</span><span class="n">string</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">substring</span><span class="p">%</span><span class="kt">character</span><span class="p">(),</span><span class="nb">index</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="n">substring</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;index &#39;</span><span class="o">//</span><span class="n">string</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">astr</span><span class="p">,</span><span class="nb">index</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="n">astr</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="n">string</span><span class="o">=</span><span class="s2">&quot; can you find me here? &quot;</span>
+<span class="w">   </span><span class="n">substring</span><span class="o">=</span><span class="s2">&quot;not there&quot;</span>
+<span class="w">   </span><span class="n">astr</span><span class="o">=</span><span class="kt">character</span><span class="p">(</span><span class="n">substring</span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;index &#39;</span><span class="o">//</span><span class="n">string</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">substring</span><span class="p">%</span><span class="kt">character</span><span class="p">(),</span><span class="nb">index</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="n">substring</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;index &#39;</span><span class="o">//</span><span class="n">string</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">astr</span><span class="p">,</span><span class="nb">index</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="n">astr</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span>
 
-<span class="w">   </span><span class="n">string</span><span class="o">=</span><span class="s2">&quot;short&quot;</span><span class="w"></span>
-<span class="w">   </span><span class="n">substring</span><span class="o">=</span><span class="s2">&quot;shortnot&quot;</span><span class="w"></span>
-<span class="w">   </span><span class="n">astr</span><span class="o">=</span><span class="kt">character</span><span class="p">(</span><span class="n">substring</span><span class="p">)</span><span class="w"></span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;index &#39;</span><span class="o">//</span><span class="n">string</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">substring</span><span class="p">%</span><span class="kt">character</span><span class="p">(),</span><span class="nb">index</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="n">substring</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;index &#39;</span><span class="o">//</span><span class="n">string</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">astr</span><span class="p">,</span><span class="nb">index</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="n">astr</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
-<span class="k">end subroutine </span><span class="n">test_index</span><span class="w"></span>
+<span class="w">   </span><span class="n">string</span><span class="o">=</span><span class="s2">&quot;short&quot;</span>
+<span class="w">   </span><span class="n">substring</span><span class="o">=</span><span class="s2">&quot;shortnot&quot;</span>
+<span class="w">   </span><span class="n">astr</span><span class="o">=</span><span class="kt">character</span><span class="p">(</span><span class="n">substring</span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;index &#39;</span><span class="o">//</span><span class="n">string</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">substring</span><span class="p">%</span><span class="kt">character</span><span class="p">(),</span><span class="nb">index</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="n">substring</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;index &#39;</span><span class="o">//</span><span class="n">string</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">astr</span><span class="p">,</span><span class="nb">index</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="n">astr</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">end subroutine </span><span class="n">test_index</span>
 </pre></div>
 
     </section>
@@ -306,7 +306,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-10-05 16:21 +0000             </p>
+ on 2025-11-21 18:13 +0000             </p>
           </div>
         </div>
         <br>

@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.5% of total for source files.">15 statements</a>
+                 title=" 0.3% of total for source files.">15 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -170,13 +170,13 @@
 
       <section>
         <h2><span class="anchor" id="src"></span>Source Code</h2>
-        <div class="hl codehilite"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="k">program </span><span class="n">note</span><span class="w"></span>
-<a id="ln-2" name="ln-2" href="#ln-2"></a><span class="k">use</span><span class="p">,</span><span class="k">intrinsic</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">output_unit</span><span class="w"></span>
-<a id="ln-3" name="ln-3" href="#ln-3"></a><span class="k">use</span><span class="p">,</span><span class="k">intrinsic</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">int8</span><span class="p">,</span><span class="n">int16</span><span class="p">,</span><span class="n">int32</span><span class="p">,</span><span class="n">int64</span><span class="w"></span>
-<a id="ln-4" name="ln-4" href="#ln-4"></a><span class="k">use </span><span class="n">M_unicode</span><span class="w"></span>
+        <div class="hl codehilite"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="k">program </span><span class="n">note</span>
+<a id="ln-2" name="ln-2" href="#ln-2"></a><span class="k">use</span><span class="p">,</span><span class="k">intrinsic</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">output_unit</span>
+<a id="ln-3" name="ln-3" href="#ln-3"></a><span class="k">use</span><span class="p">,</span><span class="k">intrinsic</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">int8</span><span class="p">,</span><span class="n">int16</span><span class="p">,</span><span class="n">int32</span><span class="p">,</span><span class="n">int64</span>
+<a id="ln-4" name="ln-4" href="#ln-4"></a><span class="k">use </span><span class="n">M_unicode</span>
 <a id="ln-5" name="ln-5" href="#ln-5"></a><span class="k">implicit none</span>
-<a id="ln-6" name="ln-6" href="#ln-6"></a><span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">manicules</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;261A&#39;</span><span class="p">),</span><span class="w"> </span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;261B&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">]</span><span class="w"></span>
-<a id="ln-7" name="ln-7" href="#ln-7"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">uline</span><span class="w"></span>
+<a id="ln-6" name="ln-6" href="#ln-6"></a><span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">manicules</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;261A&#39;</span><span class="p">),</span><span class="w"> </span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;261B&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">]</span>
+<a id="ln-7" name="ln-7" href="#ln-7"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">uline</span>
 <a id="ln-8" name="ln-8" href="#ln-8"></a><span class="c">! </span>
 <a id="ln-9" name="ln-9" href="#ln-9"></a><span class="c">! manicule</span>
 <a id="ln-10" name="ln-10" href="#ln-10"></a><span class="c">! </span>
@@ -242,17 +242,17 @@
 <a id="ln-70" name="ln-70" href="#ln-70"></a><span class="c">! the word &#39;black&#39; to mean &#39;solid&#39; and &#39;white&#39; to mean &#39;outlined&#39;. The</span>
 <a id="ln-71" name="ln-71" href="#ln-71"></a><span class="c">! actual colour is a user choice, for example ☚ and ☞.</span>
 <a id="ln-72" name="ln-72" href="#ln-72"></a>
-<a id="ln-73" name="ln-73" href="#ln-73"></a><span class="w">   </span><span class="n">uline</span><span class="o">=</span><span class="n">manicules</span><span class="w"></span>
+<a id="ln-73" name="ln-73" href="#ln-73"></a><span class="w">   </span><span class="n">uline</span><span class="o">=</span><span class="n">manicules</span>
 <a id="ln-74" name="ln-74" href="#ln-74"></a>
-<a id="ln-75" name="ln-75" href="#ln-75"></a><span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(*(g0))&#39;</span><span class="p">)</span><span class="n">uline</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="w"></span>
+<a id="ln-75" name="ln-75" href="#ln-75"></a><span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(*(g0))&#39;</span><span class="p">)</span><span class="n">uline</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span>
 <a id="ln-76" name="ln-76" href="#ln-76"></a>
-<a id="ln-77" name="ln-77" href="#ln-77"></a><span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(&quot;CHARACTER STRING  :&quot;,*(g0))&#39;</span><span class="p">)</span><span class="n">uline</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="w"></span>
-<a id="ln-78" name="ln-78" href="#ln-78"></a><span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(&quot;SINGLE CHARACTERS :&quot;,*(g0))&#39;</span><span class="p">)</span><span class="n">uline</span><span class="p">%</span><span class="k">byte</span><span class="p">()</span><span class="w"></span>
-<a id="ln-79" name="ln-79" href="#ln-79"></a><span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(&quot;HEX BYTES         :&quot;,*(z0,1x))&#39;</span><span class="p">)</span><span class="nb">ichar</span><span class="p">(</span><span class="n">uline</span><span class="p">%</span><span class="k">byte</span><span class="p">())</span><span class="w"></span>
-<a id="ln-80" name="ln-80" href="#ln-80"></a><span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(&quot;UNICODE CODEPOINTS:&quot;,*(g0,1x))&#39;</span><span class="p">)</span><span class="n">uline</span><span class="p">%</span><span class="n">codepoint</span><span class="p">()</span><span class="w"></span>
-<a id="ln-81" name="ln-81" href="#ln-81"></a><span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(&quot;HEX CODEPOINTS    :&quot;,*(z0,1x))&#39;</span><span class="p">)</span><span class="n">uline</span><span class="p">%</span><span class="n">codepoint</span><span class="p">()</span><span class="w"></span>
+<a id="ln-77" name="ln-77" href="#ln-77"></a><span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(&quot;CHARACTER STRING  :&quot;,*(g0))&#39;</span><span class="p">)</span><span class="n">uline</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span>
+<a id="ln-78" name="ln-78" href="#ln-78"></a><span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(&quot;SINGLE CHARACTERS :&quot;,*(g0))&#39;</span><span class="p">)</span><span class="n">uline</span><span class="p">%</span><span class="k">byte</span><span class="p">()</span>
+<a id="ln-79" name="ln-79" href="#ln-79"></a><span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(&quot;HEX BYTES         :&quot;,*(z0,1x))&#39;</span><span class="p">)</span><span class="nb">ichar</span><span class="p">(</span><span class="n">uline</span><span class="p">%</span><span class="k">byte</span><span class="p">())</span>
+<a id="ln-80" name="ln-80" href="#ln-80"></a><span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(&quot;UNICODE CODEPOINTS:&quot;,*(g0,1x))&#39;</span><span class="p">)</span><span class="n">uline</span><span class="p">%</span><span class="n">codepoint</span><span class="p">()</span>
+<a id="ln-81" name="ln-81" href="#ln-81"></a><span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(&quot;HEX CODEPOINTS    :&quot;,*(z0,1x))&#39;</span><span class="p">)</span><span class="n">uline</span><span class="p">%</span><span class="n">codepoint</span><span class="p">()</span>
 <a id="ln-82" name="ln-82" href="#ln-82"></a>
-<a id="ln-83" name="ln-83" href="#ln-83"></a><span class="k">end program </span><span class="n">note</span><span class="w"></span>
+<a id="ln-83" name="ln-83" href="#ln-83"></a><span class="k">end program </span><span class="n">note</span>
 </pre></div>
 
       </section>
@@ -274,7 +274,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-10-05 16:21 +0000             </p>
+ on 2025-11-21 18:13 +0000             </p>
           </div>
         </div>
         <br>
