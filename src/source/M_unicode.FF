@@ -3235,10 +3235,14 @@ elemental function len_trim_str(string) result(length)
 type(unicode_type), intent(in) :: string
 integer                        :: length
 
-   do length=size(string%codes),1,-1
-      if(any(string%codes(length).eq.unicode%SPACES))cycle
-      exit
-   enddo
+   if(allocated(string%codes))then
+      do length=size(string%codes),1,-1
+         if(any(string%codes(length).eq.unicode%SPACES))cycle
+         exit
+      enddo
+   else
+      length=0
+   endif
 
 end function len_trim_str
 !===================================================================================================================================

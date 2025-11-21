@@ -390,6 +390,7 @@ character(len=128) :: ascii7
 
    call check('upper', upper(low)==upp )
    call check('upper', character(upper(low))==character(upp) )
+   call check('upper', upper(low)==upp )
 
    write(ascii7,g0)(achar(i),i=0,127)
    ascii7( ichar('a')+1:ichar('z')+1 ) = ' '
@@ -398,6 +399,9 @@ character(len=128) :: ascii7
    call check('upper',temp%character()==ascii7,'check non-alphameric like'//ascii7(ichar(' ')+1:len(ascii7)-1) )
    call check('upper',upper(temp)==lower(temp),'expect no difference')
    call check('upper',temp==upper(temp),'expect no change')
+
+   call check('%upper', low%upper()==upp )
+   call check('%upper', character(low%upper())==character(upp) )
 
 end subroutine test_upper
 
@@ -474,6 +478,14 @@ character(len=128)  :: ascii7
    !call check('lower',temp%character()==ascii7,'check non-alphameric like'//ascii7(ichar(' ')+1:len(ascii7)-1) )
    call check('lower',upper(temp)==lower(temp),'expect no difference')
    call check('lower',temp==lower(temp),'expect no change')
+
+   temp=upp%lower()
+   ! known conundrum at 82 i ı
+   write(*,*)character(temp,82,82)
+
+   ! ADE | 73  I | 105  i | ı
+   call check('%lower', temp == low )
+   call check('%lower', character(temp) == character(upp) )
 
 end subroutine test_lower
 

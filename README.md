@@ -5,18 +5,28 @@ with the DT edit descriptor are still undergoing development.
 # M_unicode module 
 [![M_unicode module](docs/images/Phaistos_Disk_sideA.jpg)](https://github.com/urbanjost/M_unicode/releases/tag/v1.0.0)
 
-The **M_unicode** module supports using UTF-8 encoded files as easily
-as ASCII-7 encoded files if not more so.
 
-The **M_unicode** module provides support for many string methods that
-operate on byte streams representing UTF-8 encoded text. ASCII-7 being
-a subset of UTF-8 the procedures work with standard ASCII-7 text as well.
+The **M_unicode** module supports using UTF-8 encoded files and data as
+easily as ASCII-7 encoded files.
+
+It fully implements the basics discussed in the Fortran Wiki [Unicode
+Lessons](https://fortranwiki.org/fortran/show/Unicode).
+
+Furthermore, the **M_unicode** module supports many string methods that
+operate on byte streams representing UTF-8 encoded text such as case
+conversion and sorting.
+
+ASCII-7 being a subset of UTF-8 the procedures work with standard ASCII-7
+text as well.
 
 A user-defined type called **unicode_type** provides an object-oriented
 interface supporting ragged arrays of strings and Unicode codepoints.
 
 The procedural interface supports all basic character intrinsics and
 operators.
+
+Over 45 example programs are included, as well as man-pages describing
+the procedures in \*roff and html format, and a basic set of unit tests.
 
 ```fortran
 program testit
