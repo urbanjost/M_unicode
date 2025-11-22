@@ -94,9 +94,18 @@ SYNOPSIS
 
    QUOTES
 
-   CHARACTER VERSUS STRING
+   NONALPHA
+
+   ENCODING
 
     character(STRING,start,end,inc)  converts a string to type CHARACTER.
+
+    escape                           expand C-like escape strings
+
+    codepoints_to_utf8(codepoints,utf8,nerr)  subroutine to convert 
+                                              codepoints to UTF-8 bytes
+    utf8_to_codepoints(utf8,codepoints,nerr)  subroutine to convert
+                                              UTF-8 bytes to codepoints
 
     STRING%character(start,end,inc)  OOP syntax for converting a string to
                                      type CHARACTER.
@@ -104,11 +113,7 @@ SYNOPSIS
                                      CHARACTER(len=1) bytes.
     STRING%codepoint(start,end,inc)  converts a string to an INTEGER
                                      array of Unicode codepoints
-   NONALPHA
 
-   ENCODING
-
-    escape     expand C-like escape strings
 
     char       converts an integer codepoint into a character
     ichar      converts a type(unicode_type) glyph into an integer
@@ -343,8 +348,8 @@ public :: escape
 public :: fmt
 PUBLIC :: AFMT
 public :: replace
-public :: transliterate
 public :: section
+public :: transliterate
 public :: pad
 public :: join
 public :: readline
@@ -2057,15 +2062,15 @@ NAME
 
 SYNOPSIS
 
-   pure subroutine codepoints_to_utf8_chars(unicode,utf8,nerr)
+   pure subroutine codepoints_to_utf8(codepoints,utf8,nerr)
 
-    integer,allocatable,intent(in) :: unicode(:)
+    integer,allocatable,intent(in) :: codepoints(:)
     !
-    character(len=1),intent(out)     :: utf8(:)
+    character(len=1),intent(out)   :: utf8(:)
     !  or
-    character(len=*),intent(out)     :: utf8
+    character(len=*),intent(out)   :: utf8
     !
-    integer,intent(out)             :: nerr
+    integer,intent(out)            :: nerr
 
 CHARACTERISTICS
   + UTF8 is a scalar or array CHARACTER variable
@@ -2080,8 +2085,8 @@ DESCRIPTION
 
 OPTIONS
 
-   + UNICODE :  An INTEGER array of Unicode codepoint values representing
-                the glyphs to be encoded at UTF-8 data
+   + CODEPOINTS :  An INTEGER array of Unicode codepoint values representing
+                   the glyphs to be encoded at UTF-8 data
 
    + UTF8 :  Scalar or single-character array CHARACTER variables
              to contain a stream of bytes containing data encoded at
@@ -2162,15 +2167,15 @@ LICENSE
 $ENDBLOCK
 $!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 !===================================================================================================================================
-pure subroutine codepoints_to_utf8_chars(unicode,utf8,nerr)
+pure subroutine codepoints_to_utf8_chars(codepoints,utf8,nerr)
 intrinsic char
-integer,intent(in)                :: unicode(:)
+integer,intent(in)                :: codepoints(:)
 character,allocatable,intent(out) :: utf8(:)
 integer,intent(out)               :: nerr
 integer                           :: i, n_unicode, n_utf8, cp
 character, allocatable            :: temp_utf8(:)
 
-   n_unicode = size(unicode)
+   n_unicode = size(codepoints)
 
    if(allocated(temp_utf8))deallocate(temp_utf8)
    allocate(temp_utf8(4*n_unicode))
@@ -2178,7 +2183,7 @@ character, allocatable            :: temp_utf8(:)
 
    nerr=0
    do i = 1, n_unicode
-      cp = unicode(i)
+      cp = codepoints(i)
 
       select case (cp)
       case (0:127) ! 1 byte : 0xxxxxxx
@@ -2232,19 +2237,19 @@ NAME
 
 SYNOPSIS
 
-   pure subroutine utf8_to_codepoints_chars(utf8,unicode,nerr)
+   pure subroutine utf8_to_codepoints(utf8,codepoints,nerr)
 
     character(len=1),intent(in)     :: utf8(:)
     !  or
     character(len=*),intent(in)     :: utf8
     !
-    integer,allocatable,intent(out) :: unicode(:)
+    integer,allocatable,intent(out) :: codepoints(:)
     integer,intent(out)             :: nerr
 
 CHARACTERISTICS
   + UTF8 is a scalar CHARACTER variable or array of single-byte
     CHARACTER values
-  + the returned values in UNICODE are of default INTEGER kind
+  + the returned values in CODEPOINTS are of default INTEGER kind
   + the error flag NERR is default integer kind
 
 DESCRIPTION
@@ -2256,14 +2261,14 @@ DESCRIPTION
   In fact, this routine is also able to decode an ISOLATIN string
 
 OPTIONS
-  + UTF8 : Scalar CHARACTER string or single-character array of CHARACTER
-           variables assumed to represent a stream of bytes containing
-           data encoded at UTF-8 text.
+  + UTF8 :  Scalar CHARACTER string or single-character array of CHARACTER
+            variables assumed to represent a stream of bytes containing
+            data encoded at UTF-8 text.
 
-   + UNICODE : An INTEGER array of Unicode codepoint values representing
-               the glyphs found in STRING
-   + NERR    : Zero if no error occurred. If not zero the stream of bytes
-               could not be completely converted to UTF-8 characters.
+  + CODEPOINTS :  An INTEGER array of Unicode codepoint values
+                  representing the glyphs found in STRING
+  + NERR :  Zero if no error occurred. If not zero the stream of bytes
+            could not be completely converted to UTF-8 characters.
 
 EXAMPLES
   Sample program
@@ -2338,12 +2343,12 @@ LICENSE
 $ENDBLOCK
 $!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 !===================================================================================================================================
-pure subroutine utf8_to_codepoints_chars(utf8,unicode,nerr)
+pure subroutine utf8_to_codepoints_chars(utf8,codepoints,nerr)
 
 ! in fact, this routine is also able to decode an ISOLATIN string
 
 character(len=1),intent(in)     :: utf8(:)
-integer,allocatable,intent(out) :: unicode(:)
+integer,allocatable,intent(out) :: codepoints(:)
 integer,intent(out)             :: nerr
 integer                         :: n_out
 integer                         :: i, len8, b1, b2, b3, b4
@@ -2356,7 +2361,7 @@ integer,allocatable             :: temp(:)
    i = 1
    n_out = 0
    if(allocated(temp))deallocate(temp)
-   allocate(temp(len8)) ! big enough to store all unicode values
+   allocate(temp(len8)) ! big enough to store all Unicode codepoint values
 
    do while (i <= len8)
 
@@ -2459,9 +2464,9 @@ integer,allocatable             :: temp(:)
 
    enddo
 
-   if(allocated(unicode))deallocate(unicode)
-   allocate(unicode(n_out))
-   unicode = temp(1:n_out)
+   if(allocated(codepoints))deallocate(codepoints)
+   allocate(codepoints(n_out))
+   codepoints = temp(1:n_out)
 
 end subroutine utf8_to_codepoints_chars
 !===================================================================================================================================
@@ -2524,29 +2529,29 @@ end function binary_search
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
-pure subroutine codepoints_to_utf8_str(unicode,utf8,nerr)
+pure subroutine codepoints_to_utf8_str(codepoints,utf8,nerr)
 
-integer,intent(in)                       :: unicode(:)
+integer,intent(in)                       :: codepoints(:)
 character(len=:),allocatable,intent(out) :: utf8
 integer,intent(out)                      :: nerr
 character, allocatable                   :: utf8_chars(:)
    nerr=0
-   call codepoints_to_utf8_chars(unicode,utf8_chars,nerr)
+   call codepoints_to_utf8_chars(codepoints,utf8_chars,nerr)
    utf8=a2s(utf8_chars)
 end subroutine codepoints_to_utf8_str
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
-pure subroutine utf8_to_codepoints_str(utf8,unicode,nerr)
+pure subroutine utf8_to_codepoints_str(utf8,codepoints,nerr)
 
 ! in fact, this routine is also able to decode an ISOLATIN string
 
 character(len=*),intent(in)     :: utf8
-integer,allocatable,intent(out) :: unicode(:)
+integer,allocatable,intent(out) :: codepoints(:)
 integer,intent(out)             :: nerr
 character,allocatable           :: temp(:)
    temp=s2a(utf8)
-   call utf8_to_codepoints_chars(temp,unicode,nerr)
+   call utf8_to_codepoints_chars(temp,codepoints,nerr)
 end subroutine utf8_to_codepoints_str
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
@@ -4661,11 +4666,13 @@ SYNOPSIS
 
  syntax:
 
-      function replace(target,old,new,|target,new,start,end,&
+      function replace(target,old,new, &
        & occurrence, &
        & repeat, &
        & ignorecase, &
        & ierr,back) result (newline)
+         or
+      function replace(target,start,end,new) result newline 
 
       type(unicode_type)|character(len=*),intent(in) :: target
 
@@ -5591,17 +5598,17 @@ SYNOPSIS
 
    subroutine tokenize(string, set, tokens [, separator])
 
-    type(unicode),intent(in) :: string
-    type(unicode),intent(in) :: set
-    type(unicode),allocatable,intent(out) :: tokens(:)
-    type(unicode),allocatable,intent(out),optional :: separator(:)
+    type(unicode_type),intent(in) :: string
+    type(unicode_type),intent(in) :: set
+    type(unicode_type),allocatable,intent(out) :: tokens(:)
+    type(unicode_type),allocatable,intent(out),optional :: separator(:)
 
   ARRAY BOUNDS form (returns arrays defining token positions)
 
    subroutine tokenize (string, set, first, last)
 
-    type(unicode),intent(in) :: string
-    type(unicode),intent(in) :: set
+    type(unicode_type),intent(in) :: string
+    type(unicode_type),intent(in) :: set
     integer,allocatable,intent(out) :: first(:)
     integer,allocatable,intent(out) :: last(:)
 
