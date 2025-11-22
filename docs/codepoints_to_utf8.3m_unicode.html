@@ -79,16 +79,16 @@ to CHARACTER
 </A>
 <BLOCKQUOTE>
 <P>
-pure subroutine codepoints_to_utf8_chars(unicode,utf8,nerr)
+pure subroutine codepoints_to_utf8(codepoints,utf8,nerr)
 <P>
 <PRE>
-    integer,allocatable,intent(in) :: unicode(:)
+    integer,allocatable,intent(in) :: codepoints(:)
     !
-    character(len=1),intent(out)     :: utf8(:)
+    character(len=1),intent(out)   :: utf8(:)
     !  or
-    character(len=*),intent(out)     :: utf8
+    character(len=*),intent(out)   :: utf8
     !
-    integer,intent(out)             :: nerr
+    integer,intent(out)            :: nerr
 <P>
 </PRE>
 </BLOCKQUOTE>
@@ -137,7 +137,7 @@ of bytes representing UTF-8-encoded data.
 <TR valign=top><TD width=3%>
 o
 </TD><TD>
-UNICODE : An INTEGER array of Unicode codepoint values representing
+CODEPOINTS : An INTEGER array of Unicode codepoint values representing
 the glyphs to be encoded at UTF-8 data
 </TD></TR>
 <TR valign=top><TD width=3%>

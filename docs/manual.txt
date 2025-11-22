@@ -192,7 +192,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       November 06, 2025	   adjustr(3m_unicode)
+			       November 22, 2025	   adjustr(3m_unicode)
 codepoints_to_utf8(3m_unicode)			codepoints_to_utf8(3m_unicode)
 
 NAME
@@ -200,15 +200,15 @@ NAME
   CHARACTER (LICENSE:MIT)
 
 SYNOPSIS
-  pure subroutine codepoints_to_utf8_chars(unicode,utf8,nerr)
+  pure subroutine codepoints_to_utf8(codepoints,utf8,nerr)
 
-      integer,allocatable,intent(in) :: unicode(:)
+      integer,allocatable,intent(in) :: codepoints(:)
       !
-      character(len=1),intent(out)     :: utf8(:)
+      character(len=1),intent(out)   :: utf8(:)
       !  or
-      character(len=*),intent(out)     :: utf8
+      character(len=*),intent(out)   :: utf8
       !
-      integer,intent(out)	      :: nerr
+      integer,intent(out)	     :: nerr
 
 CHARACTERISTICS
   •  UTF8 is a scalar or array CHARACTER variable
@@ -224,8 +224,8 @@ DESCRIPTION
   representing UTF-8-encoded data.
 
 OPTIONS
-  •  UNICODE : An INTEGER array of Unicode codepoint values representing the
-     glyphs to be encoded at UTF-8 data
+  •  CODEPOINTS : An INTEGER array of Unicode codepoint values representing
+     the glyphs to be encoded at UTF-8 data
 
   •  UTF8 : Scalar or single-character array CHARACTER variables to contain a
      stream of bytes containing data encoded at UTF-8 text.
@@ -305,7 +305,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       November 06, 2025codepoints_to_utf8(3m_unicode)
+			       November 22, 2025codepoints_to_utf8(3m_unicode)
 escape(3m_unicode)					    escape(3m_unicode)
 
 NAME
@@ -421,7 +421,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       November 06, 2025	    escape(3m_unicode)
+			       November 22, 2025	    escape(3m_unicode)
 get_env(3m_unicode)					   get_env(3m_unicode)
 
 NAME
@@ -498,7 +498,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       November 06, 2025	   get_env(3m_unicode)
+			       November 22, 2025	   get_env(3m_unicode)
 ichar(3m_unicode)					     ichar(3m_unicode)
 
 NAME
@@ -630,7 +630,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       November 06, 2025	     ichar(3m_unicode)
+			       November 22, 2025	     ichar(3m_unicode)
 index(3m_unicode)					     index(3m_unicode)
 
 NAME
@@ -748,7 +748,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       November 06, 2025	     index(3m_unicode)
+			       November 22, 2025	     index(3m_unicode)
 join(3m_unicode)					      join(3m_unicode)
 
 NAME
@@ -848,7 +848,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       November 06, 2025	      join(3m_unicode)
+			       November 22, 2025	      join(3m_unicode)
 replace(3m_unicode)					   replace(3m_unicode)
 
 NAME
@@ -858,11 +858,13 @@ NAME
 SYNOPSIS
   syntax:
 
-	function replace(target,old,new,|target,new,start,end,&
+	function replace(target,old,new, &
 	 & occurrence, &
 	 & repeat, &
 	 & ignorecase, &
 	 & ierr,back) result (newline)
+	   or
+	function replace(target,start,end,new) result newline
 
 	type(unicode_type)|character(len=*),intent(in) :: target
 
@@ -994,7 +996,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       November 06, 2025	   replace(3m_unicode)
+			       November 22, 2025	   replace(3m_unicode)
 scan(3m_unicode)					      scan(3m_unicode)
 
 NAME
@@ -1108,7 +1110,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       November 06, 2025	      scan(3m_unicode)
+			       November 22, 2025	      scan(3m_unicode)
 sort(3m_unicode)					      sort(3m_unicode)
 
 NAME
@@ -1228,7 +1230,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       November 06, 2025	      sort(3m_unicode)
+			       November 22, 2025	      sort(3m_unicode)
 split(3m_unicode)					     split(3m_unicode)
 
 NAME
@@ -1383,7 +1385,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       November 06, 2025	     split(3m_unicode)
+			       November 22, 2025	     split(3m_unicode)
 sub(3m_unicode) 					       sub(3m_unicode)
 
 NAME
@@ -1457,7 +1459,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       November 06, 2025	       sub(3m_unicode)
+			       November 22, 2025	       sub(3m_unicode)
 tokenize(3m_unicode)					  tokenize(3m_unicode)
 
 NAME
@@ -1468,17 +1470,17 @@ SYNOPSIS
 
      subroutine tokenize(string, set, tokens [, separator])
 
-      type(unicode),intent(in) :: string
-      type(unicode),intent(in) :: set
-      type(unicode),allocatable,intent(out) :: tokens(:)
-      type(unicode),allocatable,intent(out),optional :: separator(:)
+      type(unicode_type),intent(in) :: string
+      type(unicode_type),intent(in) :: set
+      type(unicode_type),allocatable,intent(out) :: tokens(:)
+      type(unicode_type),allocatable,intent(out),optional :: separator(:)
 
   ARRAY BOUNDS form (returns arrays defining token positions)
 
      subroutine tokenize (string, set, first, last)
 
-      type(unicode),intent(in) :: string
-      type(unicode),intent(in) :: set
+      type(unicode_type),intent(in) :: string
+      type(unicode_type),intent(in) :: set
       integer,allocatable,intent(out) :: first(:)
       integer,allocatable,intent(out) :: last(:)
 
@@ -1627,7 +1629,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       November 06, 2025	  tokenize(3m_unicode)
+			       November 22, 2025	  tokenize(3m_unicode)
 transliterate(3m_unicode)			     transliterate(3m_unicode)
 
 NAME
@@ -1757,7 +1759,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       November 06, 2025     transliterate(3m_unicode)
+			       November 22, 2025     transliterate(3m_unicode)
 trim(3m_unicode)					      trim(3m_unicode)
 
 NAME
@@ -1848,7 +1850,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       November 06, 2025	      trim(3m_unicode)
+			       November 22, 2025	      trim(3m_unicode)
 upper(3m_unicode)					     upper(3m_unicode)
 
 NAME
@@ -1949,7 +1951,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       November 06, 2025	     upper(3m_unicode)
+			       November 22, 2025	     upper(3m_unicode)
 utf8_to_codepoints(3m_unicode)			utf8_to_codepoints(3m_unicode)
 
 NAME
@@ -1957,20 +1959,20 @@ NAME
   to Unicode codepoints (LICENSE:MIT)
 
 SYNOPSIS
-  pure subroutine utf8_to_codepoints_chars(utf8,unicode,nerr)
+  pure subroutine utf8_to_codepoints(utf8,codepoints,nerr)
 
       character(len=1),intent(in)     :: utf8(:)
       !  or
       character(len=*),intent(in)     :: utf8
       !
-      integer,allocatable,intent(out) :: unicode(:)
+      integer,allocatable,intent(out) :: codepoints(:)
       integer,intent(out)	      :: nerr
 
 CHARACTERISTICS
   •  UTF8 is a scalar CHARACTER variable or array of single-byte CHARACTER
      values
 
-  •  the returned values in UNICODE are of default INTEGER kind
+  •  the returned values in CODEPOINTS are of default INTEGER kind
 
   •  the error flag NERR is default integer kind
 
@@ -1987,11 +1989,11 @@ OPTIONS
      variables assumed to represent a stream of bytes containing data encoded
      at UTF-8 text.
 
-     •	UNICODE : An INTEGER array of Unicode codepoint values representing
-	the glyphs found in STRING
+  •  CODEPOINTS : An INTEGER array of Unicode codepoint values representing
+     the glyphs found in STRING
 
-     •	NERR : Zero if no error occurred. If not zero the stream of bytes
-	could not be completely converted to UTF-8 characters.
+  •  NERR : Zero if no error occurred. If not zero the stream of bytes could
+     not be completely converted to UTF-8 characters.
 
 EXAMPLES
   Sample program
@@ -2066,7 +2068,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       November 06, 2025utf8_to_codepoints(3m_unicode)
+			       November 22, 2025utf8_to_codepoints(3m_unicode)
 verify(3m_unicode)					    verify(3m_unicode)
 
 NAME
@@ -2487,7 +2489,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       November 06, 2025	    verify(3m_unicode)
+			       November 22, 2025	    verify(3m_unicode)
 len(3m_unicode) 					       len(3m_unicode)
 
 NAME
@@ -2579,7 +2581,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       November 06, 2025	       len(3m_unicode)
+			       November 22, 2025	       len(3m_unicode)
 len_trim(3m_unicode)					  len_trim(3m_unicode)
 
 NAME
@@ -2670,7 +2672,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       November 06, 2025	  len_trim(3m_unicode)
+			       November 22, 2025	  len_trim(3m_unicode)
 lower(3m_unicode)					     lower(3m_unicode)
 
 NAME
@@ -2771,7 +2773,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       November 06, 2025	     lower(3m_unicode)
+			       November 22, 2025	     lower(3m_unicode)
 M_unicode(3m_unicode)					 M_unicode(3m_unicode)
 
 NAME
@@ -2800,6 +2802,14 @@ DESCRIPTION
 
   Nearly all the methods are available using OOP syntax as well as
   procedurally.
+
+  The type components are not public to allow for use of the same user code
+  when using other modules such as M_utf8 which ultimately will provide the
+  same user interface but internally using ISO_10646 internal encoding instead
+  of an array of integers containing codepoints (which is what M_unicode
+  uses). This has the drawback of not permitting easy use of array syntax
+  directly on the codepoint array. Perhaps this decision will change but in
+  the meantime several methods such as REPLACE and CHARACTER and SUB
 
 SYNOPSIS
   public methods:
@@ -2850,10 +2860,18 @@ SYNOPSIS
   adjustr
     Right adjust a string
 
-   QUOTES
-   CHARACTER VERSUS STRING
+   ENCODING
   character(STRING,start,end,inc)
     converts a string to type CHARACTER.
+
+  escape
+    expand C-like escape strings
+
+  codepoints_to_utf8(codepoints,utf8,nerr)
+    subroutine to convert codepoints to UTF-8 bytes
+
+  utf8_to_codepoints(utf8,codepoints,nerr)
+    subroutine to convert UTF-8 bytes to codepoints
 
   STRING%character(start,end,inc)
     OOP syntax for converting a string to type CHARACTER.
@@ -2863,11 +2881,6 @@ SYNOPSIS
 
   STRING%codepoint(start,end,inc)
     converts a string to an INTEGER array of Unicode codepoints
-
-   NONALPHA
-   ENCODING
-  escape
-    expand C-like escape strings
 
   char
     converts an integer codepoint into a character
@@ -2900,7 +2913,6 @@ SYNOPSIS
   llt
     Lexical less than
 
-   BASE CONVERSION
    IO
   readline
     read a text line from a file
@@ -2936,6 +2948,9 @@ SYNOPSIS
   sort
     Sort by Unicode codepoint value (not dictionary order)
 
+   BASE CONVERSION
+   QUOTES
+   NONALPHA
    OOPS INTERFACE
   An OOP (Object-Oriented Programming) interface to the M_unicode(3fm) module
   provides an alternative interface to all the same procedures except for
@@ -3039,7 +3054,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       November 06, 2025	 M_unicode(3m_unicode)
+			       November 22, 2025	 M_unicode(3m_unicode)
 pad(3m_unicode) 					       pad(3m_unicode)
 
 NAME
@@ -3176,7 +3191,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       November 06, 2025	       pad(3m_unicode)
+			       November 22, 2025	       pad(3m_unicode)
 readline(3m_unicode)					  readline(3m_unicode)
 
 NAME
@@ -3255,7 +3270,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       November 06, 2025	  readline(3m_unicode)
+			       November 22, 2025	  readline(3m_unicode)
 repeat(3m_unicode)					    repeat(3m_unicode)
 
 NAME
@@ -3312,7 +3327,7 @@ SEE ALSO
 
   Fortran descriptions (license: MIT) @urbanjost
 
-			       November 06, 2025	    repeat(3m_unicode)
+			       November 22, 2025	    repeat(3m_unicode)
 expandtabs(3m_unicode)					expandtabs(3m_unicode)
 
 NAME
@@ -3385,7 +3400,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       November 06, 2025	expandtabs(3m_unicode)
+			       November 22, 2025	expandtabs(3m_unicode)
 fmt(3m_unicode) 					       fmt(3m_unicode)
 
 NAME
@@ -3458,7 +3473,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       November 06, 2025	       fmt(3m_unicode)
+			       November 22, 2025	       fmt(3m_unicode)
 get_arg(3m_unicode)					   get_arg(3m_unicode)
 
 NAME
@@ -3534,7 +3549,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       November 06, 2025	   get_arg(3m_unicode)
+			       November 22, 2025	   get_arg(3m_unicode)
 character(3m_unicode)					 character(3m_unicode)
 
 NAME
@@ -3708,7 +3723,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       November 06, 2025	 character(3m_unicode)
+			       November 22, 2025	 character(3m_unicode)
 adjustl(3m_unicode)					   adjustl(3m_unicode)
 
 NAME
@@ -3798,4 +3813,4 @@ AUTHOR
 
 LICENSE
    MIT
-			       November 06, 2025	   adjustl(3m_unicode)
+			       November 22, 2025	   adjustl(3m_unicode)

@@ -97,6 +97,15 @@ consistent with standard CHARACTER string manipulations.
 <P>
 Nearly all the methods are available using OOP syntax as well as
 procedurally.
+<P>
+The type components are not public to allow for use of the same
+user code when using other modules such as M_utf8 which ultimately
+will provide the same user interface but internally using ISO_10646
+internal encoding instead of an array of integers containing codepoints
+(which is what M_unicode uses). This has the drawback of not permitting
+easy use of array syntax directly on the codepoint array. Perhaps this
+decision will change but in the meantime several methods such as REPLACE
+and CHARACTER and SUB
 </BLOCKQUOTE>
 <A name=2>
 
@@ -211,14 +220,7 @@ Right adjust a string
 <TR></TR></TABLE></BLOCKQUOTE>
 <A name=>
 
-    <H4>&nbsp; &nbsp; QUOTES</H4>
-</A>
-<BLOCKQUOTE>
-<P>
-</BLOCKQUOTE>
-<A name=>
-
-    <H4>&nbsp; &nbsp; CHARACTER VERSUS STRING</H4>
+    <H4>&nbsp; &nbsp; ENCODING</H4>
 </A>
 <BLOCKQUOTE>
 <P>
@@ -226,6 +228,20 @@ Right adjust a string
 <TR valign=top><TD colspan=2>
 <B>character(STRING,start,end,inc)</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
 converts a string to type CHARACTER.
+</TD></TR>
+<TR valign=top><TD width=6% nowrap>
+<B>escape</B> </TD><TD valign=bottom>
+expand C-like escape strings
+</TD></TR>
+<TR valign=top><TD colspan=2>
+<B>codepoints_to_utf8(codepoints,utf8,nerr)</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+subroutine to convert
+codepoints to UTF-8 bytes
+</TD></TR>
+<TR valign=top><TD colspan=2>
+<B>utf8_to_codepoints(utf8,codepoints,nerr)</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+subroutine to convert
+UTF-8 bytes to codepoints
 </TD></TR>
 <TR valign=top><TD colspan=2>
 <B>STRING%character(start,end,inc)</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
@@ -241,25 +257,6 @@ CHARACTER(len=1) bytes.
 <B>STRING%codepoint(start,end,inc)</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
 converts a string to an INTEGER
 array of Unicode codepoints
-</TD></TR>
-<TR></TR></TABLE></BLOCKQUOTE>
-<A name=>
-
-    <H4>&nbsp; &nbsp; NONALPHA</H4>
-</A>
-<BLOCKQUOTE>
-<P>
-</BLOCKQUOTE>
-<A name=>
-
-    <H4>&nbsp; &nbsp; ENCODING</H4>
-</A>
-<BLOCKQUOTE>
-<P>
-<TABLE cellpadding=3>
-<TR valign=top><TD width=6% nowrap>
-<B>escape</B> </TD><TD valign=bottom>
-expand C-like escape strings
 </TD></TR>
 <TR valign=top><TD width=6% nowrap>
 <B>char</B> </TD><TD valign=bottom>
@@ -318,13 +315,6 @@ Lexical less than or equal
 Lexical less than
 </TD></TR>
 <TR></TR></TABLE></BLOCKQUOTE>
-<A name=>
-
-    <H4>&nbsp; &nbsp; BASE CONVERSION</H4>
-</A>
-<BLOCKQUOTE>
-<P>
-</BLOCKQUOTE>
 <A name=>
 
     <H4>&nbsp; &nbsp; IO</H4>
@@ -408,6 +398,25 @@ Repeated string concatenation
 Sort by Unicode codepoint value (not dictionary order)
 </TD></TR>
 <TR></TR></TABLE></BLOCKQUOTE>
+<A name=>
+
+    <H4>&nbsp; &nbsp; BASE CONVERSION</H4>
+</A>
+<BLOCKQUOTE>
+</BLOCKQUOTE>
+<A name=>
+
+    <H4>&nbsp; &nbsp; QUOTES</H4>
+</A>
+<BLOCKQUOTE>
+</BLOCKQUOTE>
+<A name=>
+
+    <H4>&nbsp; &nbsp; NONALPHA</H4>
+</A>
+<BLOCKQUOTE>
+<P>
+</BLOCKQUOTE>
 <A name=>
 
     <H4>&nbsp; &nbsp; OOPS INTERFACE</H4>

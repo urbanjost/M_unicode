@@ -79,14 +79,14 @@ data to Unicode codepoints
 </A>
 <BLOCKQUOTE>
 <P>
-pure subroutine utf8_to_codepoints_chars(utf8,unicode,nerr)
+pure subroutine utf8_to_codepoints(utf8,codepoints,nerr)
 <P>
 <PRE>
     character(len=1),intent(in)     :: utf8(:)
     !  or
     character(len=*),intent(in)     :: utf8
     !
-    integer,allocatable,intent(out) :: unicode(:)
+    integer,allocatable,intent(out) :: codepoints(:)
     integer,intent(out)             :: nerr
 <P>
 </PRE>
@@ -107,7 +107,7 @@ CHARACTER values
 <TR valign=top><TD width=3%>
 o
 </TD><TD>
-the returned values in UNICODE are of default INTEGER kind
+the returned values in CODEPOINTS are of default INTEGER kind
 </TD></TR>
 <TR valign=top><TD width=3%>
 o
@@ -141,14 +141,12 @@ o
 UTF8 : Scalar CHARACTER string or single-character array of CHARACTER
 variables assumed to represent a stream of bytes containing
 data encoded at UTF-8 text.
-<TABLE width=100% cellpadding=3><!-- tsb: UTF8 : Scalar CHARACTER string or single-character array of CHARACTER
- -->
-<TR></TR><TR></TR>
+</TD></TR>
 <TR valign=top><TD width=3%>
 o
 </TD><TD>
-UNICODE : An INTEGER array of Unicode codepoint values representing
-the glyphs found in STRING
+CODEPOINTS : An INTEGER array of Unicode codepoint values
+representing the glyphs found in STRING
 </TD></TR>
 <TR valign=top><TD width=3%>
 o
@@ -156,7 +154,6 @@ o
 NERR : Zero if no error occurred. If not zero the stream of bytes
 could not be completely converted to UTF-8 characters.
 </TD></TR>
-<TR></TR></TABLE></TD></TR>
 <TR></TR></TABLE></BLOCKQUOTE>
 <A name=5>
 

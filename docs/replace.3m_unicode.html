@@ -82,11 +82,13 @@ substring for another in string
 syntax:
 <P>
 <PRE>
-      function replace(target,old,new,|target,new,start,end,&
+      function replace(target,old,new, &
        & occurrence, &
        & repeat, &
        & ignorecase, &
        & ierr,back) result (newline)
+         or
+      function replace(target,start,end,new) result newline
 <P>
       type(unicode_type)|character(len=*),intent(in) :: target
 <P>

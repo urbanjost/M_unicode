@@ -82,10 +82,10 @@ TOKEN form (returns array of strings)
 <PRE>
    subroutine tokenize(string, set, tokens [, separator])
 <P>
-    type(unicode),intent(in) :: string
-    type(unicode),intent(in) :: set
-    type(unicode),allocatable,intent(out) :: tokens(:)
-    type(unicode),allocatable,intent(out),optional :: separator(:)
+    type(unicode_type),intent(in) :: string
+    type(unicode_type),intent(in) :: set
+    type(unicode_type),allocatable,intent(out) :: tokens(:)
+    type(unicode_type),allocatable,intent(out),optional :: separator(:)
 <P>
 </PRE>
 ARRAY BOUNDS form (returns arrays defining token positions)
@@ -93,8 +93,8 @@ ARRAY BOUNDS form (returns arrays defining token positions)
 <PRE>
    subroutine tokenize (string, set, first, last)
 <P>
-    type(unicode),intent(in) :: string
-    type(unicode),intent(in) :: set
+    type(unicode_type),intent(in) :: string
+    type(unicode_type),intent(in) :: set
     integer,allocatable,intent(out) :: first(:)
     integer,allocatable,intent(out) :: last(:)
 <P>
