@@ -162,79 +162,6 @@
 </h2>
     
 
-    <h2 id="name">NAME</h2>
-<div class="codehilite"><pre><span></span><code> EXPANDTABS(3f) - [M_unicode:WHITESPACE] function to expand tab characters
- (LICENSE:MIT)
-</code></pre></div>
-
-<h2 id="synopsis">SYNOPSIS</h2>
-<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nx">elemental</span><span class="w"> </span><span class="nx">function</span><span class="w"> </span><span class="nx">expandtabs</span><span class="p">(</span><span class="nx">INSTR</span><span class="p">,</span><span class="nx">TABSIZE</span><span class="p">)</span><span class="w"> </span><span class="nx">result</span><span class="p">(</span><span class="nx">OUT</span><span class="p">)</span>
-
-<span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">intent</span><span class="p">=(</span><span class="k">in</span><span class="p">)</span><span class="w">  </span><span class="o">::</span><span class="w"> </span><span class="nx">INSTR</span>
-<span class="w">  </span><span class="nx">integer</span><span class="p">,</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">),</span><span class="nx">optional</span><span class="w">     </span><span class="o">::</span><span class="w"> </span><span class="nx">TAB_SIZE</span>
-<span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span><span class="w">              </span><span class="o">::</span><span class="w"> </span><span class="nx">OUT</span>
-</code></pre></div>
-
-<h2 id="description">DESCRIPTION</h2>
-<div class="codehilite"><pre><span></span><code>EXPANDTABS(3) expands tabs in INSTR to spaces in OUT. It assumes a
-tab is set every 8 characters by default. Trailing spaces are removed.
-</code></pre></div>
-
-<h2 id="options">OPTIONS</h2>
-<div class="codehilite"><pre><span></span><code>instr     Input line to remove tabs from
-tab_size  spacing between tab stops.
-</code></pre></div>
-
-<h2 id="returns">RETURNS</h2>
-<div class="codehilite"><pre><span></span><code>out       Output string with tabs expanded.
-</code></pre></div>
-
-<h2 id="examples">EXAMPLES</h2>
-<p>Sample program:</p>
-<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="n">program</span><span class="w"> </span><span class="n">demo_expandtabs</span>
-<span class="w"> </span><span class="k">use</span><span class="w"> </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="n">expandtabs</span><span class="p">,</span><span class="w"> </span><span class="n">ch</span><span class="o">=&gt;</span><span class="k">character</span><span class="p">,</span><span class="w"> </span><span class="nf">replace</span>
-<span class="w"> </span><span class="k">use</span><span class="w"> </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">),</span><span class="w"> </span><span class="n">ut</span><span class="o">=&gt;</span><span class="w"> </span><span class="n">unicode_type</span>
-<span class="w"> </span><span class="n">implicit</span><span class="w"> </span><span class="k">none</span>
-<span class="w"> </span><span class="n">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">                     </span><span class="o">::</span><span class="w"> </span><span class="ow">in</span>
-<span class="w"> </span><span class="n">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">                     </span><span class="o">::</span><span class="w"> </span><span class="n">inexpanded</span>
-<span class="w"> </span><span class="k">character</span><span class="p">(</span><span class="nf">len</span><span class="o">=</span><span class="err">:</span><span class="p">),</span><span class="n">allocatable</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="n">dat</span>
-<span class="w"> </span><span class="k">integer</span><span class="w">                      </span><span class="o">::</span><span class="w"> </span><span class="n">i</span>
-<span class="w">    </span><span class="n">dat</span><span class="o">=</span><span class="s1">&#39;  this is my string  &#39;</span>
-<span class="w">    </span><span class="err">!</span><span class="w"> </span><span class="n">change</span><span class="w"> </span><span class="n">spaces</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">tabs</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">make</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">sample</span><span class="w"> </span><span class="k">input</span>
-<span class="w">    </span><span class="n">do</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="nf">len</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span>
-<span class="w">       </span><span class="k">if</span><span class="p">(</span><span class="n">dat</span><span class="p">(</span><span class="nl">i</span><span class="p">:</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39; &#39;</span><span class="p">)</span><span class="n">dat</span><span class="p">(</span><span class="nl">i</span><span class="p">:</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="nc">char</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span>
-<span class="w">    </span><span class="n">enddo</span>
-<span class="w">    </span><span class="ow">in</span><span class="o">=</span><span class="n">dat</span>
-<span class="w">    </span><span class="err">!</span>
-<span class="w">    </span><span class="n">inexpanded</span><span class="o">=</span><span class="n">expandtabs</span><span class="p">(</span><span class="ow">in</span><span class="p">)</span>
-<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(&quot;[&quot;,a,&quot;]&quot;)&#39;</span><span class="p">)</span><span class="n">ch</span><span class="p">(</span><span class="n">inexpanded</span><span class="p">)</span>
-<span class="w">    </span><span class="n">inexpanded</span><span class="o">=</span><span class="nf">replace</span><span class="p">(</span><span class="n">inexpanded</span><span class="p">,</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">))</span>
-<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(&quot;[&quot;,a,&quot;]&quot;)&#39;</span><span class="p">)</span><span class="n">ch</span><span class="p">(</span><span class="n">inexpanded</span><span class="p">)</span>
-<span class="w">    </span><span class="err">!</span>
-<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(&quot;[&quot;,a,&quot;]&quot;)&#39;</span><span class="p">)</span><span class="n">ch</span><span class="p">(</span><span class="ow">in</span><span class="o">%</span><span class="n">expandtabs</span><span class="p">())</span>
-<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(&quot;[&quot;,a,&quot;]&quot;)&#39;</span><span class="p">)</span><span class="n">ch</span><span class="p">(</span><span class="ow">in</span><span class="o">%</span><span class="n">expandtabs</span><span class="p">(</span><span class="n">tab_size</span><span class="o">=</span><span class="mi">8</span><span class="p">))</span>
-<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(&quot;[&quot;,a,&quot;]&quot;)&#39;</span><span class="p">)</span><span class="n">ch</span><span class="p">(</span><span class="ow">in</span><span class="o">%</span><span class="n">expandtabs</span><span class="p">(</span><span class="n">tab_size</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
-<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(&quot;[&quot;,a,&quot;]&quot;)&#39;</span><span class="p">)</span><span class="n">ch</span><span class="p">(</span><span class="ow">in</span><span class="o">%</span><span class="n">expandtabs</span><span class="p">(</span><span class="n">tab_size</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
-<span class="w">    </span><span class="err">!</span>
-<span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="n">program</span><span class="w"> </span><span class="n">demo_expandtabs</span>
-
-<span class="nl">Results</span><span class="p">:</span>
-
-<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">                this    is      my      string</span><span class="o">]</span>
-<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">________________this____is______my______string</span><span class="o">]</span>
-<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">                this    is      my      string</span><span class="o">]</span>
-<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">                this    is      my      string</span><span class="o">]</span>
-<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">  this is my string</span><span class="o">]</span>
-<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">thisismystring</span><span class="o">]</span>
-</code></pre></div>
-
-<h2 id="author">AUTHOR</h2>
-<div class="codehilite"><pre><span></span><code>  John S. Urban
-</code></pre></div>
-
-<h2 id="license">LICENSE</h2>
-<div class="codehilite"><pre><span></span><code> MIT
-</code></pre></div>
 
 
     <h3>Arguments</h3>
@@ -362,7 +289,7 @@ tab_size  spacing between tab stops.
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-11-21 18:13 +0000             </p>
+ on 2025-11-22 15:16 +0000             </p>
           </div>
         </div>
         <br>

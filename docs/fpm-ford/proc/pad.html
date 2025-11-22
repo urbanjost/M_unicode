@@ -162,139 +162,6 @@
 </h2>
     
 
-    <h2 id="name">NAME</h2>
-<div class="codehilite"><pre><span></span><code>PAD(3f) - [M_unicode:WHITESPACE] return string padded to at least
-specified length
-(LICENSE:MIT)
-</code></pre></div>
-
-<h2 id="synopsis">SYNOPSIS</h2>
-<div class="codehilite"><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="nf">pad(str,length,pattern,right,clip) result</span><span class="p">(</span>out<span class="p">)</span>
-
-<span class="w"> </span><span class="nb">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">                         </span><span class="p">::</span><span class="w"> </span><span class="n">str</span>
-<span class="w"> </span><span class="n">integer</span><span class="p">,</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                         </span><span class="p">::</span><span class="w"> </span><span class="nb">length</span>
-<span class="w"> </span><span class="nb">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">                         </span><span class="p">::</span><span class="w"> </span><span class="n">out</span>
-<span class="w"> </span><span class="nb">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="n">optional</span><span class="w">     </span><span class="p">::</span><span class="w"> </span><span class="nb">pattern</span>
-<span class="w"> </span><span class="nb">logical</span><span class="p">,</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="n">optional</span><span class="w">                </span><span class="p">::</span><span class="w"> </span><span class="n">right</span>
-<span class="w"> </span><span class="nb">logical</span><span class="p">,</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="n">optional</span><span class="w">                </span><span class="p">::</span><span class="w"> </span><span class="n">clip</span>
-</code></pre></div>
-
-<h2 id="description">DESCRIPTION</h2>
-<div class="codehilite"><pre><span></span><code><span class="nv">pad</span><span class="ss">(</span><span class="mi">3</span><span class="nv">f</span><span class="ss">)</span><span class="w"> </span><span class="nv">pads</span><span class="w"> </span><span class="nv">a</span><span class="w"> </span><span class="nv">string</span><span class="w"> </span><span class="nv">with</span><span class="w"> </span><span class="nv">a</span><span class="w"> </span><span class="nv">pattern</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">at</span><span class="w"> </span><span class="nv">least</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">specified</span>
-<span class="nv">length</span>.<span class="w"> </span><span class="k">If</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">trimmed</span><span class="w"> </span><span class="nv">input</span><span class="w"> </span><span class="nv">string</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">longer</span><span class="w"> </span><span class="nv">than</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">requested</span>
-<span class="nv">length</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">trimmed</span><span class="w"> </span><span class="nv">string</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">returned</span>.
-</code></pre></div>
-
-<h2 id="options">OPTIONS</h2>
-<div class="codehilite"><pre><span></span><code><span class="nv">str</span><span class="w">      </span><span class="nv">the</span><span class="w"> </span><span class="nv">input</span><span class="w"> </span><span class="nv">string</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nv">trimmed</span>,<span class="w"> </span><span class="nv">but</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="nv">padded</span><span class="w"> </span><span class="nv">to</span>
-<span class="w">         </span><span class="nv">the</span><span class="w"> </span><span class="nv">specified</span><span class="w"> </span><span class="nv">length</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">shorter</span><span class="w"> </span><span class="nv">than</span><span class="w"> </span><span class="nv">length</span>
-<span class="nv">length</span><span class="w">   </span><span class="nv">The</span><span class="w"> </span><span class="nv">minimum</span><span class="w"> </span><span class="nv">string</span><span class="w"> </span><span class="nv">length</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="k">return</span>
-<span class="nv">pattern</span><span class="w">  </span><span class="nv">optional</span><span class="w"> </span><span class="nv">string</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">use</span><span class="w"> </span><span class="nv">as</span><span class="w"> </span><span class="nv">padding</span>.<span class="w"> </span><span class="nv">Defaults</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">a</span><span class="w"> </span><span class="nv">space</span>.
-<span class="nv">right</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nv">true</span><span class="w"> </span><span class="nv">pads</span><span class="w"> </span><span class="nv">string</span><span class="w"> </span><span class="nv">on</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">right</span>,<span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="nv">on</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">left</span>.<span class="w"> </span><span class="nv">Defaults</span>
-<span class="w">         </span><span class="nv">to</span><span class="w"> </span><span class="nv">true</span>.
-<span class="nv">clip</span><span class="w">     </span><span class="nv">trim</span><span class="w"> </span><span class="nv">spaces</span><span class="w"> </span><span class="nv">from</span><span class="w"> </span><span class="nv">input</span><span class="w"> </span><span class="nv">string</span><span class="w"> </span><span class="nv">ends</span>.<span class="w"> </span><span class="nv">Defaults</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span>.<span class="nv">true</span>.
-</code></pre></div>
-
-<h2 id="returns">RETURNS</h2>
-<div class="codehilite"><pre><span></span><code><span class="nv">out</span><span class="w">  </span><span class="nv">The</span><span class="w"> </span><span class="nv">input</span><span class="w"> </span><span class="nv">string</span><span class="w"> </span><span class="nv">padded</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">requested</span><span class="w"> </span><span class="nv">length</span><span class="w"> </span><span class="nv">or</span>
-<span class="w">     </span><span class="nv">the</span><span class="w"> </span><span class="nv">trimmed</span><span class="w"> </span><span class="nv">input</span><span class="w"> </span><span class="nv">string</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">input</span><span class="w"> </span><span class="nv">string</span><span class="w"> </span><span class="nv">is</span>
-<span class="w">     </span><span class="nv">longer</span><span class="w"> </span><span class="nv">than</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">requested</span><span class="w"> </span><span class="nv">length</span>.
-</code></pre></div>
-
-<h2 id="examples">EXAMPLES</h2>
-<p>Sample Program:</p>
-<p>program demo_pad
-   use M_unicode, only  : pad, assignment(=)
-   !use M_unicode, only : write(formatted)
-   use M_unicode, only  : len
-   use M_unicode, only  : ch=&gt; character
-   use M_unicode, only  : ut=&gt; unicode_type
-   implicit none
-   type(ut)                   :: string
-   type(ut)                   :: answer
-   integer                    :: i
-   !character(len=<em>),parameter :: u=&rsquo;(</em>(DT))&rsquo;
-   character(len=<em>),parameter :: u=&rsquo;(</em>(g0))&rsquo;
-     !
-     string=&rsquo;abcdefghij&rsquo;
-     !
-     write(<em>,</em>)&rsquo;pad on right till 20 characters long&rsquo;
-     answer=pad(string,20)
-     write(<em>,&rsquo;(&ldquo;[&ldquo;,g0,&rdquo;]&rdquo;,/)&rsquo;) answer%character()
-     !
-     write(</em>,<em>)&rsquo;original is not trimmed for short length requests&rsquo;
-     answer=pad(string,5)
-     write(</em>,&rsquo;(&ldquo;[&ldquo;,g0,&rdquo;]&rdquo;,/)&rsquo;) answer%character()
-     !
-     i=30
-     write(<em>,</em>)&rsquo;pad with specified string and left-justified integers&rsquo;
-     write(<em>,&rsquo;(1x,g0,1x,i0)&rsquo;) &amp;
-      &amp; ch(pad(ut(&lsquo;CHAPTER 1 : The beginning &lsquo;),i,ut(&lsquo;.&rsquo;) )), 1   , &amp;
-      &amp; ch(pad(ut(&lsquo;CHAPTER 2 : The end &lsquo;),i,ut(&lsquo;.&rsquo;) )),       1234, &amp;
-      &amp; ch(pad(ut(&lsquo;APPENDIX &lsquo;),i,ut(&lsquo;.&rsquo;) )),                  1235
-     !
-     write(</em>,<em>)&rsquo;pad with specified string and right-justified integers&rsquo;
-     write(</em>,&rsquo;(1x,g0,i7)&rsquo;) &amp;
-      &amp; ch(pad(ut(&lsquo;CHAPTER 1 : The beginning &lsquo;),i,ut(&lsquo;.&rsquo;) )), 1   , &amp;
-      &amp; ch(pad(ut(&lsquo;CHAPTER 2 : The end &lsquo;),i,ut(&lsquo;.&rsquo;) )),       1234, &amp;
-      &amp; ch(pad(ut(&lsquo;APPENDIX &lsquo;),i,ut(&lsquo;.&rsquo;) )),                  1235
-     !
-     write(<em>,</em>)&rsquo;pad on left with zeros&rsquo;
-     write(<em>,u)ch(pad(ut(&lsquo;12&rsquo;),5,ut(&lsquo;0&rsquo;),right=.false.))
-     !
-     write(</em>,<em>)&rsquo;various lengths with clip .true. and .false.&rsquo;
-     write(</em>,u)ch(pad(ut(&lsquo;12345 &lsquo;),30,ut(&lsquo;<em>&rsquo;),right=.false.))
-     write(<em>,u)ch(pad(ut(&lsquo;12345 &lsquo;),30,ut(&lsquo;_&rsquo;),right=.false.,clip=.true.))
-     write(</em>,u)ch(pad(ut(&lsquo;12345 &lsquo;), 7,ut(&lsquo;</em>&rsquo;),right=.false.))
-     write(<em>,u)ch(pad(ut(&lsquo;12345 &lsquo;), 7,ut(&lsquo;_&rsquo;),right=.false.,clip=.true.))
-     write(</em>,u)ch(pad(ut(&lsquo;12345 &lsquo;), 6,ut(&lsquo;<em>&rsquo;),right=.false.))
-     write(<em>,u)ch(pad(ut(&lsquo;12345 &lsquo;), 6,ut(&lsquo;_&rsquo;),right=.false.,clip=.true.))
-     write(</em>,u)ch(pad(ut(&lsquo;12345 &lsquo;), 5,ut(&lsquo;</em>&rsquo;),right=.false.))
-     write(<em>,u)ch(pad(ut(&lsquo;12345 &lsquo;), 5,ut(&lsquo;_&rsquo;),right=.false.,clip=.true.))
-     write(</em>,u)ch(pad(ut(&lsquo;12345 &lsquo;), 4,ut(&lsquo;<em>&rsquo;),right=.false.))
-     write(*,u)ch(pad(ut(&lsquo;12345 &lsquo;), 4,ut(&lsquo;</em>&rsquo;),right=.false.,clip=.true.))
-  end program demo_pad</p>
-<p>Results:</p>
-<div class="codehilite"><pre><span></span><code><span class="o">&gt;</span><span class="w">  </span><span class="k">pad</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="nf">right</span><span class="w"> </span><span class="n">till</span><span class="w"> </span><span class="mi">20</span><span class="w"> </span><span class="n">characters</span><span class="w"> </span><span class="n">long</span>
-<span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">abcdefghij          </span><span class="o">]</span>
-<span class="o">&gt;</span>
-<span class="o">&gt;</span><span class="w">  </span><span class="n">original</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">trimmed</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">short</span><span class="w"> </span><span class="n">length</span><span class="w"> </span><span class="n">requests</span>
-<span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">abcdefghij</span><span class="o">]</span>
-<span class="o">&gt;</span>
-<span class="o">&gt;</span><span class="w">  </span><span class="k">pad</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">specified</span><span class="w"> </span><span class="n">string</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="nf">left</span><span class="o">-</span><span class="n">justified</span><span class="w"> </span><span class="n">integers</span>
-<span class="o">&gt;</span><span class="w">  </span><span class="n">CHAPTER</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">beginning</span><span class="w"> </span><span class="p">....</span><span class="w"> </span><span class="mi">1</span>
-<span class="o">&gt;</span><span class="w">  </span><span class="n">CHAPTER</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="p">..........</span><span class="w"> </span><span class="mi">1234</span>
-<span class="o">&gt;</span><span class="w">  </span><span class="n">APPENDIX</span><span class="w"> </span><span class="p">.....................</span><span class="w"> </span><span class="mi">1235</span>
-<span class="o">&gt;</span><span class="w">  </span><span class="k">pad</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">specified</span><span class="w"> </span><span class="n">string</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="nf">right</span><span class="o">-</span><span class="n">justified</span><span class="w"> </span><span class="n">integers</span>
-<span class="o">&gt;</span><span class="w">  </span><span class="n">CHAPTER</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">beginning</span><span class="w"> </span><span class="p">....</span><span class="w">      </span><span class="mi">1</span>
-<span class="o">&gt;</span><span class="w">  </span><span class="n">CHAPTER</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="p">..........</span><span class="w">   </span><span class="mi">1234</span>
-<span class="o">&gt;</span><span class="w">  </span><span class="n">APPENDIX</span><span class="w"> </span><span class="p">.....................</span><span class="w">   </span><span class="mi">1235</span>
-<span class="o">&gt;</span><span class="w">  </span><span class="k">pad</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="nf">left</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">zeros</span>
-<span class="o">&gt;</span><span class="w"> </span><span class="mi">00012</span>
-<span class="o">&gt;</span><span class="w">  </span><span class="n">various</span><span class="w"> </span><span class="n">lengths</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">clip</span><span class="w"> </span><span class="p">.</span><span class="k">true</span><span class="p">.</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="p">.</span><span class="k">false</span><span class="p">.</span>
-<span class="o">&gt;</span><span class="w"> </span><span class="n">________________________12345</span>
-<span class="o">&gt;</span><span class="w"> </span><span class="n">_________________________12345</span>
-<span class="o">&gt;</span><span class="w"> </span><span class="n">_12345</span>
-<span class="o">&gt;</span><span class="w"> </span><span class="n">__12345</span>
-<span class="o">&gt;</span><span class="w"> </span><span class="mi">12345</span>
-<span class="o">&gt;</span><span class="w"> </span><span class="n">_12345</span>
-<span class="o">&gt;</span><span class="w"> </span><span class="mi">12345</span>
-<span class="o">&gt;</span><span class="w"> </span><span class="mi">12345</span>
-<span class="o">&gt;</span><span class="w"> </span><span class="mi">12345</span>
-<span class="o">&gt;</span><span class="w"> </span><span class="mi">2345</span>
-</code></pre></div>
-
-<h2 id="see-also">SEE ALSO</h2>
-<div class="codehilite"><pre><span></span><code>  adjustl(3f), adjustr(3f), repeat(3f), trim(3f), len_trim(3f), len(3f)
-</code></pre></div>
-
-<h2 id="author">AUTHOR</h2>
-<div class="codehilite"><pre><span></span><code> John S. Urban
-</code></pre></div>
-
-<h2 id="license">LICENSE</h2>
-<div class="codehilite"><pre><span></span><code> MIT
-</code></pre></div>
 
 
     <h3>Arguments</h3>
@@ -310,7 +177,7 @@ specified length
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-line~12"></span>
+              <span class="anchor" id="variable-line~11"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -325,7 +192,7 @@ specified length
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-length~5"></span>
+              <span class="anchor" id="variable-length~6"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -480,7 +347,7 @@ specified length
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-11-21 18:13 +0000             </p>
+ on 2025-11-22 15:16 +0000             </p>
           </div>
         </div>
         <br>

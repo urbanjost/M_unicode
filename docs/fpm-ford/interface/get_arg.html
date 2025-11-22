@@ -174,85 +174,7 @@
     <div class="card-header codesum"><span class="anchor" id="proc-get_arg_ia"></span> <h3>private impure elemental function get_arg_ia(position, default) result(value)  
 </h3></div>
     <div class="card-body">
-        <h2 id="name">NAME</h2>
-<div class="codehilite"><pre><span></span><code>get_arg(3f) - [M_unicode:SYSTEM] get command line argument
-(LICENSE:MIT)
-</code></pre></div>
-
-<h2 id="synopsis">SYNOPSIS</h2>
-<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nx">impure</span><span class="w"> </span><span class="nx">elemental</span><span class="w"> </span><span class="nx">function</span><span class="w"> </span><span class="nx">get_arg</span><span class="p">(</span><span class="nx">position</span><span class="p">,</span><span class="k">default</span><span class="p">)</span><span class="w"> </span><span class="nx">result</span><span class="p">(</span><span class="nx">out</span><span class="p">)</span>
-
-<span class="w">  </span><span class="nx">integer</span><span class="p">,</span><span class="nx">intent</span><span class="p">=(</span><span class="k">in</span><span class="p">)</span><span class="w">         </span><span class="o">::</span><span class="w"> </span><span class="nx">position</span>
-<span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">optional</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="k">default</span>
-<span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span><span class="w">          </span><span class="o">::</span><span class="w"> </span><span class="nx">out</span>
-</code></pre></div>
-
-<h2 id="characteristics">CHARACTERISTICS</h2>
-<div class="codehilite"><pre><span></span><code><span class="nx">DEFAULT</span><span class="w"> </span><span class="nx">may</span><span class="w"> </span><span class="nx">be</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="nx">CHARACTER</span><span class="w"> </span><span class="k">type</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nx">well</span><span class="p">.</span>
-</code></pre></div>
-
-<h2 id="description">DESCRIPTION</h2>
-<div class="codehilite"><pre><span></span><code>get_arg(3) gets the value of the requested command line argument
-as TYPE(UNICODE_TYPE) .
-</code></pre></div>
-
-<h2 id="options">OPTIONS</h2>
-<div class="codehilite"><pre><span></span><code><span class="nv">position</span><span class="w">  </span><span class="nv">Position</span><span class="w"> </span><span class="nv">on</span><span class="w"> </span><span class="nv">command</span><span class="w"> </span><span class="nv">line</span><span class="w"> </span><span class="nv">of</span><span class="w"> </span><span class="nv">requested</span><span class="w"> </span><span class="nv">argument</span>.<span class="w"> </span><span class="nv">Zero</span><span class="w"> </span><span class="nv">returns</span>
-<span class="w">          </span><span class="nv">the</span><span class="w"> </span><span class="nv">name</span><span class="w"> </span><span class="nv">of</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">command</span><span class="w"> </span><span class="nv">executed</span>.<span class="w"> </span><span class="nv">Non</span><span class="o">-</span><span class="nv">existent</span><span class="w"> </span><span class="nv">positions</span>
-<span class="w">          </span><span class="nv">default</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">returning</span><span class="w"> </span><span class="nv">a</span><span class="w"> </span><span class="nv">null</span><span class="w"> </span><span class="nv">string</span>.
-
-<span class="nv">default</span><span class="w">  </span><span class="nv">value</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">argument</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">not</span><span class="w"> </span><span class="nv">set</span><span class="w"> </span><span class="nv">or</span><span class="w"> </span><span class="nv">set</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">a</span><span class="w"> </span><span class="nv">blank</span><span class="w"> </span><span class="nv">value</span>
-</code></pre></div>
-
-<h2 id="returns">RETURNS</h2>
-<div class="codehilite"><pre><span></span><code><span class="n">out</span><span class="w">      </span><span class="n">value</span><span class="w"> </span><span class="n">assigned</span><span class="w"> </span><span class="n">based</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">environment</span><span class="w"> </span><span class="n">variable</span><span class="w"> </span><span class="n">NAME</span>
-</code></pre></div>
-
-<h2 id="examples">EXAMPLES</h2>
-<p>Sample program:</p>
-<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_get_arg</span>
-<span class="w"> </span><span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">get_arg</span><span class="p">,</span><span class="w"> </span><span class="nx">ut</span><span class="o">=&gt;</span><span class="w"> </span><span class="nx">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="nx">ch</span><span class="o">=&gt;</span><span class="nx">character</span>
-<span class="w"> </span><span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">assignment</span><span class="p">(=),</span><span class="w"> </span><span class="nx">operator</span><span class="p">(</span><span class="c1">//), write(formatted)</span>
-<span class="w"> </span><span class="nx">implicit</span><span class="w"> </span><span class="nx">none</span>
-<span class="w"> </span><span class="nx">integer</span><span class="w">  </span><span class="o">::</span><span class="w"> </span><span class="nx">position</span>
-<span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="k">default</span>
-<span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">value</span>
-<span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">smiley</span>
-<span class="w"> </span><span class="nx">integer</span><span class="w">  </span><span class="o">::</span><span class="w"> </span><span class="nx">i</span>
-<span class="w"> </span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">parameter</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">bracket</span><span class="p">=</span><span class="w"> </span><span class="err">&#39;</span><span class="p">(</span><span class="mi">1</span><span class="nx">x</span><span class="p">,</span><span class="o">*</span><span class="p">(</span><span class="s">&quot;[&quot;</span><span class="p">,</span><span class="nx">a</span><span class="p">,</span><span class="s">&quot;]&quot;</span><span class="p">,:))</span><span class="err">&#39;</span>
-<span class="w">    </span><span class="p">!</span>
-<span class="w">    </span><span class="nx">smiley</span><span class="p">=</span><span class="mi">128515</span><span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">set</span><span class="w"> </span><span class="nx">with</span><span class="w"> </span><span class="nx">Unicode</span><span class="w"> </span><span class="nx">code</span><span class="w"> </span><span class="nx">point</span>
-<span class="w">    </span><span class="k">default</span><span class="p">=</span><span class="err">&#39;</span><span class="nx">Wish</span><span class="w"> </span><span class="nx">I</span><span class="w"> </span><span class="nx">was</span><span class="w"> </span><span class="nx">first</span><span class="w"> </span><span class="err">&#39;</span><span class="c1">//smiley//&#39;!&#39; ! set with unicode_type</span>
-<span class="w">    </span><span class="p">!</span>
-<span class="w">    </span><span class="p">!</span><span class="w"> </span><span class="nx">arguments</span><span class="w"> </span><span class="nx">can</span><span class="w"> </span><span class="nx">be</span><span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="nx">character</span>
-<span class="w">    </span><span class="p">!</span><span class="w"> </span><span class="nx">but</span><span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="nx">always</span><span class="w"> </span><span class="k">returned</span>
-<span class="w">    </span><span class="nx">do</span><span class="w"> </span><span class="nx">position</span><span class="p">=</span><span class="mi">0</span><span class="p">,</span><span class="nx">command_argument_count</span><span class="p">()</span>
-<span class="w">       </span><span class="nx">value</span><span class="p">=</span><span class="nx">get_arg</span><span class="p">(</span><span class="nx">position</span><span class="p">,</span><span class="w"> </span><span class="k">default</span><span class="w">             </span><span class="p">)</span>
-<span class="w">       </span><span class="nx">value</span><span class="p">=</span><span class="nx">get_arg</span><span class="p">(</span><span class="nx">position</span><span class="p">,</span><span class="w"> </span><span class="k">default</span><span class="o">%</span><span class="nx">character</span><span class="p">()</span><span class="w"> </span><span class="p">)</span>
-<span class="w">       </span><span class="p">!</span>
-<span class="w">       </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="nx">value</span><span class="o">%</span><span class="nx">character</span><span class="p">()</span>
-<span class="w">       </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="err">&#39;</span><span class="p">(</span><span class="nx">DT</span><span class="p">)</span><span class="err">&#39;</span><span class="p">)</span><span class="k">default</span><span class="o">%</span><span class="nx">get_arg</span><span class="p">(</span><span class="nx">position</span><span class="p">)</span>
-<span class="w">       </span><span class="p">!</span>
-<span class="w">       </span><span class="p">!</span><span class="w"> </span><span class="nx">print</span><span class="w"> </span><span class="nx">each</span><span class="w"> </span><span class="nx">glyph</span><span class="w"> </span><span class="nx">surrounded</span><span class="w"> </span><span class="nx">by</span><span class="w"> </span><span class="nx">brackets</span>
-<span class="w">       </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">bracket</span><span class="p">)(</span><span class="nx">value</span><span class="o">%</span><span class="nx">character</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span><span class="nx">i</span><span class="p">),</span><span class="nx">i</span><span class="p">=</span><span class="mi">1</span><span class="p">,</span><span class="nx">value</span><span class="o">%</span><span class="nx">len</span><span class="p">())</span>
-<span class="w">    </span><span class="nx">enddo</span>
-<span class="w">    </span><span class="p">!</span>
-<span class="w"> </span><span class="nx">end</span><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_get_arg</span>
-</code></pre></div>
-
-<p>Results:</p>
-<div class="codehilite"><pre><span></span><code><span class="o">&gt;</span><span class="w"> </span><span class="n">demo_get_arg</span>
-<span class="o">&gt;</span><span class="w"> </span><span class="n">demo_get_arg</span>
-<span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">d</span><span class="o">][</span><span class="n">e</span><span class="o">][</span><span class="n">m</span><span class="o">][</span><span class="n">o</span><span class="o">][</span><span class="n">_</span><span class="o">][</span><span class="n">g</span><span class="o">][</span><span class="n">e</span><span class="o">][</span><span class="n">t</span><span class="o">][</span><span class="n">_</span><span class="o">][</span><span class="n">a</span><span class="o">][</span><span class="n">r</span><span class="o">][</span><span class="n">g</span><span class="o">]</span>
-</code></pre></div>
-
-<h2 id="author">AUTHOR</h2>
-<div class="codehilite"><pre><span></span><code>  John S. Urban
-</code></pre></div>
-
-<h2 id="license">LICENSE</h2>
-<div class="codehilite"><pre><span></span><code> MIT
-</code></pre></div>
+        
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -282,7 +204,7 @@ as TYPE(UNICODE_TYPE) .
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-default~5"></span>
+              <span class="anchor" id="variable-default~6"></span>
               character(len=*),
             </td>
 <td>intent(in),</td>
@@ -341,7 +263,7 @@ as TYPE(UNICODE_TYPE) .
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-default~6"></span>
+              <span class="anchor" id="variable-default~7"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -383,7 +305,7 @@ as TYPE(UNICODE_TYPE) .
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-11-21 18:13 +0000             </p>
+ on 2025-11-22 15:16 +0000             </p>
           </div>
         </div>
         <br>

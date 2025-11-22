@@ -406,7 +406,8 @@ character(len=128) :: ascii7
 end subroutine test_upper
 
 subroutine test_lower()
-type(unicode_type)  :: upp, low, lowkludge, temp, letter1, letter2
+type(unicode_type)  :: upp, low, lowkludge, temp, letter1, letter2, letter3, letter4
+
 integer             :: i
 integer,allocatable :: codes(:)
 character(len=128)  :: ascii7
@@ -455,14 +456,7 @@ character(len=128)  :: ascii7
    &ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ'
 
    temp=lower(upp)
-   ! known conundrum at 82 i ı
-   do i=1,len(temp)
-      letter1=temp%character(i)
-      letter2=low%character(i,i)
-      if ( letter1 /= letter2 )then
-         write(*,g1)i,letter1%character(), letter2%character()
-      endif
-   enddo
+   call reportit()
    codes=low%codepoint()
    codes(82)=ichar('i')
    lowkludge=codes
@@ -480,12 +474,32 @@ character(len=128)  :: ascii7
    call check('lower',temp==lower(temp),'expect no change')
 
    temp=upp%lower()
-   ! known conundrum at 82 i ı
-   write(*,*)character(temp,82,82)
+   !write(*,*)character(temp,82,82) ! known conundrum at 82 i ı
 
-   ! ADE | 73  I | 105  i | ı
+   letter1= int(z"0049") ! * U+0049 I LATIN CAPITAL LETTER I.
+   letter2= int(z"0130") ! * U+0130 İ LATIN CAPITAL LETTER I WITH DOT ABOVE.
+   letter3= int(z"0069") ! * U+0069 i LATIN SMALL LETTER I. (dotted)
+   letter4= int(z"0131") ! * U+0131 ı LATIN SMALL LETTER I DOTLESS
+
+   temp=replace(temp,82,82,letter4) 
+
    call check('%lower', temp == low )
-   call check('%lower', character(temp) == character(upp) )
+   call check('%lower', character(temp) == character(low) )
+   contains
+   subroutine reportit()
+   ! known conundrum at 82 i ı
+   do i=1,len(temp)
+      letter1=temp%character(i)
+      letter2=low%character(i,i)
+      if ( letter1 /= letter2 )then
+         if(i.eq.82)then
+            call check('lower',i==82,'expected difference'//letter1%character()//letter2%character())
+         else
+            call check('lower',letter1==letter2,'failed'//letter1%character()//letter2%character())
+         endif
+      endif
+   enddo
+   end subroutine reportit
 
 end subroutine test_lower
 

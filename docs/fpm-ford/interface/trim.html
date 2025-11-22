@@ -173,98 +173,7 @@
     <div class="card-header codesum"><span class="anchor" id="proc-trim_str"></span> <h3>private elemental function trim_str(string) result(trimmed_str)  
 </h3></div>
     <div class="card-body">
-        <h2 id="name">NAME</h2>
-<p>TRIM(3f) - [M_unicode:WHITESPACE] remove trailing blank characters from
-              a string
-              (LICENSE:MIT)</p>
-<h2 id="synopsis">SYNOPSIS</h2>
-<p>result = trim(string)</p>
-<div class="codehilite"><pre><span></span><code><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span><span class="w"> </span><span class="nx">function</span><span class="w"> </span><span class="nx">trim</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span>
-
-<span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="kt">string</span>
-</code></pre></div>
-
-<h2 id="characteristics">CHARACTERISTICS</h2>
-<ul>
-<li>the result is a string.</li>
-</ul>
-<h2 id="description">DESCRIPTION</h2>
-<p>trim(3) removes trailing blank characters from a string.</p>
-<h2 id="options">OPTIONS</h2>
-<ul>
-<li>string : a string to trim</li>
-</ul>
-<h2 id="result">RESULT</h2>
-<p>the result is the same as string except trailing blanks are removed.</p>
-<p>if string is composed entirely of blanks or has zero length, the
-   result has zero length.</p>
-<h2 id="examples">EXAMPLES</h2>
-<p>sample program:</p>
-<div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">demo_trim</span>
-<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">ut</span><span class="o">=&gt;</span><span class="nx">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="nx">assignment</span><span class="p">(=)</span>
-<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">trim</span><span class="p">,</span><span class="w"> </span><span class="nx">len</span>
-<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">write</span><span class="p">(</span><span class="nx">formatted</span><span class="p">)</span>
-<span class="nx">implicit</span><span class="w"> </span><span class="nx">none</span>
-<span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">)</span><span class="w">                   </span><span class="o">::</span><span class="w"> </span><span class="nx">str</span>
-<span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">),</span><span class="w"> </span><span class="nx">allocatable</span><span class="w">      </span><span class="o">::</span><span class="w"> </span><span class="nx">strs</span><span class="p">(:)</span>
-<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">parameter</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">brackets</span><span class="p">=</span><span class="err">&#39;</span><span class="p">(</span><span class="w"> </span><span class="o">*</span><span class="p">(</span><span class="s">&quot;[&quot;</span><span class="p">,</span><span class="nx">DT</span><span class="p">,</span><span class="s">&quot;]&quot;</span><span class="p">:,</span><span class="mi">1</span><span class="nx">x</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="err">&#39;</span>
-<span class="nx">integer</span><span class="w">                    </span><span class="o">::</span><span class="w"> </span><span class="nx">i</span>
-<span class="w">   </span><span class="p">!</span>
-<span class="w">   </span><span class="nx">str</span><span class="p">=</span><span class="err">&#39;</span><span class="w">   </span><span class="nx">trailing</span><span class="w">    </span><span class="err">&#39;</span>
-<span class="w">   </span><span class="nx">print</span><span class="w"> </span><span class="nx">brackets</span><span class="p">,</span><span class="w"> </span><span class="nx">str</span><span class="p">,</span><span class="nx">trim</span><span class="p">(</span><span class="nx">str</span><span class="p">)</span><span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">trims</span><span class="w"> </span><span class="nx">it</span>
-<span class="w">   </span><span class="p">!</span>
-<span class="w">   </span><span class="nx">str</span><span class="p">=</span><span class="err">&#39;</span><span class="w">   </span><span class="nx">leading</span><span class="err">&#39;</span>
-<span class="w">   </span><span class="nx">print</span><span class="w"> </span><span class="nx">brackets</span><span class="p">,</span><span class="w"> </span><span class="nx">str</span><span class="p">,</span><span class="nx">trim</span><span class="p">(</span><span class="nx">str</span><span class="p">)</span><span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">no</span><span class="w"> </span><span class="nx">effect</span>
-<span class="w">   </span><span class="p">!</span>
-<span class="w">   </span><span class="nx">str</span><span class="p">=</span><span class="err">&#39;</span><span class="w">            </span><span class="err">&#39;</span>
-<span class="w">   </span><span class="nx">print</span><span class="w"> </span><span class="nx">brackets</span><span class="p">,</span><span class="w"> </span><span class="nx">str</span><span class="p">,</span><span class="nx">trim</span><span class="p">(</span><span class="nx">str</span><span class="p">)</span><span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">becomes</span><span class="w"> </span><span class="nx">zero</span><span class="w"> </span><span class="nx">length</span>
-<span class="w">   </span><span class="nx">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w">  </span><span class="nx">len</span><span class="p">(</span><span class="nx">str</span><span class="p">),</span><span class="w"> </span><span class="nx">len</span><span class="p">(</span><span class="nx">trim</span><span class="p">(</span><span class="err">&#39;</span><span class="w">               </span><span class="err">&#39;</span><span class="p">))</span>
-<span class="w">   </span><span class="p">!</span>
-<span class="w">   </span><span class="nx">strs</span><span class="p">=[</span><span class="nx">ut</span><span class="p">(</span><span class="s">&quot;Z &quot;</span><span class="p">),</span><span class="nx">ut</span><span class="p">(</span><span class="s">&quot; a b c&quot;</span><span class="p">),</span><span class="nx">ut</span><span class="p">(</span><span class="s">&quot;ABC   &quot;</span><span class="p">),</span><span class="nx">ut</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">)]</span>
-<span class="w">   </span><span class="p">!</span>
-<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="err">&#39;</span><span class="nx">untrimmed</span><span class="p">:</span><span class="err">&#39;</span>
-<span class="w">   </span><span class="nx">print</span><span class="w"> </span><span class="nx">brackets</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">strs</span><span class="p">(</span><span class="nx">i</span><span class="p">),</span><span class="w"> </span><span class="nx">i</span><span class="p">=</span><span class="mi">1</span><span class="p">,</span><span class="nx">size</span><span class="p">(</span><span class="nx">strs</span><span class="p">))</span>
-<span class="w">   </span><span class="nx">print</span><span class="w"> </span><span class="nx">brackets</span><span class="p">,</span><span class="w"> </span><span class="nx">strs</span>
-<span class="w">   </span><span class="p">!</span>
-<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="err">&#39;</span><span class="nx">trimmed</span><span class="p">:</span><span class="err">&#39;</span>
-<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">everything</span><span class="w"> </span><span class="nx">prints</span><span class="w"> </span><span class="nx">trimmed</span>
-<span class="w">   </span><span class="nx">print</span><span class="w"> </span><span class="nx">brackets</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">trim</span><span class="p">(</span><span class="nx">strs</span><span class="p">(</span><span class="nx">i</span><span class="p">)),</span><span class="w"> </span><span class="nx">i</span><span class="p">=</span><span class="mi">1</span><span class="p">,</span><span class="nx">size</span><span class="p">(</span><span class="nx">strs</span><span class="p">))</span>
-<span class="w">   </span><span class="nx">print</span><span class="w"> </span><span class="nx">brackets</span><span class="p">,</span><span class="w"> </span><span class="nx">trim</span><span class="p">(</span><span class="nx">strs</span><span class="p">)</span>
-<span class="w">   </span><span class="p">!</span>
-<span class="nx">end</span><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_trim</span>
-</code></pre></div>
-
-<p>results:</p>
-<div class="codehilite"><pre><span></span><code><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">   trailing    </span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">   trailing</span><span class="o">]</span>
-<span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">   leading</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">   leading</span><span class="o">]</span>
-<span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">            </span><span class="o">]</span><span class="w"> </span><span class="err">[]</span>
-<span class="o">&gt;</span><span class="w">           </span><span class="mi">12</span><span class="w">           </span><span class="mi">0</span>
-<span class="o">&gt;</span><span class="w">  </span><span class="nl">untrimmed</span><span class="p">:</span>
-<span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">Z </span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n"> a b c</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">ABC   </span><span class="o">]</span><span class="w"> </span><span class="err">[]</span>
-<span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">Z </span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n"> a b c</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">ABC   </span><span class="o">]</span><span class="w"> </span><span class="err">[]</span>
-<span class="o">&gt;</span><span class="w">  </span><span class="nl">trimmed</span><span class="p">:</span>
-<span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">Z</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n"> a b c</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">ABC</span><span class="o">]</span><span class="w"> </span><span class="err">[]</span>
-<span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">Z</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n"> a b c</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">ABC</span><span class="o">]</span><span class="w"> </span><span class="err">[]</span>
-</code></pre></div>
-
-<h2 id="see-also">SEE ALSO</h2>
-<p>Functions that perform operations on character strings, return
-   lengths of arguments, and search for certain arguments:</p>
-<ul>
-<li>
-<p>elemental: adjustl(3), adjustr(3), index(3), scan(3), verify(3)</p>
-</li>
-<li>
-<p>nonelemental: len_trim(3), len(3), repeat(3), trim(3)</p>
-</li>
-</ul>
-<h2 id="author">AUTHOR</h2>
-<div class="codehilite"><pre><span></span><code> John S. Urban
-</code></pre></div>
-
-<h2 id="license">LICENSE</h2>
-<div class="codehilite"><pre><span></span><code> MIT
-</code></pre></div>
+        
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -279,7 +188,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~24"></span>
+              <span class="anchor" id="variable-string~23"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -321,7 +230,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-11-21 18:13 +0000             </p>
+ on 2025-11-22 15:16 +0000             </p>
           </div>
         </div>
         <br>

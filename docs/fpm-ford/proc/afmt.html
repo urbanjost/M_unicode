@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 9.1% of total for procedures.">117 statements</a>
+                 title=" 9.0% of total for procedures.">117 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -162,82 +162,6 @@
 </h2>
     
 
-    <h2 id="name">NAME</h2>
-<div class="codehilite"><pre><span></span><code> FMT(3f) - [M_unicode:CONVERSION] convert any intrinsic to a string using specified format
- (LICENSE:MIT)
-</code></pre></div>
-
-<h2 id="synopsis">SYNOPSIS</h2>
-<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="nf">fmt(value,format) result</span><span class="p">(</span>string<span class="p">)</span>
-
-<span class="w">  </span><span class="nb">class</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="n">optional</span><span class="w">           </span><span class="p">::</span><span class="w"> </span><span class="n">value</span>
-
-<span class="w">  </span><span class="n">character</span><span class="p">(</span><span class="n">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="n">optional</span><span class="w">   </span><span class="p">::</span><span class="w"> </span><span class="nb">format</span>
-<span class="w">     </span><span class="n">or</span>
-<span class="w">  </span><span class="nb">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="n">optional</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="nb">format</span>
-
-<span class="w">  </span><span class="nb">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">                     </span><span class="p">::</span><span class="w"> </span><span class="nb">string</span>
-</code></pre></div>
-
-<h2 id="description">DESCRIPTION</h2>
-<div class="codehilite"><pre><span></span><code> FMT(3f) converts any standard intrinsic value to a string using the specified
- format.
-</code></pre></div>
-
-<h2 id="options">OPTIONS</h2>
-<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nx">value</span><span class="w">    </span><span class="nx">value</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">print</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">value</span><span class="w"> </span><span class="nx">of</span><span class="p">.</span><span class="w"> </span><span class="nx">May</span><span class="w"> </span><span class="nx">be</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="k">type</span><span class="w"> </span><span class="nx">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="nx">LOGICAL</span><span class="p">,</span>
-<span class="w">          </span><span class="nx">REAL</span><span class="p">,</span><span class="w"> </span><span class="nx">DOUBLEPRECISION</span><span class="p">,</span><span class="w"> </span><span class="nx">COMPLEX</span><span class="p">,</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="nx">CHARACTER</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nx">well</span><span class="w"> </span><span class="k">as</span>
-<span class="w">          </span><span class="nx">TYPE</span><span class="p">(</span><span class="nx">UNICODE_TYPE</span><span class="p">).</span>
-<span class="w"> </span><span class="nx">format</span><span class="w">   </span><span class="nx">format</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">use</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">print</span><span class="w"> </span><span class="nx">value</span><span class="p">.</span><span class="w"> </span><span class="nx">It</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="nx">up</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">user</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">use</span><span class="w"> </span><span class="nx">an</span>
-<span class="w">          </span><span class="nx">appropriate</span><span class="w"> </span><span class="nx">format</span><span class="p">.</span><span class="w"> </span><span class="nx">The</span><span class="w"> </span><span class="nx">format</span><span class="w"> </span><span class="nx">does</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="nx">require</span><span class="w"> </span><span class="nx">being</span>
-<span class="w">          </span><span class="nx">surrounded</span><span class="w"> </span><span class="nx">by</span><span class="w"> </span><span class="nx">parenthesis</span><span class="p">.</span><span class="w"> </span><span class="nx">If</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="nx">present</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="nx">selected</span>
-<span class="w">          </span><span class="nx">similar</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">what</span><span class="w"> </span><span class="nx">would</span><span class="w"> </span><span class="nx">be</span><span class="w"> </span><span class="nx">produced</span><span class="w"> </span><span class="nx">with</span><span class="w"> </span><span class="nx">free</span><span class="w"> </span><span class="nx">format</span><span class="p">,</span><span class="w"> </span><span class="nx">with</span>
-<span class="w">          </span><span class="nx">trailing</span><span class="w"> </span><span class="nx">zeros</span><span class="w"> </span><span class="nx">removed</span><span class="p">.</span>
-</code></pre></div>
-
-<h2 id="returns">RETURNS</h2>
-<div class="codehilite"><pre><span></span><code> string   A string value
-</code></pre></div>
-
-<h2 id="examples">EXAMPLES</h2>
-<div class="codehilite"><pre><span></span><code><span class="n">Sample</span><span class="w"> </span><span class="nl">program</span><span class="p">:</span>
-
-<span class="w">  </span><span class="n">program</span><span class="w"> </span><span class="n">demo_fmt</span>
-<span class="w">  </span><span class="k">use</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="n">fmt</span><span class="p">,</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">)</span>
-<span class="w">  </span><span class="k">use</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="n">ut</span><span class="o">=&gt;</span><span class="n">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="n">ch</span><span class="o">=&gt;</span><span class="k">character</span>
-<span class="w">  </span><span class="n">implicit</span><span class="w"> </span><span class="k">none</span>
-<span class="w">  </span><span class="k">character</span><span class="p">(</span><span class="nf">len</span><span class="o">=</span><span class="err">:</span><span class="p">),</span><span class="n">allocatable</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="n">Astr</span><span class="p">,</span><span class="w"> </span><span class="n">Aformat</span>
-<span class="w">  </span><span class="n">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="n">Ustr</span>
-<span class="w">     </span><span class="err">!</span><span class="w"> </span><span class="nf">format</span><span class="w"> </span><span class="n">can</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="k">CHARACTER</span>
-<span class="w">     </span><span class="n">Aformat</span><span class="o">=</span><span class="ss">&quot;(&#39;[&#39;,i0,&#39;]&#39;)&quot;</span>
-<span class="w">     </span><span class="n">Astr</span><span class="o">=</span><span class="n">fmt</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="n">Aformat</span><span class="p">)</span>
-<span class="w">     </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">&#39;result is &#39;</span><span class="p">,</span><span class="n">Astr</span>
-<span class="w">     </span><span class="err">!</span><span class="w"> </span><span class="nf">format</span><span class="w"> </span><span class="n">can</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">string</span>
-<span class="w">     </span><span class="n">Astr</span><span class="o">=</span><span class="n">fmt</span><span class="p">(</span><span class="mf">10.0</span><span class="o">/</span><span class="mf">3.0</span><span class="p">,</span><span class="n">ut</span><span class="p">(</span><span class="ss">&quot;&#39;[&#39;,g0.5,&#39;]&#39;&quot;</span><span class="p">))</span>
-<span class="w">     </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">&#39;result is &#39;</span><span class="p">,</span><span class="n">Astr</span>
-<span class="w">     </span><span class="err">!</span><span class="w"> </span><span class="k">Output</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="n">so</span><span class="w"> </span><span class="k">use</span><span class="w"> </span><span class="n">ch</span><span class="p">()</span>
-<span class="w">     </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">&#39;result is &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">ch</span><span class="p">(</span><span class="n">fmt</span><span class="p">(.</span><span class="k">true</span><span class="p">.,</span><span class="ss">&quot;&#39;The answer is [&#39;,g0,&#39;]&#39;&quot;</span><span class="p">))</span>
-<span class="w">     </span><span class="err">!</span><span class="w"> </span><span class="n">OOP</span>
-<span class="w">     </span><span class="n">Ustr</span><span class="o">=</span><span class="s1">&#39;A B C&#39;</span>
-<span class="w">     </span><span class="n">Ustr</span><span class="o">=</span><span class="n">Ustr</span><span class="o">%</span><span class="n">fmt</span><span class="p">(</span><span class="ss">&quot;&#39;[&#39;,g0,&#39;]&#39;&quot;</span><span class="p">)</span>
-<span class="w">     </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">&#39;result is &#39;</span><span class="p">,</span><span class="n">ch</span><span class="p">(</span><span class="n">Ustr</span><span class="p">)</span>
-<span class="w">  </span><span class="k">end</span><span class="w"> </span><span class="n">program</span><span class="w"> </span><span class="n">demo_fmt</span>
-
-<span class="nl">Results</span><span class="p">:</span>
-
-<span class="w">  </span><span class="k">result</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="o">[</span><span class="n">10</span><span class="o">]</span>
-<span class="w">  </span><span class="k">result</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="o">[</span><span class="n">3.3333</span><span class="o">]</span>
-<span class="w">  </span><span class="k">result</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">final</span><span class="w"> </span><span class="n">answer</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="o">[</span><span class="n">T</span><span class="o">]</span>
-<span class="w">  </span><span class="k">result</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="o">[</span><span class="n">A B C</span><span class="o">]</span>
-</code></pre></div>
-
-<h2 id="author">AUTHOR</h2>
-<div class="codehilite"><pre><span></span><code> John S. Urban
-</code></pre></div>
-
-<h2 id="license">LICENSE</h2>
-<div class="codehilite"><pre><span></span><code> MIT
-</code></pre></div>
 
 
     <h3>Arguments</h3>
@@ -286,7 +210,7 @@
 
       <h3>Return Value
         <small>
-          <span class="anchor" id="variable-line~18"></span>
+          <span class="anchor" id="variable-line~17"></span>
           character(len=:), allocatable
         </small>
       </h3>
@@ -435,7 +359,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-11-21 18:13 +0000             </p>
+ on 2025-11-22 15:16 +0000             </p>
           </div>
         </div>
         <br>

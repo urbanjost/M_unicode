@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.2% of total for procedures.</p>Including implementation: 128 statements,  9.9% of total for procedures.">3 statements</a>
+                 title="<p> 0.2% of total for procedures.</p>Including implementation: 128 statements,  9.8% of total for procedures.">3 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -171,7 +171,7 @@
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-utf8_to_codepoints_str"></span> <h3>private pure subroutine utf8_to_codepoints_str(utf8, unicode, nerr)  
+    <div class="card-header codesum"><span class="anchor" id="proc-utf8_to_codepoints_str"></span> <h3>private pure subroutine utf8_to_codepoints_str(utf8, codepoints, nerr)  
 </h3></div>
     <div class="card-body">
         
@@ -204,7 +204,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-unicode~5"></span>
+              <span class="anchor" id="variable-codepoints~5"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -212,7 +212,7 @@
               allocatable
             </td>
             <td>::</td>
-            <td><strong>unicode</strong>(:)</td>
+            <td><strong>codepoints</strong>(:)</td>
             <td>
                 
             </td>
@@ -240,123 +240,10 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-utf8_to_codepoints_chars"></span> <h3>private pure subroutine utf8_to_codepoints_chars(utf8, unicode, nerr)  
+    <div class="card-header codesum"><span class="anchor" id="proc-utf8_to_codepoints_chars"></span> <h3>private pure subroutine utf8_to_codepoints_chars(utf8, codepoints, nerr)  
 </h3></div>
     <div class="card-body">
-        <h2 id="name">NAME</h2>
-<p>UTF8_TO_CODEPOINTS(3f) - [M_unicode:CONVERSION] Convert UTF-8-encoded
-   data to Unicode codepoints
-   (LICENSE:MIT)</p>
-<h2 id="synopsis">SYNOPSIS</h2>
-<div class="codehilite"><pre><span></span><code>pure subroutine utf8_to_codepoints_chars(utf8,unicode,nerr)
-
- character(len=1),intent(in)     :: utf8(:)
- !  or
- character(len=*),intent(in)     :: utf8
- !
- integer,allocatable,intent(out) :: unicode(:)
- integer,intent(out)             :: nerr
-</code></pre></div>
-
-<h2 id="characteristics">CHARACTERISTICS</h2>
-<ul>
-<li>UTF8 is a scalar CHARACTER variable or array of single-byte
-     CHARACTER values</li>
-<li>the returned values in UNICODE are of default INTEGER kind</li>
-<li>the error flag NERR is default integer kind</li>
-</ul>
-<h2 id="description">DESCRIPTION</h2>
-<p>UTF8_TO_CODEPOINTS(3f) takes either a scalar CHARACTER variable or
-   an array of CHARACTER(LEN=1) bytes which are treated as a stream of
-   bytes representing UTF-8-encoded data and converted to an INTEGER
-   array containing Unicode codepoint values for each glyph.</p>
-<p>In fact, this routine is also able to decode an ISOLATIN string</p>
-<h2 id="options">OPTIONS</h2>
-<ul>
-<li>
-<p>UTF8 : Scalar CHARACTER string or single-character array of CHARACTER
-            variables assumed to represent a stream of bytes containing
-            data encoded at UTF-8 text.</p>
-<ul>
-<li>UNICODE : An INTEGER array of Unicode codepoint values representing
-            the glyphs found in STRING</li>
-<li>NERR    : Zero if no error occurred. If not zero the stream of bytes
-            could not be completely converted to UTF-8 characters.</li>
-</ul>
-</li>
-</ul>
-<h2 id="examples">EXAMPLES</h2>
-<p>Sample program</p>
-<div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">demo_utf8_to_codepoints</span>
-<span class="nx">use</span><span class="w"> </span><span class="nx">m_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">utf8_to_codepoints</span>
-<span class="nx">implicit</span><span class="w"> </span><span class="nx">none</span>
-<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">parameter</span><span class="w">   </span><span class="o">::</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="p">=</span><span class="err">&#39;</span><span class="nx">Noho</span><span class="w"> </span><span class="nx">me</span><span class="w"> </span><span class="nx">ka</span><span class="w"> </span><span class="nx">hau</span><span class="err">’</span><span class="nx">oli</span><span class="err">&#39;</span><span class="w"> </span><span class="p">!(</span><span class="nx">Be</span><span class="w"> </span><span class="nx">happy</span><span class="p">)</span>
-<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="mi">1</span><span class="p">),</span><span class="nx">allocatable</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">bytes</span><span class="p">(:)</span>
-<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">parameter</span><span class="w">   </span><span class="o">::</span><span class="w"> </span><span class="nx">solid</span><span class="p">=</span><span class="err">&#39;</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nx">g0</span><span class="p">))</span><span class="err">&#39;</span>
-<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">parameter</span><span class="w">   </span><span class="o">::</span><span class="w"> </span><span class="nx">space</span><span class="p">=</span><span class="err">&#39;</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nx">g0</span><span class="p">,</span><span class="mi">1</span><span class="nx">x</span><span class="p">))</span><span class="err">&#39;</span>
-<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">parameter</span><span class="w">   </span><span class="o">::</span><span class="w"> </span><span class="nx">z</span><span class="p">=</span><span class="err">&#39;</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span><span class="o">*</span><span class="p">(</span><span class="nx">z0</span><span class="p">,</span><span class="mi">1</span><span class="nx">x</span><span class="p">))</span><span class="err">&#39;</span>
-<span class="nx">integer</span><span class="p">,</span><span class="nx">allocatable</span><span class="w">          </span><span class="o">::</span><span class="w"> </span><span class="nx">codepoints</span><span class="p">(:)</span>
-<span class="nx">integer</span><span class="w">                      </span><span class="o">::</span><span class="w"> </span><span class="nx">nerr</span>
-<span class="nx">integer</span><span class="w">                      </span><span class="o">::</span><span class="w"> </span><span class="nx">i</span>
-<span class="p">!</span><span class="w"> </span><span class="nx">BASIC</span><span class="w"> </span><span class="nx">USAGE</span><span class="p">:</span><span class="w"> </span><span class="nx">SCALAR</span><span class="w"> </span><span class="nx">CHARACTER</span><span class="w"> </span><span class="nx">VARIABLE</span>
-<span class="w">  </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">solid</span><span class="p">)</span><span class="err">&#39;</span><span class="nx">STRING</span><span class="p">:</span><span class="err">&#39;</span><span class="p">,</span><span class="kt">string</span>
-<span class="w">  </span><span class="nx">call</span><span class="w"> </span><span class="nx">utf8_to_codepoints</span><span class="p">(</span><span class="kt">string</span><span class="p">,</span><span class="nx">codepoints</span><span class="p">,</span><span class="nx">nerr</span><span class="p">)</span>
-<span class="w">  </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">space</span><span class="p">)</span><span class="err">&#39;</span><span class="nx">CODEPOINTS</span><span class="p">:</span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">codepoints</span>
-<span class="w">  </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">z</span><span class="p">)</span><span class="err">&#39;</span><span class="nx">HEXADECIMAL</span><span class="w"> </span><span class="nx">CODEPOINTS</span><span class="p">:</span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">codepoints</span>
-<span class="p">!</span>
-<span class="w">  </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">space</span><span class="p">)</span><span class="err">&#39;</span><span class="nx">How</span><span class="w"> </span><span class="nx">long</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="nx">this</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nx">glyphs</span><span class="p">?</span><span class="w"> </span><span class="err">&#39;</span>
-<span class="w">  </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">space</span><span class="p">)</span><span class="nx">size</span><span class="p">(</span><span class="nx">codepoints</span><span class="p">)</span>
-<span class="w">  </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">space</span><span class="p">)</span><span class="err">&#39;</span><span class="nx">How</span><span class="w"> </span><span class="nx">long</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="nx">this</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nx">bytes</span><span class="p">?</span><span class="w"> </span><span class="err">&#39;</span>
-<span class="w">  </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">space</span><span class="p">)</span><span class="nx">len</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span>
-<span class="p">!</span>
-<span class="p">!</span><span class="w"> </span><span class="nx">BASIC</span><span class="w"> </span><span class="nx">USAGE</span><span class="p">:</span><span class="w"> </span><span class="nx">ARRAY</span><span class="w"> </span><span class="nx">OF</span><span class="w"> </span><span class="nx">BYTES</span>
-<span class="w">  </span><span class="nx">bytes</span><span class="p">=[(</span><span class="kt">string</span><span class="p">(</span><span class="nx">i</span><span class="p">:</span><span class="nx">i</span><span class="p">),</span><span class="nx">i</span><span class="p">=</span><span class="mi">1</span><span class="p">,</span><span class="nx">len</span><span class="p">(</span><span class="kt">string</span><span class="p">))]</span>
-<span class="w">  </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">solid</span><span class="p">)</span><span class="err">&#39;</span><span class="nx">STRING</span><span class="p">:</span><span class="err">&#39;</span><span class="p">,</span><span class="nx">bytes</span>
-<span class="w">  </span><span class="nx">call</span><span class="w"> </span><span class="nx">utf8_to_codepoints</span><span class="p">(</span><span class="nx">bytes</span><span class="p">,</span><span class="nx">codepoints</span><span class="p">,</span><span class="nx">nerr</span><span class="p">)</span>
-<span class="w">  </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">space</span><span class="p">)</span><span class="err">&#39;</span><span class="nx">CODEPOINTS</span><span class="p">:</span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">codepoints</span>
-<span class="w">  </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">z</span><span class="p">)</span><span class="err">&#39;</span><span class="nx">HEXADECIMAL</span><span class="w"> </span><span class="nx">CODEPOINTS</span><span class="p">:</span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">codepoints</span>
-<span class="p">!</span>
-<span class="w">  </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">space</span><span class="p">)</span><span class="err">&#39;</span><span class="nx">How</span><span class="w"> </span><span class="nx">long</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="nx">this</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nx">glyphs</span><span class="p">?</span><span class="w"> </span><span class="err">&#39;</span>
-<span class="w">  </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">space</span><span class="p">)</span><span class="nx">size</span><span class="p">(</span><span class="nx">codepoints</span><span class="p">)</span>
-<span class="w">  </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">space</span><span class="p">)</span><span class="err">&#39;</span><span class="nx">How</span><span class="w"> </span><span class="nx">long</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="nx">this</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nx">bytes</span><span class="p">?</span><span class="w"> </span><span class="err">&#39;</span>
-<span class="w">  </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">space</span><span class="p">)</span><span class="nx">size</span><span class="p">(</span><span class="nx">bytes</span><span class="p">)</span>
-<span class="p">!</span>
-<span class="nx">end</span><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_utf8_to_codepoints</span>
-</code></pre></div>
-
-<p>Results:</p>
-<div class="codehilite"><pre><span></span><code> &gt; STRING:Noho me ka hau’oli
- &gt; CODEPOINTS: 78 111 104 111 32 109 101 32 107 97 32 104 97 117 ...
- &gt; 8217 111 108 105
- &gt; 48 4E 6F 68 6F 20 6D 65 20 6B 61 20 68 61 75 2019 6F 6C 69
- &gt; How long is this string in glyphs?
- &gt; 18
- &gt; How long is this string in bytes?
- &gt; 20
- &gt; STRING:Noho me ka hau’oli
- &gt; CODEPOINTS: 78 111 104 111 32 109 101 32 107 97 32 104 97 117 ...
- &gt; 8217 111 108 105
- &gt; 48 4E 6F 68 6F 20 6D 65 20 6B 61 20 68 61 75 2019 6F 6C 69
- &gt; How long is this string in glyphs?
- &gt; 18
- &gt; How long is this string in bytes?
- &gt; 20
-</code></pre></div>
-
-<h2 id="see-also">SEE ALSO</h2>
-<p>functions that perform operations on character strings:</p>
-<ul>
-<li>elemental: adjustl(3), adjustr(3), index(3), scan(3), verify(3)</li>
-<li>non-elemental: len_trim(3), repeat(3), trim(3), codepoints_to_utf8(3)</li>
-</ul>
-<h2 id="author">AUTHOR</h2>
-<ul>
-<li>John S. Urban</li>
-<li>Francois Jacq - enhancements and Latin support from Francois Jacq, 2025-08</li>
-</ul>
-<h2 id="license">LICENSE</h2>
-<div class="codehilite"><pre><span></span><code> MIT
-</code></pre></div>
+        
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -386,7 +273,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-unicode~3"></span>
+              <span class="anchor" id="variable-codepoints~3"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -394,7 +281,7 @@
               allocatable
             </td>
             <td>::</td>
-            <td><strong>unicode</strong>(:)</td>
+            <td><strong>codepoints</strong>(:)</td>
             <td>
                 
             </td>
@@ -438,7 +325,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-11-21 18:13 +0000             </p>
+ on 2025-11-22 15:16 +0000             </p>
           </div>
         </div>
         <br>

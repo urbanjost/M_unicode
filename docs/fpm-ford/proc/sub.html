@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 5.6% of total for procedures.">72 statements</a>
+                 title=" 5.5% of total for procedures.">72 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -162,80 +162,6 @@
 </h2>
     
 
-    <h2 id="name">NAME</h2>
-<div class="codehilite"><pre><span></span><code>SUB(3f) - [M_unicode:EDITING] Return substring
-(LICENSE:MIT)
-</code></pre></div>
-
-<h2 id="synopsis">SYNOPSIS</h2>
-<div class="codehilite"><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="nf">sub(str,left,right,step) result</span><span class="p">(</span>section<span class="p">)</span>
-
-<span class="w"> </span><span class="nb">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">          </span><span class="p">::</span><span class="w"> </span><span class="n">str</span>
-<span class="w"> </span><span class="n">integer</span><span class="p">,</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="n">optional</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">left</span>
-<span class="w"> </span><span class="n">integer</span><span class="p">,</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="n">optional</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">right</span>
-<span class="w"> </span><span class="n">integer</span><span class="p">,</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="n">optional</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="nb">step</span>
-</code></pre></div>
-
-<h2 id="description">DESCRIPTION</h2>
-<div class="codehilite"><pre><span></span><code>sub(3f) returns a substring from one column to another.
-</code></pre></div>
-
-<h2 id="options">OPTIONS</h2>
-<div class="codehilite"><pre><span></span><code><span class="nv">str</span><span class="w">           </span><span class="nv">the</span><span class="w"> </span><span class="nv">input</span><span class="w"> </span><span class="nv">string</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nv">a</span><span class="w"> </span><span class="nv">section</span><span class="w"> </span><span class="nv">of</span>
-<span class="nv">left</span><span class="w">          </span><span class="nv">column</span><span class="w"> </span><span class="nv">number</span><span class="w"> </span><span class="nv">of</span><span class="w"> </span><span class="nv">str</span><span class="w"> </span><span class="nv">starting</span><span class="w"> </span><span class="nv">section</span><span class="w"> </span><span class="nv">of</span><span class="w"> </span><span class="nv">str</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="k">return</span>.
-<span class="w">              </span><span class="nv">Defaults</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="nv">when</span><span class="w"> </span><span class="nv">STEP</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">positive</span>,<span class="w"> </span><span class="nv">or</span><span class="w"> </span><span class="nv">right</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="nv">of</span>
-<span class="w">              </span><span class="nv">STR</span><span class="w"> </span><span class="nv">when</span><span class="w"> </span><span class="nv">STEP</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">negative</span>.
-<span class="nv">right</span><span class="w">         </span><span class="nv">column</span><span class="w"> </span><span class="nv">number</span><span class="w"> </span><span class="nv">of</span><span class="w"> </span><span class="nv">str</span><span class="w"> </span><span class="nv">ending</span><span class="w"> </span><span class="nv">section</span><span class="w"> </span><span class="nv">of</span><span class="w"> </span><span class="nv">str</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="k">return</span>.
-<span class="w">              </span><span class="nv">Defaults</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">right</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="nv">of</span><span class="w"> </span><span class="nv">STR</span><span class="w"> </span><span class="nv">when</span><span class="w"> </span><span class="nv">STEP</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">positive</span>,<span class="w"> </span><span class="nv">or</span>
-<span class="w">              </span><span class="mi">1</span><span class="w"> </span><span class="nv">when</span><span class="w"> </span><span class="nv">STEP</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">negative</span>.
-<span class="nv">step</span><span class="w">          </span><span class="nv">step</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">take</span><span class="w"> </span><span class="nv">from</span><span class="w"> </span><span class="nv">left</span><span class="w"> </span><span class="nv">column</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">right</span><span class="w"> </span><span class="nv">column</span>.
-<span class="w">              </span><span class="nv">Defaults</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="mi">1</span>.
-</code></pre></div>
-
-<h2 id="returns">RETURNS</h2>
-<div class="codehilite"><pre><span></span><code>out  The specified subsection of the input string
-</code></pre></div>
-
-<h2 id="examples">EXAMPLES</h2>
-<p>Sample Program:</p>
-<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_sub</span>
-<span class="w">  </span><span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">sub</span><span class="p">,</span><span class="w"> </span><span class="nx">assignment</span><span class="p">(=)</span>
-<span class="w">  </span><span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">len</span>
-<span class="w">  </span><span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">ut</span><span class="o">=&gt;</span><span class="w"> </span><span class="nx">unicode_type</span>
-<span class="w">  </span><span class="nx">implicit</span><span class="w"> </span><span class="nx">none</span>
-<span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">)</span><span class="w">                   </span><span class="o">::</span><span class="w"> </span><span class="kt">string</span>
-<span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">)</span><span class="w">                   </span><span class="o">::</span><span class="w"> </span><span class="nx">piece</span>
-<span class="w">     </span><span class="p">!</span>
-<span class="w">     </span><span class="kt">string</span><span class="p">=</span><span class="err">&#39;</span><span class="nx">abcdefghij</span><span class="err">&#39;</span>
-<span class="w">     </span><span class="p">!</span>
-<span class="w">     </span><span class="nx">piece</span><span class="p">=</span><span class="nx">sub</span><span class="p">(</span><span class="kt">string</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
-<span class="w">     </span><span class="nx">call</span><span class="w"> </span><span class="nx">printme</span><span class="p">(</span><span class="err">&#39;</span><span class="nx">selected</span><span class="w"> </span><span class="nx">range</span><span class="p">:</span><span class="err">&#39;</span><span class="p">)</span>
-<span class="w">     </span><span class="nx">piece</span><span class="p">=</span><span class="nx">sub</span><span class="p">(</span><span class="kt">string</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span>
-<span class="w">     </span><span class="nx">call</span><span class="w"> </span><span class="nx">printme</span><span class="p">(</span><span class="err">&#39;</span><span class="nx">from</span><span class="w"> </span><span class="nx">character</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">end</span><span class="p">:</span><span class="err">&#39;</span><span class="p">)</span>
-<span class="w">     </span><span class="nx">piece</span><span class="p">=</span><span class="nx">sub</span><span class="p">(</span><span class="kt">string</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
-<span class="w">     </span><span class="nx">call</span><span class="w"> </span><span class="nx">printme</span><span class="p">(</span><span class="err">&#39;</span><span class="nx">single</span><span class="w"> </span><span class="nx">character</span><span class="p">:</span><span class="err">&#39;</span><span class="p">)</span>
-<span class="w">     </span><span class="nx">piece</span><span class="p">=</span><span class="nx">sub</span><span class="p">(</span><span class="kt">string</span><span class="p">,</span><span class="nx">step</span><span class="p">=</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-<span class="w">     </span><span class="nx">call</span><span class="w"> </span><span class="nx">printme</span><span class="p">(</span><span class="err">&#39;</span><span class="nx">reverse</span><span class="w"> </span><span class="kt">string</span><span class="p">:</span><span class="err">&#39;</span><span class="p">)</span>
-<span class="w">  </span><span class="nx">contains</span>
-<span class="w">  </span><span class="nx">subroutine</span><span class="w"> </span><span class="nx">printme</span><span class="p">(</span><span class="nx">label</span><span class="p">)</span>
-<span class="w">  </span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">label</span>
-<span class="w">     </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="err">&#39;</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span><span class="s">&quot;[&quot;</span><span class="p">,</span><span class="nx">g0</span><span class="p">,</span><span class="s">&quot;]&quot;</span><span class="p">,</span><span class="o">/</span><span class="p">)</span><span class="err">&#39;</span><span class="p">)</span><span class="w"> </span><span class="nx">label</span><span class="p">,</span><span class="w"> </span><span class="nx">piece</span><span class="o">%</span><span class="nx">character</span><span class="p">()</span>
-<span class="w">  </span><span class="nx">end</span><span class="w"> </span><span class="nx">subroutine</span><span class="w"> </span><span class="nx">printme</span>
-<span class="w">  </span><span class="nx">end</span><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_sub</span>
-</code></pre></div>
-
-<p>Results:</p>
-<h2 id="see-also">SEE ALSO</h2>
-<div class="codehilite"><pre><span></span><code>  adjustl(3f), adjustr(3f), repeat(3f), trim(3f), len_trim(3f), len(3f)
-</code></pre></div>
-
-<h2 id="author">AUTHOR</h2>
-<div class="codehilite"><pre><span></span><code> John S. Urban
-</code></pre></div>
-
-<h2 id="license">LICENSE</h2>
-<div class="codehilite"><pre><span></span><code> MIT
-</code></pre></div>
 
 
     <h3>Arguments</h3>
@@ -251,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~9"></span>
+              <span class="anchor" id="variable-str~10"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -266,7 +192,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-start~2"></span>
+              <span class="anchor" id="variable-start~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -392,7 +318,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-11-21 18:13 +0000             </p>
+ on 2025-11-22 15:16 +0000             </p>
           </div>
         </div>
         <br>
