@@ -175,7 +175,131 @@
     <div class="card-header codesum"><span class="anchor" id="proc-index_str_str"></span> <h3>private elemental function index_str_str(string, substring, back) result(foundat)  
 </h3></div>
     <div class="card-body">
-        
+        <h2 id="name">NAME</h2>
+<p>INDEX(3f) - [M_unicode:SEARCH] Position of a substring within a string
+               (LICENSE:MIT)</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<p>result = index( string, substring [,back] [,kind] )</p>
+<div class="codehilite"><pre><span></span><code>elemental integer(kind=KIND) function index(string,substring,back,kind)
+
+ character(len=*,kind=KIND),intent(in) :: string
+ character(len=*,kind=KIND),intent(in) :: substring
+ logical(kind=**),intent(in),optional :: back
+ integer(kind=**),intent(in),optional :: kind
+</code></pre></div>
+
+<h2 id="characteristics">CHARACTERISTICS</h2>
+<ul>
+<li>
+<p>STRING     is a character variable of any kind</p>
+</li>
+<li>
+<p>SUBSTRING  is a character variable of the same kind as STRING</p>
+</li>
+<li>
+<p>BACK       is a logical variable of any supported kind</p>
+</li>
+<li>
+<p>KIND       is a scalar integer constant expression.</p>
+</li>
+</ul>
+<h2 id="description">DESCRIPTION</h2>
+<p>INDEX(3) returns the position of the start of the leftmost or
+   rightmost occurrence of string SUBSTRING in STRING, counting from
+   one. If SUBSTRING is not present in STRING, zero is returned.</p>
+<h2 id="options">OPTIONS</h2>
+<ul>
+<li>
+<p>STRING : string to be searched for a match</p>
+</li>
+<li>
+<p>SUBSTRING : string to attempt to locate in STRING</p>
+</li>
+<li>
+<p>BACK : If the BACK argument is present and true, the return value
+     is the start of the rightmost occurrence rather than the
+     leftmost.</p>
+</li>
+<li>
+<p>KIND : if KIND is present, the kind type parameter is that specified
+     by the value of KIND; otherwise the kind type parameter is
+     that of default integer type.</p>
+</li>
+</ul>
+<h2 id="result">RESULT</h2>
+<p>The result is the starting position of the first substring SUBSTRING
+   found in STRING.</p>
+<p>If the length of SUBSTRING is longer than STRING the result is zero.</p>
+<p>If the substring is not found the result is zero.</p>
+<p>If BACK is .true. the greatest starting position is returned (that is,
+   the position of the right‐most match). Otherwise, the smallest
+   position starting a match (ie. the left‐most match) is returned.</p>
+<p>The position returned is measured from the left with the first character
+   of STRING being position one.</p>
+<p>Otherwise, if no match is found zero is returned.</p>
+<h2 id="examples">EXAMPLES</h2>
+<p>Example program</p>
+<div class="codehilite"><pre><span></span><code><span class="n">program</span><span class="w"> </span><span class="n">demo_index</span>
+<span class="k">use</span><span class="w"> </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="n">ut</span><span class="o">=&gt;</span><span class="n">unicode_type</span>
+<span class="k">use</span><span class="w"> </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">)</span>
+<span class="k">use</span><span class="w"> </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="k">index</span>
+<span class="n">implicit</span><span class="w"> </span><span class="k">none</span>
+<span class="n">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">                   </span><span class="o">::</span><span class="w"> </span><span class="nf">str</span>
+<span class="k">character</span><span class="p">(</span><span class="nf">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="ow">all</span><span class="o">=</span><span class="s1">&#39;(*(g0))&#39;</span>
+<span class="k">integer</span><span class="w">                    </span><span class="o">::</span><span class="w"> </span><span class="n">ii</span>
+<span class="w">   </span><span class="err">!</span>
+<span class="w">   </span><span class="nf">str</span><span class="o">=</span><span class="s1">&#39;Huli i kēia kaula no kēia ʻōlelo&#39;</span>
+<span class="w">   </span><span class="err">!</span><span class="n">bug</span><span class="err">!</span><span class="k">print</span><span class="w"> </span><span class="ow">all</span><span class="p">,</span><span class="w"> </span><span class="k">index</span><span class="p">(</span><span class="nf">str</span><span class="p">,</span><span class="s1">&#39;kēia&#39;</span><span class="p">).</span><span class="n">eq</span><span class="mf">.8</span>
+<span class="w">   </span><span class="n">ii</span><span class="o">=</span><span class="k">index</span><span class="p">(</span><span class="nf">str</span><span class="p">,</span><span class="s1">&#39;kēia&#39;</span><span class="p">);</span><span class="w"> </span><span class="k">print</span><span class="w"> </span><span class="ow">all</span><span class="p">,</span><span class="w"> </span><span class="n">ii</span><span class="p">.</span><span class="n">eq</span><span class="mf">.8</span>
+<span class="w">   </span><span class="err">!</span>
+<span class="w">   </span><span class="err">!</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="k">value</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">counted</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="nf">left</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="n">even</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">BACK</span><span class="o">=</span><span class="p">.</span><span class="k">TRUE</span><span class="p">.</span>
+<span class="w">   </span><span class="err">!</span><span class="n">bug</span><span class="err">!</span><span class="k">print</span><span class="w"> </span><span class="ow">all</span><span class="p">,</span><span class="w"> </span><span class="k">index</span><span class="p">(</span><span class="nf">str</span><span class="p">,</span><span class="s1">&#39;kēia&#39;</span><span class="p">,</span><span class="n">back</span><span class="o">=</span><span class="p">.</span><span class="k">true</span><span class="p">.).</span><span class="n">eq</span><span class="mf">.22</span>
+<span class="w">   </span><span class="n">ii</span><span class="o">=</span><span class="k">index</span><span class="p">(</span><span class="nf">str</span><span class="p">,</span><span class="s1">&#39;kēia&#39;</span><span class="p">,</span><span class="n">back</span><span class="o">=</span><span class="p">.</span><span class="k">true</span><span class="p">.);</span><span class="w"> </span><span class="k">print</span><span class="w"> </span><span class="ow">all</span><span class="p">,</span><span class="w"> </span><span class="n">ii</span><span class="p">.</span><span class="n">eq</span><span class="mf">.22</span>
+<span class="w">   </span><span class="err">!</span>
+<span class="w">   </span><span class="err">!</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="k">case</span><span class="o">-</span><span class="k">sensitive</span>
+<span class="w">   </span><span class="err">!</span><span class="n">bug</span><span class="err">!</span><span class="k">print</span><span class="w"> </span><span class="ow">all</span><span class="p">,</span><span class="w"> </span><span class="k">index</span><span class="p">(</span><span class="nf">str</span><span class="p">,</span><span class="s1">&#39;Kēia&#39;</span><span class="p">).</span><span class="n">eq</span><span class="mf">.0</span>
+<span class="w">   </span><span class="n">ii</span><span class="o">=</span><span class="k">index</span><span class="p">(</span><span class="nf">str</span><span class="p">,</span><span class="s1">&#39;Kēia&#39;</span><span class="p">);</span><span class="w"> </span><span class="k">print</span><span class="w"> </span><span class="ow">all</span><span class="p">,</span><span class="w"> </span><span class="n">ii</span><span class="p">.</span><span class="n">eq</span><span class="mf">.0</span>
+<span class="w">   </span><span class="o">!&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span>
+<span class="w">   </span><span class="err">!</span><span class="n">ifx</span><span class="w"> </span><span class="nl">bug</span><span class="p">:</span><span class="w"> </span><span class="n">ifx</span><span class="w"> </span><span class="p">(</span><span class="n">IFX</span><span class="p">)</span><span class="w"> </span><span class="mf">2024.1.0</span><span class="w"> </span><span class="mi">20240308</span>
+<span class="w">   </span><span class="err">!</span>
+<span class="w">   </span><span class="err">!</span><span class="n">example</span><span class="o">/</span><span class="n">demo_index</span><span class="p">.</span><span class="n">f90</span><span class="p">(</span><span class="mi">17</span><span class="p">)</span><span class="err">:</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="n">#6766</span><span class="err">:</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="nc">binary</span><span class="w"> </span><span class="n">defined</span><span class="w"> </span><span class="n">OPERATOR</span>
+<span class="w">   </span><span class="err">!</span><span class="n">definition</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">missing</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">incorrect</span><span class="p">.</span><span class="w">   </span><span class="o">[</span><span class="n">EQ</span><span class="o">]</span>
+<span class="w">   </span><span class="err">!</span><span class="w">        </span><span class="k">print</span><span class="w"> </span><span class="ow">all</span><span class="p">,</span><span class="w"> </span><span class="k">index</span><span class="p">(</span><span class="nf">str</span><span class="p">,</span><span class="s1">&#39;k  ia&#39;</span><span class="p">,</span><span class="n">back</span><span class="o">=</span><span class="p">.</span><span class="k">true</span><span class="p">.).</span><span class="n">eq</span><span class="mf">.22</span>
+<span class="w">   </span><span class="err">!</span><span class="c1">--------------------------------------------------^</span>
+<span class="w">   </span><span class="err">!</span><span class="n">Original</span><span class="w"> </span><span class="n">works</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">gfortran</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">flang_new</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">works</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">ifx</span>
+<span class="w">   </span><span class="err">!</span><span class="w">        </span><span class="n">ii</span><span class="o">=</span><span class="n">ndex</span><span class="p">(</span><span class="nf">str</span><span class="p">,</span><span class="s1">&#39;k  ia&#39;</span><span class="p">,</span><span class="n">back</span><span class="o">=</span><span class="p">.</span><span class="k">true</span><span class="p">.)</span>
+<span class="w">   </span><span class="err">!</span><span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="ow">all</span><span class="p">,</span><span class="w"> </span><span class="n">ii</span><span class="p">.</span><span class="n">eq</span><span class="mf">.22</span>
+<span class="w">   </span><span class="o">!&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span>
+<span class="k">end</span><span class="w"> </span><span class="n">program</span><span class="w"> </span><span class="n">demo_index</span>
+</code></pre></div>
+
+<p>Expected Results:</p>
+<div class="codehilite"><pre><span></span><code>&gt; T
+&gt; T
+&gt; T
+&gt; T
+&gt; T
+&gt; T
+</code></pre></div>
+
+<h2 id="see-also">SEE ALSO</h2>
+<p>Functions that perform operations on character strings, return lengths
+   of arguments, and search for certain arguments:</p>
+<ul>
+<li>
+<p>ELEMENTAL: ADJUSTL(3), ADJUSTR(3), INDEX(3), SCAN(3), VERIFY(3)</p>
+</li>
+<li>
+<p>NONELEMENTAL: LEN_TRIM(3), LEN(3), REPEAT(3), TRIM(3)</p>
+</li>
+</ul>
+<h2 id="author">AUTHOR</h2>
+<div class="codehilite"><pre><span></span><code> John S. Urban
+</code></pre></div>
+
+<h2 id="license">LICENSE</h2>
+<div class="codehilite"><pre><span></span><code> MIT
+</code></pre></div>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -190,7 +314,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~30"></span>
+              <span class="anchor" id="variable-string~32"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -205,7 +329,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-substring~3"></span>
+              <span class="anchor" id="variable-substring~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -264,7 +388,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~31"></span>
+              <span class="anchor" id="variable-string~33"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -279,7 +403,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-substring~4"></span>
+              <span class="anchor" id="variable-substring~3"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -338,7 +462,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~32"></span>
+              <span class="anchor" id="variable-string~34"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -353,7 +477,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-substring~5"></span>
+              <span class="anchor" id="variable-substring~4"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -410,7 +534,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-11-22 17:51 +0000             </p>
+ on 2025-11-22 23:33 +0000             </p>
           </div>
         </div>
         <br>

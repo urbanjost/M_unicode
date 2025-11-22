@@ -173,7 +173,53 @@
     <div class="card-header codesum"><span class="anchor" id="proc-repeat_str"></span> <h3>private elemental function repeat_str(string, ncopies) result(repeated_str)  
 </h3></div>
     <div class="card-body">
-        
+        <h2 id="name">NAME</h2>
+<p>REPEAT(3) - [M_unicode:CHARACTER] Repeated string concatenation</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<p>result = repeat(string, ncopies)</p>
+<div class="codehilite"><pre><span></span><code><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span><span class="w"> </span><span class="nx">function</span><span class="w"> </span><span class="nx">repeat</span><span class="p">(</span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">ncopies</span><span class="p">)</span>
+
+<span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w">   </span><span class="o">::</span><span class="w"> </span><span class="kt">string</span>
+<span class="w"> </span><span class="nx">integer</span><span class="p">(</span><span class="nx">kind</span><span class="p">=</span><span class="o">**</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w">   </span><span class="o">::</span><span class="w"> </span><span class="nx">ncopies</span>
+</code></pre></div>
+
+<h2 id="characteristics">CHARACTERISTICS</h2>
+<ul>
+<li>STRING is a scalar string of type(unicode_type).</li>
+<li>NCOPIES is a scalar integer.</li>
+<li>the result is a new scalar string of type type(unicode_type)</li>
+</ul>
+<h2 id="description">DESCRIPTION</h2>
+<p>REPEAT(3) concatenates copies of a string.</p>
+<h2 id="options">OPTIONS</h2>
+<ul>
+<li>STRING : The input string to repeat</li>
+<li>NCOPIES : Number of copies to make of STRING, greater than or equal to
+      zero (0).</li>
+</ul>
+<h2 id="result">RESULT</h2>
+<p>A new string built up from NCOPIES copies of STRING.</p>
+<h2 id="examples">EXAMPLES</h2>
+<p>Sample program:</p>
+<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_repeat</span>
+<span class="w"> </span><span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">ut</span><span class="o">=&gt;</span><span class="nx">unicode_type</span><span class="p">,</span><span class="nx">repeat</span><span class="p">,</span><span class="nx">escape</span><span class="p">,</span><span class="nx">write</span><span class="p">(</span><span class="nx">formatted</span><span class="p">)</span>
+<span class="w"> </span><span class="nx">implicit</span><span class="w"> </span><span class="nx">none</span>
+<span class="w">    </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="err">&#39;</span><span class="p">(</span><span class="nx">DT</span><span class="p">)</span><span class="err">&#39;</span><span class="p">)</span><span class="w"> </span><span class="nx">repeat</span><span class="p">(</span><span class="nx">escape</span><span class="p">(</span><span class="s">&quot;\u2025*&quot;</span><span class="p">),</span><span class="w"> </span><span class="mi">35</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="err">&#39;</span><span class="p">(</span><span class="nx">DT</span><span class="p">)</span><span class="err">&#39;</span><span class="p">)</span><span class="w"> </span><span class="nx">repeat</span><span class="p">(</span><span class="nx">ut</span><span class="p">(</span><span class="s">&quot;_&quot;</span><span class="p">),</span><span class="w"> </span><span class="mi">70</span><span class="p">)</span><span class="w">          </span><span class="p">!</span><span class="w"> </span><span class="nx">line</span><span class="w"> </span><span class="k">break</span>
+<span class="w">    </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="err">&#39;</span><span class="p">(</span><span class="nx">DT</span><span class="p">)</span><span class="err">&#39;</span><span class="p">)</span><span class="w"> </span><span class="nx">repeat</span><span class="p">(</span><span class="nx">ut</span><span class="p">(</span><span class="s">&quot;1234567890&quot;</span><span class="p">),</span><span class="w"> </span><span class="mi">7</span><span class="p">)</span><span class="w">  </span><span class="p">!</span><span class="w"> </span><span class="nx">number</span><span class="w"> </span><span class="nx">line</span>
+<span class="w">    </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="err">&#39;</span><span class="p">(</span><span class="nx">DT</span><span class="p">)</span><span class="err">&#39;</span><span class="p">)</span><span class="w"> </span><span class="nx">repeat</span><span class="p">(</span><span class="nx">ut</span><span class="p">(</span><span class="s">&quot;         |&quot;</span><span class="p">),</span><span class="w"> </span><span class="mi">7</span><span class="p">)</span><span class="w">  </span><span class="p">!</span>
+<span class="w"> </span><span class="nx">end</span><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_repeat</span>
+</code></pre></div>
+
+<h2 id="standard">STANDARD</h2>
+<p>Fortran 95</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p>Functions that perform operations on character strings:</p>
+<ul>
+<li>ELEMENTAL: ADJUSTL(3), ADJUSTR(3), INDEX(3), SCAN(3), VERIFY(3)</li>
+<li>NON-ELEMENTAL: LEN_TRIM(3), LEN(3), REPEAT(3), TRIM(3)</li>
+</ul>
+<p>Fortran descriptions (license: MIT) @urbanjost</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -188,7 +234,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~24"></span>
+              <span class="anchor" id="variable-string~26"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -245,7 +291,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-11-22 17:51 +0000             </p>
+ on 2025-11-22 23:33 +0000             </p>
           </div>
         </div>
         <br>
