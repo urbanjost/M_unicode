@@ -25,8 +25,9 @@ interface supporting ragged arrays of strings and Unicode codepoints.
 The procedural interface supports all basic character intrinsics and
 operators.
 
-Over 45 example programs are included, as well as man-pages describing
-the procedures in \*roff and html format, and a basic set of unit tests.
+Over 45 [example programs](example) are included, as well as man-pages
+describing the procedures in \*roff and html format, and a basic set of
+unit tests.
 
 ```fortran
 program testit
@@ -48,8 +49,8 @@ use M_unicode, only : &
 
 ! additional methods
 use M_unicode, only : &
-   upper,   lower,   sort,  expandtabs, &
-   pad,      join,   fmt,   escape
+   upper,   lower,  sort,  expandtabs, replace, &
+   pad,     join,   fmt,   escape
 
 ! operators (and overloads) and SORT(3f) use
 ! Unicode codepoints (NOT dictionary order)

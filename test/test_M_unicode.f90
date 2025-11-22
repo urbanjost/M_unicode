@@ -972,11 +972,6 @@ call check('replace',ut('ABC[def]GHIJ') == replace(aline,ut('DEF'),   '[def]'), 
 !ifx bug!call check('replace',ut('ABCDEend')    == line%replace(6,10,'end'),  'oop replace end')
 !ifx bug!call check('replace',ut('startDEFGHIJ')== line%replace(1,3,'start'), 'oop replace start')
 
-!ifx bug!call check('range',ut('ABCdEFGHIJ')  == line%range(4,4,'d'),     'oop remove a column')
-!ifx bug!call check('range',ut('ABCDE')       == line%range(6,10,''),     'oop remove columns')
-!ifx bug!call check('range',ut('ABCDEend')    == line%range(6,10,'end'),  'oop remove end')
-!ifx bug!call check('range',ut('startDEFGHIJ')== line%range(1,3,'start'), 'oop remove start')
-
 end subroutine test_replace
 
 subroutine test_transliterate()
