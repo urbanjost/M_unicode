@@ -53,6 +53,15 @@
 !    Nearly all the methods are available using OOP syntax as well as
 !    procedurally.
 ! 
+!    The type components are not public to allow for use of the same
+!    user code when using other modules such as M_utf8 which ultimately
+!    will provide the same user interface but internally using ISO_10646
+!    internal encoding instead of an array of integers containing codepoints
+!    (which is what M_unicode uses). This has the drawback of not permitting
+!    easy use of array syntax directly on the codepoint array. Perhaps this
+!    decision will change but in the meantime several methods such as REPLACE
+!    and CHARACTER and SUB
+! 
 ! SYNOPSIS
 ! 
 !   public methods:
@@ -90,10 +99,6 @@
 !     expandtabs   expand tab characters
 !     adjustl      Left adjust a string
 !     adjustr      Right adjust a string
-! 
-!    QUOTES
-! 
-!    NONALPHA
 ! 
 !    ENCODING
 ! 
@@ -133,7 +138,6 @@
 !     lle       Lexical less than or equal
 !     llt       Lexical less than
 ! 
-!    BASE CONVERSION
 ! 
 !    IO
 ! 
@@ -162,6 +166,10 @@
 ! 
 !     repeat        Repeated string concatenation
 !     sort          Sort by Unicode codepoint value (not dictionary order)
+! 
+!    BASE CONVERSION
+!    QUOTES
+!    NONALPHA
 ! 
 !    OOPS INTERFACE
 ! 
@@ -296,7 +304,6 @@ public :: escape
 public :: fmt
 PUBLIC :: AFMT
 public :: replace
-public :: section
 public :: transliterate
 public :: pad
 public :: join
@@ -415,10 +422,6 @@ interface transliterate
    module procedure :: transliterate_aaa, transliterate_aua, transliterate_aau, transliterate_auu
 end interface transliterate
 
-interface section
-   module procedure :: section_uu, section_ua, section_au, section_aa
-end interface section
-
 ! INTRINSIC COMPATIBILITY
 interface adjustl;   module procedure :: adjustl_str;   end interface adjustl
 interface adjustr;   module procedure :: adjustr_str;   end interface adjustr
@@ -496,8 +499,6 @@ contains
    procedure,private :: oop_section_ua
    generic,public    :: replace => oop_replace_uuu, oop_replace_uaa, oop_replace_uau, oop_replace_uua, &
                       & oop_section_uu, oop_section_ua
-
-   generic,public    :: range => oop_section_uu, oop_section_ua
 
    !DECLARATION OF OVERLOADED OPERATORS FOR TYPE(UNICODE_TYPE)
    procedure,private :: eq => oop_eq

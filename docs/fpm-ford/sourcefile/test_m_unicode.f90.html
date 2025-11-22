@@ -1155,103 +1155,98 @@
 <a id="ln-972" name="ln-972" href="#ln-972"></a><span class="s1">!ifx bug!call check(&#39;</span><span class="n">replace</span><span class="s1">&#39;,ut(&#39;</span><span class="n">ABCDEend</span><span class="s1">&#39;)    == line%replace(6,10,&#39;</span><span class="k">end</span><span class="s1">&#39;),  &#39;</span><span class="n">oop</span><span class="w"> </span><span class="n">replace</span><span class="w"> </span><span class="k">end</span><span class="s1">&#39;)</span>
 <a id="ln-973" name="ln-973" href="#ln-973"></a><span class="s1">!ifx bug!call check(&#39;</span><span class="n">replace</span><span class="s1">&#39;,ut(&#39;</span><span class="n">startDEFGHIJ</span><span class="s1">&#39;)== line%replace(1,3,&#39;</span><span class="n">start</span><span class="s1">&#39;), &#39;</span><span class="n">oop</span><span class="w"> </span><span class="n">replace</span><span class="w"> </span><span class="n">start</span><span class="s1">&#39;)</span>
 <a id="ln-974" name="ln-974" href="#ln-974"></a>
-<a id="ln-975" name="ln-975" href="#ln-975"></a><span class="s1">!ifx bug!call check(&#39;</span><span class="nb">range</span><span class="s1">&#39;,ut(&#39;</span><span class="n">ABCdEFGHIJ</span><span class="s1">&#39;)  == line%range(4,4,&#39;</span><span class="n">d</span><span class="s1">&#39;),     &#39;</span><span class="n">oop</span><span class="w"> </span><span class="n">remove</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">column</span><span class="s1">&#39;)</span>
-<a id="ln-976" name="ln-976" href="#ln-976"></a><span class="s1">!ifx bug!call check(&#39;</span><span class="nb">range</span><span class="s1">&#39;,ut(&#39;</span><span class="n">ABCDE</span><span class="s1">&#39;)       == line%range(6,10,&#39;&#39;),     &#39;</span><span class="n">oop</span><span class="w"> </span><span class="n">remove</span><span class="w"> </span><span class="n">columns</span><span class="s1">&#39;)</span>
-<a id="ln-977" name="ln-977" href="#ln-977"></a><span class="s1">!ifx bug!call check(&#39;</span><span class="nb">range</span><span class="s1">&#39;,ut(&#39;</span><span class="n">ABCDEend</span><span class="s1">&#39;)    == line%range(6,10,&#39;</span><span class="k">end</span><span class="s1">&#39;),  &#39;</span><span class="n">oop</span><span class="w"> </span><span class="n">remove</span><span class="w"> </span><span class="k">end</span><span class="s1">&#39;)</span>
-<a id="ln-978" name="ln-978" href="#ln-978"></a><span class="s1">!ifx bug!call check(&#39;</span><span class="nb">range</span><span class="s1">&#39;,ut(&#39;</span><span class="n">startDEFGHIJ</span><span class="s1">&#39;)== line%range(1,3,&#39;</span><span class="n">start</span><span class="s1">&#39;), &#39;</span><span class="n">oop</span><span class="w"> </span><span class="n">remove</span><span class="w"> </span><span class="n">start</span><span class="s1">&#39;)</span>
-<a id="ln-979" name="ln-979" href="#ln-979"></a>
-<a id="ln-980" name="ln-980" href="#ln-980"></a><span class="s1">end subroutine test_replace</span>
-<a id="ln-981" name="ln-981" href="#ln-981"></a>
-<a id="ln-982" name="ln-982" href="#ln-982"></a><span class="s1">subroutine test_transliterate()</span>
-<a id="ln-983" name="ln-983" href="#ln-983"></a><span class="s1">type(ut)  :: STRING, UPPER, LOWER, ANSWER, EXPECTED</span>
-<a id="ln-984" name="ln-984" href="#ln-984"></a><span class="s1">type(ut)  :: MIDDLE_DOT</span>
+<a id="ln-975" name="ln-975" href="#ln-975"></a><span class="s1">end subroutine test_replace</span>
+<a id="ln-976" name="ln-976" href="#ln-976"></a>
+<a id="ln-977" name="ln-977" href="#ln-977"></a><span class="s1">subroutine test_transliterate()</span>
+<a id="ln-978" name="ln-978" href="#ln-978"></a><span class="s1">type(ut)  :: STRING, UPPER, LOWER, ANSWER, EXPECTED</span>
+<a id="ln-979" name="ln-979" href="#ln-979"></a><span class="s1">type(ut)  :: MIDDLE_DOT</span>
+<a id="ln-980" name="ln-980" href="#ln-980"></a><span class="s1">   !</span>
+<a id="ln-981" name="ln-981" href="#ln-981"></a><span class="s1">   ! | Α α | Β β | Γ γ | Δ δ | Ε ε | Ζ ζ   |</span>
+<a id="ln-982" name="ln-982" href="#ln-982"></a><span class="s1">   ! | Η η | Θ θ | Ι ι | Κ κ | Λ λ | Μ μ   |</span>
+<a id="ln-983" name="ln-983" href="#ln-983"></a><span class="s1">   ! | Ν ν | Ξ ξ | Ο ο | Π π | Ρ ρ | Σ σ ς |</span>
+<a id="ln-984" name="ln-984" href="#ln-984"></a><span class="s1">   ! | Τ τ | Υ υ | Φ φ | Χ χ | Ψ ψ | Ω ω   |</span>
 <a id="ln-985" name="ln-985" href="#ln-985"></a><span class="s1">   !</span>
-<a id="ln-986" name="ln-986" href="#ln-986"></a><span class="s1">   ! | Α α | Β β | Γ γ | Δ δ | Ε ε | Ζ ζ   |</span>
-<a id="ln-987" name="ln-987" href="#ln-987"></a><span class="s1">   ! | Η η | Θ θ | Ι ι | Κ κ | Λ λ | Μ μ   |</span>
-<a id="ln-988" name="ln-988" href="#ln-988"></a><span class="s1">   ! | Ν ν | Ξ ξ | Ο ο | Π π | Ρ ρ | Σ σ ς |</span>
-<a id="ln-989" name="ln-989" href="#ln-989"></a><span class="s1">   ! | Τ τ | Υ υ | Φ φ | Χ χ | Ψ ψ | Ω ω   |</span>
-<a id="ln-990" name="ln-990" href="#ln-990"></a><span class="s1">   !</span>
-<a id="ln-991" name="ln-991" href="#ln-991"></a><span class="s1">   STRING=&#39;</span><span class="err">ΑαΒβΓγΔδΕεΖζΗηΘθΙιΚκΛλΜμΝνΞξΟοΠπΡρΣσςΤτΥυΦφΧχΨψΩω</span><span class="s1">&#39;</span>
-<a id="ln-992" name="ln-992" href="#ln-992"></a><span class="s1">   ! ignoring ς for simplicity</span>
-<a id="ln-993" name="ln-993" href="#ln-993"></a><span class="s1">   UPPER=&#39;</span><span class="err">ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ</span><span class="s1">&#39;</span>
-<a id="ln-994" name="ln-994" href="#ln-994"></a><span class="s1">   LOWER=&#39;</span><span class="err">αβγδεζηθικλμνξοπρστυφχψω</span><span class="s1">&#39;</span>
-<a id="ln-995" name="ln-995" href="#ln-995"></a><span class="s1">   </span>
-<a id="ln-996" name="ln-996" href="#ln-996"></a><span class="s1">   ANSWER=TRANSLITERATE(STRING , LOWER, UPPER ) ! convert ASCII-7 string to uppercase:</span>
-<a id="ln-997" name="ln-997" href="#ln-997"></a><span class="s1">   EXPECTED=&#39;</span><span class="err">ΑΑΒΒΓΓΔΔΕΕΖΖΗΗΘΘΙΙΚΚΛΛΜΜΝΝΞΞΟΟΠΠΡΡΣΣςΤΤΥΥΦΦΧΧΨΨΩΩ</span><span class="s1">&#39;</span>
-<a id="ln-998" name="ln-998" href="#ln-998"></a><span class="s1">   call check(&#39;</span><span class="n">transliterate</span><span class="s1">&#39;, answer == expected, &#39;</span><span class="n">one</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">one</span><span class="w"> </span><span class="n">correspondence</span><span class="s1">&#39;)</span>
-<a id="ln-999" name="ln-999" href="#ln-999"></a><span class="s1">   ANSWER=TRANSLITERATE(STRING, LOWER, &#39;</span><span class="p">:</span><span class="s1">&#39;)     ! change all miniscule letters to a colon (&quot;:&quot;):</span>
-<a id="ln-1000" name="ln-1000" href="#ln-1000"></a><span class="s1">   EXPECTED=&#39;</span><span class="err">Α</span><span class="p">:</span><span class="err">Β</span><span class="p">:</span><span class="err">Γ</span><span class="p">:</span><span class="err">Δ</span><span class="p">:</span><span class="err">Ε</span><span class="p">:</span><span class="err">Ζ</span><span class="p">:</span><span class="err">Η</span><span class="p">:</span><span class="err">Θ</span><span class="p">:</span><span class="err">Ι</span><span class="p">:</span><span class="err">Κ</span><span class="p">:</span><span class="err">Λ</span><span class="p">:</span><span class="err">Μ</span><span class="p">:</span><span class="err">Ν</span><span class="p">:</span><span class="err">Ξ</span><span class="p">:</span><span class="err">Ο</span><span class="p">:</span><span class="err">Π</span><span class="p">:</span><span class="err">Ρ</span><span class="p">:</span><span class="err">Σ</span><span class="p">:</span><span class="err">ςΤ</span><span class="p">:</span><span class="err">Υ</span><span class="p">:</span><span class="err">Φ</span><span class="p">:</span><span class="err">Χ</span><span class="p">:</span><span class="err">Ψ</span><span class="p">:</span><span class="err">Ω</span><span class="p">:</span><span class="s1">&#39;</span>
-<a id="ln-1001" name="ln-1001" href="#ln-1001"></a><span class="s1">   call check(&#39;</span><span class="n">transliterate</span><span class="s1">&#39;, answer == expected, &#39;</span><span class="n">set</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">single</span><span class="w"> </span><span class="kt">character</span><span class="s1">&#39;)</span>
-<a id="ln-1002" name="ln-1002" href="#ln-1002"></a><span class="s1">   ANSWER=TRANSLITERATE(STRING, LOWER, &#39;&#39;)      ! delete all miniscule letters</span>
-<a id="ln-1003" name="ln-1003" href="#ln-1003"></a><span class="s1">   EXPECTED=&#39;</span><span class="err">ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣςΤΥΦΧΨΩ</span><span class="s1">&#39;</span>
-<a id="ln-1004" name="ln-1004" href="#ln-1004"></a><span class="s1">   call check(&#39;</span><span class="n">transliterate</span><span class="s1">&#39;, answer == expected, &#39;</span><span class="n">delete</span><span class="w"> </span><span class="k">all </span><span class="n">miniscule</span><span class="w"> </span><span class="n">letters</span><span class="s1">&#39;)</span>
-<a id="ln-1005" name="ln-1005" href="#ln-1005"></a><span class="s1">   ! OOP</span>
-<a id="ln-1006" name="ln-1006" href="#ln-1006"></a><span class="s1">   EXPECTED=&#39;</span><span class="err">_α_β_γ_δ_ε_ζ_η_θ_ι_κ_λ_μ_ν_ξ_ο_π_ρ_σς_τ_υ_φ_χ_ψ_ω</span><span class="s1">&#39;</span>
-<a id="ln-1007" name="ln-1007" href="#ln-1007"></a><span class="s1">   ANSWER=STRING%TRANSLITERATE(UPPER,&#39;</span><span class="err">_</span><span class="s1">&#39;)</span>
-<a id="ln-1008" name="ln-1008" href="#ln-1008"></a><span class="s1">   call check(&#39;</span><span class="n">transliterate</span><span class="s1">&#39;, answer == expected, &#39;</span><span class="n">OOP</span><span class="w"> </span><span class="n">unicode</span><span class="p">:</span><span class="n">ASCII</span><span class="s1">&#39;)</span>
+<a id="ln-986" name="ln-986" href="#ln-986"></a><span class="s1">   STRING=&#39;</span><span class="err">ΑαΒβΓγΔδΕεΖζΗηΘθΙιΚκΛλΜμΝνΞξΟοΠπΡρΣσςΤτΥυΦφΧχΨψΩω</span><span class="s1">&#39;</span>
+<a id="ln-987" name="ln-987" href="#ln-987"></a><span class="s1">   ! ignoring ς for simplicity</span>
+<a id="ln-988" name="ln-988" href="#ln-988"></a><span class="s1">   UPPER=&#39;</span><span class="err">ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ</span><span class="s1">&#39;</span>
+<a id="ln-989" name="ln-989" href="#ln-989"></a><span class="s1">   LOWER=&#39;</span><span class="err">αβγδεζηθικλμνξοπρστυφχψω</span><span class="s1">&#39;</span>
+<a id="ln-990" name="ln-990" href="#ln-990"></a><span class="s1">   </span>
+<a id="ln-991" name="ln-991" href="#ln-991"></a><span class="s1">   ANSWER=TRANSLITERATE(STRING , LOWER, UPPER ) ! convert ASCII-7 string to uppercase:</span>
+<a id="ln-992" name="ln-992" href="#ln-992"></a><span class="s1">   EXPECTED=&#39;</span><span class="err">ΑΑΒΒΓΓΔΔΕΕΖΖΗΗΘΘΙΙΚΚΛΛΜΜΝΝΞΞΟΟΠΠΡΡΣΣςΤΤΥΥΦΦΧΧΨΨΩΩ</span><span class="s1">&#39;</span>
+<a id="ln-993" name="ln-993" href="#ln-993"></a><span class="s1">   call check(&#39;</span><span class="n">transliterate</span><span class="s1">&#39;, answer == expected, &#39;</span><span class="n">one</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">one</span><span class="w"> </span><span class="n">correspondence</span><span class="s1">&#39;)</span>
+<a id="ln-994" name="ln-994" href="#ln-994"></a><span class="s1">   ANSWER=TRANSLITERATE(STRING, LOWER, &#39;</span><span class="p">:</span><span class="s1">&#39;)     ! change all miniscule letters to a colon (&quot;:&quot;):</span>
+<a id="ln-995" name="ln-995" href="#ln-995"></a><span class="s1">   EXPECTED=&#39;</span><span class="err">Α</span><span class="p">:</span><span class="err">Β</span><span class="p">:</span><span class="err">Γ</span><span class="p">:</span><span class="err">Δ</span><span class="p">:</span><span class="err">Ε</span><span class="p">:</span><span class="err">Ζ</span><span class="p">:</span><span class="err">Η</span><span class="p">:</span><span class="err">Θ</span><span class="p">:</span><span class="err">Ι</span><span class="p">:</span><span class="err">Κ</span><span class="p">:</span><span class="err">Λ</span><span class="p">:</span><span class="err">Μ</span><span class="p">:</span><span class="err">Ν</span><span class="p">:</span><span class="err">Ξ</span><span class="p">:</span><span class="err">Ο</span><span class="p">:</span><span class="err">Π</span><span class="p">:</span><span class="err">Ρ</span><span class="p">:</span><span class="err">Σ</span><span class="p">:</span><span class="err">ςΤ</span><span class="p">:</span><span class="err">Υ</span><span class="p">:</span><span class="err">Φ</span><span class="p">:</span><span class="err">Χ</span><span class="p">:</span><span class="err">Ψ</span><span class="p">:</span><span class="err">Ω</span><span class="p">:</span><span class="s1">&#39;</span>
+<a id="ln-996" name="ln-996" href="#ln-996"></a><span class="s1">   call check(&#39;</span><span class="n">transliterate</span><span class="s1">&#39;, answer == expected, &#39;</span><span class="n">set</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">single</span><span class="w"> </span><span class="kt">character</span><span class="s1">&#39;)</span>
+<a id="ln-997" name="ln-997" href="#ln-997"></a><span class="s1">   ANSWER=TRANSLITERATE(STRING, LOWER, &#39;&#39;)      ! delete all miniscule letters</span>
+<a id="ln-998" name="ln-998" href="#ln-998"></a><span class="s1">   EXPECTED=&#39;</span><span class="err">ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣςΤΥΦΧΨΩ</span><span class="s1">&#39;</span>
+<a id="ln-999" name="ln-999" href="#ln-999"></a><span class="s1">   call check(&#39;</span><span class="n">transliterate</span><span class="s1">&#39;, answer == expected, &#39;</span><span class="n">delete</span><span class="w"> </span><span class="k">all </span><span class="n">miniscule</span><span class="w"> </span><span class="n">letters</span><span class="s1">&#39;)</span>
+<a id="ln-1000" name="ln-1000" href="#ln-1000"></a><span class="s1">   ! OOP</span>
+<a id="ln-1001" name="ln-1001" href="#ln-1001"></a><span class="s1">   EXPECTED=&#39;</span><span class="err">_α_β_γ_δ_ε_ζ_η_θ_ι_κ_λ_μ_ν_ξ_ο_π_ρ_σς_τ_υ_φ_χ_ψ_ω</span><span class="s1">&#39;</span>
+<a id="ln-1002" name="ln-1002" href="#ln-1002"></a><span class="s1">   ANSWER=STRING%TRANSLITERATE(UPPER,&#39;</span><span class="err">_</span><span class="s1">&#39;)</span>
+<a id="ln-1003" name="ln-1003" href="#ln-1003"></a><span class="s1">   call check(&#39;</span><span class="n">transliterate</span><span class="s1">&#39;, answer == expected, &#39;</span><span class="n">OOP</span><span class="w"> </span><span class="n">unicode</span><span class="p">:</span><span class="n">ASCII</span><span class="s1">&#39;)</span>
+<a id="ln-1004" name="ln-1004" href="#ln-1004"></a>
+<a id="ln-1005" name="ln-1005" href="#ln-1005"></a><span class="s1">   ! U+00B7 Middle Dot Unicode Character</span>
+<a id="ln-1006" name="ln-1006" href="#ln-1006"></a><span class="s1">   EXPECTED=&#39;</span><span class="err">Α·Β·Γ·Δ·Ε·Ζ·Η·Θ·Ι·Κ·Λ·Μ·Ν·Ξ·Ο·Π·Ρ·Σ·ςΤ·Υ·Φ·Χ·Ψ·Ω·</span><span class="s1">&#39;</span>
+<a id="ln-1007" name="ln-1007" href="#ln-1007"></a><span class="s1">   ANSWER=STRING%TRANSLITERATE(LOWER,&#39;</span><span class="err">·</span><span class="s1">&#39;) ! ASCII bytes</span>
+<a id="ln-1008" name="ln-1008" href="#ln-1008"></a><span class="s1">   call check(&#39;</span><span class="n">transliterate</span><span class="s1">&#39;, answer == expected, &#39;</span><span class="n">OOP</span><span class="w"> </span><span class="n">unicode</span><span class="p">:</span><span class="n">ascii</span><span class="w"> </span><span class="n">stream</span><span class="s1">&#39;)</span>
 <a id="ln-1009" name="ln-1009" href="#ln-1009"></a>
-<a id="ln-1010" name="ln-1010" href="#ln-1010"></a><span class="s1">   ! U+00B7 Middle Dot Unicode Character</span>
-<a id="ln-1011" name="ln-1011" href="#ln-1011"></a><span class="s1">   EXPECTED=&#39;</span><span class="err">Α·Β·Γ·Δ·Ε·Ζ·Η·Θ·Ι·Κ·Λ·Μ·Ν·Ξ·Ο·Π·Ρ·Σ·ςΤ·Υ·Φ·Χ·Ψ·Ω·</span><span class="s1">&#39;</span>
-<a id="ln-1012" name="ln-1012" href="#ln-1012"></a><span class="s1">   ANSWER=STRING%TRANSLITERATE(LOWER,&#39;</span><span class="err">·</span><span class="s1">&#39;) ! ASCII bytes</span>
-<a id="ln-1013" name="ln-1013" href="#ln-1013"></a><span class="s1">   call check(&#39;</span><span class="n">transliterate</span><span class="s1">&#39;, answer == expected, &#39;</span><span class="n">OOP</span><span class="w"> </span><span class="n">unicode</span><span class="p">:</span><span class="n">ascii</span><span class="w"> </span><span class="n">stream</span><span class="s1">&#39;)</span>
-<a id="ln-1014" name="ln-1014" href="#ln-1014"></a>
-<a id="ln-1015" name="ln-1015" href="#ln-1015"></a><span class="s1">   EXPECTED=&#39;</span><span class="err">Α·Β·Γ·Δ·Ε·Ζ·Η·Θ·Ι·Κ·Λ·Μ·Ν·Ξ·Ο·Π·Ρ·Σ·ςΤ·Υ·Φ·Χ·Ψ·Ω·</span><span class="s1">&#39;</span>
-<a id="ln-1016" name="ln-1016" href="#ln-1016"></a><span class="s1">   ANSWER=STRING%TRANSLITERATE(LOWER,ut(&#39;</span><span class="err">·</span><span class="s1">&#39;)) ! cast</span>
+<a id="ln-1010" name="ln-1010" href="#ln-1010"></a><span class="s1">   EXPECTED=&#39;</span><span class="err">Α·Β·Γ·Δ·Ε·Ζ·Η·Θ·Ι·Κ·Λ·Μ·Ν·Ξ·Ο·Π·Ρ·Σ·ςΤ·Υ·Φ·Χ·Ψ·Ω·</span><span class="s1">&#39;</span>
+<a id="ln-1011" name="ln-1011" href="#ln-1011"></a><span class="s1">   ANSWER=STRING%TRANSLITERATE(LOWER,ut(&#39;</span><span class="err">·</span><span class="s1">&#39;)) ! cast</span>
+<a id="ln-1012" name="ln-1012" href="#ln-1012"></a><span class="s1">   call check(&#39;</span><span class="n">transliterate</span><span class="s1">&#39;, answer == expected, &#39;</span><span class="n">OOP</span><span class="w"> </span><span class="n">unicode</span><span class="p">:</span><span class="n">unicode</span><span class="s1">&#39;)</span>
+<a id="ln-1013" name="ln-1013" href="#ln-1013"></a>
+<a id="ln-1014" name="ln-1014" href="#ln-1014"></a><span class="s1">   EXPECTED=&#39;</span><span class="err">Α·Β·Γ·Δ·Ε·Ζ·Η·Θ·Ι·Κ·Λ·Μ·Ν·Ξ·Ο·Π·Ρ·Σ·ςΤ·Υ·Φ·Χ·Ψ·Ω·</span><span class="s1">&#39;</span>
+<a id="ln-1015" name="ln-1015" href="#ln-1015"></a><span class="s1">   MIDDLE_DOT=int(z&#39;</span><span class="mi">00</span><span class="n">B7</span><span class="s1">&#39;)</span>
+<a id="ln-1016" name="ln-1016" href="#ln-1016"></a><span class="s1">   ANSWER=STRING%TRANSLITERATE(LOWER,MIDDLE_DOT) ! hexadecimal</span>
 <a id="ln-1017" name="ln-1017" href="#ln-1017"></a><span class="s1">   call check(&#39;</span><span class="n">transliterate</span><span class="s1">&#39;, answer == expected, &#39;</span><span class="n">OOP</span><span class="w"> </span><span class="n">unicode</span><span class="p">:</span><span class="n">unicode</span><span class="s1">&#39;)</span>
 <a id="ln-1018" name="ln-1018" href="#ln-1018"></a>
-<a id="ln-1019" name="ln-1019" href="#ln-1019"></a><span class="s1">   EXPECTED=&#39;</span><span class="err">Α·Β·Γ·Δ·Ε·Ζ·Η·Θ·Ι·Κ·Λ·Μ·Ν·Ξ·Ο·Π·Ρ·Σ·ςΤ·Υ·Φ·Χ·Ψ·Ω·</span><span class="s1">&#39;</span>
-<a id="ln-1020" name="ln-1020" href="#ln-1020"></a><span class="s1">   MIDDLE_DOT=int(z&#39;</span><span class="mi">00</span><span class="n">B7</span><span class="s1">&#39;)</span>
-<a id="ln-1021" name="ln-1021" href="#ln-1021"></a><span class="s1">   ANSWER=STRING%TRANSLITERATE(LOWER,MIDDLE_DOT) ! hexadecimal</span>
-<a id="ln-1022" name="ln-1022" href="#ln-1022"></a><span class="s1">   call check(&#39;</span><span class="n">transliterate</span><span class="s1">&#39;, answer == expected, &#39;</span><span class="n">OOP</span><span class="w"> </span><span class="n">unicode</span><span class="p">:</span><span class="n">unicode</span><span class="s1">&#39;)</span>
-<a id="ln-1023" name="ln-1023" href="#ln-1023"></a>
-<a id="ln-1024" name="ln-1024" href="#ln-1024"></a><span class="s1">end subroutine test_transliterate</span>
-<a id="ln-1025" name="ln-1025" href="#ln-1025"></a>
-<a id="ln-1026" name="ln-1026" href="#ln-1026"></a><span class="s1">end module testsuite_M_unicode</span>
-<a id="ln-1027" name="ln-1027" href="#ln-1027"></a>
-<a id="ln-1028" name="ln-1028" href="#ln-1028"></a><span class="s1">program test_M_unicode</span>
-<a id="ln-1029" name="ln-1029" href="#ln-1029"></a><span class="s1">use testsuite_M_unicode</span>
-<a id="ln-1030" name="ln-1030" href="#ln-1030"></a><span class="s1">   total = 0</span>
-<a id="ln-1031" name="ln-1031" href="#ln-1031"></a>
-<a id="ln-1032" name="ln-1032" href="#ln-1032"></a><span class="s1">   !write(*,g0)&#39;</span><span class="n">encoding</span><span class="w"> </span><span class="n">can</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">altered</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">an</span><span class="w"> </span><span class="k">open file</span><span class="s1">&#39;</span>
-<a id="ln-1033" name="ln-1033" href="#ln-1033"></a><span class="s1">   !open (output_unit, encoding=&#39;</span><span class="n">UTF</span><span class="o">-</span><span class="mi">8</span><span class="s1">&#39;)</span>
-<a id="ln-1034" name="ln-1034" href="#ln-1034"></a>
-<a id="ln-1035" name="ln-1035" href="#ln-1035"></a><span class="s1">   call programming_environment()</span>
-<a id="ln-1036" name="ln-1036" href="#ln-1036"></a><span class="s1">   call test_adjustl()</span>
-<a id="ln-1037" name="ln-1037" href="#ln-1037"></a><span class="s1">   call test_adjustr()</span>
-<a id="ln-1038" name="ln-1038" href="#ln-1038"></a><span class="s1">   call test_trim()</span>
-<a id="ln-1039" name="ln-1039" href="#ln-1039"></a><span class="s1">   call test_len_trim()</span>
-<a id="ln-1040" name="ln-1040" href="#ln-1040"></a><span class="s1">   call test_len()</span>
-<a id="ln-1041" name="ln-1041" href="#ln-1041"></a><span class="s1">   call test_index()</span>
-<a id="ln-1042" name="ln-1042" href="#ln-1042"></a><span class="s1">   call test_repeat()</span>
-<a id="ln-1043" name="ln-1043" href="#ln-1043"></a><span class="s1">   call test_transliterate()</span>
-<a id="ln-1044" name="ln-1044" href="#ln-1044"></a><span class="s1">   call test_upper()</span>
-<a id="ln-1045" name="ln-1045" href="#ln-1045"></a><span class="s1">   call test_lower()</span>
-<a id="ln-1046" name="ln-1046" href="#ln-1046"></a><span class="s1">   call test_tokenize()</span>
-<a id="ln-1047" name="ln-1047" href="#ln-1047"></a><span class="s1">   call test_sort()</span>
-<a id="ln-1048" name="ln-1048" href="#ln-1048"></a><span class="s1">   call test_operators()</span>
-<a id="ln-1049" name="ln-1049" href="#ln-1049"></a><span class="s1">   call test_split()</span>
-<a id="ln-1050" name="ln-1050" href="#ln-1050"></a><span class="s1">   call test_scan()</span>
-<a id="ln-1051" name="ln-1051" href="#ln-1051"></a><span class="s1">   call test_verify()</span>
-<a id="ln-1052" name="ln-1052" href="#ln-1052"></a><span class="s1">   call test_ichar()</span>
-<a id="ln-1053" name="ln-1053" href="#ln-1053"></a><span class="s1">   call test_replace()</span>
-<a id="ln-1054" name="ln-1054" href="#ln-1054"></a><span class="s1">   call test_sub()</span>
-<a id="ln-1055" name="ln-1055" href="#ln-1055"></a><span class="s1">   call test_pad()</span>
-<a id="ln-1056" name="ln-1056" href="#ln-1056"></a><span class="s1">   call test_join()</span>
-<a id="ln-1057" name="ln-1057" href="#ln-1057"></a><span class="s1">   call test_expandtabs()</span>
-<a id="ln-1058" name="ln-1058" href="#ln-1058"></a><span class="s1">   call test_fmt()</span>
-<a id="ln-1059" name="ln-1059" href="#ln-1059"></a><span class="s1">   call test_escape()</span>
-<a id="ln-1060" name="ln-1060" href="#ln-1060"></a><span class="s1">   call test_concatenate()</span>
-<a id="ln-1061" name="ln-1061" href="#ln-1061"></a><span class="s1">   call test_other()</span>
-<a id="ln-1062" name="ln-1062" href="#ln-1062"></a>
-<a id="ln-1063" name="ln-1063" href="#ln-1063"></a><span class="s1">   write(*,g0)</span>
-<a id="ln-1064" name="ln-1064" href="#ln-1064"></a><span class="s1">   if(total.ne.0)then</span>
-<a id="ln-1065" name="ln-1065" href="#ln-1065"></a><span class="s1">      write(*,g0)total,&#39;</span><span class="w"> </span><span class="n">failures</span><span class="s1">&#39;</span>
-<a id="ln-1066" name="ln-1066" href="#ln-1066"></a><span class="s1">      stop 1</span>
-<a id="ln-1067" name="ln-1067" href="#ln-1067"></a><span class="s1">   else</span>
-<a id="ln-1068" name="ln-1068" href="#ln-1068"></a><span class="s1">      write(*,g0)&#39;</span><span class="k">all </span><span class="n">passed</span><span class="err">&#39;</span>
-<a id="ln-1069" name="ln-1069" href="#ln-1069"></a><span class="w">   </span><span class="k">endif</span>
-<a id="ln-1070" name="ln-1070" href="#ln-1070"></a>
-<a id="ln-1071" name="ln-1071" href="#ln-1071"></a><span class="k">end program </span><span class="n">test_M_unicode</span>
+<a id="ln-1019" name="ln-1019" href="#ln-1019"></a><span class="s1">end subroutine test_transliterate</span>
+<a id="ln-1020" name="ln-1020" href="#ln-1020"></a>
+<a id="ln-1021" name="ln-1021" href="#ln-1021"></a><span class="s1">end module testsuite_M_unicode</span>
+<a id="ln-1022" name="ln-1022" href="#ln-1022"></a>
+<a id="ln-1023" name="ln-1023" href="#ln-1023"></a><span class="s1">program test_M_unicode</span>
+<a id="ln-1024" name="ln-1024" href="#ln-1024"></a><span class="s1">use testsuite_M_unicode</span>
+<a id="ln-1025" name="ln-1025" href="#ln-1025"></a><span class="s1">   total = 0</span>
+<a id="ln-1026" name="ln-1026" href="#ln-1026"></a>
+<a id="ln-1027" name="ln-1027" href="#ln-1027"></a><span class="s1">   !write(*,g0)&#39;</span><span class="n">encoding</span><span class="w"> </span><span class="n">can</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">altered</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">an</span><span class="w"> </span><span class="k">open file</span><span class="s1">&#39;</span>
+<a id="ln-1028" name="ln-1028" href="#ln-1028"></a><span class="s1">   !open (output_unit, encoding=&#39;</span><span class="n">UTF</span><span class="o">-</span><span class="mi">8</span><span class="s1">&#39;)</span>
+<a id="ln-1029" name="ln-1029" href="#ln-1029"></a>
+<a id="ln-1030" name="ln-1030" href="#ln-1030"></a><span class="s1">   call programming_environment()</span>
+<a id="ln-1031" name="ln-1031" href="#ln-1031"></a><span class="s1">   call test_adjustl()</span>
+<a id="ln-1032" name="ln-1032" href="#ln-1032"></a><span class="s1">   call test_adjustr()</span>
+<a id="ln-1033" name="ln-1033" href="#ln-1033"></a><span class="s1">   call test_trim()</span>
+<a id="ln-1034" name="ln-1034" href="#ln-1034"></a><span class="s1">   call test_len_trim()</span>
+<a id="ln-1035" name="ln-1035" href="#ln-1035"></a><span class="s1">   call test_len()</span>
+<a id="ln-1036" name="ln-1036" href="#ln-1036"></a><span class="s1">   call test_index()</span>
+<a id="ln-1037" name="ln-1037" href="#ln-1037"></a><span class="s1">   call test_repeat()</span>
+<a id="ln-1038" name="ln-1038" href="#ln-1038"></a><span class="s1">   call test_transliterate()</span>
+<a id="ln-1039" name="ln-1039" href="#ln-1039"></a><span class="s1">   call test_upper()</span>
+<a id="ln-1040" name="ln-1040" href="#ln-1040"></a><span class="s1">   call test_lower()</span>
+<a id="ln-1041" name="ln-1041" href="#ln-1041"></a><span class="s1">   call test_tokenize()</span>
+<a id="ln-1042" name="ln-1042" href="#ln-1042"></a><span class="s1">   call test_sort()</span>
+<a id="ln-1043" name="ln-1043" href="#ln-1043"></a><span class="s1">   call test_operators()</span>
+<a id="ln-1044" name="ln-1044" href="#ln-1044"></a><span class="s1">   call test_split()</span>
+<a id="ln-1045" name="ln-1045" href="#ln-1045"></a><span class="s1">   call test_scan()</span>
+<a id="ln-1046" name="ln-1046" href="#ln-1046"></a><span class="s1">   call test_verify()</span>
+<a id="ln-1047" name="ln-1047" href="#ln-1047"></a><span class="s1">   call test_ichar()</span>
+<a id="ln-1048" name="ln-1048" href="#ln-1048"></a><span class="s1">   call test_replace()</span>
+<a id="ln-1049" name="ln-1049" href="#ln-1049"></a><span class="s1">   call test_sub()</span>
+<a id="ln-1050" name="ln-1050" href="#ln-1050"></a><span class="s1">   call test_pad()</span>
+<a id="ln-1051" name="ln-1051" href="#ln-1051"></a><span class="s1">   call test_join()</span>
+<a id="ln-1052" name="ln-1052" href="#ln-1052"></a><span class="s1">   call test_expandtabs()</span>
+<a id="ln-1053" name="ln-1053" href="#ln-1053"></a><span class="s1">   call test_fmt()</span>
+<a id="ln-1054" name="ln-1054" href="#ln-1054"></a><span class="s1">   call test_escape()</span>
+<a id="ln-1055" name="ln-1055" href="#ln-1055"></a><span class="s1">   call test_concatenate()</span>
+<a id="ln-1056" name="ln-1056" href="#ln-1056"></a><span class="s1">   call test_other()</span>
+<a id="ln-1057" name="ln-1057" href="#ln-1057"></a>
+<a id="ln-1058" name="ln-1058" href="#ln-1058"></a><span class="s1">   write(*,g0)</span>
+<a id="ln-1059" name="ln-1059" href="#ln-1059"></a><span class="s1">   if(total.ne.0)then</span>
+<a id="ln-1060" name="ln-1060" href="#ln-1060"></a><span class="s1">      write(*,g0)total,&#39;</span><span class="w"> </span><span class="n">failures</span><span class="s1">&#39;</span>
+<a id="ln-1061" name="ln-1061" href="#ln-1061"></a><span class="s1">      stop 1</span>
+<a id="ln-1062" name="ln-1062" href="#ln-1062"></a><span class="s1">   else</span>
+<a id="ln-1063" name="ln-1063" href="#ln-1063"></a><span class="s1">      write(*,g0)&#39;</span><span class="k">all </span><span class="n">passed</span><span class="err">&#39;</span>
+<a id="ln-1064" name="ln-1064" href="#ln-1064"></a><span class="w">   </span><span class="k">endif</span>
+<a id="ln-1065" name="ln-1065" href="#ln-1065"></a>
+<a id="ln-1066" name="ln-1066" href="#ln-1066"></a><span class="k">end program </span><span class="n">test_M_unicode</span>
 </pre></div>
 
       </section>
@@ -1273,7 +1268,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-11-22 15:16 +0000             </p>
+ on 2025-11-22 17:51 +0000             </p>
           </div>
         </div>
         <br>

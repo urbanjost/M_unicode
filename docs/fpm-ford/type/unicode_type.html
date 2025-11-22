@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p>100.0% of total for derived types.</p>Including implementation: 440 statements, 100.0% of total for derived types.">55 statements</a>
+                 title="<p>100.0% of total for derived types.</p>Including implementation: 439 statements, 100.0% of total for derived types.">54 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -179,7 +179,6 @@
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-lower">lower</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-oop_get_env_ua">oop_get_env_ua</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-pad">pad</a>
-            <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-range">range</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-replace">replace</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-scan">scan</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-split">split</a>
@@ -243,7 +242,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-codes~4"></span>
+              <span class="anchor" id="variable-codes~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -286,7 +285,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~7"></span>
+              <span class="anchor" id="variable-string~11"></span>
               character(len=*),
             </td>
 <td>intent(in),</td>
@@ -329,7 +328,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-strings"></span>
+              <span class="anchor" id="variable-strings~2"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1850,197 +1849,6 @@
             </td>
             <td>::</td>
             <td><strong>clip</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>type(<a href='unicode_type.html'>unicode_type</a>)</small>
-    </h4>
-    
-
-          </li>
-      </ul>
-  </div>
-
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-range"></span>
-      <h3>
-          generic, public ::
-  <strong>range</strong> => oop_section_uu, oop_section_ua
-        
-      </h3>
-    </div>
-      <ul class="list-group">
-          <li class="list-group-item">
-                    <h3>
-    private  function oop_section_uu(self, start, end, new) result(newline)  
-</h3>
-
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" ></span>
-              class(<a href='unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>self</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" ></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>start</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" ></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>end</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" ></span>
-              type(<a href='unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>new</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>type(<a href='unicode_type.html'>unicode_type</a>)</small>
-    </h4>
-    
-
-          </li>
-          <li class="list-group-item">
-                    <h3>
-    private  function oop_section_ua(self, start, end, new) result(newline)  
-</h3>
-
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" ></span>
-              class(<a href='unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>self</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" ></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>start</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" ></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>end</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" ></span>
-              character(len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>new</strong></td>
             <td>
                 
             </td>
@@ -3745,8 +3553,6 @@
 <span class="w">   </span><span class="k">generic</span><span class="p">,</span><span class="k">public</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">replace</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_replace_uuu</span><span class="p">,</span><span class="w"> </span><span class="n">oop_replace_uaa</span><span class="p">,</span><span class="w"> </span><span class="n">oop_replace_uau</span><span class="p">,</span><span class="w"> </span><span class="n">oop_replace_uua</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                      </span><span class="p">&amp;</span><span class="w"> </span><span class="n">oop_section_uu</span><span class="p">,</span><span class="w"> </span><span class="n">oop_section_ua</span>
 
-<span class="w">   </span><span class="k">generic</span><span class="p">,</span><span class="k">public</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="nb">range</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_section_uu</span><span class="p">,</span><span class="w"> </span><span class="n">oop_section_ua</span>
-
 <span class="w">   </span><span class="c">!DECLARATION OF OVERLOADED OPERATORS FOR TYPE(UNICODE_TYPE)</span>
 <span class="w">   </span><span class="k">procedure</span><span class="p">,</span><span class="k">private</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">eq</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_eq</span>
 <span class="c">!   generic           :: operator(==) =&gt; oop_eq</span>
@@ -3786,7 +3592,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-11-22 15:16 +0000             </p>
+ on 2025-11-22 17:51 +0000             </p>
           </div>
         </div>
         <br>
