@@ -8722,7 +8722,7 @@ interface operator(//)
    module procedure :: concat_g_d, concat_d_g
    module procedure :: concat_g_c, concat_c_g
    module procedure :: concat_g_l, concat_l_g
-   module procedure :: concat_g_s, concat_s_g
+   !module procedure :: concat_g_s, concat_s_g
 end interface operator(//)
 #else
 public :: operator(//)
