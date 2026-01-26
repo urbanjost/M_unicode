@@ -1,0 +1,573 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="Fortran Unicode when ISO_10646 is not supported">
+    <meta name="author" content="John S. Urban" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>upside_down &ndash; M_unicode</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">M_unicode </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>upside_down      <small>Program</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title="15.9% of total for programs.">272 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/upside_down.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/upside_down.f90.html'>upside_down.f90</a></li>
+            <li class="breadcrumb-item active" aria-current="page">upside_down</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#vars-0"
+         aria-expanded="false" aria-controls="vars-0">
+         <h4 class="card-header bg-primary text-white">Variables</h4>
+      </a>
+      <div id="vars-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../program/upside_down.html#variable-ascii7">ascii7</a>
+            <a class="list-group-item" href="../program/upside_down.html#variable-cmdline">cmdline</a>
+            <a class="list-group-item" href="../program/upside_down.html#variable-i~12">i</a>
+            <a class="list-group-item" href="../program/upside_down.html#variable-uline~3">uline</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#funcs-0"
+         aria-expanded="false" aria-controls="funcs-0">
+         <h4 class="card-header bg-primary text-white">Functions</h4>
+      </a>
+      <div id="funcs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../program/upside_down.html#proc-downside_up">downside_up</a>
+            <a class="list-group-item" href="../program/upside_down.html#proc-getargs~2">getargs</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../program/upside_down.html#src">upside_down</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+        <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='../module/m_unicode.html'>M_unicode</a></li>
+              </ul>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+    
+
+
+    <section>
+    <h2>Variables</h2>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ascii7"></span>
+              character(len=128)
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ascii7</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cmdline"></span>
+              character(len=:),
+            </td>
+            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>cmdline</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-i~12"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>i</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-uline~3"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>)
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>uline</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    </section>
+    <br>
+    
+    
+    
+
+    
+ 
+    <section>
+    <h2>Functions</h2>
+      <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-downside_up"></span> <h3> function <a href='../proc/downside_up.html'>downside_up</a>(string) result(uline)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-string~2"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>string</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+      <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-getargs~2"></span> <h3> function <a href='../proc/getargs~2.html'>getargs</a>() result(command_line)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+    <h4>
+    Return Value
+    <small>character(len=:), allocatable</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+    </section>
+    <br>
+
+
+    
+
+    <section>
+    <h2 id="src">Source Code</h2>
+    <div class="hl codehilite"><pre><span></span><span class="k">program </span><span class="n">upside_down</span>
+<span class="k">use </span><span class="n">M_unicode</span>
+<span class="c">!use M_unicode, only : assignment(=), ch=&gt;character, ut=&gt;unicode_type</span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ch</span><span class="o">=&gt;</span><span class="kt">character</span><span class="p">,</span><span class="w"> </span><span class="n">ut</span><span class="o">=&gt;</span><span class="n">unicode_type</span>
+<span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">uline</span>
+<span class="kt">integer</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">ascii7</span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">cmdline</span>
+<span class="w">   </span><span class="n">cmdline</span><span class="o">=</span><span class="n">getargs</span><span class="p">()</span>
+<span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="n">cmdline</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="k">then</span>
+<span class="k">      do </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="mi">127</span>
+<span class="w">         </span><span class="n">ascii7</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">=</span><span class="nb">char</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="w">      </span><span class="k">enddo</span>
+<span class="k">      </span><span class="n">uline</span><span class="o">=</span><span class="n">downside_up</span><span class="p">(</span><span class="n">ascii7</span><span class="p">(</span><span class="mi">32</span><span class="p">:</span><span class="mi">126</span><span class="p">))</span>
+<span class="w">      </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="n">uline</span><span class="p">%</span><span class="n">codepoint</span><span class="p">()</span>
+<span class="w">      </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="n">ch</span><span class="p">(</span><span class="n">uline</span><span class="p">)</span>
+<span class="w">   </span><span class="k">else</span>
+<span class="k">      </span><span class="n">uline</span><span class="o">=</span><span class="n">downside_up</span><span class="p">(</span><span class="n">cmdline</span><span class="p">)</span>
+<span class="w">      </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="n">ch</span><span class="p">(</span><span class="n">uline</span><span class="p">)</span>
+<span class="w">   </span><span class="k">endif</span>
+<span class="c">!   do i=int(z&#39;A4d0&#39;),int(z&#39;A4FF&#39;) ! Lisu (Fraser script) Unicode block </span>
+<span class="c">!      uline = i</span>
+<span class="c">!      write(*,&#39;(i0,1x,z0,1x,a)&#39;)i,i,ch(uline)</span>
+<span class="c">!   enddo</span>
+<span class="k">contains</span>
+<span class="k">function </span><span class="n">downside_up</span><span class="p">(</span><span class="n">string</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">uline</span><span class="p">)</span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">string</span>
+<span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">uline</span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">letter</span>
+<span class="kt">integer</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
+<span class="kt">integer</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">which</span>
+<span class="kt">integer</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">ichr</span>
+<span class="kt">integer</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">ichrs</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
+<span class="w">   </span><span class="n">which</span><span class="o">=</span><span class="mi">1</span>
+<span class="w">   </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+<span class="w">      </span><span class="n">letter</span><span class="o">=</span><span class="n">string</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">)</span>
+<span class="w">      </span><span class="k">select case</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;!&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;00A1&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;201E&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;$&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;$&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;%&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;%&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;&amp;&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;214B&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;002C&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;(&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;0029&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;)&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;(&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;+&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;+&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;02D9&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;0196&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;2&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;1105&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;3&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;0190&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;4&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;152D&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">which</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">2</span><span class="p">)</span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;3123&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">which</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">3</span><span class="p">)</span><span class="n">ichr</span><span class="o">=</span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;h&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;5&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;03DB&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;6&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;9&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;7&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;2C62&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">which</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">2</span><span class="p">)</span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;3125&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;8&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;8&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;9&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;6&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;061B&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;&lt;&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;&gt;&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;&gt;&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;&lt;&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;?&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;00BF&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;@&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;@&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="c">! Default ∀𐐒Ↄ◖ƎℲ⅁HIſ⋊⅂WᴎOԀΌᴚS⊥∩ᴧMX⅄Z</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;2200&#39;</span><span class="p">)</span>
+<span class="w">         </span><span class="k">if</span><span class="p">(</span><span class="n">which</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">4</span><span class="p">)</span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;A4EF&#39;</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓯ</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;00010412&#39;</span><span class="p">)</span>
+<span class="w">         </span><span class="k">if</span><span class="p">(</span><span class="n">which</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">4</span><span class="p">)</span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;A4ED&#39;</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓭ</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;2183&#39;</span><span class="p">)</span>
+<span class="w">         </span><span class="k">if</span><span class="p">(</span><span class="n">which</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">2</span><span class="p">)</span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;0186&#39;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;A4DB&#39;</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓛ</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;25D6&#39;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;A4F7&#39;</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓷ</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;018E&#39;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;A4F1&#39;</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓱ</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;2132&#39;</span><span class="p">)</span>
+<span class="w">         </span><span class="k">if</span><span class="p">(</span><span class="n">which</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">4</span><span class="p">)</span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;A4DE&#39;</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓞ</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;G&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;2141&#39;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;A4E8&#39;</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓨ</span>
+<span class="w">         </span><span class="k">if</span><span class="p">(</span><span class="n">which</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">2</span><span class="p">)</span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;05E4&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;A4E7&#39;</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓧ</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;I&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;I&#39;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;A4F2&#39;</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓲ</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;J&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;017F&#39;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;A4E9&#39;</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓩ</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;K&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;22CA&#39;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;A4D8&#39;</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓘ</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;L&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;2142&#39;</span><span class="p">)</span>
+<span class="w">         </span><span class="k">if</span><span class="p">(</span><span class="n">which</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">4</span><span class="p">)</span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;A4F6&#39;</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓶ</span>
+<span class="w">         </span><span class="k">if</span><span class="p">(</span><span class="n">which</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">2</span><span class="p">)</span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;02E5&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;M&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">ichar</span><span class="p">(</span><span class="s1">&#39;W&#39;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;A4EA&#39;</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓪ</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;N&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;1D0E&#39;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;A4E0&#39;</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓠ</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;O&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;O&#39;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;A4F3&#39;</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓳ</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;P&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;0500&#39;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;A4D2&#39;</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓒ</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;Q&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;038C&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;R&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;1D1A&#39;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;A4E4&#39;</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓤ</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;S&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;S&#39;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;A4E2&#39;</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓢ</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;T&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;22A5&#39;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;A4D5&#39;</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓕ</span>
+<span class="w">         </span><span class="k">if</span><span class="p">(</span><span class="n">which</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">2</span><span class="p">)</span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;2534&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;U&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;2229&#39;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;A4F5&#39;</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓵ</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;V&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;1D27&#39;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;A4E5&#39;</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓥ</span>
+<span class="w">         </span><span class="k">if</span><span class="p">(</span><span class="n">which</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">2</span><span class="p">)</span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;039B&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;W&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;M&#39;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;A4DF&#39;</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓟ</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;X&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;X&#39;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;A4EB&#39;</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓫ</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;Y&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;2144&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;Z&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;Z&#39;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;A4DC&#39;</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓜ</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;[&#39;</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;]&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">&#39;\&#39;); ichr=iachar(&#39;</span><span class="err">\</span><span class="s1">&#39;)</span>
+<span class="s1">      case(&#39;</span><span class="p">]</span><span class="s1">&#39;); ichr=iachar(&#39;</span><span class="p">[</span><span class="s1">&#39;)</span>
+<span class="s1">      case(&#39;</span><span class="err">^</span><span class="s1">&#39;); ichr=iachar(&#39;</span><span class="n">v</span><span class="s1">&#39;)</span>
+<span class="s1">      case(&#39;</span><span class="err">_</span><span class="s1">&#39;); ichr=int(z&#39;</span><span class="mi">20</span><span class="err">3</span><span class="n">E</span><span class="s1">&#39;)</span>
+<span class="s1">      case(&#39;</span><span class="err">`</span><span class="s1">&#39;); ichr=iachar(&#39;</span><span class="p">,</span><span class="s1">&#39;)</span>
+<span class="s1">      case(&#39;</span><span class="n">a</span><span class="s1">&#39;); ichr=int(z&#39;</span><span class="mi">0250</span><span class="s1">&#39;)</span>
+<span class="s1">      case(&#39;</span><span class="n">b</span><span class="s1">&#39;); ichr=iachar(&#39;</span><span class="n">q</span><span class="s1">&#39;)</span>
+<span class="s1">      case(&#39;</span><span class="n">c</span><span class="s1">&#39;); ichr=int(z&#39;</span><span class="mi">0254</span><span class="s1">&#39;)</span>
+<span class="s1">      case(&#39;</span><span class="n">d</span><span class="s1">&#39;); ichr=iachar(&#39;</span><span class="n">p</span><span class="s1">&#39;)</span>
+<span class="s1">      case(&#39;</span><span class="n">e</span><span class="s1">&#39;); ichr=int(z&#39;</span><span class="mi">01</span><span class="n">DD</span><span class="s1">&#39;)</span>
+<span class="s1">      case(&#39;</span><span class="n">f</span><span class="s1">&#39;); ichr=int(z&#39;</span><span class="mi">025</span><span class="n">F</span><span class="s1">&#39;)</span>
+<span class="s1">      case(&#39;</span><span class="n">g</span><span class="s1">&#39;); ichr=int(z&#39;</span><span class="mi">0183</span><span class="s1">&#39;)</span>
+<span class="s1">      case(&#39;</span><span class="n">h</span><span class="s1">&#39;); ichr=int(z&#39;</span><span class="mi">0265</span><span class="s1">&#39;)</span>
+<span class="s1">      case(&#39;</span><span class="n">i</span><span class="s1">&#39;); ichr=int(z&#39;</span><span class="mi">0131</span><span class="s1">&#39;)</span>
+<span class="s1">      if(which.eq.2)ichr=int(z&#39;</span><span class="mi">1</span><span class="n">D09</span><span class="s1">&#39;)</span>
+<span class="s1">      case(&#39;</span><span class="n">j</span><span class="s1">&#39;); ichr=int(z&#39;</span><span class="mi">02</span><span class="err">7</span><span class="n">E</span><span class="s1">&#39;)</span>
+<span class="s1">      case(&#39;</span><span class="n">k</span><span class="s1">&#39;); ichr=int(z&#39;</span><span class="mi">02</span><span class="err">9</span><span class="n">E</span><span class="s1">&#39;)</span>
+<span class="s1">      case(&#39;</span><span class="n">l</span><span class="s1">&#39;); ichr=int(z&#39;</span><span class="mi">0283</span><span class="s1">&#39;)</span>
+<span class="s1">      case(&#39;</span><span class="n">m</span><span class="s1">&#39;); ichr=int(z&#39;</span><span class="mi">026</span><span class="n">F</span><span class="s1">&#39;)</span>
+<span class="s1">      case(&#39;</span><span class="n">n</span><span class="s1">&#39;); ichr=iachar(&#39;</span><span class="n">u</span><span class="s1">&#39;)</span>
+<span class="s1">      case(&#39;</span><span class="n">o</span><span class="s1">&#39;); ichr=iachar(&#39;</span><span class="n">o</span><span class="s1">&#39;)</span>
+<span class="s1">      case(&#39;</span><span class="n">p</span><span class="s1">&#39;); ichr=iachar(&#39;</span><span class="n">d</span><span class="s1">&#39;)</span>
+<span class="s1">      case(&#39;</span><span class="n">q</span><span class="s1">&#39;); ichr=iachar(&#39;</span><span class="n">b</span><span class="s1">&#39;)</span>
+<span class="s1">      case(&#39;</span><span class="n">r</span><span class="s1">&#39;); ichr=int(z&#39;</span><span class="mi">0279</span><span class="s1">&#39;)</span>
+<span class="s1">      case(&#39;</span><span class="n">s</span><span class="s1">&#39;); ichr=iachar(&#39;</span><span class="n">s</span><span class="s1">&#39;)</span>
+<span class="s1">      case(&#39;</span><span class="n">t</span><span class="s1">&#39;); ichr=int(z&#39;</span><span class="mi">0287</span><span class="s1">&#39;)</span>
+<span class="s1">      case(&#39;</span><span class="n">u</span><span class="s1">&#39;); ichr=iachar(&#39;</span><span class="n">n</span><span class="s1">&#39;)</span>
+<span class="s1">      case(&#39;</span><span class="n">v</span><span class="s1">&#39;); ichr=int(z&#39;</span><span class="mi">028</span><span class="n">C</span><span class="s1">&#39;)</span>
+<span class="s1">      case(&#39;</span><span class="n">w</span><span class="s1">&#39;); ichr=int(z&#39;</span><span class="mi">028</span><span class="n">D</span><span class="s1">&#39;)</span>
+<span class="s1">      case(&#39;</span><span class="n">x</span><span class="s1">&#39;); ichr=iachar(&#39;</span><span class="n">x</span><span class="s1">&#39;)</span>
+<span class="s1">      case(&#39;</span><span class="n">y</span><span class="s1">&#39;); ichr=int(z&#39;</span><span class="mi">02</span><span class="err">8</span><span class="n">E</span><span class="s1">&#39;)</span>
+<span class="s1">      case(&#39;</span><span class="n">z</span><span class="s1">&#39;); ichr=iachar(&#39;</span><span class="n">z</span><span class="s1">&#39;)</span>
+<span class="s1">      case(&#39;</span><span class="err">{</span><span class="s1">&#39;); ichr=iachar(&#39;</span><span class="err">}</span><span class="s1">&#39;)</span>
+<span class="s1">      case(&#39;</span><span class="err">|</span><span class="s1">&#39;); ichr=iachar(&#39;</span><span class="err">|</span><span class="s1">&#39;)</span>
+<span class="s1">      case(&#39;</span><span class="err">}</span><span class="s1">&#39;); ichr=iachar(&#39;</span><span class="err">{</span><span class="s1">&#39;)</span>
+<span class="s1">      case(&#39;</span><span class="err">~</span><span class="s1">&#39;); ichr=iachar(&#39;</span><span class="err">~&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case </span><span class="n">default</span>
+<span class="w">                 </span><span class="n">ichr</span><span class="o">=</span><span class="nb">iachar</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+<span class="w">      </span><span class="k">end select</span>
+<span class="k">      </span><span class="n">ichrs</span><span class="p">(</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">ichrs</span><span class="p">)</span><span class="o">-</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="w"> </span><span class="p">)</span><span class="o">=</span><span class="n">ichr</span>
+<span class="w">   </span><span class="k">enddo</span>
+<span class="k">   </span><span class="n">uline</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ichrs</span>
+<span class="k">end function </span><span class="n">downside_up</span>
+<span class="k">function </span><span class="n">getargs</span><span class="p">()</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">command_line</span><span class="p">)</span>
+<span class="kt">integer</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">length</span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">command_line</span>
+<span class="w">   </span><span class="k">call </span><span class="nb">get_command</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="n">length</span><span class="p">)</span><span class="w">                 </span><span class="c">! get command line length</span>
+<span class="w">   </span><span class="k">allocate</span><span class="p">(</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">length</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">command_line</span><span class="p">)</span><span class="w"> </span><span class="c">! allocate string big enough to hold command line</span>
+<span class="w">   </span><span class="k">call </span><span class="nb">get_command</span><span class="p">(</span><span class="n">command</span><span class="o">=</span><span class="n">command_line</span><span class="p">)</span><span class="w">          </span><span class="c">! get command line as a string</span>
+<span class="w">   </span><span class="k">call </span><span class="nb">get_command_argument</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">length</span><span class="o">=</span><span class="n">length</span><span class="p">)</span><span class="w">      </span><span class="c">! remove argument 0</span>
+<span class="w">   </span><span class="n">command_line</span><span class="o">=</span><span class="nb">adjustl</span><span class="p">(</span><span class="n">command_line</span><span class="p">(</span><span class="n">length</span><span class="o">+</span><span class="mi">2</span><span class="p">:))</span>
+<span class="k">end function </span><span class="n">getargs</span>
+<span class="k">end program </span><span class="n">upside_down</span>
+</pre></div>
+
+    </section>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              M_unicode
+ was developed by John S. Urban<br>              &copy; 2026 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2026-01-26 10:59 +0000             </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>
