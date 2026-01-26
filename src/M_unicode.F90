@@ -335,6 +335,15 @@ PUBLIC :: write(formatted)
 
 ! just for use in the parent module
 public :: concat_g_g
+#if __COMPILER__ == __INTEL_COMP
+public :: concat_u_g, concat_g_u
+public :: concat_i_g, concat_g_i
+public :: concat_r_g, concat_g_r
+public :: concat_d_g, concat_g_d
+public :: concat_c_g, concat_g_c
+public :: concat_l_g, concat_g_l
+public :: concat_s_g, concat_g_s
+#endif
 
 private :: a2s, s2a
 private :: binary_search
@@ -8539,6 +8548,136 @@ type(unicode_type)  :: string1, string2, string
    string%codes=[string1%codes,string2%codes]
 end function concat_g_g
 !===================================================================================================================================
+#if __COMPILER__ == __INTEL_COMP
+! maybe concat_g_g is non-standard, but intel compiler requires naming everything
+
+function concat_u_g(lhs,rhs) result (string)
+type(unicode_type),intent(in) :: lhs
+class(*),intent(in)           :: rhs
+type(unicode_type)            :: string1, string2, string
+   string1 = fmt(lhs)
+   string2 = fmt(rhs)
+   string%codes=[string1%codes,string2%codes]
+end function concat_u_g
+
+function concat_g_u(lhs,rhs) result (string)
+class(*),intent(in)           :: lhs
+type(unicode_type),intent(in) :: rhs
+type(unicode_type)            :: string1, string2, string
+   string1 = fmt(lhs)
+   string2 = fmt(rhs)
+   string%codes=[string1%codes,string2%codes]
+end function concat_g_u
+
+function concat_i_g(lhs,rhs) result (string)
+integer,intent(in)          :: lhs
+class(*),intent(in)         :: rhs
+type(unicode_type)          :: string1, string2, string
+   string1 = fmt(lhs)
+   string2 = fmt(rhs)
+   string%codes=[string1%codes,string2%codes]
+end function concat_i_g
+
+function concat_g_i(lhs,rhs) result (string)
+class(*),intent(in)         :: lhs
+integer,intent(in)          :: rhs
+type(unicode_type)          :: string1, string2, string
+   string1 = fmt(lhs)
+   string2 = fmt(rhs)
+   string%codes=[string1%codes,string2%codes]
+end function concat_g_i
+
+function concat_r_g(lhs,rhs) result (string)
+real,intent(in)             :: lhs
+class(*),intent(in)         :: rhs
+type(unicode_type)          :: string1, string2, string
+   string1 = fmt(lhs)
+   string2 = fmt(rhs)
+   string%codes=[string1%codes,string2%codes]
+end function concat_r_g
+
+function concat_g_r(lhs,rhs) result (string)
+class(*),intent(in)         :: lhs
+real,intent(in)             :: rhs
+type(unicode_type)          :: string1, string2, string
+   string1 = fmt(lhs)
+   string2 = fmt(rhs)
+   string%codes=[string1%codes,string2%codes]
+end function concat_g_r
+
+function concat_d_g(lhs,rhs) result (string)
+doubleprecision,intent(in)  :: lhs
+class(*),intent(in)         :: rhs
+type(unicode_type)          :: string1, string2, string
+   string1 = fmt(lhs)
+   string2 = fmt(rhs)
+   string%codes=[string1%codes,string2%codes]
+end function concat_d_g
+
+function concat_g_d(lhs,rhs) result (string)
+class(*),intent(in)         :: lhs
+doubleprecision,intent(in)  :: rhs
+type(unicode_type)          :: string1, string2, string
+   string1 = fmt(lhs)
+   string2 = fmt(rhs)
+   string%codes=[string1%codes,string2%codes]
+end function concat_g_d
+
+function concat_c_g(lhs,rhs) result (string)
+complex,intent(in)          :: lhs
+class(*),intent(in)         :: rhs
+type(unicode_type)          :: string1, string2, string
+   string1 = fmt(lhs)
+   string2 = fmt(rhs)
+   string%codes=[string1%codes,string2%codes]
+end function concat_c_g
+
+function concat_g_c(lhs,rhs) result (string)
+class(*),intent(in)         :: lhs
+complex,intent(in)          :: rhs
+type(unicode_type)          :: string1, string2, string
+   string1 = fmt(lhs)
+   string2 = fmt(rhs)
+   string%codes=[string1%codes,string2%codes]
+end function concat_g_c
+
+function concat_s_g(lhs,rhs) result (string)
+character(len=*),intent(in) :: lhs
+class(*),intent(in)         :: rhs
+type(unicode_type)          :: string1, string2, string
+   string1 = fmt(lhs)
+   string2 = fmt(rhs)
+   string%codes=[string1%codes,string2%codes]
+end function concat_s_g
+
+function concat_g_s(lhs,rhs) result (string)
+class(*),intent(in)         :: lhs
+character(len=*),intent(in) :: rhs
+type(unicode_type)          :: string1, string2, string
+   string1 = fmt(lhs)
+   string2 = fmt(rhs)
+   string%codes=[string1%codes,string2%codes]
+end function concat_g_s
+
+function concat_l_g(lhs,rhs) result (string)
+logical,intent(in)          :: lhs
+class(*),intent(in)         :: rhs
+type(unicode_type)          :: string1, string2, string
+   string1 = fmt(lhs)
+   string2 = fmt(rhs)
+   string%codes=[string1%codes,string2%codes]
+end function concat_l_g
+
+function concat_g_l(lhs,rhs) result (string)
+class(*),intent(in)         :: lhs
+logical,intent(in)          :: rhs
+type(unicode_type)          :: string1, string2, string
+   string1 = fmt(lhs)
+   string2 = fmt(rhs)
+   string%codes=[string1%codes,string2%codes]
+end function concat_g_l
+#endif
+!===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !> Write string to connected formatted unit.
@@ -8574,8 +8713,21 @@ end module M_unicode__base
 
 module M_unicode
 use M_unicode__base
+#if __COMPILER__ == __INTEL_COMP
 public :: operator(//)
-public :: operator(.cat.)
+interface operator(//)
+   module procedure :: concat_g_u, concat_u_g
+   module procedure :: concat_g_i, concat_i_g
+   module procedure :: concat_g_r, concat_r_g
+   module procedure :: concat_g_d, concat_d_g
+   module procedure :: concat_g_c, concat_c_g
+   module procedure :: concat_g_l, concat_l_g
+   module procedure :: concat_g_s, concat_s_g
+end interface operator(//)
+#else
+public :: operator(//)
 interface operator(//); module procedure :: concat_g_g; end interface operator(//)
+#endif
+public :: operator(.cat.)
 interface operator(.cat.); module procedure :: concat_g_g; end interface operator(.cat.)
 end module M_unicode
