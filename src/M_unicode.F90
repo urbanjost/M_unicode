@@ -282,7 +282,7 @@
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
-module M_unicode__base
+module M_unicode
 !
 ! Unicode-related procedures not requiring compiler support of ISO-10646
 ! first presented in https://fortran-lang.discourse.group/t/how-to-use-utf-8-in-gfortran/9949
@@ -330,20 +330,20 @@ public :: get_arg
 PUBLIC :: LLE, LLT, LNE, LEQ, LGT, LGE
 PUBLIC :: OPERATOR(<=), OPERATOR(<), OPERATOR(/=), OPERATOR(==), OPERATOR(>), OPERATOR(>=)
 public :: assignment(=)
+public :: operator(.cat.)
+public :: operator(//)
 
 PUBLIC :: write(formatted)
 
-! just for use in the parent module
-public :: concat_g_g
-#if __COMPILER__ == __INTEL_COMP
-public :: concat_u_g, concat_g_u
-public :: concat_i_g, concat_g_i
-public :: concat_r_g, concat_g_r
-public :: concat_d_g, concat_g_d
-public :: concat_c_g, concat_g_c
-public :: concat_l_g, concat_g_l
-public :: concat_s_g, concat_g_s
-#endif
+! just for use in the parent module for operator(//) and operator(.cat. )
+private :: concat_g_g
+private :: concat_u_g, concat_g_u
+private :: concat_i_g, concat_g_i
+private :: concat_r_g, concat_g_r
+private :: concat_d_g, concat_g_d
+private :: concat_c_g, concat_g_c
+private :: concat_l_g, concat_g_l
+private :: concat_s_g, concat_g_s
 
 private :: a2s, s2a
 private :: binary_search
@@ -457,8 +457,40 @@ interface operator(==); module procedure :: leq_char_str,  leq_str_char,  leq_st
 interface operator(>);  module procedure :: lgt_str_str,   lgt_str_char,  lgt_char_str;  end interface operator(>)
 interface operator(>=); module procedure :: lge_str_str,   lge_str_char,  lge_char_str;  end interface operator(>=)
 
+!
+! F2023, 15.4.3.4.2p1: If the operator is an intrinsic-operator (R608),
+! the number of dummy arguments shall be consistent with the intrinsic
+! uses of that operator, and the types, kind type parameters, or ranks of
+! the dummy arguments shall differ from those required for the intrinsic
+! operation (10.1.5), treating a CLASS (*) dummy argument as not differing in type or kind.
+!                     =====================================================================
+!
+! For example, how is the compiler supposed to know if it can call
+! CONCAT_G_G for C1//C2 where both C1 and C2 are default character? It's
+! ambiguous.
+! Steve Lionel 2026-01-26
+!
+! CONCAT_G_G worked with gfortran and flang because the default behavior is tried first
+! and the overload is not tried unless the intrinsic cannot accept the arguments.
+! a useful behavior, but an extension, so technically a bug as at least at the
+! moment it is not flagged if ask for conformance to a standard. It means many little
+! procedures need created instead to avoid the C1//C2 case.
+!
+! should expand the list to include additional non-default common kinds
+
+interface operator(//)
+   module procedure :: concat_g_u, concat_u_g
+   module procedure :: concat_g_i, concat_i_g
+   module procedure :: concat_g_r, concat_r_g
+   module procedure :: concat_g_d, concat_d_g
+   module procedure :: concat_g_c, concat_c_g
+   module procedure :: concat_g_l, concat_l_g
+   !module procedure :: concat_g_s, concat_s_g
+end interface operator(//)
+
 interface operator(.cat.)
-   module procedure :: concat_uu_
+   module procedure :: concat_g_g
+   !module procedure :: concat_uu_
 end interface operator(.cat.)
 
 type :: unicode_type ! Unicode string type holding an arbitrary sequence of integer codes.
@@ -8548,7 +8580,6 @@ type(unicode_type)  :: string1, string2, string
    string%codes=[string1%codes,string2%codes]
 end function concat_g_g
 !===================================================================================================================================
-#if __COMPILER__ == __INTEL_COMP
 ! maybe concat_g_g is non-standard, but intel compiler requires naming everything
 
 function concat_u_g(lhs,rhs) result (string)
@@ -8676,7 +8707,6 @@ type(unicode_type)          :: string1, string2, string
    string2 = fmt(rhs)
    string%codes=[string1%codes,string2%codes]
 end function concat_g_l
-#endif
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
@@ -8709,25 +8739,5 @@ end subroutine write_formatted
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
-end module M_unicode__base
-
-module M_unicode
-use M_unicode__base
-#if __COMPILER__ == __INTEL_COMP
-public :: operator(//)
-interface operator(//)
-   module procedure :: concat_g_u, concat_u_g
-   module procedure :: concat_g_i, concat_i_g
-   module procedure :: concat_g_r, concat_r_g
-   module procedure :: concat_g_d, concat_d_g
-   module procedure :: concat_g_c, concat_c_g
-   module procedure :: concat_g_l, concat_l_g
-   !module procedure :: concat_g_s, concat_s_g
-end interface operator(//)
-#else
-public :: operator(//)
-interface operator(//); module procedure :: concat_g_g; end interface operator(//)
-#endif
-public :: operator(.cat.)
-interface operator(.cat.); module procedure :: concat_g_g; end interface operator(.cat.)
 end module M_unicode
+
