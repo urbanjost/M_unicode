@@ -336,14 +336,18 @@ public :: operator(//)
 PUBLIC :: write(formatted)
 
 ! just for use in the parent module for operator(//) and operator(.cat. )
-private :: concat_g_g
-private :: concat_u_g, concat_g_u
-private :: concat_i_g, concat_g_i
-private :: concat_r_g, concat_g_r
-private :: concat_d_g, concat_g_d
-private :: concat_c_g, concat_g_c
-private :: concat_l_g, concat_g_l
-private :: concat_s_g, concat_g_s
+private  ::  concat_g_g
+private  ::  concat_u_g,          concat_g_u
+private  ::  concat_int8_g,       concat_g_int8
+private  ::  concat_int16_g,      concat_g_int16
+private  ::  concat_int32_g,      concat_g_int32
+private  ::  concat_int64_g,      concat_g_int64
+private  ::  concat_real32_g,     concat_g_real32
+private  ::  concat_real64_g,     concat_g_real64
+private  ::  concat_complex32_g,  concat_g_complex32
+private  ::  concat_complex64_g,  concat_g_complex64
+private  ::  concat_l_g,          concat_g_l
+private  ::  concat_character_g,  concat_g_character
 
 private :: a2s, s2a
 private :: binary_search
@@ -479,13 +483,17 @@ interface operator(>=); module procedure :: lge_str_str,   lge_str_char,  lge_ch
 ! should expand the list to include additional non-default common kinds
 
 interface operator(//)
-   module procedure :: concat_g_u, concat_u_g
-   module procedure :: concat_g_i, concat_i_g
-   module procedure :: concat_g_r, concat_r_g
-   module procedure :: concat_g_d, concat_d_g
-   module procedure :: concat_g_c, concat_c_g
-   module procedure :: concat_g_l, concat_l_g
-   !module procedure :: concat_g_s, concat_s_g
+module   procedure  ::  concat_g_u,          concat_u_g
+module   procedure  ::  concat_g_int8,       concat_int8_g
+module   procedure  ::  concat_g_int16,      concat_int16_g
+module   procedure  ::  concat_g_int32,      concat_int32_g
+module   procedure  ::  concat_g_int64,      concat_int64_g
+module   procedure  ::  concat_g_real32,     concat_real32_g
+module   procedure  ::  concat_g_real64,     concat_real64_g
+module   procedure  ::  concat_g_complex32,  concat_complex32_g
+module   procedure  ::  concat_g_complex64,  concat_complex64_g
+module   procedure  ::  concat_g_l,          concat_l_g
+!module  procedure  ::  concat_g_character,  concat_character_g
 end interface operator(//)
 
 interface operator(.cat.)
@@ -8600,95 +8608,167 @@ type(unicode_type)            :: string1, string2, string
    string%codes=[string1%codes,string2%codes]
 end function concat_g_u
 
-function concat_i_g(lhs,rhs) result (string)
-integer,intent(in)          :: lhs
-class(*),intent(in)         :: rhs
-type(unicode_type)          :: string1, string2, string
+function concat_int8_g(lhs,rhs) result (string)
+integer(kind=int8),intent(in) :: lhs
+class(*),intent(in)           :: rhs
+type(unicode_type)            :: string1, string2, string
    string1 = fmt(lhs)
    string2 = fmt(rhs)
    string%codes=[string1%codes,string2%codes]
-end function concat_i_g
+end function concat_int8_g
 
-function concat_g_i(lhs,rhs) result (string)
-class(*),intent(in)         :: lhs
-integer,intent(in)          :: rhs
-type(unicode_type)          :: string1, string2, string
+function concat_g_int8(lhs,rhs) result (string)
+class(*),intent(in)           :: lhs
+integer(kind=int8),intent(in) :: rhs
+type(unicode_type)            :: string1, string2, string
    string1 = fmt(lhs)
    string2 = fmt(rhs)
    string%codes=[string1%codes,string2%codes]
-end function concat_g_i
+end function concat_g_int8
 
-function concat_r_g(lhs,rhs) result (string)
-real,intent(in)             :: lhs
-class(*),intent(in)         :: rhs
-type(unicode_type)          :: string1, string2, string
+function concat_int16_g(lhs,rhs) result (string)
+integer(kind=int16),intent(in) :: lhs
+class(*),intent(in)            :: rhs
+type(unicode_type)             :: string1, string2, string
    string1 = fmt(lhs)
    string2 = fmt(rhs)
    string%codes=[string1%codes,string2%codes]
-end function concat_r_g
+end function concat_int16_g
 
-function concat_g_r(lhs,rhs) result (string)
-class(*),intent(in)         :: lhs
-real,intent(in)             :: rhs
-type(unicode_type)          :: string1, string2, string
+function concat_g_int16(lhs,rhs) result (string)
+class(*),intent(in)            :: lhs
+integer(kind=int16),intent(in) :: rhs
+type(unicode_type)             :: string1, string2, string
    string1 = fmt(lhs)
    string2 = fmt(rhs)
    string%codes=[string1%codes,string2%codes]
-end function concat_g_r
+end function concat_g_int16
 
-function concat_d_g(lhs,rhs) result (string)
-doubleprecision,intent(in)  :: lhs
-class(*),intent(in)         :: rhs
-type(unicode_type)          :: string1, string2, string
+function concat_int32_g(lhs,rhs) result (string)
+integer(kind=int32),intent(in) :: lhs
+class(*),intent(in)            :: rhs
+type(unicode_type)             :: string1, string2, string
    string1 = fmt(lhs)
    string2 = fmt(rhs)
    string%codes=[string1%codes,string2%codes]
-end function concat_d_g
+end function concat_int32_g
 
-function concat_g_d(lhs,rhs) result (string)
-class(*),intent(in)         :: lhs
-doubleprecision,intent(in)  :: rhs
-type(unicode_type)          :: string1, string2, string
+function concat_g_int32(lhs,rhs) result (string)
+class(*),intent(in)            :: lhs
+integer(kind=int32),intent(in) :: rhs
+type(unicode_type)             :: string1, string2, string
    string1 = fmt(lhs)
    string2 = fmt(rhs)
    string%codes=[string1%codes,string2%codes]
-end function concat_g_d
+end function concat_g_int32
 
-function concat_c_g(lhs,rhs) result (string)
-complex,intent(in)          :: lhs
-class(*),intent(in)         :: rhs
-type(unicode_type)          :: string1, string2, string
+function concat_int64_g(lhs,rhs) result (string)
+integer(kind=int64),intent(in) :: lhs
+class(*),intent(in)            :: rhs
+type(unicode_type)             :: string1, string2, string
    string1 = fmt(lhs)
    string2 = fmt(rhs)
    string%codes=[string1%codes,string2%codes]
-end function concat_c_g
+end function concat_int64_g
 
-function concat_g_c(lhs,rhs) result (string)
-class(*),intent(in)         :: lhs
-complex,intent(in)          :: rhs
-type(unicode_type)          :: string1, string2, string
+function concat_g_int64(lhs,rhs) result (string)
+class(*),intent(in)            :: lhs
+integer(kind=int64),intent(in) :: rhs
+type(unicode_type)             :: string1, string2, string
    string1 = fmt(lhs)
    string2 = fmt(rhs)
    string%codes=[string1%codes,string2%codes]
-end function concat_g_c
+end function concat_g_int64
 
-function concat_s_g(lhs,rhs) result (string)
+function concat_real32_g(lhs,rhs) result (string)
+real(kind=real32),intent(in) :: lhs
+class(*),intent(in)          :: rhs
+type(unicode_type)           :: string1, string2, string
+   string1 = fmt(lhs)
+   string2 = fmt(rhs)
+   string%codes=[string1%codes,string2%codes]
+end function concat_real32_g
+
+function concat_g_real32(lhs,rhs) result (string)
+class(*),intent(in)          :: lhs
+real(kind=real32),intent(in) :: rhs
+type(unicode_type)           :: string1, string2, string
+   string1 = fmt(lhs)
+   string2 = fmt(rhs)
+   string%codes=[string1%codes,string2%codes]
+end function concat_g_real32
+
+function concat_real64_g(lhs,rhs) result (string)
+real(kind=real64),intent(in) :: lhs
+class(*),intent(in)          :: rhs
+type(unicode_type)           :: string1, string2, string
+   string1 = fmt(lhs)
+   string2 = fmt(rhs)
+   string%codes=[string1%codes,string2%codes]
+end function concat_real64_g
+
+function concat_g_real64(lhs,rhs) result (string)
+class(*),intent(in)          :: lhs
+real(kind=real64),intent(in) :: rhs
+type(unicode_type)           :: string1, string2, string
+   string1 = fmt(lhs)
+   string2 = fmt(rhs)
+   string%codes=[string1%codes,string2%codes]
+end function concat_g_real64
+
+function concat_complex32_g(lhs,rhs) result (string)
+complex(kind=real32),intent(in) :: lhs
+class(*),intent(in)             :: rhs
+type(unicode_type)              :: string1, string2, string
+   string1 = fmt(lhs)
+   string2 = fmt(rhs)
+   string%codes=[string1%codes,string2%codes]
+end function concat_complex32_g
+
+function concat_g_complex32(lhs,rhs) result (string)
+class(*),intent(in)             :: lhs
+complex(kind=real32),intent(in) :: rhs
+type(unicode_type)              :: string1, string2, string
+   string1 = fmt(lhs)
+   string2 = fmt(rhs)
+   string%codes=[string1%codes,string2%codes]
+end function concat_g_complex32
+
+function concat_complex64_g(lhs,rhs) result (string)
+complex(kind=real64),intent(in) :: lhs
+class(*),intent(in)             :: rhs
+type(unicode_type)              :: string1, string2, string
+   string1 = fmt(lhs)
+   string2 = fmt(rhs)
+   string%codes=[string1%codes,string2%codes]
+end function concat_complex64_g
+
+function concat_g_complex64(lhs,rhs) result (string)
+class(*),intent(in)             :: lhs
+complex(kind=real64),intent(in) :: rhs
+type(unicode_type)              :: string1, string2, string
+   string1 = fmt(lhs)
+   string2 = fmt(rhs)
+   string%codes=[string1%codes,string2%codes]
+end function concat_g_complex64
+
+function concat_character_g(lhs,rhs) result (string)
 character(len=*),intent(in) :: lhs
 class(*),intent(in)         :: rhs
 type(unicode_type)          :: string1, string2, string
    string1 = fmt(lhs)
    string2 = fmt(rhs)
    string%codes=[string1%codes,string2%codes]
-end function concat_s_g
+end function concat_character_g
 
-function concat_g_s(lhs,rhs) result (string)
+function concat_g_character(lhs,rhs) result (string)
 class(*),intent(in)         :: lhs
 character(len=*),intent(in) :: rhs
 type(unicode_type)          :: string1, string2, string
    string1 = fmt(lhs)
    string2 = fmt(rhs)
    string%codes=[string1%codes,string2%codes]
-end function concat_g_s
+end function concat_g_character
 
 function concat_l_g(lhs,rhs) result (string)
 logical,intent(in)          :: lhs

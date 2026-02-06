@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.5% of total for procedures.</p>Including implementation: 104 statements,  6.5% of total for procedures.">8 statements</a>
+                 title="<p> 0.7% of total for procedures.</p>Including implementation: 172 statements, 10.7% of total for procedures.">12 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -152,14 +152,22 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../interface/operator(SLASHSLASH).html#moduleprocedure-concat_g_u">concat_g_u</a>
             <a class="list-group-item" href="../interface/operator(SLASHSLASH).html#moduleprocedure-concat_u_g">concat_u_g</a>
-            <a class="list-group-item" href="../interface/operator(SLASHSLASH).html#moduleprocedure-concat_g_i">concat_g_i</a>
-            <a class="list-group-item" href="../interface/operator(SLASHSLASH).html#moduleprocedure-concat_i_g">concat_i_g</a>
-            <a class="list-group-item" href="../interface/operator(SLASHSLASH).html#moduleprocedure-concat_g_r">concat_g_r</a>
-            <a class="list-group-item" href="../interface/operator(SLASHSLASH).html#moduleprocedure-concat_r_g">concat_r_g</a>
-            <a class="list-group-item" href="../interface/operator(SLASHSLASH).html#moduleprocedure-concat_g_d">concat_g_d</a>
-            <a class="list-group-item" href="../interface/operator(SLASHSLASH).html#moduleprocedure-concat_d_g">concat_d_g</a>
-            <a class="list-group-item" href="../interface/operator(SLASHSLASH).html#moduleprocedure-concat_g_c">concat_g_c</a>
-            <a class="list-group-item" href="../interface/operator(SLASHSLASH).html#moduleprocedure-concat_c_g">concat_c_g</a>
+            <a class="list-group-item" href="../interface/operator(SLASHSLASH).html#moduleprocedure-concat_g_int8">concat_g_int8</a>
+            <a class="list-group-item" href="../interface/operator(SLASHSLASH).html#moduleprocedure-concat_int8_g">concat_int8_g</a>
+            <a class="list-group-item" href="../interface/operator(SLASHSLASH).html#moduleprocedure-concat_g_int16">concat_g_int16</a>
+            <a class="list-group-item" href="../interface/operator(SLASHSLASH).html#moduleprocedure-concat_int16_g">concat_int16_g</a>
+            <a class="list-group-item" href="../interface/operator(SLASHSLASH).html#moduleprocedure-concat_g_int32">concat_g_int32</a>
+            <a class="list-group-item" href="../interface/operator(SLASHSLASH).html#moduleprocedure-concat_int32_g">concat_int32_g</a>
+            <a class="list-group-item" href="../interface/operator(SLASHSLASH).html#moduleprocedure-concat_g_int64">concat_g_int64</a>
+            <a class="list-group-item" href="../interface/operator(SLASHSLASH).html#moduleprocedure-concat_int64_g">concat_int64_g</a>
+            <a class="list-group-item" href="../interface/operator(SLASHSLASH).html#moduleprocedure-concat_g_real32">concat_g_real32</a>
+            <a class="list-group-item" href="../interface/operator(SLASHSLASH).html#moduleprocedure-concat_real32_g">concat_real32_g</a>
+            <a class="list-group-item" href="../interface/operator(SLASHSLASH).html#moduleprocedure-concat_g_real64">concat_g_real64</a>
+            <a class="list-group-item" href="../interface/operator(SLASHSLASH).html#moduleprocedure-concat_real64_g">concat_real64_g</a>
+            <a class="list-group-item" href="../interface/operator(SLASHSLASH).html#moduleprocedure-concat_g_complex32">concat_g_complex32</a>
+            <a class="list-group-item" href="../interface/operator(SLASHSLASH).html#moduleprocedure-concat_complex32_g">concat_complex32_g</a>
+            <a class="list-group-item" href="../interface/operator(SLASHSLASH).html#moduleprocedure-concat_g_complex64">concat_g_complex64</a>
+            <a class="list-group-item" href="../interface/operator(SLASHSLASH).html#moduleprocedure-concat_complex64_g">concat_complex64_g</a>
             <a class="list-group-item" href="../interface/operator(SLASHSLASH).html#moduleprocedure-concat_g_l">concat_g_l</a>
             <a class="list-group-item" href="../interface/operator(SLASHSLASH).html#moduleprocedure-concat_l_g">concat_l_g</a>
         </div>
@@ -299,7 +307,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-concat_g_i"></span> <h3>private  function concat_g_i(lhs, rhs) result(string)  
+    <div class="card-header codesum"><span class="anchor" id="proc-concat_g_int8"></span> <h3>private  function concat_g_int8(lhs, rhs) result(string)  
 </h3></div>
     <div class="card-body">
         
@@ -333,7 +341,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-rhs~30"></span>
-              integer,
+              integer(kind=int8),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -358,7 +366,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-concat_i_g"></span> <h3>private  function concat_i_g(lhs, rhs) result(string)  
+    <div class="card-header codesum"><span class="anchor" id="proc-concat_int8_g"></span> <h3>private  function concat_int8_g(lhs, rhs) result(string)  
 </h3></div>
     <div class="card-body">
         
@@ -377,7 +385,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-lhs~29"></span>
-              integer,
+              integer(kind=int8),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -417,7 +425,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-concat_g_r"></span> <h3>private  function concat_g_r(lhs, rhs) result(string)  
+    <div class="card-header codesum"><span class="anchor" id="proc-concat_g_int16"></span> <h3>private  function concat_g_int16(lhs, rhs) result(string)  
 </h3></div>
     <div class="card-body">
         
@@ -451,7 +459,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-rhs~32"></span>
-              real,
+              integer(kind=int16),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -476,7 +484,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-concat_r_g"></span> <h3>private  function concat_r_g(lhs, rhs) result(string)  
+    <div class="card-header codesum"><span class="anchor" id="proc-concat_int16_g"></span> <h3>private  function concat_int16_g(lhs, rhs) result(string)  
 </h3></div>
     <div class="card-body">
         
@@ -495,7 +503,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-lhs~31"></span>
-              real,
+              integer(kind=int16),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -535,7 +543,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-concat_g_d"></span> <h3>private  function concat_g_d(lhs, rhs) result(string)  
+    <div class="card-header codesum"><span class="anchor" id="proc-concat_g_int32"></span> <h3>private  function concat_g_int32(lhs, rhs) result(string)  
 </h3></div>
     <div class="card-body">
         
@@ -569,7 +577,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-rhs~34"></span>
-              doubleprecision,
+              integer(kind=int32),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -594,7 +602,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-concat_d_g"></span> <h3>private  function concat_d_g(lhs, rhs) result(string)  
+    <div class="card-header codesum"><span class="anchor" id="proc-concat_int32_g"></span> <h3>private  function concat_int32_g(lhs, rhs) result(string)  
 </h3></div>
     <div class="card-body">
         
@@ -613,7 +621,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-lhs~33"></span>
-              doubleprecision,
+              integer(kind=int32),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -653,7 +661,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-concat_g_c"></span> <h3>private  function concat_g_c(lhs, rhs) result(string)  
+    <div class="card-header codesum"><span class="anchor" id="proc-concat_g_int64"></span> <h3>private  function concat_g_int64(lhs, rhs) result(string)  
 </h3></div>
     <div class="card-body">
         
@@ -687,7 +695,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-rhs~36"></span>
-              complex,
+              integer(kind=int64),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -712,7 +720,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-concat_c_g"></span> <h3>private  function concat_c_g(lhs, rhs) result(string)  
+    <div class="card-header codesum"><span class="anchor" id="proc-concat_int64_g"></span> <h3>private  function concat_int64_g(lhs, rhs) result(string)  
 </h3></div>
     <div class="card-body">
         
@@ -731,7 +739,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-lhs~35"></span>
-              complex,
+              integer(kind=int64),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -746,6 +754,478 @@
         <tr>
             <td>
               <span class="anchor" id="variable-rhs~35"></span>
+              class(*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-concat_g_real32"></span> <h3>private  function concat_g_real32(lhs, rhs) result(string)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~38"></span>
+              class(*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~38"></span>
+              real(kind=real32),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-concat_real32_g"></span> <h3>private  function concat_real32_g(lhs, rhs) result(string)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~37"></span>
+              real(kind=real32),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~37"></span>
+              class(*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-concat_g_real64"></span> <h3>private  function concat_g_real64(lhs, rhs) result(string)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~40"></span>
+              class(*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~40"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-concat_real64_g"></span> <h3>private  function concat_real64_g(lhs, rhs) result(string)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~39"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~39"></span>
+              class(*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-concat_g_complex32"></span> <h3>private  function concat_g_complex32(lhs, rhs) result(string)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~42"></span>
+              class(*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~42"></span>
+              complex(kind=real32),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-concat_complex32_g"></span> <h3>private  function concat_complex32_g(lhs, rhs) result(string)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~41"></span>
+              complex(kind=real32),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~41"></span>
+              class(*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-concat_g_complex64"></span> <h3>private  function concat_g_complex64(lhs, rhs) result(string)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~44"></span>
+              class(*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~44"></span>
+              complex(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-concat_complex64_g"></span> <h3>private  function concat_complex64_g(lhs, rhs) result(string)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~43"></span>
+              complex(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~43"></span>
               class(*),
             </td>
 <td>intent(in)</td>
@@ -789,7 +1269,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~40"></span>
+              <span class="anchor" id="variable-lhs~48"></span>
               class(*),
             </td>
 <td>intent(in)</td>
@@ -804,7 +1284,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~40"></span>
+              <span class="anchor" id="variable-rhs~48"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -848,7 +1328,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~39"></span>
+              <span class="anchor" id="variable-lhs~47"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -863,7 +1343,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~39"></span>
+              <span class="anchor" id="variable-rhs~47"></span>
               class(*),
             </td>
 <td>intent(in)</td>
@@ -905,7 +1385,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-28 13:35 +0000             </p>
+ on 2026-02-06 01:09 +0000             </p>
           </div>
         </div>
         <br>
