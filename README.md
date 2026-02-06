@@ -1,6 +1,7 @@
-## Note:
-The UDDTIO (User-Defined Derived-Type Input/Output) procedures for use
-with the DT edit descriptor are still undergoing development.
+
+[![fpm](https://img.shields.io/badge/fpm-install-blue?logo=fortran)](https://fpm.fortran-lang.org/registry/package/m_unicode)
+[![build](https://github.com/urbanjost/M_unicode/actions/workflows/.../badge.svg)](https://github.com/urbanjost/M_unicode/actions)
+[![Lines of code](https://img.shields.io/tokei/lines/github/urbanjost/M_unicode)](https://github.com/urbanjost/M_unicode)
 
 # M_unicode module 
 [![M_unicode module](docs/images/Phaistos_Disk_sideA.jpg)](https://github.com/urbanjost/M_unicode/releases/tag/v1.0.0)
@@ -466,3 +467,6 @@ including features and enhancements from Francois Jacq.
 <!--
  + [UTF-8 Everywhere Manifesto](http://utf8everywhere.org/)
 -->
+## Note:
+The UDDTIO (User-Defined Derived-Type Input/Output) procedures for use
+with the DT edit descriptor are still undergoing development.
