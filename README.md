@@ -1,14 +1,16 @@
 
 [![fpm](https://img.shields.io/badge/fpm-install-blue?logo=fortran)](https://fpm.fortran-lang.org/registry/package/m_unicode)
+<!--
 [![build](https://github.com/urbanjost/M_unicode/actions/workflows/.../badge.svg)](https://github.com/urbanjost/M_unicode/actions)
 [![Lines of code](https://img.shields.io/tokei/lines/github/urbanjost/M_unicode)](https://github.com/urbanjost/M_unicode)
+-->
 
 # M_unicode module 
 [![M_unicode module](docs/images/Phaistos_Disk_sideA.jpg)](https://github.com/urbanjost/M_unicode/releases/tag/v1.0.0)
 
 
-The **M_unicode** module supports using UTF-8 encoded files and data as
-easily as ASCII-7 encoded files.
+The **M_unicode** module provides support for using UTF-8 encoded files
+and data as easily as ASCII-7 encoded files.
 
 It fully implements the basics discussed in the Fortran Wiki [Unicode
 Lessons](https://fortranwiki.org/fortran/show/Unicode).
