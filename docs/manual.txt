@@ -1,3 +1,4 @@
+add_backslash (3m_unicode) - [M_unicode:CONVERSION] Convert UTF-8 encoded data to ASCII-7 C-style backslash escape sequences (LICENSE:MIT)
 adjustl (3m_unicode) - [M_unicode:WHITESPACE] Left-justified a string (LICENSE:MIT)
 adjustr (3m_unicode) - [M_unicode:WHITESPACE] right-justify a string (LICENSE:MIT)
 character (3m_unicode) - [M_unicode:WHITESPACE] convert type(unicode_type) string to a CHARACTER variable (LICENSE:MIT)
@@ -16,6 +17,7 @@ lower (3m_unicode)   - [M_unicode:CASE] changes a string to lowercase over speci
 M_unicode (3m_unicode) - [M_unicode::INTRO] Unicode string module (LICENSE:MIT)
 pad (3m_unicode)     - [M_unicode:WHITESPACE] return string padded to at least specified length (LICENSE:MIT)
 readline (3m_unicode) - [M_unicode:READ] read a line from specified LUN into string up to line length limit (LICENSE:MIT)
+remove_backslash (3m_unicode) - [M_unicode:CONVERSION] expand C-like escape sequences (LICENSE:MIT)
 repeat (3m_unicode)  - [M_unicode:CHARACTER] Repeated string concatenation
 replace (3m_unicode) - [M_unicode:EDITING] function replaces one substring for another in string (LICENSE:MIT)
 scan (3m_unicode)    - [M_unicode:SEARCH] Scan a string for the presence of a set of characters (LICENSE:MIT)
@@ -28,171 +30,270 @@ trim (3m_unicode)    - [M_unicode:WHITESPACE] remove trailing blank characters f
 upper (3m_unicode)   - [M_unicode:CASE] changes a string to uppercase (LICENSE:MIT)
 utf8_to_codepoints (3m_unicode) - [M_unicode:CONVERSION] Convert UTF-8-encoded data to Unicode codepoints (LICENSE:MIT)
 verify (3m_unicode)  - [M_unicode:SEARCH] Position of a character in a string of characters that does not appear in a given set of characters. (LICENSE:MIT)
-adjustr(3m_unicode)					   adjustr(3m_unicode)
+adjustl(3m_unicode)					   adjustl(3m_unicode)
 
 NAME
-  ADJUSTR(3f) - [M_unicode:WHITESPACE] right-justify a string (LICENSE:MIT)
+  ADJUSTL(3f) - [M_unicode:WHITESPACE] Left-justified a string (LICENSE:MIT)
 
 SYNOPSIS
-  result = adjustr(string,glyphs)
+  result = adjustl(string,glyphs)
 
-     elemental function adjustr(string)
+     function adjustl(string,glyphs) result(out)
 
-      type(unicode_type)	    :: adjustr
       type(unicode_type),intent(in) :: string
       integer,intent(in),optional   :: glyphs
+      type(unicode_type)	    :: out
 
 CHARACTERISTICS
-  •  STRING is a string variable
+  •  STRING is a string variable of type(unicode_type)
 
   •  GLYPHS is a default integer
 
-  •  the return value is a string variable
+  •  The return value is a string variable of type(unicode_type)
 
 DESCRIPTION
-  ADJUSTR(3) right-justifies a string by removing trailing spaces. Spaces are
-  inserted at the start of the string as needed to retain the original length
-  unless an explicit return length is specified by the GLYPHS parameter.
+  adjustl(3) will left-justify a string by removing leading spaces. Spaces are
+  inserted at the end of the string as needed to keep the number of glyphs on
+  output the same as the number on input unless overridden by the GLYPHS
+  parameter.
 
 OPTIONS
-  •  STRING : the string to right-justify
+  •  STRING : the string to left-justify
 
-  •  GLYPHS : length in glyphs to extend to or truncate to
+  •  GLYPHS : the length of the output in glyphs
 
 RESULT
-  trailing spaces are removed and the same number of spaces are then inserted
-  at the start of string.
+  A copy of STRING where leading spaces are removed and the same number of
+  spaces are inserted on the end of STRING unless GLYPHS is specified. Note
+  using GLYPHS can cause in string truncation.
 
 EXAMPLES
-  sample program:
+  Sample program:
 
-    program demo_adjustr
-    use M_unicode, only : ut=>unicode_type
-    use M_unicode, only : adjustr, len
-    use M_unicode, only : write(formatted)
-    use M_unicode, only : assignment(=)
-    implicit none
-    type(ut)		       :: str
-    type(ut),allocatable       :: array(:)
-    integer		       :: i
-    character(len=*),parameter :: bracket='("[",DT,"]")'
-	!
-	call numberline(2)
-	!
-	! basic usage
-	str = '  sample string	   '
-	write(*,bracket) str
-	str = adjustr(str)
-	write(*,bracket) str
-	!
-	call numberline(5)
-	!
-	! elemental
-	array=ut([character(len=50) :: &
-	'    एक (ek) ', &
-	'	दो (do) ', &
-	'	   तीन(teen) ' ])
-	!
-	! print array unadjusted
-	write(*,bracket)array
-	!do i=1,size(array)
-	!   write(*,'(*(g0,1x))')array(i)%codepoint()
-	!enddo
-	! note 50 bytes is not necessarily 50 glyphs
-	write(*,'(*(g0,1x))')'length in glyphs=',len(array)
-	write(*,'(*(g0,1x))')'length in bytes=',(len(array(i)%character()),i=1,size(array))
-	!
-	call numberline(5)
-	!
-	! print array right-justified
-	write(*,bracket)adjustr(array)
-	!
-	call numberline(5)
-	!
-	! print array right-justified specifying number of glyphs
-	write(*,*)'set to 50'
-	write(*,bracket)adjustr(array,50)
-	!
-	write(*,*)'set to 60'
-	call numberline(6)
-	write(*,bracket)adjustr(array,60)
-	write(*,*)'set to 40'
-	call numberline(4)
-	write(*,bracket)adjustr(array,40)
-	write(*,*)'set to 10'
-	call numberline(1)
-	write(*,bracket)adjustr(array,10)
-	write(*,*)'set to 5'
-	write(*,bracket)adjustr(array,5)
-	write(*,*)'set to 4'
-	write(*,bracket)adjustr(array,4)
-	write(*,*)'set to 1'
-	write(*,bracket)adjustr(array,1)
-     contains
-	!
-	subroutine numberline(ireps)
-	integer,intent(in) :: ireps
-	   write(*,'(1x,a)')repeat('1234567890',ireps)
-	end subroutine numberline
-     end program demo_adjustr
+     program demo_adjustl
+     use M_unicode, only : ut=>unicode_type
+     use M_unicode, only : ch=>character
+     use M_unicode, only : adjustl, trim, len_trim, verify
+     use M_unicode, only : write(formatted)
+     use M_unicode, only : assignment(=)
+     implicit none
+     type(ut)			:: usample, uout
+     integer			:: istart, iend
+     character(len=*),parameter :: adt = '(a,"[",DT,"]")'
+      !
+      ! basic use
+	usample='   sample string   '
+	write(*,adt) 'original: ',usample
+      !
+      ! note a string stays the same length
+      ! and is not trimmed by just an adjustl(3) call.
+	write(*,adt) 'adjusted: ',adjustl(usample)
+      !
+      ! a fixed‐length string can be trimmed using trim(3)
+	uout=trim(adjustl(usample))
+	write(*,adt) 'trimmed:	',uout
+      !
+      ! or alternatively you can select a substring without adjusting
+	istart= max(1,verify(usample, ' ')) ! first non‐blank character
+	iend = len_trim(usample)
+	write(*,adt) 'substring:',usample%sub(istart,iend)
+      !
+	write(*,adt) 'substring:',adjustl(usample,30)
+	write(*,adt) 'substring:',adjustl(usample,20)
+	write(*,adt) 'substring:',adjustl(usample,10)
+	write(*,adt) 'substring:',adjustl(usample,0)
+     end program demo_adjustl
 
-    Results:
+  Results:
 
-     >	12345678901234567890
-     > [  sample string     ]
-     > [       sample string]
-     >	12345678901234567890123456789012345678901234567890
-     > [    एक (ek)				      ]
-     > [       दो (do)				      ]
-     > [	  तीन(teen)			    ]
-     > length in glyphs= 46 46 44
-     > length in bytes= 50 50 50
-     >	12345678901234567890123456789012345678901234567890
-     > [				       एक (ek)]
-     > [				       दो (do)]
-     > [				   तीन(teen)]
-     >	12345678901234567890123456789012345678901234567890
-     >	set to 50
-     > [					   एक (ek)]
-     > [					   दो (do)]
-     > [					 तीन(teen)]
-     >	set to 60
-     >	123456789012345678901234567890123456789012345678901234567890
-     > [						     एक (ek)]
-     > [						     दो (do)]
-     > [						   तीन(teen)]
-     >	set to 40
-     >	1234567890123456789012345678901234567890
-     > [				 एक (ek)]
-     > [				 दो (do)]
-     > [			       तीन(teen)]
-     >	set to 10
-     >	1234567890
-     > [   एक (ek)]
-     > [   दो (do)]
-     > [ तीन(teen)]
-     >	set to 5
-     > [ (ek)]
-     > [ (do)]
-     > [teen)]
-     >	set to 4
-     > [(ek)]
-     > [(do)]
-     > [een)]
-     >	set to 1
-     > [)]
-     > [)]
-     > [)]
+     > original: [   sample string   ]
+     > adjusted: [sample string      ]
+     > trimmed:  [sample string]
+     > substring:[sample string]
 
 SEE ALSO
-  ADJUSTL(3), TRIM(3)
+  ADJUSTR(3), TRIM(3)
 
 AUTHOR
   John S. Urban
 
 LICENSE
    MIT
-			       January 30, 2026 	   adjustr(3m_unicode)
+			       February 07, 2026	   adjustl(3m_unicode)
+character(3m_unicode)					 character(3m_unicode)
+
+NAME
+  CHARACTER(3f) - [M_unicode:WHITESPACE] convert type(unicode_type) string to
+  a CHARACTER variable (LICENSE:MIT)
+
+SYNOPSIS
+  result = character(STRING,start,end,inc) or result =
+  STRING%character(start,end,inc)
+
+       elemental function character(string,start,end,inc)
+
+	type(unicode_type),intent(in) :: string
+	integer,intent(in)	      :: start
+	integer,intent(in)	      :: end
+	integer,intent(in)	      :: inc
+
+CHARACTERISTICS
+  •  STRING is a scalar or array string variable
+
+  •  the returned value is a CHARACTER scalar or array
+
+DESCRIPTION
+  CHARACTER(3f) returns a CHARACTER variable given a string variable of type
+  type(unicode_type).
+
+OPTIONS
+  •  STRING : A scalar or array string to convert to intrinsic CHARACTER type.
+
+RESULT
+  The result converts each string to bytes stored in CHARACTER variables.  All
+  elements will be padded to the same length of the longest element; as all
+  elements of a CHARACTER array are required to be of the same length.
+
+  Commonly used to pass data to procedures requiring CHARACTER variables or
+  for printing when the DT format is not used..
+
+EXAMPLES
+  Sample program
+
+     program demo_character
+     use M_unicode, only : ut=>unicode_type, ch=>character, trim, len, pad
+     use M_unicode, only : write(formatted), assignment(=)
+     type(ut)		  :: ustr
+     type(ut),allocatable :: array(:)
+     integer		  :: i
+     character(len=*),parameter :: all='(*(g0))'
+
+	ustr=[949, 8021, 961, 951, 954, 945, 33] ! eureka in codepoints
+	! when doing I/O using DT might be the most intuitive
+	! but sometimes converting to intrinsic character variables
+	! is preferred
+	write (*,all)  ch(ustr)      ! convert to CHARACTER variable
+	write (*,all)  ustr%character()      ! convert to CHARACTER variable
+	! you can select a range of glyphs
+	write (*,all)  ustr%character(3,4) ! similar to LINE(3:4) for
+					   ! CHARACTER variables
+	! and even reverse a string
+	write (*,all)  ustr%character(len(ustr),1,-1) ! reverse string
+	! note that OOP syntax provides a few other options
+	write (*,all)  ustr%byte() ! convert to CHARACTER(LEN=1) type
+
+	! arrays
+	!
+	! using this syntax make sure to make the LEN value large enough
+	! that glyphs can take up to four bytes
+	array= ut([ character(len=60) :: &
+	'Confucius never claimed to be a prophet, '	  ,&
+	'but I think he foresaw AI! He said '		  ,&
+	''						  ,&
+	' "学而不思则罔，思而不学则殆"' 		  ,&
+	'or'						  ,&
+	' (xué ér bù sī zé wǎng, sī ér bù xué zé dài),'   ,&
+	'which is also' 				  ,&
+	' "To learn without thinking is to be lost, '	  ,&
+	' to think without learning is to be in danger".'])
+	!
+	write(*,'(*(:,"[",g0,"]",/))')ch(array)
+	! all elements will be the same length in bytes but not necessarily
+	!in glyphs
+	write(*,'(a,*(i0,1x))')'all elements the same length in BYTES:', &
+		& len(ch(array))
+	write(*,'(a,*(i0,1x))')'lengths (in glyphs):',len(array)
+	array=trim(array)
+	write(*,'(a,*(i0,1x))')'lengths after trimming (in glyphs):', &
+		& len(array)
+	write(*,'(:*(:,"[",g0,"]",/))')ch(array)
+	write(*,*)
+	!
+	! using this syntax the elements will be of different lengths
+	array= [ &
+	ut('Confucius never claimed to be a prophet,')	    ,&
+	ut('but I think he foresaw AI! He said')	    ,&
+	ut('')						    ,&
+	ut(' "学而不思则罔，思而不学则殆"')		       ,&
+	ut('or')					    ,&
+	ut(' (xué ér bù sī zé wǎng, sī ér bù xué zé dài),') ,&
+	ut('which is also')				    ,&
+	ut(' "To learn without thinking is to be lost,')    ,&
+	ut(' to think without learning is to be in danger".')]
+	! but using the CHARACTER function will still make them the same
+	! length in bytes so you might want to print them individually
+	! for certain effects, subject to font properties such as varying
+	! glyph widths.
+	write(*,'(*("[",g0,"]",/))')(ch(array(i)),i=1,size(array))
+	write(*,'(*("[",g0,"]",/))')(ch(pad(array(i),60)),i=1,size(array))
+	!
+     end program demo_character
+
+  Results:
+
+      > εὕρηκα!
+      > εὕρηκα!
+      > ρη
+      > !ακηρὕε
+      > εὕρηκα!
+      > [Confucius never claimed to be a prophet,		     ]
+      > [but I think he foresaw AI! He said			     ]
+      > [							     ]
+      > [ "学而不思则罔，思而不学则殆"			]
+      > [or							     ]
+      > [ (xué ér bù sī zé wǎng, sī ér bù xué zé dài),	 ]
+      > [which is also						     ]
+      > [ "To learn without thinking is to be lost,		     ]
+      > [ to think without learning is to be in danger".	     ]
+      >
+      > all elements the same length in BYTES:60
+      > lengths (in glyphs):60 60 60 34 60 48 60 60 60
+      > lengths after trimming (in glyphs):40 34 0 16 2 45 13 42 47
+      > [Confucius never claimed to be a prophet,		  ]
+      > [but I think he foresaw AI! He said			  ]
+      > [							  ]
+      > [ "学而不思则罔，思而不学则殆"		     ]
+      > [or							  ]
+      > [ (xué ér bù sī zé wǎng, sī ér bù xué zé dài),]
+      > [which is also						  ]
+      > [ "To learn without thinking is to be lost,		  ]
+      > [ to think without learning is to be in danger".	  ]
+      >
+      >
+      > [Confucius never claimed to be a prophet,]
+      > [but I think he foresaw AI! He said]
+      > []
+      > [ "学而不思则罔，思而不学则殆"]
+      > [or]
+      > [ (xué ér bù sī zé wǎng, sī ér bù xué zé dài),]
+      > [which is also]
+      > [ "To learn without thinking is to be lost,]
+      > [ to think without learning is to be in danger".]
+      > [
+      > [Confucius never claimed to be a prophet,		     ]
+      > [but I think he foresaw AI! He said			     ]
+      > [							     ]
+      > ["学而不思则罔，思而不学则殆"					   ]
+      > [or							     ]
+      > [(xué ér bù sī zé wǎng, sī ér bù xué zé dài),		     ]
+      > [which is also						     ]
+      > ["To learn without thinking is to be lost,		     ]
+      > [to think without learning is to be in danger". 	     ]
+      > [
+
+SEE ALSO
+  functions that perform operations on character strings:
+
+  •  elemental: adjustl(3), adjustr(3), index(3), scan(3), verify(3)
+
+  •  non-elemental: len_trim(3), len(3), repeat(3), trim(3)
+
+AUTHOR
+  John S. Urban
+
+LICENSE
+   MIT
+			       February 07, 2026	 character(3m_unicode)
 codepoints_to_utf8(3m_unicode)			codepoints_to_utf8(3m_unicode)
 
 NAME
@@ -305,123 +406,83 @@ AUTHOR
 
 LICENSE
    MIT
-			       January 30, 2026 codepoints_to_utf8(3m_unicode)
-escape(3m_unicode)					    escape(3m_unicode)
+			       February 07, 2026codepoints_to_utf8(3m_unicode)
+get_arg(3m_unicode)					   get_arg(3m_unicode)
 
 NAME
-  ESCAPE(3f) - [M_unicode:CONVERSION] expand C-like escape sequences
-  (LICENSE:MIT)
+  get_arg(3f) - [M_unicode:SYSTEM] get command line argument (LICENSE:MIT)
 
 SYNOPSIS
-  function escape(line,utf8) result(out)
+  impure elemental function get_arg(position,default) result(out)
 
-      type(unicode_type)		    :: line
-      character(len=1),intent(in),optional  :: protect
-      type(unicode_type)		    :: out
+       integer,intent=(in)	   :: position
+       type(unicode_type),optional :: default
+       type(unicode_type)	   :: out
+
+CHARACTERISTICS
+  DEFAULT may be default CHARACTER type as well.
 
 DESCRIPTION
-  ESCAPE(3) expands commonly used escape sequences that represent glyphs or
-  control characters. By default ...
+  get_arg(3) gets the value of the requested command line argument as
+  TYPE(UNICODE_TYPE) .
 
-  Escape sequences
+OPTIONS
+  position
+    Position on command line of requested argument. Zero returns the name of
+    the command executed. Non-existent positions default to returning a null
+    string.
 
-      \      backslash
-      a      alert (BEL) -- g is an alias for a
-      b      backspace
-      c      suppress further output
-      e      escape
-      f      form feed
-      n      new line
-      r      carriage return
-      t      horizontal tab
-      v      vertical tab
+  default
+    value to return if argument is not set or set to a blank value
 
-      oNNN   byte with octal value NNN (3 digits)
-      0-9    digits will be assumed an octal value till a
-	     non-octal value character is encountered
-      dNNN   byte with decimal value NNN (3 digits)
-
-      xHH	 byte with hexadecimal value HH (2 digits);
-		 h is an alias for x
-      uZZZZ	 translate Unicode codepoint value to bytes
-      UZZZZZZZZ  translate Unicode codepoint value to bytes
-
-  The default escape character is the backslash, but this may be changed using
-  the optional parameter ESCAPE.
+RETURNS
+  out
+    value assigned based on value of environment variable NAME
 
 EXAMPLES
-  Sample Program:
+  Sample program:
 
-     program demo_escape
-     ! demonstrate filter to expand C-like escape sequences in input lines
-     use iso_fortran_env, only : stdout => output_unit
-     use M_unicode,	  only : ut=>unicode_type,ch=>character,len,escape
-     use M_unicode,	  only : assignment(=), trim
-     implicit none
-     type(ut),allocatable  :: poem(:)
-     type(ut)		   :: test(5)
-     integer		   :: i
-	!
-	! “The Crow and the Fox” by Jean de la Fontaine
-	write(stdout,'(a,/)') &
-	'Le Corbeau et le Renard -- Jean de la Fontaine'
-	!
-	poem=[&
-	ut( 'Le Corbeau et le Renard'					),&
-	ut( ''								),&
-	ut( 'Ma\u00EEtre Corbeau, sur un arbre perch\u00E9,'		),&
-	ut( 'Tenait en son bec un fromage.'				),&
-	ut( 'Ma\u00EEtre Renard, par l\u2019odeur all\u00E9ch\u00E9,'	),&
-	ut( 'Lui tint \U000000E0 peu pr\U000000E8s ce langage :'	),&
-	ut( '\U000000ABH\U000000E9 ! bonjour, Monsieur du Corbeau.'	),&
-	ut( 'Que vous \U000000EAtes joli ! que vous me semblez beau !'	),&
-	ut( 'Sans mentir, si votre ramage'				),&
-	ut( 'Se rapporte \U000000E0 votre plumage,'			),&
-	ut( 'Vous \xEAtes le Ph\xE9nix des h\xF4tes de ces bois.\xBB'	),&
-	ut( 'A ces mots le Corbeau ne se sent pas de joie ;'		),&
-	ut( 'Et pour montrer sa belle voix,'				),&
-	ut( 'Il ouvre un large bec, laisse tomber sa proie.'		),&
-	ut( 'Le Renard s\u2019en saisit, et dit : \xABMon bon Monsieur,'),&
-	ut( 'Apprenez que tout flatteur'				),&
-	ut( 'Vit aux d\xE9pens de celui qui l\U00002019\u00E9coute :'	),&
-	ut( 'Cette le\xE7on vaut bien un fromage, sans doute.\xBB'	),&
-	ut( 'Le Corbeau, honteux et confus,'				),&
-	ut( &
-	'Jura, mais un peu tard, qu\u2019on ne l\u2019y prendrait plus.'),&
-	ut( ' -- Jean de la Fontaine')]
-	!
-	poem=escape(poem)
-	write(stdout,'(g0)')ch(poem)
-	!
-	test=[ &
-	 '\e[H\e[2J	      ',& ! home cursor and clear screen
-				  ! on ANSI terminals
-	 '\tABC\tabc	      ',& ! write some tabs in the output
-	 '\tA\a 	      ',& ! ring bell at end if supported
-	 '\nONE\nTWO\nTHREE   ',& ! place one word per line
-	 '\\		      ']
-	test=trim(escape(test))
-	write(*,'(a)')(test(i)%character(),i=1,size(test))
-	!
-     end program demo_escape
+      program demo_get_arg
+      use M_unicode, only : get_arg, ut=> unicode_type, ch=>character
+      use M_unicode, only : assignment(=), operator(//), write(formatted)
+      implicit none
+      integer  :: position
+      type(ut) :: default
+      type(ut) :: value
+      type(ut) :: smiley
+      integer  :: i
+      character(len=*),parameter :: bracket= '(1x,*("[",a,"]",:))'
+	 !
+	 smiley=128515 ! set with Unicode code point
+	 default='Wish I was first '//smiley//'!' ! set with unicode_type
+	 !
+	 ! arguments can be type(unicode_type) or character
+	 ! but type(unicode_type) is always returned
+	 do position=0,command_argument_count()
+	    value=get_arg(position, default		)
+	    value=get_arg(position, default%character() )
+	    !
+	    write(*,*)value%character()
+	    write(*,'(DT)')default%get_arg(position)
+	    !
+	    ! print each glyph surrounded by brackets
+	    write(*,bracket)(value%character(i,i),i=1,value%len())
+	 enddo
+	 !
+      end program demo_get_arg
 
-  Results (with nonprintable characters shown visible):
+  Results:
 
-       > ^[[H^[[2J
-       > ^IABC^Iabc
-       > ^IA^G
-       >
-       > ONE
-       > TWO
-       > THREE
-       > \
+     > demo_get_arg
+     > demo_get_arg
+     > [d][e][m][o][_][g][e][t][_][a][r][g]
 
 AUTHOR
   John S. Urban
 
 LICENSE
    MIT
-			       January 30, 2026 	    escape(3m_unicode)
+			       February 07, 2026	   get_arg(3m_unicode)
 get_env(3m_unicode)					   get_env(3m_unicode)
 
 NAME
@@ -498,7 +559,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       January 30, 2026 	   get_env(3m_unicode)
+			       February 07, 2026	   get_env(3m_unicode)
 ichar(3m_unicode)					     ichar(3m_unicode)
 
 NAME
@@ -549,7 +610,7 @@ EXAMPLES
      program demo_ichar
      use M_unicode, only : assignment(=),ch=>character
      use M_unicode, only : ut=>unicode_type, write(formatted)
-     use M_unicode, only : ichar, escape, len
+     use M_unicode, only : ichar, remove_backslash, len
      implicit none
      type(ut)		  :: string
      type(ut),allocatable :: lets(:)
@@ -575,7 +636,7 @@ EXAMPLES
 	! define an array LETS with escape codes with one glyph per element
 	lets=[ut('\U03B5'),ut('\U1F55'),ut('\U03C1'),ut('\U03B7'), &
 	    & ut('\U03BA'),ut('\U03B1'),ut('\U0021')]
-	lets=escape(lets) ! convert escape codes to glyphs
+	lets=remove_backslash(lets) ! convert escape codes to glyphs
 	!
 	! look at issues with converting to CHARACTER for simple printing
 	!
@@ -630,7 +691,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       January 30, 2026 	     ichar(3m_unicode)
+			       February 07, 2026	     ichar(3m_unicode)
 index(3m_unicode)					     index(3m_unicode)
 
 NAME
@@ -748,107 +809,174 @@ AUTHOR
 
 LICENSE
    MIT
-			       January 30, 2026 	     index(3m_unicode)
-join(3m_unicode)					      join(3m_unicode)
+			       February 07, 2026	     index(3m_unicode)
+remove_backslash(3m_unicode)			  remove_backslash(3m_unicode)
 
 NAME
-  JOIN(3f) - [M_unicode:EDITING] append CHARACTER variable array into a single
-  CHARACTER variable with specified separator (LICENSE:MIT)
+  REMOVE_BACKSLASH(3f) - [M_unicode:CONVERSION] expand C-like escape sequences
+  (LICENSE:MIT)
 
 SYNOPSIS
-  impure function join(str,sep,clip) result (string)
+  function remove_backslash(line) result(out)
 
-       type(unicode_type),intent(in)	      :: str(:)
-       type(unicode_type),intent(in),optional :: sep
-       logical,intent(in),optional	      :: clip
-       type(unicode_type),allocatable	      :: string
+      type(unicode_type),intent(in)	    :: line
+	     or
+      character(len=*),intent(in)	    :: line
+
+      type(unicode_type)		    :: out
 
 DESCRIPTION
-  JOIN(3f) appends the elements of a CHARACTER array into a single CHARACTER
-  variable, with elements 1 to N joined from left to right.  By default each
-  element is trimmed of trailing spaces and the default separator is a null
-  string.
+  REMOVE_BACKSLASH(3) expands commonly used C-style escape sequences that
+  represent glyphs or control characters. By default ...
 
-OPTIONS
-  STR
-    array of variables to be joined
+  Escape sequences
 
-  SEP
-    separator string to place between each variable. defaults to a null
-    string.
+      \      backslash
+      0      null
+      a      alert (BEL) -- g is an alias for a
+      b      backspace
+      e      escape
+      f      form feed
+      n      new line
+      r      carriage return
+      t      horizontal tab
+      v      vertical tab
 
-  CLIP
-    option to trim each element of STR of trailing and leading spaces.
-    Defaults to .TRUE.
-
-RETURNS
-  STRING
-    CHARACTER variable composed of all of the elements of STR() appended
-    together with the optional separator SEP placed between the elements.
+      xHH	 byte with hexadecimal value HH (2 digits);
+		 h is an alias for x
+      uZZZZ	 translate Unicode codepoint value to bytes
+      UZZZZZZZZ  translate Unicode codepoint value to bytes
 
 EXAMPLES
-  Sample program:
+  Sample Program:
 
-     program demo_join
-     use M_unicode,  only : join, ut=>unicode_type, ch=>character, assignment(=)
-     !use M_unicode, only : write(formatted)
+     program demo_escape
+     ! demonstrate filter to expand C-like escape sequences in input lines
+     use iso_fortran_env, only : stdout => output_unit
+     use M_unicode,	  only : ut=>unicode_type,ch=>character,len
+     use M_unicode,	  only : assignment(=), trim, remove_backslash
      implicit none
-     character(len=*),parameter    :: w='((g0,/,g0))'
-     !character(len=*),parameter   :: v='((g0,/,DT))'
-     character(len=20),allocatable :: proverb(:)
-     type(ut),allocatable	   :: s(:)
-     type(ut),allocatable	   :: sep
-       !
-       proverb=[ character(len=13) :: &
-	 & ' United'	   ,&
-	 & '  we'	   ,&
-	 & '   stand,'	   ,&
-	 & '	divided'   ,&
-	 & '	 we fall.' ]
-       !
-       if(allocated(s))deallocate(s)
-       allocate(s(size(proverb))) ! avoid GNU Fortran (GCC) 16.0.0 bug
-       s=proverb
-       write(*,w) 'SIMPLE JOIN: 	', ch( join(s)		      )
-       write(*,w) 'JOIN WITH SEPARATOR: ', ch( join(s,sep=ut(' '))    )
-       write(*,w) 'CUSTOM SEPARATOR:	', ch( join(s,sep=ut('<-->')) )
-       write(*,w) 'NO TRIMMING: 	', ch( join(s,clip=.false.)   )
-       !
-       sep=ut()
-       write(*,w) 'SIMPLE JOIN: 	', ch(sep%join(s) )
-       sep=' '
-       write(*,w) 'JOIN WITH SEPARATOR: ', ch(sep%join(s) )
-       sep='<-->'
-       write(*,w) 'CUSTOM SEPARATOR:	', ch(sep%join(s) )
-       sep=''
-       write(*,w) 'NO TRIMMING: 	', ch(sep%join(s,clip=.false.) )
-     end program demo_join
+     type(ut),allocatable  :: poem(:)
+     type(ut)		   :: test(5)
+     integer		   :: i
+	!
+	! “The Crow and the Fox” by Jean de la Fontaine
+	write(stdout,'(a,/)') &
+	'Le Corbeau et le Renard -- Jean de la Fontaine'
+	!
+	poem=[&
+	ut( 'Le Corbeau et le Renard'					),&
+	ut( ''								),&
+	ut( 'Ma\u00EEtre Corbeau, sur un arbre perch\u00E9,'		),&
+	ut( 'Tenait en son bec un fromage.'				),&
+	ut( 'Ma\u00EEtre Renard, par l\u2019odeur all\u00E9ch\u00E9,'	),&
+	ut( 'Lui tint \U000000E0 peu pr\U000000E8s ce langage :'	),&
+	ut( '\U000000ABH\U000000E9 ! bonjour, Monsieur du Corbeau.'	),&
+	ut( 'Que vous \U000000EAtes joli ! que vous me semblez beau !'	),&
+	ut( 'Sans mentir, si votre ramage'				),&
+	ut( 'Se rapporte \U000000E0 votre plumage,'			),&
+	ut( 'Vous \xEAtes le Ph\xE9nix des h\xF4tes de ces bois.\xBB'	),&
+	ut( 'A ces mots le Corbeau ne se sent pas de joie ;'		),&
+	ut( 'Et pour montrer sa belle voix,'				),&
+	ut( 'Il ouvre un large bec, laisse tomber sa proie.'		),&
+	ut( 'Le Renard s\u2019en saisit, et dit : \xABMon bon Monsieur,'),&
+	ut( 'Apprenez que tout flatteur'				),&
+	ut( 'Vit aux d\xE9pens de celui qui l\U00002019\u00E9coute :'	),&
+	ut( 'Cette le\xE7on vaut bien un fromage, sans doute.\xBB'	),&
+	ut( 'Le Corbeau, honteux et confus,'				),&
+	ut( &
+	'Jura, mais un peu tard, qu\u2019on ne l\u2019y prendrait plus.'),&
+	ut( ' -- Jean de la Fontaine')]
+	!
+	poem=remove_backslash(poem)
+	write(stdout,'(g0)')ch(poem)
+	!
+	test=[ &
+	 '\e[H\e[2J	      ',& ! home cursor and clear screen
+				  ! on ANSI terminals
+	 '\tABC\tabc	      ',& ! write some tabs in the output
+	 '\tA\a 	      ',& ! ring bell at end if supported
+	 '\nONE\nTWO\nTHREE   ',& ! place one word per line
+	 '\\		      ']
+	test=trim(remove_backslash(test))
+	write(*,'(a)')(test(i)%character(),i=1,size(test))
+	!
+     end program demo_escape
 
-  Results:
+  Results (with nonprintable characters shown visible):
 
-    > SIMPLE JOIN:
-    > Unitedwestand,dividedwe fall.
-    > JOIN WITH SEPARATOR:
-    > United we stand, divided we fall.
-    > CUSTOM SEPARATOR:
-    > United==>we==>stand,==>divided==>we fall.
-    > NO TRIMMING:
-    >  United	      we	     stand,	    divided	   we fall.
-    > SIMPLE JOIN:
-    > Unitedwestand,dividedwe fall.
-    > JOIN WITH SEPARATOR:
-    > United we stand, divided we fall.
-    > CUSTOM SEPARATOR:
-    > United==>we==>stand,==>divided==>we fall.
-    > NO TRIMMING:
-    >  United	      we	     stand,	    divided	   we fall.
+       > ^[[H^[[2J
+       > ^IABC^Iabc
+       > ^IA^G
+       >
+       > ONE
+       > TWO
+       > THREE
+       > \
 
 AUTHOR
   John S. Urban
 
 LICENSE
    MIT
-			       January 30, 2026 	      join(3m_unicode)
+			       February 07, 2026  remove_backslash(3m_unicode)
+repeat(3m_unicode)					    repeat(3m_unicode)
+
+NAME
+  REPEAT(3) - [M_unicode:CHARACTER] Repeated string concatenation
+
+SYNOPSIS
+  result = repeat(string, ncopies)
+
+     type(unicode_type) function repeat(string, ncopies)
+
+      type(unicode_type),intent(in)   :: string
+      integer(kind=**),intent(in)   :: ncopies
+
+CHARACTERISTICS
+  •  STRING is a scalar string of type(unicode_type).
+
+  •  NCOPIES is a scalar integer.
+
+  •  the result is a new scalar string of type type(unicode_type)
+
+DESCRIPTION
+  REPEAT(3) concatenates copies of a string.
+
+OPTIONS
+  •  STRING : The input string to repeat
+
+  •  NCOPIES : Number of copies to make of STRING, greater than or equal to
+     zero (0).
+
+RESULT
+  A new string built up from NCOPIES copies of STRING.
+
+EXAMPLES
+  Sample program:
+
+      program demo_repeat
+      use M_unicode, only : ut=>unicode_type,repeat,remove_backslash,write(formatted)
+      implicit none
+	 write(*,'(DT)') repeat(remove_backslash("\u2025*"), 35)
+	 write(*,'(DT)') repeat(ut("_"), 70)	      ! line break
+	 write(*,'(DT)') repeat(ut("1234567890"), 7)  ! number line
+	 write(*,'(DT)') repeat(ut("	     |"), 7)  !
+      end program demo_repeat
+
+STANDARD
+  Fortran 95
+
+SEE ALSO
+  Functions that perform operations on character strings:
+
+  •  ELEMENTAL: ADJUSTL(3), ADJUSTR(3), INDEX(3), SCAN(3), VERIFY(3)
+
+  •  NON-ELEMENTAL: LEN_TRIM(3), LEN(3), REPEAT(3), TRIM(3)
+
+  Fortran descriptions (license: MIT) @urbanjost
+
+			       February 07, 2026	    repeat(3m_unicode)
 replace(3m_unicode)					   replace(3m_unicode)
 
 NAME
@@ -996,7 +1124,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       January 30, 2026 	   replace(3m_unicode)
+			       February 07, 2026	   replace(3m_unicode)
 scan(3m_unicode)					      scan(3m_unicode)
 
 NAME
@@ -1110,7 +1238,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       January 30, 2026 	      scan(3m_unicode)
+			       February 07, 2026	      scan(3m_unicode)
 sort(3m_unicode)					      sort(3m_unicode)
 
 NAME
@@ -1230,7 +1358,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       January 30, 2026 	      sort(3m_unicode)
+			       February 07, 2026	      sort(3m_unicode)
 split(3m_unicode)					     split(3m_unicode)
 
 NAME
@@ -1385,7 +1513,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       January 30, 2026 	     split(3m_unicode)
+			       February 07, 2026	     split(3m_unicode)
 sub(3m_unicode) 					       sub(3m_unicode)
 
 NAME
@@ -1459,7 +1587,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       January 30, 2026 	       sub(3m_unicode)
+			       February 07, 2026	       sub(3m_unicode)
 tokenize(3m_unicode)					  tokenize(3m_unicode)
 
 NAME
@@ -1629,7 +1757,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       January 30, 2026 	  tokenize(3m_unicode)
+			       February 07, 2026	  tokenize(3m_unicode)
 transliterate(3m_unicode)			     transliterate(3m_unicode)
 
 NAME
@@ -1759,7 +1887,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       January 30, 2026      transliterate(3m_unicode)
+			       February 07, 2026     transliterate(3m_unicode)
 trim(3m_unicode)					      trim(3m_unicode)
 
 NAME
@@ -1850,7 +1978,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       January 30, 2026 	      trim(3m_unicode)
+			       February 07, 2026	      trim(3m_unicode)
 upper(3m_unicode)					     upper(3m_unicode)
 
 NAME
@@ -1951,7 +2079,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       January 30, 2026 	     upper(3m_unicode)
+			       February 07, 2026	     upper(3m_unicode)
 utf8_to_codepoints(3m_unicode)			utf8_to_codepoints(3m_unicode)
 
 NAME
@@ -2068,7 +2196,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       January 30, 2026 utf8_to_codepoints(3m_unicode)
+			       February 07, 2026utf8_to_codepoints(3m_unicode)
 verify(3m_unicode)					    verify(3m_unicode)
 
 NAME
@@ -2489,7 +2617,107 @@ AUTHOR
 
 LICENSE
    MIT
-			       January 30, 2026 	    verify(3m_unicode)
+			       February 07, 2026	    verify(3m_unicode)
+join(3m_unicode)					      join(3m_unicode)
+
+NAME
+  JOIN(3f) - [M_unicode:EDITING] append CHARACTER variable array into a single
+  CHARACTER variable with specified separator (LICENSE:MIT)
+
+SYNOPSIS
+  impure function join(str,sep,clip) result (string)
+
+       type(unicode_type),intent(in)	      :: str(:)
+       type(unicode_type),intent(in),optional :: sep
+       logical,intent(in),optional	      :: clip
+       type(unicode_type),allocatable	      :: string
+
+DESCRIPTION
+  JOIN(3f) appends the elements of a CHARACTER array into a single CHARACTER
+  variable, with elements 1 to N joined from left to right.  By default each
+  element is trimmed of trailing spaces and the default separator is a null
+  string.
+
+OPTIONS
+  STR
+    array of variables to be joined
+
+  SEP
+    separator string to place between each variable. defaults to a null
+    string.
+
+  CLIP
+    option to trim each element of STR of trailing and leading spaces.
+    Defaults to .TRUE.
+
+RETURNS
+  STRING
+    CHARACTER variable composed of all of the elements of STR() appended
+    together with the optional separator SEP placed between the elements.
+
+EXAMPLES
+  Sample program:
+
+     program demo_join
+     use M_unicode,  only : join, ut=>unicode_type, ch=>character, assignment(=)
+     !use M_unicode, only : write(formatted)
+     implicit none
+     character(len=*),parameter    :: w='((g0,/,g0))'
+     !character(len=*),parameter   :: v='((g0,/,DT))'
+     character(len=20),allocatable :: proverb(:)
+     type(ut),allocatable	   :: s(:)
+     type(ut),allocatable	   :: sep
+       !
+       proverb=[ character(len=13) :: &
+	 & ' United'	   ,&
+	 & '  we'	   ,&
+	 & '   stand,'	   ,&
+	 & '	divided'   ,&
+	 & '	 we fall.' ]
+       !
+       if(allocated(s))deallocate(s)
+       allocate(s(size(proverb))) ! avoid GNU Fortran (GCC) 16.0.0 bug
+       s=proverb
+       write(*,w) 'SIMPLE JOIN: 	', ch( join(s)		      )
+       write(*,w) 'JOIN WITH SEPARATOR: ', ch( join(s,sep=ut(' '))    )
+       write(*,w) 'CUSTOM SEPARATOR:	', ch( join(s,sep=ut('<-->')) )
+       write(*,w) 'NO TRIMMING: 	', ch( join(s,clip=.false.)   )
+       !
+       sep=ut()
+       write(*,w) 'SIMPLE JOIN: 	', ch(sep%join(s) )
+       sep=' '
+       write(*,w) 'JOIN WITH SEPARATOR: ', ch(sep%join(s) )
+       sep='<-->'
+       write(*,w) 'CUSTOM SEPARATOR:	', ch(sep%join(s) )
+       sep=''
+       write(*,w) 'NO TRIMMING: 	', ch(sep%join(s,clip=.false.) )
+     end program demo_join
+
+  Results:
+
+    > SIMPLE JOIN:
+    > Unitedwestand,dividedwe fall.
+    > JOIN WITH SEPARATOR:
+    > United we stand, divided we fall.
+    > CUSTOM SEPARATOR:
+    > United==>we==>stand,==>divided==>we fall.
+    > NO TRIMMING:
+    >  United	      we	     stand,	    divided	   we fall.
+    > SIMPLE JOIN:
+    > Unitedwestand,dividedwe fall.
+    > JOIN WITH SEPARATOR:
+    > United we stand, divided we fall.
+    > CUSTOM SEPARATOR:
+    > United==>we==>stand,==>divided==>we fall.
+    > NO TRIMMING:
+    >  United	      we	     stand,	    divided	   we fall.
+
+AUTHOR
+  John S. Urban
+
+LICENSE
+   MIT
+			       February 07, 2026	      join(3m_unicode)
 len(3m_unicode) 					       len(3m_unicode)
 
 NAME
@@ -2581,7 +2809,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       January 30, 2026 	       len(3m_unicode)
+			       February 07, 2026	       len(3m_unicode)
 len_trim(3m_unicode)					  len_trim(3m_unicode)
 
 NAME
@@ -2672,7 +2900,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       January 30, 2026 	  len_trim(3m_unicode)
+			       February 07, 2026	  len_trim(3m_unicode)
 lower(3m_unicode)					     lower(3m_unicode)
 
 NAME
@@ -2773,7 +3001,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       January 30, 2026 	     lower(3m_unicode)
+			       February 07, 2026	     lower(3m_unicode)
 M_unicode(3m_unicode)					 M_unicode(3m_unicode)
 
 NAME
@@ -2865,6 +3093,12 @@ SYNOPSIS
     converts a string to type CHARACTER.
 
   escape
+    expand C-like escape strings
+
+  add_backslash
+    replace other than printable ASCII-7 characters with C-like escape strings
+
+  remove_backslash
     expand C-like escape strings
 
   codepoints_to_utf8(codepoints,utf8,nerr)
@@ -3054,7 +3288,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       January 30, 2026 	 M_unicode(3m_unicode)
+			       February 07, 2026	 M_unicode(3m_unicode)
 pad(3m_unicode) 					       pad(3m_unicode)
 
 NAME
@@ -3191,7 +3425,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       January 30, 2026 	       pad(3m_unicode)
+			       February 07, 2026	       pad(3m_unicode)
 readline(3m_unicode)					  readline(3m_unicode)
 
 NAME
@@ -3270,64 +3504,131 @@ AUTHOR
 
 LICENSE
    MIT
-			       January 30, 2026 	  readline(3m_unicode)
-repeat(3m_unicode)					    repeat(3m_unicode)
+			       February 07, 2026	  readline(3m_unicode)
+escape(3m_unicode)					    escape(3m_unicode)
 
 NAME
-  REPEAT(3) - [M_unicode:CHARACTER] Repeated string concatenation
+  ESCAPE(3f) - [M_unicode:CONVERSION] expand C-like escape sequences
+  (LICENSE:MIT)
 
 SYNOPSIS
-  result = repeat(string, ncopies)
+  function escape(line,protect) result(out)
 
-     type(unicode_type) function repeat(string, ncopies)
-
-      type(unicode_type),intent(in)   :: string
-      integer(kind=**),intent(in)   :: ncopies
-
-CHARACTERISTICS
-  •  STRING is a scalar string of type(unicode_type).
-
-  •  NCOPIES is a scalar integer.
-
-  •  the result is a new scalar string of type type(unicode_type)
+      type(unicode_type)		    :: line
+      character(len=1),intent(in),optional  :: protect
+      type(unicode_type)		    :: out
 
 DESCRIPTION
-  REPEAT(3) concatenates copies of a string.
+  ESCAPE(3) expands commonly used escape sequences that represent glyphs or
+  control characters.
+
+  REMOVE_BACKSLASH(3) should generally be used as it adheres to the C-style
+  standard, where-as ESCAPE(3) supports additional sequences such as decimal
+  and octal and \c, and \NNNNN support allows \0 to potentially be the
+  beginning of another value instead of always designating a null. Therefore
+  the use of ESCAPE(3) is only recommended when it is known that these
+  extensions are required.
+
+  Escape sequences
+
+      \      backslash
+      a      alert (BEL) -- g is an alias for a
+      b      backspace
+      c      suppress further output
+      e      escape
+      f      form feed
+      n      new line
+      r      carriage return
+      t      horizontal tab
+      v      vertical tab
+
+      oNNN   byte with octal value NNN (3 digits)
+      [0-7][0-7]*    digits will be assumed an octal value till a
+		     non-octal value character is encountered
+      dNNN   byte with decimal value NNN (3 digits)
+
+      xHH	 byte with hexadecimal value HH (2 digits);
+		 h is an alias for x
+      uZZZZ	 translate Unicode codepoint value to bytes
+      UZZZZZZZZ  translate Unicode codepoint value to bytes
+
+  The default escape character is the backslash, but this may be changed using
+  the optional parameter ESCAPE.
 
 OPTIONS
-  •  STRING : The input string to repeat
-
-  •  NCOPIES : Number of copies to make of STRING, greater than or equal to
-     zero (0).
-
-RESULT
-  A new string built up from NCOPIES copies of STRING.
-
 EXAMPLES
-  Sample program:
+  Sample Program:
 
-      program demo_repeat
-      use M_unicode, only : ut=>unicode_type,repeat,escape,write(formatted)
-      implicit none
-	 write(*,'(DT)') repeat(escape("\u2025*"), 35)
-	 write(*,'(DT)') repeat(ut("_"), 70)	      ! line break
-	 write(*,'(DT)') repeat(ut("1234567890"), 7)  ! number line
-	 write(*,'(DT)') repeat(ut("	     |"), 7)  !
-      end program demo_repeat
+     program demo_escape
+     ! demonstrate filter to expand C-like escape sequences in input lines
+     use iso_fortran_env, only : stdout => output_unit
+     use M_unicode,	  only : ut=>unicode_type,ch=>character,len,escape
+     use M_unicode,	  only : assignment(=), trim
+     implicit none
+     type(ut),allocatable  :: poem(:)
+     type(ut)		   :: test(5)
+     integer		   :: i
+	!
+	! “The Crow and the Fox” by Jean de la Fontaine
+	write(stdout,'(a,/)') &
+	'Le Corbeau et le Renard -- Jean de la Fontaine'
+	!
+	poem=[&
+	ut( 'Le Corbeau et le Renard'					),&
+	ut( ''								),&
+	ut( 'Ma\u00EEtre Corbeau, sur un arbre perch\u00E9,'		),&
+	ut( 'Tenait en son bec un fromage.'				),&
+	ut( 'Ma\u00EEtre Renard, par l\u2019odeur all\u00E9ch\u00E9,'	),&
+	ut( 'Lui tint \U000000E0 peu pr\U000000E8s ce langage :'	),&
+	ut( '\U000000ABH\U000000E9 ! bonjour, Monsieur du Corbeau.'	),&
+	ut( 'Que vous \U000000EAtes joli ! que vous me semblez beau !'	),&
+	ut( 'Sans mentir, si votre ramage'				),&
+	ut( 'Se rapporte \U000000E0 votre plumage,'			),&
+	ut( 'Vous \xEAtes le Ph\xE9nix des h\xF4tes de ces bois.\xBB'	),&
+	ut( 'A ces mots le Corbeau ne se sent pas de joie ;'		),&
+	ut( 'Et pour montrer sa belle voix,'				),&
+	ut( 'Il ouvre un large bec, laisse tomber sa proie.'		),&
+	ut( 'Le Renard s\u2019en saisit, et dit : \xABMon bon Monsieur,'),&
+	ut( 'Apprenez que tout flatteur'				),&
+	ut( 'Vit aux d\xE9pens de celui qui l\U00002019\u00E9coute :'	),&
+	ut( 'Cette le\xE7on vaut bien un fromage, sans doute.\xBB'	),&
+	ut( 'Le Corbeau, honteux et confus,'				),&
+	ut( &
+	'Jura, mais un peu tard, qu\u2019on ne l\u2019y prendrait plus.'),&
+	ut( ' -- Jean de la Fontaine')]
+	!
+	poem=escape(poem)
+	write(stdout,'(g0)')ch(poem)
+	!
+	test=[ &
+	 '\e[H\e[2J	      ',& ! home cursor and clear screen
+				  ! on ANSI terminals
+	 '\tABC\tabc	      ',& ! write some tabs in the output
+	 '\tA\a 	      ',& ! ring bell at end if supported
+	 '\nONE\nTWO\nTHREE   ',& ! place one word per line
+	 '\\		      ']
+	test=trim(escape(test))
+	write(*,'(a)')(test(i)%character(),i=1,size(test))
+	!
+     end program demo_escape
 
-STANDARD
-  Fortran 95
+  Results (with nonprintable characters shown visible):
 
-SEE ALSO
-  Functions that perform operations on character strings:
+       > ^[[H^[[2J
+       > ^IABC^Iabc
+       > ^IA^G
+       >
+       > ONE
+       > TWO
+       > THREE
+       > \
 
-  •  ELEMENTAL: ADJUSTL(3), ADJUSTR(3), INDEX(3), SCAN(3), VERIFY(3)
+AUTHOR
+  John S. Urban
 
-  •  NON-ELEMENTAL: LEN_TRIM(3), LEN(3), REPEAT(3), TRIM(3)
-
-  Fortran descriptions (license: MIT) @urbanjost
-
-			       January 30, 2026 	    repeat(3m_unicode)
+LICENSE
+   MIT
+			       February 07, 2026	    escape(3m_unicode)
 expandtabs(3m_unicode)					expandtabs(3m_unicode)
 
 NAME
@@ -3400,7 +3701,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       January 30, 2026 	expandtabs(3m_unicode)
+			       February 07, 2026	expandtabs(3m_unicode)
 fmt(3m_unicode) 					       fmt(3m_unicode)
 
 NAME
@@ -3473,344 +3774,282 @@ AUTHOR
 
 LICENSE
    MIT
-			       January 30, 2026 	       fmt(3m_unicode)
-get_arg(3m_unicode)					   get_arg(3m_unicode)
+			       February 07, 2026	       fmt(3m_unicode)
+adjustr(3m_unicode)					   adjustr(3m_unicode)
 
 NAME
-  get_arg(3f) - [M_unicode:SYSTEM] get command line argument (LICENSE:MIT)
+  ADJUSTR(3f) - [M_unicode:WHITESPACE] right-justify a string (LICENSE:MIT)
 
 SYNOPSIS
-  impure elemental function get_arg(position,default) result(out)
+  result = adjustr(string,glyphs)
 
-       integer,intent=(in)	   :: position
-       type(unicode_type),optional :: default
-       type(unicode_type)	   :: out
+     elemental function adjustr(string)
 
-CHARACTERISTICS
-  DEFAULT may be default CHARACTER type as well.
-
-DESCRIPTION
-  get_arg(3) gets the value of the requested command line argument as
-  TYPE(UNICODE_TYPE) .
-
-OPTIONS
-  position
-    Position on command line of requested argument. Zero returns the name of
-    the command executed. Non-existent positions default to returning a null
-    string.
-
-  default
-    value to return if argument is not set or set to a blank value
-
-RETURNS
-  out
-    value assigned based on value of environment variable NAME
-
-EXAMPLES
-  Sample program:
-
-      program demo_get_arg
-      use M_unicode, only : get_arg, ut=> unicode_type, ch=>character
-      use M_unicode, only : assignment(=), operator(//), write(formatted)
-      implicit none
-      integer  :: position
-      type(ut) :: default
-      type(ut) :: value
-      type(ut) :: smiley
-      integer  :: i
-      character(len=*),parameter :: bracket= '(1x,*("[",a,"]",:))'
-	 !
-	 smiley=128515 ! set with Unicode code point
-	 default='Wish I was first '//smiley//'!' ! set with unicode_type
-	 !
-	 ! arguments can be type(unicode_type) or character
-	 ! but type(unicode_type) is always returned
-	 do position=0,command_argument_count()
-	    value=get_arg(position, default		)
-	    value=get_arg(position, default%character() )
-	    !
-	    write(*,*)value%character()
-	    write(*,'(DT)')default%get_arg(position)
-	    !
-	    ! print each glyph surrounded by brackets
-	    write(*,bracket)(value%character(i,i),i=1,value%len())
-	 enddo
-	 !
-      end program demo_get_arg
-
-  Results:
-
-     > demo_get_arg
-     > demo_get_arg
-     > [d][e][m][o][_][g][e][t][_][a][r][g]
-
-AUTHOR
-  John S. Urban
-
-LICENSE
-   MIT
-			       January 30, 2026 	   get_arg(3m_unicode)
-character(3m_unicode)					 character(3m_unicode)
-
-NAME
-  CHARACTER(3f) - [M_unicode:WHITESPACE] convert type(unicode_type) string to
-  a CHARACTER variable (LICENSE:MIT)
-
-SYNOPSIS
-  result = character(STRING,start,end,inc) or result =
-  STRING%character(start,end,inc)
-
-       elemental function character(string,start,end,inc)
-
-	type(unicode_type),intent(in) :: string
-	integer,intent(in)	      :: start
-	integer,intent(in)	      :: end
-	integer,intent(in)	      :: inc
-
-CHARACTERISTICS
-  •  STRING is a scalar or array string variable
-
-  •  the returned value is a CHARACTER scalar or array
-
-DESCRIPTION
-  CHARACTER(3f) returns a CHARACTER variable given a string variable of type
-  type(unicode_type).
-
-OPTIONS
-  •  STRING : A scalar or array string to convert to intrinsic CHARACTER type.
-
-RESULT
-  The result converts each string to bytes stored in CHARACTER variables.  All
-  elements will be padded to the same length of the longest element; as all
-  elements of a CHARACTER array are required to be of the same length.
-
-  Commonly used to pass data to procedures requiring CHARACTER variables or
-  for printing when the DT format is not used..
-
-EXAMPLES
-  Sample program
-
-     program demo_character
-     use M_unicode, only : ut=>unicode_type, ch=>character, trim, len, pad
-     use M_unicode, only : write(formatted), assignment(=)
-     type(ut)		  :: ustr
-     type(ut),allocatable :: array(:)
-     integer		  :: i
-     character(len=*),parameter :: all='(*(g0))'
-
-	ustr=[949, 8021, 961, 951, 954, 945, 33] ! eureka in codepoints
-	! when doing I/O using DT might be the most intuitive
-	! but sometimes converting to intrinsic character variables
-	! is preferred
-	write (*,all)  ch(ustr)      ! convert to CHARACTER variable
-	write (*,all)  ustr%character()      ! convert to CHARACTER variable
-	! you can select a range of glyphs
-	write (*,all)  ustr%character(3,4) ! similar to LINE(3:4) for
-					   ! CHARACTER variables
-	! and even reverse a string
-	write (*,all)  ustr%character(len(ustr),1,-1) ! reverse string
-	! note that OOP syntax provides a few other options
-	write (*,all)  ustr%byte() ! convert to CHARACTER(LEN=1) type
-
-	! arrays
-	!
-	! using this syntax make sure to make the LEN value large enough
-	! that glyphs can take up to four bytes
-	array= ut([ character(len=60) :: &
-	'Confucius never claimed to be a prophet, '	  ,&
-	'but I think he foresaw AI! He said '		  ,&
-	''						  ,&
-	' "学而不思则罔，思而不学则殆"' 		  ,&
-	'or'						  ,&
-	' (xué ér bù sī zé wǎng, sī ér bù xué zé dài),'   ,&
-	'which is also' 				  ,&
-	' "To learn without thinking is to be lost, '	  ,&
-	' to think without learning is to be in danger".'])
-	!
-	write(*,'(*(:,"[",g0,"]",/))')ch(array)
-	! all elements will be the same length in bytes but not necessarily
-	!in glyphs
-	write(*,'(a,*(i0,1x))')'all elements the same length in BYTES:', &
-		& len(ch(array))
-	write(*,'(a,*(i0,1x))')'lengths (in glyphs):',len(array)
-	array=trim(array)
-	write(*,'(a,*(i0,1x))')'lengths after trimming (in glyphs):', &
-		& len(array)
-	write(*,'(:*(:,"[",g0,"]",/))')ch(array)
-	write(*,*)
-	!
-	! using this syntax the elements will be of different lengths
-	array= [ &
-	ut('Confucius never claimed to be a prophet,')	    ,&
-	ut('but I think he foresaw AI! He said')	    ,&
-	ut('')						    ,&
-	ut(' "学而不思则罔，思而不学则殆"')		       ,&
-	ut('or')					    ,&
-	ut(' (xué ér bù sī zé wǎng, sī ér bù xué zé dài),') ,&
-	ut('which is also')				    ,&
-	ut(' "To learn without thinking is to be lost,')    ,&
-	ut(' to think without learning is to be in danger".')]
-	! but using the CHARACTER function will still make them the same
-	! length in bytes so you might want to print them individually
-	! for certain effects, subject to font properties such as varying
-	! glyph widths.
-	write(*,'(*("[",g0,"]",/))')(ch(array(i)),i=1,size(array))
-	write(*,'(*("[",g0,"]",/))')(ch(pad(array(i),60)),i=1,size(array))
-	!
-     end program demo_character
-
-  Results:
-
-      > εὕρηκα!
-      > εὕρηκα!
-      > ρη
-      > !ακηρὕε
-      > εὕρηκα!
-      > [Confucius never claimed to be a prophet,		     ]
-      > [but I think he foresaw AI! He said			     ]
-      > [							     ]
-      > [ "学而不思则罔，思而不学则殆"			]
-      > [or							     ]
-      > [ (xué ér bù sī zé wǎng, sī ér bù xué zé dài),	 ]
-      > [which is also						     ]
-      > [ "To learn without thinking is to be lost,		     ]
-      > [ to think without learning is to be in danger".	     ]
-      >
-      > all elements the same length in BYTES:60
-      > lengths (in glyphs):60 60 60 34 60 48 60 60 60
-      > lengths after trimming (in glyphs):40 34 0 16 2 45 13 42 47
-      > [Confucius never claimed to be a prophet,		  ]
-      > [but I think he foresaw AI! He said			  ]
-      > [							  ]
-      > [ "学而不思则罔，思而不学则殆"		     ]
-      > [or							  ]
-      > [ (xué ér bù sī zé wǎng, sī ér bù xué zé dài),]
-      > [which is also						  ]
-      > [ "To learn without thinking is to be lost,		  ]
-      > [ to think without learning is to be in danger".	  ]
-      >
-      >
-      > [Confucius never claimed to be a prophet,]
-      > [but I think he foresaw AI! He said]
-      > []
-      > [ "学而不思则罔，思而不学则殆"]
-      > [or]
-      > [ (xué ér bù sī zé wǎng, sī ér bù xué zé dài),]
-      > [which is also]
-      > [ "To learn without thinking is to be lost,]
-      > [ to think without learning is to be in danger".]
-      > [
-      > [Confucius never claimed to be a prophet,		     ]
-      > [but I think he foresaw AI! He said			     ]
-      > [							     ]
-      > ["学而不思则罔，思而不学则殆"					   ]
-      > [or							     ]
-      > [(xué ér bù sī zé wǎng, sī ér bù xué zé dài),		     ]
-      > [which is also						     ]
-      > ["To learn without thinking is to be lost,		     ]
-      > [to think without learning is to be in danger". 	     ]
-      > [
-
-SEE ALSO
-  functions that perform operations on character strings:
-
-  •  elemental: adjustl(3), adjustr(3), index(3), scan(3), verify(3)
-
-  •  non-elemental: len_trim(3), len(3), repeat(3), trim(3)
-
-AUTHOR
-  John S. Urban
-
-LICENSE
-   MIT
-			       January 30, 2026 	 character(3m_unicode)
-adjustl(3m_unicode)					   adjustl(3m_unicode)
-
-NAME
-  ADJUSTL(3f) - [M_unicode:WHITESPACE] Left-justified a string (LICENSE:MIT)
-
-SYNOPSIS
-  result = adjustl(string,glyphs)
-
-     function adjustl(string,glyphs) result(out)
-
+      type(unicode_type)	    :: adjustr
       type(unicode_type),intent(in) :: string
       integer,intent(in),optional   :: glyphs
-      type(unicode_type)	    :: out
 
 CHARACTERISTICS
-  •  STRING is a string variable of type(unicode_type)
+  •  STRING is a string variable
 
   •  GLYPHS is a default integer
 
-  •  The return value is a string variable of type(unicode_type)
+  •  the return value is a string variable
 
 DESCRIPTION
-  adjustl(3) will left-justify a string by removing leading spaces. Spaces are
-  inserted at the end of the string as needed to keep the number of glyphs on
-  output the same as the number on input unless overridden by the GLYPHS
-  parameter.
+  ADJUSTR(3) right-justifies a string by removing trailing spaces. Spaces are
+  inserted at the start of the string as needed to retain the original length
+  unless an explicit return length is specified by the GLYPHS parameter.
 
 OPTIONS
-  •  STRING : the string to left-justify
+  •  STRING : the string to right-justify
 
-  •  GLYPHS : the length of the output in glyphs
+  •  GLYPHS : length in glyphs to extend to or truncate to
 
 RESULT
-  A copy of STRING where leading spaces are removed and the same number of
-  spaces are inserted on the end of STRING unless GLYPHS is specified. Note
-  using GLYPHS can cause in string truncation.
+  trailing spaces are removed and the same number of spaces are then inserted
+  at the start of string.
 
 EXAMPLES
-  Sample program:
+  sample program:
 
-     program demo_adjustl
-     use M_unicode, only : ut=>unicode_type
-     use M_unicode, only : ch=>character
-     use M_unicode, only : adjustl, trim, len_trim, verify
-     use M_unicode, only : write(formatted)
-     use M_unicode, only : assignment(=)
-     implicit none
-     type(ut)			:: usample, uout
-     integer			:: istart, iend
-     character(len=*),parameter :: adt = '(a,"[",DT,"]")'
-      !
-      ! basic use
-	usample='   sample string   '
-	write(*,adt) 'original: ',usample
-      !
-      ! note a string stays the same length
-      ! and is not trimmed by just an adjustl(3) call.
-	write(*,adt) 'adjusted: ',adjustl(usample)
-      !
-      ! a fixed‐length string can be trimmed using trim(3)
-	uout=trim(adjustl(usample))
-	write(*,adt) 'trimmed:	',uout
-      !
-      ! or alternatively you can select a substring without adjusting
-	istart= max(1,verify(usample, ' ')) ! first non‐blank character
-	iend = len_trim(usample)
-	write(*,adt) 'substring:',usample%sub(istart,iend)
-      !
-	write(*,adt) 'substring:',adjustl(usample,30)
-	write(*,adt) 'substring:',adjustl(usample,20)
-	write(*,adt) 'substring:',adjustl(usample,10)
-	write(*,adt) 'substring:',adjustl(usample,0)
-     end program demo_adjustl
+    program demo_adjustr
+    use M_unicode, only : ut=>unicode_type
+    use M_unicode, only : adjustr, len
+    use M_unicode, only : write(formatted)
+    use M_unicode, only : assignment(=)
+    implicit none
+    type(ut)		       :: str
+    type(ut),allocatable       :: array(:)
+    integer		       :: i
+    character(len=*),parameter :: bracket='("[",DT,"]")'
+	!
+	call numberline(2)
+	!
+	! basic usage
+	str = '  sample string	   '
+	write(*,bracket) str
+	str = adjustr(str)
+	write(*,bracket) str
+	!
+	call numberline(5)
+	!
+	! elemental
+	array=ut([character(len=50) :: &
+	'    एक (ek) ', &
+	'	दो (do) ', &
+	'	   तीन(teen) ' ])
+	!
+	! print array unadjusted
+	write(*,bracket)array
+	!do i=1,size(array)
+	!   write(*,'(*(g0,1x))')array(i)%codepoint()
+	!enddo
+	! note 50 bytes is not necessarily 50 glyphs
+	write(*,'(*(g0,1x))')'length in glyphs=',len(array)
+	write(*,'(*(g0,1x))')'length in bytes=',(len(array(i)%character()),i=1,size(array))
+	!
+	call numberline(5)
+	!
+	! print array right-justified
+	write(*,bracket)adjustr(array)
+	!
+	call numberline(5)
+	!
+	! print array right-justified specifying number of glyphs
+	write(*,*)'set to 50'
+	write(*,bracket)adjustr(array,50)
+	!
+	write(*,*)'set to 60'
+	call numberline(6)
+	write(*,bracket)adjustr(array,60)
+	write(*,*)'set to 40'
+	call numberline(4)
+	write(*,bracket)adjustr(array,40)
+	write(*,*)'set to 10'
+	call numberline(1)
+	write(*,bracket)adjustr(array,10)
+	write(*,*)'set to 5'
+	write(*,bracket)adjustr(array,5)
+	write(*,*)'set to 4'
+	write(*,bracket)adjustr(array,4)
+	write(*,*)'set to 1'
+	write(*,bracket)adjustr(array,1)
+     contains
+	!
+	subroutine numberline(ireps)
+	integer,intent(in) :: ireps
+	   write(*,'(1x,a)')repeat('1234567890',ireps)
+	end subroutine numberline
+     end program demo_adjustr
 
-  Results:
+    Results:
 
-     > original: [   sample string   ]
-     > adjusted: [sample string      ]
-     > trimmed:  [sample string]
-     > substring:[sample string]
+     >	12345678901234567890
+     > [  sample string     ]
+     > [       sample string]
+     >	12345678901234567890123456789012345678901234567890
+     > [    एक (ek)				      ]
+     > [       दो (do)				      ]
+     > [	  तीन(teen)			    ]
+     > length in glyphs= 46 46 44
+     > length in bytes= 50 50 50
+     >	12345678901234567890123456789012345678901234567890
+     > [				       एक (ek)]
+     > [				       दो (do)]
+     > [				   तीन(teen)]
+     >	12345678901234567890123456789012345678901234567890
+     >	set to 50
+     > [					   एक (ek)]
+     > [					   दो (do)]
+     > [					 तीन(teen)]
+     >	set to 60
+     >	123456789012345678901234567890123456789012345678901234567890
+     > [						     एक (ek)]
+     > [						     दो (do)]
+     > [						   तीन(teen)]
+     >	set to 40
+     >	1234567890123456789012345678901234567890
+     > [				 एक (ek)]
+     > [				 दो (do)]
+     > [			       तीन(teen)]
+     >	set to 10
+     >	1234567890
+     > [   एक (ek)]
+     > [   दो (do)]
+     > [ तीन(teen)]
+     >	set to 5
+     > [ (ek)]
+     > [ (do)]
+     > [teen)]
+     >	set to 4
+     > [(ek)]
+     > [(do)]
+     > [een)]
+     >	set to 1
+     > [)]
+     > [)]
+     > [)]
 
 SEE ALSO
-  ADJUSTR(3), TRIM(3)
+  ADJUSTL(3), TRIM(3)
 
 AUTHOR
   John S. Urban
 
 LICENSE
    MIT
-			       January 30, 2026 	   adjustl(3m_unicode)
+			       February 07, 2026	   adjustr(3m_unicode)
+add_backslash(3m_unicode)			     add_backslash(3m_unicode)
+
+NAME
+  ADD_BACKSLASH(3f) - [M_unicode:CONVERSION] Convert UTF-8 encoded data to
+  ASCII-7 C-style backslash escape sequences (LICENSE:MIT)
+
+SYNOPSIS
+  function add_backslash(line) result(out)
+
+      type(unicode_type),intent(in)	    :: line
+       or
+      character(len=*),intent(in)	    :: line
+
+      characer(len=:),allocatable	    :: out
+
+DESCRIPTION
+  ADD_BACKSLASH(3) replaces non-printable ASCII-7 characters and UTF-8 non-
+  ASCII-7 characters to ASCII-7 escape sequences.
+
+  Escape sequences will all be preceeded by a backslash.
+
+  The conversion rules are intended to comply with the conversions performed
+  by the gfortran -fbackslash extension and C-style escape sequences.
+
+  Escape sequences
+
+      \      backslash
+      0      null
+      a      alert (BEL) -- g is an alias for a
+      b      backspace
+      e      escape
+      f      form feed
+      n      new line
+      r      carriage return
+      t      horizontal tab
+      v      vertical tab
+
+      xHH	 one-byte characters with hexadecimal value HH (2 digits)
+      uZZZZ	 Unicode codepoint value from FF+1 to FFFF.
+      UZZZZZZZZ  Unicode codepoint value from FFFF+1 to FFFFFFFF.
+
+OPTIONS
+  LINE
+    An ASCII bytestream optionally containing UTF-8 encoded data or a
+    UNICODE_TYPE() string to convert to an ASCII string containing C-style
+    backslash escape sequences.
+
+RETURNS
+  The return value is the input line with all characters not representing
+  printable ASCII characters converted to their C-style backslash escape
+  sequences.
+
+EXAMPLES
+  Sample Program:
+
+       program demo_add_backslash
+       ! filter to replace all but printable ASCII-7 characters
+       ! with C-like escape sequences
+       use iso_fortran_env, only : stdout => output_unit
+       use M_unicode,	    only : add_backslash
+       use M_unicode,	    only : assignment(=)
+       use M_unicode,	    only : ut => unicode_type
+       implicit none
+       character(len=:),allocatable :: poem(:)
+       type(ut) 		    :: uline
+       character(len=:),allocatable :: aline
+       integer			    :: i
+	  !
+	  ! “The Crow and the Fox” by Jean de la Fontaine
+	  !
+	  poem=[character(len=255) :: &
+	  'Le Corbeau et le Renard				 ',&
+	  '							 ',&
+	  'Maître Corbeau, sur un arbre perché, 		 ',&
+	  'Tenait en son bec un fromage.			 ',&
+	  'Maître Renard, par l’odeur alléché,			 ',&
+	  'Lui tint à peu près ce langage :			 ',&
+	  '«Hé ! bonjour, Monsieur du Corbeau.			 ',&
+	  'Que vous êtes joli ! que vous me semblez beau !	 ',&
+	  'Sans mentir, si votre ramage 			 ',&
+	  'Se rapporte à votre plumage, 			 ',&
+	  'Vous êtes le Phénix des hôtes de ces bois.»		 ',&
+	  'A ces mots le Corbeau ne se sent pas de joie ;	 ',&
+	  'Et pour montrer sa belle voix,			 ',&
+	  'Il ouvre un large bec, laisse tomber sa proie.	 ',&
+	  'Le Renard s’en saisit, et dit : «Mon bon Monsieur,	 ',&
+	  'Apprenez que tout flatteur				 ',&
+	  'Vit aux dépens de celui qui l’écoute :		 ',&
+	  'Cette leçon vaut bien un fromage, sans doute.»	 ',&
+	  'Le Corbeau, honteux et confus,			 ',&
+	  'Jura, mais un peu tard, qu’on ne l’y prendrait plus.  ',&
+	  ' -- Jean de la Fontaine				 ']
+
+	  do i=1,size(poem)
+	     ! convert UTF-8 to UNICODE_TYPE for demonstration purposes
+	     uline=poem(i)
+	     aline=add_backslash(uline)
+	     write(stdout,'(g0)')trim(aline)
+	  enddo
+
+	  do i=1,size(poem)
+	     aline=add_backslash(poem(i))
+	     write(stdout,'(g0)')trim(aline)
+	  enddo
+
+       end program demo_add_backslash
+
+AUTHOR
+  John S. Urban
+
+LICENSE
+   MIT
+			       February 07, 2026     add_backslash(3m_unicode)

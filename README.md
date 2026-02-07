@@ -9,10 +9,12 @@
 [![M_unicode module](docs/images/Phaistos_Disk_sideA.jpg)](https://github.com/urbanjost/M_unicode/releases/tag/v1.0.0)
 
 
-The **M_unicode** module provides support for using UTF-8 encoded files
-and data as easily as ASCII-7 encoded files.
+The **M_unicode** module provides direct support for UTF-8 encoded files
+and data, allowing UTF-8 encoded strings to be processed as easily as
+ASCII-7 encoded strings.
 
-It fully implements the basics discussed in the Fortran Wiki [Unicode
+It fully implements the UTF-8 processing discussed
+in the Unicode Tutorial in the Fortran Wiki [Unicode
 Lessons](https://fortranwiki.org/fortran/show/Unicode).
 
 Furthermore, the **M_unicode** module supports many string methods that
@@ -29,7 +31,7 @@ The procedural interface supports all basic character intrinsics and
 operators.
 
 Over 45 [example programs](example) are included, as well as man-pages
-describing the procedures in \*roff and html format, and a basic set of
+describing the procedures in \*roff and HTML format, and a basic set of
 unit tests.
 
 ```fortran
@@ -52,8 +54,10 @@ use M_unicode, only : &
 
 ! additional methods
 use M_unicode, only : &
-   upper,   lower,  sort,  expandtabs, replace, &
-   pad,     join,   fmt,   escape
+   upper,   lower,
+   sort,    expandtabs,     replace,          &
+   pad,     join,           fmt,              &
+   escape,  add_backslash,  remove_backslash
 
 ! operators (and overloads) and SORT(3f) use
 ! Unicode codepoints (NOT dictionary order)
@@ -450,6 +454,11 @@ support for UTF-8 encoding is sufficient, however.
 
  ## References
  * [![Unicode Home](docs/images/Unicode-Logo-Final-Blue-95x112.jpg)](https://home.unicode.org/)
+
+ + iconv  -- a program and library for converting between text encodings.
+   use "iconv --list" on ULS to see the list of encodings supported.
+   One use of iconv(1) is to convert "Latin" encodings to UTF-8 encodings
+   for direct use by the M_unicode(3) module.
 
  * Initially based on a discussion begun in
 https://fortran-lang.discourse.group/t/how-to-use-utf-8-in-gfortran/9949, 2025-08;

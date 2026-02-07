@@ -155,9 +155,9 @@ Sample program:
 <P>
 <PRE>
     program demo_repeat
-    use M_unicode, only : ut=&gt;unicode_type,repeat,escape,write(formatted)
+    use M_unicode, only : ut=&gt;unicode_type,repeat,remove_backslash,write(formatted)
     implicit none
-       write(*,&#146;(DT)&#146;) repeat(escape("\u2025*"), 35)
+       write(*,&#146;(DT)&#146;) repeat(remove_backslash("\u2025*"), 35)
        write(*,&#146;(DT)&#146;) repeat(ut("_"), 70)          ! line break
        write(*,&#146;(DT)&#146;) repeat(ut("1234567890"), 7)  ! number line
        write(*,&#146;(DT)&#146;) repeat(ut("         |"), 7)  !
