@@ -2909,7 +2909,7 @@
 <a id="ln-2737" name="ln-2737" href="#ln-2737"></a><span class="c">!===================================================================================================================================</span>
 <a id="ln-2738" name="ln-2738" href="#ln-2738"></a><span class="c">!&gt;</span>
 <a id="ln-2739" name="ln-2739" href="#ln-2739"></a><span class="c">!!##NAME</span>
-<a id="ln-2740" name="ln-2740" href="#ln-2740"></a><span class="c">!!    CHARACTER(3f) - [M_unicode:WHITESPACE] convert type(unicode_type)</span>
+<a id="ln-2740" name="ln-2740" href="#ln-2740"></a><span class="c">!!    CHARACTER(3f) - [M_unicode:CONVERSION] convert type(unicode_type)</span>
 <a id="ln-2741" name="ln-2741" href="#ln-2741"></a><span class="c">!!    string  to a CHARACTER variable</span>
 <a id="ln-2742" name="ln-2742" href="#ln-2742"></a><span class="c">!!    (LICENSE:MIT)</span>
 <a id="ln-2743" name="ln-2743" href="#ln-2743"></a><span class="c">!!</span>
@@ -3238,7 +3238,7 @@
 <a id="ln-3066" name="ln-3066" href="#ln-3066"></a><span class="c">!===================================================================================================================================</span>
 <a id="ln-3067" name="ln-3067" href="#ln-3067"></a><span class="c">!&gt;</span>
 <a id="ln-3068" name="ln-3068" href="#ln-3068"></a><span class="c">!!##NAME</span>
-<a id="ln-3069" name="ln-3069" href="#ln-3069"></a><span class="c">!!   REPEAT(3) - [M_unicode:CHARACTER] Repeated string concatenation</span>
+<a id="ln-3069" name="ln-3069" href="#ln-3069"></a><span class="c">!!   REPEAT(3) - [M_unicode:PAD] Repeated string concatenation</span>
 <a id="ln-3070" name="ln-3070" href="#ln-3070"></a><span class="c">!!</span>
 <a id="ln-3071" name="ln-3071" href="#ln-3071"></a><span class="c">!!##SYNOPSIS</span>
 <a id="ln-3072" name="ln-3072" href="#ln-3072"></a><span class="c">!!</span>
@@ -6110,7 +6110,7 @@
 <a id="ln-5938" name="ln-5938" href="#ln-5938"></a><span class="c">!===================================================================================================================================</span>
 <a id="ln-5939" name="ln-5939" href="#ln-5939"></a><span class="c">!&gt;</span>
 <a id="ln-5940" name="ln-5940" href="#ln-5940"></a><span class="c">!!##NAME</span>
-<a id="ln-5941" name="ln-5941" href="#ln-5941"></a><span class="c">!!    PAD(3f) - [M_unicode:WHITESPACE] return string padded to at least</span>
+<a id="ln-5941" name="ln-5941" href="#ln-5941"></a><span class="c">!!    PAD(3f) - [M_unicode:PAD] return string padded to at least</span>
 <a id="ln-5942" name="ln-5942" href="#ln-5942"></a><span class="c">!!    specified length</span>
 <a id="ln-5943" name="ln-5943" href="#ln-5943"></a><span class="c">!!    (LICENSE:MIT)</span>
 <a id="ln-5944" name="ln-5944" href="#ln-5944"></a><span class="c">!!</span>
@@ -7317,17 +7317,17 @@
 <a id="ln-7145" name="ln-7145" href="#ln-7145"></a><span class="c">!!</span>
 <a id="ln-7146" name="ln-7146" href="#ln-7146"></a><span class="c">!!    function add_backslash(line) result(out)</span>
 <a id="ln-7147" name="ln-7147" href="#ln-7147"></a><span class="c">!!</span>
-<a id="ln-7148" name="ln-7148" href="#ln-7148"></a><span class="c">!!     type(unicode_type),intent(in)         :: line</span>
+<a id="ln-7148" name="ln-7148" href="#ln-7148"></a><span class="c">!!     type(unicode_type),intent(in) :: line</span>
 <a id="ln-7149" name="ln-7149" href="#ln-7149"></a><span class="c">!!      or</span>
-<a id="ln-7150" name="ln-7150" href="#ln-7150"></a><span class="c">!!     character(len=*),intent(in)           :: line</span>
+<a id="ln-7150" name="ln-7150" href="#ln-7150"></a><span class="c">!!     character(len=*),intent(in)   :: line</span>
 <a id="ln-7151" name="ln-7151" href="#ln-7151"></a><span class="c">!!</span>
-<a id="ln-7152" name="ln-7152" href="#ln-7152"></a><span class="c">!!     characer(len=:),allocatable           :: out</span>
+<a id="ln-7152" name="ln-7152" href="#ln-7152"></a><span class="c">!!     character(len=:),allocatable  :: out</span>
 <a id="ln-7153" name="ln-7153" href="#ln-7153"></a><span class="c">!!</span>
 <a id="ln-7154" name="ln-7154" href="#ln-7154"></a><span class="c">!!##DESCRIPTION</span>
 <a id="ln-7155" name="ln-7155" href="#ln-7155"></a><span class="c">!!    ADD_BACKSLASH(3) replaces non-printable ASCII-7 characters</span>
 <a id="ln-7156" name="ln-7156" href="#ln-7156"></a><span class="c">!!    and UTF-8 non-ASCII-7 characters to ASCII-7 escape sequences.</span>
 <a id="ln-7157" name="ln-7157" href="#ln-7157"></a><span class="c">!!</span>
-<a id="ln-7158" name="ln-7158" href="#ln-7158"></a><span class="c">!!    Escape sequences will all be preceeded by a backslash.</span>
+<a id="ln-7158" name="ln-7158" href="#ln-7158"></a><span class="c">!!    Escape sequences will all be preceded by a backslash.</span>
 <a id="ln-7159" name="ln-7159" href="#ln-7159"></a><span class="c">!!</span>
 <a id="ln-7160" name="ln-7160" href="#ln-7160"></a><span class="c">!!    The conversion rules are intended to comply with the conversions</span>
 <a id="ln-7161" name="ln-7161" href="#ln-7161"></a><span class="c">!!    performed by the gfortran -fbackslash extension and C-style</span>
@@ -9447,7 +9447,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-02-07 18:21 +0000             </p>
+ on 2026-02-07 19:12 +0000             </p>
           </div>
         </div>
         <br>

@@ -2737,7 +2737,7 @@ end function len_str
 !===================================================================================================================================
 !>
 !!##NAME
-!!    CHARACTER(3f) - [M_unicode:WHITESPACE] convert type(unicode_type)
+!!    CHARACTER(3f) - [M_unicode:CONVERSION] convert type(unicode_type)
 !!    string  to a CHARACTER variable
 !!    (LICENSE:MIT)
 !!
@@ -3066,7 +3066,7 @@ end function strs_to_chars_range_step
 !===================================================================================================================================
 !>
 !!##NAME
-!!   REPEAT(3) - [M_unicode:CHARACTER] Repeated string concatenation
+!!   REPEAT(3) - [M_unicode:PAD] Repeated string concatenation
 !!
 !!##SYNOPSIS
 !!
@@ -5938,7 +5938,7 @@ end subroutine split_pos_uail
 !===================================================================================================================================
 !>
 !!##NAME
-!!    PAD(3f) - [M_unicode:WHITESPACE] return string padded to at least
+!!    PAD(3f) - [M_unicode:PAD] return string padded to at least
 !!    specified length
 !!    (LICENSE:MIT)
 !!
@@ -7145,17 +7145,17 @@ end function escape_ua
 !!
 !!    function add_backslash(line) result(out)
 !!
-!!     type(unicode_type),intent(in)         :: line
+!!     type(unicode_type),intent(in) :: line
 !!      or
-!!     character(len=*),intent(in)           :: line
+!!     character(len=*),intent(in)   :: line
 !!
-!!     characer(len=:),allocatable           :: out
+!!     character(len=:),allocatable  :: out
 !!
 !!##DESCRIPTION
 !!    ADD_BACKSLASH(3) replaces non-printable ASCII-7 characters
 !!    and UTF-8 non-ASCII-7 characters to ASCII-7 escape sequences.
 !!
-!!    Escape sequences will all be preceeded by a backslash.
+!!    Escape sequences will all be preceded by a backslash.
 !!
 !!    The conversion rules are intended to comply with the conversions
 !!    performed by the gfortran -fbackslash extension and C-style
