@@ -7220,17 +7220,17 @@ SYNOPSIS
 
    function add_backslash(line) result(out)
 
-    type(unicode_type),intent(in)         :: line
+    type(unicode_type),intent(in) :: line
      or
-    character(len=*),intent(in)           :: line
+    character(len=*),intent(in)   :: line
 
-    characer(len=:),allocatable           :: out
+    character(len=:),allocatable  :: out
 
 DESCRIPTION
    ADD_BACKSLASH(3) replaces non-printable ASCII-7 characters
    and UTF-8 non-ASCII-7 characters to ASCII-7 escape sequences.
 
-   Escape sequences will all be preceeded by a backslash.
+   Escape sequences will all be preceded by a backslash.
 
    The conversion rules are intended to comply with the conversions
    performed by the gfortran -fbackslash extension and C-style

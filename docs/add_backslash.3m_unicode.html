@@ -81,11 +81,11 @@ ASCII-7 C-style backslash escape sequences
 function add_backslash(line) result(out)
 <P>
 <PRE>
-    type(unicode_type),intent(in)         :: line
+    type(unicode_type),intent(in) :: line
      or
-    character(len=*),intent(in)           :: line
+    character(len=*),intent(in)   :: line
 <P>
-    characer(len=:),allocatable           :: out
+    character(len=:),allocatable  :: out
 <P>
 </PRE>
 </BLOCKQUOTE>
@@ -98,7 +98,7 @@ function add_backslash(line) result(out)
 ADD_BACKSLASH(3) replaces non-printable ASCII-7 characters
 and UTF-8 non-ASCII-7 characters to ASCII-7 escape sequences.
 <P>
-Escape sequences will all be preceeded by a backslash.
+Escape sequences will all be preceded by a backslash.
 <P>
 The conversion rules are intended to comply with the conversions
 performed by the gfortran <B>-fbackslash</B> extension and C-style
