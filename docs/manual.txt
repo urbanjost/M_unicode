@@ -401,8 +401,7 @@ SEE ALSO
 AUTHOR
   •  John S. Urban
 
-  •  Francois Jacq - enhancements and Latin support from Francois Jacq,
-     2025-08
+  •  Francois Jacq - enhancements from Francois Jacq, 2025-08
 
 LICENSE
    MIT
@@ -2110,8 +2109,6 @@ DESCRIPTION
   representing UTF-8-encoded data and converted to an INTEGER array containing
   Unicode codepoint values for each glyph.
 
-  In fact, this routine is also able to decode an ISOLATIN string
-
 OPTIONS
   •  UTF8 : Scalar CHARACTER string or single-character array of CHARACTER
      variables assumed to represent a stream of bytes containing data encoded
@@ -2191,8 +2188,8 @@ SEE ALSO
 AUTHOR
   •  John S. Urban
 
-  •  Francois Jacq - enhancements and Latin support from Francois Jacq,
-     2025-08
+  •  Francois Jacq - enhancements and optional Latin support from Francois
+     Jacq, 2025-08
 
 LICENSE
    MIT

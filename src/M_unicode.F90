@@ -289,7 +289,7 @@ module M_unicode
 !
 ! Unicode-related procedures not requiring compiler support of ISO-10646
 ! first presented in https://fortran-lang.discourse.group/t/how-to-use-utf-8-in-gfortran/9949
-! including enhancements and Latin support from Francois Jacq, 2025-08
+! including enhancements and optional Latin support from Francois Jacq, 2025-08
 !
 use,intrinsic :: iso_fortran_env, only : stdin=>input_unit
 use,intrinsic :: iso_fortran_env, only : stderr=>error_unit
@@ -2168,7 +2168,7 @@ contains
 !!
 !!##AUTHOR
 !!   + John S. Urban
-!!   + Francois Jacq - enhancements and Latin support from Francois Jacq, 2025-08
+!!   + Francois Jacq - enhancements from Francois Jacq, 2025-08
 !!
 !!##LICENSE
 !!     MIT
@@ -2265,7 +2265,6 @@ end subroutine codepoints_to_utf8_chars
 !!   bytes representing UTF-8-encoded data and converted to an INTEGER
 !!   array containing Unicode codepoint values for each glyph.
 !!
-!!   In fact, this routine is also able to decode an ISOLATIN string
 !!
 !!##OPTIONS
 !!   + UTF8 :  Scalar CHARACTER string or single-character array of CHARACTER
@@ -2344,14 +2343,13 @@ end subroutine codepoints_to_utf8_chars
 !!
 !!##AUTHOR
 !!   + John S. Urban
-!!   + Francois Jacq - enhancements and Latin support from Francois Jacq, 2025-08
+!!   + Francois Jacq - enhancements and optional Latin support from Francois Jacq, 2025-08
 !!
 !!##LICENSE
 !!     MIT
 !===================================================================================================================================
 pure subroutine utf8_to_codepoints_chars(utf8,codepoints,nerr)
 
-! in fact, this routine is also able to decode an ISOLATIN string
 
 character(len=1),intent(in)     :: utf8(:)
 integer,allocatable,intent(out) :: codepoints(:)
@@ -2447,17 +2445,8 @@ integer,allocatable             :: temp(:)
       end select
 
       if(nerr0 /= nerr) then
-         ! This is an invalid UTF-8 start byte. We apply the heuristic
-         ! and interpret it as an ISO-8859-15 character.
          select case (b1)
-         case (164); cp = 8364 ! Euro
-         case (166); cp = 352  ! S caron
-         case (168); cp = 353  ! s caron
-         case (180); cp = 381  ! Z caron
-         case (184); cp = 382  ! z caron
-         case (188); cp = 338  ! OE
-         case (189); cp = 339  ! oe
-         case (190); cp = 376  ! Y trema
+         ! This is an invalid UTF-8 start byte. We apply the heuristic
          case default
             cp = b1 ! For all other chars, the codepoint is the byte value
          end select
@@ -2548,8 +2537,6 @@ end subroutine codepoints_to_utf8_str
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 pure subroutine utf8_to_codepoints_str(utf8,codepoints,nerr)
-
-! in fact, this routine is also able to decode an ISOLATIN string
 
 character(len=*),intent(in)     :: utf8
 integer,allocatable,intent(out) :: codepoints(:)
@@ -7296,15 +7283,15 @@ integer,parameter             :: eskape=27
 
 out=''
 do i=1,len(line)
-   letter=maxval(line%codepoint(i,i))
+   letter=line%codes(i)
    select case(letter)
+   case(nil); str='\0'
    case(1:6,14:26,28:31,127:255)
     str='    '
     write(str,'("\x",z2.2)')letter
-   case(92); str='\\'
    case(32:91,93:126)
     str=achar(letter)
-   case(nil); str='\0'
+   case(92); str='\\'
    case(alert); str='\a'
    case(backspace); str='\b'
    case(horizontal_tab); str='\t'
