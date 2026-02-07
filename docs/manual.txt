@@ -1,7 +1,7 @@
 add_backslash (3m_unicode) - [M_unicode:CONVERSION] Convert UTF-8 encoded data to ASCII-7 C-style backslash escape sequences (LICENSE:MIT)
 adjustl (3m_unicode) - [M_unicode:WHITESPACE] Left-justified a string (LICENSE:MIT)
 adjustr (3m_unicode) - [M_unicode:WHITESPACE] right-justify a string (LICENSE:MIT)
-character (3m_unicode) - [M_unicode:WHITESPACE] convert type(unicode_type) string to a CHARACTER variable (LICENSE:MIT)
+character (3m_unicode) - [M_unicode:CONVERSION] convert type(unicode_type) string to a CHARACTER variable (LICENSE:MIT)
 codepoints_to_utf8 (3m_unicode) - [M_unicode:CONVERSION] convert codepoints to CHARACTER (LICENSE:MIT)
 escape (3m_unicode)  - [M_unicode:CONVERSION] expand C-like escape sequences (LICENSE:MIT)
 expandtabs (3m_unicode) - [M_unicode:WHITESPACE] function to expand tab characters (LICENSE:MIT)
@@ -15,10 +15,10 @@ len (3m_unicode)     - [M_unicode:WHITESPACE] Length of a string (LICENSE:MIT)
 len_trim (3m_unicode) - [M_unicode:WHITESPACE] string length without trailing blank characters (LICENSE:MIT)
 lower (3m_unicode)   - [M_unicode:CASE] changes a string to lowercase over specified range (LICENSE:MIT)
 M_unicode (3m_unicode) - [M_unicode::INTRO] Unicode string module (LICENSE:MIT)
-pad (3m_unicode)     - [M_unicode:WHITESPACE] return string padded to at least specified length (LICENSE:MIT)
+pad (3m_unicode)     - [M_unicode:PAD] return string padded to at least specified length (LICENSE:MIT)
 readline (3m_unicode) - [M_unicode:READ] read a line from specified LUN into string up to line length limit (LICENSE:MIT)
 remove_backslash (3m_unicode) - [M_unicode:CONVERSION] expand C-like escape sequences (LICENSE:MIT)
-repeat (3m_unicode)  - [M_unicode:CHARACTER] Repeated string concatenation
+repeat (3m_unicode)  - [M_unicode:PAD] Repeated string concatenation
 replace (3m_unicode) - [M_unicode:EDITING] function replaces one substring for another in string (LICENSE:MIT)
 scan (3m_unicode)    - [M_unicode:SEARCH] Scan a string for the presence of a set of characters (LICENSE:MIT)
 sort (3m_unicode)    - [M_unicode:SORT] indexed hybrid quicksort of an array (LICENSE:MIT)
@@ -123,7 +123,7 @@ LICENSE
 character(3m_unicode)					 character(3m_unicode)
 
 NAME
-  CHARACTER(3f) - [M_unicode:WHITESPACE] convert type(unicode_type) string to
+  CHARACTER(3f) - [M_unicode:CONVERSION] convert type(unicode_type) string to
   a CHARACTER variable (LICENSE:MIT)
 
 SYNOPSIS
@@ -922,7 +922,7 @@ LICENSE
 repeat(3m_unicode)					    repeat(3m_unicode)
 
 NAME
-  REPEAT(3) - [M_unicode:CHARACTER] Repeated string concatenation
+  REPEAT(3) - [M_unicode:PAD] Repeated string concatenation
 
 SYNOPSIS
   result = repeat(string, ncopies)
@@ -3289,8 +3289,8 @@ LICENSE
 pad(3m_unicode) 					       pad(3m_unicode)
 
 NAME
-  PAD(3f) - [M_unicode:WHITESPACE] return string padded to at least specified
-  length (LICENSE:MIT)
+  PAD(3f) - [M_unicode:PAD] return string padded to at least specified length
+  (LICENSE:MIT)
 
 SYNOPSIS
   function pad(str,length,pattern,right,clip) result(out)

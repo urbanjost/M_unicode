@@ -2737,7 +2737,7 @@ end function len_str
 !===================================================================================================================================
 !>
 !!##NAME
-!!    CHARACTER(3f) - [M_unicode:WHITESPACE] convert type(unicode_type)
+!!    CHARACTER(3f) - [M_unicode:CONVERSION] convert type(unicode_type)
 !!    string  to a CHARACTER variable
 !!    (LICENSE:MIT)
 !!
@@ -3066,7 +3066,7 @@ end function strs_to_chars_range_step
 !===================================================================================================================================
 !>
 !!##NAME
-!!   REPEAT(3) - [M_unicode:CHARACTER] Repeated string concatenation
+!!   REPEAT(3) - [M_unicode:PAD] Repeated string concatenation
 !!
 !!##SYNOPSIS
 !!
@@ -5938,7 +5938,7 @@ end subroutine split_pos_uail
 !===================================================================================================================================
 !>
 !!##NAME
-!!    PAD(3f) - [M_unicode:WHITESPACE] return string padded to at least
+!!    PAD(3f) - [M_unicode:PAD] return string padded to at least
 !!    specified length
 !!    (LICENSE:MIT)
 !!
