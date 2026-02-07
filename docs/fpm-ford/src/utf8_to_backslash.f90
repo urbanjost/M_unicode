@@ -5,7 +5,6 @@ use M_unicode, only : readline, trim, add_backslash
 use M_unicode, only : assignment(=), ch=>character, ut=>unicode_type
 implicit none
 type(ut)                     :: line
-integer,allocatable          :: ints(:)
 integer                      :: iostat
     open(unit=stdin,pad='yes')
     !

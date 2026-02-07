@@ -10,7 +10,7 @@
     <meta name="author" content="John S. Urban" >
     <link rel="icon" href="../favicon.png">
 
-    <title>showme &ndash; M_unicode</title>
+    <title>inset &ndash; M_unicode</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -80,8 +80,8 @@
 
     <div class="container">
   <div class="row">
-    <h1>showme
-      <small>Subroutine</small>
+    <h1>inset
+      <small>Function</small>
       
     </h1>
       <div class="container p-2 mb-4 bg-light border rounded-3">
@@ -91,21 +91,21 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.9% of total for procedures.">15 statements</a>
+                 title=" 0.8% of total for procedures.">13 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/sample.f90"> Source File</a>
+              <a href="../src/fid.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/sample.f90.html'>sample.f90</a></li>
-                <li class="breadcrumb-item"><a href='../program/assign_exe.html'>assign_exe</a></li>
-            <li class="breadcrumb-item active" aria-current="page">showme</li>
+                <li class="breadcrumb-item"><a href='../sourcefile/fid.f90.html'>fid.f90</a></li>
+                <li class="breadcrumb-item"><a href='../program/test_id.html'>test_id</a></li>
+            <li class="breadcrumb-item active" aria-current="page">inset</li>
           </ol>
         </nav>
       </div>
@@ -133,7 +133,8 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../proc/showme.html#variable-i~72">i</a>
+            <a class="list-group-item" href="../proc/inset~2.html#variable-i~74">i</a>
+            <a class="list-group-item" href="../proc/inset~2.html#variable-nl~6">nl</a>
         </div>
       </div>
     </div>
@@ -159,7 +160,7 @@
     <div class="card card-primary">
       <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
       <div class="list-group">
-        <a class="list-group-item" href="../proc/showme.html#src">showme</a>
+        <a class="list-group-item" href="../proc/inset~2.html#src">inset</a>
       </div>
     </div>
 
@@ -169,7 +170,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2> subroutine showme(uline)  
+    <h2> function inset(string) result(longer)  
 </h2>
     
 
@@ -188,15 +189,15 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-uline~11"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+              <span class="anchor" id="variable-string~79"></span>
+              character(len=*),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>uline</strong></td>
+            <td><strong>string</strong></td>
             <td>
                 
             </td>
@@ -204,6 +205,13 @@
     </tbody>
   </table>
 
+      <h3>Return Value
+        <small>
+          <span class="anchor" id="variable-longer~2"></span>
+          character(len=:), allocatable
+        </small>
+      </h3>
+      
     <br>
 
 
@@ -221,7 +229,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~72"></span>
+              <span class="anchor" id="variable-i~74"></span>
               integer,
             </td>
               <td>public</td>
@@ -232,6 +240,23 @@
             <td><strong>i</strong></td>
                 <td></td>
                 <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nl~6"></span>
+              character(len=*),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>nl</strong></td>
+<td> =</td>
+                <td>new_line(&#39;a&#39;)</td>
             <td>
                 
             </td>
@@ -252,21 +277,19 @@
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="k">subroutine </span><span class="n">showme</span><span class="p">(</span><span class="n">uline</span><span class="p">)</span>
-<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">uline</span>
-<span class="kt">integer</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">cat</span><span class="p">)</span><span class="s1">&#39; &#39;</span><span class="p">,</span><span class="nb">repeat</span><span class="p">(</span><span class="s1">&#39;1234567890&#39;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">uline</span><span class="p">)</span><span class="o">/</span><span class="mi">10</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">bracket</span><span class="p">)</span><span class="kt">character</span><span class="p">(</span><span class="n">uline</span><span class="p">)</span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">cat</span><span class="p">)</span><span class="s1">&#39;length in bytes is: &#39;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">uline</span><span class="p">%</span><span class="kt">character</span><span class="p">())</span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">cat</span><span class="p">)</span><span class="s1">&#39;length in glyphs is: &#39;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">uline</span><span class="p">)</span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">cat</span><span class="p">)</span><span class="s1">&#39;trimmed length in glyphs is: &#39;</span><span class="p">,</span><span class="nb">len_trim</span><span class="p">(</span><span class="n">uline</span><span class="p">)</span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">cat</span><span class="p">)</span><span class="s1">&#39;adjustr:[&#39;</span><span class="p">,</span><span class="kt">character</span><span class="p">(</span><span class="nb">adjustr</span><span class="p">(</span><span class="n">uline</span><span class="p">)),</span><span class="s1">&#39;]&#39;</span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">cat</span><span class="p">)</span><span class="s1">&#39;adjustl:[&#39;</span><span class="p">,</span><span class="kt">character</span><span class="p">(</span><span class="nb">adjustl</span><span class="p">(</span><span class="n">uline</span><span class="p">)),</span><span class="s1">&#39;]&#39;</span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">cat</span><span class="p">)</span><span class="s1">&#39;cropped:[&#39;</span><span class="p">,</span><span class="kt">character</span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="nb">adjustl</span><span class="p">(</span><span class="n">uline</span><span class="p">))),</span><span class="s1">&#39;]&#39;</span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">gap</span><span class="p">)</span><span class="s1">&#39;codepoints:&#39;</span><span class="p">,</span><span class="n">uline</span><span class="p">%</span><span class="n">codepoint</span><span class="p">()</span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">dash</span><span class="p">)</span><span class="s1">&#39;glyphs:&#39;</span><span class="p">,(</span><span class="kt">character</span><span class="p">(</span><span class="n">uline</span><span class="p">%</span><span class="n">sub</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">i</span><span class="p">)),</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">uline</span><span class="p">))</span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
-<span class="k">end subroutine </span><span class="n">showme</span>
+    <div class="hl codehilite"><pre><span></span><span class="k">function </span><span class="n">inset</span><span class="p">(</span><span class="n">string</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">longer</span><span class="p">)</span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">string</span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">longer</span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">nl</span><span class="o">=</span><span class="nb">new_line</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+<span class="kt">integer</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
+<span class="w">   </span><span class="n">longer</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="w">   </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+<span class="w">      </span><span class="n">longer</span><span class="o">=</span><span class="n">longer</span><span class="o">//</span><span class="n">string</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">)</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">string</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">nl</span><span class="p">)</span><span class="k">then</span>
+<span class="k">         </span><span class="n">longer</span><span class="o">=</span><span class="n">longer</span><span class="o">//</span><span class="s1">&#39;   &#39;</span>
+<span class="w">      </span><span class="k">endif</span>
+<span class="k">   enddo</span>
+<span class="k">end function </span><span class="n">inset</span>
 </pre></div>
 
     </section>

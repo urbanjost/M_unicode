@@ -3,7 +3,7 @@
 #define  __GFORTRAN_COMP     2
 #define  __NVIDIA_COMP       3
 #define  __NAG_COMP          4
-#define  __flang__           5
+#define  __LLVM_FLANG_COMP   5
 #define  __UNKNOWN_COMP   9999
 
 #define FLOAT128
@@ -123,7 +123,6 @@
 !!     STRING%codepoint(start,end,inc)  converts a string to an INTEGER
 !!                                      array of Unicode codepoints
 !!
-!!
 !!     char       converts an integer codepoint into a character
 !!     ichar      converts a type(unicode_type) glyph into an integer
 !!                codepoint
@@ -142,7 +141,6 @@
 !!     lne       Lexical not equal
 !!     lle       Lexical less than or equal
 !!     llt       Lexical less than
-!!
 !!
 !!    IO
 !!
@@ -2349,7 +2347,6 @@ end subroutine codepoints_to_utf8_chars
 !!     MIT
 !===================================================================================================================================
 pure subroutine utf8_to_codepoints_chars(utf8,codepoints,nerr)
-
 
 character(len=1),intent(in)     :: utf8(:)
 integer,allocatable,intent(out) :: codepoints(:)
@@ -7269,8 +7266,6 @@ character(len=:),allocatable  :: out
 integer                       :: letter
 character(len=:),allocatable  :: str
 integer                       :: i
-integer                       :: iostat
-
 integer,parameter             :: nil=0
 integer,parameter             :: alert=7
 integer,parameter             :: backspace=8
@@ -7734,7 +7729,6 @@ end function section_aa
 !!
 !!##DESCRIPTION
 !!    Translate or delete characters from an input string.
-!!
 !!
 !!##OPTIONS
 !!   instr    input string to change
