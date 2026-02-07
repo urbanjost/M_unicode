@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.4% of total for procedures.</p>Including implementation: 159 statements,  9.9% of total for procedures.">6 statements</a>
+                 title="<p> 0.4% of total for procedures.</p>Including implementation: 159 statements,  9.7% of total for procedures.">6 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -182,7 +182,7 @@
 </code></pre></div>
 
 <h2 id="synopsis">SYNOPSIS</h2>
-<div class="codehilite"><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="nf">escape(line,utf8) result</span><span class="p">(</span>out<span class="p">)</span>
+<div class="codehilite"><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="nf">escape(line,protect) result</span><span class="p">(</span>out<span class="p">)</span>
 
 <span class="w"> </span><span class="nb">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">                    </span><span class="p">::</span><span class="w"> </span><span class="nb">line</span>
 <span class="w"> </span><span class="n">character</span><span class="p">(</span><span class="n">len</span><span class="p">=</span><span class="mi">1</span><span class="p">),</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="n">optional</span><span class="w">  </span><span class="p">::</span><span class="w"> </span><span class="n">protect</span>
@@ -190,35 +190,43 @@
 </code></pre></div>
 
 <h2 id="description">DESCRIPTION</h2>
-<div class="codehilite"><pre><span></span><code><span class="nv">ESCAPE</span><span class="ss">(</span><span class="mi">3</span><span class="ss">)</span><span class="w"> </span><span class="nv">expands</span><span class="w"> </span><span class="nv">commonly</span><span class="w"> </span><span class="nv">used</span><span class="w"> </span><span class="nv">escape</span><span class="w"> </span><span class="nv">sequences</span><span class="w"> </span><span class="nv">that</span>
-<span class="nv">represent</span><span class="w"> </span><span class="nv">glyphs</span><span class="w"> </span><span class="nv">or</span><span class="w"> </span><span class="nv">control</span><span class="w"> </span><span class="nv">characters</span>.<span class="w"> </span><span class="nv">By</span><span class="w"> </span><span class="nv">default</span><span class="w"> </span>...
+<div class="codehilite"><pre><span></span><code>ESCAPE(3) expands commonly used escape sequences that represent glyphs
+or control characters.
 
-<span class="nv">Escape</span><span class="w"> </span><span class="nv">sequences</span>
+REMOVE_BACKSLASH(3) should generally be used as it adheres to the
+C-style standard, where-as ESCAPE(3) supports additional sequences
+such as decimal and octal and \c, and \NNNNN support allows \0
+to potentially be the beginning of another value instead of always
+designating a null. Therefore the use of ESCAPE(3) is only recommended
+when it is known that these extensions are required.
 
-<span class="w"> </span>\<span class="w">      </span><span class="nv">backslash</span>
-<span class="w"> </span><span class="nv">a</span><span class="w">      </span><span class="nv">alert</span><span class="w"> </span><span class="ss">(</span><span class="nv">BEL</span><span class="ss">)</span><span class="w"> </span><span class="o">--</span><span class="w"> </span><span class="nv">g</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">an</span><span class="w"> </span><span class="nv">alias</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nv">a</span>
-<span class="w"> </span><span class="nv">b</span><span class="w">      </span><span class="nv">backspace</span>
-<span class="w"> </span><span class="nv">c</span><span class="w">      </span><span class="nv">suppress</span><span class="w"> </span><span class="nv">further</span><span class="w"> </span><span class="nv">output</span>
-<span class="w"> </span><span class="nv">e</span><span class="w">      </span><span class="nv">escape</span>
-<span class="w"> </span><span class="nv">f</span><span class="w">      </span><span class="nv">form</span><span class="w"> </span><span class="nv">feed</span>
-<span class="w"> </span><span class="nv">n</span><span class="w">      </span><span class="nv">new</span><span class="w"> </span><span class="nv">line</span>
-<span class="w"> </span><span class="nv">r</span><span class="w">      </span><span class="nv">carriage</span><span class="w"> </span><span class="k">return</span>
-<span class="w"> </span><span class="nv">t</span><span class="w">      </span><span class="nv">horizontal</span><span class="w"> </span><span class="nv">tab</span>
-<span class="w"> </span><span class="nv">v</span><span class="w">      </span><span class="nv">vertical</span><span class="w"> </span><span class="nv">tab</span>
+Escape sequences
 
-<span class="w"> </span><span class="nv">oNNN</span><span class="w">   </span><span class="nv">byte</span><span class="w"> </span><span class="nv">with</span><span class="w"> </span><span class="nv">octal</span><span class="w"> </span><span class="nv">value</span><span class="w"> </span><span class="nv">NNN</span><span class="w"> </span><span class="ss">(</span><span class="mi">3</span><span class="w"> </span><span class="nv">digits</span><span class="ss">)</span>
-<span class="w"> </span><span class="mi">0</span><span class="o">-</span><span class="mi">9</span><span class="w">    </span><span class="nv">digits</span><span class="w"> </span><span class="nv">will</span><span class="w"> </span><span class="nv">be</span><span class="w"> </span><span class="nv">assumed</span><span class="w"> </span><span class="nv">an</span><span class="w"> </span><span class="nv">octal</span><span class="w"> </span><span class="nv">value</span><span class="w"> </span><span class="nv">till</span><span class="w"> </span><span class="nv">a</span>
-<span class="w">        </span><span class="nv">non</span><span class="o">-</span><span class="nv">octal</span><span class="w"> </span><span class="nv">value</span><span class="w"> </span><span class="nv">character</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">encountered</span>
-<span class="w"> </span><span class="nv">dNNN</span><span class="w">   </span><span class="nv">byte</span><span class="w"> </span><span class="nv">with</span><span class="w"> </span><span class="nv">decimal</span><span class="w"> </span><span class="nv">value</span><span class="w"> </span><span class="nv">NNN</span><span class="w"> </span><span class="ss">(</span><span class="mi">3</span><span class="w"> </span><span class="nv">digits</span><span class="ss">)</span>
+ \      backslash
+ a      alert (BEL) -- g is an alias for a
+ b      backspace
+ c      suppress further output
+ e      escape
+ f      form feed
+ n      new line
+ r      carriage return
+ t      horizontal tab
+ v      vertical tab
 
-<span class="w"> </span><span class="nv">xHH</span><span class="w">        </span><span class="nv">byte</span><span class="w"> </span><span class="nv">with</span><span class="w"> </span><span class="nv">hexadecimal</span><span class="w"> </span><span class="nv">value</span><span class="w"> </span><span class="nv">HH</span><span class="w"> </span><span class="ss">(</span><span class="mi">2</span><span class="w"> </span><span class="nv">digits</span><span class="ss">)</span><span class="c1">;</span>
-<span class="w">            </span><span class="nv">h</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">an</span><span class="w"> </span><span class="nv">alias</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nv">x</span>
-<span class="w"> </span><span class="nv">uZZZZ</span><span class="w">      </span><span class="nv">translate</span><span class="w"> </span><span class="nv">Unicode</span><span class="w"> </span><span class="nv">codepoint</span><span class="w"> </span><span class="nv">value</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">bytes</span>
-<span class="w"> </span><span class="nv">UZZZZZZZZ</span><span class="w">  </span><span class="nv">translate</span><span class="w"> </span><span class="nv">Unicode</span><span class="w"> </span><span class="nv">codepoint</span><span class="w"> </span><span class="nv">value</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">bytes</span>
+ oNNN   byte with octal value NNN (3 digits)
+ [0-7][0-7]*    digits will be assumed an octal value till a
+                non-octal value character is encountered
+ dNNN   byte with decimal value NNN (3 digits)
+
+ xHH        byte with hexadecimal value HH (2 digits);
+            h is an alias for x
+ uZZZZ      translate Unicode codepoint value to bytes
+ UZZZZZZZZ  translate Unicode codepoint value to bytes
 </code></pre></div>
 
 <p>The default escape character is the backslash, but this may be
    changed using the optional parameter ESCAPE.</p>
+<h2 id="options">OPTIONS</h2>
 <h2 id="examples">EXAMPLES</h2>
 <p>Sample Program:</p>
 <div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">demo_escape</span>
@@ -541,7 +549,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-02-06 01:14 +0000             </p>
+ on 2026-02-07 16:33 +0000             </p>
           </div>
         </div>
         <br>

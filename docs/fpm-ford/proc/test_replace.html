@@ -133,8 +133,8 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../proc/test_replace.html#variable-aline~13">aline</a>
-            <a class="list-group-item" href="../proc/test_replace.html#variable-line~20">line</a>
+            <a class="list-group-item" href="../proc/test_replace.html#variable-aline~12">aline</a>
+            <a class="list-group-item" href="../proc/test_replace.html#variable-line~23">line</a>
         </div>
       </div>
     </div>
@@ -196,7 +196,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-aline~13"></span>
+              <span class="anchor" id="variable-aline~12"></span>
               character(len=:),
             </td>
               <td>public,</td>
@@ -213,7 +213,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-line~20"></span>
+              <span class="anchor" id="variable-line~23"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
               <td>public</td>
@@ -247,7 +247,7 @@
     <div class="hl codehilite"><pre><span></span><span class="k">subroutine </span><span class="n">test_replace</span><span class="p">()</span>
 <span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">line</span>
 <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">aline</span>
-<span class="c">! </span>
+<span class="c">!</span>
 <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;replace&#39;</span><span class="p">,&amp;</span>
 <span class="w"> </span><span class="s1">&#39;this is the string&#39;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kt">character</span><span class="p">(</span><span class="w"> </span><span class="n">replace</span><span class="p">(</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;Xis is Xe string&#39;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;X&#39;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;th&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
 <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;replace&#39;</span><span class="p">,&amp;</span>
@@ -258,33 +258,33 @@
 <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;replace&#39;</span><span class="p">,&amp;</span>
 <span class="w"> </span><span class="s1">&#39;BEFORE:my line of text&#39;</span><span class="o">==</span><span class="kt">character</span><span class="p">(</span><span class="n">replace</span><span class="p">(</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;my line of text&#39;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;BEFORE:&#39;</span><span class="p">))),&amp;</span>
 <span class="w"> </span><span class="s1">&#39;a null new substring means &quot;at beginning of line&quot;&#39;</span><span class="w"> </span><span class="p">)</span>
-<span class="c">! </span>
+<span class="c">!</span>
 <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;replace&#39;</span><span class="p">,&amp;</span>
 <span class="w"> </span><span class="s1">&#39;I wonder&#39;</span><span class="o">==</span><span class="w"> </span><span class="kt">character</span><span class="p">(</span><span class="n">replace</span><span class="p">(</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;I wonder i ii iii&#39;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;i&#39;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">))</span><span class="w"> </span><span class="p">),&amp;</span>
 <span class="w"> </span><span class="s1">&#39;a null new string deletes occurrences of the old substring&#39;</span><span class="w"> </span><span class="p">)</span>
-<span class="c">! </span>
+<span class="c">!</span>
 <span class="c">! Examples of the use of RANGE</span>
-<span class="c">! </span>
+<span class="c">!</span>
 <span class="n">line</span><span class="o">=</span><span class="n">replace</span><span class="p">(</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;aaaaaaaaa&#39;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">),</span><span class="n">occurrence</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="nb">repeat</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;replace&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">line</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;Aaaaaaaaa&#39;</span><span class="p">),</span><span class="w"> </span><span class="s1">&#39;replace first a with A [&#39;</span><span class="o">//</span><span class="n">line</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="o">//</span><span class="s1">&#39;]&#39;</span><span class="w"> </span><span class="p">)</span>
-<span class="c">! </span>
+<span class="c">!</span>
 <span class="n">line</span><span class="o">=</span><span class="n">replace</span><span class="p">(</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;aaaaaaaaa&#39;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">),</span><span class="n">occurrence</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="nb">repeat</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;replace&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">line</span><span class="o">==</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;aaAAAaaaa&#39;</span><span class="p">),</span><span class="s1">&#39;replace a with A for 3rd to 5th occurrence [&#39;</span><span class="o">//</span><span class="n">line</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="o">//</span><span class="s1">&#39;]&#39;</span><span class="p">)</span>
-<span class="c">! </span>
+<span class="c">!</span>
 <span class="n">line</span><span class="o">=</span><span class="n">replace</span><span class="p">(</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;ababababa&#39;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">),</span><span class="n">occurrence</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="nb">repeat</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;replace&#39;</span><span class="p">,</span><span class="n">line</span><span class="o">==</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;ababbb&#39;</span><span class="p">),</span><span class="s1">&#39;replace a with null instances 3 to 5 [&#39;</span><span class="o">//</span><span class="n">line</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="o">//</span><span class="s1">&#39;]&#39;</span><span class="w"> </span><span class="p">)</span>
-<span class="c">! </span>
+<span class="c">!</span>
 <span class="n">line</span><span class="o">=</span><span class="n">replace</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w"> </span><span class="p">&amp;</span><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;a b ab baaa aaaa aa aa a a a aa aaaaaa&#39;</span><span class="p">),&amp;</span>
 <span class="w"> </span><span class="p">&amp;</span><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;aa&#39;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;CCCC&#39;</span><span class="p">),</span><span class="n">occurrence</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span><span class="nb">repeat</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;replace&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">line</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;a b ab baaa aaaa aa aa a a a aa aaaaCCCC&#39;</span><span class="p">),</span><span class="s1">&#39;replace last aa with CCCC [&#39;</span><span class="o">//</span><span class="n">line</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="o">//</span><span class="s1">&#39;]&#39;</span><span class="p">)</span>
-<span class="c">! </span>
+<span class="c">!</span>
 <span class="n">line</span><span class="o">=</span><span class="n">replace</span><span class="p">(</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;myf90stuff.f90.f90&#39;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;f90&#39;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;for&#39;</span><span class="p">),</span><span class="n">occurrence</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span><span class="nb">repeat</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;replace&#39;</span><span class="p">,</span><span class="n">line</span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;myf90stuff.f90.for&#39;</span><span class="p">)</span>
 
 <span class="n">line</span><span class="o">=</span><span class="n">replace</span><span class="p">(</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;myf90stuff.f90.f90&#39;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;f90&#39;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;for&#39;</span><span class="p">),</span><span class="n">occurrence</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span><span class="nb">repeat</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;replace&#39;</span><span class="p">,</span><span class="n">line</span><span class="o">==</span><span class="s1">&#39;myforstuff.for.f90&#39;</span><span class="p">)</span>
-<span class="c">! </span>
+<span class="c">!</span>
 <span class="n">line</span><span class="o">=</span><span class="s1">&#39;ABCDEFGHIJ&#39;</span>
 <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;replace&#39;</span><span class="p">,</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;ABCdEFGHIJ&#39;</span><span class="p">)</span><span class="w">   </span><span class="o">==</span><span class="w"> </span><span class="n">replace</span><span class="p">(</span><span class="n">line</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="s1">&#39;d&#39;</span><span class="p">),</span><span class="w">    </span><span class="s1">&#39;replace a column &#39;</span><span class="p">)</span>
 <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;replace&#39;</span><span class="p">,</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;ABCGHIJ&#39;</span><span class="p">)</span><span class="w">      </span><span class="o">==</span><span class="w"> </span><span class="n">replace</span><span class="p">(</span><span class="n">line</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">),</span><span class="w">     </span><span class="s1">&#39;remove columns in middle&#39;</span><span class="p">)</span>
@@ -338,7 +338,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-02-06 01:14 +0000             </p>
+ on 2026-02-07 16:33 +0000             </p>
           </div>
         </div>
         <br>

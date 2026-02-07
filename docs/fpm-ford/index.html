@@ -110,9 +110,11 @@ website:
 
 <h1 id="m_unicode-module">M_unicode module</h1>
 <p><a href="https://github.com/urbanjost/M_unicode/releases/tag/v1.0.0"><img alt="M_unicode module" src="docs/images/Phaistos_Disk_sideA.jpg"></a></p>
-<p>The <strong>M_unicode</strong> module provides support for using UTF-8 encoded files
-and data as easily as ASCII-7 encoded files.</p>
-<p>It fully implements the basics discussed in the Fortran Wiki <a href="https://fortranwiki.org/fortran/show/Unicode">Unicode
+<p>The <strong>M_unicode</strong> module provides direct support for UTF-8 encoded files
+and data, allowing UTF-8 encoded strings to be processed as easily as
+ASCII-7 encoded strings.</p>
+<p>It fully implements the UTF-8 processing discussed
+in the Unicode Tutorial in the Fortran Wiki <a href="https://fortranwiki.org/fortran/show/Unicode">Unicode
 Lessons</a>.</p>
 <p>Furthermore, the <strong>M_unicode</strong> module supports many string methods that
 operate on byte streams representing UTF-8 encoded text such as case
@@ -124,7 +126,7 @@ interface supporting ragged arrays of strings and Unicode codepoints.</p>
 <p>The procedural interface supports all basic character intrinsics and
 operators.</p>
 <p>Over 45 <a href="example">example programs</a> are included, as well as man-pages
-describing the procedures in *roff and html format, and a basic set of
+describing the procedures in *roff and HTML format, and a basic set of
 unit tests.</p>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">testit</span>
 <span class="k">use</span><span class="p">,</span><span class="w"> </span><span class="k">intrinsic</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="o">=&gt;</span><span class="n">output_unit</span>
@@ -145,8 +147,10 @@ unit tests.</p>
 
 <span class="c">! additional methods</span>
 <span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">   </span><span class="n">upper</span><span class="p">,</span><span class="w">   </span><span class="n">lower</span><span class="p">,</span><span class="w">  </span><span class="n">sort</span><span class="p">,</span><span class="w">  </span><span class="n">expandtabs</span><span class="p">,</span><span class="w"> </span><span class="n">replace</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">   </span><span class="n">pad</span><span class="p">,</span><span class="w">     </span><span class="n">join</span><span class="p">,</span><span class="w">   </span><span class="n">fmt</span><span class="p">,</span><span class="w">   </span><span class="n">escape</span>
+<span class="w">   </span><span class="n">upper</span><span class="p">,</span><span class="w">   </span><span class="n">lower</span><span class="p">,</span>
+<span class="w">   </span><span class="n">sort</span><span class="p">,</span><span class="w">    </span><span class="n">expandtabs</span><span class="p">,</span><span class="w">     </span><span class="n">replace</span><span class="p">,</span><span class="w">          </span><span class="p">&amp;</span>
+<span class="w">   </span><span class="n">pad</span><span class="p">,</span><span class="w">     </span><span class="n">join</span><span class="p">,</span><span class="w">           </span><span class="n">fmt</span><span class="p">,</span><span class="w">              </span><span class="p">&amp;</span>
+<span class="w">   </span><span class="n">escape</span><span class="p">,</span><span class="w">  </span><span class="n">add_backslash</span><span class="p">,</span><span class="w">  </span><span class="n">remove_backslash</span>
 
 <span class="c">! operators (and overloads) and SORT(3f) use</span>
 <span class="c">! Unicode codepoints (NOT dictionary order)</span>
@@ -506,6 +510,12 @@ support for UTF-8 encoding is sufficient, however.</p>
  * <a href="https://home.unicode.org/"><img alt="Unicode Home" src="docs/images/Unicode-Logo-Final-Blue-95x112.jpg"></a></p>
 <ul>
 <li>
+<p>iconv  &ndash; a program and library for converting between text encodings.
+   use &ldquo;iconv &ndash;list&rdquo; on ULS to see the list of encodings supported.
+   One use of iconv(1) is to convert &ldquo;Latin&rdquo; encodings to UTF-8 encodings
+   for direct use by the M_unicode(3) module.</p>
+</li>
+<li>
 <p>Initially based on a discussion begun in
 https://fortran-lang.discourse.group/t/how-to-use-utf-8-in-gfortran/9949, 2025-08;
 including features and enhancements from Francois Jacq.</p>
@@ -555,7 +565,7 @@ with the DT edit descriptor are still undergoing development.</p>
           <div class="col-xs-6 col-sm-3">
             <div>
               <h3>Source Files</h3>
-              <ul><li><a href='sourcefile/bom_start.f90.html'>bom_start.f90</a></li><li><a href='sourcefile/codepoint.f90.html'>codepoint.f90</a></li><li><a href='sourcefile/concatenate.f90.html'>concatenate.f90</a></li><li><a href='sourcefile/construct.f90.html'>construct.f90</a></li><li><a href='sourcefile/count_glyphs.f90.html'>count_glyphs.f90</a></li><li><a href='sourcefile/demo_adjustl.f90.html'>demo_adjustl.f90</a></li><li><a href='sourcefile/demo_adjustr.f90.html'>demo_adjustr.f90</a></li><li><a href='sourcefile/demo_character.f90.html'>demo_character.f90</a></li><li><a href='sourcefile/demo_codepoints_to_utf8.f90.html'>demo_codepoints_to_utf8.f90</a></li><li><a href='sourcefile/demo_escape.f90.html'>demo_escape.f90</a></li></ul>
+              <ul><li><a href='sourcefile/backslash_to_utf8.f90.html'>backslash_to_utf8.f90</a></li><li><a href='sourcefile/bom_start.f90.html'>bom_start.f90</a></li><li><a href='sourcefile/codepoint.f90.html'>codepoint.f90</a></li><li><a href='sourcefile/concatenate.f90.html'>concatenate.f90</a></li><li><a href='sourcefile/construct.f90.html'>construct.f90</a></li><li><a href='sourcefile/count_glyphs.f90.html'>count_glyphs.f90</a></li><li><a href='sourcefile/demo_add_backslash.f90.html'>demo_add_backslash.f90</a></li><li><a href='sourcefile/demo_adjustl.f90.html'>demo_adjustl.f90</a></li><li><a href='sourcefile/demo_adjustr.f90.html'>demo_adjustr.f90</a></li><li><a href='sourcefile/demo_character.f90.html'>demo_character.f90</a></li></ul>
             </div>
             <div>
               <ul>
@@ -577,7 +587,7 @@ with the DT edit descriptor are still undergoing development.</p>
           <div class="col-xs-6 col-sm-3">
             <div>
               <h3>Procedures</h3>
-              <ul><li><a href='interface/adjustl.html'>adjustl</a></li><li><a href='interface/adjustr.html'>adjustr</a></li><li><a href='proc/afmt.html'>afmt</a></li><li><a href='interface/assignment(=).html'>assignment(=)</a></li><li><a href='proc/callit.html'>callit</a></li><li><a href='interface/character.html'>character</a></li><li><a href='proc/check.html'>check</a></li><li><a href='proc/checkit.html'>checkit</a></li><li><a href='proc/checkits.html'>checkits</a></li><li><a href='proc/checkits_l.html'>checkits_l</a></li></ul>
+              <ul><li><a href='interface/add_backslash.html'>add_backslash</a></li><li><a href='interface/adjustl.html'>adjustl</a></li><li><a href='interface/adjustr.html'>adjustr</a></li><li><a href='proc/afmt.html'>afmt</a></li><li><a href='interface/assignment(=).html'>assignment(=)</a></li><li><a href='proc/callit.html'>callit</a></li><li><a href='interface/character.html'>character</a></li><li><a href='proc/check.html'>check</a></li><li><a href='proc/checkit.html'>checkit</a></li><li><a href='proc/checkits.html'>checkits</a></li></ul>
             </div>
             <div>
               <ul>
@@ -612,7 +622,7 @@ with the DT edit descriptor are still undergoing development.</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-02-06 01:14 +0000             </p>
+ on 2026-02-07 16:33 +0000             </p>
           </div>
         </div>
         <br>

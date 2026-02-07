@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 2.7% of total for procedures.">43 statements</a>
+                 title=" 2.6% of total for procedures.">43 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -134,16 +134,16 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../proc/test_lower.html#variable-ascii7~2">ascii7</a>
-            <a class="list-group-item" href="../proc/test_lower.html#variable-codes~4">codes</a>
+            <a class="list-group-item" href="../proc/test_lower.html#variable-codes~5">codes</a>
             <a class="list-group-item" href="../proc/test_lower.html#variable-i~51">i</a>
             <a class="list-group-item" href="../proc/test_lower.html#variable-letter1">letter1</a>
             <a class="list-group-item" href="../proc/test_lower.html#variable-letter2">letter2</a>
             <a class="list-group-item" href="../proc/test_lower.html#variable-letter3">letter3</a>
             <a class="list-group-item" href="../proc/test_lower.html#variable-letter4">letter4</a>
-            <a class="list-group-item" href="../proc/test_lower.html#variable-low~5">low</a>
+            <a class="list-group-item" href="../proc/test_lower.html#variable-low~3">low</a>
             <a class="list-group-item" href="../proc/test_lower.html#variable-lowkludge">lowkludge</a>
-            <a class="list-group-item" href="../proc/test_lower.html#variable-temp~13">temp</a>
-            <a class="list-group-item" href="../proc/test_lower.html#variable-upp~4">upp</a>
+            <a class="list-group-item" href="../proc/test_lower.html#variable-temp~14">temp</a>
+            <a class="list-group-item" href="../proc/test_lower.html#variable-upp~2">upp</a>
         </div>
       </div>
     </div>
@@ -233,7 +233,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-codes~4"></span>
+              <span class="anchor" id="variable-codes~5"></span>
               integer,
             </td>
               <td>public,</td>
@@ -335,7 +335,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-low~5"></span>
+              <span class="anchor" id="variable-low~3"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
               <td>public</td>
@@ -369,7 +369,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-temp~13"></span>
+              <span class="anchor" id="variable-temp~14"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
               <td>public</td>
@@ -386,7 +386,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-upp~4"></span>
+              <span class="anchor" id="variable-upp~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
               <td>public</td>
@@ -509,7 +509,7 @@
 <span class="w">   </span><span class="n">letter3</span><span class="o">=</span><span class="w"> </span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s2">&quot;0069&quot;</span><span class="p">)</span><span class="w"> </span><span class="c">! * U+0069 i LATIN SMALL LETTER I. (dotted)</span>
 <span class="w">   </span><span class="n">letter4</span><span class="o">=</span><span class="w"> </span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s2">&quot;0131&quot;</span><span class="p">)</span><span class="w"> </span><span class="c">! * U+0131 ı LATIN SMALL LETTER I DOTLESS</span>
 
-<span class="w">   </span><span class="n">temp</span><span class="o">=</span><span class="n">replace</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span><span class="mi">82</span><span class="p">,</span><span class="mi">82</span><span class="p">,</span><span class="n">letter4</span><span class="p">)</span><span class="w"> </span>
+<span class="w">   </span><span class="n">temp</span><span class="o">=</span><span class="n">replace</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span><span class="mi">82</span><span class="p">,</span><span class="mi">82</span><span class="p">,</span><span class="n">letter4</span><span class="p">)</span>
 
 <span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;%lower&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">low</span><span class="w"> </span><span class="p">)</span>
 <span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;%lower&#39;</span><span class="p">,</span><span class="w"> </span><span class="kt">character</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kt">character</span><span class="p">(</span><span class="n">low</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
@@ -553,7 +553,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-02-06 01:14 +0000             </p>
+ on 2026-02-07 16:33 +0000             </p>
           </div>
         </div>
         <br>

@@ -107,6 +107,9 @@
 !!     character(STRING,start,end,inc)  converts a string to type CHARACTER.
 !!
 !!     escape                           expand C-like escape strings
+!!     add_backslash                    replace other than printable ASCII-7
+!!                                      characters with C-like escape strings
+!!     remove_backslash                 expand C-like escape strings
 !!
 !!     codepoints_to_utf8(codepoints,utf8,nerr)  subroutine to convert
 !!                                               codepoints to UTF-8 bytes
@@ -286,7 +289,7 @@ module M_unicode
 !
 ! Unicode-related procedures not requiring compiler support of ISO-10646
 ! first presented in https://fortran-lang.discourse.group/t/how-to-use-utf-8-in-gfortran/9949
-! including enhancements and Latin support from Francois Jacq, 2025-08
+! including enhancements and optional Latin support from Francois Jacq, 2025-08
 !
 use,intrinsic :: iso_fortran_env, only : stdin=>input_unit
 use,intrinsic :: iso_fortran_env, only : stderr=>error_unit
@@ -304,6 +307,8 @@ public :: upper
 public :: lower
 public :: expandtabs
 public :: escape
+public :: add_backslash
+public :: remove_backslash
 public :: fmt
 PUBLIC :: AFMT
 public :: replace
@@ -392,6 +397,16 @@ interface escape
    module procedure :: escape_au
    module procedure :: escape_aa
 end interface escape
+
+interface add_backslash
+   module procedure :: add_backslash_u
+   module procedure :: add_backslash_ascii
+end interface add_backslash
+
+interface remove_backslash
+   module procedure :: remove_backslash_u
+   module procedure :: remove_backslash_ascii
+end interface remove_backslash
 
 interface scan
    module procedure :: scan_uu
@@ -531,6 +546,8 @@ contains
    procedure :: lower      => oop_lower
    procedure :: expandtabs => oop_expandtabs
    procedure :: escape     => oop_escape
+   procedure :: add_backslash        => oop_add_backslash
+   procedure :: remove_backslash     => oop_remove_backslash
    procedure :: fmt        => oop_fmt
 
    procedure :: sub        => oop_sub
@@ -2151,7 +2168,7 @@ contains
 !!
 !!##AUTHOR
 !!   + John S. Urban
-!!   + Francois Jacq - enhancements and Latin support from Francois Jacq, 2025-08
+!!   + Francois Jacq - enhancements from Francois Jacq, 2025-08
 !!
 !!##LICENSE
 !!     MIT
@@ -2248,7 +2265,6 @@ end subroutine codepoints_to_utf8_chars
 !!   bytes representing UTF-8-encoded data and converted to an INTEGER
 !!   array containing Unicode codepoint values for each glyph.
 !!
-!!   In fact, this routine is also able to decode an ISOLATIN string
 !!
 !!##OPTIONS
 !!   + UTF8 :  Scalar CHARACTER string or single-character array of CHARACTER
@@ -2327,14 +2343,13 @@ end subroutine codepoints_to_utf8_chars
 !!
 !!##AUTHOR
 !!   + John S. Urban
-!!   + Francois Jacq - enhancements and Latin support from Francois Jacq, 2025-08
+!!   + Francois Jacq - enhancements and optional Latin support from Francois Jacq, 2025-08
 !!
 !!##LICENSE
 !!     MIT
 !===================================================================================================================================
 pure subroutine utf8_to_codepoints_chars(utf8,codepoints,nerr)
 
-! in fact, this routine is also able to decode an ISOLATIN string
 
 character(len=1),intent(in)     :: utf8(:)
 integer,allocatable,intent(out) :: codepoints(:)
@@ -2430,17 +2445,8 @@ integer,allocatable             :: temp(:)
       end select
 
       if(nerr0 /= nerr) then
-         ! This is an invalid UTF-8 start byte. We apply the heuristic
-         ! and interpret it as an ISO-8859-15 character.
          select case (b1)
-         case (164); cp = 8364 ! Euro
-         case (166); cp = 352  ! S caron
-         case (168); cp = 353  ! s caron
-         case (180); cp = 381  ! Z caron
-         case (184); cp = 382  ! z caron
-         case (188); cp = 338  ! OE
-         case (189); cp = 339  ! oe
-         case (190); cp = 376  ! Y trema
+         ! This is an invalid UTF-8 start byte. We apply the heuristic
          case default
             cp = b1 ! For all other chars, the codepoint is the byte value
          end select
@@ -2492,7 +2498,6 @@ end function s2a
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 pure function binary_search(arr, target) result(index)
-implicit none
 integer,intent(in) :: arr(:)         ! The sorted array to search
 integer,intent(in) :: target         ! The value to find
 integer            :: index          ! The returned index of the target, or -1 if not found
@@ -2532,8 +2537,6 @@ end subroutine codepoints_to_utf8_str
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 pure subroutine utf8_to_codepoints_str(utf8,codepoints,nerr)
-
-! in fact, this routine is also able to decode an ISOLATIN string
 
 character(len=*),intent(in)     :: utf8
 integer,allocatable,intent(out) :: codepoints(:)
@@ -3099,9 +3102,9 @@ end function strs_to_chars_range_step
 !!   Sample program:
 !!
 !!     program demo_repeat
-!!     use M_unicode, only : ut=>unicode_type,repeat,escape,write(formatted)
+!!     use M_unicode, only : ut=>unicode_type,repeat,remove_backslash,write(formatted)
 !!     implicit none
-!!        write(*,'(DT)') repeat(escape("\u2025*"), 35)
+!!        write(*,'(DT)') repeat(remove_backslash("\u2025*"), 35)
 !!        write(*,'(DT)') repeat(ut("_"), 70)          ! line break
 !!        write(*,'(DT)') repeat(ut("1234567890"), 7)  ! number line
 !!        write(*,'(DT)') repeat(ut("         |"), 7)  !
@@ -3294,7 +3297,7 @@ end function len_trim_str
 !!    program demo_ichar
 !!    use M_unicode, only : assignment(=),ch=>character
 !!    use M_unicode, only : ut=>unicode_type, write(formatted)
-!!    use M_unicode, only : ichar, escape, len
+!!    use M_unicode, only : ichar, remove_backslash, len
 !!    implicit none
 !!    type(ut)             :: string
 !!    type(ut),allocatable :: lets(:)
@@ -3320,7 +3323,7 @@ end function len_trim_str
 !!       ! define an array LETS with escape codes with one glyph per element
 !!       lets=[ut('\U03B5'),ut('\U1F55'),ut('\U03C1'),ut('\U03B7'), &
 !!           & ut('\U03BA'),ut('\U03B1'),ut('\U0021')]
-!!       lets=escape(lets) ! convert escape codes to glyphs
+!!       lets=remove_backslash(lets) ! convert escape codes to glyphs
 !!       !
 !!       ! look at issues with converting to CHARACTER for simple printing
 !!       !
@@ -6855,15 +6858,22 @@ end function expandtabs
 !!##SYNOPSIS
 !!
 !!
-!!    function escape(line,utf8) result(out)
+!!    function escape(line,protect) result(out)
 !!
 !!     type(unicode_type)                    :: line
 !!     character(len=1),intent(in),optional  :: protect
 !!     type(unicode_type)                    :: out
 !!
 !!##DESCRIPTION
-!!    ESCAPE(3) expands commonly used escape sequences that
-!!    represent glyphs or control characters. By default ...
+!!    ESCAPE(3) expands commonly used escape sequences that represent glyphs
+!!    or control characters.
+!!
+!!    REMOVE_BACKSLASH(3) should generally be used as it adheres to the
+!!    C-style standard, where-as ESCAPE(3) supports additional sequences
+!!    such as decimal and octal and \c, and \NNNNN support allows \0
+!!    to potentially be the beginning of another value instead of always
+!!    designating a null. Therefore the use of ESCAPE(3) is only recommended
+!!    when it is known that these extensions are required.
 !!
 !!    Escape sequences
 !!
@@ -6879,8 +6889,8 @@ end function expandtabs
 !!     v      vertical tab
 !!
 !!     oNNN   byte with octal value NNN (3 digits)
-!!     0-9    digits will be assumed an octal value till a
-!!            non-octal value character is encountered
+!!     [0-7][0-7]*    digits will be assumed an octal value till a
+!!                    non-octal value character is encountered
 !!     dNNN   byte with decimal value NNN (3 digits)
 !!
 !!     xHH        byte with hexadecimal value HH (2 digits);
@@ -6890,6 +6900,8 @@ end function expandtabs
 !!
 !!   The default escape character is the backslash, but this may be
 !!   changed using the optional parameter ESCAPE.
+!!
+!!##OPTIONS
 !!
 !!##EXAMPLES
 !!
@@ -7122,6 +7134,425 @@ type(unicode_type)                   :: out
    uprotect=protect
    out=escape(line,uprotect)
 end function escape_ua
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
+!>
+!!##NAME
+!!     ADD_BACKSLASH(3f) - [M_unicode:CONVERSION] Convert UTF-8 encoded data to
+!!     ASCII-7 C-style backslash escape sequences
+!!     (LICENSE:MIT)
+!!
+!!##SYNOPSIS
+!!
+!!
+!!    function add_backslash(line) result(out)
+!!
+!!     type(unicode_type),intent(in)         :: line
+!!      or
+!!     character(len=*),intent(in)           :: line
+!!
+!!     characer(len=:),allocatable           :: out
+!!
+!!##DESCRIPTION
+!!    ADD_BACKSLASH(3) replaces non-printable ASCII-7 characters
+!!    and UTF-8 non-ASCII-7 characters to ASCII-7 escape sequences.
+!!
+!!    Escape sequences will all be preceeded by a backslash.
+!!
+!!    The conversion rules are intended to comply with the conversions
+!!    performed by the gfortran -fbackslash extension and C-style
+!!    escape sequences.
+!!
+!!    Escape sequences
+!!
+!!     \      backslash
+!!     0      null
+!!     a      alert (BEL) -- g is an alias for a
+!!     b      backspace
+!!     e      escape
+!!     f      form feed
+!!     n      new line
+!!     r      carriage return
+!!     t      horizontal tab
+!!     v      vertical tab
+!!
+!!     xHH        one-byte characters with hexadecimal value HH (2 digits)
+!!     uZZZZ      Unicode codepoint value from FF+1 to FFFF.
+!!     UZZZZZZZZ  Unicode codepoint value from FFFF+1 to FFFFFFFF.
+!!
+!!##OPTIONS
+!!     LINE   An ASCII bytestream optionally containing UTF-8 encoded data
+!!            or a UNICODE_TYPE() string to convert to an ASCII string
+!!            containing C-style backslash escape sequences.
+!!
+!!##RETURNS
+!!
+!!    The return value is the input line with all characters not representing
+!!    printable ASCII characters converted to their C-style backslash escape
+!!    sequences.
+!!
+!!##EXAMPLES
+!!
+!!
+!!   Sample Program:
+!!
+!!      program demo_add_backslash
+!!      ! filter to replace all but printable ASCII-7 characters
+!!      ! with C-like escape sequences
+!!      use iso_fortran_env, only : stdout => output_unit
+!!      use M_unicode,       only : add_backslash
+!!      use M_unicode,       only : assignment(=)
+!!      use M_unicode,       only : ut => unicode_type
+!!      implicit none
+!!      character(len=:),allocatable :: poem(:)
+!!      type(ut)                     :: uline
+!!      character(len=:),allocatable :: aline
+!!      integer                      :: i
+!!         !
+!!         ! “The Crow and the Fox” by Jean de la Fontaine
+!!         !
+!!         poem=[character(len=255) :: &
+!!         'Le Corbeau et le Renard                               ',&
+!!         '                                                      ',&
+!!         'Maître Corbeau, sur un arbre perché,                  ',&
+!!         'Tenait en son bec un fromage.                         ',&
+!!         'Maître Renard, par l’odeur alléché,                   ',&
+!!         'Lui tint à peu près ce langage :                      ',&
+!!         '«Hé ! bonjour, Monsieur du Corbeau.                   ',&
+!!         'Que vous êtes joli ! que vous me semblez beau !       ',&
+!!         'Sans mentir, si votre ramage                          ',&
+!!         'Se rapporte à votre plumage,                          ',&
+!!         'Vous êtes le Phénix des hôtes de ces bois.»           ',&
+!!         'A ces mots le Corbeau ne se sent pas de joie ;        ',&
+!!         'Et pour montrer sa belle voix,                        ',&
+!!         'Il ouvre un large bec, laisse tomber sa proie.        ',&
+!!         'Le Renard s’en saisit, et dit : «Mon bon Monsieur,    ',&
+!!         'Apprenez que tout flatteur                            ',&
+!!         'Vit aux dépens de celui qui l’écoute :                ',&
+!!         'Cette leçon vaut bien un fromage, sans doute.»        ',&
+!!         'Le Corbeau, honteux et confus,                        ',&
+!!         'Jura, mais un peu tard, qu’on ne l’y prendrait plus.  ',&
+!!         ' -- Jean de la Fontaine                               ']
+!!
+!!         do i=1,size(poem)
+!!            ! convert UTF-8 to UNICODE_TYPE for demonstration purposes
+!!            uline=poem(i)
+!!            aline=add_backslash(uline)
+!!            write(stdout,'(g0)')trim(aline)
+!!         enddo
+!!
+!!         do i=1,size(poem)
+!!            aline=add_backslash(poem(i))
+!!            write(stdout,'(g0)')trim(aline)
+!!         enddo
+!!
+!!      end program demo_add_backslash
+!!
+!!##AUTHOR
+!!     John S. Urban
+!!
+!!##LICENSE
+!!     MIT
+function add_backslash_ascii(line) result(out)
+character(len=*),intent(in)   :: line
+character(len=:),allocatable  :: out
+type(unicode_type)            :: uline
+   uline=line
+   out=add_backslash(uline)
+end function add_backslash_ascii
+
+function add_backslash_u(line) result(out)
+!$@(#) M_unicode::add_backslash(3f): return string with non-printable ASCII-8 and non-ASCII-7 characters encoded as escape sequences
+type(unicode_type),intent(in) :: line
+character(len=:),allocatable  :: out
+integer                       :: letter
+character(len=:),allocatable  :: str
+integer                       :: i
+integer                       :: iostat
+
+integer,parameter             :: nil=0
+integer,parameter             :: alert=7
+integer,parameter             :: backspace=8
+integer,parameter             :: horizontal_tab=9
+integer,parameter             :: newline=10
+integer,parameter             :: vertical_tab=11
+integer,parameter             :: form_feed=12
+integer,parameter             :: carriage_return=13
+integer,parameter             :: eskape=27
+
+out=''
+do i=1,len(line)
+   letter=line%codes(i)
+   select case(letter)
+   case(nil); str='\0'
+   case(1:6,14:26,28:31,127:255)
+    str='    '
+    write(str,'("\x",z2.2)')letter
+   case(32:91,93:126)
+    str=achar(letter)
+   case(92); str='\\'
+   case(alert); str='\a'
+   case(backspace); str='\b'
+   case(horizontal_tab); str='\t'
+   case(newline); str='\n'
+   case(vertical_tab); str='\v'
+   case(form_feed); str='\f'
+   case(carriage_return); str='\r'
+   case(eskape); str='\e'
+   case(int(z'FF')+1:int(z'FFFF'))
+    str='      '
+    write(str,'("\u",z4.4)')letter
+   case(int(z'FFFF')+1:int(z'110000')) ! 1,114,112
+    str='          '
+    write(str,'("\U",z8.8)')letter
+   case default
+    write(stderr,'("<ERROR>invalid unicode codepoint=",i0)') letter
+    write(str,'("\?",z0,"\?")')letter
+   end select
+   out=out//str
+enddo
+end function add_backslash_u
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
+!>
+!!##NAME
+!!     REMOVE_BACKSLASH(3f) - [M_unicode:CONVERSION] expand C-like escape sequences
+!!     (LICENSE:MIT)
+!!
+!!##SYNOPSIS
+!!
+!!
+!!    function remove_backslash(line) result(out)
+!!
+!!     type(unicode_type),intent(in)         :: line
+!!            or
+!!     character(len=*),intent(in)           :: line
+!!
+!!     type(unicode_type)                    :: out
+!!
+!!##DESCRIPTION
+!!    REMOVE_BACKSLASH(3) expands commonly used C-style escape sequences that
+!!    represent glyphs or control characters. By default ...
+!!
+!!    Escape sequences
+!!
+!!     \      backslash
+!!     0      null
+!!     a      alert (BEL) -- g is an alias for a
+!!     b      backspace
+!!     e      escape
+!!     f      form feed
+!!     n      new line
+!!     r      carriage return
+!!     t      horizontal tab
+!!     v      vertical tab
+!!
+!!     xHH        byte with hexadecimal value HH (2 digits);
+!!                h is an alias for x
+!!     uZZZZ      translate Unicode codepoint value to bytes
+!!     UZZZZZZZZ  translate Unicode codepoint value to bytes
+!!
+!!##EXAMPLES
+!!
+!!
+!!   Sample Program:
+!!
+!!    program demo_escape
+!!    ! demonstrate filter to expand C-like escape sequences in input lines
+!!    use iso_fortran_env, only : stdout => output_unit
+!!    use M_unicode,       only : ut=>unicode_type,ch=>character,len
+!!    use M_unicode,       only : assignment(=), trim, remove_backslash
+!!    implicit none
+!!    type(ut),allocatable  :: poem(:)
+!!    type(ut)              :: test(5)
+!!    integer               :: i
+!!       !
+!!       ! “The Crow and the Fox” by Jean de la Fontaine
+!!       write(stdout,'(a,/)') &
+!!       'Le Corbeau et le Renard -- Jean de la Fontaine'
+!!       !
+!!       poem=[&
+!!       ut( 'Le Corbeau et le Renard'                                   ),&
+!!       ut( ''                                                          ),&
+!!       ut( 'Ma\u00EEtre Corbeau, sur un arbre perch\u00E9,'            ),&
+!!       ut( 'Tenait en son bec un fromage.'                             ),&
+!!       ut( 'Ma\u00EEtre Renard, par l\u2019odeur all\u00E9ch\u00E9,'   ),&
+!!       ut( 'Lui tint \U000000E0 peu pr\U000000E8s ce langage :'        ),&
+!!       ut( '\U000000ABH\U000000E9 ! bonjour, Monsieur du Corbeau.'     ),&
+!!       ut( 'Que vous \U000000EAtes joli ! que vous me semblez beau !'  ),&
+!!       ut( 'Sans mentir, si votre ramage'                              ),&
+!!       ut( 'Se rapporte \U000000E0 votre plumage,'                     ),&
+!!       ut( 'Vous \xEAtes le Ph\xE9nix des h\xF4tes de ces bois.\xBB'   ),&
+!!       ut( 'A ces mots le Corbeau ne se sent pas de joie ;'            ),&
+!!       ut( 'Et pour montrer sa belle voix,'                            ),&
+!!       ut( 'Il ouvre un large bec, laisse tomber sa proie.'            ),&
+!!       ut( 'Le Renard s\u2019en saisit, et dit : \xABMon bon Monsieur,'),&
+!!       ut( 'Apprenez que tout flatteur'                                ),&
+!!       ut( 'Vit aux d\xE9pens de celui qui l\U00002019\u00E9coute :'   ),&
+!!       ut( 'Cette le\xE7on vaut bien un fromage, sans doute.\xBB'      ),&
+!!       ut( 'Le Corbeau, honteux et confus,'                            ),&
+!!       ut( &
+!!       'Jura, mais un peu tard, qu\u2019on ne l\u2019y prendrait plus.'),&
+!!       ut( ' -- Jean de la Fontaine')]
+!!       !
+!!       poem=remove_backslash(poem)
+!!       write(stdout,'(g0)')ch(poem)
+!!       !
+!!       test=[ &
+!!        '\e[H\e[2J           ',& ! home cursor and clear screen
+!!                                 ! on ANSI terminals
+!!        '\tABC\tabc          ',& ! write some tabs in the output
+!!        '\tA\a               ',& ! ring bell at end if supported
+!!        '\nONE\nTWO\nTHREE   ',& ! place one word per line
+!!        '\\                  ']
+!!       test=trim(remove_backslash(test))
+!!       write(*,'(a)')(test(i)%character(),i=1,size(test))
+!!       !
+!!    end program demo_escape
+!!
+!!  Results (with nonprintable characters shown visible):
+!!
+!!      > ^[[H^[[2J
+!!      > ^IABC^Iabc
+!!      > ^IA^G
+!!      >
+!!      > ONE
+!!      > TWO
+!!      > THREE
+!!      > \
+!!
+!!##AUTHOR
+!!     John S. Urban
+!!
+!!##LICENSE
+!!     MIT
+function remove_backslash_ascii(line) result(out)
+character(len=*),intent(in)   :: line
+type(unicode_type)            :: uline
+type(unicode_type)            :: out
+   uline=line
+   out=remove_backslash(uline)
+end function remove_backslash_ascii
+
+impure elemental function remove_backslash_u(line) result(out)
+
+! ident_15="@(#) M_unicode remove_backslash(3f) return string with C-style escape sequences expanded"
+
+type(unicode_type),intent(in)          :: line
+type(unicode_type)                     :: out
+
+character(len=:),allocatable :: buffer
+character(len=:),allocatable :: format
+character(len=:),allocatable :: temp
+
+integer            :: i
+integer            :: lgth
+character(len=3)   :: thr
+character(len=4)   :: four
+character(len=8)   :: eight
+integer            :: nnn
+integer            :: iostat
+integer            :: icount
+integer,parameter  :: alert=7
+integer,parameter  :: backspace=8
+integer,parameter  :: horizontal_tab=9
+integer,parameter  :: newline=10
+integer,parameter  :: vertical_tab=11
+integer,parameter  :: form_feed=12
+integer,parameter  :: carriage_return=13
+integer,parameter  :: eskape=27
+integer,parameter  :: protect=92
+integer,parameter  :: a=ichar('a'),AA=ichar('A'),g=ichar('g'),GG=ichar('G')
+integer,parameter  :: b=ichar('b'),BB=ichar('B')
+integer,parameter  :: c=ichar('c'),CC=ichar('C')
+integer,parameter  :: d=ichar('d'),DD=ichar('D')
+integer,parameter  :: e=ichar('e'),EE=ichar('E')
+integer,parameter  :: f=ichar('f'),FF=ichar('F')
+integer,parameter  :: n=ichar('n'),NN=ichar('N')
+integer,parameter  :: o=ichar('o'),OO=ichar('O')
+integer,parameter  :: r=ichar('r'),RR=ichar('R')
+integer,parameter  :: t=ichar('t'),TT=ichar('T')
+integer,parameter  :: u=ichar('u'),UU=ichar('U')
+integer,parameter  :: v=ichar('v'),VV=ichar('V')
+integer,parameter  :: x=ichar('x'),XX=ichar('X'),h=ichar('h'),HH=ichar('H')
+   i=0 ! pointer into input
+
+   lgth=len_trim(line)
+   out=''
+
+   if(lgth == 0)return
+
+   EXP: do
+      i=i+1
+      if(i > lgth)exit
+      if(line%codes(i) == protect)then
+         i=i+1
+         if(i > lgth)then  ! protect at end of line
+            out%codes=[out%codes,protect]
+            exit
+         endif
+         if(line%codes(i) /= protect)then
+            BACKSLASH: select case(line%codes(i))
+            case(a,AA,g,GG);out%codes=[out%codes,alert]
+            case(b,BB);out%codes=[out%codes,backspace]
+            case(c,CC);exit EXP                         ! suppress further output
+            case(d,DD) ! %d     Dnnn decimal value
+                   thr=character(line%sub(i+1,i+3))
+                   read(thr,'(i3)',iostat=iostat)nnn
+                   out=[out%codes,nnn]
+                   i=i+3
+            case(e,EE);out%codes=[out%codes, eskape ]
+            case(f,FF);out%codes=[out%codes, form_feed ]
+            case(n,NN);out%codes=[out%codes, newline]
+            case(o,OO)
+                   thr=character(line%sub(i+1,i+3))
+                   read(thr,'(o3)',iostat=iostat)nnn
+                   out%codes=[out%codes,nnn]
+                   i=i+3
+            case(r,RR);out%codes=[out%codes,carriage_return]
+            case(t,TT);out%codes=[out%codes,horizontal_tab]
+            case(v,VV);out%codes=[out%codes,vertical_tab]
+            case(x,XX,h,HH) ! %x xHH  byte with hexadecimal value HH (1 to 2 digits)
+                   thr=character(line%sub(i+1,i+2))
+                   read(thr,'(z2)',iostat=iostat)nnn
+                   out%codes=[out%codes,nnn]
+                   i=i+2
+            case(u) ! %uZZZZ  translate Unicode codepoint to bytes
+                   four=character(line%sub(i+1,i+4))
+                   read(four,'(z4)',iostat=iostat)nnn
+                   out%codes=[out%codes,nnn]
+                   i=i+4
+            case(UU) ! %UZZZZZZZZ  translate Unicode codepoint to bytes
+                   eight=character(line%sub(i+1,i+8))
+                   read(eight,'(z8)',iostat=iostat)nnn
+                   out%codes=[out%codes,nnn]
+                   i=i+8
+            case(ichar('0'):ichar('7'));
+                buffer=line%sub(i,step=1)
+                icount=verify(buffer,'01234567')
+                if(icount.eq.0)icount=len(buffer)+1
+                icount=icount-1
+                buffer=character(line%sub(i,i+icount-1))
+                temp=fmt(icount)
+                format='(o'//temp//')'
+                read(buffer,format,iostat=iostat)nnn
+                out%codes=[out%codes,nnn]
+                i=i+icount-1
+            case default ! no match so just copy character, could produce warning
+                out%codes=[out%codes,line%codes(i)]
+            end select BACKSLASH
+         else
+            out%codes=[out%codes,protect] ! escape character (backslash)
+         endif
+      else
+         out%codes=[out%codes,line%codes(i)]
+      endif
+      if(i >= lgth)exit EXP
+   enddo EXP
+
+end function remove_backslash_u
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
@@ -7411,7 +7842,7 @@ end function section_aa
 !!     MIT
 impure function transliterate_uuu(instr,old_set,new_set) result(outstr)
 
-! ident_15="@(#) M_unicode transliterate(3f) replace characters from old set with new set"
+! ident_16="@(#) M_unicode transliterate(3f) replace characters from old set with new set"
 
 type(unicode_type),intent(in) :: instr                  ! input string to change
 type(unicode_type),intent(in) :: old_set                ! set of characters to replace
@@ -7580,8 +8011,6 @@ end function transliterate_auu
 !!     MIT
 impure elemental function get_env_aa(name,default) result(uvalue)
 ! a function that makes calling get_environment_variable(3) simple
-use, intrinsic :: iso_fortran_env, only : stderr=>ERROR_UNIT
-implicit none
 character(len=*),intent(in)          :: name
 character(len=*),intent(in),optional :: default
 character(len=:),allocatable         :: value
@@ -7904,6 +8333,18 @@ type(unicode_type)                   :: string_out
    string_out=escape(self,protect)
 end function oop_escape
 !===================================================================================================================================
+function oop_remove_backslash(self) result (string_out)
+class(unicode_type),intent(in)       :: self
+type(unicode_type)                   :: string_out
+   string_out=remove_backslash_u(self)
+end function oop_remove_backslash
+!===================================================================================================================================
+function oop_add_backslash(self) result (string_out)
+class(unicode_type),intent(in)       :: self
+type(unicode_type)                   :: string_out
+   string_out=add_backslash_u(self)
+end function oop_add_backslash
+!===================================================================================================================================
 function oop_upper(self) result (string_out)
 class(unicode_type),intent(in) :: self
 type(unicode_type)             :: string_out
@@ -7960,7 +8401,7 @@ end function oop_get_env_uu
 !===================================================================================================================================
 function oop_join(self,array,clip) result (out)
 
-! ident_16="@(#) M_unicode oop_join(3f) merge string array into a single string value adding specified separator"
+! ident_17="@(#) M_unicode oop_join(3f) merge string array into a single string value adding specified separator"
 
 class(unicode_type),intent(in) :: self
 type(unicode_type),intent(in)  :: array(:)
@@ -7977,7 +8418,7 @@ end function oop_join
 !===================================================================================================================================
 function oop_pad(self,length,pattern,right,clip) result (out)
 
-! ident_17="@(#) M_unicode pad(3f) pad string with repeating pattern to at least specified length"
+! ident_18="@(#) M_unicode pad(3f) pad string with repeating pattern to at least specified length"
 
 class(unicode_type),intent(in)         :: self       ! input line to be changed
 integer,intent(in)                     :: length
@@ -8216,9 +8657,8 @@ end function oop_eq
 !!##LICENSE
 !!     MIT
 function readline(lun,iostat) result(line)
-implicit none
 
-! ident_18="@(#) M_unicode readline(3f) read a line from specified LUN into string up to line length limit"
+! ident_19="@(#) M_unicode readline(3f) read a line from specified LUN into string up to line length limit"
 
 type(unicode_type)           :: line
 integer,intent(in),optional  :: lun
@@ -8329,7 +8769,7 @@ end function readline
 !!     MIT
 recursive function afmt(generic,format) result (line)
 
-! ident_19="@(#) M_unicode afmt(3f) convert any intrinsic to a CHARACTER variable using specified format"
+! ident_20="@(#) M_unicode afmt(3f) convert any intrinsic to a CHARACTER variable using specified format"
 
 class(*),intent(in)                  :: generic
 character(len=*),intent(in),optional :: format
@@ -8437,7 +8877,7 @@ end function afmt
 !===================================================================================================================================
 recursive function fmt_ga(generic,format) result (line)
 
-! ident_20="@(#) M_unicode afmt(3f) convert any intrinsic to a CHARACTER variable using specified format"
+! ident_21="@(#) M_unicode afmt(3f) convert any intrinsic to a CHARACTER variable using specified format"
 
 class(*),intent(in)                  :: generic
 character(len=*),intent(in),optional :: format
@@ -8446,7 +8886,7 @@ line=afmt(generic,format)
 end function fmt_ga
 recursive function fmt_gs(generic,format) result (line)
 
-! ident_21="@(#) M_unicode afmt(3f) convert any intrinsic to a CHARACTER variable using specified format"
+! ident_22="@(#) M_unicode afmt(3f) convert any intrinsic to a CHARACTER variable using specified format"
 
 class(*),intent(in)           :: generic
 type(unicode_type),intent(in) :: format
@@ -8515,7 +8955,7 @@ end function fmt_gs
 !!     MIT
 subroutine trimzeros_(string)
 
-! ident_22="@(#) M_unicode trimzeros_(3fp) Delete trailing zeros from numeric decimal string"
+! ident_23="@(#) M_unicode trimzeros_(3fp) Delete trailing zeros from numeric decimal string"
 
 ! if zero needs added at end assumes input string has room
 character(len=*)               :: string
@@ -8578,7 +9018,7 @@ end function concat_uu_
 !
 function concat_g_g(lhs,rhs) result (string)
 
-! ident_23="@(#) M_overload g_g(3f) convert two single intrinsic values or strings to a string"
+! ident_24="@(#) M_overload g_g(3f) convert two single intrinsic values or strings to a string"
 !
 ! use this instead of str() so character variables are not trimmed and/or spaces are not added
 class(*),intent(in) :: lhs, rhs

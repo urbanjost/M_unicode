@@ -218,7 +218,7 @@
 <div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">demo_ichar</span>
 <span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">assignment</span><span class="p">(=),</span><span class="nx">ch</span><span class="o">=&gt;</span><span class="nx">character</span>
 <span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">ut</span><span class="o">=&gt;</span><span class="nx">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="nx">write</span><span class="p">(</span><span class="nx">formatted</span><span class="p">)</span>
-<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">ichar</span><span class="p">,</span><span class="w"> </span><span class="nx">escape</span><span class="p">,</span><span class="w"> </span><span class="nx">len</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">ichar</span><span class="p">,</span><span class="w"> </span><span class="nx">remove_backslash</span><span class="p">,</span><span class="w"> </span><span class="nx">len</span>
 <span class="nx">implicit</span><span class="w"> </span><span class="nx">none</span>
 <span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">)</span><span class="w">             </span><span class="o">::</span><span class="w"> </span><span class="kt">string</span>
 <span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">),</span><span class="nx">allocatable</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">lets</span><span class="p">(:)</span>
@@ -244,7 +244,7 @@
 <span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">define</span><span class="w"> </span><span class="nx">an</span><span class="w"> </span><span class="nx">array</span><span class="w"> </span><span class="nx">LETS</span><span class="w"> </span><span class="nx">with</span><span class="w"> </span><span class="nx">escape</span><span class="w"> </span><span class="nx">codes</span><span class="w"> </span><span class="nx">with</span><span class="w"> </span><span class="nx">one</span><span class="w"> </span><span class="nx">glyph</span><span class="w"> </span><span class="nx">per</span><span class="w"> </span><span class="nx">element</span>
 <span class="w">   </span><span class="nx">lets</span><span class="p">=[</span><span class="nx">ut</span><span class="p">(</span><span class="err">&#39;\</span><span class="nx">U03B5</span><span class="err">&#39;</span><span class="p">),</span><span class="nx">ut</span><span class="p">(</span><span class="err">&#39;\</span><span class="nx">U1F55</span><span class="err">&#39;</span><span class="p">),</span><span class="nx">ut</span><span class="p">(</span><span class="err">&#39;\</span><span class="nx">U03C1</span><span class="err">&#39;</span><span class="p">),</span><span class="nx">ut</span><span class="p">(</span><span class="err">&#39;\</span><span class="nx">U03B7</span><span class="err">&#39;</span><span class="p">),</span><span class="w"> </span><span class="o">&amp;</span>
 <span class="w">       </span><span class="o">&amp;</span><span class="w"> </span><span class="nx">ut</span><span class="p">(</span><span class="err">&#39;\</span><span class="nx">U03BA</span><span class="err">&#39;</span><span class="p">),</span><span class="nx">ut</span><span class="p">(</span><span class="err">&#39;\</span><span class="nx">U03B1</span><span class="err">&#39;</span><span class="p">),</span><span class="nx">ut</span><span class="p">(</span><span class="err">&#39;\</span><span class="nx">U0021</span><span class="err">&#39;</span><span class="p">)]</span>
-<span class="w">   </span><span class="nx">lets</span><span class="p">=</span><span class="nx">escape</span><span class="p">(</span><span class="nx">lets</span><span class="p">)</span><span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">convert</span><span class="w"> </span><span class="nx">escape</span><span class="w"> </span><span class="nx">codes</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">glyphs</span>
+<span class="w">   </span><span class="nx">lets</span><span class="p">=</span><span class="nx">remove_backslash</span><span class="p">(</span><span class="nx">lets</span><span class="p">)</span><span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">convert</span><span class="w"> </span><span class="nx">escape</span><span class="w"> </span><span class="nx">codes</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">glyphs</span>
 <span class="w">   </span><span class="p">!</span>
 <span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">look</span><span class="w"> </span><span class="nx">at</span><span class="w"> </span><span class="nx">issues</span><span class="w"> </span><span class="nx">with</span><span class="w"> </span><span class="nx">converting</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">CHARACTER</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nx">simple</span><span class="w"> </span><span class="nx">printing</span>
 <span class="w">   </span><span class="p">!</span>
@@ -319,7 +319,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~20"></span>
+              <span class="anchor" id="variable-string~22"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -361,7 +361,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-02-06 01:14 +0000             </p>
+ on 2026-02-07 16:33 +0000             </p>
           </div>
         </div>
         <br>
