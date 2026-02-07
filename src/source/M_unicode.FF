@@ -3,7 +3,7 @@
 #define  __GFORTRAN_COMP     2
 #define  __NVIDIA_COMP       3
 #define  __NAG_COMP          4
-#define  __flang__           5
+#define  __LLVM_FLANG_COMP   5
 #define  __UNKNOWN_COMP   9999
 
 #define FLOAT128
@@ -106,11 +106,11 @@ SYNOPSIS
     character(STRING,start,end,inc)  converts a string to type CHARACTER.
 
     escape                           expand C-like escape strings
-    add_backslash                    replace other than printable ASCII-7 
+    add_backslash                    replace other than printable ASCII-7
                                      characters with C-like escape strings
     remove_backslash                 expand C-like escape strings
 
-    codepoints_to_utf8(codepoints,utf8,nerr)  subroutine to convert 
+    codepoints_to_utf8(codepoints,utf8,nerr)  subroutine to convert
                                               codepoints to UTF-8 bytes
     utf8_to_codepoints(utf8,codepoints,nerr)  subroutine to convert
                                               UTF-8 bytes to codepoints
@@ -121,7 +121,6 @@ SYNOPSIS
                                      CHARACTER(len=1) bytes.
     STRING%codepoint(start,end,inc)  converts a string to an INTEGER
                                      array of Unicode codepoints
-
 
     char       converts an integer codepoint into a character
     ichar      converts a type(unicode_type) glyph into an integer
@@ -141,7 +140,6 @@ SYNOPSIS
     lne       Lexical not equal
     lle       Lexical less than or equal
     llt       Lexical less than
-
 
    IO
 
@@ -529,14 +527,14 @@ interface operator(==); module procedure :: leq_char_str,  leq_str_char,  leq_st
 interface operator(>);  module procedure :: lgt_str_str,   lgt_str_char,  lgt_char_str;  end interface operator(>)
 interface operator(>=); module procedure :: lge_str_str,   lge_str_char,  lge_char_str;  end interface operator(>=)
 
-! 
+!
 ! F2023, 15.4.3.4.2p1: If the operator is an intrinsic-operator (R608),
 ! the number of dummy arguments shall be consistent with the intrinsic
 ! uses of that operator, and the types, kind type parameters, or ranks of
 ! the dummy arguments shall differ from those required for the intrinsic
 ! operation (10.1.5), treating a CLASS (*) dummy argument as not differing in type or kind.
 !                     =====================================================================
-! 
+!
 ! For example, how is the compiler supposed to know if it can call
 ! CONCAT_G_G for C1//C2 where both C1 and C2 are default character? It's
 ! ambiguous.
@@ -546,7 +544,7 @@ interface operator(>=); module procedure :: lge_str_str,   lge_str_char,  lge_ch
 ! and the overload is not tried unless the intrinsic cannot accept the arguments.
 ! a useful behavior, but an extension, so technically a bug as at least at the
 ! moment it is not flagged if ask for conformance to a standard. It means many little
-! procedures need created instead to avoid the C1//C2 case. 
+! procedures need created instead to avoid the C1//C2 case.
 !
 ! should expand the list to include additional non-default common kinds
 
@@ -565,7 +563,7 @@ module   procedure  ::  concat_g_l,          concat_l_g
 end interface operator(//)
 
 interface operator(.cat.)
-   module procedure :: concat_g_g 
+   module procedure :: concat_g_g
    !module procedure :: concat_uu_
 end interface operator(.cat.)
 
@@ -2413,7 +2411,6 @@ $ENDBLOCK
 $!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 !===================================================================================================================================
 pure subroutine utf8_to_codepoints_chars(utf8,codepoints,nerr)
-
 
 character(len=1),intent(in)     :: utf8(:)
 integer,allocatable,intent(out) :: codepoints(:)
@@ -4739,7 +4736,7 @@ SYNOPSIS
        & ignorecase, &
        & ierr,back) result (newline)
          or
-      function replace(target,start,end,new) result newline 
+      function replace(target,start,end,new) result newline
 
       type(unicode_type)|character(len=*),intent(in) :: target
 
@@ -7226,7 +7223,7 @@ SYNOPSIS
     type(unicode_type),intent(in)         :: line
      or
     character(len=*),intent(in)           :: line
-    
+
     characer(len=:),allocatable           :: out
 
 DESCRIPTION
@@ -7258,8 +7255,8 @@ DESCRIPTION
 
 OPTIONS
     LINE   An ASCII bytestream optionally containing UTF-8 encoded data
-           or a UNICODE_TYPE() string to convert to an ASCII string 
-	   containing C-style backslash escape sequences.
+           or a UNICODE_TYPE() string to convert to an ASCII string
+           containing C-style backslash escape sequences.
 
 RETURNS
 
@@ -7345,8 +7342,6 @@ character(len=:),allocatable  :: out
 integer                       :: letter
 character(len=:),allocatable  :: str
 integer                       :: i
-integer                       :: iostat
-
 integer,parameter             :: nil=0
 integer,parameter             :: alert=7
 integer,parameter             :: backspace=8
@@ -7376,7 +7371,7 @@ do i=1,len(line)
    case(form_feed); str='\f'
    case(carriage_return); str='\r'
    case(eskape); str='\e'
-   case(int(z'FF')+1:int(z'FFFF')) 
+   case(int(z'FF')+1:int(z'FFFF'))
     str='      '
     write(str,'("\u",z4.4)')letter
    case(int(z'FFFF')+1:int(z'110000')) ! 1,114,112
@@ -7810,7 +7805,6 @@ CHARACTERISTICS
 
 DESCRIPTION
    Translate or delete characters from an input string.
-
 
 OPTIONS
   instr    input string to change
