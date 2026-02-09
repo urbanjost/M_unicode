@@ -162,7 +162,7 @@ sample program:
    program demo_ichar
    use M_unicode, only : assignment(=),ch=&gt;character
    use M_unicode, only : ut=&gt;unicode_type, write(formatted)
-   use M_unicode, only : ichar, escape, len
+   use M_unicode, only : ichar, remove_backslash, len
    implicit none
    type(ut)             :: string
    type(ut),allocatable :: lets(:)
@@ -188,7 +188,7 @@ sample program:
       ! define an array LETS with escape codes with one glyph per element
       lets=[ut(&#146;\U03B5&#146;),ut(&#146;\U1F55&#146;),ut(&#146;\U03C1&#146;),ut(&#146;\U03B7&#146;), &
           & ut(&#146;\U03BA&#146;),ut(&#146;\U03B1&#146;),ut(&#146;\U0021&#146;)]
-      lets=escape(lets) ! convert escape codes to glyphs
+      lets=remove_backslash(lets) ! convert escape codes to glyphs
       !
       ! look at issues with converting to CHARACTER for simple printing
       !

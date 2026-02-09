@@ -1,5 +1,6 @@
 function loadthem(){
 append("M_unicode.3m_unicode.html");
+append("add_backslash.3m_unicode.html");
 append("adjustl.3m_unicode.html");
 append("adjustr.3m_unicode.html");
 append("character.3m_unicode.html");
@@ -17,6 +18,7 @@ append("len_trim.3m_unicode.html");
 append("lower.3m_unicode.html");
 append("pad.3m_unicode.html");
 append("readline.3m_unicode.html");
+append("remove_backslash.3m_unicode.html");
 append("repeat.3m_unicode.html");
 append("replace.3m_unicode.html");
 append("scan.3m_unicode.html");

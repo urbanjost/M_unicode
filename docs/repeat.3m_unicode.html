@@ -56,7 +56,7 @@ a.existingWikiWord[title]{ //border: 1px dashed #BBB; }
 
 </A>
 <BLOCKQUOTE>
-REPEAT(3) - [M_unicode:CHARACTER] Repeated string concatenation
+REPEAT(3) - [M_unicode:PAD] Repeated string concatenation
 <P>
 </BLOCKQUOTE>
 <A name=contents></A><H3>CONTENTS</H3></A>
@@ -69,8 +69,9 @@ REPEAT(3) - [M_unicode:CHARACTER] Repeated string concatenation
 <A HREF=#6>Examples</A><BR>
 <A HREF=#7>Standard</A><BR>
 <A HREF=#8>See Also</A><BR>
+<A HREF=#9>License</A><BR>
 </BLOCKQUOTE>
-<A name=9>
+<A name=10>
 
      <H3>SYNOPSIS</H3>
 
@@ -155,9 +156,9 @@ Sample program:
 <P>
 <PRE>
     program demo_repeat
-    use M_unicode, only : ut=&gt;unicode_type,repeat,escape,write(formatted)
+    use M_unicode, only : ut=&gt;unicode_type,repeat,remove_backslash,write(formatted)
     implicit none
-       write(*,&#146;(DT)&#146;) repeat(escape("\u2025*"), 35)
+       write(*,&#146;(DT)&#146;) repeat(remove_backslash("\u2025*"), 35)
        write(*,&#146;(DT)&#146;) repeat(ut("_"), 70)          ! line break
        write(*,&#146;(DT)&#146;) repeat(ut("1234567890"), 7)  ! number line
        write(*,&#146;(DT)&#146;) repeat(ut("         |"), 7)  !
@@ -194,6 +195,19 @@ o
 NON-ELEMENTAL: LEN_TRIM(3), LEN(3), REPEAT(3), TRIM(3)
 </TD></TR>
 <TR></TR></TABLE>Fortran descriptions (license: MIT) @urbanjost
+</BLOCKQUOTE>
+<A name=9>
+
+     <H3>LICENSE</H3>
+
+</A>
+<BLOCKQUOTE>
+</BLOCKQUOTE>
+<A name=>
+
+    <H4>&nbsp; &nbsp; MIT</H4>
+</A>
+<BLOCKQUOTE>
 </BLOCKQUOTE>
 <P><HR>
 <br><br><center><img src="images/repeat.gif"></center>

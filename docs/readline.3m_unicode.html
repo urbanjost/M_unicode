@@ -148,35 +148,85 @@ if IOSTAT is not zero, LINE returns the I/O error message.
 Sample program:
 <P>
 <PRE>
-    program demo_readline
-    use,intrinsic :: iso_fortran_env, only : stdin=&gt;input_unit
-    use,intrinsic :: iso_fortran_env, only : iostat_end
-    use M_unicode, only : readline, len, trim
-    use M_unicode, only : assignment(=), ch=&gt;character, ut=&gt;unicode_type
-    implicit none
-    type(ut)                     :: line
-    character(len=:),allocatable :: aline
-    integer,allocatable          :: ints(:)
-    integer                      :: iostat
-       open(unit=stdin,pad=&#146;yes&#146;)
-       !
-       INFINITE: do
-          line=readline(iostat=iostat)
-          if(iostat.ne.0)exit
-          ! write the length, line in brackets and its Unicode codepoints
-          write(*,&#146;(*(g0,1x))&#146;)len(line),&#146;[&#146;//ch(line)//&#146;]&#146;,line%codepoint()
-          ! or assign the string to an allocatable array of integers
-          ints=line
-          ! and the string to a character variable
-          aline=line
-          write(*,&#146;(*(g0,1x))&#146;)len(line),&#146;[&#146;//ch(line)//&#146;]&#146;,ints
-       enddo INFINITE
-       !
-       if(iostat /= iostat_end)then
-          write(*,*)&#146;error reading input:&#146;,ch(trim(line))
-       endif
-       !
-    end program demo_readline
+   program demo_readline
+   use,intrinsic :: iso_fortran_env, only : stdin=&gt;input_unit
+   use,intrinsic :: iso_fortran_env, only : iostat_end
+   use M_unicode, only : readline, len, trim
+   use M_unicode, only : assignment(=), ch=&gt;character, ut=&gt;unicode_type
+   implicit none
+   type(ut)                     :: ln
+   character(len=:),allocatable :: aline
+   integer,allocatable          :: ints(:)
+   integer                      :: iostat, lun, i
+   character(len=256)           :: iomsg
+   character(len=*),parameter :: filedata(*)=[character(len=80) :: &
+      &#146;The famous Confucian expression:&#146;, &
+      &#146;&#146;, &
+      &#146; "己所不欲，勿施於人"&#146;, &
+      &#146; (jǐ suǒ bù yù, wù shī yú rén)&#146;, &
+      &#146;or&#146;, &
+      &#146; "What you do not want done to yourself,&#146;, &
+      &#146; do not do to others":&#146;]
+      ! create a scratch file to read
+      open(newunit=lun,status=&#146;scratch&#146;,pad=&#146;yes&#146;)
+      write(lun,&#146;(a)&#146;)(trim(filedata(i)),i=1,size(filedata))
+      !----------------------------------------------------------------
+      ! read back UTF-8 byte stream and show the lines read
+      rewind(unit=lun)
+      do
+         ln=readline(lun,iostat=iostat)
+         if(iostat.ne.0)exit
+         ! write the glyph length, byte length, line in brackets
+         write(*,&#146;(i4,1x,i4,1x,a)&#146;)len(ln),len(ch(ln)),&#146;[&#146;//ch(ln)//&#146;]&#146;
+      enddo
+      call checkit()
+      !----------------------------------------------------------------
+      ! the same thing except convert to default intrinsic types
+      rewind(unit=lun)
+      do
+         ln=readline(lun,iostat=iostat)
+         if(iostat.ne.0)exit
+         ! assign the string to an allocatable array of integers
+         ints=ln
+         ! and the string to a character variable
+         aline=ln
+         write(*,&#146;(i4,1x,i4,1x,a)&#146;)len(ln),len(aline),&#146;[&#146;//ch(ln)//&#146;]&#146;
+      enddo
+      call checkit()
+      !----------------------------------------------------------------
+      ! again but this time show the lines as Unicode codepoints
+      rewind(unit=lun)
+      do
+         ln=readline(lun,iostat=iostat)
+         if(iostat.ne.0)exit
+         if(len(ln).eq.0)then
+            write(*,&#146;(/,10(g0,1x)," &#46;&#46;&#46;")&#146;)[0,0]
+         else
+            write(*,&#146;(/,10(g0,1x)," &#46;&#46;&#46;")&#146;)ln%codepoint()
+         endif
+      enddo
+      call checkit()
+      !----------------------------------------------------------------
+      ! show the line as Unicode codepoints using default integer array
+      rewind(unit=lun)
+      do
+         ln=readline(lun,iostat=iostat)
+         if(iostat.ne.0)exit
+         ! assign the string to an allocatable array of integers
+         ints=ln
+         if(size(ints).eq.0)ints=[0,0]
+         write(*,&#146;(/,10(g0,1x)," &#46;&#46;&#46;")&#146;)ints
+      enddo
+      call checkit()
+      !----------------------------------------------------------------
+   contains
+   subroutine checkit()
+      if(iostat /= iostat_end)then
+         write(*,*)&#146;error reading input:&#146;,ch(trim(ln))
+      endif
+      write(*,*)
+   end subroutine checkit
+   end program demo_readline
 <P>
 </PRE>
 </BLOCKQUOTE>

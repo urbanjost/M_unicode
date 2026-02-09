@@ -3,6 +3,7 @@ program uview
 use, intrinsic :: iso_fortran_env, only : stdout => output_unit
 use M_unicode,                     only : unicode_type, assignment(=), len
 use M_unicode,                     only : ut=>unicode_type, ch=>character
+use M_unicode,                     only : get_arg
 implicit none
 character(len=*),parameter   :: & 
 

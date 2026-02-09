@@ -6,7 +6,7 @@ use M_unicode, only : trim, len, len_trim
 use M_unicode, only : repeat
 use M_unicode, only : upper, lower
 use M_unicode, only : expandtabs
-use M_unicode, only : escape
+use M_unicode, only : escape, add_backslash, remove_backslash
 use M_unicode, only : sort
 use M_unicode, only : scan, verify
 use M_unicode, only : tokenize, split
@@ -20,7 +20,7 @@ use M_unicode, only : transliterate
 
 use M_unicode, only : assignment(=), unicode_type
 use M_unicode, only : operator(.cat.)
-!use M_unicode, only : operator(//)
+use M_unicode, only : operator(//)
 use M_unicode, only : operator(<=), lle
 use M_unicode, only : operator(<),  llt
 use M_unicode, only : operator(/=), lne
@@ -87,14 +87,14 @@ character(len=*),intent(in),optional :: description
    if(.not.test)total=total+1
 end subroutine check
 
-subroutine programming_environment()
+subroutine platform()
 use, intrinsic :: iso_fortran_env, only : compiler_version
 use, intrinsic :: iso_fortran_env, only : compiler_options
 implicit none
 character(len=:),allocatable :: version, options
 character(len=*),parameter   :: nl=new_line('a')
-integer                      :: where, start, break
-   version=compiler_version()
+integer                      :: where, start, break, i, last, col
+   version=compiler_version()//' '
    options=' '//compiler_options()
    start=1
    do 
@@ -113,12 +113,35 @@ integer                      :: where, start, break
          start=where
       enddo
    endif
-   print '(*(1x,a))', &
-    'This file was compiled by ', &
-    version,nl,        &
-    'using the options ',         &
-    options
-end subroutine programming_environment
+   last=len_trim(version)+1
+   col=0
+   do i=1,len_trim(version)
+    col=col+1
+    if(version(i:i).eq.' ')last=i
+    if(col.gt.76)then
+       version(last:last)=nl
+       col=0
+    endif
+   enddo
+   print '(a,/,3x,*(a))', 'This file was compiled by :', inset(version)
+   if(options.ne.'')then
+      print '(*(a))', 'using the options :', inset(options)
+   endif
+end subroutine platform
+
+function inset(string) result(longer)
+character(len=*),intent(in)  :: string
+character(len=:),allocatable :: longer
+character(len=*),parameter   :: nl=new_line('a')
+integer                      :: i
+   longer=''
+   do i=1,len(string)
+      longer=longer//string(i:i)
+      if(string(i:i).eq.nl)then
+         longer=longer//'   '
+      endif
+   enddo
+end function inset
 
 subroutine test_index()
 type(unicode_type)             :: string, substring
@@ -481,7 +504,7 @@ character(len=128)  :: ascii7
    letter3= int(z"0069") ! * U+0069 i LATIN SMALL LETTER I. (dotted)
    letter4= int(z"0131") ! * U+0131 ı LATIN SMALL LETTER I DOTLESS
 
-   temp=replace(temp,82,82,letter4) 
+   temp=replace(temp,82,82,letter4)
 
    call check('%lower', temp == low )
    call check('%lower', character(temp) == character(low) )
@@ -550,7 +573,6 @@ integer                          :: i
       line=line//'['//tokens(i)%character()//']'
    enddo
    call check('tokenize', all(tokens == expected), line )
-
 
 end subroutine test_tokenize
 
@@ -733,15 +755,15 @@ type(unicode_type)         :: str
 
    ! are the first two characters integer characters?
    str = chars%character(1,2)
-   lout = (verify( str, ut(int) ) == 0) .and.lout 
+   lout = (verify( str, ut(int) ) == 0) .and.lout
 
    ! is the third character a dash?
    str = chars%character(3,3)
-   lout = (verify( str, ut('‐-') ) == 0) .and.lout 
+   lout = (verify( str, ut('‐-') ) == 0) .and.lout
 
    ! is remaining string a valid representation of a hex value?
    str = chars%character(4,8)
-   lout = (verify( str, ut(hex) ) == 0) .and.lout 
+   lout = (verify( str, ut(hex) ) == 0) .and.lout
 
    call check( 'verify', lout, chars%character() )
 
@@ -782,7 +804,7 @@ integer,allocatable :: ints(:)
    ut_str='\\\a\b\e\f\n\r\t\v\c'
    ints=[92,7,8,27,12,10,13,9,11]
    ut_str=escape(ut_str)
-   call check('escape',len(ut_str).eq.9,'size')
+   call check('escape',len(ut_str).eq.9,'len')
    if( len(ut_str).eq.9 )then
       call check('escape',all(ut_str%codepoint().eq.ints),'codes')
    endif
@@ -794,6 +816,60 @@ integer,allocatable :: ints(:)
    ut_str='\u0915\u0949\u092B\U0000093C\U00000940\x20\u0939\u0948\x3F'
    call check('escape',escape(ut_str).eq.'कॉफ़ी है?','hexadecimal')
 end subroutine test_escape
+
+subroutine test_remove_backslash()
+type(unicode_type)  :: ut_str
+integer,allocatable :: ints(:)
+!    0      null
+!    \      backslash
+!    a      alert (BEL) -- g is an alias for a
+!    b      backspace
+!    e      escape
+!    f      form feed
+!    n      new line
+!    r      carriage return
+!    t      horizontal tab
+!    v      vertical tab
+!
+!    xHH        byte with hexadecimal value HH (2 digits);
+!    uZZZZ      translate Unicode codepoint value to bytes
+!    UZZZZZZZZ  translate Unicode codepoint value to bytes
+   ut_str='\0\\\a\b\e\f\n\r\t\v'
+   ints=[0,92,7,8,27,12,10,13,9,11]
+   ut_str=remove_backslash(ut_str)
+   call check('remove_backslash',len(ut_str).eq.10,character('len='//len(ut_str)))
+   if( len(ut_str).eq.9 )then
+      call check('remove_backslash',all(ut_str%codepoint().eq.ints),'codes')
+   endif
+   call check('remove_backslash',remove_backslash(ut('\')).eq.'\','backslash at end of line')
+   call check('remove_backslash',remove_backslash(ut('text\0')).eq.'text'//char(0),'null at end')
+   call check('remove_backslash',remove_backslash(ut('\122\123A')).eq.'RSA','two')
+
+   ! (kaufii hai?) [Literal Meaning: “Is there coffee?”] “Do you have coffee?” (Informal)
+   ut_str='\u0915\u0949\u092B\U0000093C\U00000940\x20\u0939\u0948\x3F'
+   call check('remove_backslash',remove_backslash(ut_str).eq.'कॉफ़ी है?','hexadecimal')
+end subroutine test_remove_backslash
+
+subroutine test_add_backslash()
+type(unicode_type) :: UA
+type(unicode_type) :: uline
+integer            :: i
+   UA=[(i,i=0,255)]
+   uline=add_backslash(UA)
+
+   call check('add_backslash',len(uline).eq.722,character('len '//len(uline)))
+   if( len(uline).eq.772 )then
+      call check('add_backslash',remove_backslash(uline).eq.UA,'round trip')
+   endif
+   call check('add_backslash',add_backslash(ut('\')).eq.'\\','backslash at end of line')
+   call check('add_backslash',add_backslash(ut('text'//char(0))).eq.'text\0','null at end')
+
+   ! (kaufii hai?) [Literal Meaning: “Is there coffee?”] “Do you have coffee?” (Informal)
+   uline='कॉफ़ी है?'
+   UA='\u0915\u0949\u092B\u093C\u0940 \u0939\u0948?'
+   call check('add_backslash',add_backslash(uline).eq.UA,'hexadecimal'//character(add_backslash(uline)//'=='//UA))
+
+end subroutine test_add_backslash
 
 subroutine test_join()
 character(len=20),allocatable :: proverb(:)
@@ -839,7 +915,7 @@ end subroutine test_join
 subroutine test_pad()
 type(ut)                   :: string
 type(ut)                   :: answer
-! 
+!
    string='abcdefghij'
    answer='[abcdefghij          ]'
    call check('pad',bracket(pad(string,20)) == answer,'pad on right till 20 characters long')
@@ -877,7 +953,7 @@ type(ut)                   :: answer
    call check('pad', bracket(pad(ut('12345 '), 4,ut('_'),right=.false.,clip=.false.)) == '[12345 ]',&
    &character(bracket(pad(string,4,ut('_'),right=.false.,clip=.false.))) )
 
-contains 
+contains
 function bracket(line) result (bracketed)
 type(unicode_type),intent(in) :: line
 type(unicode_type)            :: bracketed
@@ -889,9 +965,9 @@ subroutine test_sub()
 type(unicode_type)           :: line
 line='this is the string'
 call check('sub', 'this is the string'  == character( sub(line    ) ) )
-call check('sub', 'the string'          == character( sub(line, 9 ) ) ) 
+call check('sub', 'the string'          == character( sub(line, 9 ) ) )
 call check('sub', 'this is '  == character( sub(line,  1,        8) ) )
-call check('sub', 'the string'== character( sub(line,  9,len(line)) ) ) 
+call check('sub', 'the string'== character( sub(line,  9,len(line)) ) )
 call check('sub', 'is the'    == character( sub(line,  6,       11) ) )
 
 call check('sub', 'this is the string'  == character( line%sub(            ) ) )
@@ -905,7 +981,7 @@ end subroutine test_sub
 subroutine test_replace()
 type(unicode_type)           :: line
 character(len=:),allocatable :: aline
-! 
+!
 call check('replace',&
  'this is the string' == character( replace(ut('Xis is Xe string'),ut('X'),ut('th') ) ) )
 call check('replace',&
@@ -916,33 +992,33 @@ call check('replace',&
 call check('replace',&
  'BEFORE:my line of text'==character(replace(ut('my line of text'),ut(''),ut('BEFORE:'))),&
  'a null new substring means "at beginning of line"' )
-! 
+!
 call check('replace',&
  'I wonder'== character(replace(ut('I wonder i ii iii'),ut('i'),ut('')) ),&
  'a null new string deletes occurrences of the old substring' )
-! 
+!
 ! Examples of the use of RANGE
-! 
+!
 line=replace(ut('aaaaaaaaa'),ut('a'),ut('A'),occurrence=1,repeat=1)
 call check('replace', line == ut('Aaaaaaaaa'), 'replace first a with A ['//line%character()//']' )
-! 
+!
 line=replace(ut('aaaaaaaaa'),ut('a'),ut('A'),occurrence=3,repeat=3)
 call check('replace', line==ut('aaAAAaaaa'),'replace a with A for 3rd to 5th occurrence ['//line%character()//']')
-! 
+!
 line=replace(ut('ababababa'),ut('a'),ut(''),occurrence=3,repeat=3)
 call check('replace',line==ut('ababbb'),'replace a with null instances 3 to 5 ['//line%character()//']' )
-! 
+!
 line=replace( &
  & ut('a b ab baaa aaaa aa aa a a a aa aaaaaa'),&
  & ut('aa'),ut('CCCC'),occurrence=-1,repeat=1)
 call check('replace', line == ut('a b ab baaa aaaa aa aa a a a aa aaaaCCCC'),'replace last aa with CCCC ['//line%character()//']')
-! 
+!
 line=replace(ut('myf90stuff.f90.f90'),ut('f90'),ut('for'),occurrence=-1,repeat=1)
 call check('replace',line== 'myf90stuff.f90.for')
 
 line=replace(ut('myf90stuff.f90.f90'),ut('f90'),ut('for'),occurrence=-2,repeat=2)
 call check('replace',line=='myforstuff.for.f90')
-! 
+!
 line='ABCDEFGHIJ'
 call check('replace',ut('ABCdEFGHIJ')   == replace(line,4,4,'d'),    'replace a column ')
 call check('replace',ut('ABCGHIJ')      == replace(line,4,6,''),     'remove columns in middle')
@@ -987,7 +1063,7 @@ type(ut)  :: MIDDLE_DOT
    ! ignoring ς for simplicity
    UPPER='ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ'
    LOWER='αβγδεζηθικλμνξοπρστυφχψω'
-   
+
    ANSWER=TRANSLITERATE(STRING , LOWER, UPPER ) ! convert ASCII-7 string to uppercase:
    EXPECTED='ΑΑΒΒΓΓΔΔΕΕΖΖΗΗΘΘΙΙΚΚΛΛΜΜΝΝΞΞΟΟΠΠΡΡΣΣςΤΤΥΥΦΦΧΧΨΨΩΩ'
    call check('transliterate', answer == expected, 'one-to-one correspondence')
@@ -1027,7 +1103,7 @@ use testsuite_M_unicode
    !write(*,g0)'encoding can be altered on an open file'
    !open (output_unit, encoding='UTF-8')
 
-   call programming_environment()
+   call platform()
    call test_adjustl()
    call test_adjustr()
    call test_trim()
@@ -1052,6 +1128,8 @@ use testsuite_M_unicode
    call test_expandtabs()
    call test_fmt()
    call test_escape()
+   call test_add_backslash()
+   call test_remove_backslash()
    call test_concatenate()
    call test_other()
 
