@@ -3117,6 +3117,8 @@ end function strs_to_chars_range_step
 !!   + NON-ELEMENTAL: LEN_TRIM(3), LEN(3), REPEAT(3), TRIM(3)
 !!
 !!   Fortran descriptions (license: MIT) @urbanjost
+!!##LICENSE
+!!     MIT
 ! Repeats the character sequence held by the string by the number of specified copies.
 ! This method is elemental and returns a scalar character value.
 elemental function repeat_str(string, ncopies) result(repeated_str)
@@ -4778,7 +4780,7 @@ end function reverse
 !!##AUTHOR
 !!     John S. Urban
 !!##LICENSE
-!!    MIT
+!!     MIT
 function replace_uuu(target,old,new,force_,occurrence,repeat,ignorecase,changes,back) result (newline)
 
 ! ident_6="@(#) M_unicode replace(3f) replace one substring for another in string"
@@ -6627,7 +6629,7 @@ end function scan_ua
 !!
 !!   Results:
 !!
-!!           32‐af43d passed
+!!     > 32‐af43d passed
 !!
 !!   Sample program V:
 !!
@@ -6857,9 +6859,15 @@ end function expandtabs
 !!
 !!    function escape(line,protect) result(out)
 !!
-!!     type(unicode_type)                    :: line
-!!     character(len=1),intent(in),optional  :: protect
-!!     type(unicode_type)                    :: out
+!!     type(unicode_type),intent(in)          :: line
+!!     ! or
+!!     character(len=*),intent(in)            :: line
+!!
+!!     type(unicode_type),intent(in),optional :: protect
+!!     ! or
+!!     character(len=1),intent(in),optional   :: protect
+!!
+!!     type(unicode_type)                     :: out
 !!
 !!##DESCRIPTION
 !!    ESCAPE(3) expands commonly used escape sequences that represent glyphs
@@ -6884,6 +6892,8 @@ end function expandtabs
 !!     r      carriage return
 !!     t      horizontal tab
 !!     v      vertical tab
+!!     "      double quote for compatibility with C strings
+!!     '      single quote for compatibility with C strings
 !!
 !!     oNNN   byte with octal value NNN (3 digits)
 !!     [0-7][0-7]*    digits will be assumed an octal value till a
@@ -6899,7 +6909,11 @@ end function expandtabs
 !!   changed using the optional parameter ESCAPE.
 !!
 !!##OPTIONS
-!!
+!!     LINE    An ASCII bytestream optionally containing UTF-8 encoded data
+!!             or a UNICODE_TYPE() string to convert to an ASCII string
+!!             containing C-style backslash escape sequences.
+!!    PROTECT  A single character designating the escape prefix. Defaults
+!!             to a backslash ("\")
 !!##EXAMPLES
 !!
 !!
@@ -6958,7 +6972,7 @@ end function expandtabs
 !!       !
 !!    end program demo_escape
 !!
-!!  Results (with nonprintable characters shown visible):
+!!  Partial Results (with nonprintable characters shown visible):
 !!
 !!      > ^[[H^[[2J
 !!      > ^IABC^Iabc
@@ -7089,6 +7103,10 @@ integer,parameter  :: x=ichar('x'),XX=ichar('X'),h=ichar('h'),HH=ichar('H')
                 read(buffer,format,iostat=iostat)nnn
                 out%codes=[out%codes,nnn]
                 i=i+icount-1
+            case(ichar('"'))
+                out%codes=[out%codes,line%codes(i)]
+            case(ichar("'"))
+                out%codes=[out%codes,line%codes(i)]
             case default ! no match so just copy character, could produce warning
                 out%codes=[out%codes,line%codes(i)]
             end select BACKSLASH
@@ -7614,6 +7632,14 @@ end function remove_backslash_u
 !!      end program demo_sub
 !!
 !!   Results:
+!!     > selected range:[cde]
+!!     >
+!!     > from character to end:[fghij]
+!!     >
+!!     > single character:[e]
+!!     >
+!!     > reverse string:[jihgfedcba]
+!!     >
 !!
 !!##SEE ALSO
 !!      adjustl(3f), adjustr(3f), repeat(3f), trim(3f), len_trim(3f), len(3f)
@@ -8751,10 +8777,10 @@ end function readline
 !!
 !!    Results:
 !!
-!!      result is [10]
-!!      result is [3.3333]
-!!      result is The final answer is [T]
-!!      result is [A B C]
+!!     > result is [10]
+!!     > result is [3.3333]
+!!     > result is The final answer is [T]
+!!     > result is [A B C]
 !!
 !!##AUTHOR
 !!     John S. Urban
