@@ -16,3 +16,8 @@ homepage = "https://github.com/urbanjost/M_unicode.git"
    name="utf8_to_backslash"
    source-dir="app"
    main="utf8_to_backslash.f90"
+
+[[executable]]
+   name="backslash_to_utf8"
+   source-dir="app"
+   main="backslash_to_utf8.f90"

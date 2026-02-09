@@ -119,7 +119,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 07, 2026	   adjustl(3m_unicode)
+			       February 08, 2026	   adjustl(3m_unicode)
 character(3m_unicode)					 character(3m_unicode)
 
 NAME
@@ -293,7 +293,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 07, 2026	 character(3m_unicode)
+			       February 08, 2026	 character(3m_unicode)
 codepoints_to_utf8(3m_unicode)			codepoints_to_utf8(3m_unicode)
 
 NAME
@@ -405,7 +405,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 07, 2026codepoints_to_utf8(3m_unicode)
+			       February 08, 2026codepoints_to_utf8(3m_unicode)
 get_arg(3m_unicode)					   get_arg(3m_unicode)
 
 NAME
@@ -481,7 +481,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 07, 2026	   get_arg(3m_unicode)
+			       February 08, 2026	   get_arg(3m_unicode)
 get_env(3m_unicode)					   get_env(3m_unicode)
 
 NAME
@@ -558,7 +558,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 07, 2026	   get_env(3m_unicode)
+			       February 08, 2026	   get_env(3m_unicode)
 ichar(3m_unicode)					     ichar(3m_unicode)
 
 NAME
@@ -690,7 +690,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 07, 2026	     ichar(3m_unicode)
+			       February 08, 2026	     ichar(3m_unicode)
 index(3m_unicode)					     index(3m_unicode)
 
 NAME
@@ -808,7 +808,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 07, 2026	     index(3m_unicode)
+			       February 08, 2026	     index(3m_unicode)
 remove_backslash(3m_unicode)			  remove_backslash(3m_unicode)
 
 NAME
@@ -918,7 +918,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 07, 2026  remove_backslash(3m_unicode)
+			       February 08, 2026  remove_backslash(3m_unicode)
 repeat(3m_unicode)					    repeat(3m_unicode)
 
 NAME
@@ -975,7 +975,9 @@ SEE ALSO
 
   Fortran descriptions (license: MIT) @urbanjost
 
-			       February 07, 2026	    repeat(3m_unicode)
+LICENSE
+   MIT
+			       February 08, 2026	    repeat(3m_unicode)
 replace(3m_unicode)					   replace(3m_unicode)
 
 NAME
@@ -1123,7 +1125,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 07, 2026	   replace(3m_unicode)
+			       February 08, 2026	   replace(3m_unicode)
 scan(3m_unicode)					      scan(3m_unicode)
 
 NAME
@@ -1237,7 +1239,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 07, 2026	      scan(3m_unicode)
+			       February 08, 2026	      scan(3m_unicode)
 sort(3m_unicode)					      sort(3m_unicode)
 
 NAME
@@ -1357,7 +1359,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 07, 2026	      sort(3m_unicode)
+			       February 08, 2026	      sort(3m_unicode)
 split(3m_unicode)					     split(3m_unicode)
 
 NAME
@@ -1512,7 +1514,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 07, 2026	     split(3m_unicode)
+			       February 08, 2026	     split(3m_unicode)
 sub(3m_unicode) 					       sub(3m_unicode)
 
 NAME
@@ -1576,7 +1578,8 @@ EXAMPLES
        end subroutine printme
        end program demo_sub
 
-  Results:
+  Results: > selected range:[cde] > > from character to end:[fghij] > > single
+  character:[e] > > reverse string:[jihgfedcba] >
 
 SEE ALSO
   adjustl(3f), adjustr(3f), repeat(3f), trim(3f), len_trim(3f), len(3f)
@@ -1586,7 +1589,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 07, 2026	       sub(3m_unicode)
+			       February 08, 2026	       sub(3m_unicode)
 tokenize(3m_unicode)					  tokenize(3m_unicode)
 
 NAME
@@ -1756,7 +1759,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 07, 2026	  tokenize(3m_unicode)
+			       February 08, 2026	  tokenize(3m_unicode)
 transliterate(3m_unicode)			     transliterate(3m_unicode)
 
 NAME
@@ -1886,7 +1889,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 07, 2026     transliterate(3m_unicode)
+			       February 08, 2026     transliterate(3m_unicode)
 trim(3m_unicode)					      trim(3m_unicode)
 
 NAME
@@ -1977,7 +1980,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 07, 2026	      trim(3m_unicode)
+			       February 08, 2026	      trim(3m_unicode)
 upper(3m_unicode)					     upper(3m_unicode)
 
 NAME
@@ -2078,7 +2081,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 07, 2026	     upper(3m_unicode)
+			       February 08, 2026	     upper(3m_unicode)
 utf8_to_codepoints(3m_unicode)			utf8_to_codepoints(3m_unicode)
 
 NAME
@@ -2193,7 +2196,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 07, 2026utf8_to_codepoints(3m_unicode)
+			       February 08, 2026utf8_to_codepoints(3m_unicode)
 verify(3m_unicode)					    verify(3m_unicode)
 
 NAME
@@ -2549,7 +2552,7 @@ EXAMPLES
 
   Results:
 
-	    32‐af43d passed
+      > 32‐af43d passed
 
   Sample program V:
 
@@ -2614,7 +2617,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 07, 2026	    verify(3m_unicode)
+			       February 08, 2026	    verify(3m_unicode)
 join(3m_unicode)					      join(3m_unicode)
 
 NAME
@@ -2714,7 +2717,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 07, 2026	      join(3m_unicode)
+			       February 08, 2026	      join(3m_unicode)
 len(3m_unicode) 					       len(3m_unicode)
 
 NAME
@@ -2806,7 +2809,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 07, 2026	       len(3m_unicode)
+			       February 08, 2026	       len(3m_unicode)
 len_trim(3m_unicode)					  len_trim(3m_unicode)
 
 NAME
@@ -2897,7 +2900,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 07, 2026	  len_trim(3m_unicode)
+			       February 08, 2026	  len_trim(3m_unicode)
 lower(3m_unicode)					     lower(3m_unicode)
 
 NAME
@@ -2998,7 +3001,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 07, 2026	     lower(3m_unicode)
+			       February 08, 2026	     lower(3m_unicode)
 M_unicode(3m_unicode)					 M_unicode(3m_unicode)
 
 NAME
@@ -3285,7 +3288,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 07, 2026	 M_unicode(3m_unicode)
+			       February 08, 2026	 M_unicode(3m_unicode)
 pad(3m_unicode) 					       pad(3m_unicode)
 
 NAME
@@ -3422,7 +3425,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 07, 2026	       pad(3m_unicode)
+			       February 08, 2026	       pad(3m_unicode)
 readline(3m_unicode)					  readline(3m_unicode)
 
 NAME
@@ -3501,7 +3504,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 07, 2026	  readline(3m_unicode)
+			       February 08, 2026	  readline(3m_unicode)
 escape(3m_unicode)					    escape(3m_unicode)
 
 NAME
@@ -3511,9 +3514,15 @@ NAME
 SYNOPSIS
   function escape(line,protect) result(out)
 
-      type(unicode_type)		    :: line
-      character(len=1),intent(in),optional  :: protect
-      type(unicode_type)		    :: out
+      type(unicode_type),intent(in)	     :: line
+      ! or
+      character(len=*),intent(in)	     :: line
+
+      type(unicode_type),intent(in),optional :: protect
+      ! or
+      character(len=1),intent(in),optional   :: protect
+
+      type(unicode_type)		     :: out
 
 DESCRIPTION
   ESCAPE(3) expands commonly used escape sequences that represent glyphs or
@@ -3538,6 +3547,8 @@ DESCRIPTION
       r      carriage return
       t      horizontal tab
       v      vertical tab
+      "      double quote for compatibility with C strings
+      '      single quote for compatibility with C strings
 
       oNNN   byte with octal value NNN (3 digits)
       [0-7][0-7]*    digits will be assumed an octal value till a
@@ -3553,6 +3564,15 @@ DESCRIPTION
   the optional parameter ESCAPE.
 
 OPTIONS
+  LINE
+    An ASCII bytestream optionally containing UTF-8 encoded data or a
+    UNICODE_TYPE() string to convert to an ASCII string containing C-style
+    backslash escape sequences.
+
+  PROTECT
+    A single character designating the escape prefix. Defaults to a backslash
+    ("\")
+
 EXAMPLES
   Sample Program:
 
@@ -3609,7 +3629,7 @@ EXAMPLES
 	!
      end program demo_escape
 
-  Results (with nonprintable characters shown visible):
+  Partial Results (with nonprintable characters shown visible):
 
        > ^[[H^[[2J
        > ^IABC^Iabc
@@ -3625,7 +3645,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 07, 2026	    escape(3m_unicode)
+			       February 08, 2026	    escape(3m_unicode)
 expandtabs(3m_unicode)					expandtabs(3m_unicode)
 
 NAME
@@ -3698,7 +3718,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 07, 2026	expandtabs(3m_unicode)
+			       February 08, 2026	expandtabs(3m_unicode)
 fmt(3m_unicode) 					       fmt(3m_unicode)
 
 NAME
@@ -3761,17 +3781,17 @@ EXAMPLES
 
   Results:
 
-       result is [10]
-       result is [3.3333]
-       result is The final answer is [T]
-       result is [A B C]
+      > result is [10]
+      > result is [3.3333]
+      > result is The final answer is [T]
+      > result is [A B C]
 
 AUTHOR
   John S. Urban
 
 LICENSE
    MIT
-			       February 07, 2026	       fmt(3m_unicode)
+			       February 08, 2026	       fmt(3m_unicode)
 adjustr(3m_unicode)					   adjustr(3m_unicode)
 
 NAME
@@ -3936,7 +3956,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 07, 2026	   adjustr(3m_unicode)
+			       February 08, 2026	   adjustr(3m_unicode)
 add_backslash(3m_unicode)			     add_backslash(3m_unicode)
 
 NAME
@@ -4049,4 +4069,4 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 07, 2026     add_backslash(3m_unicode)
+			       February 08, 2026     add_backslash(3m_unicode)
