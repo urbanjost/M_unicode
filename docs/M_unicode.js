@@ -12,6 +12,7 @@ append("get_arg.3m_unicode.html");
 append("get_env.3m_unicode.html");
 append("ichar.3m_unicode.html");
 append("index.3m_unicode.html");
+append("isascii.3m_unicode.html");
 append("join.3m_unicode.html");
 append("len.3m_unicode.html");
 append("len_trim.3m_unicode.html");

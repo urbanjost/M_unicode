@@ -4,7 +4,6 @@ use,intrinsic :: iso_fortran_env, only : stdin=>input_unit, iostat_end
 use M_unicode, only : readline, len, trim, add_backslash, assignment(=), ch=>character, ut=>unicode_type
 implicit none
 type(ut)                     :: line
-character(len=:),allocatable :: aline
 integer,allocatable          :: ints(:)
 integer                      :: iostat
 integer                      :: icount

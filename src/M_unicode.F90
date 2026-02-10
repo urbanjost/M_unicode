@@ -94,6 +94,7 @@
 !!    PADDING
 !!
 !!     pad        pad string to at least specified length with pattern string
+!!     repeat     Repeated string concatenation
 !!
 !!    WHITE SPACE
 !!
@@ -142,6 +143,11 @@
 !!     lle       Lexical less than or equal
 !!     llt       Lexical less than
 !!
+!!    QUERY
+!!     isascii   checks whether string is composed  all of
+!!               7-bit unsigned character values that  fit
+!!               into the ASCII-7  character set.
+!!
 !!    IO
 !!
 !!     readline  read a text line from a file
@@ -165,9 +171,8 @@
 !!     get_env    Get environment variable
 !!     get_arg    Get command line argument
 !!
-!!    MISCELLANEOUS
+!!    SORT
 !!
-!!     repeat        Repeated string concatenation
 !!     sort          Sort by Unicode codepoint value (not dictionary order)
 !!
 !!    BASE CONVERSION
@@ -335,6 +340,7 @@ PUBLIC :: OPERATOR(<=), OPERATOR(<), OPERATOR(/=), OPERATOR(==), OPERATOR(>), OP
 public :: assignment(=)
 public :: operator(.cat.)
 public :: operator(//)
+public :: isascii
 
 PUBLIC :: write(formatted)
 
@@ -358,6 +364,10 @@ private :: section_uu
 private :: section_ua
 private :: section_au
 private :: section_aa
+
+interface isascii
+   module procedure isascii_a,isascii_u
+end interface isascii
 
 interface utf8_to_codepoints
    module procedure utf8_to_codepoints_str,utf8_to_codepoints_chars
@@ -551,7 +561,9 @@ contains
    procedure :: sub        => oop_sub
    procedure :: pad        => oop_pad
    procedure :: join       => oop_join
-
+   ! query
+   procedure :: isascii    => oop_isascii
+   ! system
    procedure :: get_env    => oop_get_env_uu, oop_get_env_ua
    procedure :: get_arg    => oop_get_arg_iu
 
@@ -3067,6 +3079,7 @@ end function strs_to_chars_range_step
 !>
 !!##NAME
 !!   REPEAT(3) - [M_unicode:PAD] Repeated string concatenation
+!!   (LICENSE:MIT)
 !!
 !!##SYNOPSIS
 !!
@@ -3822,6 +3835,101 @@ end function adjustl_str
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
+!>
+!!##NAME
+!!     isascii(3f) - [M_unicode:COMPARE] returns .true. if all the
+!!     characters of a string are in the set from CHAR(0) to CHAR(127).
+!!     (LICENSE:MIT)
+!!
+!!##SYNOPSIS
+!!
+!!
+!!    function isascii(str)
+!!
+!!     character(len=*),intent(in) :: str
+!!      or
+!!     type(ut),intent(in) :: str
+!!
+!!     logical :: isascii
+!!
+!!##DESCRIPTION
+!!     isascii(3f) returns .true. if all the characters in the string are
+!!     ASCII-7 characters (ie. in the range char(0) to char(127).
+!!
+!!##OPTIONS
+!!    str  character variable or string to test
+!!
+!!##RETURNS
+!!    isascii  logical value returns true if all the characters in the
+!!             string represent ASCII-7 characters.
+!!##EXAMPLES
+!!
+!!  Sample program
+!!
+!!     program demo_isascii
+!!     use M_unicode, only : ut=>unicode_type, assignment(=)
+!!     use M_unicode, only : isascii, ch=>character
+!!     implicit none
+!!     integer                      :: i
+!!     character(len=255)           :: ascii8
+!!     type(ut)                     :: uascii8
+!!     type(ut)                     :: ustring
+!!     character(len=:),allocatable :: astring
+!!        do i=1,256
+!!           ascii8(i:i)=char(i-1)
+!!        enddo
+!!        uascii8=[(i,i=0,255)]
+!!
+!!        write(*,*)'CHARACTER:   all of ascii8',isascii(ascii8)
+!!        write(*,*)'CHARACTER:   all of ascii7',isascii(ascii8(1:128))
+!!        write(*,*)'UNICODE TYPE:all of ascii8',isascii(uascii8)
+!!        write(*,*)'UNICODE TYPE:all of ascii7',isascii(uascii8%sub(1,128))
+!!
+!!        ! French panagram translates from the French to
+!!        ! "Take this old whisky to the blond judge who is smoking."
+!!
+!!        astring='Portez ce vieux whisky au juge blond qui fume.'
+!!        ustring=astring
+!!        write(*,*)'CHARACTER:   ',isascii(astring),astring
+!!        write(*,*)'UNICODE_TYPE:',isascii(ustring),ch(ustring)
+!!
+!!        ! (variant with “é”)
+!!        astring='Portez ce vieux whisky au juge blond qui a fumé.'
+!!        ustring=astring
+!!        write(*,*)'CHARACTER    ',isascii(ustring),ch(ustring)
+!!        write(*,*)'UNICODE_TYPE:',isascii(ustring),ch(ustring)
+!!
+!!     end program demo_isascii
+!!
+!!  Results:
+!!
+!!##AUTHOR
+!!     John S. Urban
+!!
+!!##LICENSE
+!!     Public Domain
+elemental function isascii_u(str) result(res)
+
+! ident_4="@(#) M_unicode isascii_u(3f) returns .true. if all characters are in the range char(0) to char(127)"
+
+type(unicode_type),intent(in) :: str
+logical                       :: res
+   res=minval(str%codes).ge.0.and.maxval(str%codes).le.127
+end function isascii_u
+!-----------------------------------------------------------------------------------------------------------------------------------
+elemental function isascii_a(str) result(res)
+
+! ident_5="@(#) M_unicode isascii(3f) returns .true. if all characters are in the range char(0) to char(127)"
+
+character(len=*),intent(in) :: str
+type(unicode_type)          :: ustr
+logical                     :: res
+   ustr=str
+   res=isascii_u(ustr)
+end function isascii_a
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
 ! Compare two character sequences for non-equality; LHS, RHS or both sequences can be a unicode string or character variable.
 !
 elemental function lne_str_str(lhs, rhs) result(is_equal)
@@ -4461,7 +4569,7 @@ end function index_char_str
 !!     MIT
 subroutine sort_quick_rx(data,indx)
 
-! ident_4="@(#) M_unicode sort_quick_rx(3f) indexed hybrid quicksort of a type(unicode_type) array"
+! ident_6="@(#) M_unicode sort_quick_rx(3f) indexed hybrid quicksort of a type(unicode_type) array"
 
 type(unicode_type),intent(in)   :: data(:)
 integer(kind=int32),intent(out) :: indx(:)
@@ -4638,7 +4746,7 @@ end subroutine sort_quick_rx
 !===================================================================================================================================
 impure elemental function reverse(string) result (rev)
 
-! ident_5="@(#) M_unicode reverse(3f) Return a string reversed"
+! ident_7="@(#) M_unicode reverse(3f) Return a string reversed"
 
 type(unicode_type),intent(in)  :: string   ! string to reverse
 type(unicode_type)             :: rev      ! return value (reversed string)
@@ -4783,7 +4891,7 @@ end function reverse
 !!     MIT
 function replace_uuu(target,old,new,force_,occurrence,repeat,ignorecase,changes,back) result (newline)
 
-! ident_6="@(#) M_unicode replace(3f) replace one substring for another in string"
+! ident_8="@(#) M_unicode replace(3f) replace one substring for another in string"
 
 ! parameters
 type(unicode_type),intent(in)            :: target     ! input line to be changed
@@ -5119,7 +5227,7 @@ end function replace_auu
 !!     MIT
 impure function join(str,sep,clip) result (string)
 
-! ident_7="@(#) M_unicode join(3f) merge string array into a single string value adding specified separator"
+! ident_9="@(#) M_unicode join(3f) merge string array into a single string value adding specified separator"
 
 type(unicode_type),intent(in)          :: str(:)
 type(unicode_type),intent(in),optional :: sep
@@ -5264,7 +5372,7 @@ end function join
 !!     MIT
 elemental pure function upper(str) result (string)
 
-! ident_8="@(#) M_unicode upper(3f) returns an uppercase string"
+! ident_10="@(#) M_unicode upper(3f) returns an uppercase string"
 
 type(unicode_type),intent(in) :: str                 ! input string to convert to all uppercase
 type(unicode_type)            :: string              ! output string that contains no miniscule letters
@@ -5397,7 +5505,7 @@ end function upper
 !!     MIT
 elemental pure function lower(str) result (string)
 
-! ident_9="@(#) M_unicode lower(3f) returns a lowercase string"
+! ident_11="@(#) M_unicode lower(3f) returns a lowercase string"
 
 type(unicode_type), intent(in) :: str                 ! input string to convert to all lowercase
 type(unicode_type)             :: string              ! output string that contains no miniscule letters
@@ -6073,7 +6181,7 @@ end subroutine split_pos_uail
 !===================================================================================================================================
 impure elemental function pad(line,length,pattern,right,clip) result(out)
 
-! ident_10="@(#) M_unicode pad(3f) return string padded to at least specified length"
+! ident_12="@(#) M_unicode pad(3f) return string padded to at least specified length"
 
 type(unicode_type),intent(in)          :: line
 integer,intent(in)                     :: length
@@ -6241,7 +6349,7 @@ end function pad
 !!     MIT
 elemental pure function scan_uu(string,set,back) result(pos)
 
-! ident_11="@(#) M_unicode scan(3f) Scan a string for the presence of a set of characters"
+! ident_13="@(#) M_unicode scan(3f) Scan a string for the presence of a set of characters"
 
 type(unicode_type),intent(in) :: string
 type(unicode_type),intent(in) :: set
@@ -6696,7 +6804,7 @@ end function scan_ua
 !!     MIT
 elemental impure function verify_uu(string,set,back) result(result)
 
-! ident_12="@(#) M_unicode verify(3f) determine position of a character in a string that does not appear in a given set of characters."
+! ident_14="@(#) M_unicode verify(3f) determine position of a character in a string that does not appear in a given set of characters."
 
 type(unicode_type),intent(in) :: string
 type(unicode_type),intent(in) :: set
@@ -6811,7 +6919,7 @@ end function verify_au
 !!     MIT
 elemental function expandtabs(instr,tab_size) result(out)
 
-! ident_13="@(#) M_unicode expandtabs(3f) convert tabs to spaces and trim line removing CRLF chars"
+! ident_15="@(#) M_unicode expandtabs(3f) convert tabs to spaces and trim line removing CRLF chars"
 
 type(unicode_type),intent(in) :: instr     ! input line to scan for tab characters
 type(unicode_type)            :: out       ! tab-expanded version of INSTR produced
@@ -6990,7 +7098,7 @@ end function expandtabs
 !!     MIT
 impure elemental function escape_uu(line,protect) result(out)
 
-! ident_14="@(#) M_unicode escape(3f) return string with escape sequences expanded"
+! ident_16="@(#) M_unicode escape(3f) return string with escape sequences expanded"
 
 type(unicode_type),intent(in)          :: line
 type(unicode_type),intent(in),optional :: protect ! default is backslash
@@ -7451,7 +7559,7 @@ end function remove_backslash_ascii
 
 impure elemental function remove_backslash_u(line) result(out)
 
-! ident_15="@(#) M_unicode remove_backslash(3f) return string with C-style escape sequences expanded"
+! ident_17="@(#) M_unicode remove_backslash(3f) return string with C-style escape sequences expanded"
 
 type(unicode_type),intent(in)          :: line
 type(unicode_type)                     :: out
@@ -7736,7 +7844,7 @@ end function section_aa
 !!##NAME
 !!     transliterate(3f) - [M_unicode:EDITING] replace characters from old
 !!                         set with new set
-!!     (LICENSE:PD)
+!!     (LICENSE:MIT)
 !!
 !!##SYNOPSIS
 !!
@@ -7862,7 +7970,7 @@ end function section_aa
 !!     MIT
 impure function transliterate_uuu(instr,old_set,new_set) result(outstr)
 
-! ident_16="@(#) M_unicode transliterate(3f) replace characters from old set with new set"
+! ident_18="@(#) M_unicode transliterate(3f) replace characters from old set with new set"
 
 type(unicode_type),intent(in) :: instr                  ! input string to change
 type(unicode_type),intent(in) :: old_set                ! set of characters to replace
@@ -8215,6 +8323,15 @@ end function get_arg_iu
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
+function oop_isascii(self) result (res)
+class(unicode_type),intent(in) :: self
+logical                        :: res
+   res=isascii_u(self)
+end function oop_isascii
+!===================================================================================================================================
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
 function oop_transliterate_uu(self,old_set,new_set) result (outstr)
 class(unicode_type),intent(in) :: self
 type(unicode_type),intent(in)  :: old_set
@@ -8421,7 +8538,7 @@ end function oop_get_env_uu
 !===================================================================================================================================
 function oop_join(self,array,clip) result (out)
 
-! ident_17="@(#) M_unicode oop_join(3f) merge string array into a single string value adding specified separator"
+! ident_19="@(#) M_unicode oop_join(3f) merge string array into a single string value adding specified separator"
 
 class(unicode_type),intent(in) :: self
 type(unicode_type),intent(in)  :: array(:)
@@ -8438,7 +8555,7 @@ end function oop_join
 !===================================================================================================================================
 function oop_pad(self,length,pattern,right,clip) result (out)
 
-! ident_18="@(#) M_unicode pad(3f) pad string with repeating pattern to at least specified length"
+! ident_20="@(#) M_unicode pad(3f) pad string with repeating pattern to at least specified length"
 
 class(unicode_type),intent(in)         :: self       ! input line to be changed
 integer,intent(in)                     :: length
@@ -8600,7 +8717,7 @@ end function oop_eq
 !===================================================================================================================================
 !>
 !!##NAME
-!!     READLINE(3f) - [M_unicode:READ] read a line from specified LUN into
+!!     READLINE(3f) - [M_unicode:IO] read a line from specified LUN into
 !!                    string up to line length limit
 !!                    (LICENSE:MIT)
 !!
@@ -8651,7 +8768,6 @@ end function oop_eq
 !!    character(len=:),allocatable :: aline
 !!    integer,allocatable          :: ints(:)
 !!    integer                      :: iostat, lun, i
-!!    character(len=256)           :: iomsg
 !!    character(len=*),parameter :: filedata(*)=[character(len=80) :: &
 !!       'The famous Confucian expression:', &
 !!       '', &
@@ -8728,7 +8844,7 @@ end function oop_eq
 !!     MIT
 function readline(lun,iostat) result(line)
 
-! ident_19="@(#) M_unicode readline(3f) read a line from specified LUN into string up to line length limit"
+! ident_21="@(#) M_unicode readline(3f) read a line from specified LUN into string up to line length limit"
 
 type(unicode_type)           :: line
 integer,intent(in),optional  :: lun
@@ -8839,7 +8955,7 @@ end function readline
 !!     MIT
 recursive function afmt(generic,format) result (line)
 
-! ident_20="@(#) M_unicode afmt(3f) convert any intrinsic to a CHARACTER variable using specified format"
+! ident_22="@(#) M_unicode afmt(3f) convert any intrinsic to a CHARACTER variable using specified format"
 
 class(*),intent(in)                  :: generic
 character(len=*),intent(in),optional :: format
@@ -8947,7 +9063,7 @@ end function afmt
 !===================================================================================================================================
 recursive function fmt_ga(generic,format) result (line)
 
-! ident_21="@(#) M_unicode afmt(3f) convert any intrinsic to a CHARACTER variable using specified format"
+! ident_23="@(#) M_unicode afmt(3f) convert any intrinsic to a CHARACTER variable using specified format"
 
 class(*),intent(in)                  :: generic
 character(len=*),intent(in),optional :: format
@@ -8956,7 +9072,7 @@ line=afmt(generic,format)
 end function fmt_ga
 recursive function fmt_gs(generic,format) result (line)
 
-! ident_22="@(#) M_unicode afmt(3f) convert any intrinsic to a CHARACTER variable using specified format"
+! ident_24="@(#) M_unicode afmt(3f) convert any intrinsic to a CHARACTER variable using specified format"
 
 class(*),intent(in)           :: generic
 type(unicode_type),intent(in) :: format
@@ -9025,7 +9141,7 @@ end function fmt_gs
 !!     MIT
 subroutine trimzeros_(string)
 
-! ident_23="@(#) M_unicode trimzeros_(3fp) Delete trailing zeros from numeric decimal string"
+! ident_25="@(#) M_unicode trimzeros_(3fp) Delete trailing zeros from numeric decimal string"
 
 ! if zero needs added at end assumes input string has room
 character(len=*)               :: string
@@ -9088,7 +9204,7 @@ end function concat_uu_
 !
 function concat_g_g(lhs,rhs) result (string)
 
-! ident_24="@(#) M_overload g_g(3f) convert two single intrinsic values or strings to a string"
+! ident_26="@(#) M_overload g_g(3f) convert two single intrinsic values or strings to a string"
 !
 ! use this instead of str() so character variables are not trimmed and/or spaces are not added
 class(*),intent(in) :: lhs, rhs
