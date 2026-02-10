@@ -10,7 +10,7 @@ get_arg (3m_unicode) - [M_unicode:SYSTEM] get command line argument (LICENSE:MIT
 get_env (3m_unicode) - [M_unicode:SYSTEM] return value of environment variable (LICENSE:MIT)
 ichar (3m_unicode)   - [M_unicode:CONVERSION] character-to-integer code conversion function (LICENSE:MIT)
 index (3m_unicode)   - [M_unicode:SEARCH] Position of a substring within a string (LICENSE:MIT)
-isascii (3m_unicode) - [M_unicode:COMPARE] returns .true. if all the characters of a string are in the set from CHAR(0) to CHAR(127). (LICENSE:MIT)
+isascii (3m_unicode) - [M_unicode:QUERY] returns .true. if all the characters of a string are in the set from CHAR(0) to CHAR(127). (LICENSE:MIT)
 join (3m_unicode)    - [M_unicode:EDITING] append CHARACTER variable array into a single CHARACTER variable with specified separator (LICENSE:MIT)
 len (3m_unicode)     - [M_unicode:WHITESPACE] Length of a string (LICENSE:MIT)
 len_trim (3m_unicode) - [M_unicode:WHITESPACE] string length without trailing blank characters (LICENSE:MIT)
@@ -2750,7 +2750,7 @@ LICENSE
 isascii(3m_unicode)					   isascii(3m_unicode)
 
 NAME
-  isascii(3f) - [M_unicode:COMPARE] returns .true. if all the characters of a
+  isascii(3f) - [M_unicode:QUERY] returns .true. if all the characters of a
   string are in the set from CHAR(0) to CHAR(127).  (LICENSE:MIT)
 
 SYNOPSIS
@@ -3356,13 +3356,8 @@ SYNOPSIS
 
    QUERY
   isascii
-    checks whether string is composed  all of
-
-    7-bit unsigned character values that
-      fit
-
-    into the ASCII-7
-      character set.
+    checks whether string is composed all of 7-bit unsigned character values
+    that fit into the ASCII-7 character set.
 
    IO
   readline

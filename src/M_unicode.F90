@@ -144,9 +144,9 @@
 !!     llt       Lexical less than
 !!
 !!    QUERY
-!!     isascii   checks whether string is composed  all of
-!!               7-bit unsigned character values that  fit
-!!               into the ASCII-7  character set.
+!!     isascii   checks whether string is composed all of
+!!               7-bit unsigned character values that fit
+!!               into the ASCII-7 character set.
 !!
 !!    IO
 !!
@@ -3837,7 +3837,7 @@ end function adjustl_str
 !===================================================================================================================================
 !>
 !!##NAME
-!!     isascii(3f) - [M_unicode:COMPARE] returns .true. if all the
+!!     isascii(3f) - [M_unicode:QUERY] returns .true. if all the
 !!     characters of a string are in the set from CHAR(0) to CHAR(127).
 !!     (LICENSE:MIT)
 !!
