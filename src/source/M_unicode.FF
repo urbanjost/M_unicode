@@ -3958,7 +3958,7 @@ EXAMPLES
        write(*,*)'UNICODE TYPE:all of ascii8',isascii(uascii8)
        write(*,*)'UNICODE TYPE:all of ascii7',isascii(uascii8%sub(1,128))
 
-       ! French panagram translates from the French to
+       ! French pangram translates from the French to
        ! "Take this old whisky to the blond judge who is smoking."
    
        astring='Portez ce vieux whisky au juge blond qui fume.'

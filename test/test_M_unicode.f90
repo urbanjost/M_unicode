@@ -10,6 +10,7 @@ use M_unicode, only : escape, add_backslash, remove_backslash
 use M_unicode, only : sort
 use M_unicode, only : scan, verify
 use M_unicode, only : tokenize, split
+use M_unicode, only : isascii
 use M_unicode, only : ichar
 use M_unicode, only : replace
 use M_unicode, only : sub
@@ -871,6 +872,29 @@ integer            :: i
 
 end subroutine test_add_backslash
 
+subroutine test_isascii()
+character(len=:),allocatable   :: a_str
+type(unicode_type)             :: ut_str
+   a_str='😃'
+   ut_str='😃'
+   call checkits_l('iascii','smiley emoji', answer=[ isascii(a_str),isascii(ut_str)] , expected=[F,F] )
+
+   a_str="THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG."
+   ut_str=a_str
+   call checkits_l('iascii','English pangram', answer=[ isascii(a_str),isascii(ut_str)] , expected=[T,T] )
+
+   ! French panagram translates from the French to
+   ! "Take this old whisky to the blond judge who is smoking."
+   a_str='Portez ce vieux whisky au juge blond qui fume.'
+   ut_str=a_str
+   call checkits_l('iascii','ASCII-7 French pangram', answer=[ isascii(a_str),isascii(ut_str)] , expected=[T,T] )
+   ! (variant with “é”)
+   a_str='Portez ce vieux whisky au juge blond qui a fumé.'
+   ut_str=a_str
+   call checkits_l('iascii','UTF-8 French pangram', answer=[ isascii(a_str),isascii(ut_str)] , expected=[F,F] )
+
+end subroutine test_isascii
+
 subroutine test_join()
 character(len=20),allocatable :: proverb(:)
 type(ut),allocatable       :: s(:)
@@ -1130,6 +1154,7 @@ use testsuite_M_unicode
    call test_escape()
    call test_add_backslash()
    call test_remove_backslash()
+   call test_isascii()
    call test_concatenate()
    call test_other()
 
