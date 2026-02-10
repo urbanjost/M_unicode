@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p>100.0% of total for derived types.</p>Including implementation: 451 statements, 100.0% of total for derived types.">56 statements</a>
+                 title="<p>100.0% of total for derived types.</p>Including implementation: 457 statements, 100.0% of total for derived types.">57 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -174,10 +174,11 @@
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-get_env">get_env</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-ichar">ichar</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-index">index</a>
+            <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-isascii">isascii</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-join">join</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-len">len</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-len_trim">len_trim</a>
-            <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-lower">lower</a>
+            <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-lower~2">lower</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-oop_get_env_ua">oop_get_env_ua</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-pad">pad</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-remove_backslash">remove_backslash</a>
@@ -188,7 +189,7 @@
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-tokenize">tokenize</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-transliterate">transliterate</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-trim">trim</a>
-            <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-upper">upper</a>
+            <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-upper~2">upper</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-verify">verify</a>
         </div>
       </div>
@@ -1477,6 +1478,64 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-isascii"></span>
+      <h3>
+          procedure, public ::
+  <strong>isascii</strong> => oop_isascii
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                    <h3>
+    private  function oop_isascii(self) result(res)  
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
       <span class="anchor" id="boundprocedure-join"></span>
       <h3>
           procedure, public ::
@@ -1681,7 +1740,7 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-lower"></span>
+      <span class="anchor" id="boundprocedure-lower~2"></span>
       <h3>
           procedure, public ::
   <strong>lower</strong> => oop_lower
@@ -3473,7 +3532,7 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-upper"></span>
+      <span class="anchor" id="boundprocedure-upper~2"></span>
       <h3>
           procedure, public ::
   <strong>upper</strong> => oop_upper
@@ -3657,7 +3716,9 @@
 <span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">sub</span><span class="w">        </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_sub</span>
 <span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">pad</span><span class="w">        </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_pad</span>
 <span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">join</span><span class="w">       </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_join</span>
-
+<span class="w">   </span><span class="c">! query</span>
+<span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">isascii</span><span class="w">    </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_isascii</span>
+<span class="w">   </span><span class="c">! system</span>
 <span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">get_env</span><span class="w">    </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_get_env_uu</span><span class="p">,</span><span class="w"> </span><span class="n">oop_get_env_ua</span>
 <span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">get_arg</span><span class="w">    </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_get_arg_iu</span>
 
@@ -3712,7 +3773,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-02-09 02:59 +0000             </p>
+ on 2026-02-10 00:29 +0000             </p>
           </div>
         </div>
         <br>

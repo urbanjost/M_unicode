@@ -8,7 +8,6 @@
      character(len=:),allocatable :: aline
      integer,allocatable          :: ints(:)
      integer                      :: iostat, lun, i
-     character(len=256)           :: iomsg
      character(len=*),parameter :: filedata(*)=[character(len=80) :: &
         'The famous Confucian expression:', &
         '', &
