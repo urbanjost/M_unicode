@@ -10,22 +10,23 @@ get_arg (3m_unicode) - [M_unicode:SYSTEM] get command line argument (LICENSE:MIT
 get_env (3m_unicode) - [M_unicode:SYSTEM] return value of environment variable (LICENSE:MIT)
 ichar (3m_unicode)   - [M_unicode:CONVERSION] character-to-integer code conversion function (LICENSE:MIT)
 index (3m_unicode)   - [M_unicode:SEARCH] Position of a substring within a string (LICENSE:MIT)
+isascii (3m_unicode) - [M_unicode:QUERY] returns .true. if all the characters of a string are in the set from CHAR(0) to CHAR(127). (LICENSE:MIT)
 join (3m_unicode)    - [M_unicode:EDITING] append CHARACTER variable array into a single CHARACTER variable with specified separator (LICENSE:MIT)
 len (3m_unicode)     - [M_unicode:WHITESPACE] Length of a string (LICENSE:MIT)
 len_trim (3m_unicode) - [M_unicode:WHITESPACE] string length without trailing blank characters (LICENSE:MIT)
 lower (3m_unicode)   - [M_unicode:CASE] changes a string to lowercase over specified range (LICENSE:MIT)
 M_unicode (3m_unicode) - [M_unicode::INTRO] Unicode string module (LICENSE:MIT)
 pad (3m_unicode)     - [M_unicode:PAD] return string padded to at least specified length (LICENSE:MIT)
-readline (3m_unicode) - [M_unicode:READ] read a line from specified LUN into string up to line length limit (LICENSE:MIT)
+readline (3m_unicode) - [M_unicode:IO] read a line from specified LUN into string up to line length limit (LICENSE:MIT)
 remove_backslash (3m_unicode) - [M_unicode:CONVERSION] expand C-like escape sequences (LICENSE:MIT)
-repeat (3m_unicode)  - [M_unicode:PAD] Repeated string concatenation
+repeat (3m_unicode)  - [M_unicode:PAD] Repeated string concatenation (LICENSE:MIT)
 replace (3m_unicode) - [M_unicode:EDITING] function replaces one substring for another in string (LICENSE:MIT)
 scan (3m_unicode)    - [M_unicode:SEARCH] Scan a string for the presence of a set of characters (LICENSE:MIT)
 sort (3m_unicode)    - [M_unicode:SORT] indexed hybrid quicksort of an array (LICENSE:MIT)
 split (3m_unicode)   - [M_unicode:PARSE] parse a string into tokens, one at a time. (LICENSE:MIT)
 sub (3m_unicode)     - [M_unicode:EDITING] Return substring (LICENSE:MIT)
 tokenize (3m_unicode) - [M_unicode:PARSE] Parse a string into tokens. (LICENSE:MIT)
-transliterate (3m_unicode) - [M_unicode:EDITING] replace characters from old set with new set (LICENSE:PD)
+transliterate (3m_unicode) - [M_unicode:EDITING] replace characters from old set with new set (LICENSE:MIT)
 trim (3m_unicode)    - [M_unicode:WHITESPACE] remove trailing blank characters from a string (LICENSE:MIT)
 upper (3m_unicode)   - [M_unicode:CASE] changes a string to uppercase (LICENSE:MIT)
 utf8_to_codepoints (3m_unicode) - [M_unicode:CONVERSION] Convert UTF-8-encoded data to Unicode codepoints (LICENSE:MIT)
@@ -119,7 +120,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 08, 2026	   adjustl(3m_unicode)
+			       February 09, 2026	   adjustl(3m_unicode)
 character(3m_unicode)					 character(3m_unicode)
 
 NAME
@@ -293,7 +294,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 08, 2026	 character(3m_unicode)
+			       February 09, 2026	 character(3m_unicode)
 codepoints_to_utf8(3m_unicode)			codepoints_to_utf8(3m_unicode)
 
 NAME
@@ -405,7 +406,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 08, 2026codepoints_to_utf8(3m_unicode)
+			       February 09, 2026codepoints_to_utf8(3m_unicode)
 get_arg(3m_unicode)					   get_arg(3m_unicode)
 
 NAME
@@ -481,7 +482,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 08, 2026	   get_arg(3m_unicode)
+			       February 09, 2026	   get_arg(3m_unicode)
 get_env(3m_unicode)					   get_env(3m_unicode)
 
 NAME
@@ -558,7 +559,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 08, 2026	   get_env(3m_unicode)
+			       February 09, 2026	   get_env(3m_unicode)
 ichar(3m_unicode)					     ichar(3m_unicode)
 
 NAME
@@ -690,7 +691,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 08, 2026	     ichar(3m_unicode)
+			       February 09, 2026	     ichar(3m_unicode)
 index(3m_unicode)					     index(3m_unicode)
 
 NAME
@@ -808,7 +809,135 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 08, 2026	     index(3m_unicode)
+			       February 09, 2026	     index(3m_unicode)
+readline(3m_unicode)					  readline(3m_unicode)
+
+NAME
+  READLINE(3f) - [M_unicode:IO] read a line from specified LUN into string up
+  to line length limit (LICENSE:MIT)
+
+SYNTAX
+  function readline(lun,iostat) result(line)
+
+      integer,intent(in),optional  :: lun
+      integer,intent(out),optional :: iostat
+      type(unicode_type)	   :: line
+
+DESCRIPTION
+  Read a line of any length up to programming environment maximum line length.
+  Requires Fortran 2003+.
+
+  It is primarily expected to be used when reading input which will then be
+  parsed.
+
+  The input file must have a PAD attribute of YES for the function to work
+  properly, which is typically true.
+
+  The simple use of a loop that repeatedly re-allocates a character variable
+  in addition to reading the input file one buffer at a time could (depending
+  on the programming environment used) be inefficient, as it could reallocate
+  and allocate memory used for the output string with each buffer read.
+
+OPTIONS
+  LUN
+    optional LUN (Fortran logical I/O unit) number. Defaults to stdin.
+
+  IOSTAT
+    status returned by READ(IOSTAT=IOS). If not zero, an error occurred or an
+    end-of-file or end-of-record was encountered.
+
+RETURNS
+  LINE
+    line read.	if IOSTAT is not zero, LINE returns the I/O error message.
+
+EXAMPLE
+  Sample program:
+
+     program demo_readline
+     use,intrinsic :: iso_fortran_env, only : stdin=>input_unit
+     use,intrinsic :: iso_fortran_env, only : iostat_end
+     use M_unicode, only : readline, len, trim
+     use M_unicode, only : assignment(=), ch=>character, ut=>unicode_type
+     implicit none
+     type(ut)			  :: ln
+     character(len=:),allocatable :: aline
+     integer,allocatable	  :: ints(:)
+     integer			  :: iostat, lun, i
+     character(len=*),parameter :: filedata(*)=[character(len=80) :: &
+	'The famous Confucian expression:', &
+	'', &
+	' "己所不欲，勿施於人"', &
+	' (jǐ suǒ bù yù, wù shī yú rén)', &
+	'or', &
+	' "What you do not want done to yourself,', &
+	' do not do to others":']
+	! create a scratch file to read
+	open(newunit=lun,status='scratch',pad='yes')
+	write(lun,'(a)')(trim(filedata(i)),i=1,size(filedata))
+	!----------------------------------------------------------------
+	! read back UTF-8 byte stream and show the lines read
+	rewind(unit=lun)
+	do
+	   ln=readline(lun,iostat=iostat)
+	   if(iostat.ne.0)exit
+	   ! write the glyph length, byte length, line in brackets
+	   write(*,'(i4,1x,i4,1x,a)')len(ln),len(ch(ln)),'['//ch(ln)//']'
+	enddo
+	call checkit()
+	!----------------------------------------------------------------
+	! the same thing except convert to default intrinsic types
+	rewind(unit=lun)
+	do
+	   ln=readline(lun,iostat=iostat)
+	   if(iostat.ne.0)exit
+	   ! assign the string to an allocatable array of integers
+	   ints=ln
+	   ! and the string to a character variable
+	   aline=ln
+	   write(*,'(i4,1x,i4,1x,a)')len(ln),len(aline),'['//ch(ln)//']'
+	enddo
+	call checkit()
+	!----------------------------------------------------------------
+	! again but this time show the lines as Unicode codepoints
+	rewind(unit=lun)
+	do
+	   ln=readline(lun,iostat=iostat)
+	   if(iostat.ne.0)exit
+	   if(len(ln).eq.0)then
+	      write(*,'(/,10(g0,1x)," ...")')[0,0]
+	   else
+	      write(*,'(/,10(g0,1x)," ...")')ln%codepoint()
+	   endif
+	enddo
+	call checkit()
+	!----------------------------------------------------------------
+	! show the line as Unicode codepoints using default integer array
+	rewind(unit=lun)
+	do
+	   ln=readline(lun,iostat=iostat)
+	   if(iostat.ne.0)exit
+	   ! assign the string to an allocatable array of integers
+	   ints=ln
+	   if(size(ints).eq.0)ints=[0,0]
+	   write(*,'(/,10(g0,1x)," ...")')ints
+	enddo
+	call checkit()
+	!----------------------------------------------------------------
+     contains
+     subroutine checkit()
+	if(iostat /= iostat_end)then
+	   write(*,*)'error reading input:',ch(trim(ln))
+	endif
+	write(*,*)
+     end subroutine checkit
+     end program demo_readline
+
+AUTHOR
+  John S. Urban
+
+LICENSE
+   MIT
+			       February 09, 2026	  readline(3m_unicode)
 remove_backslash(3m_unicode)			  remove_backslash(3m_unicode)
 
 NAME
@@ -918,11 +1047,11 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 08, 2026  remove_backslash(3m_unicode)
+			       February 09, 2026  remove_backslash(3m_unicode)
 repeat(3m_unicode)					    repeat(3m_unicode)
 
 NAME
-  REPEAT(3) - [M_unicode:PAD] Repeated string concatenation
+  REPEAT(3) - [M_unicode:PAD] Repeated string concatenation (LICENSE:MIT)
 
 SYNOPSIS
   result = repeat(string, ncopies)
@@ -977,7 +1106,7 @@ SEE ALSO
 
 LICENSE
    MIT
-			       February 08, 2026	    repeat(3m_unicode)
+			       February 09, 2026	    repeat(3m_unicode)
 replace(3m_unicode)					   replace(3m_unicode)
 
 NAME
@@ -1125,7 +1254,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 08, 2026	   replace(3m_unicode)
+			       February 09, 2026	   replace(3m_unicode)
 scan(3m_unicode)					      scan(3m_unicode)
 
 NAME
@@ -1239,7 +1368,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 08, 2026	      scan(3m_unicode)
+			       February 09, 2026	      scan(3m_unicode)
 sort(3m_unicode)					      sort(3m_unicode)
 
 NAME
@@ -1359,7 +1488,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 08, 2026	      sort(3m_unicode)
+			       February 09, 2026	      sort(3m_unicode)
 split(3m_unicode)					     split(3m_unicode)
 
 NAME
@@ -1514,7 +1643,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 08, 2026	     split(3m_unicode)
+			       February 09, 2026	     split(3m_unicode)
 sub(3m_unicode) 					       sub(3m_unicode)
 
 NAME
@@ -1589,7 +1718,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 08, 2026	       sub(3m_unicode)
+			       February 09, 2026	       sub(3m_unicode)
 tokenize(3m_unicode)					  tokenize(3m_unicode)
 
 NAME
@@ -1759,12 +1888,12 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 08, 2026	  tokenize(3m_unicode)
+			       February 09, 2026	  tokenize(3m_unicode)
 transliterate(3m_unicode)			     transliterate(3m_unicode)
 
 NAME
   transliterate(3f) - [M_unicode:EDITING] replace characters from old set with
-  new set (LICENSE:PD)
+  new set (LICENSE:MIT)
 
 SYNOPSIS
   impure function transliterate(instr,old_set,new_set) result(outstr)
@@ -1889,7 +2018,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 08, 2026     transliterate(3m_unicode)
+			       February 09, 2026     transliterate(3m_unicode)
 trim(3m_unicode)					      trim(3m_unicode)
 
 NAME
@@ -1980,7 +2109,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 08, 2026	      trim(3m_unicode)
+			       February 09, 2026	      trim(3m_unicode)
 upper(3m_unicode)					     upper(3m_unicode)
 
 NAME
@@ -2081,7 +2210,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 08, 2026	     upper(3m_unicode)
+			       February 09, 2026	     upper(3m_unicode)
 utf8_to_codepoints(3m_unicode)			utf8_to_codepoints(3m_unicode)
 
 NAME
@@ -2196,7 +2325,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 08, 2026utf8_to_codepoints(3m_unicode)
+			       February 09, 2026utf8_to_codepoints(3m_unicode)
 verify(3m_unicode)					    verify(3m_unicode)
 
 NAME
@@ -2617,7 +2746,82 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 08, 2026	    verify(3m_unicode)
+			       February 09, 2026	    verify(3m_unicode)
+isascii(3m_unicode)					   isascii(3m_unicode)
+
+NAME
+  isascii(3f) - [M_unicode:QUERY] returns .true. if all the characters of a
+  string are in the set from CHAR(0) to CHAR(127).  (LICENSE:MIT)
+
+SYNOPSIS
+  function isascii(str)
+
+      character(len=*),intent(in) :: str
+       or
+      type(ut),intent(in) :: str
+
+      logical :: isascii
+
+DESCRIPTION
+  isascii(3f) returns .true. if all the characters in the string are ASCII-7
+  characters (ie. in the range char(0) to char(127).
+
+OPTIONS
+  str
+    character variable or string to test
+
+RETURNS
+  isascii
+    logical value returns true if all the characters in the string represent
+    ASCII-7 characters.
+
+EXAMPLES
+  Sample program
+
+      program demo_isascii
+      use M_unicode, only : ut=>unicode_type, assignment(=)
+      use M_unicode, only : isascii, ch=>character
+      implicit none
+      integer			   :: i
+      character(len=255)	   :: ascii8
+      type(ut)			   :: uascii8
+      type(ut)			   :: ustring
+      character(len=:),allocatable :: astring
+	 do i=1,256
+	    ascii8(i:i)=char(i-1)
+	 enddo
+	 uascii8=[(i,i=0,255)]
+
+	 write(*,*)'CHARACTER:	 all of ascii8',isascii(ascii8)
+	 write(*,*)'CHARACTER:	 all of ascii7',isascii(ascii8(1:128))
+	 write(*,*)'UNICODE TYPE:all of ascii8',isascii(uascii8)
+	 write(*,*)'UNICODE TYPE:all of ascii7',isascii(uascii8%sub(1,128))
+
+	 ! French pangram translates from the French to
+	 ! "Take this old whisky to the blond judge who is smoking."
+
+	 astring='Portez ce vieux whisky au juge blond qui fume.'
+	 ustring=astring
+	 write(*,*)'CHARACTER:	 ',isascii(astring),astring
+	 write(*,*)'UNICODE_TYPE:',isascii(ustring),ch(ustring)
+
+	 ! (variant with “é”)
+	 astring='Portez ce vieux whisky au juge blond qui a fumé.'
+	 ustring=astring
+	 write(*,*)'CHARACTER	 ',isascii(ustring),ch(ustring)
+	 write(*,*)'UNICODE_TYPE:',isascii(ustring),ch(ustring)
+
+      end program demo_isascii
+
+  Results:
+
+AUTHOR
+  John S. Urban
+
+LICENSE
+  Public Domain
+
+			       February 09, 2026	   isascii(3m_unicode)
 join(3m_unicode)					      join(3m_unicode)
 
 NAME
@@ -2717,7 +2921,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 08, 2026	      join(3m_unicode)
+			       February 09, 2026	      join(3m_unicode)
 len(3m_unicode) 					       len(3m_unicode)
 
 NAME
@@ -2809,7 +3013,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 08, 2026	       len(3m_unicode)
+			       February 09, 2026	       len(3m_unicode)
 len_trim(3m_unicode)					  len_trim(3m_unicode)
 
 NAME
@@ -2900,7 +3104,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 08, 2026	  len_trim(3m_unicode)
+			       February 09, 2026	  len_trim(3m_unicode)
 lower(3m_unicode)					     lower(3m_unicode)
 
 NAME
@@ -3001,7 +3205,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 08, 2026	     lower(3m_unicode)
+			       February 09, 2026	     lower(3m_unicode)
 M_unicode(3m_unicode)					 M_unicode(3m_unicode)
 
 NAME
@@ -3075,6 +3279,9 @@ SYNOPSIS
   pad
     pad string to at least specified length with pattern string
 
+  repeat
+    Repeated string concatenation
+
    WHITE SPACE
   trim
     Remove trailing blank characters of a string
@@ -3147,6 +3354,11 @@ SYNOPSIS
   llt
     Lexical less than
 
+   QUERY
+  isascii
+    checks whether string is composed all of 7-bit unsigned character values
+    that fit into the ASCII-7 character set.
+
    IO
   readline
     read a text line from a file
@@ -3175,10 +3387,7 @@ SYNOPSIS
   get_arg
     Get command line argument
 
-   MISCELLANEOUS
-  repeat
-    Repeated string concatenation
-
+   SORT
   sort
     Sort by Unicode codepoint value (not dictionary order)
 
@@ -3288,7 +3497,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 08, 2026	 M_unicode(3m_unicode)
+			       February 09, 2026	 M_unicode(3m_unicode)
 pad(3m_unicode) 					       pad(3m_unicode)
 
 NAME
@@ -3425,136 +3634,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 08, 2026	       pad(3m_unicode)
-readline(3m_unicode)					  readline(3m_unicode)
-
-NAME
-  READLINE(3f) - [M_unicode:READ] read a line from specified LUN into string
-  up to line length limit (LICENSE:MIT)
-
-SYNTAX
-  function readline(lun,iostat) result(line)
-
-      integer,intent(in),optional  :: lun
-      integer,intent(out),optional :: iostat
-      type(unicode_type)	   :: line
-
-DESCRIPTION
-  Read a line of any length up to programming environment maximum line length.
-  Requires Fortran 2003+.
-
-  It is primarily expected to be used when reading input which will then be
-  parsed.
-
-  The input file must have a PAD attribute of YES for the function to work
-  properly, which is typically true.
-
-  The simple use of a loop that repeatedly re-allocates a character variable
-  in addition to reading the input file one buffer at a time could (depending
-  on the programming environment used) be inefficient, as it could reallocate
-  and allocate memory used for the output string with each buffer read.
-
-OPTIONS
-  LUN
-    optional LUN (Fortran logical I/O unit) number. Defaults to stdin.
-
-  IOSTAT
-    status returned by READ(IOSTAT=IOS). If not zero, an error occurred or an
-    end-of-file or end-of-record was encountered.
-
-RETURNS
-  LINE
-    line read.	if IOSTAT is not zero, LINE returns the I/O error message.
-
-EXAMPLE
-  Sample program:
-
-     program demo_readline
-     use,intrinsic :: iso_fortran_env, only : stdin=>input_unit
-     use,intrinsic :: iso_fortran_env, only : iostat_end
-     use M_unicode, only : readline, len, trim
-     use M_unicode, only : assignment(=), ch=>character, ut=>unicode_type
-     implicit none
-     type(ut)			  :: ln
-     character(len=:),allocatable :: aline
-     integer,allocatable	  :: ints(:)
-     integer			  :: iostat, lun, i
-     character(len=256) 	  :: iomsg
-     character(len=*),parameter :: filedata(*)=[character(len=80) :: &
-	'The famous Confucian expression:', &
-	'', &
-	' "己所不欲，勿施於人"', &
-	' (jǐ suǒ bù yù, wù shī yú rén)', &
-	'or', &
-	' "What you do not want done to yourself,', &
-	' do not do to others":']
-	! create a scratch file to read
-	open(newunit=lun,status='scratch',pad='yes')
-	write(lun,'(a)')(trim(filedata(i)),i=1,size(filedata))
-	!----------------------------------------------------------------
-	! read back UTF-8 byte stream and show the lines read
-	rewind(unit=lun)
-	do
-	   ln=readline(lun,iostat=iostat)
-	   if(iostat.ne.0)exit
-	   ! write the glyph length, byte length, line in brackets
-	   write(*,'(i4,1x,i4,1x,a)')len(ln),len(ch(ln)),'['//ch(ln)//']'
-	enddo
-	call checkit()
-	!----------------------------------------------------------------
-	! the same thing except convert to default intrinsic types
-	rewind(unit=lun)
-	do
-	   ln=readline(lun,iostat=iostat)
-	   if(iostat.ne.0)exit
-	   ! assign the string to an allocatable array of integers
-	   ints=ln
-	   ! and the string to a character variable
-	   aline=ln
-	   write(*,'(i4,1x,i4,1x,a)')len(ln),len(aline),'['//ch(ln)//']'
-	enddo
-	call checkit()
-	!----------------------------------------------------------------
-	! again but this time show the lines as Unicode codepoints
-	rewind(unit=lun)
-	do
-	   ln=readline(lun,iostat=iostat)
-	   if(iostat.ne.0)exit
-	   if(len(ln).eq.0)then
-	      write(*,'(/,10(g0,1x)," ...")')[0,0]
-	   else
-	      write(*,'(/,10(g0,1x)," ...")')ln%codepoint()
-	   endif
-	enddo
-	call checkit()
-	!----------------------------------------------------------------
-	! show the line as Unicode codepoints using default integer array
-	rewind(unit=lun)
-	do
-	   ln=readline(lun,iostat=iostat)
-	   if(iostat.ne.0)exit
-	   ! assign the string to an allocatable array of integers
-	   ints=ln
-	   if(size(ints).eq.0)ints=[0,0]
-	   write(*,'(/,10(g0,1x)," ...")')ints
-	enddo
-	call checkit()
-	!----------------------------------------------------------------
-     contains
-     subroutine checkit()
-	if(iostat /= iostat_end)then
-	   write(*,*)'error reading input:',ch(trim(ln))
-	endif
-	write(*,*)
-     end subroutine checkit
-     end program demo_readline
-
-AUTHOR
-  John S. Urban
-
-LICENSE
-   MIT
-			       February 08, 2026	  readline(3m_unicode)
+			       February 09, 2026	       pad(3m_unicode)
 escape(3m_unicode)					    escape(3m_unicode)
 
 NAME
@@ -3695,7 +3775,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 08, 2026	    escape(3m_unicode)
+			       February 09, 2026	    escape(3m_unicode)
 expandtabs(3m_unicode)					expandtabs(3m_unicode)
 
 NAME
@@ -3768,7 +3848,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 08, 2026	expandtabs(3m_unicode)
+			       February 09, 2026	expandtabs(3m_unicode)
 fmt(3m_unicode) 					       fmt(3m_unicode)
 
 NAME
@@ -3841,7 +3921,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 08, 2026	       fmt(3m_unicode)
+			       February 09, 2026	       fmt(3m_unicode)
 adjustr(3m_unicode)					   adjustr(3m_unicode)
 
 NAME
@@ -4006,7 +4086,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 08, 2026	   adjustr(3m_unicode)
+			       February 09, 2026	   adjustr(3m_unicode)
 add_backslash(3m_unicode)			     add_backslash(3m_unicode)
 
 NAME
@@ -4119,4 +4199,4 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 08, 2026     add_backslash(3m_unicode)
+			       February 09, 2026     add_backslash(3m_unicode)

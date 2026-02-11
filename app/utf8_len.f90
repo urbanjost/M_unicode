@@ -4,7 +4,6 @@ use,intrinsic :: iso_fortran_env, only : stdin=>input_unit, stdout=>output_unit,
 use M_unicode, only : readline, len, trim, assignment(=), ch=>character, ut=>unicode_type
 implicit none
 intrinsic is_iostat_end
-character(len=*),parameter    :: g='(*(g0))'
 integer                       :: ulen
 integer                       :: alen
 integer                       :: iostat

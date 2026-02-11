@@ -1,7 +1,7 @@
 program multi_line
 use iso_fortran_env, only : stdout => output_unit
-use M_unicode
-use M_unicode, only : ut=>unicode_type
+use M_unicode, only : ut=>unicode_type, assignment(=)
+use M_unicode, only : trim, len_trim, character
 implicit none
 integer              :: i, longest
 type(ut),allocatable :: upagain(:)

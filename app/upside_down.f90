@@ -1,6 +1,6 @@
 program upside_down
-use M_unicode
-!use M_unicode, only : assignment(=), ch=>character, ut=>unicode_type
+! @(#) try to convert ASCII-7 argument to semblance of upside-down
+use M_unicode, only : assignment(=)
 use M_unicode, only : ch=>character, ut=>unicode_type
 type(ut)                     :: uline
 integer                      :: i

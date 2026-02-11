@@ -193,6 +193,10 @@ find location of last non-whitespace glyph
 <B>pad</B> </TD><TD valign=bottom>
 pad string to at least specified length with pattern string
 </TD></TR>
+<TR valign=top><TD width=6% nowrap>
+<B>repeat</B> </TD><TD valign=bottom>
+Repeated string concatenation
+</TD></TR>
 <TR></TR></TABLE></BLOCKQUOTE>
 <A name=>
 
@@ -326,6 +330,19 @@ Lexical less than
 <TR></TR></TABLE></BLOCKQUOTE>
 <A name=>
 
+    <H4>&nbsp; &nbsp; QUERY</H4>
+</A>
+<BLOCKQUOTE>
+<TABLE cellpadding=3>
+<TR valign=top><TD colspan=2>
+<B>isascii</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+checks whether string is composed all of
+7-bit unsigned character values that fit
+into the ASCII-7 character set.
+</TD></TR>
+<TR></TR></TABLE></BLOCKQUOTE>
+<A name=>
+
     <H4>&nbsp; &nbsp; IO</H4>
 </A>
 <BLOCKQUOTE>
@@ -393,15 +410,11 @@ Get command line argument
 <TR></TR></TABLE></BLOCKQUOTE>
 <A name=>
 
-    <H4>&nbsp; &nbsp; MISCELLANEOUS</H4>
+    <H4>&nbsp; &nbsp; SORT</H4>
 </A>
 <BLOCKQUOTE>
 <P>
 <TABLE cellpadding=3>
-<TR valign=top><TD width=6% nowrap>
-<B>repeat</B> </TD><TD valign=bottom>
-Repeated string concatenation
-</TD></TR>
 <TR valign=top><TD width=6% nowrap>
 <B>sort</B> </TD><TD valign=bottom>
 Sort by Unicode codepoint value (not dictionary order)

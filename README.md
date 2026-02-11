@@ -57,6 +57,7 @@ use M_unicode, only : &
 use M_unicode, only : &
    upper,   lower,
    sort,    expandtabs,     replace,          &
+   isascii,                                   &
    pad,     join,           fmt,              &
    escape,  add_backslash,  remove_backslash
 
