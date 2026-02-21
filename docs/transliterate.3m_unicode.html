@@ -79,15 +79,29 @@ set with new set
 </A>
 <BLOCKQUOTE>
 <P>
-impure function transliterate(instr,old_set,new_set) result(outstr)
-<P>
-<PRE>
-     type(unicode_type),intent(in)  :: instr
-     type(unicode_type),intent(in)  :: old_set
-     type(unicode_type),intent(in)  :: new_set
-     type(unicode_type)             :: outstr
-<P>
-</PRE>
+impure elemental &
+& function transliterate(instr,old_set,new_set) result(outstr)
+<BLOCKQUOTE>
+<TABLE cellpadding=3><!-- tsb: impure elemental &
+ -->
+<TR></TR><TR></TR>
+<TR valign=top><TD colspan=2>
+<B>type(unicode_type),intent(in)</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+:: instr
+</TD></TR>
+<TR valign=top><TD colspan=2>
+<B>type(unicode_type),intent(in)</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+:: old_set
+</TD></TR>
+<TR valign=top><TD colspan=2>
+<B>type(unicode_type),intent(in)</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+:: new_set
+</TD></TR>
+<TR valign=top><TD colspan=2>
+<B>type(unicode_type)</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+:: outstr
+</TD></TR>
+<TR></TR></TABLE></BLOCKQUOTE>
 </BLOCKQUOTE>
 <A name=2>
 

@@ -8,9 +8,12 @@ expandtabs (3m_unicode) - [M_unicode:WHITESPACE] function to expand tab characte
 fmt (3m_unicode)     - [M_unicode:CONVERSION] convert any intrinsic to a string using specified format (LICENSE:MIT)
 get_arg (3m_unicode) - [M_unicode:SYSTEM] get command line argument (LICENSE:MIT)
 get_env (3m_unicode) - [M_unicode:SYSTEM] return value of environment variable (LICENSE:MIT)
+glob (3m_unicode)    - [M_unicode:COMPARE] compare given string for match to a pattern which may contain globbing wildcard characters (LICENSE:PD)
 ichar (3m_unicode)   - [M_unicode:CONVERSION] character-to-integer code conversion function (LICENSE:MIT)
 index (3m_unicode)   - [M_unicode:SEARCH] Position of a substring within a string (LICENSE:MIT)
 isascii (3m_unicode) - [M_unicode:QUERY] returns .true. if all the characters of a string are in the set from CHAR(0) to CHAR(127). (LICENSE:MIT)
+isblank (3m_unicode) - [M_unicode:COMPARE] returns .true. if character is a Unicode or ASCII-7 blank character (space or horizontal tab) . (LICENSE:PD)
+isspace (3m_unicode) - [M_unicode:COMPARE] returns .true. if character is a null, space, tab, carriage return, new line, vertical tab, or formfeed (LICENSE:PD)
 join (3m_unicode)    - [M_unicode:EDITING] append CHARACTER variable array into a single CHARACTER variable with specified separator (LICENSE:MIT)
 len (3m_unicode)     - [M_unicode:WHITESPACE] Length of a string (LICENSE:MIT)
 len_trim (3m_unicode) - [M_unicode:WHITESPACE] string length without trailing blank characters (LICENSE:MIT)
@@ -22,6 +25,7 @@ remove_backslash (3m_unicode) - [M_unicode:CONVERSION] expand C-like escape sequ
 repeat (3m_unicode)  - [M_unicode:PAD] Repeated string concatenation (LICENSE:MIT)
 replace (3m_unicode) - [M_unicode:EDITING] function replaces one substring for another in string (LICENSE:MIT)
 scan (3m_unicode)    - [M_unicode:SEARCH] Scan a string for the presence of a set of characters (LICENSE:MIT)
+slurp (3m_unicode)   - [M_unicode:READ] read formatted UTF-8 file into a TYPE(UNICODE_TYPE) string array (LICENSE:MIT)
 sort (3m_unicode)    - [M_unicode:SORT] indexed hybrid quicksort of an array (LICENSE:MIT)
 split (3m_unicode)   - [M_unicode:PARSE] parse a string into tokens, one at a time. (LICENSE:MIT)
 sub (3m_unicode)     - [M_unicode:EDITING] Return substring (LICENSE:MIT)
@@ -120,7 +124,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 09, 2026	   adjustl(3m_unicode)
+			       February 21, 2026	   adjustl(3m_unicode)
 character(3m_unicode)					 character(3m_unicode)
 
 NAME
@@ -294,7 +298,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 09, 2026	 character(3m_unicode)
+			       February 21, 2026	 character(3m_unicode)
 codepoints_to_utf8(3m_unicode)			codepoints_to_utf8(3m_unicode)
 
 NAME
@@ -406,7 +410,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 09, 2026codepoints_to_utf8(3m_unicode)
+			       February 21, 2026codepoints_to_utf8(3m_unicode)
 get_arg(3m_unicode)					   get_arg(3m_unicode)
 
 NAME
@@ -482,7 +486,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 09, 2026	   get_arg(3m_unicode)
+			       February 21, 2026	   get_arg(3m_unicode)
 get_env(3m_unicode)					   get_env(3m_unicode)
 
 NAME
@@ -559,7 +563,112 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 09, 2026	   get_env(3m_unicode)
+			       February 21, 2026	   get_env(3m_unicode)
+glob(3m_unicode)					      glob(3m_unicode)
+
+NAME
+  glob(3f) - [M_unicode:COMPARE] compare given string for match to a pattern
+  which may contain globbing wildcard characters (LICENSE:PD)
+
+SYNOPSIS
+  logical function glob(string, pattern )
+
+      type(unicode_type),intent(in) :: string
+      type(unicode_type),intent(in) :: pattern
+      ! or
+      character(len=*),intent(in) :: string
+      character(len=*),intent(in) :: pattern
+
+DESCRIPTION
+  glob(3f) compares an (entire) STRING for a match to a PATTERN which may
+  contain basic wildcard "globbing" characters.
+
+  •  "*" matches any string.
+
+  •  "?" matches any single character.
+
+  •  a NULL may not appear in the input strings
+
+  •  trailing whitespace is significant
+
+  In this version to get a match the entire string must be described by
+  PATTERN. Trailing whitespace is significant, so trim the input string if it
+  is desired to ignore trailing whitespace.
+
+  A NULL character is added to the input strings internally to avoid early
+  matches. Without this, patterns like "b*ba" fail on a string like "babababa"
+  because the first match found is not at the end of the string so 'baba' does
+  not match 'babababa'. So the algorithm is said to find an early match.
+
+  One method that allows skipping over the early matches is to insert an extra
+  character at the end of the string and pattern that does not occur in the
+  pattern. Typically a NULL is used (char(0)), as it is here. So searching for
+  b*ba\0 in babababa\0 matches the entire string.
+
+OPTIONS
+  string
+    the input string to be tested for a match to the pattern.
+
+  pattern
+    the globbing pattern to search for. The following simple globbing rules
+    apply:
+
+    •  "?" matching any one character
+
+    •  "*" matching zero or more characters.  Do NOT use adjacent asterisks.
+
+    •  The input strings must not contain a NULL character
+
+    •  spaces are significant and must be matched.
+
+    •  There is no escape character, so matching strings with a literal
+       question mark and asterisk is problematic.
+
+EXAMPLES
+  Example program
+
+     program demo_glob
+     use M_unicode, only : glob
+     implicit none
+	! Cases with repeating character sequences.
+	write(*,*) glob("a*abab",      "a*b") .eqv.  .true.
+	write(*,*) glob("ab",	       "*?")  .eqv.  .true.
+	! Additional cases where the '*' char appears in the tame string.
+	write(*,*) glob("*",	 "*")	 .eqv.	.true.
+	write(*,*) glob("a*ar",  "a*aar").eqv.	.false.
+	! More double wildcard scenarios.
+	write(*,*) glob("XYXYXYZYXYz", "XY*Z*XYz") .eqv. .true.
+	write(*,*) glob("mississipPI", "*issip*PI") .eqv..true.
+	! Completely tame (no wildcards) cases.
+	write(*,*) glob("bLah", "bLah") .eqv..true.
+	! Simple mixed wildcard tests
+	write(*,*) glob("a", "*?") .eqv..true.
+	! More mixed wildcard tests including coverage for false positives.
+	write(*,*) glob("abcd",   "?b*??")	.eqv..true.
+	write(*,*) glob("abcde",  "?*b*?*d*?")	.eqv..true.
+	! Single-character-match cases.
+	write(*,*) glob("bLah",   "bL?h")  .eqv..true.
+	write(*,*) glob("bLaH",   "?LaH")  .eqv..true.
+	write(*,*) glob('abcdefghijk' ,  '?b*')     .eqv..true.
+	  ! Two pattern match problems that might pose difficulties
+	write(*,*) glob('e '	       , '*e* ')     .eqv. .true.
+	write(*,*) glob('baaaaax'      , 'b*a')      .eqv. .false.
+	write(*,*) glob(''	       , '*')	     .eqv. .true.
+     end program demo_glob
+
+  Expected output
+
+AUTHOR
+  John S. Urban
+
+REFERENCES
+  The article "Matching Wildcards: An Empirical Way to Tame an Algorithm" in
+  Dr Dobb's Journal, By Kirk J. Krauss, October 07, 2014
+
+LICENSE
+  Public Domain
+
+			       February 21, 2026	      glob(3m_unicode)
 ichar(3m_unicode)					     ichar(3m_unicode)
 
 NAME
@@ -691,125 +800,574 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 09, 2026	     ichar(3m_unicode)
-index(3m_unicode)					     index(3m_unicode)
+			       February 21, 2026	     ichar(3m_unicode)
+lower(3m_unicode)					     lower(3m_unicode)
 
 NAME
-  INDEX(3f) - [M_unicode:SEARCH] Position of a substring within a string
-  (LICENSE:MIT)
+  LOWER(3f) - [M_unicode:CASE] changes a string to lowercase over specified
+  range (LICENSE:MIT)
 
 SYNOPSIS
-  result = index( string, substring [,back] [,kind] )
+  elemental pure function lower(str) result (string)
 
-     elemental integer(kind=KIND) function index(string,substring,back,kind)
-
-      character(len=*,kind=KIND),intent(in) :: string
-      character(len=*,kind=KIND),intent(in) :: substring
-      logical(kind=**),intent(in),optional :: back
-      integer(kind=**),intent(in),optional :: kind
-
-CHARACTERISTICS
-  •  STRING is a character variable of any kind
-
-  •  SUBSTRING is a character variable of the same kind as STRING
-
-  •  BACK is a logical variable of any supported kind
-
-  •  KIND is a scalar integer constant expression.
+       character(*), intent(in) :: str
+       character(len(str))	:: string  ! output string
 
 DESCRIPTION
-  INDEX(3) returns the position of the start of the leftmost or rightmost
-  occurrence of string SUBSTRING in STRING, counting from one. If SUBSTRING is
-  not present in STRING, zero is returned.
+  lower(str) returns a copy of the input string with all characters converted
+  to miniscule (ie. "lowercase").
 
 OPTIONS
-  •  STRING : string to be searched for a match
+  str
+    string to convert to miniscule
 
-  •  SUBSTRING : string to attempt to locate in STRING
+RETURNS
+  lower
+    copy of the entire input string with all characters converted to
+    miniscule.
 
-  •  BACK : If the BACK argument is present and true, the return value is the
-     start of the rightmost occurrence rather than the leftmost.
-
-  •  KIND : if KIND is present, the kind type parameter is that specified by
-     the value of KIND; otherwise the kind type parameter is that of default
-     integer type.
-
-RESULT
-  The result is the starting position of the first substring SUBSTRING found
-  in STRING.
-
-  If the length of SUBSTRING is longer than STRING the result is zero.
-
-  If the substring is not found the result is zero.
-
-  If BACK is .true. the greatest starting position is returned (that is, the
-  position of the right‐most match). Otherwise, the smallest position starting
-  a match (ie. the left‐most match) is returned.
-
-  The position returned is measured from the left with the first character of
-  STRING being position one.
-
-  Otherwise, if no match is found zero is returned.
+TRIVIA
+  The terms "uppercase" and "lowercase" date back to the early days of the
+  mechanical printing press. Individual metal alloy casts of each needed
+  letter or punctuation symbol were meticulously added to a press block, by
+  hand, before rolling out copies of a page. These metal casts were stored and
+  organized in wooden cases. The more-often-needed miniscule letters were
+  placed closer to hand, in the lower cases of the work bench. The less often
+  needed, capitalized, majuscule letters, ended up in the harder to reach
+  upper cases.
 
 EXAMPLES
-  Example program
+  Sample program:
 
-     program demo_index
-     use M_unicode, only : ut=>unicode_type
-     use M_unicode, only : assignment(=)
-     use M_unicode, only : index
+     program demo_lower
+     use iso_fortran_env, only : stdout => output_unit
+     use M_unicode,	  only : lower, unicode_type, assignment(=), trim
+     use M_unicode,	  only : ut => unicode_type, operator(==)
      implicit none
-     type(ut)			:: str
-     character(len=*),parameter :: all='(*(g0))'
-     integer			:: ii
-	!
-	str='Huli i kēia kaula no kēia ʻōlelo'
-	!bug!print all, index(str,'kēia').eq.8
-	ii=index(str,'kēia'); print all, ii.eq.8
-	!
-	! return value is counted from the left end even if BACK=.TRUE.
-	!bug!print all, index(str,'kēia',back=.true.).eq.22
-	ii=index(str,'kēia',back=.true.); print all, ii.eq.22
-	!
-	! INDEX is case-sensitive
-	!bug!print all, index(str,'Kēia').eq.0
-	ii=index(str,'Kēia'); print all, ii.eq.0
-	!<<<<<<<<<<
-	!ifx bug: ifx (IFX) 2024.1.0 20240308
-	!
-	!example/demo_index.f90(17): error #6766: A binary defined OPERATOR
-	!definition is missing or incorrect.   [EQ]
-	!	 print all, index(str,'k  ia',back=.true.).eq.22
-	!--------------------------------------------------^
-	!Original works with gfortran and flang_new and this works with ifx
-	!	 ii=ndex(str,'k  ia',back=.true.)
-	!    print all, ii.eq.22
-	!>>>>>>>>>>
-     end program demo_index
+     character(len=*),parameter :: g='(*(g0))'
+     type(unicode_type) :: pangram
+     type(unicode_type) :: diacritics
+     type(unicode_type) :: expected
+       !
+       ! a sentence containing every letter of the English alphabet
+       pangram="THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG"
+       expected="the quick brown fox jumps over the lazy dog"
+       call test(pangram,expected)
+       !
+       ! Slovak pangram
+       PANGRAM	  = 'VYPÄTÁ DCÉRA GRÓFA MAXWELLA S IQ NIŽŠÍM AKO &
+       &KÔŇ NÚTI ČEĽAĎ HRÝZŤ HŔBU JABĹK.'
+       expected   = 'vypätá dcéra grófa maxwella s iq nižším ako &
+       &kôň núti čeľaď hrýzť hŕbu jabĺk.'
+       call test(pangram,expected)
+       !
+       ! contains each special Czech letter with diacritics exactly once
+       DIACRITICS='PŘÍLIŠ ŽLUŤOUČKÝ KŮŇ ÚPĚL ĎÁBELSKÉ ÓDY.'
+       expected ='příliš žluťoučký kůň úpěl ďábelské ódy.'
+       print g,'("A horse that was too yellow-ish moaned devilish odes")'
+       call test(diacritics,expected)
+     contains
+     subroutine test(in,expected)
+     type(unicode_type),intent(in) :: in
+     type(unicode_type),intent(in) :: expected
+     type(unicode_type) 	   :: lowercase
+     character(len=*),parameter    :: nl=new_line('A')
+	 write(stdout,g)in%character()
+	 lowercase=lower(in)
+	 write(stdout,g)lowercase%character()
+	 write(stdout,g)merge('PASSED','FAILED',lowercase == expected ),nl
+     end subroutine test
+     end program demo_lower
 
-  Expected Results:
+  Expected output
 
-     > T
-     > T
-     > T
-     > T
-     > T
-     > T
-
-SEE ALSO
-  Functions that perform operations on character strings, return lengths of
-  arguments, and search for certain arguments:
-
-  •  ELEMENTAL: ADJUSTL(3), ADJUSTR(3), INDEX(3), SCAN(3), VERIFY(3)
-
-  •  NONELEMENTAL: LEN_TRIM(3), LEN(3), REPEAT(3), TRIM(3)
+     > THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG
+     > the quick brown fox jumps over the lazy dog
+     > PASSED
+     >
+     > VYPÄTÁ DCÉRA GRÓFA MAXWELLA S IQ NIŽŠÍM AKO KÔŇ NÚTI ...
+     > ČEĽAĎ HRÝZŤ HŔBU JABĹK.
+     > vypätá dcéra grófa maxwella s iq nižším ako kôň núti ...
+     > čeľaď hrýzť hŕbu jabĺk.
+     > PASSED
+     >
+     > ("A horse that was too yellow-ish moaned devilish odes")
+     > PŘÍLIŠ ŽLUŤOUČKÝ KŮŇ ÚPĚL ĎÁBELSKÉ ÓDY.
+     > příliš žluťoučký kůň úpěl ďábelské ódy.
+     > PASSED
 
 AUTHOR
   John S. Urban
 
 LICENSE
    MIT
-			       February 09, 2026	     index(3m_unicode)
+			       February 21, 2026	     lower(3m_unicode)
+M_unicode(3m_unicode)					 M_unicode(3m_unicode)
+
+NAME
+  M_unicode(3f) - [M_unicode::INTRO] Unicode string module (LICENSE:MIT)
+
+DESCRIPTION
+  The M_unicode(3f) module is a collection of Fortran string methods that work
+  with UTF-8 encoded text not just ASCII-7 data.
+
+  Strings are declared using the user-defined type "UNICODE_TYPE". The type
+  supports allocatable ragged arrays where each element may be of differing
+  length.
+
+  Compiler support of the optional Fortran ISO_10646 extension is not
+  required.
+
+  The M_unicode(3) module overloads the Fortran built-in CHARACTER intrinsics
+  and operators to allow TYPE(UNICODE_TYPE) to use the intrinsic procedure
+  names in much the same manner the intrinsics are used with CHARACTER
+  variables.
+
+  The intrinsic overloads include TOKENIZE(3) and SPLIT(3) even if the
+  underlying compiler does not yet support those intrinsics.
+
+  Overloads of assignment, logical comparisons, and concatenation using the //
+  operator with strings (and other types) are included as well to make use of
+  TYPE(UNICODE_TYPE) largely consistent with standard CHARACTER string
+  manipulations.
+
+  Nearly all the methods are available using both OOP and procedural syntax.
+
+  In addition M_unicode(3) includes routines for parsing, tokenizing, changing
+  case, substituting new strings for substrings, locating strings with simple
+  wildcard expressions, removing tabs and line terminators and other advanced
+  non-intrinsic string manipulations.
+
+  The **UPPER()** and **LOWER()** functions support the concept of case for
+  the Unicode Latin characters not just the ASCII subset, and a basic SORT()
+  function provides for ordering the data by Unicode codepoint values.
+
+  A PAD() function allows padding strings at least up to a specified glyph
+  length with a repeating pattern.
+
+  **M_unicode** should be useful for anyone working with UTF-8 data,
+  particularly if the compiler does not support the UCS-4 extensions of
+  Fortran.
+
+  Until proven otherwise M_unicode(3) should work with any environment where
+  UTF-8 files are supported.
+
+  The type components are not public to allow for use of the same user code
+  when using other modules such as M_ucs4(3) which ultimately will provide the
+  same user interface but internally using ISO_10646 internal encoding instead
+  of an array of integers containing codepoints (which is what M_unicode(3)
+  uses). This has the drawback of not permitting easy use of array syntax
+  directly on the codepoint array. Perhaps this decision will change but in
+  the meantime several methods such as REPLACE(3) and CHARACTER(3) and SUB(3)
+  provide similar functionality.
+
+SYNOPSIS
+  public methods:
+
+   TOKENS
+  split
+    subroutine parses string using specified delimiter characters into tokens
+
+  tokenize
+    Parse a string into tokens.
+
+   EDITING
+  replace
+    function non-recursively globally replaces old substring with new
+    substring
+
+  transliterate
+    replace characters from old set with new set
+
+   CASE
+  upper
+    function converts string to uppercase
+
+  lower
+    function converts string to miniscule
+
+   STRING LENGTH
+  len
+    return the length of a string in glyphs
+
+  len_trim
+    find location of last non-whitespace glyph
+
+   PADDING
+  pad
+    pad string to at least specified length with pattern string
+
+  repeat
+    Repeated string concatenation
+
+   WHITE SPACE
+  trim
+    Remove trailing blank characters of a string
+
+  expandtabs
+    expand tab characters
+
+  adjustl
+    Left adjust a string
+
+  adjustr
+    Right adjust a string
+
+   ENCODING
+  character(STRING,start,end,inc)
+    converts a string to type CHARACTER.
+
+  escape
+    expand C-like escape strings
+
+  add_backslash
+    replace other than printable ASCII-7 characters with C-like escape strings
+
+  remove_backslash
+    expand C-like escape strings
+
+  codepoints_to_utf8(codepoints,utf8,nerr)
+    subroutine to convert codepoints to UTF-8 bytes
+
+  utf8_to_codepoints(utf8,codepoints,nerr)
+    subroutine to convert UTF-8 bytes to codepoints
+
+  STRING%character(start,end,inc)
+    OOP syntax for converting a string to type CHARACTER.
+
+  STRING%byte(start,end,inc)
+    Convert to an array of CHARACTER(len=1) bytes.
+
+  STRING%codepoint(start,end,inc)
+    converts a string to an INTEGER array of Unicode codepoints
+
+  char
+    converts an integer codepoint into a string
+
+  ichar
+    converts a type(unicode_type) glyph into an integer codepoint
+
+   NUMERIC STRINGS
+  fmt
+    convert intrinsic numeric value to string using optional format
+
+   CHARACTER TESTS
+  glob
+    compares given string for match to pattern which may contain wildcard
+    characters
+
+  ! the following are based on Unicode codepoint, not dictionary order
+
+    lgt
+      Lexical greater than
+
+    lge
+      Lexical greater than or equal
+
+    leq
+      Lexical equal
+
+    lne
+      Lexical not equal
+
+    lle
+      Lexical less than or equal
+
+    llt
+      Lexical less than
+
+   QUERY
+  isascii
+    checks whether string is composed of all character values that fit into
+    the ASCII-7 character set.
+
+  isblank
+    returns .true. if string is composed of all blanks (spaces or from the set
+    of Unicode blanks or a horizontal tab).
+
+  isspace
+    returns .true. if string is composed of all spaces (ASCII-7 spaces or from
+    the set of Unicode blanks).
+
+   IO
+  readline
+    read a text line from a file
+
+  slurp
+    read formatted UTF-8 encoded file into TYPE(UNICODE_TYPE) array
+
+   LOCATION
+  index
+    glyph position of a substring within a string
+
+  scan
+    Scan a string for the presence of a set of characters
+
+  verify
+    Scan a string for the absence of a set of characters
+
+   CONCATENATION
+  join
+    join elements of an array into a single string operator(.cat.),
+
+  operator(//)
+    concatenate strings and/or convert intrinsics to strings and concatenate
+
+   SYSTEM
+  get_env
+    Get environment variable
+
+  get_arg
+    Get command line argument
+
+   SORT
+  sort
+    Sort by Unicode codepoint value (not dictionary order)
+
+   BASE CONVERSION
+   QUOTES
+   NONALPHA
+   OOPS INTERFACE
+  An OOP (Object-Oriented Programming) interface to the M_unicode(3fm) module
+  provides an alternative interface to all the same procedures except for
+  SORT(3f) and CHAR(3f).
+
+SEE ALSO
+  All the procedure descriptions are conglomerated into the single file
+  "manual.txt" for simple access not requiring access to man-pages or
+  browsers.
+
+  There are additional routines in other GPF modules for working with
+  expressions (M_calculator), time strings (M_time), random strings (M_random,
+  M_uuid), lists (M_list), and interfacing with the C regular expression
+  library (M_regex).
+
+EXAMPLES
+  Each of the procedures includes an example program in the example/ directory
+  as well as a corresponding man(1) page for the procedure.
+
+  Sample program:
+
+     program demo_M_unicode
+     use,intrinsic :: iso_fortran_env, only : stdout=>output_unit
+     use M_unicode,only : tokenize, replace, character, upper, lower, len
+     use M_unicode,only : unicode_type, assignment(=), operator(//)
+     use M_unicode,only : ut => unicode_type, ch => character
+     use M_unicode,only : write(formatted)
+     type(unicode_type) 	    :: string
+     type(unicode_type) 	    :: numeric, uppercase, lowercase
+     type(unicode_type),allocatable :: array(:)
+     character(len=*),parameter     :: all='(g0)'
+     !character(len=*),parameter     :: uni='(DT)'
+     uppercase='АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ'
+     lowercase='абвгґдеєжзиіїйклмнопрстуфхцчшщьюя'
+     numeric='0123456789'
+      !
+      string=uppercase//numeric//lowercase
+      !
+      print all, 'Original string:'
+      print all, ch(string)
+      print all, 'length in bytes :',len(string%character())
+      print all, 'length in glyphs:',len(string)
+      print all
+      !
+      print all, 'convert to all uppercase:'
+      print all, ch( UPPER(string) )
+      print all
+      !
+      print all, 'convert to all lowercase:'
+      print all, ch( string%LOWER() )
+      print all
+      !
+      print all, 'tokenize on spaces ... '
+      call TOKENIZE(string,ut(' '),array)
+      print all, '... writing with A or G format:',character(array)
+      !print uni, ut('... writing with DT format'),array
+      print all
+      !
+      print all, 'case-insensitive replace:'
+      print all, ch( &
+      & REPLACE(string, &
+      & ut('клмнопрс'), &
+      & ut('--------'), &
+      & ignorecase=.true.) )
+      !
+      print all
+      !
+     end program demo_M_unicode
+
+  Results:
+
+     > Original string:
+     > АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ0123456789 ...
+     > абвгґдеєжзиіїйклмнопрстуфхцчшщьюя
+     > length in bytes :
+     > 144
+     > length in glyphs:
+     > 78
+     >
+     > convert to all uppercase:
+     > АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ0123456789 ...
+     > АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ
+     >
+     >
+     > tokenize on spaces ...
+     > ... writing with A or G format:
+     > АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ
+     > 0123456789
+     > абвгґдеєжзиіїйклмнопрстуфхцчшщьюя
+     > ... writing with DT format
+     > АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ
+     > 0123456789
+     > абвгґдеєжзиіїйклмнопрстуфхцчшщьюя
+     >
+     > case-insensitive replace:
+     > АБВГҐДЕЄЖЗИІЇЙ--------ТУФХЦЧШЩЬЮЯ0123456789 ...
+     > абвгґдеєжзиіїй--------туфхцчшщьюя
+
+AUTHOR
+  John S. Urban
+
+LICENSE
+   MIT
+			       February 21, 2026	 M_unicode(3m_unicode)
+pad(3m_unicode) 					       pad(3m_unicode)
+
+NAME
+  PAD(3f) - [M_unicode:PAD] return string padded to at least specified length
+  (LICENSE:MIT)
+
+SYNOPSIS
+  function pad(str,length,pattern,right,clip) result(out)
+
+      type(unicode_type)			 :: str
+      integer,intent(in)			 :: length
+      type(unicode_type)			 :: out
+      type(unicode_type),intent(in),optional	 :: pattern
+      logical,intent(in),optional		 :: right
+      logical,intent(in),optional		 :: clip
+
+DESCRIPTION
+  pad(3f) pads a string with a pattern to at least the specified length. If
+  the trimmed input string is longer than the requested length the trimmed
+  string is returned.
+
+OPTIONS
+  str
+    the input string to return trimmed, but then padded to the specified
+    length if shorter than length
+
+  length
+    The minimum string length to return
+
+  pattern
+    optional string to use as padding. Defaults to a space.
+
+  right
+    if true pads string on the right, else on the left. Defaults to true.
+
+  clip
+    trim spaces from input string ends. Defaults to .true.
+
+RETURNS
+  out
+    The input string padded to the requested length or the trimmed input
+    string if the input string is longer than the requested length.
+
+EXAMPLES
+  Sample Program:
+
+    program demo_pad
+    use M_unicode, only  : pad, assignment(=)
+    !use M_unicode, only : write(formatted)
+    use M_unicode, only  : len
+    use M_unicode, only  : ch=> character
+    use M_unicode, only  : ut=> unicode_type
+    implicit none
+    type(ut)		       :: string
+    type(ut)		       :: answer
+    integer		       :: i
+    !character(len=*),parameter :: u='(*(DT))'
+    character(len=*),parameter :: u='(*(g0))'
+      !
+      string='abcdefghij'
+      !
+      write(*,*)'pad on right till 20 characters long'
+      answer=pad(string,20)
+      write(*,'("[",g0,"]",/)') answer%character()
+      !
+      write(*,*)'original is not trimmed for short length requests'
+      answer=pad(string,5)
+      write(*,'("[",g0,"]",/)') answer%character()
+      !
+      i=30
+      write(*,*)'pad with specified string and left-justified integers'
+      write(*,'(1x,g0,1x,i0)') &
+       & ch(pad(ut('CHAPTER 1 : The beginning '),i,ut('.') )), 1   , &
+       & ch(pad(ut('CHAPTER 2 : The end '),i,ut('.') )),       1234, &
+       & ch(pad(ut('APPENDIX '),i,ut('.') )),		       1235
+      !
+      write(*,*)'pad with specified string and right-justified integers'
+      write(*,'(1x,g0,i7)') &
+       & ch(pad(ut('CHAPTER 1 : The beginning '),i,ut('.') )), 1   , &
+       & ch(pad(ut('CHAPTER 2 : The end '),i,ut('.') )),       1234, &
+       & ch(pad(ut('APPENDIX '),i,ut('.') )),		       1235
+      !
+      write(*,*)'pad on left with zeros'
+      write(*,u)ch(pad(ut('12'),5,ut('0'),right=.false.))
+      !
+      write(*,*)'various lengths with clip .true. and .false.'
+      write(*,u)ch(pad(ut('12345 '),30,ut('_'),right=.false.))
+      write(*,u)ch(pad(ut('12345 '),30,ut('_'),right=.false.,clip=.true.))
+      write(*,u)ch(pad(ut('12345 '), 7,ut('_'),right=.false.))
+      write(*,u)ch(pad(ut('12345 '), 7,ut('_'),right=.false.,clip=.true.))
+      write(*,u)ch(pad(ut('12345 '), 6,ut('_'),right=.false.))
+      write(*,u)ch(pad(ut('12345 '), 6,ut('_'),right=.false.,clip=.true.))
+      write(*,u)ch(pad(ut('12345 '), 5,ut('_'),right=.false.))
+      write(*,u)ch(pad(ut('12345 '), 5,ut('_'),right=.false.,clip=.true.))
+      write(*,u)ch(pad(ut('12345 '), 4,ut('_'),right=.false.))
+      write(*,u)ch(pad(ut('12345 '), 4,ut('_'),right=.false.,clip=.true.))
+  end program demo_pad
+
+    Results:
+
+     >	pad on right till 20 characters long
+     > [abcdefghij	    ]
+     >
+     >	original is not trimmed for short length requests
+     > [abcdefghij]
+     >
+     >	pad with specified string and left-justified integers
+     >	CHAPTER 1 : The beginning .... 1
+     >	CHAPTER 2 : The end .......... 1234
+     >	APPENDIX ..................... 1235
+     >	pad with specified string and right-justified integers
+     >	CHAPTER 1 : The beginning ....	    1
+     >	CHAPTER 2 : The end ..........	 1234
+     >	APPENDIX .....................	 1235
+     >	pad on left with zeros
+     > 00012
+     >	various lengths with clip .true. and .false.
+     > ________________________12345
+     > _________________________12345
+     > _12345
+     > __12345
+     > 12345
+     > _12345
+     > 12345
+     > 12345
+     > 12345
+     > 2345
+
+SEE ALSO
+  adjustl(3f), adjustr(3f), repeat(3f), trim(3f), len_trim(3f), len(3f)
+
+AUTHOR
+  John S. Urban
+
+LICENSE
+   MIT
+			       February 21, 2026	       pad(3m_unicode)
 readline(3m_unicode)					  readline(3m_unicode)
 
 NAME
@@ -937,7 +1495,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 09, 2026	  readline(3m_unicode)
+			       February 21, 2026	  readline(3m_unicode)
 remove_backslash(3m_unicode)			  remove_backslash(3m_unicode)
 
 NAME
@@ -1047,7 +1605,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 09, 2026  remove_backslash(3m_unicode)
+			       February 21, 2026  remove_backslash(3m_unicode)
 repeat(3m_unicode)					    repeat(3m_unicode)
 
 NAME
@@ -1106,7 +1664,7 @@ SEE ALSO
 
 LICENSE
    MIT
-			       February 09, 2026	    repeat(3m_unicode)
+			       February 21, 2026	    repeat(3m_unicode)
 replace(3m_unicode)					   replace(3m_unicode)
 
 NAME
@@ -1116,7 +1674,7 @@ NAME
 SYNOPSIS
   syntax:
 
-	function replace(target,old,new, &
+	impure elemental function replace(target,old,new, &
 	 & occurrence, &
 	 & repeat, &
 	 & ignorecase, &
@@ -1254,7 +1812,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 09, 2026	   replace(3m_unicode)
+			       February 21, 2026	   replace(3m_unicode)
 scan(3m_unicode)					      scan(3m_unicode)
 
 NAME
@@ -1368,7 +1926,134 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 09, 2026	      scan(3m_unicode)
+			       February 21, 2026	      scan(3m_unicode)
+slurp(3m_unicode)					     slurp(3m_unicode)
+
+NAME
+  slurp(3f) - [M_unicode:READ] read formatted UTF-8 file into a
+  TYPE(UNICODE_TYPE) string array (LICENSE:MIT)
+
+SYNOPSIS
+  function slurp(filename,iomsg) result(text)
+
+     character(len=*),intent(in),optional	       :: filename
+     ! or
+     type(unicode_type),intent(in),optional	       :: filename
+
+     character(len=*),intent(out),optional,allocatable :: iomsg
+
+     type(unicode_type),allocatable,intent(out)        :: text(:)
+
+DESCRIPTION
+  Uses READLINE(3) to read an entire formatted UTF-8 encoded file into a
+  TYPE(UNICODE_TYPE) string array, each line of the file becoming an element
+  of the output array.
+
+   NOTE
+  Never casually read an entire file into memory if you can process it per
+  line or in smaller units; as large files can consume unreasonable amounts of
+  memory.
+
+OPTIONS
+  filename
+    filename to read into memory. If the filename is absent stdin will be
+    read.
+
+  iomsg
+    if an error occurs iomsg will contain an error message, else it will be a
+    null string.
+
+RETURNS
+  text
+    array of characters that holds contents of the file
+
+EXAMPLES
+  Sample program, which
+    creates test input file "inputfile" and then reads it back in.
+
+     program demo_slurp
+     use M_unicode, only : slurp, ut=>unicode_type
+     use M_unicode, only : add_backslash, remove_backslash
+     use M_unicode, only : assignment(=)
+     implicit none
+     type(ut),allocatable	  :: text(:)
+     integer			  :: i
+     character(len=:),allocatable :: iomsg
+     character(len=*),parameter   :: FILENAME='._inputfile'
+
+     call create_test_file()
+
+     text=slurp(FILENAME,iomsg=iomsg)
+
+     if(iomsg.ne.'')then
+	write(*,*)'*demo_slurp* failed to load file '//FILENAME
+	write(*,*) iomsg
+     else
+	! write out slurped data
+	call write_text()
+
+	! encode with escape sequences and write data again
+	do i=1,size(text)
+	   text(i)=add_backslash(text(i))
+	enddo
+	call write_text()
+
+	! deencode escape sequences and write data again
+	do i=1,size(text)
+	   text(i)=remove_backslash(text(i))
+	enddo
+	call write_text()
+
+	  ! teardown
+	deallocate(text)  ! release memory
+	open(file=FILENAME,unit=10)
+	close(unit=10,status='delete')
+     endif
+     contains
+     subroutine write_text()
+	write(*,'(a)')repeat('=',80)
+	write(*,'(*(a:))')(text(i)%character(),new_line('a'),i=1,size(text))
+     end subroutine write_text
+
+     subroutine create_test_file()
+     ! create test file
+     open(file=FILENAME,unit=10,action='write')
+     ! (Used by Microsoft Office as sample text for Croatian language.)
+     write( *,'(a)')'Croation pangram:'
+     write( *,'(a)')''
+     write(10,'(a)')'Gojazni đačić s biciklom drži hmelj i finu'
+     write(10,'(a)')'vatu u džepu nošnje.'
+     write(10,'(a)')''
+     write( *,'(a)')'The overweight little schoolboy with a bike is holding'
+     write( *,'(a)')'hops and fine cotton in the pocket of his attire.'
+     close(unit=10)
+     end subroutine create_test_file
+
+     end program demo_slurp
+
+  Results:
+
+   > Croation pangram:
+   >
+   > The overweight little schoolboy with a bike is holding
+   > hops and fine cotton in the pocket of his attire.
+   >
+   > Gojazni đačić s biciklom drži hmelj i finu
+   > vatu u džepu nošnje.
+   >
+   > Gojazni \u0111a\u010Di\u0107 s biciklom dr\u017Ei hmelj i finu
+   > vatu u d\u017Eepu no\u0161nje.
+   >
+   > Gojazni đačić s biciklom drži hmelj i finu
+   > vatu u džepu nošnje.
+   >
+
+AUTHOR
+  John S. Urban
+
+LICENSE
+   MIT
+			       February 21, 2026	     slurp(3m_unicode)
 sort(3m_unicode)					      sort(3m_unicode)
 
 NAME
@@ -1488,7 +2173,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 09, 2026	      sort(3m_unicode)
+			       February 21, 2026	      sort(3m_unicode)
 split(3m_unicode)					     split(3m_unicode)
 
 NAME
@@ -1643,14 +2328,14 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 09, 2026	     split(3m_unicode)
+			       February 21, 2026	     split(3m_unicode)
 sub(3m_unicode) 					       sub(3m_unicode)
 
 NAME
   SUB(3f) - [M_unicode:EDITING] Return substring (LICENSE:MIT)
 
 SYNOPSIS
-  function sub(str,left,right,step) result(section)
+  impure elemental function sub(str,left,right,step) result(section)
 
       type(unicode_type)	  :: str
       integer,intent(in),optional :: left
@@ -1718,7 +2403,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 09, 2026	       sub(3m_unicode)
+			       February 21, 2026	       sub(3m_unicode)
 tokenize(3m_unicode)					  tokenize(3m_unicode)
 
 NAME
@@ -1888,7 +2573,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 09, 2026	  tokenize(3m_unicode)
+			       February 21, 2026	  tokenize(3m_unicode)
 transliterate(3m_unicode)			     transliterate(3m_unicode)
 
 NAME
@@ -1896,12 +2581,20 @@ NAME
   new set (LICENSE:MIT)
 
 SYNOPSIS
-  impure function transliterate(instr,old_set,new_set) result(outstr)
+  impure elemental & & function transliterate(instr,old_set,new_set)
+  result(outstr)
 
-       type(unicode_type),intent(in)  :: instr
-       type(unicode_type),intent(in)  :: old_set
-       type(unicode_type),intent(in)  :: new_set
-       type(unicode_type)	      :: outstr
+    type(unicode_type),intent(in)
+      :: instr
+
+    type(unicode_type),intent(in)
+      :: old_set
+
+    type(unicode_type),intent(in)
+      :: new_set
+
+    type(unicode_type)
+      :: outstr
 
 CHARACTERISTICS
   Although a conversion might occur on each call, the input values may be
@@ -2018,7 +2711,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 09, 2026     transliterate(3m_unicode)
+			       February 21, 2026     transliterate(3m_unicode)
 trim(3m_unicode)					      trim(3m_unicode)
 
 NAME
@@ -2109,7 +2802,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 09, 2026	      trim(3m_unicode)
+			       February 21, 2026	      trim(3m_unicode)
 upper(3m_unicode)					     upper(3m_unicode)
 
 NAME
@@ -2210,7 +2903,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 09, 2026	     upper(3m_unicode)
+			       February 21, 2026	     upper(3m_unicode)
 utf8_to_codepoints(3m_unicode)			utf8_to_codepoints(3m_unicode)
 
 NAME
@@ -2325,7 +3018,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 09, 2026utf8_to_codepoints(3m_unicode)
+			       February 21, 2026utf8_to_codepoints(3m_unicode)
 verify(3m_unicode)					    verify(3m_unicode)
 
 NAME
@@ -2746,7 +3439,125 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 09, 2026	    verify(3m_unicode)
+			       February 21, 2026	    verify(3m_unicode)
+index(3m_unicode)					     index(3m_unicode)
+
+NAME
+  INDEX(3f) - [M_unicode:SEARCH] Position of a substring within a string
+  (LICENSE:MIT)
+
+SYNOPSIS
+  result = index( string, substring [,back] [,kind] )
+
+     elemental integer(kind=KIND) function index(string,substring,back,kind)
+
+      character(len=*,kind=KIND),intent(in) :: string
+      character(len=*,kind=KIND),intent(in) :: substring
+      logical(kind=**),intent(in),optional :: back
+      integer(kind=**),intent(in),optional :: kind
+
+CHARACTERISTICS
+  •  STRING is a character variable of any kind
+
+  •  SUBSTRING is a character variable of the same kind as STRING
+
+  •  BACK is a logical variable of any supported kind
+
+  •  KIND is a scalar integer constant expression.
+
+DESCRIPTION
+  INDEX(3) returns the position of the start of the leftmost or rightmost
+  occurrence of string SUBSTRING in STRING, counting from one. If SUBSTRING is
+  not present in STRING, zero is returned.
+
+OPTIONS
+  •  STRING : string to be searched for a match
+
+  •  SUBSTRING : string to attempt to locate in STRING
+
+  •  BACK : If the BACK argument is present and true, the return value is the
+     start of the rightmost occurrence rather than the leftmost.
+
+  •  KIND : if KIND is present, the kind type parameter is that specified by
+     the value of KIND; otherwise the kind type parameter is that of default
+     integer type.
+
+RESULT
+  The result is the starting position of the first substring SUBSTRING found
+  in STRING.
+
+  If the length of SUBSTRING is longer than STRING the result is zero.
+
+  If the substring is not found the result is zero.
+
+  If BACK is .true. the greatest starting position is returned (that is, the
+  position of the right‐most match). Otherwise, the smallest position starting
+  a match (ie. the left‐most match) is returned.
+
+  The position returned is measured from the left with the first character of
+  STRING being position one.
+
+  Otherwise, if no match is found zero is returned.
+
+EXAMPLES
+  Example program
+
+     program demo_index
+     use M_unicode, only : ut=>unicode_type
+     use M_unicode, only : assignment(=)
+     use M_unicode, only : index
+     implicit none
+     type(ut)			:: str
+     character(len=*),parameter :: all='(*(g0))'
+     integer			:: ii
+	!
+	str='Huli i kēia kaula no kēia ʻōlelo'
+	!bug!print all, index(str,'kēia').eq.8
+	ii=index(str,'kēia'); print all, ii.eq.8
+	!
+	! return value is counted from the left end even if BACK=.TRUE.
+	!bug!print all, index(str,'kēia',back=.true.).eq.22
+	ii=index(str,'kēia',back=.true.); print all, ii.eq.22
+	!
+	! INDEX is case-sensitive
+	!bug!print all, index(str,'Kēia').eq.0
+	ii=index(str,'Kēia'); print all, ii.eq.0
+	!<<<<<<<<<<
+	!ifx bug: ifx (IFX) 2024.1.0 20240308
+	!
+	!example/demo_index.f90(17): error #6766: A binary defined OPERATOR
+	!definition is missing or incorrect.   [EQ]
+	!	 print all, index(str,'k  ia',back=.true.).eq.22
+	!--------------------------------------------------^
+	!Original works with gfortran and flang_new and this works with ifx
+	!	 ii=ndex(str,'k  ia',back=.true.)
+	!    print all, ii.eq.22
+	!>>>>>>>>>>
+     end program demo_index
+
+  Expected Results:
+
+     > T
+     > T
+     > T
+     > T
+     > T
+     > T
+
+SEE ALSO
+  Functions that perform operations on character strings, return lengths of
+  arguments, and search for certain arguments:
+
+  •  ELEMENTAL: ADJUSTL(3), ADJUSTR(3), INDEX(3), SCAN(3), VERIFY(3)
+
+  •  NONELEMENTAL: LEN_TRIM(3), LEN(3), REPEAT(3), TRIM(3)
+
+AUTHOR
+  John S. Urban
+
+LICENSE
+   MIT
+			       February 21, 2026	     index(3m_unicode)
 isascii(3m_unicode)					   isascii(3m_unicode)
 
 NAME
@@ -2783,7 +3594,7 @@ EXAMPLES
       use M_unicode, only : isascii, ch=>character
       implicit none
       integer			   :: i
-      character(len=255)	   :: ascii8
+      character(len=256)	   :: ascii8
       type(ut)			   :: uascii8
       type(ut)			   :: ustring
       character(len=:),allocatable :: astring
@@ -2819,9 +3630,112 @@ AUTHOR
   John S. Urban
 
 LICENSE
-  Public Domain
+   MIT
+			       February 21, 2026	   isascii(3m_unicode)
+isblank(3m_unicode)					   isblank(3m_unicode)
 
-			       February 09, 2026	   isascii(3m_unicode)
+NAME
+  isblank(3f) - [M_unicode:COMPARE] returns .true. if character is a Unicode
+  or ASCII-7 blank character (space or horizontal tab) .  (LICENSE:PD)
+
+SYNOPSIS
+  elemental function isblank(onechar)
+
+      type(unicode_type),intent(in)   :: string
+      !or
+      character(len=*,intent(in)      :: characters
+
+      logical		   :: isblank
+
+DESCRIPTION
+  isblank(3f) returns .true. if all characters are a blank character (ASCII-7
+  space or Unicode blank character) or horizontal tab.
+
+OPTIONS
+  str
+    variable to test
+
+RETURNS
+  isblank
+    logical value returns true if character is a "blank" ( an ASCII space or
+    Unicode blank) or horizontal tab character.
+
+EXAMPLES
+  Sample program:
+
+      program demo_isblank
+      use M_unicode, only : isblank, unicode, ch=>character, unicode_type
+      use M_unicode, only : assignment(=)
+      implicit none
+      integer			 :: i
+      type(unicode_type)	 :: string_u
+      character(len=1),parameter :: string_a(*)=[(char(i),i=0,127)]
+
+	 write(*,'(*(g0,1x))')'ISBLANK PASSED TYPE(CHARACTER) : ',isblank(string_a)
+
+	 string_u=unicode%SPACES
+	 write(*,'(*(g0,1x))')'ISBLANK PASSED TYPE(UNICODE_TYPE): ',isblank(string_u)
+	 write(*,'(*(g0))')'BLANKS: ',ch(string_u)
+	 write(*,'(*(g0),1x)')'BLANKS: ',string_u%codepoint()
+      end program demo_isblank
+
+  Results:
+
+     ISBLANK:  9 32
+
+AUTHOR
+  John S. Urban
+
+LICENSE
+   MIT
+			       February 21, 2026	   isblank(3m_unicode)
+isspace(3m_unicode)					   isspace(3m_unicode)
+
+NAME
+  isspace(3f) - [M_unicode:COMPARE] returns .true. if character is a null,
+  space, tab, carriage return, new line, vertical tab, or formfeed
+  (LICENSE:PD)
+
+SYNOPSIS
+  elemental function isspace(onechar)
+
+      character,intent(in) :: onechar
+      logical		   :: isspace
+
+DESCRIPTION
+  isspace(3f) returns .true. if character is a null, space, tab, carriage
+  return, new line, vertical tab, or formfeed
+
+OPTIONS
+  onechar
+    character to test
+
+RETURNS
+  isspace
+    returns true if character is ASCII white space
+
+EXAMPLES
+  Sample program:
+
+      program demo_isspace
+      use M_unicode, only : isspace
+      implicit none
+      integer			 :: i
+      character(len=1),parameter :: string(*)=[(char(i),i=0,127)]
+	 write(*,'(20(g0,1x))')'ISSPACE: ', &
+	 & iachar(pack( string, isspace(string) ))
+      end program demo_isspace
+
+  Results:
+
+     ISSPACE:  0 9 10 11 12 13 32
+
+AUTHOR
+  John S. Urban
+
+LICENSE
+   MIT
+			       February 21, 2026	   isspace(3m_unicode)
 join(3m_unicode)					      join(3m_unicode)
 
 NAME
@@ -2921,7 +3835,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 09, 2026	      join(3m_unicode)
+			       February 21, 2026	      join(3m_unicode)
 len(3m_unicode) 					       len(3m_unicode)
 
 NAME
@@ -3013,7 +3927,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 09, 2026	       len(3m_unicode)
+			       February 21, 2026	       len(3m_unicode)
 len_trim(3m_unicode)					  len_trim(3m_unicode)
 
 NAME
@@ -3104,537 +4018,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 09, 2026	  len_trim(3m_unicode)
-lower(3m_unicode)					     lower(3m_unicode)
-
-NAME
-  LOWER(3f) - [M_unicode:CASE] changes a string to lowercase over specified
-  range (LICENSE:MIT)
-
-SYNOPSIS
-  elemental pure function lower(str) result (string)
-
-       character(*), intent(in) :: str
-       character(len(str))	:: string  ! output string
-
-DESCRIPTION
-  lower(str) returns a copy of the input string with all characters converted
-  to miniscule (ie. "lowercase").
-
-OPTIONS
-  str
-    string to convert to miniscule
-
-RETURNS
-  lower
-    copy of the entire input string with all characters converted to
-    miniscule.
-
-TRIVIA
-  The terms "uppercase" and "lowercase" date back to the early days of the
-  mechanical printing press. Individual metal alloy casts of each needed
-  letter or punctuation symbol were meticulously added to a press block, by
-  hand, before rolling out copies of a page. These metal casts were stored and
-  organized in wooden cases. The more-often-needed miniscule letters were
-  placed closer to hand, in the lower cases of the work bench. The less often
-  needed, capitalized, majuscule letters, ended up in the harder to reach
-  upper cases.
-
-EXAMPLES
-  Sample program:
-
-     program demo_lower
-     use iso_fortran_env, only : stdout => output_unit
-     use M_unicode,	  only : lower, unicode_type, assignment(=), trim
-     use M_unicode,	  only : ut => unicode_type, operator(==)
-     implicit none
-     character(len=*),parameter :: g='(*(g0))'
-     type(unicode_type) :: pangram
-     type(unicode_type) :: diacritics
-     type(unicode_type) :: expected
-       !
-       ! a sentence containing every letter of the English alphabet
-       pangram="THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG"
-       expected="the quick brown fox jumps over the lazy dog"
-       call test(pangram,expected)
-       !
-       ! Slovak pangram
-       PANGRAM	  = 'VYPÄTÁ DCÉRA GRÓFA MAXWELLA S IQ NIŽŠÍM AKO &
-       &KÔŇ NÚTI ČEĽAĎ HRÝZŤ HŔBU JABĹK.'
-       expected   = 'vypätá dcéra grófa maxwella s iq nižším ako &
-       &kôň núti čeľaď hrýzť hŕbu jabĺk.'
-       call test(pangram,expected)
-       !
-       ! contains each special Czech letter with diacritics exactly once
-       DIACRITICS='PŘÍLIŠ ŽLUŤOUČKÝ KŮŇ ÚPĚL ĎÁBELSKÉ ÓDY.'
-       expected ='příliš žluťoučký kůň úpěl ďábelské ódy.'
-       print g,'("A horse that was too yellow-ish moaned devilish odes")'
-       call test(diacritics,expected)
-     contains
-     subroutine test(in,expected)
-     type(unicode_type),intent(in) :: in
-     type(unicode_type),intent(in) :: expected
-     type(unicode_type) 	   :: lowercase
-     character(len=*),parameter    :: nl=new_line('A')
-	 write(stdout,g)in%character()
-	 lowercase=lower(in)
-	 write(stdout,g)lowercase%character()
-	 write(stdout,g)merge('PASSED','FAILED',lowercase == expected ),nl
-     end subroutine test
-     end program demo_lower
-
-  Expected output
-
-     > THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG
-     > the quick brown fox jumps over the lazy dog
-     > PASSED
-     >
-     > VYPÄTÁ DCÉRA GRÓFA MAXWELLA S IQ NIŽŠÍM AKO KÔŇ NÚTI ...
-     > ČEĽAĎ HRÝZŤ HŔBU JABĹK.
-     > vypätá dcéra grófa maxwella s iq nižším ako kôň núti ...
-     > čeľaď hrýzť hŕbu jabĺk.
-     > PASSED
-     >
-     > ("A horse that was too yellow-ish moaned devilish odes")
-     > PŘÍLIŠ ŽLUŤOUČKÝ KŮŇ ÚPĚL ĎÁBELSKÉ ÓDY.
-     > příliš žluťoučký kůň úpěl ďábelské ódy.
-     > PASSED
-
-AUTHOR
-  John S. Urban
-
-LICENSE
-   MIT
-			       February 09, 2026	     lower(3m_unicode)
-M_unicode(3m_unicode)					 M_unicode(3m_unicode)
-
-NAME
-  M_unicode(3f) - [M_unicode::INTRO] Unicode string module (LICENSE:MIT)
-
-DESCRIPTION
-  The M_unicode(3f) module is a collection of Fortran string methods that work
-  with UTF-8-encoded as well as ASCII-7 data via the user-defined type
-  "unicode_type". The type supports allocatable ragged arrays where each
-  element may be of differing length.
-
-  M_unicode(3f) includes routines for parsing, tokenizing, changing case,
-  substituting new strings for substrings, locating strings with simple
-  wildcard expressions, removing tabs and line terminators and other string
-  manipulations.
-
-  The M_unicode(3fm) module also supplements the Fortran built-in intrinsics
-  with overloads of operators and intrinsics that allow type(unicode_type) to
-  be used with intrinsic names in much the same manner the intrinsics operate
-  on CHARACTER variables.
-
-  Overloads of assignment, logical comparisons, and concatenation using the //
-  operator with strings (and other types) are included as well as the
-  intrinsics to make use of type(unicode_type) largely consistent with
-  standard CHARACTER string manipulations.
-
-  Nearly all the methods are available using OOP syntax as well as
-  procedurally.
-
-  The type components are not public to allow for use of the same user code
-  when using other modules such as M_utf8 which ultimately will provide the
-  same user interface but internally using ISO_10646 internal encoding instead
-  of an array of integers containing codepoints (which is what M_unicode
-  uses). This has the drawback of not permitting easy use of array syntax
-  directly on the codepoint array. Perhaps this decision will change but in
-  the meantime several methods such as REPLACE and CHARACTER and SUB
-
-SYNOPSIS
-  public methods:
-
-   TOKENS
-  split
-    subroutine parses string using specified delimiter characters into tokens
-
-  tokenize
-    Parse a string into tokens.
-
-   EDITING
-  replace
-    function non-recursively globally replaces old substring with new
-    substring
-
-  transliterate
-    replace characters from old set with new set
-
-   CASE
-  upper
-    function converts string to uppercase
-
-  lower
-    function converts string to miniscule
-
-   STRING LENGTH
-  len
-    return the length of a string in glyphs
-
-  len_trim
-    find location of last non-whitespace glyph
-
-   PADDING
-  pad
-    pad string to at least specified length with pattern string
-
-  repeat
-    Repeated string concatenation
-
-   WHITE SPACE
-  trim
-    Remove trailing blank characters of a string
-
-  expandtabs
-    expand tab characters
-
-  adjustl
-    Left adjust a string
-
-  adjustr
-    Right adjust a string
-
-   ENCODING
-  character(STRING,start,end,inc)
-    converts a string to type CHARACTER.
-
-  escape
-    expand C-like escape strings
-
-  add_backslash
-    replace other than printable ASCII-7 characters with C-like escape strings
-
-  remove_backslash
-    expand C-like escape strings
-
-  codepoints_to_utf8(codepoints,utf8,nerr)
-    subroutine to convert codepoints to UTF-8 bytes
-
-  utf8_to_codepoints(utf8,codepoints,nerr)
-    subroutine to convert UTF-8 bytes to codepoints
-
-  STRING%character(start,end,inc)
-    OOP syntax for converting a string to type CHARACTER.
-
-  STRING%bytes(start,end,inc)
-    Convert to an array of CHARACTER(len=1) bytes.
-
-  STRING%codepoint(start,end,inc)
-    converts a string to an INTEGER array of Unicode codepoints
-
-  char
-    converts an integer codepoint into a character
-
-  ichar
-    converts a type(unicode_type) glyph into an integer codepoint
-
-   NUMERIC STRINGS
-  fmt
-    convert intrinsic to string using optional format
-
-   CHARACTER TESTS
-  ! based on Unicode codepoint, not dictionary order
-
-  lgt
-    Lexical greater than
-
-  lge
-    Lexical greater than or equal
-
-  leq
-    Lexical equal
-
-  lne
-    Lexical not equal
-
-  lle
-    Lexical less than or equal
-
-  llt
-    Lexical less than
-
-   QUERY
-  isascii
-    checks whether string is composed all of 7-bit unsigned character values
-    that fit into the ASCII-7 character set.
-
-   IO
-  readline
-    read a text line from a file
-
-   LOCATION
-  index
-    Position of a substring within a string
-
-  scan
-    Scan a string for the presence of a set of characters
-
-  verify
-    Scan a string for the absence of a set of characters
-
-   CONCATENATION
-  join
-    join elements of an array into a single string operator(.cat.),
-
-  operator(//)
-    concatenate strings and/or convert intrinsics to strings and concatenate
-
-   SYSTEM
-  get_env
-    Get environment variable
-
-  get_arg
-    Get command line argument
-
-   SORT
-  sort
-    Sort by Unicode codepoint value (not dictionary order)
-
-   BASE CONVERSION
-   QUOTES
-   NONALPHA
-   OOPS INTERFACE
-  An OOP (Object-Oriented Programming) interface to the M_unicode(3fm) module
-  provides an alternative interface to all the same procedures except for
-  SORT(3f) and CHAR(3f).
-
-SEE ALSO
-  All the procedure descriptions are conglomerated into the single file
-  "manual.txt" for simple access not requiring access to man-pages or
-  browsers.
-
-  There are additional routines in other GPF modules for working with
-  expressions (M_calculator), time strings (M_time), random strings (M_random,
-  M_uuid), lists (M_list), and interfacing with the C regular expression
-  library (M_regex).
-
-EXAMPLES
-  Each of the procedures includes an example program in the example/ directory
-  as well as a corresponding man(1) page for the procedure.
-
-  Sample program:
-
-     program demo_M_unicode
-     use,intrinsic :: iso_fortran_env, only : stdout=>output_unit
-     use M_unicode,only : tokenize, replace, character, upper, lower, len
-     use M_unicode,only : unicode_type, assignment(=), operator(//)
-     use M_unicode,only : ut => unicode_type, ch => character
-     use M_unicode,only : write(formatted)
-     type(unicode_type) 	    :: string
-     type(unicode_type) 	    :: numeric, uppercase, lowercase
-     type(unicode_type),allocatable :: array(:)
-     character(len=*),parameter     :: all='(g0)'
-     !character(len=*),parameter     :: uni='(DT)'
-     uppercase='АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ'
-     lowercase='абвгґдеєжзиіїйклмнопрстуфхцчшщьюя'
-     numeric='0123456789'
-      !
-      string=uppercase//numeric//lowercase
-      !
-      print all, 'Original string:'
-      print all, ch(string)
-      print all, 'length in bytes :',len(string%character())
-      print all, 'length in glyphs:',len(string)
-      print all
-      !
-      print all, 'convert to all uppercase:'
-      print all, ch( UPPER(string) )
-      print all
-      !
-      print all, 'convert to all lowercase:'
-      print all, ch( string%LOWER() )
-      print all
-      !
-      print all, 'tokenize on spaces ... '
-      call TOKENIZE(string,ut(' '),array)
-      print all, '... writing with A or G format:',character(array)
-      !print uni, ut('... writing with DT format'),array
-      print all
-      !
-      print all, 'case-insensitive replace:'
-      print all, ch( &
-      & REPLACE(string, &
-      & ut('клмнопрс'), &
-      & ut('--------'), &
-      & ignorecase=.true.) )
-      !
-      print all
-      !
-     end program demo_M_unicode
-
-  Results:
-
-     > Original string:
-     > АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ0123456789 ...
-     > абвгґдеєжзиіїйклмнопрстуфхцчшщьюя
-     > length in bytes :
-     > 144
-     > length in glyphs:
-     > 78
-     >
-     > convert to all uppercase:
-     > АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ0123456789 ...
-     > АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ
-     >
-     >
-     > tokenize on spaces ...
-     > ... writing with A or G format:
-     > АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ
-     > 0123456789
-     > абвгґдеєжзиіїйклмнопрстуфхцчшщьюя
-     > ... writing with DT format
-     > АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ
-     > 0123456789
-     > абвгґдеєжзиіїйклмнопрстуфхцчшщьюя
-     >
-     > case-insensitive replace:
-     > АБВГҐДЕЄЖЗИІЇЙ--------ТУФХЦЧШЩЬЮЯ0123456789 ...
-     > абвгґдеєжзиіїй--------туфхцчшщьюя
-
-AUTHOR
-  John S. Urban
-
-LICENSE
-   MIT
-			       February 09, 2026	 M_unicode(3m_unicode)
-pad(3m_unicode) 					       pad(3m_unicode)
-
-NAME
-  PAD(3f) - [M_unicode:PAD] return string padded to at least specified length
-  (LICENSE:MIT)
-
-SYNOPSIS
-  function pad(str,length,pattern,right,clip) result(out)
-
-      type(unicode_type)			 :: str
-      integer,intent(in)			 :: length
-      type(unicode_type)			 :: out
-      type(unicode_type),intent(in),optional	 :: pattern
-      logical,intent(in),optional		 :: right
-      logical,intent(in),optional		 :: clip
-
-DESCRIPTION
-  pad(3f) pads a string with a pattern to at least the specified length. If
-  the trimmed input string is longer than the requested length the trimmed
-  string is returned.
-
-OPTIONS
-  str
-    the input string to return trimmed, but then padded to the specified
-    length if shorter than length
-
-  length
-    The minimum string length to return
-
-  pattern
-    optional string to use as padding. Defaults to a space.
-
-  right
-    if true pads string on the right, else on the left. Defaults to true.
-
-  clip
-    trim spaces from input string ends. Defaults to .true.
-
-RETURNS
-  out
-    The input string padded to the requested length or the trimmed input
-    string if the input string is longer than the requested length.
-
-EXAMPLES
-  Sample Program:
-
-    program demo_pad
-    use M_unicode, only  : pad, assignment(=)
-    !use M_unicode, only : write(formatted)
-    use M_unicode, only  : len
-    use M_unicode, only  : ch=> character
-    use M_unicode, only  : ut=> unicode_type
-    implicit none
-    type(ut)		       :: string
-    type(ut)		       :: answer
-    integer		       :: i
-    !character(len=*),parameter :: u='(*(DT))'
-    character(len=*),parameter :: u='(*(g0))'
-      !
-      string='abcdefghij'
-      !
-      write(*,*)'pad on right till 20 characters long'
-      answer=pad(string,20)
-      write(*,'("[",g0,"]",/)') answer%character()
-      !
-      write(*,*)'original is not trimmed for short length requests'
-      answer=pad(string,5)
-      write(*,'("[",g0,"]",/)') answer%character()
-      !
-      i=30
-      write(*,*)'pad with specified string and left-justified integers'
-      write(*,'(1x,g0,1x,i0)') &
-       & ch(pad(ut('CHAPTER 1 : The beginning '),i,ut('.') )), 1   , &
-       & ch(pad(ut('CHAPTER 2 : The end '),i,ut('.') )),       1234, &
-       & ch(pad(ut('APPENDIX '),i,ut('.') )),		       1235
-      !
-      write(*,*)'pad with specified string and right-justified integers'
-      write(*,'(1x,g0,i7)') &
-       & ch(pad(ut('CHAPTER 1 : The beginning '),i,ut('.') )), 1   , &
-       & ch(pad(ut('CHAPTER 2 : The end '),i,ut('.') )),       1234, &
-       & ch(pad(ut('APPENDIX '),i,ut('.') )),		       1235
-      !
-      write(*,*)'pad on left with zeros'
-      write(*,u)ch(pad(ut('12'),5,ut('0'),right=.false.))
-      !
-      write(*,*)'various lengths with clip .true. and .false.'
-      write(*,u)ch(pad(ut('12345 '),30,ut('_'),right=.false.))
-      write(*,u)ch(pad(ut('12345 '),30,ut('_'),right=.false.,clip=.true.))
-      write(*,u)ch(pad(ut('12345 '), 7,ut('_'),right=.false.))
-      write(*,u)ch(pad(ut('12345 '), 7,ut('_'),right=.false.,clip=.true.))
-      write(*,u)ch(pad(ut('12345 '), 6,ut('_'),right=.false.))
-      write(*,u)ch(pad(ut('12345 '), 6,ut('_'),right=.false.,clip=.true.))
-      write(*,u)ch(pad(ut('12345 '), 5,ut('_'),right=.false.))
-      write(*,u)ch(pad(ut('12345 '), 5,ut('_'),right=.false.,clip=.true.))
-      write(*,u)ch(pad(ut('12345 '), 4,ut('_'),right=.false.))
-      write(*,u)ch(pad(ut('12345 '), 4,ut('_'),right=.false.,clip=.true.))
-  end program demo_pad
-
-    Results:
-
-     >	pad on right till 20 characters long
-     > [abcdefghij	    ]
-     >
-     >	original is not trimmed for short length requests
-     > [abcdefghij]
-     >
-     >	pad with specified string and left-justified integers
-     >	CHAPTER 1 : The beginning .... 1
-     >	CHAPTER 2 : The end .......... 1234
-     >	APPENDIX ..................... 1235
-     >	pad with specified string and right-justified integers
-     >	CHAPTER 1 : The beginning ....	    1
-     >	CHAPTER 2 : The end ..........	 1234
-     >	APPENDIX .....................	 1235
-     >	pad on left with zeros
-     > 00012
-     >	various lengths with clip .true. and .false.
-     > ________________________12345
-     > _________________________12345
-     > _12345
-     > __12345
-     > 12345
-     > _12345
-     > 12345
-     > 12345
-     > 12345
-     > 2345
-
-SEE ALSO
-  adjustl(3f), adjustr(3f), repeat(3f), trim(3f), len_trim(3f), len(3f)
-
-AUTHOR
-  John S. Urban
-
-LICENSE
-   MIT
-			       February 09, 2026	       pad(3m_unicode)
+			       February 21, 2026	  len_trim(3m_unicode)
 escape(3m_unicode)					    escape(3m_unicode)
 
 NAME
@@ -3775,7 +4159,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 09, 2026	    escape(3m_unicode)
+			       February 21, 2026	    escape(3m_unicode)
 expandtabs(3m_unicode)					expandtabs(3m_unicode)
 
 NAME
@@ -3848,7 +4232,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 09, 2026	expandtabs(3m_unicode)
+			       February 21, 2026	expandtabs(3m_unicode)
 fmt(3m_unicode) 					       fmt(3m_unicode)
 
 NAME
@@ -3921,7 +4305,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 09, 2026	       fmt(3m_unicode)
+			       February 21, 2026	       fmt(3m_unicode)
 adjustr(3m_unicode)					   adjustr(3m_unicode)
 
 NAME
@@ -4086,7 +4470,7 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 09, 2026	   adjustr(3m_unicode)
+			       February 21, 2026	   adjustr(3m_unicode)
 add_backslash(3m_unicode)			     add_backslash(3m_unicode)
 
 NAME
@@ -4199,4 +4583,4 @@ AUTHOR
 
 LICENSE
    MIT
-			       February 09, 2026     add_backslash(3m_unicode)
+			       February 21, 2026     add_backslash(3m_unicode)

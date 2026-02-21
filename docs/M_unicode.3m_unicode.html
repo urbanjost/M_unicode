@@ -76,36 +76,60 @@ M_unicode(3f) - [M_unicode::INTRO] Unicode string module
 </A>
 <BLOCKQUOTE>
 The M_unicode(3f) module is a collection of Fortran string
-methods that work with UTF-8-encoded as well as ASCII-7 data via the
-user-defined type "unicode_type". The type supports allocatable ragged
-arrays where each element may be of differing length.
+methods that work with UTF-8 encoded text not just ASCII-7 data.
 <P>
-M_unicode(3f) includes routines for parsing, tokenizing, changing
-case, substituting new strings for substrings, locating strings with
-simple wildcard expressions, removing tabs and line terminators and
-other string manipulations.
+Strings are declared using the user-defined type "UNICODE_TYPE". The
+type supports allocatable ragged arrays where each element may be of
+differing length.
 <P>
-The M_unicode(3fm) module also supplements the Fortran built-in
-intrinsics with overloads of operators and intrinsics that allow
-type(unicode_type) to be used with intrinsic names in much the same
-manner the intrinsics operate on CHARACTER variables.
+Compiler support of the optional Fortran ISO_10646 extension is
+not required.
 <P>
-Overloads of assignment, logical comparisons, and concatenation
-using the // operator with strings (and other types) are included
-as well as the intrinsics to make use of type(unicode_type) largely
-consistent with standard CHARACTER string manipulations.
+The M_unicode(3) module overloads the Fortran built-in CHARACTER
+intrinsics and operators to allow TYPE(UNICODE_TYPE) to use the
+intrinsic procedure names in much the same manner the intrinsics are
+used with CHARACTER variables.
 <P>
-Nearly all the methods are available using OOP syntax as well as
-procedurally.
+The intrinsic overloads include TOKENIZE(3) and SPLIT(3) even if the
+underlying compiler does not yet support those intrinsics.
 <P>
-The type components are not public to allow for use of the same
-user code when using other modules such as M_utf8 which ultimately
-will provide the same user interface but internally using ISO_10646
-internal encoding instead of an array of integers containing codepoints
-(which is what M_unicode uses). This has the drawback of not permitting
-easy use of array syntax directly on the codepoint array. Perhaps this
-decision will change but in the meantime several methods such as REPLACE
-and CHARACTER and SUB
+Overloads of assignment, logical comparisons, and concatenation using
+the // operator with strings (and other types) are included as well
+to make use of TYPE(UNICODE_TYPE) largely consistent with standard
+CHARACTER string manipulations.
+<P>
+Nearly all the methods are available using both OOP and procedural
+syntax.
+<P>
+In addition M_unicode(3) includes routines for parsing, tokenizing,
+changing case, substituting new strings for substrings, locating
+strings with simple wildcard expressions, removing tabs and
+line terminators and other advanced non-intrinsic string
+manipulations.
+<P>
+The **UPPER()** and **LOWER()** functions support the concept of
+case for the Unicode Latin characters not just the ASCII subset,
+and a basic SORT() function provides for ordering the data by Unicode
+codepoint values.
+<P>
+A PAD() function allows padding strings at least up to a specified
+glyph length with a repeating pattern.
+<P>
+**M_unicode** should be useful for anyone working with UTF-8 data,
+particularly if the compiler does not support the UCS-4 extensions
+of Fortran.
+<P>
+Until proven otherwise M_unicode(3) should work with any environment
+where UTF-8 files are supported.
+<P>
+The type components are not public to allow for use of the same user
+code when using other modules such as M_ucs4(3) which ultimately will
+provide the same user interface but internally using ISO_10646 internal
+encoding instead of an array of integers containing codepoints (which
+is what M_unicode(3) uses). This has the drawback of not permitting
+easy use of array syntax directly on the codepoint array. Perhaps
+this decision will change but in the meantime several methods such as
+REPLACE(3) and CHARACTER(3) and SUB(3) provide similar functionality.
 </BLOCKQUOTE>
 <A name=2>
 
@@ -262,7 +286,7 @@ OOP syntax for converting a string to
 type CHARACTER.
 </TD></TR>
 <TR valign=top><TD colspan=2>
-<B>STRING%bytes(start,end,inc)</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+<B>STRING%byte(start,end,inc)</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
 Convert to an array of
 CHARACTER(len=1) bytes.
 </TD></TR>
@@ -273,7 +297,7 @@ array of Unicode codepoints
 </TD></TR>
 <TR valign=top><TD width=6% nowrap>
 <B>char</B> </TD><TD valign=bottom>
-converts an integer codepoint into a character
+converts an integer codepoint into a string
 </TD></TR>
 <TR valign=top><TD width=6% nowrap>
 <B>ichar</B> </TD><TD valign=bottom>
@@ -290,7 +314,8 @@ codepoint
 <TABLE cellpadding=3>
 <TR valign=top><TD width=6% nowrap>
 <B>fmt</B> </TD><TD valign=bottom>
-convert intrinsic to string using optional format
+convert intrinsic numeric value to string using optional
+format
 </TD></TR>
 <TR></TR></TABLE></BLOCKQUOTE>
 <A name=>
@@ -299,8 +324,17 @@ convert intrinsic to string using optional format
 </A>
 <BLOCKQUOTE>
 <P>
-! based on Unicode codepoint, not dictionary order
-<TABLE cellpadding=3><!-- tsb: ! based on Unicode codepoint, not dictionary order
+<TABLE cellpadding=3>
+<TR valign=top><TD width=6% nowrap>
+<B>glob</B> </TD><TD valign=bottom>
+compares given string for match to pattern which may
+contain wildcard characters
+</TD></TR>
+<TR></TR></TABLE></BLOCKQUOTE>
+<P>
+! the following are based on Unicode codepoint, not dictionary order
+<BLOCKQUOTE>
+<TABLE cellpadding=3><!-- tsb: ! the following are based on Unicode codepoint, not dictionary order
  -->
 <TR></TR><TR></TR>
 <TR valign=top><TD width=6% nowrap>
@@ -336,9 +370,19 @@ Lexical less than
 <TABLE cellpadding=3>
 <TR valign=top><TD colspan=2>
 <B>isascii</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
-checks whether string is composed all of
-7-bit unsigned character values that fit
-into the ASCII-7 character set.
+checks whether string is composed of all
+character values that fit into the ASCII-7 character set.
+</TD></TR>
+<TR valign=top><TD colspan=2>
+<B>isblank</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+returns .true. if string is composed of all blanks
+(spaces or from the set of Unicode blanks or a horizontal
+tab).
+</TD></TR>
+<TR valign=top><TD colspan=2>
+<B>isspace</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+returns .true. if string is composed of all spaces
+(ASCII-7 spaces or from the set of Unicode blanks).
 </TD></TR>
 <TR></TR></TABLE></BLOCKQUOTE>
 <A name=>
@@ -352,6 +396,11 @@ into the ASCII-7 character set.
 <B>readline</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
 read a text line from a file
 </TD></TR>
+<TR valign=top><TD width=6% nowrap>
+<B>slurp</B> </TD><TD valign=bottom>
+read formatted UTF-8 encoded file into TYPE(UNICODE_TYPE)
+array
+</TD></TR>
 <TR></TR></TABLE></BLOCKQUOTE>
 <A name=>
 
@@ -362,7 +411,7 @@ read a text line from a file
 <TABLE cellpadding=3>
 <TR valign=top><TD width=6% nowrap>
 <B>index</B> </TD><TD valign=bottom>
-Position of a substring within a string
+glyph position of a substring within a string
 </TD></TR>
 <TR valign=top><TD width=6% nowrap>
 <B>scan</B> </TD><TD valign=bottom>
