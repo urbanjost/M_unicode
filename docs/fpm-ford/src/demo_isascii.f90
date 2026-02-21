@@ -3,7 +3,7 @@
       use M_unicode, only : isascii, ch=>character
       implicit none
       integer                      :: i
-      character(len=255)           :: ascii8
+      character(len=256)           :: ascii8
       type(ut)                     :: uascii8
       type(ut)                     :: ustring
       character(len=:),allocatable :: astring

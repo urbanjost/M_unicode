@@ -91,20 +91,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.4% of total for procedures.">6 statements</a>
+                 title=" 0.4% of total for procedures.">8 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/demo_readline.f90"> Source File</a>
+              <a href="../src/test_M_unicode.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/demo_readline.f90.html'>demo_readline.f90</a></li>
-                <li class="breadcrumb-item"><a href='../program/demo_readline.html'>demo_readline</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/test_m_unicode.f90.html'>test_M_unicode.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/testsuite_m_unicode.html'>testsuite_M_unicode</a></li>
             <li class="breadcrumb-item active" aria-current="page">checkit</li>
           </ol>
         </nav>
@@ -158,15 +158,86 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2> subroutine checkit()  
+    <h2>public  subroutine checkit(label, aline, answer, expected)  
 </h2>
     
 
 
 
     <h3>Arguments</h3>
-    <em>None</em>
-    <br>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-label"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>label</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-aline~10"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>aline</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-answer~2"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>answer</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-expected~5"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>expected</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
     <br>
 
 
@@ -181,12 +252,14 @@
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="w">     </span><span class="k">subroutine </span><span class="n">checkit</span><span class="p">()</span>
-<span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="n">iostat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">iostat_end</span><span class="p">)</span><span class="k">then</span>
-<span class="k">           write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">&#39;error reading input:&#39;</span><span class="p">,</span><span class="n">ch</span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="n">ln</span><span class="p">))</span>
-<span class="w">        </span><span class="k">endif</span>
-<span class="k">        write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
-<span class="w">     </span><span class="k">end subroutine </span><span class="n">checkit</span>
+    <div class="hl codehilite"><pre><span></span><span class="k">subroutine </span><span class="n">checkit</span><span class="p">(</span><span class="n">label</span><span class="p">,</span><span class="n">aline</span><span class="p">,</span><span class="n">answer</span><span class="p">,</span><span class="n">expected</span><span class="p">)</span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">label</span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">aline</span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">answer</span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">expected</span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g0</span><span class="p">)</span><span class="nb">merge</span><span class="p">(</span><span class="s1">&#39;PASSED&#39;</span><span class="p">,</span><span class="s1">&#39;FAILED&#39;</span><span class="p">,</span><span class="n">answer</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="n">expected</span><span class="p">),</span><span class="s1">&#39; &#39;</span><span class="p">,</span><span class="n">label</span><span class="p">,</span><span class="s1">&#39;:[&#39;</span><span class="p">,</span><span class="n">aline</span><span class="p">,</span><span class="s1">&#39;][&#39;</span><span class="p">,</span><span class="n">answer</span><span class="p">,</span><span class="s1">&#39;][&#39;</span><span class="p">,</span><span class="n">expected</span><span class="p">,</span><span class="s1">&#39;]&#39;</span>
+<span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="n">answer</span><span class="p">.</span><span class="n">ne</span><span class="p">.</span><span class="n">expected</span><span class="p">)</span><span class="n">total</span><span class="o">=</span><span class="n">total</span><span class="o">+</span><span class="mi">1</span>
+<span class="k">end subroutine </span><span class="n">checkit</span>
 </pre></div>
 
     </section>
@@ -210,7 +283,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-02-19 11:42 +0000             </p>
+ on 2026-02-21 07:00 +0000             </p>
           </div>
         </div>
         <br>

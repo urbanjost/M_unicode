@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.3% of total for procedures.</p>Including implementation: 262 statements, 15.3% of total for procedures.">5 statements</a>
+                 title="<p> 0.3% of total for procedures.</p>Including implementation: 262 statements, 13.4% of total for procedures.">5 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -181,7 +181,7 @@
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-replace_uuu"></span> <h3>private  function replace_uuu(target, old, new, force_, occurrence, repeat, ignorecase, changes, back) result(newline)  
+    <div class="card-header codesum"><span class="anchor" id="proc-replace_uuu"></span> <h3>private impure elemental function replace_uuu(target, old, new, force_, occurrence, repeat, ignorecase, changes, back) result(newline)  
 </h3></div>
     <div class="card-body">
         <h2 id="name">NAME</h2>
@@ -192,29 +192,29 @@
 
 <h2 id="synopsis">SYNOPSIS</h2>
 <p>syntax:</p>
-<div class="codehilite"><pre><span></span><code><span class="w">   </span><span class="k">function</span><span class="w"> </span><span class="nf">replace</span><span class="p">(</span><span class="n">target</span><span class="p">,</span><span class="n">old</span><span class="p">,</span><span class="n">new</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
-<span class="w">    </span><span class="o">&amp;</span><span class="w"> </span><span class="n">occurrence</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
-<span class="w">    </span><span class="o">&amp;</span><span class="w"> </span><span class="n">repeat</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
-<span class="w">    </span><span class="o">&amp;</span><span class="w"> </span><span class="n">ignorecase</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
-<span class="w">    </span><span class="o">&amp;</span><span class="w"> </span><span class="n">ierr</span><span class="p">,</span><span class="n">back</span><span class="p">)</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="p">(</span><span class="nb">newline</span><span class="p">)</span>
-<span class="w">      </span><span class="n">or</span>
-<span class="w">   </span><span class="k">function</span><span class="w"> </span><span class="nf">replace</span><span class="p">(</span>target,start,end,new<span class="p">)</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="nb">newline</span>
+<div class="codehilite"><pre><span></span><code><span class="w">   </span><span class="nx">impure</span><span class="w"> </span><span class="nx">elemental</span><span class="w"> </span><span class="nx">function</span><span class="w"> </span><span class="nx">replace</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span><span class="nx">old</span><span class="p">,</span><span class="nx">new</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">    </span><span class="o">&amp;</span><span class="w"> </span><span class="nx">occurrence</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">    </span><span class="o">&amp;</span><span class="w"> </span><span class="nx">repeat</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">    </span><span class="o">&amp;</span><span class="w"> </span><span class="nx">ignorecase</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">    </span><span class="o">&amp;</span><span class="w"> </span><span class="nx">ierr</span><span class="p">,</span><span class="nx">back</span><span class="p">)</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="p">(</span><span class="nx">newline</span><span class="p">)</span>
+<span class="w">      </span><span class="k">or</span>
+<span class="w">   </span><span class="nx">function</span><span class="w"> </span><span class="nx">replace</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span><span class="nx">start</span><span class="p">,</span><span class="nx">end</span><span class="p">,</span><span class="nx">new</span><span class="p">)</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="nx">newline</span>
 
-<span class="w">   </span><span class="nb">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="o">|</span><span class="n">character</span><span class="p">(</span><span class="n">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">target</span>
+<span class="w">   </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span><span class="o">|</span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">target</span>
 
-<span class="w">   </span><span class="nb">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="o">|</span><span class="n">character</span><span class="p">(</span><span class="n">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">old</span>
-<span class="w">   </span><span class="nb">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="o">|</span><span class="n">character</span><span class="p">(</span><span class="n">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">new</span>
-<span class="w">       </span><span class="n">or</span>
-<span class="w">   </span><span class="nb">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="o">|</span><span class="n">character</span><span class="p">(</span><span class="n">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">new</span>
-<span class="w">   </span><span class="n">integer</span><span class="p">,</span><span class="w"> </span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="nb">start</span>
-<span class="w">   </span><span class="n">integer</span><span class="p">,</span><span class="w"> </span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="k">end</span>
+<span class="w">   </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span><span class="o">|</span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">old</span>
+<span class="w">   </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span><span class="o">|</span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">new</span>
+<span class="w">       </span><span class="k">or</span>
+<span class="w">   </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span><span class="o">|</span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">new</span>
+<span class="w">   </span><span class="nx">integer</span><span class="p">,</span><span class="w"> </span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">start</span>
+<span class="w">   </span><span class="nx">integer</span><span class="p">,</span><span class="w"> </span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">end</span>
 
-<span class="w">   </span><span class="n">integer</span><span class="p">,</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="n">optional</span><span class="w">            </span><span class="p">::</span><span class="w"> </span><span class="n">occurrence</span>
-<span class="w">   </span><span class="n">integer</span><span class="p">,</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="n">optional</span><span class="w">            </span><span class="p">::</span><span class="w"> </span><span class="n">repeat</span>
-<span class="w">   </span><span class="nb">logical</span><span class="p">,</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="n">optional</span><span class="w">            </span><span class="p">::</span><span class="w"> </span><span class="n">ignorecase</span>
-<span class="w">   </span><span class="n">integer</span><span class="p">,</span><span class="n">intent</span><span class="p">(</span><span class="n">out</span><span class="p">),</span><span class="n">optional</span><span class="w">           </span><span class="p">::</span><span class="w"> </span><span class="n">changes</span>
-<span class="w">   </span><span class="nb">logical</span><span class="p">,</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="n">optional</span><span class="w">            </span><span class="p">::</span><span class="w"> </span><span class="n">back</span>
-<span class="w">   </span><span class="n">character</span><span class="p">(</span><span class="n">len</span><span class="p">=:),</span><span class="n">allocatable</span><span class="w">           </span><span class="p">::</span><span class="w"> </span><span class="nb">newline</span>
+<span class="w">   </span><span class="nx">integer</span><span class="p">,</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">),</span><span class="nx">optional</span><span class="w">            </span><span class="o">::</span><span class="w"> </span><span class="nx">occurrence</span>
+<span class="w">   </span><span class="nx">integer</span><span class="p">,</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">),</span><span class="nx">optional</span><span class="w">            </span><span class="o">::</span><span class="w"> </span><span class="nx">repeat</span>
+<span class="w">   </span><span class="nx">logical</span><span class="p">,</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">),</span><span class="nx">optional</span><span class="w">            </span><span class="o">::</span><span class="w"> </span><span class="nx">ignorecase</span>
+<span class="w">   </span><span class="nx">integer</span><span class="p">,</span><span class="nx">intent</span><span class="p">(</span><span class="nx">out</span><span class="p">),</span><span class="nx">optional</span><span class="w">           </span><span class="o">::</span><span class="w"> </span><span class="nx">changes</span>
+<span class="w">   </span><span class="nx">logical</span><span class="p">,</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">),</span><span class="nx">optional</span><span class="w">            </span><span class="o">::</span><span class="w"> </span><span class="nx">back</span>
+<span class="w">   </span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=:),</span><span class="nx">allocatable</span><span class="w">           </span><span class="o">::</span><span class="w"> </span><span class="nx">newline</span>
 </code></pre></div>
 
 <h2 id="characteristics">CHARACTERISTICS</h2>
@@ -482,7 +482,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-replace_uua"></span> <h3>private  function replace_uua(target, old, new, force_, occurrence, repeat, ignorecase, changes, back) result(newline)  
+    <div class="card-header codesum"><span class="anchor" id="proc-replace_uua"></span> <h3>private impure elemental function replace_uua(target, old, new, force_, occurrence, repeat, ignorecase, changes, back) result(newline)  
 </h3></div>
     <div class="card-body">
         
@@ -646,7 +646,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-replace_uaa"></span> <h3>private  function replace_uaa(target, old, new, force_, occurrence, repeat, ignorecase, changes, back) result(newline)  
+    <div class="card-header codesum"><span class="anchor" id="proc-replace_uaa"></span> <h3>private impure elemental function replace_uaa(target, old, new, force_, occurrence, repeat, ignorecase, changes, back) result(newline)  
 </h3></div>
     <div class="card-body">
         
@@ -810,7 +810,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-replace_uau"></span> <h3>private  function replace_uau(target, old, new, force_, occurrence, repeat, ignorecase, changes, back) result(newline)  
+    <div class="card-header codesum"><span class="anchor" id="proc-replace_uau"></span> <h3>private impure elemental function replace_uau(target, old, new, force_, occurrence, repeat, ignorecase, changes, back) result(newline)  
 </h3></div>
     <div class="card-body">
         
@@ -974,7 +974,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-replace_aaa"></span> <h3>private  function replace_aaa(target, old, new, force_, occurrence, repeat, ignorecase, changes, back) result(newline)  
+    <div class="card-header codesum"><span class="anchor" id="proc-replace_aaa"></span> <h3>private impure elemental function replace_aaa(target, old, new, force_, occurrence, repeat, ignorecase, changes, back) result(newline)  
 </h3></div>
     <div class="card-body">
         
@@ -1138,7 +1138,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-replace_aua"></span> <h3>private  function replace_aua(target, old, new, force_, occurrence, repeat, ignorecase, changes, back) result(newline)  
+    <div class="card-header codesum"><span class="anchor" id="proc-replace_aua"></span> <h3>private impure elemental function replace_aua(target, old, new, force_, occurrence, repeat, ignorecase, changes, back) result(newline)  
 </h3></div>
     <div class="card-body">
         
@@ -1302,7 +1302,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-replace_aau"></span> <h3>private  function replace_aau(target, old, new, force_, occurrence, repeat, ignorecase, changes, back) result(newline)  
+    <div class="card-header codesum"><span class="anchor" id="proc-replace_aau"></span> <h3>private impure elemental function replace_aau(target, old, new, force_, occurrence, repeat, ignorecase, changes, back) result(newline)  
 </h3></div>
     <div class="card-body">
         
@@ -1466,7 +1466,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-replace_auu"></span> <h3>private  function replace_auu(target, old, new, force_, occurrence, repeat, ignorecase, changes, back) result(newline)  
+    <div class="card-header codesum"><span class="anchor" id="proc-replace_auu"></span> <h3>private impure elemental function replace_auu(target, old, new, force_, occurrence, repeat, ignorecase, changes, back) result(newline)  
 </h3></div>
     <div class="card-body">
         
@@ -1630,7 +1630,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-section_uu"></span> <h3>private  function section_uu(str, first, last, new) result(out)  
+    <div class="card-header codesum"><span class="anchor" id="proc-section_uu"></span> <h3>private impure elemental function section_uu(str, first, last, new) result(out)  
 </h3></div>
     <div class="card-body">
         
@@ -1648,7 +1648,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~13"></span>
+              <span class="anchor" id="variable-str~9"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1663,7 +1663,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first~11"></span>
+              <span class="anchor" id="variable-first~10"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1678,7 +1678,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~14"></span>
+              <span class="anchor" id="variable-last~11"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1719,7 +1719,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-section_ua"></span> <h3>private  function section_ua(str, first, last, new) result(out)  
+    <div class="card-header codesum"><span class="anchor" id="proc-section_ua"></span> <h3>private impure elemental function section_ua(str, first, last, new) result(out)  
 </h3></div>
     <div class="card-body">
         
@@ -1737,7 +1737,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~14"></span>
+              <span class="anchor" id="variable-str~10"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1752,7 +1752,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first~12"></span>
+              <span class="anchor" id="variable-first~11"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1767,7 +1767,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~15"></span>
+              <span class="anchor" id="variable-last~12"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1808,7 +1808,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-section_au"></span> <h3>private  function section_au(str, first, last, new) result(out)  
+    <div class="card-header codesum"><span class="anchor" id="proc-section_au"></span> <h3>private impure elemental function section_au(str, first, last, new) result(out)  
 </h3></div>
     <div class="card-body">
         
@@ -1826,7 +1826,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~15"></span>
+              <span class="anchor" id="variable-str~11"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1841,7 +1841,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first~13"></span>
+              <span class="anchor" id="variable-first~12"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1856,7 +1856,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~16"></span>
+              <span class="anchor" id="variable-last~13"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1897,7 +1897,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-section_aa"></span> <h3>private  function section_aa(str, first, last, new) result(out)  
+    <div class="card-header codesum"><span class="anchor" id="proc-section_aa"></span> <h3>private impure elemental function section_aa(str, first, last, new) result(out)  
 </h3></div>
     <div class="card-body">
         
@@ -1915,7 +1915,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~16"></span>
+              <span class="anchor" id="variable-str~12"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1930,7 +1930,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first~14"></span>
+              <span class="anchor" id="variable-first~13"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1945,7 +1945,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~17"></span>
+              <span class="anchor" id="variable-last~14"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2002,7 +2002,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-02-19 11:42 +0000             </p>
+ on 2026-02-21 07:00 +0000             </p>
           </div>
         </div>
         <br>
