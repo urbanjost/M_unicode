@@ -480,8 +480,9 @@ end interface split
 
 ! Assign a character sequence to a string.
 interface assignment(=)
-   module procedure :: assign_str_char
+   module procedure :: assign_strs_chars
    module procedure :: assign_strs_char
+   module procedure :: assign_str_char
    module procedure :: assign_str_code
    module procedure :: assign_str_codes
    module procedure :: assign_char_str
@@ -615,6 +616,7 @@ contains
    procedure :: isascii    => oop_isascii
    procedure :: isblank    => oop_isblank
    procedure :: isspace    => oop_isspace
+   procedure :: glob       => oop_glob_u, oop_glob_a
    ! system
    procedure :: get_env    => oop_get_env_uu, oop_get_env_ua
    procedure :: get_arg    => oop_get_arg_iu
@@ -2243,13 +2245,13 @@ integer,intent(out)               :: nerr
 integer                           :: i, n_unicode, n_utf8, cp
 character, allocatable            :: temp_utf8(:)
 
+   nerr=0
    n_unicode = size(codepoints)
 
    if(allocated(temp_utf8))deallocate(temp_utf8)
    allocate(temp_utf8(4*n_unicode))
    n_utf8 = 0
 
-   nerr=0
    do i = 1, n_unicode
       cp = codepoints(i)
 
@@ -2520,9 +2522,10 @@ integer,allocatable             :: temp(:)
 
    enddo
 
-   if(allocated(codepoints))deallocate(codepoints)
    allocate(codepoints(n_out))
-   codepoints = temp(1:n_out)
+   if(n_out.ge.1)then
+      codepoints = temp(1:n_out)
+   endif
 
 end subroutine utf8_to_codepoints_chars
 !===================================================================================================================================
@@ -2585,7 +2588,6 @@ end function binary_search
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 pure subroutine codepoints_to_utf8_str(codepoints,utf8,nerr)
-
 integer,intent(in)                       :: codepoints(:)
 character(len=:),allocatable,intent(out) :: utf8
 integer,intent(out)                      :: nerr
@@ -2598,11 +2600,11 @@ end subroutine codepoints_to_utf8_str
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 pure subroutine utf8_to_codepoints_str(utf8,codepoints,nerr)
-
 character(len=*),intent(in)     :: utf8
 integer,allocatable,intent(out) :: codepoints(:)
 integer,intent(out)             :: nerr
 character,allocatable           :: temp(:)
+   nerr=0
    temp=s2a(utf8)
    call utf8_to_codepoints_chars(temp,codepoints,nerr)
 end subroutine utf8_to_codepoints_str
@@ -2639,35 +2641,34 @@ end function new_codes
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
-
 !> Assign a string to a character sequence
 subroutine assign_ints_str(lhs, rhs)
-integer,allocatable,intent(inout) :: lhs(:)
-type(unicode_type),intent(in)     :: rhs
+integer,allocatable,intent(out) :: lhs(:)
+type(unicode_type),intent(in)   :: rhs
    lhs=rhs%codes
 end subroutine assign_ints_str
 
 !> Assign a string to a character sequence
 subroutine assign_char_str(lhs, rhs)
-character(len=:),allocatable,intent(inout) :: lhs
-type(unicode_type),intent(in)              :: rhs
-integer                                    :: nerr
+character(len=:),allocatable,intent(out) :: lhs
+type(unicode_type),intent(in)            :: rhs
+integer                                  :: nerr
    call codepoints_to_utf8_str(rhs%codes,lhs,nerr)
 end subroutine assign_char_str
 
 !> Assign a character sequence to a string.
-elemental subroutine assign_str_char(lhs, rhs)
-type(unicode_type), intent(inout) :: lhs
-character(len=*), intent(in)      :: rhs
-integer                           :: nerr
+pure elemental subroutine assign_str_char(lhs, rhs)
+type(unicode_type), intent(out) :: lhs
+character(len=*), intent(in)    :: rhs
+integer                         :: nerr
    call utf8_to_codepoints_str(rhs,lhs%codes,nerr)
 end subroutine assign_str_char
 
 subroutine assign_strs_char(lhs, rhs)
-type(unicode_type),intent(inout) :: lhs
-character(len=*),intent(in)      :: rhs(:)
-integer                          :: nerr
-integer                          :: i
+type(unicode_type),intent(out) :: lhs
+character(len=*),intent(in)    :: rhs(:)
+integer                        :: nerr
+integer                        :: i
 integer,allocatable              :: temp(:)
    if(allocated(lhs%codes))deallocate(lhs%codes)
    allocate(lhs%codes(0))
@@ -2677,16 +2678,28 @@ integer,allocatable              :: temp(:)
    enddo
 end subroutine assign_strs_char
 
+subroutine assign_strs_chars(lhs, rhs)
+type(unicode_type),intent(out),allocatable :: lhs(:)
+character(len=*),intent(in)                :: rhs(:)
+integer                                    :: nerr
+integer                                    :: i
+   if(allocated(lhs))deallocate(lhs)
+   allocate(lhs(size(rhs)))
+   do i=1,size(rhs)
+      call utf8_to_codepoints_str(rhs(i),lhs(i)%codes,nerr)
+   enddo
+end subroutine assign_strs_chars
+
 ! Assign a sequence of codepoints to a string.
 subroutine assign_str_codes(lhs, rhs)
-type(unicode_type), intent(inout) :: lhs
-integer, intent(in)               :: rhs(:)
+type(unicode_type), intent(out) :: lhs
+integer, intent(in)             :: rhs(:)
    lhs%codes=rhs
 end subroutine assign_str_codes
 
 elemental subroutine assign_str_code(lhs, rhs)
-type(unicode_type), intent(inout) :: lhs
-integer, intent(in)               :: rhs
+type(unicode_type), intent(out) :: lhs
+integer, intent(in)             :: rhs
    lhs%codes=[rhs]
 end subroutine assign_str_code
 !===================================================================================================================================
@@ -3986,7 +3999,7 @@ end function isascii_a
 !!##NAME
 !!     isblank(3f) - [M_unicode:COMPARE] returns .true. if character is a
 !!     Unicode or ASCII-7 blank character (space or horizontal tab) .
-!!     (LICENSE:PD)
+!!     (LICENSE:MIT)
 !!
 !!##SYNOPSIS
 !!
@@ -4077,7 +4090,7 @@ end function isblank_a
 !!##NAME
 !!     isspace(3f) - [M_unicode:COMPARE] returns .true. if character is a
 !!     null, space, tab, carriage return, new line, vertical tab, or formfeed
-!!     (LICENSE:PD)
+!!     (LICENSE:MIT)
 !!
 !!##SYNOPSIS
 !!
@@ -5494,7 +5507,7 @@ end function join
 !!##SYNOPSIS
 !!
 !!
-!!     elemental pure function upper(str) result (string)
+!!     pure elemental function upper(str) result (string)
 !!
 !!      character(*), intent(in)    :: str
 !!      character(len(str))         :: string  ! output string
@@ -5589,7 +5602,7 @@ end function join
 !!
 !!##LICENSE
 !!     MIT
-elemental pure function upper(str) result (string)
+pure elemental function upper(str) result (string)
 
 ! ident_12="@(#) M_unicode upper(3f) returns an uppercase string"
 
@@ -5629,7 +5642,7 @@ end function upper
 !!##SYNOPSIS
 !!
 !!
-!!     elemental pure function lower(str) result (string)
+!!     pure elemental function lower(str) result (string)
 !!
 !!      character(*), intent(in) :: str
 !!      character(len(str))      :: string  ! output string
@@ -5722,7 +5735,7 @@ end function upper
 !!
 !!##LICENSE
 !!     MIT
-elemental pure function lower(str) result (string)
+pure elemental function lower(str) result (string)
 
 ! ident_13="@(#) M_unicode lower(3f) returns a lowercase string"
 
@@ -6566,7 +6579,7 @@ end function pad
 !!
 !!##LICENSE
 !!     MIT
-elemental pure function scan_uu(string,set,back) result(pos)
+pure elemental function scan_uu(string,set,back) result(pos)
 
 ! ident_15="@(#) M_unicode scan(3f) Scan a string for the presence of a set of characters"
 
@@ -6587,7 +6600,7 @@ integer                       :: i
 
 end function scan_uu
 !===================================================================================================================================
-elemental pure function scan_ua(string,set,back) result(pos)
+pure elemental function scan_ua(string,set,back) result(pos)
 ! allow SET to be CHARACTER and not just TYPE(UNICODE_TYPE)
 type(unicode_type),intent(in) :: string
 character(len=*),intent(in)   :: set
@@ -7021,7 +7034,7 @@ end function scan_ua
 !!
 !!##LICENSE
 !!     MIT
-elemental impure function verify_uu(string,set,back) result(result)
+impure elemental function verify_uu(string,set,back) result(result)
 
 ! ident_16="@(#) M_unicode verify(3f) determine position of a character in a string that does not appear in a given set of characters."
 
@@ -7043,7 +7056,7 @@ integer                       :: i
    enddo
 end function verify_uu
 !===================================================================================================================================
-elemental impure function verify_ua(string,set,back) result(result)
+impure elemental function verify_ua(string,set,back) result(result)
 type(unicode_type),intent(in) :: string
 character(len=*),intent(in)   :: set
 type(unicode_type)            :: set_u
@@ -7053,7 +7066,7 @@ integer                       :: result
    result=verify_uu(string,set_u,back)
 end function verify_ua
 !===================================================================================================================================
-elemental impure function verify_au(string,set,back) result(result)
+impure elemental function verify_au(string,set,back) result(result)
 character(len=*),intent(in)   :: string
 type(unicode_type),intent(in) :: set
 logical,intent(in),optional   :: back
@@ -7768,7 +7781,7 @@ end function add_backslash_u
 !!
 !!##LICENSE
 !!     MIT
-function remove_backslash_ascii(line) result(out)
+impure elemental function remove_backslash_ascii(line) result(out)
 character(len=*),intent(in)   :: line
 type(unicode_type)            :: uline
 type(unicode_type)            :: out
@@ -8561,6 +8574,20 @@ logical                        :: res
    res=isspace_u(self)
 end function oop_isspace
 !===================================================================================================================================
+function oop_glob_u(self,pattern) result (res)
+class(unicode_type),intent(in) :: self
+class(unicode_type),intent(in) :: pattern
+logical                        :: res
+   res=glob_uu(self,pattern)
+end function oop_glob_u
+!===================================================================================================================================
+function oop_glob_a(self,pattern) result (res)
+class(unicode_type),intent(in) :: self
+character(len=*),intent(in)    :: pattern
+logical                        :: res
+   res=glob_uu(self,unicode_type(pattern))
+end function oop_glob_a
+!===================================================================================================================================
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
@@ -9255,7 +9282,6 @@ integer                               :: nchars      ! holds size of file
 integer                               :: iostat=0
 integer                               :: lun
 integer                               :: scratch
-integer                               :: i
 integer                               :: icount
    icount=0
    iomsg=repeat(' ',256)
@@ -9851,17 +9877,21 @@ end function concat_g_l
 !!##NAME
 !!    glob(3f) - [M_unicode:COMPARE] compare given string for match to
 !!    a pattern which may contain globbing wildcard characters
-!!    (LICENSE:PD)
+!!    (LICENSE:MIT)
 !!
 !!##SYNOPSIS
 !!
-!!    logical function glob(string, pattern )
+!!    logical function glob(string, pattern ) result (uline)
 !!
 !!     type(unicode_type),intent(in) :: string
+!!     ! or
+!!     character(len=*),intent(in)   :: string
+!!
 !!     type(unicode_type),intent(in) :: pattern
 !!     ! or
-!!     character(len=*),intent(in) :: string
-!!     character(len=*),intent(in) :: pattern
+!!     character(len=*),intent(in)   :: pattern
+!!
+!!     logical                       :: uline
 !!
 !!##DESCRIPTION
 !!    glob(3f) compares an (entire) STRING for a match to a PATTERN which
@@ -9905,35 +9935,138 @@ end function concat_g_l
 !!   Example program
 !!
 !!    program demo_glob
-!!    use M_unicode, only : glob
+!!    use M_unicode, only : glob, trim, unicode_type, len
+!!    use M_unicode, only : remove_backslash
+!!    use M_unicode, only : assignment(=)
 !!    implicit none
-!!       ! Cases with repeating character sequences.
-!!       write(*,*) glob("a*abab",      "a*b") .eqv.  .true.
-!!       write(*,*) glob("ab",          "*?")  .eqv.  .true.
-!!       ! Additional cases where the '*' char appears in the tame string.
-!!       write(*,*) glob("*",     "*")    .eqv.  .true.
-!!       write(*,*) glob("a*ar",  "a*aar").eqv.  .false.
-!!       ! More double wildcard scenarios.
-!!       write(*,*) glob("XYXYXYZYXYz", "XY*Z*XYz") .eqv. .true.
-!!       write(*,*) glob("mississipPI", "*issip*PI") .eqv..true.
-!!       ! Completely tame (no wildcards) cases.
-!!       write(*,*) glob("bLah", "bLah") .eqv..true.
-!!       ! Simple mixed wildcard tests
-!!       write(*,*) glob("a", "*?") .eqv..true.
-!!       ! More mixed wildcard tests including coverage for false positives.
-!!       write(*,*) glob("abcd",   "?b*??")      .eqv..true.
-!!       write(*,*) glob("abcde",  "?*b*?*d*?")  .eqv..true.
-!!       ! Single-character-match cases.
-!!       write(*,*) glob("bLah",   "bL?h")  .eqv..true.
-!!       write(*,*) glob("bLaH",   "?LaH")  .eqv..true.
-!!       write(*,*) glob('abcdefghijk' ,  '?b*')     .eqv..true.
-!!         ! Two pattern match problems that might pose difficulties
-!!       write(*,*) glob('e '           , '*e* ')     .eqv. .true.
-!!       write(*,*) glob('baaaaax'      , 'b*a')      .eqv. .false.
-!!       write(*,*) glob(''             , '*')        .eqv. .true.
+!!    integer :: i
+!!    type(unicode_type),allocatable :: ufiles(:)
+!!    type(unicode_type),allocatable :: matched(:)
+!!    character(len=*),parameter :: &
+!!     filenames(*)= [character(len=256) :: &
+!!    & 'My_favorite_file.F90',    & ! English
+!!    & '我最喜欢的文档.c',        & ! Mandarin_Chinese
+!!    & 'मेरी_पसंदीदा_फ़ाइल.f90',         & ! Hindu
+!!    & 'Mi_archivo_favorito.c',   & ! Spanish
+!!    & 'ملفي_المفضل.h',           & ! Modern_Standard_Arabic
+!!    & 'Mon_fichier_préféré.f90', & ! French
+!!    & 'আমার_প্রিয়_ফাইল',          & ! Bengali
+!!    & 'Meu_arquivo_favorito',    & ! Portuguese
+!!    & 'Мой_любимый_файл',        & ! Russian
+!!    & 'میری_پسندیدہ_فائل.pdf',   & ! Urdu
+!!    & 'src/M_modules.F90',       &
+!!    & 'src/subset.inc',          &
+!!    & 'test/check.f90 ',         &
+!!    & 'app/main.f90 ']
+!!    character(len=*),parameter :: &
+!!     encoded(*)= [character(len=256) :: &
+!!    & 'My_favorite_file.F90',                    & ! English
+!!    & '\u6211\u6700\u559C\u6B22\u7684\u6587\u6863.c', & ! Mandarin_Chinese
+!!    & '\u092E\u0947\u0930\u0940_&
+!!    &\u092A\u0938\u0902\u0926\u0940\u0926\u093E_&
+!!    &\u092B\u093C\u093E\u0907\u0932.f90',        & ! Hindu
+!!    & 'Mi_archivo_favorito.c',                   & ! Spanish
+!!    & '\u0645\u0644\u0641\u064A_&
+!!    &\u0627\u0644\u0645\u0641\u0636\u0644.h ',   & ! Modern_Standard_Arabic
+!!    & 'Mon_fichier_pr\xE9f\xE9r\xE9.f90',        & ! French
+!!    & '\u0986\u09AE\u09BE\u09B0_\u09AA\u09CD\u09B0\u09BF\u09AF\u09BC_&
+!!    &\u09AB\u09BE\u0987\u09B2',                  & ! Bengali
+!!    & 'Meu_arquivo_favorito',                    & ! Portuguese
+!!    & '\u041C\u043E\u0439_\u043B\u044E\u0431\u0438\u043C\u044B\u0439_&
+!!    &\u0444\u0430\u0439\u043B',                  & ! Russian
+!!    & '\u0645\u06CC\u0631\u06CC_&
+!!    &\u067E\u0633\u0646\u062F\u06CC\u062F\u06C1_&
+!!    &\u0641\u0627\u0626\u0644.pdf',              & ! Urdu
+!!    & 'src/M_modules.F90', &
+!!    & 'src/subset.inc', &
+!!    & 'test/check.f90 ', &
+!!    & 'app/main.f90 ']
+!!    character(len=*),parameter :: &
+!!      g='(*(g0))', g1='(*(g0,1x))', comma='(*(g0:,", ",/))'
+!!
+!!       ! some basic usage
+!!       write(*,g)merge('PASSED','FAILED',glob("mississipPI", "*issip*PI"))
+!!       write(*,g)merge('PASSED','FAILED',glob("bLah", "bL?h"))
+!!       write(*,g)merge('PASSED','FAILED',glob("bLaH", "?LaH"))
+!!
+!!       ! create a list of trimmed filenames
+!!       ufiles=unicode_type(filenames)
+!!       ufiles=trim(ufiles)
+!!       write(*,g)'FILENAMES:'
+!!       call show_filenames(ufiles)
+!!
+!!       ! create a list of trimmed filenames from encoded names
+!!       ufiles=remove_backslash(encoded)
+!!       ufiles=trim(ufiles)
+!!       write(*,g)'ENCODED FILENAMES:'
+!!       call show_filenames(ufiles)
+!!
+!!       ! get filenames ending in ".f90"
+!!       matched=pack(ufiles,glob(ufiles,'*.f90'))
+!!       write(*,g)'MATCHED *.f90:'
+!!       call show_filenames(matched)
+!!
+!!       ! get filenames ending in ".c"
+!!       matched=pack(ufiles,glob(ufiles,'*.c'))
+!!       write(*,g)'MATCHED *.c:'
+!!       call show_filenames(matched)
+!!
+!!    contains
+!!    subroutine show_filenames(names)
+!!    type(unicode_type),allocatable :: names(:)
+!!       write(*,g1)':SIZE:',size(names),':LEN:',len(names)
+!!       write(*,comma)(names(i)%character(),i=1,size(names))
+!!    end subroutine show_filenames
+!!
 !!    end program demo_glob
 !!
-!!   Expected output
+!! Results:
+!!
+!!  > PASSED
+!!  > PASSED
+!!  > PASSED
+!!  > FILENAMES:
+!!  > :SIZE: 14 :LEN: 20 9 22 21 13 23 16 20 16 21 17 14 14 12
+!!  > My_favorite_file.F90,
+!!  > 我最喜欢的文档.c,
+!!  > मेरी_पसंदीदा_फ़ाइल.f90,
+!!  > Mi_archivo_favorito.c,
+!!  > ملفي_المفضل.h,
+!!  > Mon_fichier_préféré.f90,
+!!  > আমার_প্রিয়_ফাইল,
+!!  > Meu_arquivo_favorito,
+!!  > Мой_любимый_файл,
+!!  > میری_پسندیدہ_فائل.pdf,
+!!  > src/M_modules.F90,
+!!  > src/subset.inc,
+!!  > test/check.f90,
+!!  > app/main.f90
+!!  > ENCODED FILENAMES:
+!!  > :SIZE: 14 :LEN: 20 9 22 21 13 23 16 20 16 21 17 14 14 12
+!!  > My_favorite_file.F90,
+!!  > 我最喜欢的文档.c,
+!!  > मेरी_पसंदीदा_फ़ाइल.f90,
+!!  > Mi_archivo_favorito.c,
+!!  > ملفي_المفضل.h,
+!!  > Mon_fichier_préféré.f90,
+!!  > আমার_প্রিয়_ফাইল,
+!!  > Meu_arquivo_favorito,
+!!  > Мой_любимый_файл,
+!!  > میری_پسندیدہ_فائل.pdf,
+!!  > src/M_modules.F90,
+!!  > src/subset.inc,
+!!  > test/check.f90,
+!!  > app/main.f90
+!!  > MATCHED *.f90:
+!!  > :SIZE: 4 :LEN: 22 23 14 12
+!!  > मेरी_पसंदीदा_फ़ाइल.f90,
+!!  > Mon_fichier_préféré.f90,
+!!  > test/check.f90,
+!!  > app/main.f90
+!!  > MATCHED *.c:
+!!  > :SIZE: 2 :LEN: 9 21
+!!  > 我最喜欢的文档.c,
+!!  > Mi_archivo_favorito.c
 !!
 !!##AUTHOR
 !!   John S. Urban
@@ -9943,24 +10076,24 @@ end function concat_g_l
 !!   in Dr Dobb's Journal, By Kirk J. Krauss, October 07, 2014
 !!
 !!##LICENSE
-!!   Public Domain
-function glob_uu_(tame,wild)
+!!   MIT
+impure elemental function glob_uu_(tame,wild)
 
 ! ident_30="@(#) M_unicode glob(3f) function compares text strings one of which can have wildcards ('*' or '?')."
 
-logical                      :: glob_uu_
-type(unicode_type)           :: tame       ! A string without wildcards
-type(unicode_type)           :: wild       ! A (potentially) corresponding string with wildcards
-type(unicode_type)           :: tametext
-type(unicode_type)           :: wildtext
-integer,parameter            :: NULL=0
-integer,parameter            :: STAR=ichar('*')
-integer,parameter            :: QUESTION=ichar('?')
-integer                      :: wlen
-integer                      :: ti, wi
-integer                      :: i, len1, len2, lenmx
-type(unicode_type)           :: tmp1, tmp2, ut_NULL
-type(unicode_type)           :: tbookmark, wbookmark
+logical                       :: glob_uu_
+type(unicode_type),intent(in) :: tame       ! A string without wildcards
+type(unicode_type),intent(in) :: wild       ! A (potentially) corresponding string with wildcards
+type(unicode_type)            :: tametext
+type(unicode_type)            :: wildtext
+integer,parameter             :: NULL=0
+integer,parameter             :: STAR=ichar('*')
+integer,parameter             :: QUESTION=ichar('?')
+integer                       :: wlen
+integer                       :: ti, wi
+integer                       :: i
+type(unicode_type)            :: tmp1, ut_NULL
+type(unicode_type)            :: tbookmark, wbookmark
 ! These two values are set when we observe a wildcard character. They
 ! represent the locations, in the two strings, from which we start once we have observed it.
    tametext%codes=[tame%codes,NULL]
@@ -10044,28 +10177,28 @@ type(unicode_type)           :: tbookmark, wbookmark
    enddo
 end function glob_uu_
 !-----------------------------------------------------------------------------------------------------------------------------------
-function glob_uu(tame,wild) result(res)
+impure elemental function glob_uu(tame,wild) result(res)
 type(unicode_type),intent(in) :: tame
 type(unicode_type),intent(in) :: wild
 logical                       :: res
    res=glob_uu_(tame.cat.char(0),wild.cat.char(0))
 end function glob_uu
 !-----------------------------------------------------------------------------------------------------------------------------------
-function glob_aa(tame,wild) result(res)
+impure elemental function glob_aa(tame,wild) result(res)
 character(len=*),intent(in)   :: tame
 character(len=*),intent(in)   :: wild
 logical                       :: res
    res=glob_uu(unicode_type(tame),unicode_type(wild))
 end function glob_aa
 !-----------------------------------------------------------------------------------------------------------------------------------
-function glob_au(tame,wild) result(res)
+impure elemental function glob_au(tame,wild) result(res)
 character(len=*),intent(in)   :: tame
 type(unicode_type),intent(in) :: wild
 logical                       :: res
    res=glob_uu(unicode_type(tame),wild)
 end function glob_au
 !-----------------------------------------------------------------------------------------------------------------------------------
-function glob_ua(tame,wild) result(res)
+impure elemental function glob_ua(tame,wild) result(res)
 type(unicode_type),intent(in) :: tame
 character(len=*),intent(in)   :: wild
 logical                       :: res

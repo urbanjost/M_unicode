@@ -90,19 +90,19 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.8% of total for programs.">16 statements</a>
+                 title=" 1.8% of total for programs.">37 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/uplow.f90"> Source File</a>
+              <a href="../src/demo_use.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/uplow.f90.html'>uplow.f90</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/demo_use.f90.html'>demo_use.f90</a></li>
             <li class="breadcrumb-item active" aria-current="page">testit</li>
           </ol>
         </nav>
@@ -131,8 +131,10 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../program/testit~2.html#variable-low~6">low</a>
-            <a class="list-group-item" href="../program/testit~2.html#variable-upp~5">upp</a>
+            <a class="list-group-item" href="../program/testit~2.html#variable-g~5">g</a>
+            <a class="list-group-item" href="../program/testit~2.html#variable-gh">gh</a>
+            <a class="list-group-item" href="../program/testit~2.html#variable-gx">gx</a>
+            <a class="list-group-item" href="../program/testit~2.html#variable-ustr~2">ustr</a>
         </div>
       </div>
     </div>
@@ -174,8 +176,8 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/m_unicode.html'>M_unicode</a></li>
                   <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_fortran_env'>iso_fortran_env</a></li>
+                  <li class="list-inline-item"><a href='../module/m_unicode.html'>M_unicode</a></li>
               </ul>
             </li>
         </ul>
@@ -199,30 +201,62 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-low~6"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>)
+              <span class="anchor" id="variable-g~5"></span>
+              character(len=*),
             </td>
             <td>
-              
+parameter               
             </td>
             <td>::</td>
-            <td><strong>low</strong></td>
-                <td></td>
-                <td></td>
+            <td><strong>g</strong></td>
+<td> =</td>
+                <td>&#39;(*(g0))&#39;</td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-upp~5"></span>
+              <span class="anchor" id="variable-gh"></span>
+              character(len=*),
+            </td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>gh</strong></td>
+<td> =</td>
+                <td>&#39;(*(z0,1x))&#39;</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gx"></span>
+              character(len=*),
+            </td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>gx</strong></td>
+<td> =</td>
+                <td>&#39;(*(g0,1x))&#39;</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ustr~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>)
             </td>
             <td>
               
             </td>
             <td>::</td>
-            <td><strong>upp</strong></td>
+            <td><strong>ustr</strong></td>
                 <td></td>
                 <td></td>
             <td>
@@ -246,63 +280,64 @@
     <section>
     <h2 id="src">Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="k">program </span><span class="n">testit</span>
-<span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">output_unit</span>
-<span class="k">use </span><span class="n">M_unicode</span>
+<span class="k">use</span><span class="p">,</span><span class="w"> </span><span class="k">intrinsic</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="o">=&gt;</span><span class="n">output_unit</span>
+
+<span class="c">! user-defined type to hold Unicode text</span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">unicode_type</span>
+
+<span class="c">! convert unicode_type to CHARACTER variables</span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kt">character</span>
+
+<span class="c">! intrinsic overloads</span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nb">adjustl</span><span class="p">,</span><span class="w"> </span><span class="nb">adjustr</span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nb">trim</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="p">,</span><span class="w"> </span><span class="nb">len_trim</span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nb">index</span><span class="p">,</span><span class="w"> </span><span class="nb">scan</span><span class="p">,</span><span class="w"> </span><span class="nb">verify</span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nb">repeat</span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">split</span><span class="p">,</span><span class="w"> </span><span class="n">tokenize</span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">upper</span><span class="p">,</span><span class="w"> </span><span class="n">lower</span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">sort</span>
+
+<span class="c">! operators (and overloads) and assignment</span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">)</span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">&lt;=</span><span class="p">),</span><span class="w"> </span><span class="nb">lle</span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">&lt;</span><span class="p">),</span><span class="w">  </span><span class="nb">llt</span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">/=</span><span class="p">),</span><span class="w"> </span><span class="n">lne</span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">==</span><span class="p">),</span><span class="w"> </span><span class="n">leq</span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">&gt;</span><span class="p">),</span><span class="w">  </span><span class="nb">lgt</span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">&gt;=</span><span class="p">),</span><span class="w"> </span><span class="nb">lge</span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">//</span><span class="p">)</span>
+
+<span class="c">! low-level text conversion to integer codepoint arrays:</span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">utf8_to_codepoints</span><span class="p">,</span><span class="w"> </span><span class="n">codepoints_to_utf8</span>
+
+<span class="c">! example usage:</span>
 <span class="k">implicit none</span>
-<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">upp</span><span class="p">,</span><span class="w"> </span><span class="n">low</span>
-<span class="w">   </span><span class="c">!</span>
-<span class="w">   </span><span class="c">! remember unicode characters are multi-byte so be careful</span>
-<span class="w">   </span><span class="c">! with older compilers to not exceed 132 bytes per line</span>
-<span class="w">   </span><span class="c">!</span>
-<span class="w">   </span><span class="n">low</span><span class="o">=</span><span class="s1">&#39;&amp;</span>
-<span class="s1">   &amp;abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëì&amp;</span>
-<span class="s1">   &amp;íîïðñòóôõöøùúûüýþÿāăąćĉċčďđēĕėęěĝğġģĥħĩīĭ&amp;</span>
-<span class="s1">   &amp;įıĳĵķĺļľŀłńņňŋōŏőœŕŗřśŝşšţťŧũūŭůűųŵŷźżž&amp;</span>
-<span class="s1">   &amp;ƃƅƈƌƒƙơƣƥƨƭưƴƶƹƽǆǉǌǎǐǒǔǖǘǚǜǟǡǣǥǧǩǫǭǯǳǵǻǽǿ&amp;</span>
-<span class="s1">   &amp;ȁȃȅȇȉȋȍȏȑȓȕȗɓɔɗɘəɛɠɣɨɩɯɲɵʃʈʊʋʒάέήί&amp;</span>
-<span class="s1">   &amp;αβγδεζηθικλμνξοπρστυφχψωϊϋόύώϣϥϧϩϫϭϯабвгдежзий&amp;</span>
-<span class="s1">   &amp;клмнопрстуфхцчшщъыьэюяёђѓєѕіїјљњћќўџ&amp;</span>
-<span class="s1">   &amp;ѡѣѥѧѩѫѭѯѱѳѵѷѹѻѽѿҁґғҕҗҙқҝҟҡңҥҧҩҫҭүұҳҵҷҹһҽҿӂӄӈ&amp;</span>
-<span class="s1">   &amp;ӌӑӓӕӗәӛӝӟӡӣӥӧөӫӯӱӳӵӹաբգդեզէըթժիլխծկհձղ&amp;</span>
-<span class="s1">   &amp;ճմյնշոչպջռսվտրցւփքօֆაბგდევზთიკლმნოპჟრსტუფქ&amp;</span>
-<span class="s1">   &amp;ღყშჩცძწჭხჯჰჱჲჳჴჵḁḃḅḇḉḋḍḏḑḓḕḗḙḛḝḟḡḣḥḧ&amp;</span>
-<span class="s1">   &amp;ḩḫḭḯḱḳḵḷḹḻḽḿṁṃṅṇṉṋṍṏṑṓṕṗṙ&amp;</span>
-<span class="s1">   &amp;ṛṝṟṡṣṥṧṩṫṭṯṱṳṵṷṹṻṽṿ&amp;</span>
-<span class="s1">   &amp;ẁẃẅẇẉẋẍẏẑẓẕạảấầẩẫậắằẳẵặẹẻẽếềểễệỉịọỏốồổỗ&amp;</span>
-<span class="s1">   &amp;ộớờởỡợụủứừửữựỳỵỷỹἀἁἂἃἄἅἆἇἐἑἒἓἔἕἠἡἢἣἤἥἦἧἰἱ&amp;</span>
-<span class="s1">   &amp;ἲἳἴἵἶἷὀὁὂὃὄὅὑὓὕὗὠὡὢὣὤὥὦὧᾀᾁᾂᾃᾄᾅᾆᾇᾐᾑᾒᾓᾔᾕᾖᾗ&amp;</span>
-<span class="s1">   &amp;ᾠᾡᾢᾣᾤᾥᾦᾧᾰᾱῐῑῠῡⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩ&amp;</span>
-<span class="s1">   &amp;ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ&#39;</span>
-<span class="w">   </span><span class="n">upp</span><span class="o">=</span><span class="s1">&#39;&amp;</span>
-<span class="s1">   &amp;ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊË&amp;</span>
-<span class="s1">   &amp;ÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸĀĂĄĆĈĊČĎĐĒĔĖĘĚĜĞĠĢĤĦĨĪĬ&amp;</span>
-<span class="s1">   &amp;ĮIĲĴĶĹĻĽĿŁŃŅŇŊŌŎŐŒŔŖŘŚŜŞŠŢŤŦŨŪŬŮŰŲŴŶŹŻ&amp;</span>
-<span class="s1">   &amp;ŽƂƄƇƋƑƘƠƢƤƧƬƯƳƵƸƼǄǇǊǍǏǑǓǕǗǙǛǞǠǢǤǦǨǪǬǮǱǴǺǼǾ&amp;</span>
-<span class="s1">   &amp;ȀȂȄȆȈȊȌȎȐȒȔȖƁƆƊƎƏƐƓƔƗƖƜƝƟƩƮƱƲƷΆΈΉΊΑΒΓΔΕΖΗΘ&amp;</span>
-<span class="s1">   &amp;ΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩΪΫΌΎΏϢϤϦϨϪϬϮАБВГДЕЖЗИЙ&amp;</span>
-<span class="s1">   &amp;КЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯЁЂЃЄЅІЇЈЉЊЋЌЎЏѠѢѤѦѨѪѬ&amp;</span>
-<span class="s1">   &amp;ѮѰѲѴѶѸѺѼѾҀҐҒҔҖҘҚҜҞҠҢҤҦҨҪҬҮҰҲҴҶҸҺҼҾӁӃӇ&amp;</span>
-<span class="s1">   &amp;ӋӐӒӔӖӘӚӜӞӠӢӤӦӨӪӮӰӲӴӸԱԲԳԴԵԶԷԸԹԺԻԼԽԾԿՀՁՂՃՄ&amp;</span>
-<span class="s1">   &amp;ՅՆՇՈՉՊՋՌՍՎՏՐՑՒՓՔՕՖႠႡႢႣႤႥႦႧႨႩႪႫႬႭႮႯႰႱႲႳႴႵ&amp;</span>
-<span class="s1">   &amp;ႶႷႸႹႺႻႼႽႾႿჀჁჂჃჄჅḀḂḄḆḈḊḌḎḐḒḔḖḘḚḜḞḠḢḤḦḨḪḬḮ&amp;</span>
-<span class="s1">   &amp;ḰḲḴḶḸḺḼḾṀṂṄṆṈṊṌṎṐṒṔṖṘṚṜṞṠṢṤṦṨṪṬṮṰṲṴṶṸṺṼṾ&amp;</span>
-<span class="s1">   &amp;ẀẂẄẆẈẊẌẎẐẒẔẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼẾỀỂỄỆỈỊ&amp;</span>
-<span class="s1">   &amp;ỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪỬỮỰỲỴỶỸ&amp;</span>
-<span class="s1">   &amp;ἈἉἊἋἌἍἎἏἘἙἚἛἜἝἨἩἪἫἬἭἮἯἸἹ&amp;</span>
-<span class="s1">   &amp;ἺἻἼἽἾἿὈὉὊὋὌὍὙὛὝὟὨὩὪὫὬὭὮὯ&amp;</span>
-<span class="s1">   &amp;ᾈᾉᾊᾋᾌᾍᾎᾏᾘᾙᾚᾛᾜᾝᾞᾟᾨᾩᾪᾫᾬᾭᾮᾯᾸᾹ&amp;</span>
-<span class="s1">   &amp;ῘῙῨῩⒶⒷⒸⒹⒺⒻⒼⒽⒾⒿⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏ&amp;</span>
-<span class="s1">   &amp;ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ&#39;</span>
+<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">ustr</span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">g</span><span class="o">=</span><span class="s1">&#39;(*(g0))&#39;</span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">gx</span><span class="o">=</span><span class="s1">&#39;(*(g0,1x))&#39;</span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">gh</span><span class="o">=</span><span class="s1">&#39;(*(z0,1x))&#39;</span>
 
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="n">low</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="kt">character</span><span class="p">(</span><span class="n">upper</span><span class="p">(</span><span class="n">low</span><span class="p">))</span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="kt">character</span><span class="p">(</span><span class="n">upp</span><span class="p">)</span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="kt">character</span><span class="p">(</span><span class="n">upp</span><span class="p">%</span><span class="n">lower</span><span class="p">())</span>
+<span class="w">   </span><span class="c">! Constructors</span>
+<span class="w">   </span><span class="c">! UNICODE_VARIABLE= UNICODE_VARIABLE|CHARACTER(LEN=*)|INTEGER_ARRAY</span>
+<span class="w">   </span><span class="c">!</span>
+<span class="w">   </span><span class="c">! VARIABLE%CHARACTER(start,end,step) returns a CHARACTER string</span>
+<span class="w">   </span><span class="c">! VARIABLE%BYTE() returns an array of CHARACTER(len=1) values</span>
 
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="s1">&#39;Note &quot;i&quot; and &quot;I&quot; are a special case;&#39;</span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="s1">&#39;uppercase of &quot;i&quot; is &quot;I&quot; (dotless) by default and&#39;</span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="s1">&#39;lowercase of &quot;I&quot; (dotless) is &quot;i&quot; (dotted) by default.&#39;</span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="s1">&#39;For the others LETTER=lower(upper(LETTER)) and LETTER=upper(lower(LETTER))&#39;</span>
+<span class="w">   </span><span class="n">ustr</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Hello World and Ni Hao -- 你好  &#39;</span>
+
+<span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="kt">character</span><span class="p">(</span><span class="n">ustr</span><span class="p">)</span><span class="w"> </span><span class="c">! convert to intrinsic CHARACTER variable</span>
+<span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">ustr</span><span class="p">)</span>
+<span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="nb">len_trim</span><span class="p">(</span><span class="n">ustr</span><span class="p">)</span>
+<span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="nb">index</span><span class="p">(</span><span class="n">ustr</span><span class="p">,</span><span class="s1">&#39;你&#39;</span><span class="p">)</span>
+
+<span class="w">   </span><span class="c">! OOPS</span>
+<span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w">  </span><span class="n">ustr</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="w">      </span><span class="c">! convert to CHARACTER variable</span>
+<span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w">  </span><span class="n">ustr</span><span class="p">%</span><span class="kt">character</span><span class="p">(</span><span class="mi">27</span><span class="p">,</span><span class="mi">28</span><span class="p">)</span><span class="w"> </span><span class="c">! similar to LINE(27:28) for CHARACTER</span>
+<span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w">  </span><span class="n">ustr</span><span class="p">%</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ustr</span><span class="p">),</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="c">! reverse string</span>
+<span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w">  </span><span class="n">ustr</span><span class="p">%</span><span class="k">byte</span><span class="p">()</span><span class="w">           </span><span class="c">! convert to CHARACTER(LEN=1) type</span>
+<span class="w">   </span><span class="c">! print </span>
+<span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">gx</span><span class="p">)</span><span class="w"> </span><span class="n">ustr</span><span class="p">%</span><span class="n">codepoint</span><span class="p">()</span><span class="w">      </span><span class="c">! convert to Unicode codepoints</span>
+<span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">gh</span><span class="p">)</span><span class="w"> </span><span class="n">ustr</span><span class="p">%</span><span class="n">codepoint</span><span class="p">()</span><span class="w">      </span><span class="c">! convert to Unicode codepoints</span>
 
 <span class="k">end program </span><span class="n">testit</span>
 </pre></div>
@@ -327,7 +362,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-02-21 07:00 +0000             </p>
+ on 2026-02-22 10:01 +0000             </p>
           </div>
         </div>
         <br>
