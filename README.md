@@ -6,7 +6,10 @@
 -->
 
 # M_unicode module
-[![M_unicode module](docs/images/Phaistos_Disk_sideA.jpg)](https://github.com/urbanjost/M_unicode/releases/tag/v1.0.0)
+<!--
+[![M_unicode module](docs/images/Phaistos_Disk_sideA.jpg)](https://github.com/urbanjost/M_unicode/releases/tag/v2.0.0)
+-->
+[![M_unicode module](docs/images/Phaistos_Disk_sideA.jpg)](https://urbanjost.github.io/M_unicode/man3.html)
 
 The **M\_unicode** module provides direct support for UTF-8 encoded files
 and data, allowing UTF-8 encoded strings to be processed as easily as
