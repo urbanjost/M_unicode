@@ -144,8 +144,8 @@ unit tests.</p>
 <span class="c">! intrinsic overloads</span>
 <span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">   </span><span class="nb">adjustl</span><span class="p">,</span><span class="w">  </span><span class="nb">adjustr</span><span class="p">,</span><span class="w">   </span><span class="nb">trim</span><span class="p">,</span><span class="w">    </span><span class="nb">len</span><span class="p">,</span><span class="w">     </span><span class="nb">len_trim</span><span class="p">,</span><span class="w">  </span><span class="p">&amp;</span>
-<span class="w">   </span><span class="nb">index</span><span class="p">,</span><span class="w">    </span><span class="nb">scan</span><span class="p">,</span><span class="w">      </span><span class="nb">verify</span><span class="p">,</span><span class="w">  </span><span class="nb">repeat</span><span class="p">,</span><span class="w">  </span><span class="nb">ichar</span><span class="p">,</span><span class="w">     </span><span class="p">&amp;</span><span class="w">          </span>
-<span class="w">   </span><span class="n">split</span><span class="p">,</span><span class="w">    </span><span class="n">tokenize</span><span class="w">  </span>
+<span class="w">   </span><span class="nb">index</span><span class="p">,</span><span class="w">    </span><span class="nb">scan</span><span class="p">,</span><span class="w">      </span><span class="nb">verify</span><span class="p">,</span><span class="w">  </span><span class="nb">repeat</span><span class="p">,</span><span class="w">  </span><span class="nb">ichar</span><span class="p">,</span><span class="w">     </span><span class="p">&amp;</span>
+<span class="w">   </span><span class="n">split</span><span class="p">,</span><span class="w">    </span><span class="n">tokenize</span>
 
 <span class="c">! additional methods</span>
 <span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">&amp;</span>
@@ -200,7 +200,7 @@ unit tests.</p>
 <span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w">  </span><span class="n">ustr</span><span class="p">%</span><span class="kt">character</span><span class="p">(</span><span class="mi">27</span><span class="p">,</span><span class="mi">28</span><span class="p">)</span><span class="w"> </span><span class="c">! similar to LINE(27:28) for CHARACTER</span>
 <span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w">  </span><span class="n">ustr</span><span class="p">%</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ustr</span><span class="p">),</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="c">! reverse string</span>
 <span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w">  </span><span class="n">ustr</span><span class="p">%</span><span class="k">byte</span><span class="p">()</span><span class="w">           </span><span class="c">! convert to CHARACTER(LEN=1) type</span>
-<span class="w">   </span><span class="c">! print </span>
+<span class="w">   </span><span class="c">! print</span>
 <span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">gi</span><span class="p">)</span><span class="w"> </span><span class="n">ustr</span><span class="p">%</span><span class="n">codepoint</span><span class="p">()</span><span class="w">      </span><span class="c">! convert to Unicode codepoints</span>
 <span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">gh</span><span class="p">)</span><span class="w"> </span><span class="n">ustr</span><span class="p">%</span><span class="n">codepoint</span><span class="p">()</span><span class="w">      </span><span class="c">! Hexadecimal values of codepoints</span>
 
@@ -208,14 +208,14 @@ unit tests.</p>
 </code></pre></div>
 
 <h2 id="expected-output">Expected output:</h2>
-<div class="codehilite"><pre><span></span><code>Hello World and Ni Hao -- 你好  
+<div class="codehilite"><pre><span></span><code>Hello World and Ni Hao -- 你好
 30
 28
 27
-Hello World and Ni Hao -- 你好  
+Hello World and Ni Hao -- 你好
 你好
   好你 -- oaH iN dna dlroW olleH
-Hello World and Ni Hao -- 你好  
+Hello World and Ni Hao -- 你好
 72 101 108 108 111 32 87 111 114 108 100 32 97 110 100 32 78 105 32 72 97 111 32 45 45 32 20320 22909 32 32
 48 65 6C 6C 6F 20 57 6F 72 6C 64 20 61 6E 64 20 4E 69 20 48 61 6F 20 2D 2D 20 4F60 597D 20 20
 </code></pre></div>
@@ -327,11 +327,14 @@ ways is when you use the <strong>M_unicode</strong> module.</p>
 <h2 id="_1"><img alt="docs" src="docs/images/docs.gif"></h2>
 <h2 id="documentation">Documentation</h2>
 <h3 id="user">User</h3>
-<p>There are descriptions of each procedures in the style of man-pages in three formats:</p>
+<p>There are descriptions of each procedures in the style of man-pages in four formats:</p>
 <ul>
 <li>
 <p>An <a href="https://urbanjost.github.io/M_unicode/man3.html">index</a> to the HTML versions
    of the man-pages.</p>
+</li>
+<li>
+<p>A <a href="https://urbanjost.github.io/M_unicode/manual.txt">flat text version</a> of the man-pages</p>
 </li>
 <li>
 <p>A single page (that uses javascript) combining all the HTML descriptions of the man-pages
@@ -547,9 +550,11 @@ limitations compared to languages like C++ regarding the ease of use with
 complex Unicode features (e.g., surrogate pairs, text directionality,
 normalization). For many uses of Unicode support of codepoints and system
 support for UTF-8 encoding is sufficient, however.</p>
-<p>## References
- * <a href="https://home.unicode.org/"><img alt="Unicode Home" src="docs/images/Unicode-Logo-Final-Blue-95x112.jpg"></a></p>
+<h3 id="references">References</h3>
 <ul>
+<li>
+<p><a href="https://home.unicode.org/"><img alt="Unicode Home" src="docs/images/Unicode-Logo-Final-Blue-95x112.jpg"></a></p>
+</li>
 <li>
 <p>iconv  &ndash; a program and library for converting between text encodings.
    use &ldquo;iconv &ndash;list&rdquo; on ULS to see the list of encodings supported.
@@ -674,7 +679,7 @@ with the DT edit descriptor are still undergoing development.</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-02-23 00:14 +0000             </p>
+ on 2026-02-23 00:18 +0000             </p>
           </div>
         </div>
         <br>
