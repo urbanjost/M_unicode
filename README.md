@@ -5,7 +5,7 @@
 [![Lines of code](https://img.shields.io/tokei/lines/github/urbanjost/M_unicode)](https://github.com/urbanjost/M_unicode)
 -->
 
-# M_unicode module 
+# M_unicode module
 [![M_unicode module](docs/images/Phaistos_Disk_sideA.jpg)](https://github.com/urbanjost/M_unicode/releases/tag/v1.0.0)
 
 The **M\_unicode** module provides direct support for UTF-8 encoded files
@@ -50,8 +50,8 @@ use M_unicode, only : character
 ! intrinsic overloads
 use M_unicode, only : &
    adjustl,  adjustr,   trim,    len,     len_trim,  &
-   index,    scan,      verify,  repeat,  ichar,     &          
-   split,    tokenize  
+   index,    scan,      verify,  repeat,  ichar,     &
+   split,    tokenize
 
 ! additional methods
 use M_unicode, only : &
@@ -106,7 +106,7 @@ integer                     :: iostat
    write (stdout,g)  ustr%character(27,28) ! similar to LINE(27:28) for CHARACTER
    write (stdout,g)  ustr%character(len(ustr),1,-1) ! reverse string
    write (stdout,g)  ustr%byte()           ! convert to CHARACTER(LEN=1) type
-   ! print 
+   ! print
    write (stdout,gi) ustr%codepoint()      ! convert to Unicode codepoints
    write (stdout,gh) ustr%codepoint()      ! Hexadecimal values of codepoints
 
@@ -114,14 +114,14 @@ end program testit
 ```
 ## Expected output:
 ```text
-Hello World and Ni Hao -- 你好  
+Hello World and Ni Hao -- 你好
 30
 28
 27
-Hello World and Ni Hao -- 你好  
+Hello World and Ni Hao -- 你好
 你好
   好你 -- oaH iN dna dlroW olleH
-Hello World and Ni Hao -- 你好  
+Hello World and Ni Hao -- 你好
 72 101 108 108 111 32 87 111 114 108 100 32 97 110 100 32 78 105 32 72 97 111 32 45 45 32 20320 22909 32 32
 48 65 6C 6C 6F 20 57 6F 72 6C 64 20 61 6E 64 20 4E 69 20 48 61 6F 20 2D 2D 20 4F60 597D 20 20
 ```
@@ -257,10 +257,12 @@ ways is when you use the **M_unicode** module.
 
 ### User
 
-   There are descriptions of each procedures in the style of man-pages in three formats:
+   There are descriptions of each procedures in the style of man-pages in four formats:
 
  - An [index](https://urbanjost.github.io/M_unicode/man3.html) to the HTML versions
    of the man-pages.
+
+ - A [flat text version](https://urbanjost.github.io/M_unicode/manual.txt) of the man-pages
 
  - A single page (that uses javascript) combining all the HTML descriptions of the man-pages
    for easy searching and printing:
@@ -494,7 +496,7 @@ complex Unicode features (e.g., surrogate pairs, text directionality,
 normalization). For many uses of Unicode support of codepoints and system
 support for UTF-8 encoding is sufficient, however.
 
- ## References
+### References
  * [![Unicode Home](docs/images/Unicode-Logo-Final-Blue-95x112.jpg)](https://home.unicode.org/)
 
  + iconv  -- a program and library for converting between text encodings.
