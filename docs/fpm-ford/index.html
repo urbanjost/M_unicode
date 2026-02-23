@@ -149,10 +149,13 @@ unit tests.</p>
 
 <span class="c">! additional methods</span>
 <span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">   </span><span class="n">upper</span><span class="p">,</span><span class="w">   </span><span class="n">lower</span><span class="p">,</span>
+<span class="w">   </span><span class="n">upper</span><span class="p">,</span><span class="w">   </span><span class="n">lower</span><span class="p">,</span><span class="w">          </span><span class="n">glob</span><span class="p">,</span><span class="w">             </span><span class="p">&amp;</span>
+<span class="w">   </span><span class="n">isascii</span><span class="p">,</span><span class="w"> </span><span class="n">isblank</span><span class="p">,</span><span class="w">        </span><span class="n">isspace</span><span class="p">,</span><span class="w">          </span><span class="p">&amp;</span>
+<span class="w">   </span><span class="n">slurp</span><span class="p">,</span><span class="w">   </span><span class="n">readline</span><span class="p">,</span><span class="w">                         </span><span class="p">&amp;</span>
 <span class="w">   </span><span class="n">sort</span><span class="p">,</span><span class="w">    </span><span class="n">expandtabs</span><span class="p">,</span><span class="w">     </span><span class="n">replace</span><span class="p">,</span><span class="w">          </span><span class="p">&amp;</span>
-<span class="w">   </span><span class="n">isascii</span><span class="p">,</span><span class="w">                                   </span><span class="p">&amp;</span>
 <span class="w">   </span><span class="n">pad</span><span class="p">,</span><span class="w">     </span><span class="n">join</span><span class="p">,</span><span class="w">           </span><span class="n">fmt</span><span class="p">,</span><span class="w">              </span><span class="p">&amp;</span>
+<span class="w">   </span><span class="n">sub</span><span class="p">,</span><span class="w">     </span><span class="kt">character</span><span class="p">,</span><span class="w">                        </span><span class="p">&amp;</span>
+<span class="w">   </span><span class="n">get_arg</span><span class="p">,</span><span class="w"> </span><span class="n">get_env</span><span class="p">,</span><span class="w">        </span><span class="n">transliterate</span><span class="p">,</span><span class="w">    </span><span class="p">&amp;</span>
 <span class="w">   </span><span class="n">escape</span><span class="p">,</span><span class="w">  </span><span class="n">add_backslash</span><span class="p">,</span><span class="w">  </span><span class="n">remove_backslash</span>
 
 <span class="c">! operators (and overloads) and SORT(3f) use</span>
@@ -228,7 +231,7 @@ intrinsic methods and there are no functions provided to convert from
 UCS-4 to UTF-8 byte streams accept via reading and writing to files.</strong></p>
 <p>Where Unicode <strong>is</strong> supported (ie. where CHARACTER(KIND=&rdquo;ISO_10646&rdquo;)
 is provided)
-The <a href="https://github.com/urbanjost/M_utf8">M_utf8</a> repository
+The <a href="https://github.com/urbanjost/M_ucs4">M_ucs4</a> repository
 supplements Unicode usage &ndash; emphasizing adherence to the standard to
 promote portability.</p>
 <p>When the compiler does <strong>not</strong> support CHARACTER(KIND=&rdquo;ISO_10646&rdquo;)
@@ -320,6 +323,41 @@ represent Unicode characters. If they are just to be read and written
 as-is as in the previous example program that is not a major concern;
 but if you are manipulating or processing the strings in significant
 ways is when you use the <strong>M_unicode</strong> module.</p>
+<hr>
+<h2 id="_1"><img alt="docs" src="docs/images/docs.gif"></h2>
+<h2 id="documentation">Documentation</h2>
+<h3 id="user">User</h3>
+<p>There are descriptions of each procedures in the style of man-pages in three formats:</p>
+<ul>
+<li>
+<p>An <a href="https://urbanjost.github.io/M_unicode/man3.html">index</a> to the HTML versions
+   of the man-pages.</p>
+</li>
+<li>
+<p>A single page (that uses javascript) combining all the HTML descriptions of the man-pages
+   for easy searching and printing:
+   <a href="https://urbanjost.github.io/M_unicode/BOOK_M_unicode.html">BOOK_M_unicode</a>.</p>
+</li>
+<li>
+<p><img alt="man-pages" src="docs/images/manpages.gif"> man-page archives for installation on GNU/Linux, Unix and CygWin platforms:</p>
+<ul>
+<li><a href="https://urbanjost.github.io/M_unicode/manpages.zip">manpages.zip</a></li>
+<li><a href="https://urbanjost.github.io/M_unicode/manpages.tgz">manpages.tgz</a></li>
+</ul>
+</li>
+<li><a href="docs/CHANGELOG.md">CHANGELOG</a> provides a history of significant changes</li>
+</ul>
+<h3 id="developer">Developer</h3>
+<ul>
+<li>The code was run through <a href="https://politicalphysicist.github.io/ford-fortran-documentation.html">ford(1)</a>
+   to produce a <a href="https://urbanjost.github.io/M_unicode/fpm-ford/index.html">developers&rsquo; document</a>.</li>
+<li><a href="docs/STATUS.md">github action status</a></li>
+</ul>
+<hr>
+<h2 id="_2"><img alt="demos" src="docs/images/demo.gif"></h2>
+<h2 id="demo-programs">Demo Programs</h2>
+<p>Each man-page includes a working example program. These and additional
+examples are included in the <a href="example/">example/</a> directory.</p>
 <p><img alt="gmake" src="docs/images/gnu.gif"></p>
 <h2 id="download-and-build-with-make1">Download and Build with Make(1)</h2>
 <p>Compile the M_unicode module and build all the example programs.</p>
@@ -399,7 +437,7 @@ ways is when you use the <strong>M_unicode</strong> module.</p>
 </code></pre></div>
 
 <hr>
-<h2 id="_1"><img alt="cmake" src="docs/images/cmake_logo-1.png"></h2>
+<h2 id="_3"><img alt="cmake" src="docs/images/cmake_logo-1.png"></h2>
 <h2 id="download-and-build-using-cmake">Download and Build using cmake</h2>
 <p>To download the github repository and build and install with cmake
 (you may wish to change the install path in src/CMakeLists.txt first) :</p>
@@ -532,12 +570,23 @@ including features and enhancements from Francois Jacq.</p>
 </ul>
 <hr>
 <h2 id="see-also">See Also</h2>
+<p>As already mentioned &hellip;</p>
 <ul>
-<li><a href="https://fortran-lang.discourse.group/t/how-to-use-utf-8-in-gfortran/9949">https://fortran-lang.discourse.group/t/how-to-use-utf-8-in-gfortran/9949</a></li>
-<li><a href="https://fortran-lang.discourse.group/t/how-do-i-file-read-french-special-characters-like-e-etc/6618">https://fortran-lang.discourse.group/t/how-do-i-file-read-french-special-characters-like-e-etc/6618</a></li>
-<li><a href="https://fortran-lang.discourse.group/t/using-unicode-characters-in-fortran/2764">https://fortran-lang.discourse.group/t/using-unicode-characters-in-fortran/2764</a></li>
+<li><a href="https://fortranwiki.org/fortran/show/Unicode">https://fortranwiki.org/fortran/show/Unicode</a></li>
+<li>The <a href="https://github.com/urbanjost/M_unicode">M_unicode</a> repository for using UTF-8 files from Fortran</li>
+<li>The <a href="https://github.com/urbanjost/M_ucs4">M_ucs4</a> repository for use with the optional ISO-10646 Fortran extension</li>
+<li><a href="https://github.com/urbanjost/M_isolatin">M_isolatin</a></li>
+</ul>
+<p>Additionally &hellip;</p>
+<ul>
+<li><a href="https://github.com/urbanjost/M_strings">M_strings</a> for ASCII string procedures</li>
+<li><a href="https://github.com/urbanjost/M_io">M_io</a> for filesystem and I/O related functions</li>
+<li><a href="https://github.com/urbanjost/M_attr">M_attr</a> for ANSI terminal color and attributes</li>
 </ul>
 <!--
+ + [https://fortran-lang.discourse.group/t/how-to-use-utf-8-in-gfortran/9949](https://fortran-lang.discourse.group/t/how-to-use-utf-8-in-gfortran/9949)
+ + [https://fortran-lang.discourse.group/t/how-do-i-file-read-french-special-characters-like-e-etc/6618](https://fortran-lang.discourse.group/t/how-do-i-file-read-french-special-characters-like-e-etc/6618)
+ + [https://fortran-lang.discourse.group/t/using-unicode-characters-in-fortran/2764](https://fortran-lang.discourse.group/t/using-unicode-characters-in-fortran/2764)
  + [UTF-8 Everywhere Manifesto](http://utf8everywhere.org/)
 -->
 <h2 id="note_1">Note:</h2>
@@ -625,7 +674,7 @@ with the DT edit descriptor are still undergoing development.</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-02-22 10:01 +0000             </p>
+ on 2026-02-23 00:14 +0000             </p>
           </div>
         </div>
         <br>
