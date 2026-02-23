@@ -55,10 +55,13 @@ use M_unicode, only : &
 
 ! additional methods
 use M_unicode, only : &
-   upper,   lower,
+   upper,   lower,          glob,             &
+   isascii, isblank,        isspace,          &
+   slurp,   readline,                         &
    sort,    expandtabs,     replace,          &
-   isascii,                                   &
    pad,     join,           fmt,              &
+   sub,     character,                        &
+   get_arg, get_env,        transliterate,    &
    escape,  add_backslash,  remove_backslash
 
 ! operators (and overloads) and SORT(3f) use
@@ -136,7 +139,7 @@ UCS-4 to UTF-8 byte streams accept via reading and writing to files.__
 
 Where Unicode __is__ supported (ie. where CHARACTER(KIND="ISO_10646")
 is provided)
-The [M_utf8](https://github.com/urbanjost/M_utf8) repository
+The [M_ucs4](https://github.com/urbanjost/M_ucs4) repository
 supplements Unicode usage -- emphasizing adherence to the standard to
 promote portability.
 
@@ -245,6 +248,43 @@ represent Unicode characters. If they are just to be read and written
 as-is as in the previous example program that is not a major concern;
 but if you are manipulating or processing the strings in significant
 ways is when you use the **M_unicode** module.
+
+---
+![docs](docs/images/docs.gif)
+---
+
+## Documentation
+
+### User
+
+   There are descriptions of each procedures in the style of man-pages in three formats:
+
+ - An [index](https://urbanjost.github.io/M_unicode/man3.html) to the HTML versions
+   of the man-pages.
+
+ - A single page (that uses javascript) combining all the HTML descriptions of the man-pages
+   for easy searching and printing:
+   [BOOK_M_unicode](https://urbanjost.github.io/M_unicode/BOOK_M_unicode.html).
+
+ - ![man-pages](docs/images/manpages.gif) man-page archives for installation on GNU/Linux, Unix and CygWin platforms:
+    + [manpages.zip](https://urbanjost.github.io/M_unicode/manpages.zip)
+    + [manpages.tgz](https://urbanjost.github.io/M_unicode/manpages.tgz)
+ - [CHANGELOG](docs/CHANGELOG.md) provides a history of significant changes
+
+### Developer
+
+ - The code was run through [ford(1)](https://politicalphysicist.github.io/ford-fortran-documentation.html)
+   to produce a [developers' document](https://urbanjost.github.io/M_unicode/fpm-ford/index.html).
+ - [github action status](docs/STATUS.md)
+
+---
+![demos](docs/images/demo.gif)
+---
+
+## Demo Programs
+
+Each man-page includes a working example program. These and additional
+examples are included in the [example/](example/) directory.
 
 ![gmake](docs/images/gnu.gif)
 ## Download and Build with Make(1)
@@ -474,10 +514,22 @@ including features and enhancements from Francois Jacq.
 -------------------------------------------------------------
 ## See Also
 
+As already mentioned ...
+
+ + [https://fortranwiki.org/fortran/show/Unicode](https://fortranwiki.org/fortran/show/Unicode)
+ + The [M_unicode](https://github.com/urbanjost/M_unicode) repository for using UTF-8 files from Fortran
+ + The [M_ucs4](https://github.com/urbanjost/M_ucs4) repository for use with the optional ISO-10646 Fortran extension
+ + [M_isolatin](https://github.com/urbanjost/M_isolatin)
+
+Additionally ...
+
+ + [M_strings](https://github.com/urbanjost/M_strings) for ASCII string procedures
+ + [M_io](https://github.com/urbanjost/M_io) for filesystem and I/O related functions
+ + [M_attr](https://github.com/urbanjost/M_attr) for ANSI terminal color and attributes
+<!--
  + [https://fortran-lang.discourse.group/t/how-to-use-utf-8-in-gfortran/9949](https://fortran-lang.discourse.group/t/how-to-use-utf-8-in-gfortran/9949)
  + [https://fortran-lang.discourse.group/t/how-do-i-file-read-french-special-characters-like-e-etc/6618](https://fortran-lang.discourse.group/t/how-do-i-file-read-french-special-characters-like-e-etc/6618)
  + [https://fortran-lang.discourse.group/t/using-unicode-characters-in-fortran/2764](https://fortran-lang.discourse.group/t/using-unicode-characters-in-fortran/2764)
-<!--
  + [UTF-8 Everywhere Manifesto](http://utf8everywhere.org/)
 -->
 ## Note:
