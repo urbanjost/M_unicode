@@ -11,33 +11,35 @@
 -->
 [![M_unicode module](docs/images/Phaistos_Disk_sideA.jpg)](https://urbanjost.github.io/M_unicode/man3.html)
 
+## Overview
+
 The **M\_unicode** module provides direct support for UTF-8 encoded files
 and data, allowing UTF-8 encoded strings to be processed as easily as
 ASCII-7 encoded strings, without depending on the compiler supporting
-the optional ISO_10646 extension.
-
-The **M\_unicode** module supports many string methods that operate on
-byte streams representing UTF-8 encoded text such as case conversion
-and sorting.
-
-ASCII-7 being a subset of UTF-8 the procedures work with standard ASCII-7
-text as well.
+the optional ISO_10646 extension.  ASCII-7 being a subset of UTF-8 the
+procedures work with standard ASCII-7 text as well.
 
 The procedural interface supports all basic character intrinsics and
-operators.
+operators.  The **M\_unicode** module also supports many additional
+string methods such as case conversion and sorting.
 
-In addition to the procedural interface the user-defined type
-**unicode\_type** provides an object-oriented interface supporting ragged
-arrays of strings and Unicode codepoints.
+There is also an OOP interface. The user-defined type **unicode\_type**
+provides not just ragged arrays of strings but nearly all the string
+methods as type-bound procedures.
 
 **M\_unicode** is a companion to and fully implements the UTF-8
 processing discussed in the Fortran Wiki [Unicode
 Tutorial](https://fortranwiki.org/fortran/show/Unicode).
 
-Over 45 [example programs](example) are included, as well as man-pages
-describing the procedures in \*roff and HTML format, and a basic set of
-unit tests.
+Over 55 [example programs](example) and a self-contained set of unit
+tests are included.
 
+The procedures are described in HTML, \*roff and flat-text format.
+The \*roff files may be installed as man-pages on Unix and GNU/Linux
+platforms.
+
+A sample program explicitly accessing all the module elements by
+name:
 ```fortran
 program testit
 use, intrinsic :: iso_fortran_env, only : stdout=>output_unit
@@ -128,21 +130,26 @@ Hello World and Ni Hao -- 你好
 72 101 108 108 111 32 87 111 114 108 100 32 97 110 100 32 78 105 32 72 97 111 32 45 45 32 20320 22909 32 32
 48 65 6C 6C 6F 20 57 6F 72 6C 64 20 61 6E 64 20 4E 69 20 48 61 6F 20 2D 2D 20 4F60 597D 20 20
 ```
-## Unicode usage from Fortran when UTF-8 source files are supported
+## Details
 
-Fortran 2003 and later standards describe internal representation of
-Unicode using 4-byte-per-character UCS-4 encoding for characters/glyphs,
-including an ability to automatically encode and decode data read and
-written to UTF-8 files.
+The **M_unicode** module provides direct support for UTF-8 encoded 
+source files and data.
 
-__But Unicode ISO-10646 support is optional, ragged string arrays are
-not supported as intrinsic types, no OOP interface is provided for the
-intrinsic methods and there are no functions provided to convert from
-UCS-4 to UTF-8 byte streams accept via reading and writing to files.__
+Fortran 2003 and later standards describe the optional Unicode ISO-10646
+extension, which provides for an internal representation of Unicode using
+4-byte-per-character UCS-4 encoding for characters/glyphs, as well as
+an ability to automatically encode and decode data read and written to
+UTF-8 files.
+
+__But major compilers still do not support the Unicode ISO-10646
+option, ragged string arrays are not supported as intrinsic types,
+no OOP interface is provided for the intrinsic methods and there are no
+functions provided to convert from UCS-4 to UTF-8 byte streams accept
+via reading and writing to files.__
 
 Where Unicode __is__ supported (ie. where CHARACTER(KIND="ISO_10646")
 is provided)
-The [M_ucs4](https://github.com/urbanjost/M_ucs4) repository
+the [M_ucs4](https://github.com/urbanjost/M_ucs4) repository
 supplements Unicode usage -- emphasizing adherence to the standard to
 promote portability.
 
@@ -220,8 +227,9 @@ of the **M_unicode** module, UTF-8 files display properly.
 This may require selecting a specific terminal emulator, setting the locale
 and selecting a font that supports the Unicode characters of interest.
 
-Without using any Fortran Unicode support features, if the output
-is redirected to a file does it appear correctly?
+Using the following Fortran source file, which does not use
+any Fortran Unicode ISO-10646 extensions, does the output
+appear directly if redirected to a file?
 
 ```fortran
 program multibyte
