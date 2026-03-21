@@ -9562,8 +9562,9 @@ integer                               :: icount
    iostat=0
    filename_=''
    if(present(filename))filename_=trim(filename)
+   if(filename_ == '-')filename_ = ''
 
-   if(filename_ /= '-'.and.filename_ /= '' ) then
+   if(filename_ /= '' ) then
       open(newunit=lun, file=filename_, action="read", iomsg=iomsg,&
       &form="formatted", access="sequential",status='old',iostat=iostat)
    else
@@ -9575,6 +9576,7 @@ integer                               :: icount
         &form="formatted", access="sequential",status='scratch',iostat=iostat)
         do
            line=readline(lun,iostat=iostat)
+           if(iostat.ne.0)exit
            write(scratch,'(a)')line%character()
         enddo
         rewind(scratch)
