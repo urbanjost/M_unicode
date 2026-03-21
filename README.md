@@ -62,7 +62,7 @@ use M_unicode, only : &
 use M_unicode, only : &
    upper,   lower,          glob,             &
    isascii, isblank,        isspace,          &
-   slurp,   readline,                         &
+   slurp,   readline,       pound_to_box,     &
    sort,    expandtabs,     replace,          &
    pad,     join,           fmt,              &
    sub,     character,                        &
