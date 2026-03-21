@@ -106,6 +106,8 @@
 !!
 !!     transliterate  replace characters from old set with new set
 !!
+!!     pound_to_box  create simple boxes using pound character
+!!
 !!    CASE
 !!
 !!     upper   function converts string to uppercase
@@ -356,6 +358,7 @@ public :: join
 public :: readline
 public :: slurp
 public :: sub
+public :: pound_to_box
 
 public :: adjustl
 public :: adjustr
@@ -450,6 +453,11 @@ interface escape
    module procedure :: escape_au
    module procedure :: escape_aa
 end interface escape
+
+interface pound_to_box
+   module procedure :: pound_to_box_u
+   module procedure :: pound_to_box_ascii
+end interface pound_to_box
 
 interface add_backslash
    module procedure :: add_backslash_u
@@ -5356,6 +5364,272 @@ logical,intent(in),optional              :: back
 type(unicode_type)                       :: newline
    newline=replace_uuu(unicode_type(target),old,new,force_,occurrence,repeat,ignorecase,changes,back)
 end function replace_auu
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
+!>
+!!##NAME
+!!     pound_to_block(3f) - [M_unicode:EDITING] convert pound character to box characters
+!!     (LICENSE:MIT)
+!!
+!!##SYNOPSIS
+!!
+!!
+!!  syntax:
+!!
+!!       function pound_to_box(win,style) result(winout)
+!!
+!!       type(unicode_type)|character(len=*),intent(in) :: win(:)
+!!       type(unicode_type)|character(len=*),intent(in) :: style
+!!       type(unicode_type),allocatable :: winout(:)
+!!
+!!##CHARACTERISTICS
+!!   + WINOUT elements will all have the length of the longest element
+!!     of WIN
+!!
+!!##DESCRIPTION
+!!
+!!     The pound character ("#") may be used to construct boxed text
+!!     with the restriction that lines must be seperated by at least
+!!     one character from other lines.
+!!
+!!##OPTIONS
+!!      win         input array to be changed
+!!      style       may be "light", "bold", or "double".
+!!
+!!##RETURNS
+!!      winout     an array of strings with box characters substituted
+!!                 for adjacent box characters.
+!!
+!!##EXAMPLES
+!!
+!!
+!!   Sample Program:
+!!    program demo_pound_to_box
+!!    use M_unicode, only : slurp, ut=>unicode_type
+!!    use M_unicode, only : operator(//)
+!!    use M_unicode, only : assignment(=)
+!!    use M_unicode, only : character, pound_to_box
+!!    implicit none
+!!    type(ut),allocatable       :: textout(:)
+!!    character(len=*),parameter :: text(*)=[character(len=80) :: &
+!!    '############################################', &
+!!    '#abcdefg# What about #        #       #    #', &
+!!    '#hijklmn# this text? #        #       ######', &
+!!    '###############################       #    #', &
+!!    '#              #     #        #       ######', &
+!!    '#              #     #        #       #    #', &
+!!    '############################################', &
+!!    '', &
+!!    '   ###################################', &
+!!    '   # WARNING, WARNING, Will Robinson #', &
+!!    '   ###################################']
+!!       ! write out slurped data
+!!       textout=text
+!!       call write_text()
+!!       textout=pound_to_box(text)
+!!       call write_text()
+!!       textout=pound_to_box(text,style='light')
+!!       call write_text()
+!!       textout=pound_to_box(text,style='double')
+!!       call write_text()
+!!
+!!    contains
+!!    subroutine write_text()
+!!    integer :: i
+!!       write(*,'(*(a:))',advance='no') &
+!!       & (trim(textout(i)%character()), &
+!!       & new_line('a'), &
+!!       & i=1,size(textout))
+!!    end subroutine write_text
+!!
+!!    end program demo_pound_to_box
+!!
+!!   Results:
+!!
+!!    > ############################################
+!!    > #abcdefg# What about #        #       #    #
+!!    > #hijklmn# this text? #        #       ######
+!!    > ###############################       #    #
+!!    > #              #     #        #       ######
+!!    > #              #     #        #       #    #
+!!    > ############################################
+!!    >
+!!    >    ###################################
+!!    >    # WARNING, WARNING, Will Robinson #
+!!    >    ###################################
+!!    > ┏━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━┳━━━━┓
+!!    > ┃abcdefg┃ What about ┃        ┃       ┃    ┃
+!!    > ┃hijklmn┃ this text? ┃        ┃       ┣━━━━┫
+!!    > ┣━━━━━━━┻━━━━━━┳━━━━━╋━━━━━━━━┫       ┃    ┃
+!!    > ┃              ┃     ┃        ┃       ┣━━━━┫
+!!    > ┃              ┃     ┃        ┃       ┃    ┃
+!!    > ┗━━━━━━━━━━━━━━┻━━━━━┻━━━━━━━━┻━━━━━━━┻━━━━┛
+!!    >
+!!    >    ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+!!    >    ┃ WARNING, WARNING, Will Robinson ┃
+!!    >    ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+!!    > ┌───────┬────────────┬────────┬───────┬────┐
+!!    > │abcdefg│ What about │        │       │    │
+!!    > │hijklmn│ this text? │        │       ├────┤
+!!    > ├───────┴──────┬─────┼────────┤       │    │
+!!    > │              │     │        │       ├────┤
+!!    > │              │     │        │       │    │
+!!    > └──────────────┴─────┴────────┴───────┴────┘
+!!    >
+!!    >    ┌─────────────────────────────────┐
+!!    >    │ WARNING, WARNING, Will Robinson │
+!!    >    └─────────────────────────────────┘
+!!    > ╔═══════╦════════════╦════════╦═══════╦════╗
+!!    > ║abcdefg║ What about ║        ║       ║    ║
+!!    > ║hijklmn║ this text? ║        ║       ╠════╣
+!!    > ╠═══════╩══════╦═════╬════════╣       ║    ║
+!!    > ║              ║     ║        ║       ╠════╣
+!!    > ║              ║     ║        ║       ║    ║
+!!    > ╚══════════════╩═════╩════════╩═══════╩════╝
+!!    >
+!!    >    ╔═════════════════════════════════╗
+!!    >    ║ WARNING, WARNING, Will Robinson ║
+!!    >    ╚═════════════════════════════════╝
+!!
+!!##AUTHOR
+!!     John S. Urban
+!!##LICENSE
+!!     MIT
+function pound_to_box_u(win,style) result(winout)
+! convert "#" characters to box characters assuming boxes do not touch that are not
+! part of same structure
+type(unicode_type),intent(in)          :: win(:)
+class(*),intent(in),optional           :: style
+type(unicode_type)                     :: ustyle
+character(len=10)                      :: style_
+integer                                :: i,j
+type(unicode_type),allocatable         :: winout(:)
+integer                                :: isum
+integer                                :: width
+integer                                :: height
+type(unicode_type)                     :: blank
+integer,parameter                      :: pound=ichar('#')
+integer,allocatable                    :: line(:)
+   if(present(style))then
+      select type(style)
+         type is (character(len=*));
+            ustyle=style
+            style_=character(lower(ustyle))
+         type is (unicode_type);     style_=character(style%lower())
+         class default
+            stop 'pound_to_box:: parameter name type is not expected'
+      end select
+   else
+      style_='bold'
+   endif
+   blank=' '
+   height = size(win)
+   width=maxval(len(win))
+   if(allocated(winout))deallocate(winout)
+   allocate(winout(height))
+   allocate(line(width))
+   line(:)=32
+   do i=1,height
+      winout(i)%codes=line
+   enddo
+   !  #    1|  2|  4| character of interest is assumed at the center of a 3x3 grid
+   ! ###   8| 16| 32| and the sum of selected powers of two produces unique numbers
+   !  #   64|128|256| for patterns of interest (else use prime multiplication)
+   do i=1,height
+      width=len(win(i))
+      do j=1,width
+         ! copy with frame of blank characters so can simplify tests without going out of bounds
+         ! if not first column look to left for adjacent line-drawing characters
+         if(win(i)%codes(j).ne.pound)then
+            winout(i)%codes(j)=win(i)%codes(j)
+            cycle
+         endif
+         isum=ibset(0,4)
+         if(j.ge.2) then
+            if(win(i)%codes(j-1).eq.pound) isum=ibset(isum,3) !   8
+         endif
+         if(j.le.width-1)then
+            if(win(i)%codes(j+1).eq.pound) isum=ibset(isum,5) !  32
+         endif
+         if(i.ge.2) then
+            if(j.le.len(win(i-1)))then
+               if(win(i-1)%codes(j).eq.pound) isum=ibset(isum,1) !   2
+            endif
+         endif
+         if(i.le.height-1)then
+            if(j.le.len(win(i+1)))then
+               if(win(i+1)%codes(j).eq.pound) isum=ibset(isum,7) ! 128
+            endif
+         endif
+         select case(style_)
+         case('bold')
+            select case(isum)
+             case(16);                   winout(i)%codes(j)= 35   ! POUND     #
+             case(2+16+8);               winout(i)%codes(j)= 9499 ! LRCORNER  ┛
+             case(16+2,16+128,16+2+128); winout(i)%codes(j)= 9475 ! VLINE     ┃
+             case(16+8,16+32,8+16+32);   winout(i)%codes(j)= 9473 ! HLINE     ━
+             case(32+16+128);            winout(i)%codes(j)= 9487 ! ULCORNER  ┏
+             case(2+16+32);              winout(i)%codes(j)= 9495 ! LLCORNER  ┗
+             case(2+16+32+128);          winout(i)%codes(j)= 9507 ! LTEE      ┣ !Tee pointing right
+             case(2+16+128+8);           winout(i)%codes(j)= 9515 ! RTEE      ┫ !Tee pointing left
+             case(8+16+32+2);            winout(i)%codes(j)= 9531 ! BTEE      ┻ !Tee pointing up
+             case(8+16+32+128);          winout(i)%codes(j)= 9523 ! TTEE      ┳ !Tee pointing down
+             case(8+16+128);             winout(i)%codes(j)= 9491 ! URCORNER  ┓
+             case(8+16+32+2+128);        winout(i)%codes(j)= 9547 ! PLUS      ╋
+             case default
+                write(*,*)'UNEXPECTED CONFIGURATION',i,j
+            end select
+
+         case('light')
+            select case(isum)
+             case(16);                   winout(i)%codes(j) = 35   ! POUND     #
+             case(8+16+128);             winout(i)%codes(j) = 9488 ! URCORNER  ┐
+             case(2+16+8);               winout(i)%codes(j) = 9496 ! LRCORNER  ┘
+             case(16+2,16+128,16+2+128); winout(i)%codes(j) = 9474 ! VLINE     │
+             case(16+8,16+32,8+16+32);   winout(i)%codes(j) = 9472 ! HLINE     ─
+             case(32+16+128);            winout(i)%codes(j) = 9484 ! ULCORNER  ┌
+             case(2+16+32);              winout(i)%codes(j) = 9492 ! LLCORNER  └
+             case(2+16+32+128);          winout(i)%codes(j) = 9500 ! LTEE      ├ !Tee pointing right
+             case(2+16+128+8);           winout(i)%codes(j) = 9508 ! RTEE      ┤ !Tee pointing left
+             case(8+16+32+2);            winout(i)%codes(j) = 9524 ! BTEE      ┴ !Tee pointing up
+             case(8+16+32+128);          winout(i)%codes(j) = 9516 ! TTEE      ┬ !Tee pointing down
+             case(8+16+32+2+128);        winout(i)%codes(j) = 9532 ! PLUS      ┼
+             case default
+                write(*,*)'UNEXPECTED CONFIGURATION',i,j
+            end select
+
+
+         case('double')
+            select case(isum)
+             case(16);                   winout(i)%codes(j) = 35   ! POUND     #
+             case(8+16+128);             winout(i)%codes(j) = 9559 ! URCORNER  ╗
+             case(2+16+8);               winout(i)%codes(j) = 9565 ! LRCORNER  ╝
+             case(16+2,16+128,16+2+128); winout(i)%codes(j) = 9553 ! VLINE     ║
+             case(16+8,16+32,8+16+32);   winout(i)%codes(j) = 9552 ! HLINE     ═
+             case(32+16+128);            winout(i)%codes(j) = 9556 ! ULCORNER  ╔
+             case(2+16+32);              winout(i)%codes(j) = 9562 ! LLCORNER  ╚
+             case(2+16+32+128);          winout(i)%codes(j) = 9568 ! LTEE      ╠ !Tee pointing right
+             case(2+16+128+8);           winout(i)%codes(j) = 9571 ! RTEE      ╣ !Tee pointing left
+             case(8+16+32+2);            winout(i)%codes(j) = 9577 ! BTEE      ╩ !Tee pointing up
+             case(8+16+32+128);          winout(i)%codes(j) = 9574 ! TTEE      ╦ !Tee pointing down
+             case(8+16+32+2+128);        winout(i)%codes(j) = 9580 ! PLUS      ╬
+             case default
+                write(*,*)'UNEXPECTED CONFIGURATION',i,j
+            end select
+         end select
+      enddo
+   enddo
+end function pound_to_box_u
+!-----------------------------------------------------------------------------------------------------------------------------------
+function pound_to_box_ascii(win,style) result(winout)
+character(len=*),intent(in)    :: win(:)
+class(*),intent(in),optional   :: style
+type(unicode_type),allocatable :: win_(:)
+type(unicode_type),allocatable :: winout(:)
+   win_=win
+   winout=pound_to_box_u(win_,style)
+end function pound_to_box_ascii
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
