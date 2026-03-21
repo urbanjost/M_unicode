@@ -20,6 +20,7 @@ len_trim (3m_unicode) - [M_unicode:WHITESPACE] string length without trailing bl
 lower (3m_unicode)   - [M_unicode:CASE] changes a string to lowercase over specified range (LICENSE:MIT)
 M_unicode (3m_unicode) - [M_unicode::INTRO] Unicode string module (LICENSE:MIT)
 pad (3m_unicode)     - [M_unicode:PAD] return string padded to at least specified length (LICENSE:MIT)
+pound_to_box (3m_unicode)     - [M_unicode:EDITING] create box character borders using pound character (LICENSE:MIT)
 readline (3m_unicode) - [M_unicode:IO] read a line from specified LUN into string up to line length limit (LICENSE:MIT)
 remove_backslash (3m_unicode) - [M_unicode:CONVERSION] expand C-like escape sequences (LICENSE:MIT)
 repeat (3m_unicode)  - [M_unicode:PAD] Repeated string concatenation (LICENSE:MIT)
@@ -1474,6 +1475,134 @@ AUTHOR
 LICENSE
    MIT
 			       February 22, 2026	       pad(3m_unicode)
+
+NAME
+       pound_to_block(3f) ‐ [M_unicode:EDITING] convert pound character
+       to box characters (LICENSE:MIT)
+
+SYNOPSIS
+       syntax:
+
+         function pound_to_box(win,style) result(winout)
+
+         type(unicode_type)|character(len=*),intent(in) :: win(:)
+         type(unicode_type)|character(len=*),intent(in) :: style
+         type(unicode_type),allocatable :: winout(:)
+
+CHARACTERISTICS
+       •  WINOUT elements will all have the length of the longest
+          element of WIN
+
+DESCRIPTION
+       The pound character ("#") may be used to construct boxed text
+       with the restriction that lines must be seperated by at least
+       one character from other lines.
+
+OPTIONS
+       win    input array to be changed
+
+       style  may be "light", "bold", or "double".
+
+RETURNS
+       winout an array of strings with box characters substituted for
+       adjacent box characters.
+
+EXAMPLES
+       Sample Program:
+
+          program demo_pound_to_box
+          use M_unicode, only : slurp, ut=>unicode_type
+          use M_unicode, only : operator(//)
+          use M_unicode, only : assignment(=)
+          use M_unicode, only : character, pound_to_box
+          implicit none
+          type(ut),allocatable       :: textout(:)
+          character(len=*),parameter :: text(*)=[character(len=80) :: &
+          ’############################################’, &
+          ’#abcdefg# What about #        #       #    #’, &
+          ’#hijklmn# this text? #        #       ######’, &
+          ’###############################       #    #’, &
+          ’#              #     #        #       ######’, &
+          ’#              #     #        #       #    #’, &
+          ’############################################’, &
+          ’’, &
+          ’   ###################################’, &
+          ’   # WARNING, WARNING, Will Robinson #’, &
+          ’   ###################################’]
+             ! write out slurped data
+             textout=text
+             call write_text()
+             textout=pound_to_box(text)
+             call write_text()
+             textout=pound_to_box(text,style=’light’)
+             call write_text()
+             textout=pound_to_box(text,style=’double’)
+             call write_text()
+
+          contains
+          subroutine write_text()
+          integer :: i
+             write(*,’(*(a:))’,advance=’no’) &
+             & (trim(textout(i)%character()), &
+             & new_line(’a’), &
+             & i=1,size(textout))
+          end subroutine write_text
+
+          end program demo_pound_to_box
+
+       Results:
+
+          > ############################################
+          > #abcdefg# What about #        #       #    #
+          > #hijklmn# this text? #        #       ######
+          > ###############################       #    #
+          > #              #     #        #       ######
+          > #              #     #        #       #    #
+          > ############################################
+          >
+          >    ###################################
+          >    # WARNING, WARNING, Will Robinson #
+          >    ###################################
+          > ┏━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━┳━━━━┓
+          > ┃abcdefg┃ What about ┃        ┃       ┃    ┃
+          > ┃hijklmn┃ this text? ┃        ┃       ┣━━━━┫
+          > ┣━━━━━━━┻━━━━━━┳━━━━━╋━━━━━━━━┫       ┃    ┃
+          > ┃              ┃     ┃        ┃       ┣━━━━┫
+          > ┃              ┃     ┃        ┃       ┃    ┃
+          > ┗━━━━━━━━━━━━━━┻━━━━━┻━━━━━━━━┻━━━━━━━┻━━━━┛
+          >
+          >    ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+          >    ┃ WARNING, WARNING, Will Robinson ┃
+          >    ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+          > ┌───────┬────────────┬────────┬───────┬────┐
+          > │abcdefg│ What about │        │       │    │
+          > │hijklmn│ this text? │        │       ├────┤
+          > ├───────┴──────┬─────┼────────┤       │    │
+          > │              │     │        │       ├────┤
+          > │              │     │        │       │    │
+          > └──────────────┴─────┴────────┴───────┴────┘
+          >
+          >    ┌─────────────────────────────────┐
+          >    │ WARNING, WARNING, Will Robinson │
+          >    └─────────────────────────────────┘
+          > ╔═══════╦════════════╦════════╦═══════╦════╗
+          > ║abcdefg║ What about ║        ║       ║    ║
+          > ║hijklmn║ this text? ║        ║       ╠════╣
+          > ╠═══════╩══════╦═════╬════════╣       ║    ║
+          > ║              ║     ║        ║       ╠════╣
+          > ║              ║     ║        ║       ║    ║
+          > ╚══════════════╩═════╩════════╩═══════╩════╝
+          >
+          >    ╔═════════════════════════════════╗
+          >    ║ WARNING, WARNING, Will Robinson ║
+          >    ╚═════════════════════════════════╝
+
+AUTHOR
+   John S. Urban
+
+LICENSE
+   MIT
+                                           March 21, 2026                                 untitled()
 readline(3m_unicode)					  readline(3m_unicode)
 
 NAME
