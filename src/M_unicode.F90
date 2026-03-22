@@ -3768,7 +3768,7 @@ integer                        :: i
          if(allocated(adjusted%codes))deallocate(adjusted%codes)
          allocate(adjusted%codes(0))
       elseif(glyphs.lt.size(string%codes))then ! shorter
-         adjusted%codes=adjustl(string)
+         adjusted=adjustl(string)
          adjusted=trim_str(adjusted)
          if(size(adjusted%codes).lt.glyphs)then
             adjusted%codes=[(32,i=1,glyphs-size(adjusted%codes)),adjusted%codes]
@@ -3997,7 +3997,7 @@ elemental function isascii_a(str) result(res)
 character(len=*),intent(in) :: str
 type(unicode_type)          :: ustr
 logical                     :: res
-   ustr=str
+   call assign_str_char( ustr,str ) ! ustr=str
    res=isascii_u(ustr)
 end function isascii_a
 !===================================================================================================================================
@@ -4088,7 +4088,7 @@ elemental function isblank_a(string) result(res)
 character(len=*),intent(in) :: string
 type(unicode_type)          :: string_u
 logical                     :: res
-   string_u=string
+   call assign_str_char ( string_u,string ) !  string_u=string
    res=isblank_u(string_u)
 end function isblank_a
 !===================================================================================================================================
@@ -4164,7 +4164,7 @@ elemental function isspace_a(string) result(res)
 character(len=*),intent(in) :: string
 type(unicode_type)          :: string_u
 logical                     :: res
-   string_u=string
+   call assign_str_char ( string_u,string ) !  string_u=string
    res=isspace_u(string_u)
 end function isspace_a
 !===================================================================================================================================
@@ -5216,8 +5216,8 @@ type(unicode_type) :: target_local   ! input line to be changed
    len_old=len(old_local)                              ! length of old substring to be replaced
    len_new=len(new_local)                              ! length of new substring to replace old substring
    left_margin=1                                       ! left_margin is left margin of window to change
-   right_margin=len(target)                        ! right_margin is right margin of window to change
-   newline=''                                          ! begin with a blank line as output string
+   right_margin=len(target)                            ! right_margin is right margin of window to change
+   call assign_str_char ( newline, '' )                ! begin with a blank line as output string
 
    if(len_old == 0)then                                ! c//new/ means insert new at beginning of line (or left margin)
       ichr=len_new + original_input_length
@@ -5369,7 +5369,7 @@ end function replace_auu
 !===================================================================================================================================
 !>
 !!##NAME
-!!     pound_to_block(3f) - [M_unicode:EDITING] convert pound character to box characters
+!!     pound_to_box(3f) - [M_unicode:EDITING] convert pound character to box characters
 !!     (LICENSE:MIT)
 !!
 !!##SYNOPSIS
@@ -5405,6 +5405,7 @@ end function replace_auu
 !!
 !!
 !!   Sample Program:
+!!
 !!    program demo_pound_to_box
 !!    use M_unicode, only : slurp, ut=>unicode_type
 !!    use M_unicode, only : operator(//)
@@ -5743,9 +5744,9 @@ type(unicode_type)                     :: sep_local
 type(unicode_type)                     :: string
 logical                                :: clip_local
 integer                                :: i
-   if(present(sep))then  ; sep_local=sep   ; else ; sep_local=''      ; endif
+   if(present(sep))then  ; sep_local=sep   ; else ; call assign_str_char( sep_local, '' ) ; endif
    if(present(clip))then ; clip_local=clip ; else ; clip_local=.true. ; endif
-   string=''
+   call assign_str_char ( string, '' )
    if(size(str) /= 0)then
       do i = 1,size(str)-1
          if(clip_local)then
@@ -5753,20 +5754,20 @@ integer                                :: i
             !gfortran!string=string//adjustl(trim(str))//sep_local ! produces no left adjust in gfortran as the moment
             !ifx!string=string//trim(temp)//sep_local
             temp=trim(temp)
-            string=[string%codes,temp%codes,sep_local%codes]
+            string%codes=[string%codes,temp%codes,sep_local%codes]
          else
             !string=string//str(i)//sep_local
-            string=[string%codes,str(i)%codes,sep_local%codes]
+            string%codes=[string%codes,str(i)%codes,sep_local%codes]
          endif
       enddo
       if(clip_local)then
          temp=adjustl(str(i))
          !string=[string//trim(temp)
          temp=trim(temp)
-         string=[string%codes,temp%codes]
+         string%codes=[string%codes,temp%codes]
       else
          !string=string//str(i)
-         string=[string%codes,str(i)%codes]
+         string%codes=[string%codes,str(i)%codes]
       endif
    endif
 end function join
@@ -6399,14 +6400,14 @@ integer                                                :: imax
     allocate(tokens(size(first)))
     !
     do n = 1,size(tokens)
-      tokens(n) = string%character(first(n),last(n),1)
+      call assign_str_char ( tokens(n) , string%character(first(n),last(n),1) )
     enddo
     !
     if (present(separator)) then
       if(allocated(separator))deallocate(separator)
       allocate(separator(size(tokens) - 1))
       do n = 1,size(tokens) - 1
-        separator(n) = string%character(first(n+1)-1,first(n+1)-1,1)
+        call assign_str_char ( separator(n) , string%character(first(n+1)-1,first(n+1)-1,1) )
       enddo
     endif
 
@@ -6444,7 +6445,7 @@ integer                                :: slen
     slen = len(string)
     !
     do n = 1,len(set)
-      set_array(n) = set%character(n,n)
+      call assign_str_char ( set_array(n) , set%character(n,n) )
     enddo
     !
     FINDIT: do n = 1,slen
@@ -6513,7 +6514,7 @@ integer                        :: n
     if (present(back)) backward = back
     !
     do n = 1,len(set)
-      set_array(n) = set%character(n,n)
+      call assign_str_char ( set_array(n) , set%character(n,n) )
     enddo
     !
     if (backward) then
@@ -6704,7 +6705,7 @@ integer                                :: newlen
 
 if(  present(right)    )then;  local_right=right;      else;  local_right=.true.;  endif
 if(  present(clip)     )then;  local_clip=clip;        else;  local_clip=.true. ;  endif
-if(  present(pattern)  )then;  local_pattern=pattern;  else;  local_pattern=' ' ;  endif
+if(  present(pattern)  )then;  local_pattern=pattern;  else;  call assign_str_char(local_pattern, ' ' ) ;  endif
 
 if(len(local_pattern) == 0)then
    out=line
@@ -6721,14 +6722,14 @@ else
    if(local_right)then
       !out=[local_line//repeat(local_pattern,newlen/len(local_pattern)+1)
       temp=repeat(local_pattern,newlen/len(local_pattern)+1)
-      out=[local_line%codes,temp%codes]
+      out%codes=[local_line%codes,temp%codes]
    else
       ! make a line of pattern
       out=repeat(local_pattern, ceiling(real(newlen)/len(local_pattern)))
 
       !out=out%sub(1,newlen-len(local_line))//local_line
       out=out%sub(1,newlen-len(local_line))
-      out=[out%codes,local_line%codes]
+      out%codes=[out%codes,local_line%codes]
    endif
 
    out=out%sub(1,newlen)
@@ -6881,7 +6882,7 @@ character(len=*),intent(in)   :: set
 type(unicode_type)            :: set_u
 logical,intent(in),optional   :: back
 integer                       :: pos
-   set_u=set
+   call assign_str_char ( set_u, set )
    pos = scan_uu(string,set_u,back)
 end function scan_ua
 !===================================================================================================================================
@@ -7336,7 +7337,7 @@ character(len=*),intent(in)   :: set
 type(unicode_type)            :: set_u
 logical,intent(in),optional   :: back
 integer                       :: result
-   set_u=set
+   call assign_str_char ( set_u, set )
    result=verify_uu(string,set_u,back)
 end function verify_ua
 !===================================================================================================================================
@@ -7346,7 +7347,7 @@ type(unicode_type),intent(in) :: set
 logical,intent(in),optional   :: back
 type(unicode_type)            :: ustring
 integer                       :: result
-   ustring=string
+   call assign_str_char ( ustring, string )
    result=verify_uu(ustring,set,back)
 end function verify_au
 !===================================================================================================================================
@@ -7647,7 +7648,7 @@ integer,parameter  :: x=ichar('x'),XX=ichar('X'),h=ichar('h'),HH=ichar('H')
    i=0 ! pointer into input
 
    lgth=len_trim(line)
-   out=''
+   call assign_str_char ( out, '' )
 
    if(lgth == 0)return
 
@@ -7678,7 +7679,7 @@ integer,parameter  :: x=ichar('x'),XX=ichar('X'),h=ichar('h'),HH=ichar('H')
             case(d,DD) ! %d     Dnnn decimal value
                    thr=character(line%sub(i+1,i+3))
                    read(thr,'(i3)',iostat=iostat)nnn
-                   out=[out%codes,nnn]
+                   out%codes=[out%codes,nnn]
                    i=i+3
             case(e,EE);out%codes=[out%codes, eskape ]
             case(f,FF);out%codes=[out%codes, form_feed ]
@@ -7707,12 +7708,12 @@ integer,parameter  :: x=ichar('x'),XX=ichar('X'),h=ichar('h'),HH=ichar('H')
                    out%codes=[out%codes,nnn]
                    i=i+8
             case(ichar('0'):ichar('7'));
-                buffer=line%sub(i,step=1)
+                call assign_char_str(buffer, line%sub(i,step=1) )
                 icount=verify(buffer,'01234567')
                 if(icount.eq.0)icount=len(buffer)+1
                 icount=icount-1
                 buffer=character(line%sub(i,i+icount-1))
-                temp=fmt(icount)
+                call assign_char_str( temp, fmt(icount) )
                 format='(o'//temp//')'
                 read(buffer,format,iostat=iostat)nnn
                 out%codes=[out%codes,nnn]
@@ -7741,8 +7742,8 @@ character(len=1),intent(in)          :: protect
 type(unicode_type)                   :: uline
 type(unicode_type)                   :: uprotect
 type(unicode_type)                   :: out
-   uline=line
-   uprotect=protect
+   call assign_str_char ( uline, line )
+   call assign_str_char ( uprotect, protect )
    out=escape(uline,uprotect)
 end function escape_aa
 !===================================================================================================================================
@@ -7751,7 +7752,7 @@ character(len=*),intent(in)            :: line
 type(unicode_type),intent(in),optional :: protect
 type(unicode_type)                     :: uline
 type(unicode_type)                     :: out
-   uline=line
+   call assign_str_char ( uline, line )
    out=escape(uline,protect)
 end function escape_au
 !===================================================================================================================================
@@ -7760,7 +7761,7 @@ type(unicode_type),intent(in)        :: line
 character(len=1),intent(in)          :: protect
 type(unicode_type)                   :: uprotect
 type(unicode_type)                   :: out
-   uprotect=protect
+   call assign_str_char ( uprotect, protect )
    out=escape(line,uprotect)
 end function escape_ua
 !===================================================================================================================================
@@ -7887,7 +7888,7 @@ function add_backslash_ascii(line) result(out)
 character(len=*),intent(in)   :: line
 character(len=:),allocatable  :: out
 type(unicode_type)            :: uline
-   uline=line
+   call assign_str_char ( uline, line )
    out=add_backslash(uline)
 end function add_backslash_ascii
 
@@ -8059,7 +8060,7 @@ impure elemental function remove_backslash_ascii(line) result(out)
 character(len=*),intent(in)   :: line
 type(unicode_type)            :: uline
 type(unicode_type)            :: out
-   uline=line
+   call assign_str_char ( uline, line )
    out=remove_backslash(uline)
 end function remove_backslash_ascii
 
@@ -8107,7 +8108,7 @@ integer,parameter  :: x=ichar('x'),XX=ichar('X'),h=ichar('h'),HH=ichar('H')
    i=0 ! pointer into input
 
    lgth=len_trim(line)
-   out=''
+   call assign_str_char ( out, '' )
 
    if(lgth == 0)return
 
@@ -8128,7 +8129,7 @@ integer,parameter  :: x=ichar('x'),XX=ichar('X'),h=ichar('h'),HH=ichar('H')
             case(d,DD) ! %d     Dnnn decimal value
                    thr=character(line%sub(i+1,i+3))
                    read(thr,'(i3)',iostat=iostat)nnn
-                   out=[out%codes,nnn]
+                   out%codes=[out%codes,nnn]
                    i=i+3
             case(e,EE);out%codes=[out%codes, eskape ]
             case(f,FF);out%codes=[out%codes, form_feed ]
@@ -8157,12 +8158,12 @@ integer,parameter  :: x=ichar('x'),XX=ichar('X'),h=ichar('h'),HH=ichar('H')
                    out%codes=[out%codes,nnn]
                    i=i+8
             case(ichar('0'):ichar('7'));
-                buffer=line%sub(i,step=1)
+                call assign_char_str( buffer, line%sub(i,step=1) )
                 icount=verify(buffer,'01234567')
                 if(icount.eq.0)icount=len(buffer)+1
                 icount=icount-1
                 buffer=character(line%sub(i,i+icount-1))
-                temp=fmt(icount)
+                call assign_char_str( temp, fmt(icount) )
                 format='(o'//temp//')'
                 read(buffer,format,iostat=iostat)nnn
                 out%codes=[out%codes,nnn]
@@ -8197,6 +8198,7 @@ end function remove_backslash_u
 !!     integer,intent(in),optional :: left
 !!     integer,intent(in),optional :: right
 !!     integer,intent(in),optional :: step
+!!     type(unicode_type)          :: section
 !!
 !!##DESCRIPTION
 !!    sub(3f) returns a substring from one column to another.
@@ -8213,7 +8215,7 @@ end function remove_backslash_u
 !!                  Defaults to 1.
 !!
 !!##RETURNS
-!!    out  The specified subsection of the input string
+!!    section  The specified subsection of the input string
 !!
 !!##EXAMPLES
 !!
@@ -8297,7 +8299,7 @@ integer                       :: sgn
       start_=min(size(str%codes),start_)
       end_=max(1,end_)
    endif
-   section=str%codes(start_:end_:step_)
+   section%codes=str%codes(start_:end_:step_)
 end function sub
 impure elemental function section_uu(str,first,last,new) result(out)
 type(unicode_type),intent(in) :: str
@@ -8314,7 +8316,7 @@ integer                       :: which
    case(int(b'10')) ; start=first ; end=len(str)
    case(int(b'11')) ; start=first ; end=last
    end select
-   out=[str%codes(1:start-1),new%codes,str%codes(end+1:len(str))]
+   out%codes=[str%codes(1:start-1),new%codes,str%codes(end+1:len(str))]
 end function section_uu
 !===================================================================================================================================
 impure elemental function section_ua(str,first,last,new) result(out)
@@ -8680,7 +8682,7 @@ integer                              :: length
       end select
    endif
    if(value.eq."".and.present(default))value=default
-   uvalue=value
+   call assign_str_char ( uvalue, value )
 end function get_env_aa
 
 impure elemental function get_env_uu(name,default) result(value)
@@ -8815,7 +8817,7 @@ integer                              :: argument_length, istat
    if(present(default))then
       if(temp.eq.'')temp=default
    endif
-   value=temp
+   call assign_str_char ( value, temp )
 end function get_arg_ia
 
 impure elemental function get_arg_iu(position,default) result(value)
@@ -9012,7 +9014,7 @@ end function oop_remove_backslash
 function oop_add_backslash(self) result (string_out)
 class(unicode_type),intent(in)       :: self
 type(unicode_type)                   :: string_out
-   string_out=add_backslash_u(self)
+   call assign_str_char ( string_out, add_backslash_u(self) )
 end function oop_add_backslash
 !===================================================================================================================================
 function oop_upper(self) result (string_out)
@@ -9120,7 +9122,7 @@ integer                         :: which
    case(int(b'110')) ; start=first ; end=last      ; inc=1
    case(int(b'111')) ; start=first ; end=last      ; inc=step
    end select
-   temp=self%codes(start:end:inc)
+   temp%codes=self%codes(start:end:inc)
    str_out=str_to_char(temp)
 end function oop_character
 !===================================================================================================================================
@@ -9189,7 +9191,7 @@ integer                        :: i
    if(allocated(tokens))deallocate(tokens)
    allocate(tokens(size(begin)))
    do i=1,size(begin)
-      tokens(i)=self%character(begin(i),end(i))
+      call assign_str_char ( tokens(i), self%character(begin(i),end(i)) )
    enddo
 end function oop_tokenize
 !===================================================================================================================================
@@ -9408,11 +9410,11 @@ integer                      :: lun_local
          iostat_local=0                       ! hitting end of record is not an error for this routine
          exit INFINITE                        ! end of reading line
      elseif(iostat_local /= 0)then            ! end of file or error
-        line=trim(message)
+        call assign_str_char( line, trim(message) ) !  line=trim(message)
         exit INFINITE
      endif
    enddo INFINITE
-   line=line_local                            ! trim line
+   call assign_str_char( line, line_local) ! line=line_local
    if(present(iostat))iostat=iostat_local
 end function readline
 !===================================================================================================================================
@@ -9564,7 +9566,7 @@ integer                               :: icount
    if(present(filename))filename_=trim(filename)
    if(filename_ == '-')filename_ = ''
 
-   if(filename_ /= '' ) then
+   if(filename_ /= '') then
       open(newunit=lun, file=filename_, action="read", iomsg=iomsg,&
       &form="formatted", access="sequential",status='old',iostat=iostat)
    else
@@ -9798,7 +9800,7 @@ impure elemental function fmt_ga(generic,format) result (line)
 class(*),intent(in)                  :: generic
 character(len=*),intent(in),optional :: format
 type(unicode_type)                   :: line
-line=afmt(generic,format)
+   call assign_str_char( line, afmt(generic,format) ) !line=afmt(generic,format)
 end function fmt_ga
 impure elemental function fmt_gs(generic,format) result (line)
 
@@ -9808,8 +9810,8 @@ class(*),intent(in)           :: generic
 type(unicode_type),intent(in) :: format
 type(unicode_type)            :: line
 character(len=:),allocatable  :: aformat
-   aformat=format
-   line=afmt(generic,aformat)
+   call assign_char_str(aformat, format)
+   call assign_str_char(line,afmt(generic,aformat)) !line=afmt(generic,aformat)
 end function fmt_gs
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
@@ -10408,7 +10410,7 @@ type(unicode_type)            :: tbookmark, wbookmark
       elseif(tametext%codes(ti)  /=  wildtext%codes(wi) .and. wildtext%codes(wi)  /=  QUESTION) then
          ! Got a non-match. If we've set our bookmarks, back up to one or both of them and retry.
          if(lne_str_str(wbookmark,ut_NULL)) then
-            tmp1=wildtext%codes(wi:)
+            tmp1%codes=wildtext%codes(wi:)
             if(lne_str_str(tmp1,wbookmark)) then
                wildtext%codes = wbookmark%codes
                wlen=len_trim(wbookmark)
@@ -10516,4 +10518,3 @@ end subroutine write_formatted
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 end module M_unicode
-
