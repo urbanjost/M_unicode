@@ -1,0 +1,126 @@
+NAME
+    transliterate(3f) - [M_unicode:EDITING] replace characters from old
+                        set with new set
+    (LICENSE:MIT)
+
+SYNOPSIS
+
+    impure elemental &
+           & function transliterate(instr,old_set,new_set) result(outstr)
+
+     type(unicode_type),intent(in)  :: instr
+     type(unicode_type),intent(in)  :: old_set
+     type(unicode_type),intent(in)  :: new_set
+     type(unicode_type)             :: outstr
+
+CHARACTERISTICS
+
+   Although a conversion might occur on each call, the input values
+   may be CHARACTER as well as TYPE(UNICODE_TYPE).
+
+DESCRIPTION
+   Translate or delete characters from an input string.
+
+OPTIONS
+  instr    input string to change
+  old_set  list of glyphs to change in INSTR if found
+
+           Each glyph in the input string that matches a glyph
+           in the old set is replaced.
+  new_set  list of glyphs to replace glyphs in OLD_SET with.
+
+           If NEW_SET is the empty set glyphs in INSTR that
+           match any in OLD_SET are deleted.
+
+           If NEW_SET is shorter than OLD_SET the last glyph
+           in NEW_SET is used to replace the remaining glyphs
+           in NEW_SET.
+
+RETURNS
+   outstr  INSTR with substitutions applied
+
+EXAMPLES
+
+  Sample Program:
+
+   program demo_transliterate
+
+    use M_unicode, only : transliterate,ut=>unicode_type
+    use M_unicode, only : write(formatted),ch=>character
+    use M_unicode, only : assignment(=)
+    implicit none
+    character(len=*),parameter :: u='(DT)'
+    type(ut)  :: STRING, UPPER, LOWER
+    type(ut)  :: MIDDLE_DOT
+
+       STRING='aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ'
+       LOWER='abcdefghijklmnopqrstuvwxyz'
+       UPPER='ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+       call callit()
+
+       print u
+       print u,ut('Greek')
+       !
+       ! | Α α | Β β | Γ γ | Δ δ | Ε ε | Ζ ζ   |
+       ! | Η η | Θ θ | Ι ι | Κ κ | Λ λ | Μ μ   |
+       ! | Ν ν | Ξ ξ | Ο ο | Π π | Ρ ρ | Σ σ ς |
+       ! | Τ τ | Υ υ | Φ φ | Χ χ | Ψ ψ | Ω ω   |
+       !
+       STRING='ΑαΒβΓγΔδΕεΖζΗηΘθΙιΚκΛλΜμΝνΞξΟοΠπΡρΣσςΤτΥυΦφΧχΨψΩω'
+       ! ignoring ς for simplicity
+       UPPER='ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ'
+       LOWER='αβγδεζηθικλμνξοπρστυφχψω'
+       call callit()
+
+       ! OOP
+       print u
+       print u,ut('OOP!')
+       print u,STRING%TRANSLITERATE(UPPER,'_')
+
+       ! U+00B7 Middle Dot Unicode Character
+       print u,STRING%TRANSLITERATE(LOWER,'·') ! ASCII bytes
+       print u,STRING%TRANSLITERATE(LOWER,ut('·')) ! cast
+       MIDDLE_DOT=int(z'00B7')
+       print u,STRING%TRANSLITERATE(LOWER,MIDDLE_DOT) ! hexadecimal
+
+    contains
+    subroutine callit()
+         print u, STRING
+
+         ! convert -7 string to uppercase:
+         print u, TRANSLITERATE(STRING , LOWER, UPPER )
+
+         ! change all miniscule letters to a colon (":"):
+         print u, TRANSLITERATE(STRING, LOWER, ':')
+
+         ! delete all miniscule letters
+         print u, TRANSLITERATE(STRING, LOWER, '')
+
+         end subroutine callit
+
+    end program demo_transliterate
+
+  Results:
+
+   > aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ
+   > AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPPQQRRSSTTUUVVWWXXYYZZ
+   > :A:B:C:D:E:F:G:H:I:J:K:L:M:N:O:P:Q:R:S:T:U:V:W:X:Y:Z
+   > ABCDEFGHIJKLMNOPQRSTUVWXYZ
+   >
+   > Greek
+   > ΑαΒβΓγΔδΕεΖζΗηΘθΙιΚκΛλΜμΝνΞξΟοΠπΡρΣσςΤτΥυΦφΧχΨψΩω
+   > ΑΑΒΒΓΓΔΔΕΕΖΖΗΗΘΘΙΙΚΚΛΛΜΜΝΝΞΞΟΟΠΠΡΡΣΣςΤΤΥΥΦΦΧΧΨΨΩΩ
+   > Α:Β:Γ:Δ:Ε:Ζ:Η:Θ:Ι:Κ:Λ:Μ:Ν:Ξ:Ο:Π:Ρ:Σ:ςΤ:Υ:Φ:Χ:Ψ:Ω:
+   > ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣςΤΥΦΧΨΩ
+   >
+   > OOP!
+   > _α_β_γ_δ_ε_ζ_η_θ_ι_κ_λ_μ_ν_ξ_ο_π_ρ_σς_τ_υ_φ_χ_ψ_ω
+   > Α·Β·Γ·Δ·Ε·Ζ·Η·Θ·Ι·Κ·Λ·Μ·Ν·Ξ·Ο·Π·Ρ·Σ·ςΤ·Υ·Φ·Χ·Ψ·Ω·
+   > Α·Β·Γ·Δ·Ε·Ζ·Η·Θ·Ι·Κ·Λ·Μ·Ν·Ξ·Ο·Π·Ρ·Σ·ςΤ·Υ·Φ·Χ·Ψ·Ω·
+   > Α·Β·Γ·Δ·Ε·Ζ·Η·Θ·Ι·Κ·Λ·Μ·Ν·Ξ·Ο·Π·Ρ·Σ·ςΤ·Υ·Φ·Χ·Ψ·Ω·
+
+AUTHOR
+   John S. Urban
+
+LICENSE
+    MIT

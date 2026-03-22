@@ -1,0 +1,136 @@
+NAME
+    ESCAPE(3f) - [M_unicode:CONVERSION] expand C-like escape sequences
+    (LICENSE:MIT)
+
+SYNOPSIS
+
+   function escape(line,protect) result(out)
+
+    type(unicode_type),intent(in)          :: line
+    ! or
+    character(len=*),intent(in)            :: line
+
+    type(unicode_type),intent(in),optional :: protect
+    ! or
+    character(len=1),intent(in),optional   :: protect
+
+    type(unicode_type)                     :: out
+
+DESCRIPTION
+   ESCAPE(3) expands commonly used escape sequences that represent glyphs
+   or control characters.
+
+   REMOVE_BACKSLASH(3) should generally be used as it adheres to the
+   C-style standard, where-as ESCAPE(3) supports additional sequences
+   such as decimal and octal and \c, and \NNNNN support allows \0
+   to potentially be the beginning of another value instead of always
+   designating a null. Therefore the use of ESCAPE(3) is only recommended
+   when it is known that these extensions are required.
+
+   Escape sequences
+
+    \      backslash
+    a      alert (BEL) -- g is an alias for a
+    b      backspace
+    c      suppress further output
+    e      escape
+    f      form feed
+    n      new line
+    r      carriage return
+    t      horizontal tab
+    v      vertical tab
+    "      double quote for compatibility with C strings
+    '      single quote for compatibility with C strings
+
+    oNNN   byte with octal value NNN (3 digits)
+    [0-7][0-7]*    digits will be assumed an octal value till a
+                   non-octal value character is encountered
+    dNNN   byte with decimal value NNN (3 digits)
+
+    xHH        byte with hexadecimal value HH (2 digits);
+               h is an alias for x
+    uZZZZ      translate Unicode codepoint value to bytes
+    UZZZZZZZZ  translate Unicode codepoint value to bytes
+
+  The default escape character is the backslash, but this may be
+  changed using the optional parameter ESCAPE.
+
+OPTIONS
+    LINE    An ASCII bytestream optionally containing UTF-8 encoded data
+            or a UNICODE_TYPE() string to convert to an ASCII string
+            containing C-style backslash escape sequences.
+   PROTECT  A single character designating the escape prefix. Defaults
+            to a backslash ("\")
+EXAMPLES
+
+  Sample Program:
+
+   program demo_escape
+   ! demonstrate filter to expand C-like escape sequences in input lines
+   use iso_fortran_env, only : stdout => output_unit
+   use M_unicode,       only : ut=>unicode_type,ch=>character,len,escape
+   use M_unicode,       only : assignment(=), trim
+   implicit none
+   type(ut),allocatable  :: poem(:)
+   type(ut)              :: test(5)
+   integer               :: i
+      !
+      ! “The Crow and the Fox” by Jean de la Fontaine
+      write(stdout,'(a,/)') &
+      'Le Corbeau et le Renard -- Jean de la Fontaine'
+      !
+      poem=[&
+      ut( 'Le Corbeau et le Renard'                                   ),&
+      ut( ''                                                          ),&
+      ut( 'Ma\u00EEtre Corbeau, sur un arbre perch\u00E9,'            ),&
+      ut( 'Tenait en son bec un fromage.'                             ),&
+      ut( 'Ma\u00EEtre Renard, par l\u2019odeur all\u00E9ch\u00E9,'   ),&
+      ut( 'Lui tint \U000000E0 peu pr\U000000E8s ce langage :'        ),&
+      ut( '\U000000ABH\U000000E9 ! bonjour, Monsieur du Corbeau.'     ),&
+      ut( 'Que vous \U000000EAtes joli ! que vous me semblez beau !'  ),&
+      ut( 'Sans mentir, si votre ramage'                              ),&
+      ut( 'Se rapporte \U000000E0 votre plumage,'                     ),&
+      ut( 'Vous \xEAtes le Ph\xE9nix des h\xF4tes de ces bois.\xBB'   ),&
+      ut( 'A ces mots le Corbeau ne se sent pas de joie ;'            ),&
+      ut( 'Et pour montrer sa belle voix,'                            ),&
+      ut( 'Il ouvre un large bec, laisse tomber sa proie.'            ),&
+      ut( 'Le Renard s\u2019en saisit, et dit : \xABMon bon Monsieur,'),&
+      ut( 'Apprenez que tout flatteur'                                ),&
+      ut( 'Vit aux d\xE9pens de celui qui l\U00002019\u00E9coute :'   ),&
+      ut( 'Cette le\xE7on vaut bien un fromage, sans doute.\xBB'      ),&
+      ut( 'Le Corbeau, honteux et confus,'                            ),&
+      ut( &
+      'Jura, mais un peu tard, qu\u2019on ne l\u2019y prendrait plus.'),&
+      ut( ' -- Jean de la Fontaine')]
+      !
+      poem=escape(poem)
+      write(stdout,'(g0)')ch(poem)
+      !
+      test=[ &
+       '\e[H\e[2J           ',& ! home cursor and clear screen
+                                ! on ANSI terminals
+       '\tABC\tabc          ',& ! write some tabs in the output
+       '\tA\a               ',& ! ring bell at end if supported
+       '\nONE\nTWO\nTHREE   ',& ! place one word per line
+       '\\                  ']
+      test=trim(escape(test))
+      write(*,'(a)')(test(i)%character(),i=1,size(test))
+      !
+   end program demo_escape
+
+ Partial Results (with nonprintable characters shown visible):
+
+     > ^[[H^[[2J
+     > ^IABC^Iabc
+     > ^IA^G
+     >
+     > ONE
+     > TWO
+     > THREE
+     > \
+
+AUTHOR
+    John S. Urban
+
+LICENSE
+    MIT

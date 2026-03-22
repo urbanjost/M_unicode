@@ -1,0 +1,293 @@
+NAME
+    M_unicode(3f) - [M_unicode::INTRO] Unicode string module
+    (LICENSE:MIT)
+
+DESCRIPTION
+   The M_unicode(3f) module is a collection of Fortran string
+   methods that work with UTF-8 encoded text not just ASCII-7 data.
+
+   Strings are declared using the user-defined type "UNICODE_TYPE". The
+   type supports allocatable ragged arrays where each element may be of
+   differing length.
+
+   Compiler support of the optional Fortran ISO_10646 extension is
+   not required.
+
+   The M_unicode(3) module overloads the Fortran built-in CHARACTER
+   intrinsics and operators to allow TYPE(UNICODE_TYPE) to use the
+   intrinsic procedure names in much the same manner the intrinsics are
+   used with CHARACTER variables.
+
+   The intrinsic overloads include TOKENIZE(3) and SPLIT(3) even if the
+   underlying compiler does not yet support those intrinsics.
+
+   Overloads of assignment, logical comparisons, and concatenation using
+   the // operator with strings (and other types) are included as well
+   to make use of TYPE(UNICODE_TYPE) largely consistent with standard
+   CHARACTER string manipulations.
+
+   Nearly all the methods are available using both OOP and procedural
+   syntax.
+
+   In addition M_unicode(3) includes routines for parsing, tokenizing,
+   changing case, substituting new strings for substrings, locating
+   strings with simple wildcard expressions, removing tabs and
+   line terminators and other advanced non-intrinsic string
+   manipulations.
+
+   The **UPPER()** and **LOWER()** functions support the concept of
+   case for the Unicode Latin characters not just the ASCII subset,
+   and a basic SORT() function provides for ordering the data by Unicode
+   codepoint values.
+
+   A PAD() function allows padding strings at least up to a specified
+   glyph length with a repeating pattern.
+
+   **M_unicode** should be useful for anyone working with UTF-8 data,
+   particularly if the compiler does not support the UCS-4 extensions
+   of Fortran.
+
+   Until proven otherwise M_unicode(3) should work with any environment
+   where UTF-8 files are supported.
+
+   The type components are not public to allow for use of the same user
+   code when using other modules such as M_ucs4(3) which ultimately will
+   provide the same user interface but internally using ISO_10646 internal
+   encoding instead of an array of integers containing codepoints (which
+   is what M_unicode(3) uses). This has the drawback of not permitting
+   easy use of array syntax directly on the codepoint array. Perhaps
+   this decision will change but in the meantime several methods such as
+   REPLACE(3) and CHARACTER(3) and SUB(3) provide similar functionality.
+
+SYNOPSIS
+
+  public methods:
+
+   TOKENS
+
+    split     subroutine parses string using specified delimiter
+              characters into tokens
+    tokenize  Parse a string into tokens.
+
+   EDITING
+
+    replace   function non-recursively globally replaces old
+              substring with new substring
+
+    transliterate  replace characters from old set with new set
+
+    pound_to_box  create simple boxes using pound character
+
+   CASE
+
+    upper   function converts string to uppercase
+    lower   function converts string to miniscule
+
+   STRING LENGTH
+
+    len        return the length of a string in glyphs
+    len_trim   find location of last non-whitespace glyph
+
+   PADDING
+
+    pad        pad string to at least specified length with pattern string
+    repeat     Repeated string concatenation
+
+   WHITE SPACE
+
+    trim         Remove trailing blank characters of a string
+    expandtabs   expand tab characters
+    adjustl      Left adjust a string
+    adjustr      Right adjust a string
+
+   ENCODING
+
+    character(STRING,start,end,inc)  converts a string to type CHARACTER.
+
+    escape                           expand C-like escape strings
+    add_backslash                    replace other than printable ASCII-7
+                                     characters with C-like escape strings
+    remove_backslash                 expand C-like escape strings
+
+    codepoints_to_utf8(codepoints,utf8,nerr)  subroutine to convert
+                                              codepoints to UTF-8 bytes
+    utf8_to_codepoints(utf8,codepoints,nerr)  subroutine to convert
+                                              UTF-8 bytes to codepoints
+
+    STRING%character(start,end,inc)  OOP syntax for converting a string to
+                                     type CHARACTER.
+    STRING%byte(start,end,inc)       Convert to an array of
+                                     CHARACTER(len=1) bytes.
+    STRING%codepoint(start,end,inc)  converts a string to an INTEGER
+                                     array of Unicode codepoints
+
+    char       converts an integer codepoint into a string
+    ichar      converts a type(unicode_type) glyph into an integer
+               codepoint
+
+   NUMERIC STRINGS
+
+    fmt       convert intrinsic numeric value to string using optional
+              format
+
+   CHARACTER TESTS
+
+     glob     compares given string for match to pattern which may
+              contain wildcard characters
+
+    ! the following are based on Unicode codepoint, not dictionary order
+
+    lgt       Lexical greater than
+    lge       Lexical greater than or equal
+    leq       Lexical equal
+    lne       Lexical not equal
+    lle       Lexical less than or equal
+    llt       Lexical less than
+
+   QUERY
+    isascii   checks whether string is composed of all
+              character values that fit into the ASCII-7 character set.
+    isblank   returns .true. if string is composed of all blanks
+              (spaces or from the set of Unicode blanks or a horizontal
+              tab).
+    isspace   returns .true. if string is composed of all spaces
+              (ASCII-7 spaces or from the set of Unicode blanks).
+
+   IO
+
+    readline  read a text line from a file
+    slurp     read formatted UTF-8 encoded file into TYPE(UNICODE_TYPE)
+              array
+
+   LOCATION
+
+    index     glyph position of a substring within a string
+    scan      Scan a string for the presence of a set
+              of characters
+    verify    Scan a string for the absence of a set of characters
+
+   CONCATENATION
+
+   join              join elements of an array into a single string
+   operator(.cat.),
+   operator(//)      concatenate strings and/or convert intrinsics to
+                     strings and concatenate
+
+   SYSTEM
+
+    get_env    Get environment variable
+    get_arg    Get command line argument
+
+   SORT
+
+    sort          Sort by Unicode codepoint value (not dictionary order)
+
+   BASE CONVERSION
+   QUOTES
+   NONALPHA
+
+   OOPS INTERFACE
+
+    An OOP (Object-Oriented Programming) interface to the M_unicode(3fm)
+    module provides an alternative interface to all the same procedures
+    except for SORT(3f) and CHAR(3f).
+
+SEE ALSO
+    All the procedure descriptions are conglomerated into the single file
+    "manual.txt" for simple access not requiring access to man-pages or
+    browsers.
+
+    There are additional routines in other GPF modules for working with
+    expressions (M_calculator), time strings (M_time), random strings
+    (M_random, M_uuid), lists (M_list), and interfacing with the C regular
+    expression library (M_regex).
+
+EXAMPLES
+
+    Each of the procedures includes an example program in the example/
+    directory as well as a corresponding man(1) page for the procedure.
+
+ Sample program:
+
+   program demo_M_unicode
+   use,intrinsic :: iso_fortran_env, only : stdout=>output_unit
+   use M_unicode,only : tokenize, replace, character, upper, lower, len
+   use M_unicode,only : unicode_type, assignment(=), operator(//)
+   use M_unicode,only : ut => unicode_type, ch => character
+   use M_unicode,only : write(formatted)
+   type(unicode_type)             :: string
+   type(unicode_type)             :: numeric, uppercase, lowercase
+   type(unicode_type),allocatable :: array(:)
+   character(len=*),parameter     :: all='(g0)'
+   !character(len=*),parameter     :: uni='(DT)'
+   uppercase='АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ'
+   lowercase='абвгґдеєжзиіїйклмнопрстуфхцчшщьюя'
+   numeric='0123456789'
+    !
+    string=uppercase//numeric//lowercase
+    !
+    print all, 'Original string:'
+    print all, ch(string)
+    print all, 'length in bytes :',len(string%character())
+    print all, 'length in glyphs:',len(string)
+    print all
+    !
+    print all, 'convert to all uppercase:'
+    print all, ch( UPPER(string) )
+    print all
+    !
+    print all, 'convert to all lowercase:'
+    print all, ch( string%LOWER() )
+    print all
+    !
+    print all, 'tokenize on spaces ... '
+    call TOKENIZE(string,ut(' '),array)
+    print all, '... writing with A or G format:',character(array)
+    !print uni, ut('... writing with DT format'),array
+    print all
+    !
+    print all, 'case-insensitive replace:'
+    print all, ch( &
+    & REPLACE(string, &
+    & ut('клмнопрс'), &
+    & ut('--------'), &
+    & ignorecase=.true.) )
+    !
+    print all
+    !
+   end program demo_M_unicode
+
+  Results:
+
+   > Original string:
+   > АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ0123456789 ...
+   > абвгґдеєжзиіїйклмнопрстуфхцчшщьюя
+   > length in bytes :
+   > 144
+   > length in glyphs:
+   > 78
+   >
+   > convert to all uppercase:
+   > АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ0123456789 ...
+   > АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ
+   >
+   >
+   > tokenize on spaces ...
+   > ... writing with A or G format:
+   > АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ
+   > 0123456789
+   > абвгґдеєжзиіїйклмнопрстуфхцчшщьюя
+   > ... writing with DT format
+   > АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ
+   > 0123456789
+   > абвгґдеєжзиіїйклмнопрстуфхцчшщьюя
+   >
+   > case-insensitive replace:
+   > АБВГҐДЕЄЖЗИІЇЙ--------ТУФХЦЧШЩЬЮЯ0123456789 ...
+   > абвгґдеєжзиіїй--------туфхцчшщьюя
+
+AUTHOR
+    John S. Urban
+
+LICENSE
+    MIT

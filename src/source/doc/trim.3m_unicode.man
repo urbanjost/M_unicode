@@ -1,0 +1,90 @@
+NAME
+  TRIM(3f) - [M_unicode:WHITESPACE] remove trailing blank characters from
+             a string
+             (LICENSE:MIT)
+
+SYNOPSIS
+  result = trim(string)
+
+   type(unicode_type) function trim(string)
+
+    type(unicode_type),intent(in) :: string
+
+CHARACTERISTICS
+
+  + the result is a string.
+
+DESCRIPTION
+  trim(3) removes trailing blank characters from a string.
+
+OPTIONS
+  + string : a string to trim
+
+RESULT
+  the result is the same as string except trailing blanks are removed.
+
+  if string is composed entirely of blanks or has zero length, the
+  result has zero length.
+
+EXAMPLES
+  sample program:
+
+   program demo_trim
+   use M_unicode, only : ut=>unicode_type, assignment(=)
+   use M_unicode, only : trim, len
+   use M_unicode, only : write(formatted)
+   implicit none
+   type(ut)                   :: str
+   type(ut), allocatable      :: strs(:)
+   character(len=*),parameter :: brackets='( *("[",DT,"]":,1x) )'
+   integer                    :: i
+      !
+      str='   trailing    '
+      print brackets, str,trim(str) ! trims it
+      !
+      str='   leading'
+      print brackets, str,trim(str) ! no effect
+      !
+      str='            '
+      print brackets, str,trim(str) ! becomes zero length
+      print *,  len(str), len(trim('               '))
+      !
+      strs=[ut("Z "),ut(" a b c"),ut("ABC   "),ut("")]
+      !
+      write(*,*)'untrimmed:'
+      print brackets, (strs(i), i=1,size(strs))
+      print brackets, strs
+      !
+      write(*,*)'trimmed:'
+      ! everything prints trimmed
+      print brackets, (trim(strs(i)), i=1,size(strs))
+      print brackets, trim(strs)
+      !
+   end program demo_trim
+
+  results:
+
+   > [   trailing    ] [   trailing]
+   > [   leading] [   leading]
+   > [            ] []
+   >           12           0
+   >  untrimmed:
+   > [Z ] [ a b c] [ABC   ] []
+   > [Z ] [ a b c] [ABC   ] []
+   >  trimmed:
+   > [Z] [ a b c] [ABC] []
+   > [Z] [ a b c] [ABC] []
+
+SEE ALSO
+  Functions that perform operations on character strings, return
+  lengths of arguments, and search for certain arguments:
+
+  + elemental: adjustl(3), adjustr(3), index(3), scan(3), verify(3)
+
+  + nonelemental: len_trim(3), len(3), repeat(3), trim(3)
+
+AUTHOR
+    John S. Urban
+
+LICENSE
+    MIT

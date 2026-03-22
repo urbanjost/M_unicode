@@ -1,0 +1,127 @@
+NAME
+    pound_to_box(3f) - [M_unicode:EDITING] convert pound character to box characters
+    (LICENSE:MIT)
+
+SYNOPSIS
+
+ syntax:
+
+      function pound_to_box(win,style) result(winout)
+
+      type(unicode_type)|character(len=*),intent(in) :: win(:)
+      type(unicode_type)|character(len=*),intent(in) :: style
+      type(unicode_type),allocatable :: winout(:)
+
+CHARACTERISTICS
+  + WINOUT elements will all have the length of the longest element
+    of WIN
+
+DESCRIPTION
+
+    The pound character ("#") may be used to construct boxed text
+    with the restriction that lines must be seperated by at least
+    one character from other lines.
+
+OPTIONS
+     win         input array to be changed
+     style       may be "light", "bold", or "double".
+
+RETURNS
+     winout     an array of strings with box characters substituted
+                for adjacent box characters.
+
+EXAMPLES
+
+  Sample Program:
+
+   program demo_pound_to_box
+   use M_unicode, only : slurp, ut=>unicode_type
+   use M_unicode, only : operator(//)
+   use M_unicode, only : assignment(=)
+   use M_unicode, only : character, pound_to_box
+   implicit none
+   type(ut),allocatable       :: textout(:)
+   character(len=*),parameter :: text(*)=[character(len=80) :: &
+   '############################################', &
+   '#abcdefg# What about #        #       #    #', &
+   '#hijklmn# this text? #        #       ######', &
+   '###############################       #    #', &
+   '#              #     #        #       ######', &
+   '#              #     #        #       #    #', &
+   '############################################', &
+   '', &
+   '   ###################################', &
+   '   # WARNING, WARNING, Will Robinson #', &
+   '   ###################################']
+      ! write out slurped data
+      textout=text
+      call write_text()
+      textout=pound_to_box(text)
+      call write_text()
+      textout=pound_to_box(text,style='light')
+      call write_text()
+      textout=pound_to_box(text,style='double')
+      call write_text()
+
+   contains
+   subroutine write_text()
+   integer :: i
+      write(*,'(*(a:))',advance='no') &
+      & (trim(textout(i)%character()), &
+      & new_line('a'), &
+      & i=1,size(textout))
+   end subroutine write_text
+
+   end program demo_pound_to_box
+
+  Results:
+
+   > ############################################
+   > #abcdefg# What about #        #       #    #
+   > #hijklmn# this text? #        #       ######
+   > ###############################       #    #
+   > #              #     #        #       ######
+   > #              #     #        #       #    #
+   > ############################################
+   >
+   >    ###################################
+   >    # WARNING, WARNING, Will Robinson #
+   >    ###################################
+   > ┏━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━┳━━━━┓
+   > ┃abcdefg┃ What about ┃        ┃       ┃    ┃
+   > ┃hijklmn┃ this text? ┃        ┃       ┣━━━━┫
+   > ┣━━━━━━━┻━━━━━━┳━━━━━╋━━━━━━━━┫       ┃    ┃
+   > ┃              ┃     ┃        ┃       ┣━━━━┫
+   > ┃              ┃     ┃        ┃       ┃    ┃
+   > ┗━━━━━━━━━━━━━━┻━━━━━┻━━━━━━━━┻━━━━━━━┻━━━━┛
+   >
+   >    ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+   >    ┃ WARNING, WARNING, Will Robinson ┃
+   >    ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+   > ┌───────┬────────────┬────────┬───────┬────┐
+   > │abcdefg│ What about │        │       │    │
+   > │hijklmn│ this text? │        │       ├────┤
+   > ├───────┴──────┬─────┼────────┤       │    │
+   > │              │     │        │       ├────┤
+   > │              │     │        │       │    │
+   > └──────────────┴─────┴────────┴───────┴────┘
+   >
+   >    ┌─────────────────────────────────┐
+   >    │ WARNING, WARNING, Will Robinson │
+   >    └─────────────────────────────────┘
+   > ╔═══════╦════════════╦════════╦═══════╦════╗
+   > ║abcdefg║ What about ║        ║       ║    ║
+   > ║hijklmn║ this text? ║        ║       ╠════╣
+   > ╠═══════╩══════╦═════╬════════╣       ║    ║
+   > ║              ║     ║        ║       ╠════╣
+   > ║              ║     ║        ║       ║    ║
+   > ╚══════════════╩═════╩════════╩═══════╩════╝
+   >
+   >    ╔═════════════════════════════════╗
+   >    ║ WARNING, WARNING, Will Robinson ║
+   >    ╚═════════════════════════════════╝
+
+AUTHOR
+    John S. Urban
+LICENSE
+    MIT

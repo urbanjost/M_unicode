@@ -1,0 +1,109 @@
+NAME
+  CODEPOINTS_TO_UTF8(3f) - [M_unicode:CONVERSION] convert codepoints
+  to CHARACTER
+  (LICENSE:MIT)
+
+SYNOPSIS
+
+   pure subroutine codepoints_to_utf8(codepoints,utf8,nerr)
+
+    integer,allocatable,intent(in) :: codepoints(:)
+    !
+    character(len=1),intent(out)   :: utf8(:)
+    !  or
+    character(len=*),intent(out)   :: utf8
+    !
+    integer,intent(out)            :: nerr
+
+CHARACTERISTICS
+  + UTF8 is a scalar or array CHARACTER variable
+  + CODEPOINTS is of default INTEGER kind
+  + NERR is of default INTEGER kind
+
+DESCRIPTION
+  CODEPOINTS_TO_UTF8(3f) takes an integer array of Unicode codepoint
+  values and generates either a scalar CHARACTER variable or an array
+  of bytes (AKA. CHARACTER(LEN=1)) which are assumed to contain a stream
+  of bytes representing UTF-8-encoded data.
+
+OPTIONS
+
+   + CODEPOINTS :  An INTEGER array of Unicode codepoint values representing
+                   the glyphs to be encoded at UTF-8 data
+
+   + UTF8 :  Scalar or single-character array CHARACTER variables
+             to contain a stream of bytes containing data encoded at
+             UTF-8 text.
+
+   + NERR :  Zero if no error occurred. If not zero the stream of bytes
+             could not be completely converted to UTF-8 characters.
+
+EXAMPLES
+  Sample program
+
+   program demo_codepoints_to_utf8
+   use m_unicode, only : codepoints_to_utf8
+   implicit none
+   !'Noho me ka hau’oli' !(Be happy)
+   integer,parameter :: codepoints(*)=[ &
+      & 78,111,104,111,&
+      & 32,109,101, &
+      & 32,107,97, &
+      & 32,104,97,117,8217,111,108,105]
+   character(len=:),allocatable :: string
+   character(len=1),allocatable :: bytes(:)
+   character(len=*),parameter   :: solid='(*(g0))'
+   character(len=*),parameter   :: space='(*(g0,1x))'
+   character(len=*),parameter   :: z='(a,*(z0,1x))'
+   integer                      :: nerr
+   ! BASIC USAGE: SCALAR CHARACTER VARIABLE
+     write(*,space)'CODEPOINTS:', codepoints
+     write(*,z)'HEXADECIMAL CODEPOINTS:', codepoints
+     call codepoints_to_utf8(codepoints,string,nerr)
+     write(*,solid)'STRING:',string
+   !
+     write(*,space)'How long is this string in glyphs? '
+     write(*,space)size(codepoints)
+     write(*,space)'How long is this string in bytes? '
+     write(*,space)len(string)
+   !
+   ! BASIC USAGE: ARRAY OF BYTES
+     call codepoints_to_utf8(codepoints,bytes,nerr)
+     write(*,solid)'STRING:',bytes
+   !
+     write(*,space)'How long is this string in glyphs? '
+     write(*,space)size(codepoints)
+     write(*,space)'How long is this string in bytes? '
+     write(*,space)size(bytes)
+   !
+   end program demo_codepoints_to_utf8
+
+ Results:
+
+    > CODEPOINTS: 78 111 104 111 32 109 101 32 107 97 32 104 97 117 ...
+    > 8217 111 108 105
+    > 48 4E 6F 68 6F 20 6D 65 20 6B 61 20 68 61 75 2019 6F 6C 69
+    > STRING:Noho me ka hau’oli
+    > How long is this string in glyphs?
+    > 18
+    > How long is this string in bytes?
+    > 20
+    > STRING:Noho me ka hau’oli
+    > How long is this string in glyphs?
+    > 18
+    > How long is this string in bytes?
+    > 20
+
+SEE ALSO
+  functions that perform operations on character strings:
+
+  + elemental: adjustl(3), adjustr(3), index(3), scan(3), verify(3)
+  + non-elemental: len_trim(3), repeat(3), trim(3),
+                   codepoints_to_utf8(3), utf8_to_codepoints(3)
+
+AUTHOR
+  + John S. Urban
+  + Francois Jacq - enhancements from Francois Jacq, 2025-08
+
+LICENSE
+    MIT

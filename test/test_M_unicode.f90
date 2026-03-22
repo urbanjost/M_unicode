@@ -8,6 +8,7 @@ use M_unicode, only : upper, lower
 use M_unicode, only : expandtabs
 use M_unicode, only : escape, add_backslash, remove_backslash
 use M_unicode, only : pound_to_box                           
+use M_unicode, only : add_border
 use M_unicode, only : sort
 use M_unicode, only : scan, verify
 use M_unicode, only : tokenize, split
@@ -822,6 +823,60 @@ integer,allocatable :: ints(:)
    call check('escape',escape(ut_str).eq.'कॉफ़ी है?','hexadecimal')
 end subroutine test_escape
 
+subroutine test_add_border()
+integer                    :: length1, length2, i, j, int1, int2
+logical                    :: bool1
+type(ut),allocatable       :: textout(:), expected(:)
+character(len=*),parameter :: text(*)=[character(len=15) :: &
+'    WARNING, ', &
+'    WARNING, ', &
+' Will Robinson ']
+do j=1,2
+if (j.eq.1)then
+   expected=[character(len=21*4) :: &
+'┌───────────────────┐', &
+'│┏━━━━━━━━━━━━━━━━━┓│', &
+'│┃╔═══════════════╗┃│', &
+'│┃║ Will Robinson ║┃│', &
+'│┃╚═══════════════╝┃│', &
+'│┗━━━━━━━━━━━━━━━━━┛│', &
+'└───────────────────┘']
+   textout=add_border(add_border(add_border(text(3),style='double')),style='light')
+else
+   expected=[character(len=21*4) :: &
+'┌───────────────────┐', &
+'│┏━━━━━━━━━━━━━━━━━┓│', &
+'│┃╔═══════════════╗┃│', &
+'│┃║    WARNING,   ║┃│', &
+'│┃║    WARNING,   ║┃│', &
+'│┃║ Will Robinson ║┃│', &
+'│┃╚═══════════════╝┃│', &
+'│┗━━━━━━━━━━━━━━━━━┛│', &
+'└───────────────────┘']
+   textout=add_border(add_border(add_border(text,style='double')),style='light')
+endif
+   expected=trim(expected)
+   length1=maxval(len(textout))
+   length2=maxval(len(expected))
+   call check('add_border',length1.eq.length2,character('length='//length1//', expected '//length2))
+   int1=size(textout)
+   int2=size(expected)
+   if( int1.eq.int2 )then
+      bool1=all(textout.eq.expected)
+      call check('add_border',bool1,'compare all output text')
+      if(.not.bool1)then
+         write(*,'(*(g0,/))')(trim(textout(i)%character()),trim(expected(i)%character()),i=1,int1)
+      endif
+   else
+      call check('add_border',int1.eq.int2, character('size expected '//int2//' got '//int1) )
+      write(*,'(*(g0))') 'Result:'
+      write(*,'(g0)')(trim(textout(i)%character()),i=1,int1)
+      write(*,'(*(g0))') 'Expected:'
+      write(*,'(g0)')(trim(expected(i)%character()),i=1,int2)
+   endif
+enddo
+end subroutine test_add_border
+
 subroutine test_pound_to_box()
 integer                      :: length1, length2
 integer                      :: i
@@ -829,7 +884,7 @@ integer                      :: int1,int2
 integer                      :: istyle
 character(len=:),allocatable :: style
 logical                      :: bool1 
-type(ut),allocatable         :: textout(:), texttmp(:), expected(:)
+type(ut),allocatable         :: textout(:), expected(:)
 character(len=*),parameter   :: text(*)=[character(len=108) :: &
 '', &
 '   ###################################', &
@@ -1486,6 +1541,7 @@ use testsuite_M_unicode
    call test_add_backslash()
    call test_remove_backslash()
    call test_pound_to_box()
+   call test_add_border()
    call test_isascii()
    call test_isblank()
    call test_isspace()

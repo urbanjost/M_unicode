@@ -1,0 +1,112 @@
+NAME
+  SCAN(3f) - [M_unicode:SEARCH] Scan a string for the presence of a
+  set of characters
+  (LICENSE:MIT)
+
+SYNOPSIS
+  result = scan( string, set, [,back] )
+
+   elemental integer(kind=KIND) function scan(string,set,back)
+
+    type(unicode_type),intent(in) :: string
+
+    type(unicode_type),intent(in) :: set
+       or
+    character(len=*),intent(in)   :: set
+
+    logical,intent(in),optional   :: back
+
+CHARACTERISTICS
+  +  STRING is a string of type unicode_type
+
+  +  SET must be a string of type unicode_type or character
+
+  +  BACK is a logical of default kind
+
+  +  the result is an integer of default kind.
+
+DESCRIPTION
+  SCAN(3) scans a STRING for any of the characters in a SET of characters.
+
+  If BACK is either absent or equals .false., this function returns the
+  position of the leftmost character of STRING that is in SET. If BACK
+  equals .true., the rightmost position is returned. If no character of
+  SET is found in STRING, the result is zero.
+
+OPTIONS
+  +  STRING : the string to be scanned
+
+  +  SET : the set of characters which will be matched
+
+  +  BACK : if .true. the position of the rightmost character matched
+     is returned, instead of the leftmost.
+
+RESULT
+  If BACK is absent or is present with the value false and if STRING
+  contains at least one character that is in SET, the value of the result
+  is the position of the leftmost character of STRING that is in SET.
+
+  If BACK is present with the value true and if STRING contains at least
+  one character that is in SET, the value of the result is the position
+  of the rightmost character of STRING that is in SET.
+
+  The value of the result is zero if no character of STRING is in SET
+  or if the length of STRING or SET is zero.
+
+EXAMPLES
+  Sample program:
+
+   program demo_scan
+   use iso_fortran_env, only : stdout => output_unit
+   use M_unicode,       only : scan, unicode_type, assignment(=)
+   use M_unicode,       only : ut=>unicode_type
+   implicit none
+   character(len=*),parameter :: g='(*(g0,1x))'
+   type(ut)                   :: line
+   type(ut)                   :: set
+      !
+      write(*,*) scan("fortran", "ao")          ! 2, found ’o’
+      write(*,*) scan("fortran", "ao", .true.)  ! 6, found ’a’
+      write(*,*) scan("fortran", "c++")         ! 0, found none
+      !
+      line='parsley😃sage😃rosemary😃😃thyme'
+      set='😃'
+      write(stdout,g) '12345678901234567890123456789012345678901234567890'
+      write(stdout,g) line%character()
+      write(stdout,g) scan(line, set)
+      write(stdout,g) scan(line, set, back=.true.)
+      write(stdout,g) scan(line, set, back=.false.)
+      write(stdout,g) scan(line, unicode_type("NOT"))
+      write(stdout,g) 'OOP'
+      write(stdout,g) line%scan(set)
+      write(stdout,g) line%scan(ut("o"))
+   end program demo_scan
+
+  Results:
+
+    >            2
+    >            6
+    >            0
+    > 12345678901234567890123456789012345678901234567890
+    > parsley😃sage😃rosemary😃😃thyme
+    > 8
+    > 23
+    > 8
+    > 0
+    > OOP
+    > 8
+    > 15
+
+SEE ALSO
+  Functions that perform operations on character strings, return lengths
+  of arguments, and search for certain arguments:
+
+  +  ADJUSTL(3), ADJUSTR(3), INDEX(3), VERIFY(3)
+
+  +  LEN_TRIM(3), LEN(3), REPEAT(3), TRIM(3)
+
+AUTHOR
+    John S. Urban
+
+LICENSE
+    MIT

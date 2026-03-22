@@ -1,0 +1,148 @@
+NAME
+  SPLIT(3f) - [M_unicode:PARSE] parse a string into tokens, one at a time.
+  (LICENSE:MIT)
+
+SYNOPSIS
+  call split (string, set, pos [, back])
+
+   type(unicode_type),intent(in) :: string
+   type(unicode_type),intent(in) :: set
+   integer,intent(inout)         :: pos
+   logical,intent(in),optional   :: back
+
+CHARACTERISTICS
+  + STRING is a scalar character variable
+  + SET is a scalar string variable
+
+DESCRIPTION
+  Find the extent of consecutive tokens in a string. given a string and
+  a position to start looking for a token return the position of the
+  end of the token. a set of separator characters may be specified as
+  well as the direction of parsing.
+
+  typically consecutive calls are used to parse a string into a set of
+  tokens by stepping through the start and end positions of each token.
+
+OPTIONS
+  + STRING : the string to search for tokens in.
+
+  + SET : Each character in set is a token delimiter. a sequence of
+    zero or more characters in string delimited by any token delimiter,
+    or the beginning or end of string, comprise a token. thus, two
+    consecutive token delimiters in STRING, or a token delimiter in the
+    first or last character of STRING, indicate a token with zero length.
+
+  + POS : on input, the position from which to start looking for the next
+    separator from. This is typically the first character or the last
+    returned value of POS if searching from left to right (ie. back is
+    absent or .true.) or the last character or the last returned value
+    of POS when searching from right to left (ie. when back is .FALSE.).
+
+    If BACK is present with the value .TRUE., the value of pos shall be
+    in the range 0 < POS <= len(STRING)+1; otherwise it shall be in the
+    range 0 <= POS <= len(STRING).
+
+    So POS on input is typically an end of the string or the position
+    of a separator, probably from a previous call to split but POS on
+    input can be any position in the range 1 <= POS <= len(STRING). if
+    POS points to a non-separator character in the string the call is
+    still valid but it will start searching from the specified position
+    and that will result (somewhat obviously) in the string from POS on
+    input to the returned POS being a partial token.
+
+  + BACK : If BACK is absent or is present with the value .FALSE., POS is
+    assigned the position of the leftmost token delimiter in string
+    whose position is greater than POS, or if there is no such character,
+    it is assigned a value one greater than the length of string. this
+    identifies a token with starting position one greater than the value
+    of POS on invocation, and ending position one less than the value
+    of POS on return.
+
+    If BACK is present with the value .TRUE., POS is assigned the
+    position of the rightmost token delimiter in string whose position
+    is less than POS, or if there is no such character, it is assigned
+    the value zero. This identifies a token with ending position one
+    less than the value of POS on invocation, and starting position one
+    greater than the value of POS  on return.
+
+EXAMPLE
+  sample program:
+
+   program demo_split
+   use iso_fortran_env, only : stdout => output_unit
+   use M_unicode,       only : unicode_type, assignment(=)
+   use M_unicode,       only : split, len, character
+   use M_unicode,       only : ut=>unicode_type
+   implicit none
+   character(len=*),parameter :: g='(*(g0,1x))'
+   type(ut)                   :: proverb
+   type(ut)                   :: delims
+   type(ut),allocatable       :: array(:)
+   integer                    :: first
+   integer                    :: last
+   integer                    :: pos
+   integer                    :: i
+      !
+      delims= '=|; '
+      !
+      proverb="Más vale pájaro en mano, que ciento volando."
+      call printwords(proverb)
+
+      ! there really are not spaces between these glyphs
+      array=[ &
+       ut("七転び八起き。"), &
+       ut("転んでもまた立ち上がる。"), &
+       ut("くじけずに前を向いて歩いていこう。")]
+      call printwords(array)
+      !
+      write(stdout,g)'OOP'
+      array=proverb%split(ut(' '))
+      write(stdout,'(*(:"[",a,"]"))')(character(array(i)),i=1,size(array))
+   contains
+   impure elemental subroutine printwords(line)
+   type(ut),intent(in) :: line
+      pos = 0
+      write(stdout,g)line%character(),len(line)
+      do while (pos < len(line))
+          first = pos + 1
+          call split (line, delims, pos)
+          last = pos - 1
+          print g, line%character(first,last),first,last,pos
+      end do
+   end subroutine printwords
+   end program demo_split
+
+  Results:
+
+   > Project is up to date
+   > Más vale pájaro en mano, que ciento volando. 44
+   > Más 1 3 4
+   > vale 5 8 9
+   > pájaro 10 15 16
+   > en 17 18 19
+   > mano, 20 24 25
+   > que 26 28 29
+   > ciento 30 35 36
+   > volando. 37 44 45
+   > 七転び八起き。 7
+   > 七転び八起き。 1 7 8
+   > 転んでもまた立ち上がる。 12
+   > 転んでもまた立ち上がる。 1 12 13
+   > くじけずに前を向いて歩いていこう。 17
+   > くじけずに前を向いて歩いていこう。 1 17 18
+   > OOP
+   > [Más][vale][pájaro][en][mano,][que][ciento][volando.]
+
+SEE ALSO
+  + tokenize(3) - parse a string into tokens
+  + index(3) - position of a substring within a string
+  + scan(3) - scan a string for the presence of a set of characters
+  + verify(3)  -  position  of a character in a string of characters that does
+    not appear in a given set of characters.
+
+AUTHOR
+    Milan Curcic, "milancurcic@hey.com"
+    John S. Urban -- UTF-8 version
+
+LICENSE
+    MIT

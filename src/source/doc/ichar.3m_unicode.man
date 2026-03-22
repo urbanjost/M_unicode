@@ -1,0 +1,131 @@
+NAME
+  ICHAR(3f) - [M_unicode:CONVERSION] character-to-integer code conversion
+  function
+  (LICENSE:MIT)
+
+SYNOPSIS
+  result = ichar(c)
+
+    elemental integer function ichar(c,kind)
+
+     type(unicode_type),intent(in) :: c
+
+CHARACTERISTICS
+  •  c is a scalar character
+
+  •  the return value is of default integer kind.
+
+DESCRIPTION
+  ichar(3) returns the code for the character in the system's native
+  character set. the correspondence between characters and their codes is
+  not necessarily the same across different Fortran implementations. For
+  example, a platform using EBCDIC would return different values than
+  an ASCII platform.
+
+  See IACHAR(3) for specifically working with the ASCII character set.
+
+OPTIONS
+  +  C : The input character to determine the decimal code of.
+
+RESULT
+   The codepoint in the Unicode character set for the character being
+   queried is returned.
+
+   The result is the position of C in the Unicode collating sequence,
+   which is generally not the dictionary order in a particular language.
+
+   It is nonnegative and less than n, where n is the number of characters
+   in the collating sequence.
+
+   For any characters C and D capable of representation in the processor,
+   C <= D is true if and only if ICHAR(C) <= ICHAR(D) is true and C ==
+   D is true if and only if ICHAR(C) == ICHAR(D) is true.
+
+EXAMPLES
+  sample program:
+
+   program demo_ichar
+   use M_unicode, only : assignment(=),ch=>character
+   use M_unicode, only : ut=>unicode_type, write(formatted)
+   use M_unicode, only : ichar, remove_backslash, len
+   implicit none
+   type(ut)             :: string
+   type(ut),allocatable :: lets(:)
+   integer,allocatable  :: ilets(:)
+   integer              :: i
+      !
+      ! create a string containing multibyte characters
+      string=[949, 8021, 961, 951, 954, 945, 33] ! eureka
+      write(*,'(*(DT,1x,"(AKA. eureka!)"))')string
+      !
+      ! call ichar(3) on each glyph of the string to convert
+      ! the string to an array of integer codepoints
+      ilets=[(ichar(string%sub(i,i)),i=1,len(string))]
+      write(*,'(*(z0,1x))')ilets
+      !
+      ! note that the %codepoint method is commonly used to
+      ! convert a string to an integer array of codepoints
+      write(*,'(*(z0,1x))')string%codepoint()
+
+      ! elemental
+      write(*,'("WRITING ISSUES:")')
+      !
+      ! define an array LETS with escape codes with one glyph per element
+      lets=[ut('\U03B5'),ut('\U1F55'),ut('\U03C1'),ut('\U03B7'), &
+          & ut('\U03BA'),ut('\U03B1'),ut('\U0021')]
+      lets=remove_backslash(lets) ! convert escape codes to glyphs
+      !
+      ! look at issues with converting to CHARACTER for simple printing
+      !
+      write(*,'("each element is a single glyph ",*(g0,1x))')len(lets)
+      !
+      ! notice if you convert to an array of intrinsic CHARACTER type the
+      ! strings are all the same length in bytes; but unicode characters
+      ! can take various numbers of bytes
+      write(*,'(*(g0,":"))')'CHARACTER array elements have same length',&
+         & len(ch(lets))
+      ! this will not appear correctly because all elements are padded to
+      ! the same length in bytes
+      write(*,'(*(a,":"))')ch(lets)
+      ! one element at a time will retain the size of each element
+      write(*,'(*(a,":"))')(ch(lets(i:i)),i=1,size(lets))
+      !
+      ! the FIRST LETTER of each element is converted to a codepoint so
+      ! for the special case where each string element is a single glyph
+      ! an elemental approach works
+      write(*,'("ELEMENTAL:",*(z0,1x))')ichar(lets)
+
+      ! OOPS
+      write(*,'("OOPS:",*(z0,1x))')lets%ichar()
+   end program demo_ichar
+
+  results:
+
+   > Project is up to date
+   > εὕρηκα! (AKA. eureka!)
+   > 3B5 1F55 3C1 3B7 3BA 3B1 21
+   > 3B5 1F55 3C1 3B7 3BA 3B1 21
+   > WRITING ISSUES:
+   > each element is a single glyph 1 1 1 1 1 1 1
+   > CHARACTER array elements have same length:3:
+   > ε :ὕ:ρ :η :κ :α :!  :
+   > ε:ὕ:ρ:η:κ:α:!:
+   > ELEMENTAL:3B5 1F55 3C1 3B7 3BA 3B1 21
+   > OOPS:3B5 1F55 3C1 3B7 3BA 3B1 21
+
+SEE ALSO
+  achar(3), char(3), iachar(3)
+
+  functions that perform operations on character strings, return
+  lengths of arguments, and search for certain arguments:
+
+  +  elemental: adjustl(3), adjustr(3), index(3),
+     scan(3), verify(3)
+
+  +  nonelemental: len_trim(3), len(3), repeat(3), trim(3)
+
+AUTHOR
+    John S. Urban
+
+LICENSE
+    MIT

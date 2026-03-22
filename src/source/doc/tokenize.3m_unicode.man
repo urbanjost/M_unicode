@@ -1,0 +1,176 @@
+NAME
+  TOKENIZE(3f) - [M_unicode:PARSE] Parse a string into tokens.
+  (LICENSE:MIT)
+
+SYNOPSIS
+  TOKEN form (returns array of strings)
+
+   subroutine tokenize(string, set, tokens [, separator])
+
+    type(unicode_type),intent(in) :: string
+    type(unicode_type),intent(in) :: set
+    type(unicode_type),allocatable,intent(out) :: tokens(:)
+    type(unicode_type),allocatable,intent(out),optional :: separator(:)
+
+  ARRAY BOUNDS form (returns arrays defining token positions)
+
+   subroutine tokenize (string, set, first, last)
+
+    type(unicode_type),intent(in) :: string
+    type(unicode_type),intent(in) :: set
+    integer,allocatable,intent(out) :: first(:)
+    integer,allocatable,intent(out) :: last(:)
+
+CHARACTERISTICS
+  +  STRING ‐ a scalar of type string. It is an INTENT(IN)
+     argument.
+
+  +  SET ‐ a scalar of type string with the same kind type
+     parameter as STRING. It is an INTENT(IN) argument.
+
+  +  SEPARATOR ‐ (optional) shall be of type string. It is an
+     INTENT(OUT)argument. It shall not be a coarray or a coindexed object.
+
+  +  TOKENS ‐ of type string. It is an INTENT(OUT) argument. It shall
+     not be a coarray or a coindexed object.
+
+  +  FIRST,LAST ‐ an allocatable array of type integer and rank
+     one. It is an INTENT(OUT) argument. It shall not be a coarray or a
+     coindexed object.
+
+DESCRIPTION
+  TOKENIZE(3) parses a string into tokens. There are two forms of the
+  subroutine TOKENIZE(3).
+
+  +  The token form returns an array with one token per element,
+     all of the same length as the longest token.
+
+  +  The array bounds form returns two integer arrays. One
+     contains the beginning position of the tokens and the other the end
+     positions.
+
+  Since the token form pads all the tokens to the same length the
+  original number of trailing spaces of each token accept for the
+  longest is lost.
+
+  The array bounds form retains information regarding the exact token
+  length even when padded by spaces.
+
+OPTIONS
+  •  STRING : The string to parse into tokens.
+
+  +  SET :  Each character in SET is a token delimiter. A
+     sequence of zero or more characters in STRING delimited by any token
+     delimiter, or the beginning or end of STRING, comprise a token. Thus,
+     two consecutive token delimiters in STRING, or a token delimiter
+     in the first or last character of STRING, indicate a token with
+     zero length.
+
+  +  TOKENS : It shall be an allocatable array of rank one with
+     deferred length. It is allocated with the lower bound equal to one
+     and the upper bound equal to the number of tokens in STRING, and
+     with character length equal to the length of the longest token.
+
+     The tokens in STRING are assigned in the order found, as if by
+     intrinsic assignment, to the elements of TOKENS, in array element
+     order.
+
+  +  FIRST : shall be an allocatable array of type integer and rank one.
+     It is an INTENT(OUT) argument. It shall not be a coarray or
+     a coindexed object.
+
+     It is allocated with the lower bound equal to one and the upper
+     bound equal to the number of tokens in STRING. Each element is
+     assigned, in array element order, the starting position of each
+     token in STRING, in the order found.
+
+     If a token has zero length, the starting position is equal to
+     one if the token is at the beginning of STRING, and one greater
+     than the position of the preceding delimiter otherwise.
+
+  +  LAST : It is allocated with the lower bound equal to one and the
+     upper bound equal to the number of tokens in STRING. Each
+     element is assigned, in array element order, the ending position
+     of each token in STRING, in the order found.
+
+     If a token has zero length, the ending position is one less than
+     the starting position.
+
+EXAMPLES
+
+  Sample of uses
+
+   program demo_tokenize
+   use M_unicode, only : tokenize, ut=>unicode_type,ch=>character
+   use M_unicode, only : assignment(=),operator(/=)
+   implicit none
+   !
+   ! some useful formats
+   character(len=*),parameter ::       &
+    & brackets='(*("[",g0,"]":,","))' ,&
+    & a_commas='(a,*(g0:,","))'       ,&
+    & gen='(*(g0))'
+   !
+   ! Execution of TOKEN form (return array of tokens)
+   !
+      block
+      type(ut)             :: string
+      type(ut),allocatable :: tokens(:)
+      integer              :: i
+         string = '  first,second ,third       '
+         call tokenize(string, set=';,', tokens=tokens )
+         write(*,brackets)ch(tokens)
+
+         string = '  first , second ,third       '
+         call tokenize(string, set=' ,', tokens=tokens )
+         write(*,brackets)(tokens(i)%character(),i=1,size(tokens))
+         ! remove blank tokens
+         tokens=pack(tokens, tokens /= '' )
+         write(*,brackets)ch(tokens)
+   !
+      endblock
+   !
+   ! Execution of BOUNDS form (return position of tokens)
+   !
+      block
+      type(ut)                   :: string
+      character(len=*),parameter :: set = " ,"
+      integer,allocatable        :: first(:), last(:)
+         write(*,gen)repeat('1234567890',6)
+         string = 'first,second,,fourth'
+         write(*,gen)ch(string)
+         call tokenize (string, set, first, last)
+         write(*,a_commas)'FIRST=',first
+         write(*,a_commas)'LAST=',last
+         write(*,a_commas)'HAS LENGTH=',last-first.gt.0
+      endblock
+   !
+   end program demo_tokenize
+
+  Results:
+
+   > [  first     ],[second      ],[third       ]
+   > [],[first],[],[],[second],[],[third],[],[],[],[],[]
+   > [first ],[second],[third ]
+   > 123456789012345678901234567890123456789012345678901234567890
+   > first,second,,fourth
+   > FIRST=1,7,14,15
+   > LAST=5,12,13,20
+   > HAS LENGTH=T,T,F,T
+
+SEE ALSO
+  +  SPLIT(3) ‐ return tokens from a string, one at a time
+
+  +  INDEX(3) ‐ Position of a substring within a string
+
+  +  SCAN(3) ‐ Scan a string for the presence of a set of characters
+
+  +  VERIFY(3) ‐ Position of a character in a string of characters
+                 that does not appear in a given set of characters.
+
+AUTHOR
+    Milan Curcic, "milancurcic@hey.com"
+    John S. Urban -- UTF-8 version
+
+LICENSE
+    MIT
