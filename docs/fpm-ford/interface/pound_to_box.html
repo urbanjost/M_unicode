@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.2% of total for procedures.</p>Including implementation: 164 statements,  8.4% of total for procedures.">4 statements</a>
+                 title="<p> 0.2% of total for procedures.</p>Including implementation: 164 statements,  8.2% of total for procedures.">4 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -175,7 +175,7 @@
 </h3></div>
     <div class="card-body">
         <h2 id="name">NAME</h2>
-<div class="codehilite"><pre><span></span><code> pound_to_block(3f) - [M_unicode:EDITING] convert pound character to box characters
+<div class="codehilite"><pre><span></span><code> pound_to_box(3f) - [M_unicode:EDITING] convert pound character to box characters
  (LICENSE:MIT)
 </code></pre></div>
 
@@ -210,45 +210,46 @@
 </code></pre></div>
 
 <h2 id="examples">EXAMPLES</h2>
-<p>Sample Program:
-    program demo_pound_to_box
-    use M_unicode, only : slurp, ut=&gt;unicode_type
-    use M_unicode, only : operator(//)
-    use M_unicode, only : assignment(=)
-    use M_unicode, only : character, pound_to_box
-    implicit none
-    type(ut),allocatable       :: textout(:)
-    character(len=<em>),parameter :: text(</em>)=[character(len=80) :: &amp;
-    &lsquo;############################################&rsquo;, &amp;
-    &lsquo;#abcdefg# What about #        #       #    #&rsquo;, &amp;
-    &lsquo;#hijklmn# this text? #        #       ######&rsquo;, &amp;
-    &lsquo;###############################       #    #&rsquo;, &amp;
-    &lsquo;#              #     #        #       ######&rsquo;, &amp;
-    &lsquo;#              #     #        #       #    #&rsquo;, &amp;
-    &lsquo;############################################&rsquo;, &amp;
-    &lsquo;&rsquo;, &amp;
-    &rsquo;   ###################################&rsquo;, &amp;
-    &rsquo;   # WARNING, WARNING, Will Robinson #&rsquo;, &amp;
-    &rsquo;   ###################################&rsquo;]
-       ! write out slurped data
-       textout=text
-       call write_text()
-       textout=pound_to_box(text)
-       call write_text()
-       textout=pound_to_box(text,style=&rsquo;light&rsquo;)
-       call write_text()
-       textout=pound_to_box(text,style=&rsquo;double&rsquo;)
-       call write_text()</p>
-<div class="codehilite"><pre><span></span><code>contains
-subroutine write_text()
-integer :: i
-   write(*,&#39;(*(a:))&#39;,advance=&#39;no&#39;) &amp;
-   &amp; (trim(textout(i)%character()), &amp;
-   &amp; new_line(&#39;a&#39;), &amp;
-   &amp; i=1,size(textout))
-end subroutine write_text
+<p>Sample Program:</p>
+<div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">demo_pound_to_box</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">slurp</span><span class="p">,</span><span class="w"> </span><span class="nx">ut</span><span class="o">=&gt;</span><span class="nx">unicode_type</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">operator</span><span class="p">(</span><span class="c1">//)</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">assignment</span><span class="p">(=)</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">character</span><span class="p">,</span><span class="w"> </span><span class="nx">pound_to_box</span>
+<span class="nx">implicit</span><span class="w"> </span><span class="nx">none</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">),</span><span class="nx">allocatable</span><span class="w">       </span><span class="o">::</span><span class="w"> </span><span class="nx">textout</span><span class="p">(:)</span>
+<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">parameter</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">text</span><span class="p">(</span><span class="o">*</span><span class="p">)=[</span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="mi">80</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="err">&#39;############################################&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="err">&#39;#</span><span class="nx">abcdefg</span><span class="err">#</span><span class="w"> </span><span class="nx">What</span><span class="w"> </span><span class="nx">about</span><span class="w"> </span><span class="err">#</span><span class="w">        </span><span class="err">#</span><span class="w">       </span><span class="err">#</span><span class="w">    </span><span class="err">#&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="err">&#39;#</span><span class="nx">hijklmn</span><span class="err">#</span><span class="w"> </span><span class="nx">this</span><span class="w"> </span><span class="nx">text</span><span class="p">?</span><span class="w"> </span><span class="err">#</span><span class="w">        </span><span class="err">#</span><span class="w">       </span><span class="err">######&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="err">&#39;###############################</span><span class="w">       </span><span class="err">#</span><span class="w">    </span><span class="err">#&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="err">&#39;#</span><span class="w">              </span><span class="err">#</span><span class="w">     </span><span class="err">#</span><span class="w">        </span><span class="err">#</span><span class="w">       </span><span class="err">######&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="err">&#39;#</span><span class="w">              </span><span class="err">#</span><span class="w">     </span><span class="err">#</span><span class="w">        </span><span class="err">#</span><span class="w">       </span><span class="err">#</span><span class="w">    </span><span class="err">#&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="err">&#39;############################################&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="err">&#39;&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="err">&#39;</span><span class="w">   </span><span class="err">###################################&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="err">&#39;</span><span class="w">   </span><span class="err">#</span><span class="w"> </span><span class="nx">WARNING</span><span class="p">,</span><span class="w"> </span><span class="nx">WARNING</span><span class="p">,</span><span class="w"> </span><span class="nx">Will</span><span class="w"> </span><span class="nx">Robinson</span><span class="w"> </span><span class="err">#&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="err">&#39;</span><span class="w">   </span><span class="err">###################################&#39;</span><span class="p">]</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">write</span><span class="w"> </span><span class="nx">out</span><span class="w"> </span><span class="nx">slurped</span><span class="w"> </span><span class="nx">data</span>
+<span class="w">   </span><span class="nx">textout</span><span class="p">=</span><span class="nx">text</span>
+<span class="w">   </span><span class="nx">call</span><span class="w"> </span><span class="nx">write_text</span><span class="p">()</span>
+<span class="w">   </span><span class="nx">textout</span><span class="p">=</span><span class="nx">pound_to_box</span><span class="p">(</span><span class="nx">text</span><span class="p">)</span>
+<span class="w">   </span><span class="nx">call</span><span class="w"> </span><span class="nx">write_text</span><span class="p">()</span>
+<span class="w">   </span><span class="nx">textout</span><span class="p">=</span><span class="nx">pound_to_box</span><span class="p">(</span><span class="nx">text</span><span class="p">,</span><span class="nx">style</span><span class="p">=</span><span class="err">&#39;</span><span class="nx">light</span><span class="err">&#39;</span><span class="p">)</span>
+<span class="w">   </span><span class="nx">call</span><span class="w"> </span><span class="nx">write_text</span><span class="p">()</span>
+<span class="w">   </span><span class="nx">textout</span><span class="p">=</span><span class="nx">pound_to_box</span><span class="p">(</span><span class="nx">text</span><span class="p">,</span><span class="nx">style</span><span class="p">=</span><span class="err">&#39;</span><span class="nx">double</span><span class="err">&#39;</span><span class="p">)</span>
+<span class="w">   </span><span class="nx">call</span><span class="w"> </span><span class="nx">write_text</span><span class="p">()</span>
 
-end program demo_pound_to_box
+<span class="nx">contains</span>
+<span class="nx">subroutine</span><span class="w"> </span><span class="nx">write_text</span><span class="p">()</span>
+<span class="nx">integer</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">i</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="err">&#39;</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nx">a</span><span class="p">:))</span><span class="err">&#39;</span><span class="p">,</span><span class="nx">advance</span><span class="p">=</span><span class="err">&#39;</span><span class="nx">no</span><span class="err">&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">   </span><span class="o">&amp;</span><span class="w"> </span><span class="p">(</span><span class="nx">trim</span><span class="p">(</span><span class="nx">textout</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span><span class="o">%</span><span class="nx">character</span><span class="p">()),</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">   </span><span class="o">&amp;</span><span class="w"> </span><span class="nx">new_line</span><span class="p">(</span><span class="sc">&#39;a&#39;</span><span class="p">),</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">   </span><span class="o">&amp;</span><span class="w"> </span><span class="nx">i</span><span class="p">=</span><span class="mi">1</span><span class="p">,</span><span class="nx">size</span><span class="p">(</span><span class="nx">textout</span><span class="p">))</span>
+<span class="nx">end</span><span class="w"> </span><span class="nx">subroutine</span><span class="w"> </span><span class="nx">write_text</span>
+
+<span class="nx">end</span><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_pound_to_box</span>
 </code></pre></div>
 
 <p>Results:</p>
@@ -334,7 +335,7 @@ end program demo_pound_to_box
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-style"></span>
+              <span class="anchor" id="variable-style~2"></span>
               class(*),
             </td>
 <td>intent(in),</td>
@@ -393,7 +394,7 @@ end program demo_pound_to_box
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-style~2"></span>
+              <span class="anchor" id="variable-style~3"></span>
               class(*),
             </td>
 <td>intent(in),</td>
@@ -435,7 +436,7 @@ end program demo_pound_to_box
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-03-21 09:13 +0000             </p>
+ on 2026-03-22 02:18 +0000             </p>
           </div>
         </div>
         <br>

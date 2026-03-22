@@ -7,6 +7,7 @@ use M_unicode, only : repeat
 use M_unicode, only : upper, lower
 use M_unicode, only : expandtabs
 use M_unicode, only : escape, add_backslash, remove_backslash
+use M_unicode, only : pound_to_box                           
 use M_unicode, only : sort
 use M_unicode, only : scan, verify
 use M_unicode, only : tokenize, split
@@ -821,6 +822,88 @@ integer,allocatable :: ints(:)
    call check('escape',escape(ut_str).eq.'कॉफ़ी है?','hexadecimal')
 end subroutine test_escape
 
+subroutine test_pound_to_box()
+integer                      :: length1, length2
+integer                      :: i
+integer                      :: int1,int2
+integer                      :: istyle
+character(len=:),allocatable :: style
+logical                      :: bool1 
+type(ut),allocatable         :: textout(:), texttmp(:), expected(:)
+character(len=*),parameter   :: text(*)=[character(len=108) :: &
+'', &
+'   ###################################', &
+'   # WARNING, WARNING, Will Robinson #', &
+'   ###################################', &
+'   #      #      #   #   #   #   #   #', &
+'   #      #      #   #   #   #   #   #', &
+'   ########      #   #################']
+do istyle=1,4
+   select case(istyle)
+   case(1)
+      style='double'
+      expected=[character(len=108) :: &
+      '', &
+      '   ╔═════════════════════════════════╗', &
+      '   ║ WARNING, WARNING, Will Robinson ║', &
+      '   ╠══════╦══════╦═══╦═══╦═══╦═══╦═══╣', &
+      '   ║      ║      ║   ║   ║   ║   ║   ║', &
+      '   ║      ║      ║   ║   ║   ║   ║   ║', &
+      '   ╚══════╝      ║   ╚═══╩═══╩═══╩═══╝']
+      textout=pound_to_box(text,style=style)
+   case(2)
+      style='light'
+      expected=[character(len=108) :: &
+      '', &
+      '   ┌─────────────────────────────────┐', &
+      '   │ WARNING, WARNING, Will Robinson │', &
+      '   ├──────┬──────┬───┬───┬───┬───┬───┤', &
+      '   │      │      │   │   │   │   │   │', &
+      '   │      │      │   │   │   │   │   │', &
+      '   └──────┘      │   └───┴───┴───┴───┘']
+      textout=pound_to_box(text,style=style)
+   case(3)
+      style='bold'
+      expected=[character(len=108) :: &
+      '', &
+      '   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓', &
+      '   ┃ WARNING, WARNING, Will Robinson ┃', &
+      '   ┣━━━━━━┳━━━━━━┳━━━┳━━━┳━━━┳━━━┳━━━┫', &
+      '   ┃      ┃      ┃   ┃   ┃   ┃   ┃   ┃', &
+      '   ┃      ┃      ┃   ┃   ┃   ┃   ┃   ┃', &
+      '   ┗━━━━━━┛      ┃   ┗━━━┻━━━┻━━━┻━━━┛']
+      textout=pound_to_box(text,style=style)
+   case(4)
+      style='default'
+      expected=[character(len=108) :: &
+      '', &
+      '   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓', &
+      '   ┃ WARNING, WARNING, Will Robinson ┃', &
+      '   ┣━━━━━━┳━━━━━━┳━━━┳━━━┳━━━┳━━━┳━━━┫', &
+      '   ┃      ┃      ┃   ┃   ┃   ┃   ┃   ┃', &
+      '   ┃      ┃      ┃   ┃   ┃   ┃   ┃   ┃', &
+      '   ┗━━━━━━┛      ┃   ┗━━━┻━━━┻━━━┻━━━┛']
+      textout=pound_to_box(text)
+   end select
+   length1=maxval(len(textout))
+   length2=maxval(len(expected))
+   call check('pound_to_box',length1.eq.length2,character('length='//length1//', expected '//length2))
+   int1=size(textout)
+   int2=size(expected)
+   if( int1.eq.int2 )then
+      bool1=all(textout.eq.expected)
+      call check('pound_to_box',bool1,'compare expected to result for '//style)
+      if(.not.bool1)then
+         do i=1,int1
+            write(*,'(*(g0,/))')trim(textout(i)%character()),trim(expected(i)%character())
+         enddo
+      endif
+   else
+      call check('pound_to_box',int1.eq.int2, character('size expected '//int2//' got '//int1) )
+   endif
+enddo
+end subroutine test_pound_to_box
+
 subroutine test_remove_backslash()
 type(unicode_type)  :: ut_str
 integer,allocatable :: ints(:)
@@ -1402,6 +1485,7 @@ use testsuite_M_unicode
    call test_escape()
    call test_add_backslash()
    call test_remove_backslash()
+   call test_pound_to_box()
    call test_isascii()
    call test_isblank()
    call test_isspace()
