@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 3.2% of total for procedures.">64 statements</a>
+                 title=" 3.1% of total for procedures.">64 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -174,131 +174,6 @@
     </div>
 
 
-    <h2 id="name">NAME</h2>
-<div class="codehilite"><pre><span></span><code>slurp(3f) - [M_unicode:READ] read formatted UTF-8 file into a
-TYPE(UNICODE_TYPE) string array
-(LICENSE:MIT)
-</code></pre></div>
-
-<h2 id="synopsis">SYNOPSIS</h2>
-<p>function slurp(filename,iomsg) result(text)</p>
-<div class="codehilite"><pre><span></span><code><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">),</span><span class="nx">optional</span><span class="w">              </span><span class="o">::</span><span class="w"> </span><span class="nx">filename</span>
-<span class="p">!</span><span class="w"> </span><span class="k">or</span>
-<span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">),</span><span class="nx">optional</span><span class="w">            </span><span class="o">::</span><span class="w"> </span><span class="nx">filename</span>
-
-<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="nx">out</span><span class="p">),</span><span class="nx">optional</span><span class="p">,</span><span class="nx">allocatable</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">iomsg</span>
-
-<span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">allocatable</span><span class="p">,</span><span class="nx">intent</span><span class="p">(</span><span class="nx">out</span><span class="p">)</span><span class="w">        </span><span class="o">::</span><span class="w"> </span><span class="nx">text</span><span class="p">(:)</span>
-</code></pre></div>
-
-<h2 id="description">DESCRIPTION</h2>
-<div class="codehilite"><pre><span></span><code>Uses READLINE(3) to read an entire formatted UTF-8 encoded file into
-a TYPE(UNICODE_TYPE) string array, each line of the file becoming an
-element of the output array.
-
-NOTE
-
-Never casually read an entire file into memory if you can process it
-per line or in smaller units; as large files can consume unreasonable
-amounts of memory.
-</code></pre></div>
-
-<h2 id="options">OPTIONS</h2>
-<div class="codehilite"><pre><span></span><code><span class="w">   </span><span class="nv">filename</span><span class="w">   </span><span class="nv">filename</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">read</span><span class="w"> </span><span class="nv">into</span><span class="w"> </span><span class="nv">memory</span>.<span class="w"> </span><span class="k">If</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">filename</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">absent</span>
-<span class="w">              </span><span class="nv">stdin</span><span class="w"> </span><span class="nv">will</span><span class="w"> </span><span class="nv">be</span><span class="w"> </span><span class="nv">read</span>.
-
-<span class="w">   </span><span class="nv">iomsg</span><span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="nv">an</span><span class="w"> </span><span class="nv">error</span><span class="w"> </span><span class="nv">occurs</span><span class="w"> </span><span class="nv">iomsg</span><span class="w"> </span><span class="nv">will</span><span class="w"> </span><span class="nv">contain</span><span class="w"> </span><span class="nv">an</span><span class="w"> </span><span class="nv">error</span><span class="w"> </span><span class="nv">message</span>,
-<span class="w">              </span><span class="k">else</span><span class="w"> </span><span class="nv">it</span><span class="w"> </span><span class="nv">will</span><span class="w"> </span><span class="nv">be</span><span class="w"> </span><span class="nv">a</span><span class="w"> </span><span class="nv">null</span><span class="w"> </span><span class="nv">string</span>.
-</code></pre></div>
-
-<h2 id="returns">RETURNS</h2>
-<div class="codehilite"><pre><span></span><code>   text       array of characters that holds contents of the file
-</code></pre></div>
-
-<h2 id="examples">EXAMPLES</h2>
-<p>Sample program, which  creates test input file &ldquo;inputfile&rdquo; and
-   then reads it back in.</p>
-<div class="codehilite"><pre><span></span><code><span class="n">program</span><span class="w"> </span><span class="n">demo_slurp</span>
-<span class="n">use</span><span class="w"> </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="n">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">slurp</span><span class="p">,</span><span class="w"> </span><span class="n">ut</span><span class="o">=&gt;</span><span class="n">unicode_type</span>
-<span class="n">use</span><span class="w"> </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="n">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">add_backslash</span><span class="p">,</span><span class="w"> </span><span class="n">remove_backslash</span>
-<span class="n">use</span><span class="w"> </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="n">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">)</span>
-<span class="n">implicit</span><span class="w"> </span><span class="n">none</span>
-<span class="n">type</span><span class="p">(</span><span class="n">ut</span><span class="p">),</span><span class="n">allocatable</span><span class="w">         </span><span class="p">::</span><span class="w"> </span><span class="n">text</span><span class="p">(:)</span>
-<span class="n">integer</span><span class="w">                      </span><span class="p">::</span><span class="w"> </span><span class="n">i</span>
-<span class="n">character</span><span class="p">(</span><span class="n">len</span><span class="o">=</span><span class="p">:),</span><span class="n">allocatable</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">iomsg</span>
-<span class="n">character</span><span class="p">(</span><span class="n">len</span><span class="o">=*</span><span class="p">),</span><span class="n">parameter</span><span class="w">   </span><span class="p">::</span><span class="w"> </span><span class="n">FILENAME</span><span class="o">=</span><span class="s1">&#39;._inputfile&#39;</span>
-
-<span class="n">call</span><span class="w"> </span><span class="n">create_test_file</span><span class="p">()</span>
-
-<span class="n">text</span><span class="o">=</span><span class="n">slurp</span><span class="p">(</span><span class="n">FILENAME</span><span class="p">,</span><span class="n">iomsg</span><span class="o">=</span><span class="n">iomsg</span><span class="p">)</span>
-
-<span class="k">if</span><span class="p">(</span><span class="n">iomsg</span><span class="o">.</span><span class="n">ne</span><span class="o">.</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="n">then</span>
-<span class="w">   </span><span class="n">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">&#39;*demo_slurp* failed to load file &#39;</span><span class="o">//</span><span class="n">FILENAME</span>
-<span class="w">   </span><span class="n">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">iomsg</span>
-<span class="k">else</span>
-<span class="w">   </span><span class="o">!</span><span class="w"> </span><span class="n">write</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="n">slurped</span><span class="w"> </span><span class="n">data</span>
-<span class="w">   </span><span class="n">call</span><span class="w"> </span><span class="n">write_text</span><span class="p">()</span>
-
-<span class="w">   </span><span class="o">!</span><span class="w"> </span><span class="n">encode</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">escape</span><span class="w"> </span><span class="n">sequences</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">write</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="n">again</span>
-<span class="w">   </span><span class="n">do</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-<span class="w">      </span><span class="n">text</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">add_backslash</span><span class="p">(</span><span class="n">text</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-<span class="w">   </span><span class="n">enddo</span>
-<span class="w">   </span><span class="n">call</span><span class="w"> </span><span class="n">write_text</span><span class="p">()</span>
-
-<span class="w">   </span><span class="o">!</span><span class="w"> </span><span class="n">deencode</span><span class="w"> </span><span class="n">escape</span><span class="w"> </span><span class="n">sequences</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">write</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="n">again</span>
-<span class="w">   </span><span class="n">do</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-<span class="w">      </span><span class="n">text</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">remove_backslash</span><span class="p">(</span><span class="n">text</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-<span class="w">   </span><span class="n">enddo</span>
-<span class="w">   </span><span class="n">call</span><span class="w"> </span><span class="n">write_text</span><span class="p">()</span>
-
-<span class="w">     </span><span class="o">!</span><span class="w"> </span><span class="n">teardown</span>
-<span class="w">   </span><span class="n">deallocate</span><span class="p">(</span><span class="n">text</span><span class="p">)</span><span class="w">  </span><span class="o">!</span><span class="w"> </span><span class="n">release</span><span class="w"> </span><span class="n">memory</span>
-<span class="w">   </span><span class="n">open</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">FILENAME</span><span class="p">,</span><span class="n">unit</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<span class="w">   </span><span class="n">close</span><span class="p">(</span><span class="n">unit</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">status</span><span class="o">=</span><span class="s1">&#39;delete&#39;</span><span class="p">)</span>
-<span class="n">endif</span>
-<span class="n">contains</span>
-<span class="n">subroutine</span><span class="w"> </span><span class="n">write_text</span><span class="p">()</span>
-<span class="w">   </span><span class="n">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="n">repeat</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">,</span><span class="mi">80</span><span class="p">)</span>
-<span class="w">   </span><span class="n">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(*(a:))&#39;</span><span class="p">)(</span><span class="n">text</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">%</span><span class="n">character</span><span class="p">(),</span><span class="n">new_line</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">),</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
-<span class="n">end</span><span class="w"> </span><span class="n">subroutine</span><span class="w"> </span><span class="n">write_text</span>
-
-<span class="n">subroutine</span><span class="w"> </span><span class="n">create_test_file</span><span class="p">()</span>
-<span class="o">!</span><span class="w"> </span><span class="n">create</span><span class="w"> </span><span class="n">test</span><span class="w"> </span><span class="n">file</span>
-<span class="n">open</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">FILENAME</span><span class="p">,</span><span class="n">unit</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;write&#39;</span><span class="p">)</span>
-<span class="o">!</span><span class="w"> </span><span class="p">(</span><span class="n">Used</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="n">Microsoft</span><span class="w"> </span><span class="n">Office</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">sample</span><span class="w"> </span><span class="n">text</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">Croatian</span><span class="w"> </span><span class="n">language</span><span class="o">.</span><span class="p">)</span>
-<span class="n">write</span><span class="p">(</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="s1">&#39;Croation pangram:&#39;</span>
-<span class="n">write</span><span class="p">(</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="s1">&#39;&#39;</span>
-<span class="n">write</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="s1">&#39;Gojazni đačić s biciklom drži hmelj i finu&#39;</span>
-<span class="n">write</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="s1">&#39;vatu u džepu nošnje.&#39;</span>
-<span class="n">write</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="s1">&#39;&#39;</span>
-<span class="n">write</span><span class="p">(</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="s1">&#39;The overweight little schoolboy with a bike is holding&#39;</span>
-<span class="n">write</span><span class="p">(</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="s1">&#39;hops and fine cotton in the pocket of his attire.&#39;</span>
-<span class="n">close</span><span class="p">(</span><span class="n">unit</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<span class="n">end</span><span class="w"> </span><span class="n">subroutine</span><span class="w"> </span><span class="n">create_test_file</span>
-
-<span class="n">end</span><span class="w"> </span><span class="n">program</span><span class="w"> </span><span class="n">demo_slurp</span>
-</code></pre></div>
-
-<p>Results:</p>
-<blockquote>
-<p>Croation pangram:</p>
-<p>The overweight little schoolboy with a bike is holding
-hops and fine cotton in the pocket of his attire.</p>
-<p>Gojazni đačić s biciklom drži hmelj i finu
-vatu u džepu nošnje.</p>
-<p>Gojazni \u0111a\u010Di\u0107 s biciklom dr\u017Ei hmelj i finu
-vatu u d\u017Eepu no\u0161nje.</p>
-<p>Gojazni đačić s biciklom drži hmelj i finu
-vatu u džepu nošnje.
-</p>
-</blockquote>
-<h2 id="author">AUTHOR</h2>
-<div class="codehilite"><pre><span></span><code>John S. Urban
-</code></pre></div>
-
-<h2 id="license">LICENSE</h2>
-<div class="codehilite"><pre><span></span><code>MIT
-</code></pre></div>
 
 
     <h3>Arguments</h3>
@@ -460,7 +335,7 @@ vatu u džepu nošnje.
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-03-22 02:18 +0000             </p>
+ on 2026-03-22 18:21 +0000             </p>
           </div>
         </div>
         <br>
