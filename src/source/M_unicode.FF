@@ -7760,12 +7760,13 @@ DESCRIPTION
    ESCAPE(3) expands commonly used escape sequences that represent glyphs
    or control characters.
 
-   REMOVE_BACKSLASH(3) should generally be used as it adheres to the
-   C-style standard, where-as ESCAPE(3) supports additional sequences
-   such as decimal and octal and \c, and \NNNNN support allows \0
-   to potentially be the beginning of another value instead of always
+   REMOVE_BACKSLASH(3) should be used to reverse BACKSLASH(3)-generated
+   data as they both adhere to and only recognize the C++-style standard
+   for Unicode code points, where-as ESCAPE(3) supports additional
+   sequences such as decimal and octal and \c, and \NNNNN support allows
+   \0 to potentially be the beginning of another value instead of always
    designating a null. Therefore the use of ESCAPE(3) is only recommended
-   when it is known that these extensions are required.
+   when it is known that this additional syntax is required.
 
    Escape sequences
 
@@ -7793,7 +7794,7 @@ DESCRIPTION
     UZZZZZZZZ  translate Unicode codepoint value to bytes
 
   The default escape character is the backslash, but this may be
-  changed using the optional parameter ESCAPE.
+  changed using the optional parameter PROTECT.
 
 OPTIONS
     LINE    An ASCII bytestream optionally containing UTF-8 encoded data
@@ -7890,12 +7891,14 @@ character(len=:),allocatable :: temp
 
 integer            :: esc    ! Default is backslash
 integer            :: i
+integer            :: j
 integer            :: lgth
 character(len=3)   :: thr
 character(len=4)   :: four
 character(len=8)   :: eight
 integer            :: nnn
 integer            :: iostat
+integer            :: ioctal
 integer            :: icount
 integer,parameter  :: alert=7
 integer,parameter  :: backspace=8
@@ -7959,9 +7962,21 @@ integer,parameter  :: x=ichar('x'),XX=ichar('X'),h=ichar('h'),HH=ichar('H')
             case(n,NN);out%codes=[out%codes, newline]
             case(o,OO)
                    thr=character(line%sub(i+1,i+3))
-                   read(thr,'(o3)',iostat=iostat)nnn
-                   out%codes=[out%codes,nnn]
-                   i=i+3
+		   ioctal=verify(thr,'1234567890')
+		   select case(ioctal)
+		   case(0)
+                      read(thr,'(o3)',iostat=iostat)nnn
+                      out%codes=[out%codes,nnn]
+                      i=i+3
+		   case(1)
+		      ! could produce warning
+                      out%codes=[out%codes,line%codes(i)]
+		   case(2,3)
+		      thr=thr(:ioctal-1)
+                      read(thr,'(o3)',iostat=iostat)nnn
+                      out%codes=[out%codes,nnn]
+                      i=i+ioctal-1
+		   end select
             case(r,RR);out%codes=[out%codes,carriage_return]
             case(t,TT);out%codes=[out%codes,horizontal_tab]
             case(v,VV);out%codes=[out%codes,vertical_tab]

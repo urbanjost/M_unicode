@@ -797,7 +797,7 @@ integer,allocatable :: ints(:)
 !    t      horizontal tab
 !    v      vertical tab
 !
-!    oNNN   byte with octal value NNN (3 digits)
+!    oNNN   byte with octal value NNN (1 to 3 digits)
 !    0-9    up to three digits following will be treated
 !           as an octal value
 
@@ -817,6 +817,13 @@ integer,allocatable :: ints(:)
    call check('escape',escape(ut('\')).eq.'\','backslash at end of line')
    call check('escape',escape(ut('text\0')).eq.'text'//char(0),'null at end')
    call check('escape',escape(ut('\122\123A')).eq.'RSA','two')
+
+   !\oN\oNN\oNNN
+   call check('escape',escape(ut('\o0Z')).eq.char(0)//'Z','null')
+   call check('escape',escape(ut('\o75Z')).eq.'=Z','oNN '//character(escape('\o75z')))
+   call check('escape',escape(ut('\o075Z')).eq.'=Z','oNNN '//character(escape('\o075z')))
+   call check('escape',escape(ut('\o75\o75\o076')).eq.'==>','oNNoNNoNN '//character(escape('\o75\o75\o76')))
+   call check('escape',escape(ut('\oZ')).eq.'oZ','reasonable '//character(escape('\oZ')))
 
    ! (kaufii hai?) [Literal Meaning: “Is there coffee?”] “Do you have coffee?” (Informal)
    ut_str='\u0915\u0949\u092B\U0000093C\U00000940\x20\u0939\u0948\x3F'
