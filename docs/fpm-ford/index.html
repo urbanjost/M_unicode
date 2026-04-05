@@ -163,8 +163,8 @@ name:</p>
 <span class="w">   </span><span class="n">get_arg</span><span class="p">,</span><span class="w"> </span><span class="n">get_env</span><span class="p">,</span><span class="w">        </span><span class="n">transliterate</span><span class="p">,</span><span class="w">    </span><span class="p">&amp;</span>
 <span class="w">   </span><span class="n">escape</span><span class="p">,</span><span class="w">  </span><span class="n">add_backslash</span>
 
-<span class="c">! operators (and overloads) and SORT(3f) use</span>
-<span class="c">! Unicode codepoints (NOT dictionary order)</span>
+<span class="c">! operators (and overloads) and SORT(3f) use Unicode codepoint </span>
+<span class="c">! order (NOT necessarily dictionary order)</span>
 
 <span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">)</span>
 <span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">&lt;=</span><span class="p">),</span><span class="w"> </span><span class="nb">lle</span>
@@ -226,29 +226,33 @@ Hello World and Ni Hao -- 你好
 </code></pre></div>
 
 <h2 id="details">Details</h2>
-<p>The <strong>M_unicode</strong> module provides direct support for UTF-8 encoded 
-source files and data.</p>
-<p>Fortran 2003 and later standards describe the optional Unicode ISO-10646
-extension, which provides for an internal representation of Unicode using
-4-byte-per-character UCS-4 encoding for characters/glyphs, as well as
-an ability to automatically encode and decode data read and written to
-UTF-8 files.</p>
-<p><strong>But major compilers still do not support the Unicode ISO-10646
-option, ragged string arrays are not supported as intrinsic types,
-no OOP interface is provided for the intrinsic methods and there are no
-functions provided to convert from UCS-4 to UTF-8 byte streams accept
-via reading and writing to files.</strong></p>
-<p>Where Unicode <strong>is</strong> supported (ie. where CHARACTER(KIND=&rdquo;ISO_10646&rdquo;)
-is provided)
+<h3 id="optional-unicode-iso-10646-fortran-extension">Optional Unicode ISO-10646 Fortran extension</h3>
+<p>As an alternative to <strong>M_unicode</strong> Fortran 2003 and later standards
+describe the optional Unicode ISO-10646 extension, which provides for
+an internal representation of Unicode using 4-byte-per-character UCS-4
+encoding for characters/glyphs, as well as an ability to automatically
+encode and decode data read and written to UTF-8 files.</p>
+<p><strong>But</strong>
+ + major compilers still do not support the Unicode ISO-10646 option
+ + use of UTF-8 strings in source code is treated as ASCII8 byte streams,
+   not as UTC-4 
+ + there are no functions provided to convert from UCS-4 to UTF-8 byte
+   streams except via reading and writing to files.
+<strong>In addition:</strong>
+ + ragged string arrays are not supported as intrinsic types
+ + no OOP interface is provided for the intrinsic methods </p>
+<p>Where CHARACTER(KIND=&rdquo;ISO_10646&rdquo;) <em>is</em> provided
 the <a href="https://github.com/urbanjost/M_ucs4">M_ucs4</a> repository
 supplements Unicode usage &ndash; emphasizing adherence to the standard to
 promote portability.</p>
-<p>When the compiler does <strong>not</strong> support CHARACTER(KIND=&rdquo;ISO_10646&rdquo;)
-it still may support UTF-8 source files and permit entering multi-byte
-Unicode characters in comments and (more importantly) in constant strings
-and data. This support is now very common, as nearly all current operating
-systems and many applications support UTF-8 text files.</p>
-<p>But whether in input and output files, or as what-you-see-is-what-you-get
+<h3 id="m_unicode">M_unicode</h3>
+<p>The <strong>M_unicode</strong> module provides direct support for UTF-8 encoded source
+files and data whether the ISO_10646 extension is available or not.</p>
+<p><strong>M_unicode</strong> supports UTF-8 source files and permits entering multi-byte
+Unicode characters in constant strings on systems supporting UTF-8
+files, not just data files (Nearly all current operating systems and
+many applications support UTF-8 text files).</p>
+<p>Whether in input and output files, or as what-you-see-is-what-you-get
 character constants the compiler will see this text as byte streams,
 and will be unaware of how many Unicode glyphs/characters are represented.</p>
 <p>So it may often be easy to place Unicode characters in fixed messages,
@@ -689,7 +693,7 @@ with the DT edit descriptor are still undergoing development.</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-04-05 06:00 +0000             </p>
+ on 2026-04-05 14:53 +0000             </p>
           </div>
         </div>
         <br>
