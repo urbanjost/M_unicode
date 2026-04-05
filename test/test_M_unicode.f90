@@ -6,7 +6,7 @@ use M_unicode, only : trim, len, len_trim
 use M_unicode, only : repeat
 use M_unicode, only : upper, lower
 use M_unicode, only : expandtabs
-use M_unicode, only : escape, add_backslash, remove_backslash
+use M_unicode, only : escape, add_backslash
 use M_unicode, only : pound_to_box                           
 use M_unicode, only : add_border
 use M_unicode, only : sort
@@ -981,54 +981,6 @@ do istyle=1,4
 enddo
 end subroutine test_pound_to_box
 
-subroutine test_remove_backslash()
-type(unicode_type)           :: ut_str
-character(len=:),allocatable :: line
-integer,allocatable          :: ints(:)
-!    0      null
-!    \      backslash
-!    a      alert (BEL) -- g is an alias for a
-!    b      backspace
-!    e      escape
-!    f      form feed
-!    n      new line
-!    r      carriage return
-!    t      horizontal tab
-!    v      vertical tab
-!
-!    xHH        byte with hexadecimal value HH (2 digits);
-!    uZZZZ      translate Unicode codepoint value to bytes
-!    UZZZZZZZZ  translate Unicode codepoint value to bytes
-   ut_str='\0\\\a\b\e\f\n\r\t\v'
-   ints=[0,92,7,8,27,12,10,13,9,11]
-   ut_str=remove_backslash(ut_str)
-   call check('remove_backslash',len(ut_str).eq.10,character('len='//len(ut_str)))
-   if( len(ut_str).eq.9 )then
-      call check('remove_backslash',all(ut_str%codepoint().eq.ints),'codes')
-   endif
-   call check('remove_backslash',remove_backslash(ut('\')).eq.'\','backslash at end of line')
-   call check('remove_backslash',remove_backslash(ut('text\0')).eq.'text'//char(0),'null at end')
-   call check('remove_backslash',remove_backslash(ut('\122\123A')).eq.'RSA','two')
-
-   ! (kaufii hai?) [Literal Meaning: “Is there coffee?”] “Do you have coffee?” (Informal)
-
-   ut_str='\u0915\u0949\u092B\U0000093C\U00000940\x20\u0939\u0948\x3F'
-   call check('remove_backslash',&
-   & remove_backslash(ut_str).eq.'कॉफ़ी है?',&
-   & 'hexadecimal and unicode' // &
-   & character(escape(ut_str)) )
-
-   call check('remove_backslash',&
-   & character(remove_backslash(ut_str)).eq.'कॉफ़ी है?',&
-   & 'hexadecimal and unicode' // &
-   & character(escape(ut_str)))
-
-   ut_str='\x9\x09\x008\xA4\x3B1\X3B2\X221A\x221E'
-   line=char(9)//char(9)//char(8)//'¤αβ√∞'
-   call check('remove_backslash',remove_backslash(ut_str).eq.line,'hexadecimal')
-
-end subroutine test_remove_backslash
-
 subroutine test_add_backslash()
 type(unicode_type) :: UA
 type(unicode_type) :: uline
@@ -1038,7 +990,7 @@ integer            :: i
 
    call check('add_backslash',len(uline).eq.722,character('len '//len(uline)))
    if( len(uline).eq.772 )then
-      call check('add_backslash',remove_backslash(uline).eq.UA,'round trip')
+      call check('add_backslash',escape(uline).eq.UA,'round trip')
    endif
    call check('add_backslash',add_backslash(ut('\')).eq.'\\','backslash at end of line')
    call check('add_backslash',add_backslash(ut('text'//char(0))).eq.'text\0','null at end')
@@ -1576,7 +1528,6 @@ use testsuite_M_unicode
    call test_fmt()
    call test_escape()
    call test_add_backslash()
-   call test_remove_backslash()
    call test_pound_to_box()
    call test_add_border()
    call test_isascii()

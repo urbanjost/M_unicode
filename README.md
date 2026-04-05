@@ -67,7 +67,7 @@ use M_unicode, only : &
    pad,     join,           fmt,              &
    sub,     character,                        &
    get_arg, get_env,        transliterate,    &
-   escape,  add_backslash,  remove_backslash
+   escape,  add_backslash
 
 ! operators (and overloads) and SORT(3f) use
 ! Unicode codepoints (NOT dictionary order)
