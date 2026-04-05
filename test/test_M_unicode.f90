@@ -776,7 +776,8 @@ type(unicode_type)         :: str
 end subroutine test_verify
 
 subroutine test_ichar()
-type(unicode_type)             :: ut_str
+type(unicode_type)           :: ut_str
+character(len=:),allocatable :: line
    ut_str='ABC'
    call check('ichar',ut_str%ichar().eq.ichar('A'),'string%ichar()')
    call check('ichar',ichar(ut('A')).eq.ichar('A'),'ichar(ut("A")')
@@ -784,8 +785,9 @@ type(unicode_type)             :: ut_str
 end subroutine test_ichar
 
 subroutine test_escape()
-type(unicode_type)  :: ut_str
-integer,allocatable :: ints(:)
+type(unicode_type)           :: ut_str
+character(len=:),allocatable :: line
+integer,allocatable          :: ints(:)
 !    \      backslash
 !    a      alert (BEL) -- g is an alias for a
 !    b      backspace
@@ -826,8 +828,21 @@ integer,allocatable :: ints(:)
    call check('escape',escape(ut('\oZ')).eq.'oZ','reasonable '//character(escape('\oZ')))
 
    ! (kaufii hai?) [Literal Meaning: “Is there coffee?”] “Do you have coffee?” (Informal)
+
    ut_str='\u0915\u0949\u092B\U0000093C\U00000940\x20\u0939\u0948\x3F'
-   call check('escape',escape(ut_str).eq.'कॉफ़ी है?','hexadecimal')
+   call check('escape',&
+   & escape(ut_str).eq.'कॉफ़ी है?',&
+   & 'hexadecimal and unicode ' // &
+   & character(escape(ut_str)) )
+   call check('escape',&
+   & character(escape(ut_str)).eq.'कॉफ़ी है?',&
+   & 'hexadecimal and unicode' // &
+   & character(escape(ut_str)) )
+
+   ut_str='\x9\x09\x008\xA4\x3B1\x3B2\x221A\x221E'
+   line=char(9)//char(9)//char(8)//'¤αβ√∞'
+   call check('escape',escape(ut_str).eq.line,'hexadecimal')
+
 end subroutine test_escape
 
 subroutine test_add_border()
@@ -967,8 +982,9 @@ enddo
 end subroutine test_pound_to_box
 
 subroutine test_remove_backslash()
-type(unicode_type)  :: ut_str
-integer,allocatable :: ints(:)
+type(unicode_type)           :: ut_str
+character(len=:),allocatable :: line
+integer,allocatable          :: ints(:)
 !    0      null
 !    \      backslash
 !    a      alert (BEL) -- g is an alias for a
@@ -995,8 +1011,22 @@ integer,allocatable :: ints(:)
    call check('remove_backslash',remove_backslash(ut('\122\123A')).eq.'RSA','two')
 
    ! (kaufii hai?) [Literal Meaning: “Is there coffee?”] “Do you have coffee?” (Informal)
+
    ut_str='\u0915\u0949\u092B\U0000093C\U00000940\x20\u0939\u0948\x3F'
-   call check('remove_backslash',remove_backslash(ut_str).eq.'कॉफ़ी है?','hexadecimal')
+   call check('remove_backslash',&
+   & remove_backslash(ut_str).eq.'कॉफ़ी है?',&
+   & 'hexadecimal and unicode' // &
+   & character(escape(ut_str)) )
+
+   call check('remove_backslash',&
+   & character(remove_backslash(ut_str)).eq.'कॉफ़ी है?',&
+   & 'hexadecimal and unicode' // &
+   & character(escape(ut_str)))
+
+   ut_str='\x9\x09\x008\xA4\x3B1\X3B2\X221A\x221E'
+   line=char(9)//char(9)//char(8)//'¤αβ√∞'
+   call check('remove_backslash',remove_backslash(ut_str).eq.line,'hexadecimal')
+
 end subroutine test_remove_backslash
 
 subroutine test_add_backslash()

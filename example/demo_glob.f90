@@ -1,6 +1,6 @@
      program demo_glob
      use M_unicode, only : glob, trim, unicode_type, len
-     use M_unicode, only : remove_backslash
+     use M_unicode, only : escape
      use M_unicode, only : assignment(=)
      implicit none
      integer :: i
@@ -60,7 +60,7 @@
         call show_filenames(ufiles)
 
         ! create a list of trimmed filenames from encoded names
-        ufiles=remove_backslash(encoded)
+        ufiles=escape(encoded)
         ufiles=trim(ufiles)
         write(*,g)'ENCODED FILENAMES:'
         call show_filenames(ufiles)

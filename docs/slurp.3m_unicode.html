@@ -1,7 +1,7 @@
-<html> 
-<head> 
+<html>
+<head>
 <title> </title>
-<style> 
+<style>
 px {font-family: "Lucida Console", Monaco, monospace }
 p { font-size:100%; line-height:1.1em; }
 body {xfont-style: sans-serif}
@@ -37,8 +37,8 @@ textarea#content { font-size: 1em; line-height: 1.125; }
 h1#pageName { line-height:1em; margin:0.2em 0 0.2em 0; padding:0; }
 .property { color:#666; font-size:100%; }
 a.existingWikiWord[title]{ //border: 1px dashed #BBB; }
-.byline { color:#666; font-size:1.0em; font-style:italic; margin-bottom:1em; padding-top:1px; } 
-</style> 
+.byline { color:#666; font-size:1.0em; font-style:italic; margin-bottom:1em; padding-top:1px; }
+</style>
 </head>
 <BODY bgcolor=#F0F0F0 text=#000000 link=#0000ff vlink=#C000C0 alink=#ff0000><A NAME=top></A>
 <!--
@@ -155,7 +155,7 @@ then reads it back in.
 <PRE>
    program demo_slurp
    use M_unicode, only : slurp, ut=&gt;unicode_type
-   use M_unicode, only : add_backslash, remove_backslash
+   use M_unicode, only : add_backslash, escape
    use M_unicode, only : assignment(=)
    implicit none
    type(ut),allocatable         :: text(:)
@@ -182,7 +182,7 @@ then reads it back in.
 <P>
       ! deencode escape sequences and write data again
       do i=1,size(text)
-         text(i)=remove_backslash(text(i))
+         text(i)=escape(text(i))
       enddo
       call write_text()
 <P>
