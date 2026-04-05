@@ -69,8 +69,8 @@ use M_unicode, only : &
    get_arg, get_env,        transliterate,    &
    escape,  add_backslash
 
-! operators (and overloads) and SORT(3f) use
-! Unicode codepoints (NOT dictionary order)
+! operators (and overloads) and SORT(3f) use Unicode codepoint 
+! order (NOT necessarily dictionary order)
 
 use M_unicode, only : assignment(=)
 use M_unicode, only : operator(<=), lle
@@ -132,34 +132,40 @@ Hello World and Ni Hao -- 你好
 ```
 ## Details
 
-The **M_unicode** module provides direct support for UTF-8 encoded 
-source files and data.
+### Optional Unicode ISO-10646 Fortran extension
 
-Fortran 2003 and later standards describe the optional Unicode ISO-10646
-extension, which provides for an internal representation of Unicode using
-4-byte-per-character UCS-4 encoding for characters/glyphs, as well as
-an ability to automatically encode and decode data read and written to
-UTF-8 files.
+As an alternative to __M_unicode__ Fortran 2003 and later standards
+describe the optional Unicode ISO-10646 extension, which provides for
+an internal representation of Unicode using 4-byte-per-character UCS-4
+encoding for characters/glyphs, as well as an ability to automatically
+encode and decode data read and written to UTF-8 files.
 
-__But major compilers still do not support the Unicode ISO-10646
-option, ragged string arrays are not supported as intrinsic types,
-no OOP interface is provided for the intrinsic methods and there are no
-functions provided to convert from UCS-4 to UTF-8 byte streams accept
-via reading and writing to files.__
+__But__
+ + major compilers still do not support the Unicode ISO-10646 option
+ + use of UTF-8 strings in source code is treated as ASCII8 byte streams,
+   not as UTC-4 
+ + there are no functions provided to convert from UCS-4 to UTF-8 byte
+   streams except via reading and writing to files.
+__In addition:__
+ + ragged string arrays are not supported as intrinsic types
+ + no OOP interface is provided for the intrinsic methods 
 
-Where Unicode __is__ supported (ie. where CHARACTER(KIND="ISO_10646")
-is provided)
+Where CHARACTER(KIND="ISO_10646") _is_ provided
 the [M_ucs4](https://github.com/urbanjost/M_ucs4) repository
 supplements Unicode usage -- emphasizing adherence to the standard to
 promote portability.
 
-When the compiler does __not__ support CHARACTER(KIND="ISO_10646")
-it still may support UTF-8 source files and permit entering multi-byte
-Unicode characters in comments and (more importantly) in constant strings
-and data. This support is now very common, as nearly all current operating
-systems and many applications support UTF-8 text files.
+### M_unicode 
 
-But whether in input and output files, or as what-you-see-is-what-you-get
+The **M_unicode** module provides direct support for UTF-8 encoded source
+files and data whether the ISO_10646 extension is available or not.
+
+**M_unicode** supports UTF-8 source files and permits entering multi-byte
+Unicode characters in constant strings on systems supporting UTF-8
+files, not just data files (Nearly all current operating systems and
+many applications support UTF-8 text files).
+
+Whether in input and output files, or as what-you-see-is-what-you-get
 character constants the compiler will see this text as byte streams,
 and will be unaware of how many Unicode glyphs/characters are represented.
 

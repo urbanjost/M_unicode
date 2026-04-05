@@ -7766,6 +7766,7 @@ DESCRIPTION
     v      vertical tab
     "      double quote for compatibility with C strings
     '      single quote for compatibility with C strings
+    ?      used to avoid trigraphs
 
     oNNN   byte with octal value NNN (1 to 3 digits)
     [0-7][0-7]*    digits will be assumed an octal value till a
@@ -8004,7 +8005,7 @@ integer,parameter  :: x=ichar('x'),XX=ichar('X'),h=ichar('h'),HH=ichar('H')
                read(buffer,format,iostat=iostat)nnn
                out%codes=[out%codes,nnn]
                i=i+icount-1
-            case(ichar('"'),ichar("'"))
+            case(ichar('"'),ichar("'"),ichar('?'))
                out%codes=[out%codes,line%codes(i)]
             case default ! no match so just copy character, could produce warning
                out%codes=[out%codes,line%codes(i)]
