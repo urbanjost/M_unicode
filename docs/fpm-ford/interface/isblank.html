@@ -189,7 +189,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~36"></span>
+              <span class="anchor" id="variable-string~34"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -218,7 +218,66 @@
     <div class="card-header codesum"><span class="anchor" id="proc-isblank_u"></span> <h3>private elemental function isblank_u(string) result(res)  
 </h3></div>
     <div class="card-body">
-        
+        <h2 id="name">NAME</h2>
+<div class="codehilite"><pre><span></span><code> isblank(3f) - [M_unicode:COMPARE] returns .true. if character is a
+ Unicode or ASCII-7 blank character (space or horizontal tab) .
+ (LICENSE:MIT)
+</code></pre></div>
+
+<h2 id="synopsis">SYNOPSIS</h2>
+<div class="codehilite"><pre><span></span><code><span class="nx">elemental</span><span class="w"> </span><span class="nx">function</span><span class="w"> </span><span class="nx">isblank</span><span class="p">(</span><span class="nx">onechar</span><span class="p">)</span>
+
+<span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w">   </span><span class="o">::</span><span class="w"> </span><span class="kt">string</span>
+<span class="w"> </span><span class="p">!</span><span class="k">or</span>
+<span class="w"> </span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">,</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w">      </span><span class="o">::</span><span class="w"> </span><span class="nx">characters</span>
+
+<span class="w"> </span><span class="nx">logical</span><span class="w">              </span><span class="o">::</span><span class="w"> </span><span class="nx">isblank</span>
+</code></pre></div>
+
+<h2 id="description">DESCRIPTION</h2>
+<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nv">isblank</span><span class="ss">(</span><span class="mi">3</span><span class="nv">f</span><span class="ss">)</span><span class="w"> </span><span class="nv">returns</span><span class="w"> </span>.<span class="nv">true</span>.<span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">all</span><span class="w"> </span><span class="nv">characters</span><span class="w"> </span><span class="nv">are</span><span class="w"> </span><span class="nv">a</span><span class="w"> </span><span class="nv">blank</span><span class="w"> </span><span class="nv">character</span><span class="w"> </span><span class="ss">(</span><span class="nv">ASCII</span><span class="o">-</span><span class="mi">7</span>
+<span class="w"> </span><span class="nv">space</span><span class="w"> </span><span class="nv">or</span><span class="w"> </span><span class="nv">Unicode</span><span class="w"> </span><span class="nv">blank</span><span class="w"> </span><span class="nv">character</span><span class="ss">)</span><span class="w"> </span><span class="nv">or</span><span class="w"> </span><span class="nv">horizontal</span><span class="w"> </span><span class="nv">tab</span>.
+</code></pre></div>
+
+<h2 id="options">OPTIONS</h2>
+<div class="codehilite"><pre><span></span><code><span class="nb">str</span><span class="w">  </span><span class="n">variable</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">test</span>
+</code></pre></div>
+
+<h2 id="returns">RETURNS</h2>
+<div class="codehilite"><pre><span></span><code><span class="nv">isblank</span><span class="w">  </span><span class="nv">logical</span><span class="w"> </span><span class="nv">value</span><span class="w"> </span><span class="nv">returns</span><span class="w"> </span><span class="nv">true</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">character</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">a</span><span class="w"> </span><span class="s2">&quot;blank&quot;</span>
+<span class="w">         </span><span class="ss">(</span><span class="w"> </span><span class="nv">an</span><span class="w"> </span><span class="nv">ASCII</span><span class="w"> </span><span class="nv">space</span><span class="w"> </span><span class="nv">or</span><span class="w"> </span><span class="nv">Unicode</span><span class="w"> </span><span class="nv">blank</span><span class="ss">)</span><span class="w"> </span><span class="nv">or</span><span class="w"> </span><span class="nv">horizontal</span><span class="w"> </span><span class="nv">tab</span><span class="w"> </span><span class="nv">character</span>.
+</code></pre></div>
+
+<h2 id="examples">EXAMPLES</h2>
+<p>Sample program:</p>
+<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_isblank</span>
+<span class="w"> </span><span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">isblank</span><span class="p">,</span><span class="w"> </span><span class="nx">unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">ch</span><span class="o">=&gt;</span><span class="nx">character</span><span class="p">,</span><span class="w"> </span><span class="nx">unicode_type</span>
+<span class="w"> </span><span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">assignment</span><span class="p">(=)</span>
+<span class="w"> </span><span class="nx">implicit</span><span class="w"> </span><span class="nx">none</span>
+<span class="w"> </span><span class="nx">integer</span><span class="w">                    </span><span class="o">::</span><span class="w"> </span><span class="nx">i</span>
+<span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span><span class="w">         </span><span class="o">::</span><span class="w"> </span><span class="nx">string_u</span>
+<span class="w"> </span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="mi">1</span><span class="p">),</span><span class="nx">parameter</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">string_a</span><span class="p">(</span><span class="o">*</span><span class="p">)=[(</span><span class="nx">char</span><span class="p">(</span><span class="nx">i</span><span class="p">),</span><span class="nx">i</span><span class="p">=</span><span class="mi">0</span><span class="p">,</span><span class="mi">127</span><span class="p">)]</span>
+
+<span class="w">    </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="err">&#39;</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nx">g0</span><span class="p">,</span><span class="mi">1</span><span class="nx">x</span><span class="p">))</span><span class="sc">&#39;)&#39;</span><span class="nx">ISBLANK</span><span class="w"> </span><span class="nx">PASSED</span><span class="w"> </span><span class="nx">TYPE</span><span class="p">(</span><span class="nx">CHARACTER</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="err">&#39;</span><span class="p">,</span><span class="nx">isblank</span><span class="p">(</span><span class="nx">string_a</span><span class="p">)</span>
+
+<span class="w">    </span><span class="nx">string_u</span><span class="p">=</span><span class="nx">unicode</span><span class="o">%</span><span class="nx">SPACES</span>
+<span class="w">    </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="err">&#39;</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nx">g0</span><span class="p">,</span><span class="mi">1</span><span class="nx">x</span><span class="p">))</span><span class="sc">&#39;)&#39;</span><span class="nx">ISBLANK</span><span class="w"> </span><span class="nx">PASSED</span><span class="w"> </span><span class="nx">TYPE</span><span class="p">(</span><span class="nx">UNICODE_TYPE</span><span class="p">):</span><span class="w"> </span><span class="err">&#39;</span><span class="p">,</span><span class="nx">isblank</span><span class="p">(</span><span class="nx">string_u</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="err">&#39;</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nx">g0</span><span class="p">))</span><span class="sc">&#39;)&#39;</span><span class="nx">BLANKS</span><span class="p">:</span><span class="w"> </span><span class="err">&#39;</span><span class="p">,</span><span class="nx">ch</span><span class="p">(</span><span class="nx">string_u</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="err">&#39;</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nx">g0</span><span class="p">),</span><span class="mi">1</span><span class="nx">x</span><span class="p">)</span><span class="sc">&#39;)&#39;</span><span class="nx">BLANKS</span><span class="p">:</span><span class="w"> </span><span class="err">&#39;</span><span class="p">,</span><span class="nx">string_u</span><span class="o">%</span><span class="nx">codepoint</span><span class="p">()</span>
+<span class="w"> </span><span class="nx">end</span><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_isblank</span>
+</code></pre></div>
+
+<p>Results:</p>
+<div class="codehilite"><pre><span></span><code>ISBLANK:  9 32
+</code></pre></div>
+
+<h2 id="author">AUTHOR</h2>
+<div class="codehilite"><pre><span></span><code> John S. Urban
+</code></pre></div>
+
+<h2 id="license">LICENSE</h2>
+<div class="codehilite"><pre><span></span><code> MIT
+</code></pre></div>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -233,7 +292,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~35"></span>
+              <span class="anchor" id="variable-string~33"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -275,7 +334,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-03-22 18:21 +0000             </p>
+ on 2026-04-05 06:00 +0000             </p>
           </div>
         </div>
         <br>

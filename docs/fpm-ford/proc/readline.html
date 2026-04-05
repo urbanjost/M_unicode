@@ -162,6 +162,138 @@
 </h2>
     
 
+    <h2 id="name">NAME</h2>
+<div class="codehilite"><pre><span></span><code> READLINE(3f) - [M_unicode:IO] read a line from specified LUN into
+                string up to line length limit
+                (LICENSE:MIT)
+</code></pre></div>
+
+<h2 id="syntax">SYNTAX</h2>
+<div class="codehilite"><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="nf">readline(lun,iostat) result</span><span class="p">(</span>line<span class="p">)</span>
+
+<span class="w"> </span><span class="n">integer</span><span class="p">,</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="n">optional</span><span class="w">  </span><span class="p">::</span><span class="w"> </span><span class="n">lun</span>
+<span class="w"> </span><span class="n">integer</span><span class="p">,</span><span class="n">intent</span><span class="p">(</span><span class="n">out</span><span class="p">),</span><span class="n">optional</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">iostat</span>
+<span class="w"> </span><span class="nb">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">           </span><span class="p">::</span><span class="w"> </span><span class="nb">line</span>
+</code></pre></div>
+
+<h2 id="description">DESCRIPTION</h2>
+<div class="codehilite"><pre><span></span><code><span class="n">Read</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">line</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">any</span><span class="w"> </span><span class="n">length</span><span class="w"> </span><span class="n">up</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">programming</span><span class="w"> </span><span class="n">environment</span><span class="w"> </span><span class="n">maximum</span>
+<span class="n">line</span><span class="w"> </span><span class="n">length</span><span class="o">.</span><span class="w"> </span><span class="n">Requires</span><span class="w"> </span><span class="n">Fortran</span><span class="w"> </span><span class="mi">2003</span><span class="o">+.</span>
+
+<span class="n">It</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">primarily</span><span class="w"> </span><span class="n">expected</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">used</span><span class="w"> </span><span class="n">when</span><span class="w"> </span><span class="n">reading</span><span class="w"> </span><span class="n">input</span><span class="w"> </span><span class="n">which</span><span class="w"> </span><span class="n">will</span>
+<span class="n">then</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">parsed</span><span class="o">.</span>
+
+<span class="n">The</span><span class="w"> </span><span class="n">input</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="n">must</span><span class="w"> </span><span class="n">have</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">PAD</span><span class="w"> </span><span class="n">attribute</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">YES</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">function</span>
+<span class="n">to</span><span class="w"> </span><span class="n">work</span><span class="w"> </span><span class="n">properly</span><span class="p">,</span><span class="w"> </span><span class="n">which</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">typically</span><span class="w"> </span><span class="bp">true</span><span class="o">.</span>
+
+<span class="n">The</span><span class="w"> </span><span class="n">simple</span><span class="w"> </span><span class="n">use</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">loop</span><span class="w"> </span><span class="n">that</span><span class="w"> </span><span class="n">repeatedly</span><span class="w"> </span><span class="n">re</span><span class="o">-</span><span class="n">allocates</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">character</span>
+<span class="n">variable</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">addition</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">reading</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">input</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="n">one</span><span class="w"> </span><span class="n">buffer</span><span class="w"> </span><span class="n">at</span><span class="w"> </span><span class="n">a</span>
+<span class="n">time</span><span class="w"> </span><span class="n">could</span><span class="w"> </span><span class="p">(</span><span class="n">depending</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">programming</span><span class="w"> </span><span class="n">environment</span><span class="w"> </span><span class="n">used</span><span class="p">)</span><span class="w"> </span><span class="n">be</span>
+<span class="n">inefficient</span><span class="p">,</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">it</span><span class="w"> </span><span class="n">could</span><span class="w"> </span><span class="n">reallocate</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">allocate</span><span class="w"> </span><span class="n">memory</span><span class="w"> </span><span class="n">used</span><span class="w"> </span><span class="k">for</span>
+<span class="n">the</span><span class="w"> </span><span class="n">output</span><span class="w"> </span><span class="n">string</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">each</span><span class="w"> </span><span class="n">buffer</span><span class="w"> </span><span class="n">read</span><span class="o">.</span>
+</code></pre></div>
+
+<h2 id="options">OPTIONS</h2>
+<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nv">LUN</span><span class="w">     </span><span class="nv">optional</span><span class="w"> </span><span class="nv">LUN</span><span class="w"> </span><span class="ss">(</span><span class="nv">Fortran</span><span class="w"> </span><span class="nv">logical</span><span class="w"> </span><span class="nv">I</span><span class="o">/</span><span class="nv">O</span><span class="w"> </span><span class="nv">unit</span><span class="ss">)</span><span class="w"> </span><span class="nv">number</span>.<span class="w"> </span><span class="nv">Defaults</span>
+<span class="w">         </span><span class="nv">to</span><span class="w"> </span><span class="nv">stdin</span>.
+<span class="w"> </span><span class="nv">IOSTAT</span><span class="w">  </span><span class="nv">status</span><span class="w"> </span><span class="nv">returned</span><span class="w"> </span><span class="nv">by</span><span class="w"> </span><span class="nv">READ</span><span class="ss">(</span><span class="nv">IOSTAT</span><span class="o">=</span><span class="nv">IOS</span><span class="ss">)</span>.<span class="w"> </span><span class="k">If</span><span class="w"> </span><span class="nv">not</span><span class="w"> </span><span class="nv">zero</span>,<span class="w"> </span><span class="nv">an</span><span class="w"> </span><span class="nv">error</span>
+<span class="w">         </span><span class="nv">occurred</span><span class="w"> </span><span class="nv">or</span><span class="w"> </span><span class="nv">an</span><span class="w"> </span><span class="k">end</span><span class="o">-</span><span class="nv">of</span><span class="o">-</span><span class="nv">file</span><span class="w"> </span><span class="nv">or</span><span class="w"> </span><span class="k">end</span><span class="o">-</span><span class="nv">of</span><span class="o">-</span><span class="nv">record</span><span class="w"> </span><span class="nv">was</span><span class="w"> </span><span class="nv">encountered</span>.
+</code></pre></div>
+
+<h2 id="returns">RETURNS</h2>
+<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nv">LINE</span><span class="w">    </span><span class="nv">line</span><span class="w"> </span><span class="nv">read</span>.
+<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="nv">IOSTAT</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">not</span><span class="w"> </span><span class="nv">zero</span>,<span class="w"> </span><span class="nv">LINE</span><span class="w"> </span><span class="nv">returns</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">I</span><span class="o">/</span><span class="nv">O</span><span class="w"> </span><span class="nv">error</span><span class="w"> </span><span class="nv">message</span>.
+</code></pre></div>
+
+<h2 id="example">EXAMPLE</h2>
+<p>Sample program:</p>
+<div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">demo_readline</span>
+<span class="nx">use</span><span class="p">,</span><span class="nx">intrinsic</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">stdin</span><span class="o">=&gt;</span><span class="nx">input_unit</span>
+<span class="nx">use</span><span class="p">,</span><span class="nx">intrinsic</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">iostat_end</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">readline</span><span class="p">,</span><span class="w"> </span><span class="nx">len</span><span class="p">,</span><span class="w"> </span><span class="nx">trim</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">assignment</span><span class="p">(=),</span><span class="w"> </span><span class="nx">ch</span><span class="o">=&gt;</span><span class="nx">character</span><span class="p">,</span><span class="w"> </span><span class="nx">ut</span><span class="o">=&gt;</span><span class="nx">unicode_type</span>
+<span class="nx">implicit</span><span class="w"> </span><span class="nx">none</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">)</span><span class="w">                     </span><span class="o">::</span><span class="w"> </span><span class="nx">ln</span>
+<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=:),</span><span class="nx">allocatable</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">aline</span>
+<span class="nx">integer</span><span class="p">,</span><span class="nx">allocatable</span><span class="w">          </span><span class="o">::</span><span class="w"> </span><span class="nx">ints</span><span class="p">(:)</span>
+<span class="nx">integer</span><span class="w">                      </span><span class="o">::</span><span class="w"> </span><span class="nx">iostat</span><span class="p">,</span><span class="w"> </span><span class="nx">lun</span><span class="p">,</span><span class="w"> </span><span class="nx">i</span>
+<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">parameter</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">filedata</span><span class="p">(</span><span class="o">*</span><span class="p">)=[</span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="mi">80</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">   </span><span class="err">&#39;</span><span class="nx">The</span><span class="w"> </span><span class="nx">famous</span><span class="w"> </span><span class="nx">Confucian</span><span class="w"> </span><span class="nx">expression</span><span class="p">:</span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">   </span><span class="err">&#39;&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">   </span><span class="err">&#39;</span><span class="w"> </span><span class="s">&quot;己所不欲，勿施於人&quot;</span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">   </span><span class="err">&#39;</span><span class="w"> </span><span class="p">(</span><span class="nx">jǐ</span><span class="w"> </span><span class="nx">suǒ</span><span class="w"> </span><span class="nx">bù</span><span class="w"> </span><span class="nx">yù</span><span class="p">,</span><span class="w"> </span><span class="nx">wù</span><span class="w"> </span><span class="nx">shī</span><span class="w"> </span><span class="nx">yú</span><span class="w"> </span><span class="nx">rén</span><span class="p">)</span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">   </span><span class="err">&#39;</span><span class="k">or</span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">   </span><span class="err">&#39;</span><span class="w"> </span><span class="s">&quot;What you do not want done to yourself,&#39;, &amp;</span>
+<span class="s">   &#39; do not do to others&quot;</span><span class="p">:</span><span class="err">&#39;</span><span class="p">]</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">create</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">scratch</span><span class="w"> </span><span class="nx">file</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">read</span>
+<span class="w">   </span><span class="nx">open</span><span class="p">(</span><span class="nx">newunit</span><span class="p">=</span><span class="nx">lun</span><span class="p">,</span><span class="nx">status</span><span class="p">=</span><span class="err">&#39;</span><span class="nx">scratch</span><span class="err">&#39;</span><span class="p">,</span><span class="nx">pad</span><span class="p">=</span><span class="err">&#39;</span><span class="nx">yes</span><span class="err">&#39;</span><span class="p">)</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="nx">lun</span><span class="p">,</span><span class="err">&#39;</span><span class="p">(</span><span class="nx">a</span><span class="p">)</span><span class="err">&#39;</span><span class="p">)(</span><span class="nx">trim</span><span class="p">(</span><span class="nx">filedata</span><span class="p">(</span><span class="nx">i</span><span class="p">)),</span><span class="nx">i</span><span class="p">=</span><span class="mi">1</span><span class="p">,</span><span class="nx">size</span><span class="p">(</span><span class="nx">filedata</span><span class="p">))</span>
+<span class="w">   </span><span class="p">!</span><span class="o">----------------------------------------------------------------</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">read</span><span class="w"> </span><span class="nx">back</span><span class="w"> </span><span class="nx">UTF</span><span class="o">-</span><span class="mi">8</span><span class="w"> </span><span class="nx">byte</span><span class="w"> </span><span class="nx">stream</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="nx">show</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">lines</span><span class="w"> </span><span class="nx">read</span>
+<span class="w">   </span><span class="nx">rewind</span><span class="p">(</span><span class="nx">unit</span><span class="p">=</span><span class="nx">lun</span><span class="p">)</span>
+<span class="w">   </span><span class="nx">do</span>
+<span class="w">      </span><span class="nx">ln</span><span class="p">=</span><span class="nx">readline</span><span class="p">(</span><span class="nx">lun</span><span class="p">,</span><span class="nx">iostat</span><span class="p">=</span><span class="nx">iostat</span><span class="p">)</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="nx">iostat</span><span class="p">.</span><span class="nx">ne</span><span class="m m-Double">.0</span><span class="p">)</span><span class="nx">exit</span>
+<span class="w">      </span><span class="p">!</span><span class="w"> </span><span class="nx">write</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">glyph</span><span class="w"> </span><span class="nx">length</span><span class="p">,</span><span class="w"> </span><span class="nx">byte</span><span class="w"> </span><span class="nx">length</span><span class="p">,</span><span class="w"> </span><span class="nx">line</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nx">brackets</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="err">&#39;</span><span class="p">(</span><span class="nx">i4</span><span class="p">,</span><span class="mi">1</span><span class="nx">x</span><span class="p">,</span><span class="nx">i4</span><span class="p">,</span><span class="mi">1</span><span class="nx">x</span><span class="p">,</span><span class="nx">a</span><span class="p">)</span><span class="err">&#39;</span><span class="p">)</span><span class="nx">len</span><span class="p">(</span><span class="nx">ln</span><span class="p">),</span><span class="nx">len</span><span class="p">(</span><span class="nx">ch</span><span class="p">(</span><span class="nx">ln</span><span class="p">)),</span><span class="sc">&#39;[&#39;</span><span class="c1">//ch(ln)//&#39;]&#39;</span>
+<span class="w">   </span><span class="nx">enddo</span>
+<span class="w">   </span><span class="nx">call</span><span class="w"> </span><span class="nx">checkit</span><span class="p">()</span>
+<span class="w">   </span><span class="p">!</span><span class="o">----------------------------------------------------------------</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">same</span><span class="w"> </span><span class="nx">thing</span><span class="w"> </span><span class="nx">except</span><span class="w"> </span><span class="nx">convert</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="nx">intrinsic</span><span class="w"> </span><span class="nx">types</span>
+<span class="w">   </span><span class="nx">rewind</span><span class="p">(</span><span class="nx">unit</span><span class="p">=</span><span class="nx">lun</span><span class="p">)</span>
+<span class="w">   </span><span class="nx">do</span>
+<span class="w">      </span><span class="nx">ln</span><span class="p">=</span><span class="nx">readline</span><span class="p">(</span><span class="nx">lun</span><span class="p">,</span><span class="nx">iostat</span><span class="p">=</span><span class="nx">iostat</span><span class="p">)</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="nx">iostat</span><span class="p">.</span><span class="nx">ne</span><span class="m m-Double">.0</span><span class="p">)</span><span class="nx">exit</span>
+<span class="w">      </span><span class="p">!</span><span class="w"> </span><span class="nx">assign</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">an</span><span class="w"> </span><span class="nx">allocatable</span><span class="w"> </span><span class="nx">array</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">integers</span>
+<span class="w">      </span><span class="nx">ints</span><span class="p">=</span><span class="nx">ln</span>
+<span class="w">      </span><span class="p">!</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">character</span><span class="w"> </span><span class="nx">variable</span>
+<span class="w">      </span><span class="nx">aline</span><span class="p">=</span><span class="nx">ln</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="err">&#39;</span><span class="p">(</span><span class="nx">i4</span><span class="p">,</span><span class="mi">1</span><span class="nx">x</span><span class="p">,</span><span class="nx">i4</span><span class="p">,</span><span class="mi">1</span><span class="nx">x</span><span class="p">,</span><span class="nx">a</span><span class="p">)</span><span class="err">&#39;</span><span class="p">)</span><span class="nx">len</span><span class="p">(</span><span class="nx">ln</span><span class="p">),</span><span class="nx">len</span><span class="p">(</span><span class="nx">aline</span><span class="p">),</span><span class="sc">&#39;[&#39;</span><span class="c1">//ch(ln)//&#39;]&#39;</span>
+<span class="w">   </span><span class="nx">enddo</span>
+<span class="w">   </span><span class="nx">call</span><span class="w"> </span><span class="nx">checkit</span><span class="p">()</span>
+<span class="w">   </span><span class="p">!</span><span class="o">----------------------------------------------------------------</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">again</span><span class="w"> </span><span class="nx">but</span><span class="w"> </span><span class="nx">this</span><span class="w"> </span><span class="nx">time</span><span class="w"> </span><span class="nx">show</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">lines</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nx">Unicode</span><span class="w"> </span><span class="nx">codepoints</span>
+<span class="w">   </span><span class="nx">rewind</span><span class="p">(</span><span class="nx">unit</span><span class="p">=</span><span class="nx">lun</span><span class="p">)</span>
+<span class="w">   </span><span class="nx">do</span>
+<span class="w">      </span><span class="nx">ln</span><span class="p">=</span><span class="nx">readline</span><span class="p">(</span><span class="nx">lun</span><span class="p">,</span><span class="nx">iostat</span><span class="p">=</span><span class="nx">iostat</span><span class="p">)</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="nx">iostat</span><span class="p">.</span><span class="nx">ne</span><span class="m m-Double">.0</span><span class="p">)</span><span class="nx">exit</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="nx">len</span><span class="p">(</span><span class="nx">ln</span><span class="p">).</span><span class="nx">eq</span><span class="m m-Double">.0</span><span class="p">)</span><span class="k">then</span>
+<span class="w">         </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="err">&#39;</span><span class="p">(</span><span class="o">/</span><span class="p">,</span><span class="mi">10</span><span class="p">(</span><span class="nx">g0</span><span class="p">,</span><span class="mi">1</span><span class="nx">x</span><span class="p">),</span><span class="s">&quot; ...&quot;</span><span class="p">)</span><span class="err">&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+<span class="w">      </span><span class="k">else</span>
+<span class="w">         </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="err">&#39;</span><span class="p">(</span><span class="o">/</span><span class="p">,</span><span class="mi">10</span><span class="p">(</span><span class="nx">g0</span><span class="p">,</span><span class="mi">1</span><span class="nx">x</span><span class="p">),</span><span class="s">&quot; ...&quot;</span><span class="p">)</span><span class="err">&#39;</span><span class="p">)</span><span class="nx">ln</span><span class="o">%</span><span class="nx">codepoint</span><span class="p">()</span>
+<span class="w">      </span><span class="nx">endif</span>
+<span class="w">   </span><span class="nx">enddo</span>
+<span class="w">   </span><span class="nx">call</span><span class="w"> </span><span class="nx">checkit</span><span class="p">()</span>
+<span class="w">   </span><span class="p">!</span><span class="o">----------------------------------------------------------------</span>
+<span class="w">   </span><span class="p">!</span><span class="w"> </span><span class="nx">show</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">line</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nx">Unicode</span><span class="w"> </span><span class="nx">codepoints</span><span class="w"> </span><span class="nx">using</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="nx">integer</span><span class="w"> </span><span class="nx">array</span>
+<span class="w">   </span><span class="nx">rewind</span><span class="p">(</span><span class="nx">unit</span><span class="p">=</span><span class="nx">lun</span><span class="p">)</span>
+<span class="w">   </span><span class="nx">do</span>
+<span class="w">      </span><span class="nx">ln</span><span class="p">=</span><span class="nx">readline</span><span class="p">(</span><span class="nx">lun</span><span class="p">,</span><span class="nx">iostat</span><span class="p">=</span><span class="nx">iostat</span><span class="p">)</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="nx">iostat</span><span class="p">.</span><span class="nx">ne</span><span class="m m-Double">.0</span><span class="p">)</span><span class="nx">exit</span>
+<span class="w">      </span><span class="p">!</span><span class="w"> </span><span class="nx">assign</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">an</span><span class="w"> </span><span class="nx">allocatable</span><span class="w"> </span><span class="nx">array</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">integers</span>
+<span class="w">      </span><span class="nx">ints</span><span class="p">=</span><span class="nx">ln</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="nx">size</span><span class="p">(</span><span class="nx">ints</span><span class="p">).</span><span class="nx">eq</span><span class="m m-Double">.0</span><span class="p">)</span><span class="nx">ints</span><span class="p">=[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="err">&#39;</span><span class="p">(</span><span class="o">/</span><span class="p">,</span><span class="mi">10</span><span class="p">(</span><span class="nx">g0</span><span class="p">,</span><span class="mi">1</span><span class="nx">x</span><span class="p">),</span><span class="s">&quot; ...&quot;</span><span class="p">)</span><span class="err">&#39;</span><span class="p">)</span><span class="nx">ints</span>
+<span class="w">   </span><span class="nx">enddo</span>
+<span class="w">   </span><span class="nx">call</span><span class="w"> </span><span class="nx">checkit</span><span class="p">()</span>
+<span class="w">   </span><span class="p">!</span><span class="o">----------------------------------------------------------------</span>
+<span class="nx">contains</span>
+<span class="nx">subroutine</span><span class="w"> </span><span class="nx">checkit</span><span class="p">()</span>
+<span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="nx">iostat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="nx">iostat_end</span><span class="p">)</span><span class="k">then</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="err">&#39;</span><span class="nx">error</span><span class="w"> </span><span class="nx">reading</span><span class="w"> </span><span class="nx">input</span><span class="p">:</span><span class="err">&#39;</span><span class="p">,</span><span class="nx">ch</span><span class="p">(</span><span class="nx">trim</span><span class="p">(</span><span class="nx">ln</span><span class="p">))</span>
+<span class="w">   </span><span class="nx">endif</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
+<span class="nx">end</span><span class="w"> </span><span class="nx">subroutine</span><span class="w"> </span><span class="nx">checkit</span>
+<span class="nx">end</span><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_readline</span>
+</code></pre></div>
+
+<h2 id="author">AUTHOR</h2>
+<div class="codehilite"><pre><span></span><code> John S. Urban
+</code></pre></div>
+
+<h2 id="license">LICENSE</h2>
+<div class="codehilite"><pre><span></span><code> MIT
+</code></pre></div>
 
 
     <h3>Arguments</h3>
@@ -192,7 +324,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iostat~10"></span>
+              <span class="anchor" id="variable-iostat~8"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -210,7 +342,7 @@
 
       <h3>Return Value
         <small>
-          <span class="anchor" id="variable-line~28"></span>
+          <span class="anchor" id="variable-line~24"></span>
           type(<a href='../type/unicode_type.html'>unicode_type</a>)
         </small>
       </h3>
@@ -231,7 +363,7 @@
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="k">function </span><span class="n">readline</span><span class="p">(</span><span class="n">lun</span><span class="p">,</span><span class="n">iostat</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
 
-<span class="c">! ident_23=&quot;@(#) M_unicode readline(3f) read a line from specified LUN into string up to line length limit&quot;</span>
+<span class="c">! ident_22=&quot;@(#) M_unicode readline(3f) read a line from specified LUN into string up to line length limit&quot;</span>
 
 <span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">line</span>
 <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">optional</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">lun</span>
@@ -292,7 +424,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-03-22 18:21 +0000             </p>
+ on 2026-04-05 06:00 +0000             </p>
           </div>
         </div>
         <br>

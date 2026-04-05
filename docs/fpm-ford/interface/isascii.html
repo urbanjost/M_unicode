@@ -189,7 +189,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~8"></span>
+              <span class="anchor" id="variable-str~7"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -218,7 +218,82 @@
     <div class="card-header codesum"><span class="anchor" id="proc-isascii_u"></span> <h3>private elemental function isascii_u(str) result(res)  
 </h3></div>
     <div class="card-body">
-        
+        <h2 id="name">NAME</h2>
+<div class="codehilite"><pre><span></span><code> isascii(3f) - [M_unicode:QUERY] returns .true. if all the
+ characters of a string are in the set from CHAR(0) to CHAR(127).
+ (LICENSE:MIT)
+</code></pre></div>
+
+<h2 id="synopsis">SYNOPSIS</h2>
+<div class="codehilite"><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="nf">isascii</span><span class="p">(</span>str<span class="p">)</span>
+
+<span class="w"> </span><span class="n">character</span><span class="p">(</span><span class="n">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">str</span>
+<span class="w">  </span><span class="n">or</span>
+<span class="w"> </span><span class="nb">type</span><span class="p">(</span><span class="n">ut</span><span class="p">),</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">str</span>
+
+<span class="w"> </span><span class="nb">logical</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">isascii</span>
+</code></pre></div>
+
+<h2 id="description">DESCRIPTION</h2>
+<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nv">isascii</span><span class="ss">(</span><span class="mi">3</span><span class="nv">f</span><span class="ss">)</span><span class="w"> </span><span class="nv">returns</span><span class="w"> </span>.<span class="nv">true</span>.<span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">all</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">characters</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">string</span><span class="w"> </span><span class="nv">are</span>
+<span class="w"> </span><span class="nv">ASCII</span><span class="o">-</span><span class="mi">7</span><span class="w"> </span><span class="nv">characters</span><span class="w"> </span><span class="ss">(</span><span class="nv">ie</span>.<span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">range</span><span class="w"> </span><span class="nv">char</span><span class="ss">(</span><span class="mi">0</span><span class="ss">)</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">char</span><span class="ss">(</span><span class="mi">127</span><span class="ss">)</span>.
+</code></pre></div>
+
+<h2 id="options">OPTIONS</h2>
+<div class="codehilite"><pre><span></span><code><span class="nb">str</span><span class="w">  </span><span class="n">character</span><span class="w"> </span><span class="n">variable</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">string</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">test</span>
+</code></pre></div>
+
+<h2 id="returns">RETURNS</h2>
+<div class="codehilite"><pre><span></span><code><span class="nv">isascii</span><span class="w">  </span><span class="nv">logical</span><span class="w"> </span><span class="nv">value</span><span class="w"> </span><span class="nv">returns</span><span class="w"> </span><span class="nv">true</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">all</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">characters</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">the</span>
+<span class="w">         </span><span class="nv">string</span><span class="w"> </span><span class="nv">represent</span><span class="w"> </span><span class="nv">ASCII</span><span class="o">-</span><span class="mi">7</span><span class="w"> </span><span class="nv">characters</span>.
+</code></pre></div>
+
+<h2 id="examples">EXAMPLES</h2>
+<p>Sample program</p>
+<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_isascii</span>
+<span class="w"> </span><span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">ut</span><span class="o">=&gt;</span><span class="nx">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="nx">assignment</span><span class="p">(=)</span>
+<span class="w"> </span><span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">isascii</span><span class="p">,</span><span class="w"> </span><span class="nx">ch</span><span class="o">=&gt;</span><span class="nx">character</span>
+<span class="w"> </span><span class="nx">implicit</span><span class="w"> </span><span class="nx">none</span>
+<span class="w"> </span><span class="nx">integer</span><span class="w">                      </span><span class="o">::</span><span class="w"> </span><span class="nx">i</span>
+<span class="w"> </span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="mi">256</span><span class="p">)</span><span class="w">           </span><span class="o">::</span><span class="w"> </span><span class="nx">ascii8</span>
+<span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">)</span><span class="w">                     </span><span class="o">::</span><span class="w"> </span><span class="nx">uascii8</span>
+<span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">)</span><span class="w">                     </span><span class="o">::</span><span class="w"> </span><span class="nx">ustring</span>
+<span class="w"> </span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=:),</span><span class="nx">allocatable</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">astring</span>
+<span class="w">    </span><span class="nx">do</span><span class="w"> </span><span class="nx">i</span><span class="p">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">256</span>
+<span class="w">       </span><span class="nx">ascii8</span><span class="p">(</span><span class="nx">i</span><span class="p">:</span><span class="nx">i</span><span class="p">)=</span><span class="nx">char</span><span class="p">(</span><span class="nx">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">enddo</span>
+<span class="w">    </span><span class="nx">uascii8</span><span class="p">=[(</span><span class="nx">i</span><span class="p">,</span><span class="nx">i</span><span class="p">=</span><span class="mi">0</span><span class="p">,</span><span class="mi">255</span><span class="p">)]</span>
+
+<span class="w">    </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="err">&#39;</span><span class="nx">CHARACTER</span><span class="p">:</span><span class="w">   </span><span class="nx">all</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">ascii8</span><span class="err">&#39;</span><span class="p">,</span><span class="nx">isascii</span><span class="p">(</span><span class="nx">ascii8</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="err">&#39;</span><span class="nx">CHARACTER</span><span class="p">:</span><span class="w">   </span><span class="nx">all</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">ascii7</span><span class="err">&#39;</span><span class="p">,</span><span class="nx">isascii</span><span class="p">(</span><span class="nx">ascii8</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">128</span><span class="p">))</span>
+<span class="w">    </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="err">&#39;</span><span class="nx">UNICODE</span><span class="w"> </span><span class="nx">TYPE</span><span class="p">:</span><span class="nx">all</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">ascii8</span><span class="err">&#39;</span><span class="p">,</span><span class="nx">isascii</span><span class="p">(</span><span class="nx">uascii8</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="err">&#39;</span><span class="nx">UNICODE</span><span class="w"> </span><span class="nx">TYPE</span><span class="p">:</span><span class="nx">all</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">ascii7</span><span class="err">&#39;</span><span class="p">,</span><span class="nx">isascii</span><span class="p">(</span><span class="nx">uascii8</span><span class="o">%</span><span class="nx">sub</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">128</span><span class="p">))</span>
+
+<span class="w">    </span><span class="p">!</span><span class="w"> </span><span class="nx">French</span><span class="w"> </span><span class="nx">pangram</span><span class="w"> </span><span class="nx">translates</span><span class="w"> </span><span class="nx">from</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">French</span><span class="w"> </span><span class="nx">to</span>
+<span class="w">    </span><span class="p">!</span><span class="w"> </span><span class="s">&quot;Take this old whisky to the blond judge who is smoking.&quot;</span>
+
+<span class="w">    </span><span class="nx">astring</span><span class="p">=</span><span class="err">&#39;</span><span class="nx">Portez</span><span class="w"> </span><span class="nx">ce</span><span class="w"> </span><span class="nx">vieux</span><span class="w"> </span><span class="nx">whisky</span><span class="w"> </span><span class="nx">au</span><span class="w"> </span><span class="nx">juge</span><span class="w"> </span><span class="nx">blond</span><span class="w"> </span><span class="nx">qui</span><span class="w"> </span><span class="nx">fume</span><span class="p">.</span><span class="err">&#39;</span>
+<span class="w">    </span><span class="nx">ustring</span><span class="p">=</span><span class="nx">astring</span>
+<span class="w">    </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="err">&#39;</span><span class="nx">CHARACTER</span><span class="p">:</span><span class="w">   </span><span class="err">&#39;</span><span class="p">,</span><span class="nx">isascii</span><span class="p">(</span><span class="nx">astring</span><span class="p">),</span><span class="nx">astring</span>
+<span class="w">    </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="err">&#39;</span><span class="nx">UNICODE_TYPE</span><span class="p">:</span><span class="err">&#39;</span><span class="p">,</span><span class="nx">isascii</span><span class="p">(</span><span class="nx">ustring</span><span class="p">),</span><span class="nx">ch</span><span class="p">(</span><span class="nx">ustring</span><span class="p">)</span>
+
+<span class="w">    </span><span class="p">!</span><span class="w"> </span><span class="p">(</span><span class="nx">variant</span><span class="w"> </span><span class="nx">with</span><span class="w"> </span><span class="err">“</span><span class="nx">é</span><span class="err">”</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">astring</span><span class="p">=</span><span class="err">&#39;</span><span class="nx">Portez</span><span class="w"> </span><span class="nx">ce</span><span class="w"> </span><span class="nx">vieux</span><span class="w"> </span><span class="nx">whisky</span><span class="w"> </span><span class="nx">au</span><span class="w"> </span><span class="nx">juge</span><span class="w"> </span><span class="nx">blond</span><span class="w"> </span><span class="nx">qui</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">fumé</span><span class="p">.</span><span class="err">&#39;</span>
+<span class="w">    </span><span class="nx">ustring</span><span class="p">=</span><span class="nx">astring</span>
+<span class="w">    </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="err">&#39;</span><span class="nx">CHARACTER</span><span class="w">    </span><span class="err">&#39;</span><span class="p">,</span><span class="nx">isascii</span><span class="p">(</span><span class="nx">ustring</span><span class="p">),</span><span class="nx">ch</span><span class="p">(</span><span class="nx">ustring</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="err">&#39;</span><span class="nx">UNICODE_TYPE</span><span class="p">:</span><span class="err">&#39;</span><span class="p">,</span><span class="nx">isascii</span><span class="p">(</span><span class="nx">ustring</span><span class="p">),</span><span class="nx">ch</span><span class="p">(</span><span class="nx">ustring</span><span class="p">)</span>
+
+<span class="w"> </span><span class="nx">end</span><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_isascii</span>
+</code></pre></div>
+
+<p>Results:</p>
+<h2 id="author">AUTHOR</h2>
+<div class="codehilite"><pre><span></span><code> John S. Urban
+</code></pre></div>
+
+<h2 id="license">LICENSE</h2>
+<div class="codehilite"><pre><span></span><code> MIT
+</code></pre></div>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -233,7 +308,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~7"></span>
+              <span class="anchor" id="variable-str~6"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -275,7 +350,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-03-22 18:21 +0000             </p>
+ on 2026-04-05 06:00 +0000             </p>
           </div>
         </div>
         <br>

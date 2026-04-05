@@ -10,7 +10,7 @@
     <meta name="author" content="John S. Urban" >
     <link rel="icon" href="../favicon.png">
 
-    <title>backslash_to_utf8.f90 &ndash; M_unicode</title>
+    <title>escape.f90 &ndash; M_unicode</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -80,7 +80,7 @@
 
     <div class="container">
   <div class="row">
-    <h1>backslash_to_utf8.f90
+    <h1>escape.f90
       <small>Source File</small>
       
     </h1>
@@ -96,14 +96,14 @@
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/backslash_to_utf8.f90"> Source File</a>
+              <a href="../src/escape.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-            <li class="breadcrumb-item active" aria-current="page">backslash_to_utf8.f90</li>
+            <li class="breadcrumb-item active" aria-current="page">escape.f90</li>
           </ol>
         </nav>
       </div>
@@ -156,7 +156,7 @@
     <div class="card card-primary">
       <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
       <div class="list-group">
-        <a class="list-group-item" href="../sourcefile/backslash_to_utf8.f90.html#src">backslash_to_utf8.f90</a>
+        <a class="list-group-item" href="../sourcefile/escape.f90.html#src">escape.f90</a>
       </div>
     </div>
 
@@ -174,7 +174,7 @@
 <a id="ln-2" name="ln-2" href="#ln-2"></a><span class="c">! @(#) convert backslash escape sequences to UTF-8</span>
 <a id="ln-3" name="ln-3" href="#ln-3"></a><span class="k">use</span><span class="p">,</span><span class="k">intrinsic</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdin</span><span class="o">=&gt;</span><span class="n">input_unit</span>
 <a id="ln-4" name="ln-4" href="#ln-4"></a><span class="k">use</span><span class="p">,</span><span class="k">intrinsic</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">iostat_end</span>
-<a id="ln-5" name="ln-5" href="#ln-5"></a><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">readline</span><span class="p">,</span><span class="w"> </span><span class="n">remove_backslash</span>
+<a id="ln-5" name="ln-5" href="#ln-5"></a><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">readline</span><span class="p">,</span><span class="w"> </span><span class="n">escape</span>
 <a id="ln-6" name="ln-6" href="#ln-6"></a><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">),</span><span class="w"> </span><span class="n">ch</span><span class="o">=&gt;</span><span class="kt">character</span><span class="p">,</span><span class="w"> </span><span class="n">ut</span><span class="o">=&gt;</span><span class="n">unicode_type</span>
 <a id="ln-7" name="ln-7" href="#ln-7"></a><span class="k">implicit none</span>
 <a id="ln-8" name="ln-8" href="#ln-8"></a><span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">line</span>
@@ -183,7 +183,7 @@
 <a id="ln-11" name="ln-11" href="#ln-11"></a><span class="w">    </span><span class="n">INFINITE</span><span class="p">:</span><span class="w"> </span><span class="k">do</span>
 <a id="ln-12" name="ln-12" href="#ln-12"></a><span class="k">      </span><span class="n">line</span><span class="o">=</span><span class="n">readline</span><span class="p">(</span><span class="n">iostat</span><span class="o">=</span><span class="n">iostat</span><span class="p">)</span>
 <a id="ln-13" name="ln-13" href="#ln-13"></a><span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">iostat</span><span class="p">.</span><span class="n">ne</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="k">exit</span>
-<a id="ln-14" name="ln-14" href="#ln-14"></a><span class="k">      </span><span class="n">line</span><span class="o">=</span><span class="n">remove_backslash</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+<a id="ln-14" name="ln-14" href="#ln-14"></a><span class="k">      </span><span class="n">line</span><span class="o">=</span><span class="n">escape</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
 <a id="ln-15" name="ln-15" href="#ln-15"></a><span class="w">      </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(*(g0))&#39;</span><span class="p">)</span><span class="n">ch</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
 <a id="ln-16" name="ln-16" href="#ln-16"></a><span class="w">   </span><span class="k">enddo </span><span class="n">INFINITE</span>
 <a id="ln-17" name="ln-17" href="#ln-17"></a><span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="n">iostat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">iostat_end</span><span class="p">)</span><span class="k">then</span>
@@ -211,7 +211,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-03-22 18:21 +0000             </p>
+ on 2026-04-05 06:00 +0000             </p>
           </div>
         </div>
         <br>

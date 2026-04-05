@@ -133,7 +133,7 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../program/main_greek.html#variable-aline~7">aline</a>
             <a class="list-group-item" href="../program/main_greek.html#variable-glyph">glyph</a>
-            <a class="list-group-item" href="../program/main_greek.html#variable-i~49">i</a>
+            <a class="list-group-item" href="../program/main_greek.html#variable-i~46">i</a>
             <a class="list-group-item" href="../program/main_greek.html#variable-uline~8">uline</a>
             <a class="list-group-item" href="../program/main_greek.html#variable-uline2">uline2</a>
         </div>
@@ -177,8 +177,8 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/m_unicode.html'>M_unicode</a></li>
                   <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_fortran_env'>iso_fortran_env</a></li>
+                  <li class="list-inline-item"><a href='../module/m_unicode.html'>M_unicode</a></li>
               </ul>
             </li>
         </ul>
@@ -234,7 +234,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~49"></span>
+              <span class="anchor" id="variable-i~46"></span>
               integer
             </td>
             <td>
@@ -300,7 +300,7 @@
 <span class="k">use</span><span class="p">,</span><span class="k">intrinsic</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdin</span><span class="o">=&gt;</span><span class="n">input_unit</span>
 <span class="k">use</span><span class="p">,</span><span class="k">intrinsic</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="o">=&gt;</span><span class="n">output_unit</span>
 <span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ut</span><span class="o">=&gt;</span><span class="n">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">)</span>
-<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">remove_backslash</span><span class="p">,</span><span class="w"> </span><span class="n">add_backslash</span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">escape</span><span class="p">,</span><span class="w"> </span><span class="n">add_backslash</span>
 <span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ch</span><span class="o">=&gt;</span><span class="kt">character</span>
 <span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">==</span><span class="p">)</span>
 <span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">glyph</span>
@@ -310,7 +310,7 @@
 <span class="kt">integer</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
 
 <span class="w">   </span><span class="c">! case of escaped values should be ignored</span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="n">ch</span><span class="p">(</span><span class="n">remove_backslash</span><span class="p">(</span><span class="s1">&#39;\u03C0 and \u03c0&#39;</span><span class="p">))</span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="n">ch</span><span class="p">(</span><span class="n">escape</span><span class="p">(</span><span class="s1">&#39;\u03C0 and \u03c0&#39;</span><span class="p">))</span>
 
 <span class="w">   </span><span class="c">! RHS is the integer code point, LHS is a string</span>
 <span class="w">   </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;0370&#39;</span><span class="p">),</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;03FF&#39;</span><span class="p">)</span>
@@ -326,7 +326,7 @@
 <span class="w">   </span><span class="n">aline</span><span class="o">=</span><span class="n">add_backslash</span><span class="p">(</span><span class="n">uline</span><span class="p">)</span>
 <span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="n">aline</span>
 <span class="w">   </span><span class="c">! change the backslash-encoded variable back to the original string</span>
-<span class="w">   </span><span class="n">uline2</span><span class="o">=</span><span class="n">remove_backslash</span><span class="p">(</span><span class="n">aline</span><span class="p">)</span>
+<span class="w">   </span><span class="n">uline2</span><span class="o">=</span><span class="n">escape</span><span class="p">(</span><span class="n">aline</span><span class="p">)</span>
 <span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="n">ch</span><span class="p">(</span><span class="n">uline2</span><span class="p">)</span>
 <span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(*(g0))&#39;</span><span class="p">)</span><span class="s1">&#39;round trip &#39;</span><span class="p">,</span><span class="nb">merge</span><span class="p">(</span><span class="s1">&#39;PASSED&#39;</span><span class="p">,</span><span class="s1">&#39;FAILED&#39;</span><span class="p">,</span><span class="n">uline</span><span class="o">==</span><span class="n">uline2</span><span class="p">)</span>
 <span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span>
@@ -354,7 +354,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-03-22 18:21 +0000             </p>
+ on 2026-04-05 06:00 +0000             </p>
           </div>
         </div>
         <br>

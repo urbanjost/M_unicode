@@ -174,7 +174,138 @@
     <div class="card-header codesum"><span class="anchor" id="proc-pound_to_box_u"></span> <h3>private  function pound_to_box_u(win, style) result(winout)  
 </h3></div>
     <div class="card-body">
-        
+        <h2 id="name">NAME</h2>
+<div class="codehilite"><pre><span></span><code> pound_to_box(3f) - [M_unicode:EDITING] convert pound character to box characters
+ (LICENSE:MIT)
+</code></pre></div>
+
+<h2 id="synopsis">SYNOPSIS</h2>
+<p>syntax:</p>
+<div class="codehilite"><pre><span></span><code><span class="w">   </span><span class="k">function</span><span class="w"> </span><span class="nf">pound_to_box(win,style) result</span><span class="p">(</span>winout<span class="p">)</span>
+
+<span class="w">   </span><span class="nb">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="o">|</span><span class="n">character</span><span class="p">(</span><span class="n">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">win</span><span class="p">(:)</span>
+<span class="w">   </span><span class="nb">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="o">|</span><span class="n">character</span><span class="p">(</span><span class="n">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="n">optional</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">style</span>
+<span class="w">   </span><span class="nb">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="n">allocatable</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">winout</span><span class="p">(:)</span>
+</code></pre></div>
+
+<h2 id="characteristics">CHARACTERISTICS</h2>
+<ul>
+<li>WINOUT elements will all have the length of the longest element
+     of WIN</li>
+</ul>
+<h2 id="description">DESCRIPTION</h2>
+<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">pound</span><span class="w"> </span><span class="n">character</span><span class="w"> </span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">may</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">used</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">construct</span><span class="w"> </span><span class="n">boxed</span><span class="w"> </span><span class="n">text</span>
+<span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">restriction</span><span class="w"> </span><span class="n">that</span><span class="w"> </span><span class="n">lines</span><span class="w"> </span><span class="n">must</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">seperated</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="n">at</span><span class="w"> </span><span class="n">least</span>
+<span class="w"> </span><span class="n">one</span><span class="w"> </span><span class="n">character</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">other</span><span class="w"> </span><span class="n">lines</span><span class="o">.</span>
+</code></pre></div>
+
+<h2 id="options">OPTIONS</h2>
+<div class="codehilite"><pre><span></span><code>  win         input array to be changed
+  style       may be &quot;light&quot;, &quot;bold&quot;, or &quot;double&quot;. Default is
+              &quot;bold&quot;.
+</code></pre></div>
+
+<h2 id="returns">RETURNS</h2>
+<div class="codehilite"><pre><span></span><code><span class="w">  </span><span class="nv">winout</span><span class="w">     </span><span class="nv">an</span><span class="w"> </span><span class="nv">array</span><span class="w"> </span><span class="nv">of</span><span class="w"> </span><span class="nv">strings</span><span class="w"> </span><span class="nv">with</span><span class="w"> </span><span class="nv">box</span><span class="w"> </span><span class="nv">characters</span><span class="w"> </span><span class="nv">substituted</span>
+<span class="w">             </span><span class="k">for</span><span class="w"> </span><span class="nv">adjacent</span><span class="w"> </span><span class="nv">pound</span><span class="w"> </span><span class="nv">characters</span>.
+</code></pre></div>
+
+<h2 id="examples">EXAMPLES</h2>
+<p>Sample Program:</p>
+<div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">demo_pound_to_box</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">ut</span><span class="o">=&gt;</span><span class="nx">unicode_type</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">operator</span><span class="p">(</span><span class="c1">//)</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">assignment</span><span class="p">(=)</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">character</span><span class="p">,</span><span class="w"> </span><span class="nx">pound_to_box</span>
+<span class="nx">implicit</span><span class="w"> </span><span class="nx">none</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">),</span><span class="nx">allocatable</span><span class="w">       </span><span class="o">::</span><span class="w"> </span><span class="nx">textout</span><span class="p">(:)</span>
+<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">parameter</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">text</span><span class="p">(</span><span class="o">*</span><span class="p">)=[</span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="mi">80</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="err">&#39;############################################&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="err">&#39;#</span><span class="nx">abcdefg</span><span class="err">#</span><span class="w"> </span><span class="nx">What</span><span class="w"> </span><span class="nx">about</span><span class="w"> </span><span class="err">#</span><span class="w">        </span><span class="err">#</span><span class="w">       </span><span class="err">#</span><span class="w">    </span><span class="err">#&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="err">&#39;#</span><span class="nx">hijklmn</span><span class="err">#</span><span class="w"> </span><span class="nx">this</span><span class="w"> </span><span class="nx">text</span><span class="p">?</span><span class="w"> </span><span class="err">#</span><span class="w">        </span><span class="err">#</span><span class="w">       </span><span class="err">######&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="err">&#39;###############################</span><span class="w">       </span><span class="err">#</span><span class="w">    </span><span class="err">#&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="err">&#39;#</span><span class="w">              </span><span class="err">#</span><span class="w">     </span><span class="err">#</span><span class="w">        </span><span class="err">#</span><span class="w">       </span><span class="err">######&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="err">&#39;#</span><span class="w">              </span><span class="err">#</span><span class="w">     </span><span class="err">#</span><span class="w">        </span><span class="err">#</span><span class="w">       </span><span class="err">#</span><span class="w">    </span><span class="err">#&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="err">&#39;############################################&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="err">&#39;&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="err">&#39;</span><span class="w">   </span><span class="err">###################################&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="err">&#39;</span><span class="w">   </span><span class="err">#</span><span class="w"> </span><span class="nx">WARNING</span><span class="p">,</span><span class="w"> </span><span class="nx">WARNING</span><span class="p">,</span><span class="w"> </span><span class="nx">Will</span><span class="w"> </span><span class="nx">Robinson</span><span class="w"> </span><span class="err">#&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="err">&#39;</span><span class="w">   </span><span class="err">###################################&#39;</span><span class="p">]</span>
+<span class="w">   </span><span class="nx">textout</span><span class="p">=</span><span class="nx">text</span>
+<span class="w">   </span><span class="nx">call</span><span class="w"> </span><span class="nx">write_text</span><span class="p">()</span>
+<span class="w">   </span><span class="nx">textout</span><span class="p">=</span><span class="nx">pound_to_box</span><span class="p">(</span><span class="nx">text</span><span class="p">)</span>
+<span class="w">   </span><span class="nx">call</span><span class="w"> </span><span class="nx">write_text</span><span class="p">()</span>
+<span class="w">   </span><span class="nx">textout</span><span class="p">=</span><span class="nx">pound_to_box</span><span class="p">(</span><span class="nx">text</span><span class="p">,</span><span class="nx">style</span><span class="p">=</span><span class="err">&#39;</span><span class="nx">light</span><span class="err">&#39;</span><span class="p">)</span>
+<span class="w">   </span><span class="nx">call</span><span class="w"> </span><span class="nx">write_text</span><span class="p">()</span>
+<span class="w">   </span><span class="nx">textout</span><span class="p">=</span><span class="nx">pound_to_box</span><span class="p">(</span><span class="nx">text</span><span class="p">,</span><span class="nx">style</span><span class="p">=</span><span class="err">&#39;</span><span class="nx">double</span><span class="err">&#39;</span><span class="p">)</span>
+<span class="w">   </span><span class="nx">call</span><span class="w"> </span><span class="nx">write_text</span><span class="p">()</span>
+
+<span class="nx">contains</span>
+<span class="nx">subroutine</span><span class="w"> </span><span class="nx">write_text</span><span class="p">()</span>
+<span class="nx">integer</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">i</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="err">&#39;</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nx">a</span><span class="p">:))</span><span class="err">&#39;</span><span class="p">,</span><span class="nx">advance</span><span class="p">=</span><span class="err">&#39;</span><span class="nx">no</span><span class="err">&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">   </span><span class="o">&amp;</span><span class="w"> </span><span class="p">(</span><span class="nx">trim</span><span class="p">(</span><span class="nx">textout</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span><span class="o">%</span><span class="nx">character</span><span class="p">()),</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">   </span><span class="o">&amp;</span><span class="w"> </span><span class="nx">new_line</span><span class="p">(</span><span class="sc">&#39;a&#39;</span><span class="p">),</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">   </span><span class="o">&amp;</span><span class="w"> </span><span class="nx">i</span><span class="p">=</span><span class="mi">1</span><span class="p">,</span><span class="nx">size</span><span class="p">(</span><span class="nx">textout</span><span class="p">))</span>
+<span class="nx">end</span><span class="w"> </span><span class="nx">subroutine</span><span class="w"> </span><span class="nx">write_text</span>
+
+<span class="nx">end</span><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_pound_to_box</span>
+</code></pre></div>
+
+<p>Results:</p>
+<div class="codehilite"><pre><span></span><code>&gt; ############################################
+&gt; #abcdefg# What about #        #       #    #
+&gt; #hijklmn# this text? #        #       ######
+&gt; ###############################       #    #
+&gt; #              #     #        #       ######
+&gt; #              #     #        #       #    #
+&gt; ############################################
+&gt;
+&gt;    ###################################
+&gt;    # WARNING, WARNING, Will Robinson #
+&gt;    ###################################
+&gt; ┏━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━┳━━━━┓
+&gt; ┃abcdefg┃ What about ┃        ┃       ┃    ┃
+&gt; ┃hijklmn┃ this text? ┃        ┃       ┣━━━━┫
+&gt; ┣━━━━━━━┻━━━━━━┳━━━━━╋━━━━━━━━┫       ┃    ┃
+&gt; ┃              ┃     ┃        ┃       ┣━━━━┫
+&gt; ┃              ┃     ┃        ┃       ┃    ┃
+&gt; ┗━━━━━━━━━━━━━━┻━━━━━┻━━━━━━━━┻━━━━━━━┻━━━━┛
+&gt;
+&gt;    ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+&gt;    ┃ WARNING, WARNING, Will Robinson ┃
+&gt;    ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+&gt; ┌───────┬────────────┬────────┬───────┬────┐
+&gt; │abcdefg│ What about │        │       │    │
+&gt; │hijklmn│ this text? │        │       ├────┤
+&gt; ├───────┴──────┬─────┼────────┤       │    │
+&gt; │              │     │        │       ├────┤
+&gt; │              │     │        │       │    │
+&gt; └──────────────┴─────┴────────┴───────┴────┘
+&gt;
+&gt;    ┌─────────────────────────────────┐
+&gt;    │ WARNING, WARNING, Will Robinson │
+&gt;    └─────────────────────────────────┘
+&gt; ╔═══════╦════════════╦════════╦═══════╦════╗
+&gt; ║abcdefg║ What about ║        ║       ║    ║
+&gt; ║hijklmn║ this text? ║        ║       ╠════╣
+&gt; ╠═══════╩══════╦═════╬════════╣       ║    ║
+&gt; ║              ║     ║        ║       ╠════╣
+&gt; ║              ║     ║        ║       ║    ║
+&gt; ╚══════════════╩═════╩════════╩═══════╩════╝
+&gt;
+&gt;    ╔═════════════════════════════════╗
+&gt;    ║ WARNING, WARNING, Will Robinson ║
+&gt;    ╚═════════════════════════════════╝
+</code></pre></div>
+
+<h2 id="author">AUTHOR</h2>
+<div class="codehilite"><pre><span></span><code> John S. Urban
+</code></pre></div>
+
+<h2 id="license">LICENSE</h2>
+<div class="codehilite"><pre><span></span><code> MIT
+</code></pre></div>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -305,7 +436,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-03-22 18:21 +0000             </p>
+ on 2026-04-05 06:00 +0000             </p>
           </div>
         </div>
         <br>
