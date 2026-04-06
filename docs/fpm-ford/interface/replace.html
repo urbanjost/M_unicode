@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.2% of total for procedures.</p>Including implementation: 262 statements, 12.8% of total for procedures.">5 statements</a>
+                 title="<p> 0.2% of total for procedures.</p>Including implementation: 262 statements, 12.7% of total for procedures.">5 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -336,7 +336,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-target~2"></span>
+              <span class="anchor" id="variable-target~3"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -500,7 +500,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-target~3"></span>
+              <span class="anchor" id="variable-target~4"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -664,7 +664,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-target~5"></span>
+              <span class="anchor" id="variable-target~6"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -828,7 +828,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-target~4"></span>
+              <span class="anchor" id="variable-target~5"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -992,7 +992,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-target~6"></span>
+              <span class="anchor" id="variable-target~7"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1156,7 +1156,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-target~7"></span>
+              <span class="anchor" id="variable-target~8"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1320,7 +1320,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-target~8"></span>
+              <span class="anchor" id="variable-target~9"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1484,7 +1484,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-target~9"></span>
+              <span class="anchor" id="variable-target~10"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1648,7 +1648,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~13"></span>
+              <span class="anchor" id="variable-str~12"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1663,7 +1663,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first~10"></span>
+              <span class="anchor" id="variable-first~9"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1678,7 +1678,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~12"></span>
+              <span class="anchor" id="variable-last~11"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1737,8 +1737,97 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~14"></span>
+              <span class="anchor" id="variable-str~13"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>str</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-first~10"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>first</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-last~12"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>last</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-new~16"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>new</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-section_au"></span> <h3>private impure elemental function section_au(str, first, last, new) result(out)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-str~14"></span>
+              character(len=*),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -1782,8 +1871,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-new~16"></span>
-              character(len=*),
+              <span class="anchor" id="variable-new~17"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -1808,7 +1897,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-section_au"></span> <h3>private impure elemental function section_au(str, first, last, new) result(out)  
+    <div class="card-header codesum"><span class="anchor" id="proc-section_aa"></span> <h3>private impure elemental function section_aa(str, first, last, new) result(out)  
 </h3></div>
     <div class="card-body">
         
@@ -1871,95 +1960,6 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-new~17"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>new</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
-    </h4>
-    
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-section_aa"></span> <h3>private impure elemental function section_aa(str, first, last, new) result(out)  
-</h3></div>
-    <div class="card-body">
-        
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-str~16"></span>
-              character(len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>str</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-first~13"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>first</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-last~15"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>last</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
               <span class="anchor" id="variable-new~18"></span>
               character(len=*),
             </td>
@@ -2002,7 +2002,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-04-05 14:53 +0000             </p>
+ on 2026-04-06 07:08 +0000             </p>
           </div>
         </div>
         <br>

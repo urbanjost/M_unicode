@@ -1,0 +1,366 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="Fortran Unicode when ISO_10646 is not supported">
+    <meta name="author" content="John S. Urban" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>expand_html &ndash; M_unicode</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">M_unicode </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>expand_html
+      <small>Interface</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title="<p> 0.2% of total for procedures.</p>Including implementation: 2214 statements, 107.4% of total for procedures.">4 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/M_unicode.F90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/m_unicode.f90.html'>M_unicode.F90</a></li>
+                <li class="breadcrumb-item"><a href='../module/m_unicode.html'>M_unicode</a></li>
+            <li class="breadcrumb-item active" aria-current="page">expand_html</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#modprocs-0"
+         aria-expanded="false" aria-controls="modprocs-0">
+         <h4 class="card-header bg-primary text-white">Module Procedures</h4>
+      </a>
+      <div id="modprocs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../interface/expand_html.html#moduleprocedure-expand_html_uu">expand_html_uu</a>
+            <a class="list-group-item" href="../interface/expand_html.html#moduleprocedure-expand_html_au">expand_html_au</a>
+        </div>
+      </div>
+    </div>
+
+  
+
+
+  </div>
+
+    </div>
+
+    <div class="col-md-9" id='text'>
+      <h2>public interface expand_html</h2>
+      
+
+
+
+        <h2>Module Procedures</h2>
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-expand_html_uu"></span> <h3>private impure elemental function expand_html_uu(str) result(string)  
+</h3></div>
+    <div class="card-body">
+        <h2 id="name">NAME</h2>
+<p>expand_html(3f) - [M_unicode:ENCODE] expand HTML character entities (&ldquo;&NAME;&rdquo; strings)
+  (LICENSE:MIT)</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nx">pure</span><span class="w"> </span><span class="nx">elemental</span><span class="w"> </span><span class="nx">function</span><span class="w"> </span><span class="nx">expand_html</span><span class="p">(</span><span class="nx">str</span><span class="p">)</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="p">(</span><span class="kt">string</span><span class="p">)</span>
+
+<span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">str</span>
+<span class="w">  </span><span class="p">!</span><span class="w">  </span><span class="k">or</span>
+<span class="w">  </span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w">   </span><span class="o">::</span><span class="w"> </span><span class="nx">str</span>
+
+<span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span><span class="w">            </span><span class="o">::</span><span class="w"> </span><span class="kt">string</span>
+</code></pre></div>
+
+<h2 id="description">DESCRIPTION</h2>
+<div class="codehilite"><pre><span></span><code>expand_html(string) returns a copy of the input string with all HTML
+character entities ( &quot;&amp;NAME;&quot; and &quot;&amp;#NUMBER;&quot;) expanded
+</code></pre></div>
+
+<h2 id="options">OPTIONS</h2>
+<div class="codehilite"><pre><span></span><code> str    string containing HTML character entities to expand
+</code></pre></div>
+
+<h2 id="returns">RETURNS</h2>
+<div class="codehilite"><pre><span></span><code> expand_html  copy of the input string with all HTML character entities
+              expanded
+</code></pre></div>
+
+<h2 id="examples">EXAMPLES</h2>
+<p>Sample program:</p>
+<div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">demo_expand_html</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">stdout</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nx">output_unit</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">expand_html</span><span class="p">,</span><span class="w"> </span><span class="nx">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="nx">assignment</span><span class="p">(=)</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">ut</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nx">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="nx">operator</span><span class="p">(</span><span class="o">==</span><span class="p">)</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">ch</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nx">character</span>
+<span class="nx">implicit</span><span class="w"> </span><span class="nx">none</span>
+<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">parameter</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">g</span><span class="p">=</span><span class="err">&#39;</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nx">g0</span><span class="p">))</span><span class="err">&#39;</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span><span class="w">         </span><span class="o">::</span><span class="w"> </span><span class="nx">input</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span><span class="w">         </span><span class="o">::</span><span class="w"> </span><span class="nx">output</span>
+<span class="nx">integer</span><span class="w">                    </span><span class="o">::</span><span class="w"> </span><span class="nx">i</span>
+<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">parameter</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">data</span><span class="p">(</span><span class="o">*</span><span class="p">)=[</span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="mi">132</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="err">&#39;</span><span class="w">             </span><span class="nx">HTML</span><span class="w"> </span><span class="nx">Character</span><span class="w"> </span><span class="nx">Entity</span><span class="w"> </span><span class="nx">Test</span><span class="w"> </span><span class="nx">Page</span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="err">&#39;</span><span class="w">   </span><span class="nx">Description</span><span class="w">     </span><span class="nx">Entity</span><span class="w">  </span><span class="nx">Entity</span><span class="w">  </span><span class="nx">Rendered</span><span class="w"> </span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="err">&#39;</span><span class="w">                   </span><span class="nx">Name</span><span class="w">    </span><span class="nx">Number</span><span class="w">  </span><span class="nx">Result</span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="err">&#39;</span><span class="nx">Less</span><span class="w"> </span><span class="nx">than</span><span class="w">          </span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="nx">lt</span><span class="p">;</span><span class="w">    </span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="err">#</span><span class="mi">60</span><span class="p">;</span><span class="w">   </span><span class="p">&lt;</span><span class="o">&amp;</span><span class="nx">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="err">#</span><span class="mi">60</span><span class="p">;</span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="err">&#39;</span><span class="nx">Greater</span><span class="w"> </span><span class="nx">than</span><span class="w">       </span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="nx">gt</span><span class="p">;</span><span class="w">    </span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="err">#</span><span class="mi">62</span><span class="p">;</span><span class="w">   </span><span class="p">&gt;</span><span class="o">&amp;</span><span class="nx">gt</span><span class="p">;</span><span class="o">&amp;</span><span class="err">#</span><span class="mi">62</span><span class="p">;</span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="err">&#39;</span><span class="nx">Ampersand</span><span class="w">          </span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="nx">amp</span><span class="p">;</span><span class="w">   </span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="err">#</span><span class="mi">38</span><span class="p">;</span><span class="w">   </span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="err">#</span><span class="mi">38</span><span class="p">;</span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="err">&#39;</span><span class="nx">Copyright</span><span class="w">          </span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="nx">copy</span><span class="p">;</span><span class="w">  </span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="err">#</span><span class="mi">169</span><span class="p">;</span><span class="w">  </span><span class="err">©</span><span class="o">&amp;</span><span class="nx">copy</span><span class="p">;</span><span class="o">&amp;</span><span class="err">#</span><span class="mi">169</span><span class="p">;</span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="err">&#39;</span><span class="nx">Registered</span><span class="w">         </span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="nx">reg</span><span class="p">;</span><span class="w">   </span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="err">#</span><span class="mi">174</span><span class="p">;</span><span class="w">  </span><span class="err">®</span><span class="o">&amp;</span><span class="nx">reg</span><span class="p">;</span><span class="o">&amp;</span><span class="err">#</span><span class="mi">174</span><span class="p">;</span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="err">&#39;</span><span class="nx">Trademark</span><span class="w">          </span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="nx">trade</span><span class="p">;</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="err">#</span><span class="mi">8482</span><span class="p">;</span><span class="w"> </span><span class="err">™</span><span class="o">&amp;</span><span class="nx">trade</span><span class="p">;</span><span class="o">&amp;</span><span class="err">#</span><span class="mi">8482</span><span class="p">;</span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="err">&#39;</span><span class="nx">Euro</span><span class="w">               </span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="nx">euro</span><span class="p">;</span><span class="w">  </span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="err">#</span><span class="mi">8364</span><span class="p">;</span><span class="w"> </span><span class="err">€</span><span class="o">&amp;</span><span class="nx">euro</span><span class="p">;</span><span class="o">&amp;</span><span class="err">#</span><span class="mi">8364</span><span class="p">;</span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="err">&#39;</span><span class="nx">Pound</span><span class="w">              </span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="nx">pound</span><span class="p">;</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="err">#</span><span class="mi">163</span><span class="p">;</span><span class="w">  </span><span class="err">£</span><span class="o">&amp;</span><span class="nx">pound</span><span class="p">;</span><span class="o">&amp;</span><span class="err">#</span><span class="mi">163</span><span class="p">;</span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="err">&#39;</span><span class="nx">Non</span><span class="o">-</span><span class="nx">breaking</span><span class="w"> </span><span class="nx">space</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="nx">nbsp</span><span class="p">;</span><span class="w">  </span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="err">#</span><span class="mi">160</span><span class="p">;</span><span class="w">  </span><span class="nx">Before</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">nbsp</span><span class="p">;</span><span class="o">&amp;</span><span class="err">#</span><span class="mi">160</span><span class="p">;</span><span class="nx">After</span><span class="err">&#39;</span><span class="p">]</span>
+<span class="w">   </span><span class="nx">do</span><span class="w"> </span><span class="nx">i</span><span class="p">=</span><span class="mi">1</span><span class="p">,</span><span class="nx">size</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="nx">stdout</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span><span class="nx">trim</span><span class="p">(</span><span class="nx">ch</span><span class="p">(</span><span class="nx">expand_html</span><span class="p">(</span><span class="nx">data</span><span class="p">(</span><span class="nx">i</span><span class="p">))))</span>
+<span class="w">   </span><span class="nx">enddo</span>
+<span class="nx">end</span><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_expand_html</span>
+</code></pre></div>
+
+<p>Expected output</p>
+<blockquote>
+<div class="codehilite"><pre><span></span><code>         HTML Character Entity Test Page
+</code></pre></div>
+
+<p>Description     Entity  Entity  Rendered
+                   Name    Number  Result
+Less than          &lt;    &#60;   &lt;&lt;&lt;
+Greater than       &gt;    &#62;   &gt;&gt;&gt;
+Ampersand          &amp;   &#38;   &amp;&amp;&amp;
+Copyright          &copy;  &#169;  ©©©
+Registered         &reg;   &#174;  ®®®
+Trademark          &trade; &#8482; ™™™
+Euro               &euro;  &#8364; €€€
+Pound              &pound; &#163;  £££
+Non-breaking space &nbsp;  &#160;  Before   After</p>
+</blockquote>
+<h2 id="author">AUTHOR</h2>
+<div class="codehilite"><pre><span></span><code> John S. Urban
+</code></pre></div>
+
+<h2 id="license">LICENSE</h2>
+<div class="codehilite"><pre><span></span><code> MIT
+</code></pre></div>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-str~9"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>str</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-expand_html_au"></span> <h3>private impure elemental function expand_html_au(string) result(result)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-string~47"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>string</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+</div>
+  </div>
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              M_unicode
+ was developed by John S. Urban<br>              &copy; 2026 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2026-04-06 07:08 +0000             </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p>100.0% of total for derived types.</p>Including implementation: 476 statements, 100.0% of total for derived types.">59 statements</a>
+                 title="<p>100.0% of total for derived types.</p>Including implementation: 482 statements, 100.0% of total for derived types.">60 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -133,7 +133,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/unicode_type.html#variable-codes~2">codes</a>
+            <a class="list-group-item" href="../type/unicode_type.html#variable-codes">codes</a>
         </div>
       </div>
     </div>
@@ -175,7 +175,7 @@
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-adjustl">adjustl</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-adjustr">adjustr</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-byte">byte</a>
-            <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-ch~4">ch</a>
+            <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-ch">ch</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-character">character</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-codepoint">codepoint</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-escape">escape</a>
@@ -184,6 +184,7 @@
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-get_arg">get_arg</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-get_env">get_env</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-glob">glob</a>
+            <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-html">html</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-ichar">ichar</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-index">index</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-isascii">isascii</a>
@@ -192,7 +193,7 @@
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-join">join</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-len">len</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-len_trim">len_trim</a>
-            <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-lower">lower</a>
+            <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-lower~2">lower</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-oop_get_env_ua">oop_get_env_ua</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-oop_glob_a">oop_glob_a</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-pad">pad</a>
@@ -203,7 +204,7 @@
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-tokenize">tokenize</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-transliterate">transliterate</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-trim">trim</a>
-            <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-upper">upper</a>
+            <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-upper~2">upper</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-verify">verify</a>
         </div>
       </div>
@@ -243,7 +244,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-codes~2"></span>
+              <span class="anchor" id="variable-codes"></span>
               integer,
             </td>
               <td>public,</td>
@@ -293,7 +294,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-codes~3"></span>
+              <span class="anchor" id="variable-codes~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -336,7 +337,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~7"></span>
+              <span class="anchor" id="variable-string~5"></span>
               character(len=*),
             </td>
 <td>intent(in),</td>
@@ -721,7 +722,7 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-ch~4"></span>
+      <span class="anchor" id="boundprocedure-ch"></span>
       <h3>
           procedure, public ::
   <strong>ch</strong> => oop_character
@@ -1468,6 +1469,64 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-html"></span>
+      <h3>
+          procedure, public ::
+  <strong>html</strong> => oop_expand_html
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                    <h3>
+    private  function oop_expand_html(self) result(string_out)  
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='unicode_type.html'>unicode_type</a>)</small>
+    </h4>
+    
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
       <span class="anchor" id="boundprocedure-ichar"></span>
       <h3>
           procedure, public ::
@@ -1977,7 +2036,7 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-lower"></span>
+      <span class="anchor" id="boundprocedure-lower~2"></span>
       <h3>
           procedure, public ::
   <strong>lower</strong> => oop_lower
@@ -3784,7 +3843,7 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-upper"></span>
+      <span class="anchor" id="boundprocedure-upper~2"></span>
       <h3>
           procedure, public ::
   <strong>upper</strong> => oop_upper
@@ -3959,6 +4018,7 @@
 <span class="w">   </span><span class="c">! transform</span>
 <span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">upper</span><span class="w">      </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_upper</span>
 <span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">lower</span><span class="w">      </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_lower</span>
+<span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">html</span><span class="w">       </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_expand_html</span>
 <span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">expandtabs</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_expandtabs</span>
 <span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">escape</span><span class="w">     </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_escape</span>
 <span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">add_backslash</span><span class="w">        </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_add_backslash</span>
@@ -4027,7 +4087,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-04-05 14:53 +0000             </p>
+ on 2026-04-06 07:08 +0000             </p>
           </div>
         </div>
         <br>

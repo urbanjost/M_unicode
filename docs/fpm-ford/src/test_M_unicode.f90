@@ -23,6 +23,7 @@ use M_unicode, only : join
 use M_unicode, only : fmt, afmt
 use M_unicode, only : transliterate
 use M_unicode, only : glob
+use M_unicode, only : expand_html
 
 use M_unicode, only : assignment(=), unicode_type
 use M_unicode, only : operator(.cat.)
@@ -845,6 +846,27 @@ integer,allocatable          :: ints(:)
 
 end subroutine test_escape
 
+subroutine test_expand_html()
+type(unicode_type)           :: u_line
+character(len=:),allocatable :: a_line
+
+   call check('expand_html',expand_html(ut('&')).eq.'&','backslash at end of line')
+
+   u_line='< > & © ® ™ € £ Before After'
+   ! UNICODE_TYPE input
+   a_line='&lt; &gt; &amp; &copy; &reg; &trade; &euro; &pound; Before&nbsp;After'
+   call check('expand_html',expand_html(ut(a_line)).eq.u_line,'&NAME;')
+   a_line='&#60; &#62; &#38; &#169; &#174; &#8482; &#8364; &#163; Before&#160;After'
+   call check('expand_html',expand_html(ut(a_line)).eq.u_line,'&#NUMBER;')
+
+   ! CHARACTER input
+   a_line='&lt; &gt; &amp; &copy; &reg; &trade; &euro; &pound; Before&nbsp;After'
+   call check('expand_html',expand_html(a_line).eq.u_line,'&NAME;')
+   a_line='&#60; &#62; &#38; &#169; &#174; &#8482; &#8364; &#163; Before&#160;After'
+   call check('expand_html',expand_html(a_line).eq.u_line,'&#NUMBER;')
+
+end subroutine test_expand_html
+
 subroutine test_add_border()
 integer                    :: length1, length2, i, j, int1, int2
 logical                    :: bool1
@@ -1514,6 +1536,7 @@ use testsuite_M_unicode
    call test_upper()
    call test_lower()
    call test_tokenize()
+   call test_expand_html()
    call test_sort()
    call test_operators()
    call test_split()
