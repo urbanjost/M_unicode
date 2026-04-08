@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.2% of total for procedures.</p>Including implementation: 2214 statements, 107.4% of total for procedures.">4 statements</a>
+                 title="<p> 0.2% of total for procedures.</p>Including implementation: 2219 statements, 107.6% of total for procedures.">4 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -180,11 +180,11 @@
 <h2 id="synopsis">SYNOPSIS</h2>
 <div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nx">pure</span><span class="w"> </span><span class="nx">elemental</span><span class="w"> </span><span class="nx">function</span><span class="w"> </span><span class="nx">expand_html</span><span class="p">(</span><span class="nx">str</span><span class="p">)</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="p">(</span><span class="kt">string</span><span class="p">)</span>
 
-<span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">str</span>
+<span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">),</span><span class="nx">optional</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">str</span>
 <span class="w">  </span><span class="p">!</span><span class="w">  </span><span class="k">or</span>
-<span class="w">  </span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w">   </span><span class="o">::</span><span class="w"> </span><span class="nx">str</span>
+<span class="w">  </span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">),</span><span class="nx">optional</span><span class="w">   </span><span class="o">::</span><span class="w"> </span><span class="nx">str</span>
 
-<span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span><span class="w">            </span><span class="o">::</span><span class="w"> </span><span class="kt">string</span>
+<span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span><span class="w">                     </span><span class="o">::</span><span class="w"> </span><span class="kt">string</span>
 </code></pre></div>
 
 <h2 id="description">DESCRIPTION</h2>
@@ -193,7 +193,11 @@ character entities ( &quot;&amp;NAME;&quot; and &quot;&amp;#NUMBER;&quot;) expan
 </code></pre></div>
 
 <h2 id="options">OPTIONS</h2>
-<div class="codehilite"><pre><span></span><code> str    string containing HTML character entities to expand
+<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nv">str</span><span class="w">    </span><span class="nv">string</span><span class="w"> </span><span class="nv">containing</span><span class="w"> </span><span class="nv">HTML</span><span class="w"> </span><span class="nv">character</span><span class="w"> </span><span class="nv">entities</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">expand</span>.
+
+<span class="w">        </span><span class="k">If</span><span class="w"> </span><span class="nv">STR</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">not</span><span class="w"> </span><span class="nv">present</span><span class="w"> </span><span class="nv">a</span><span class="w"> </span><span class="nv">table</span><span class="w"> </span><span class="nv">of</span><span class="w"> </span><span class="nv">all</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">HTML</span><span class="w"> </span><span class="nv">character</span><span class="w"> </span><span class="nv">entity</span>
+<span class="w">        </span><span class="nv">names</span><span class="w"> </span><span class="nv">and</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">characer</span><span class="w"> </span><span class="nv">they</span><span class="w"> </span><span class="nv">represent</span><span class="w"> </span><span class="nv">and</span><span class="w"> </span><span class="nv">its</span><span class="w"> </span><span class="nv">decimal</span><span class="w"> </span><span class="nv">and</span>
+<span class="w">        </span><span class="nv">hexadecimal</span><span class="w"> </span><span class="nv">value</span><span class="ss">(</span><span class="nv">s</span><span class="ss">)</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">written</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">stdout</span>
 </code></pre></div>
 
 <h2 id="returns">RETURNS</h2>
@@ -270,7 +274,7 @@ Non-breaking space &nbsp;  &#160;  Before   After</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~9"></span>
+              <span class="anchor" id="variable-str~13"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in),</td>
@@ -314,7 +318,7 @@ Non-breaking space &nbsp;  &#160;  Before   After</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~47"></span>
+              <span class="anchor" id="variable-string~53"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -356,7 +360,7 @@ Non-breaking space &nbsp;  &#160;  Before   After</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-04-06 07:08 +0000             </p>
+ on 2026-04-08 06:16 +0000             </p>
           </div>
         </div>
         <br>
