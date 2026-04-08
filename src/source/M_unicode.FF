@@ -2197,6 +2197,7 @@ interface read(formatted);    module procedure :: read_formatted;    end interfa
 !> Read a connected unformatted unit into the string.
 interface read(unformatted);  module procedure :: read_unformatted;  end interface
 $ENDIF
+
 contains
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
@@ -7771,18 +7772,22 @@ SYNOPSIS
 
     pure elemental function expand_html(str) result (string)
 
-     type(unicode_type),intent(in) :: str
+     type(unicode_type),intent(in),optional :: str
      !  or
-     character(len=*),intent(in)   :: str
+     character(len=*),intent(in),optional   :: str
 
-     type(unicode_type)            :: string
+     type(unicode_type)                     :: string
 
 DESCRIPTION
    expand_html(string) returns a copy of the input string with all HTML 
    character entities ( "&NAME;" and "&#NUMBER;") expanded
 
 OPTIONS
-    str    string containing HTML character entities to expand
+    str    string containing HTML character entities to expand.
+
+	   If STR is not present a table of all the HTML character entity
+	   names and the characer they represent and its decimal and
+	   hexadecimal value(s) is written to stdout
 
 RETURNS
     expand_html  copy of the input string with all HTML character entities
@@ -7860,14 +7865,15 @@ integer                                :: lngth
 integer                                :: nerr
 
 type html_entities
-   character(len=33)          :: name
-   integer,allocatable        :: codes(:)
+   character(len=33)   :: name
+   integer,allocatable :: codes(:)
 end type html_entities
 
-type(html_entities),save :: entities(2125)
+type(html_entities),save               :: entities(2125)
 
-logical,save             :: virgin=.true.
-character(len=33),save   :: tokens(2125)
+logical,save                           :: virgin=.true.
+character(len=33),save                 :: tokens(2125)
+character(len=80)                      :: line
    if(virgin)then
       virgin=.false.
       entities(1)     =  html_entities("AElig                            ",  [198])     
@@ -9997,11 +10003,20 @@ character(len=33),save   :: tokens(2125)
       entities(2125)  =  html_entities("zwnj                             ",  [8204])    
       tokens=entities%name
    endif
+
    ! dump table to stdout
    if(.not.present(str))then
       do i=1,size(entities)
          call codepoints_to_utf8_str(entities(i)%codes,temp,nerr)
-         write(stdout,'(*(g0))')entities(i)%name, temp
+	 !gfortran bug
+         !write(stdout,'(*(g0))',advance='no')entities(i)%name, temp, ' '
+         !write(stdout,'(t25,"|",t1,*(i0:,","))',advance='no')entities(i)%codes
+         !write(stdout,'(2x,*("U+",z0:,","))')entities(i)%codes
+	 line=' '
+         write(line,     '(*(g0))'             ) entities(i)%name,' ',temp
+         write(line(40:),'(*(i0:,","))'        ) entities(i)%codes
+         write(line(65:),'(2x,*("U+",z0:,","))') entities(i)%codes
+	 write(stdout,'(g0)')line
       enddo
       return
    endif
