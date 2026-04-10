@@ -532,6 +532,8 @@ including features and enhancements from Francois Jacq.
 
 -------------------------------------------------------------
 ## See Also
+ + [uni.f90](https://github.com/lockstockandbarrel/mars/blob/main/bootstrap/uni.f90) is a stand-alone single source file
+   that builds a utility program for manipulating Unicode data in UTF-8 files; demonstrating various aspects of M_unicode.
 
 As already mentioned ...
 
