@@ -10,7 +10,7 @@
     <meta name="author" content="John S. Urban" >
     <link rel="icon" href="../favicon.png">
 
-    <title>test_expand_html &ndash; M_unicode</title>
+    <title>test_reverse &ndash; M_unicode</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -80,7 +80,7 @@
 
     <div class="container">
   <div class="row">
-    <h1>test_expand_html
+    <h1>test_reverse
       <small>Subroutine</small>
       
     </h1>
@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.7% of total for procedures.">14 statements</a>
+                 title=" 0.9% of total for procedures.">19 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -105,7 +105,7 @@
           <ol class="breadcrumb justify-content-end mb-0">
                 <li class="breadcrumb-item"><a href='../sourcefile/test_m_unicode.f90.html'>test_M_unicode.f90</a></li>
                 <li class="breadcrumb-item"><a href='../module/testsuite_m_unicode.html'>testsuite_M_unicode</a></li>
-            <li class="breadcrumb-item active" aria-current="page">test_expand_html</li>
+            <li class="breadcrumb-item active" aria-current="page">test_reverse</li>
           </ol>
         </nav>
       </div>
@@ -133,8 +133,8 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../proc/test_expand_html.html#variable-a_line">a_line</a>
-            <a class="list-group-item" href="../proc/test_expand_html.html#variable-u_line">u_line</a>
+            <a class="list-group-item" href="../proc/test_reverse.html#variable-expected~5">expected</a>
+            <a class="list-group-item" href="../proc/test_reverse.html#variable-in~2">in</a>
         </div>
       </div>
     </div>
@@ -160,7 +160,7 @@
     <div class="card card-primary">
       <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
       <div class="list-group">
-        <a class="list-group-item" href="../proc/test_expand_html.html#src">test_expand_html</a>
+        <a class="list-group-item" href="../proc/test_reverse.html#src">test_reverse</a>
       </div>
     </div>
 
@@ -170,7 +170,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public  subroutine test_expand_html()  
+    <h2>public  subroutine test_reverse()  
 </h2>
     
 
@@ -196,15 +196,15 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a_line"></span>
-              character(len=:),
+              <span class="anchor" id="variable-expected~5"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
-              <td>public,</td>
+              <td>public</td>
             <td>
-              allocatable
+              
             </td>
             <td>::</td>
-            <td><strong>a_line</strong></td>
+            <td><strong>expected</strong></td>
                 <td></td>
                 <td></td>
             <td>
@@ -213,7 +213,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-u_line"></span>
+              <span class="anchor" id="variable-in~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
               <td>public</td>
@@ -221,7 +221,7 @@
               
             </td>
             <td>::</td>
-            <td><strong>u_line</strong></td>
+            <td><strong>in</strong></td>
                 <td></td>
                 <td></td>
             <td>
@@ -244,26 +244,29 @@
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="k">subroutine </span><span class="n">test_expand_html</span><span class="p">()</span>
-<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">u_line</span>
-<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a_line</span>
+    <div class="hl codehilite"><pre><span></span><span class="k">subroutine </span><span class="n">test_reverse</span><span class="p">()</span>
+<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">in</span>
+<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">expected</span>
 
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;expand_html&#39;</span><span class="p">,</span><span class="n">expand_html</span><span class="p">(</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;&amp;&#39;</span><span class="p">)).</span><span class="n">eq</span><span class="p">.</span><span class="s1">&#39;&amp;&#39;</span><span class="p">,</span><span class="s1">&#39;backslash at end of line&#39;</span><span class="p">)</span>
+<span class="w">   </span><span class="n">in</span><span class="o">=</span><span class="s1">&#39;abcde&#39;</span>
+<span class="w">   </span><span class="n">expected</span><span class="o">=</span><span class="s1">&#39;edcba&#39;</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;reverse&#39;</span><span class="p">,</span><span class="n">reverse</span><span class="p">(</span><span class="n">in</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">expected</span><span class="p">,</span><span class="kt">character</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="n">in</span><span class="p">)))</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;reverse&#39;</span><span class="p">,</span><span class="n">in</span><span class="p">%</span><span class="n">reverse</span><span class="p">().</span><span class="n">eq</span><span class="p">.</span><span class="n">expected</span><span class="p">,</span><span class="kt">character</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="n">in</span><span class="p">)))</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;reverse&#39;</span><span class="p">,</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;abcde&#39;</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="s1">&#39;edcba&#39;</span><span class="p">,</span><span class="kt">character</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;abcde&#39;</span><span class="p">)))</span>
 
-<span class="w">   </span><span class="n">u_line</span><span class="o">=</span><span class="s1">&#39;&lt; &gt; &amp; © ® ™ € £ Before After&#39;</span>
-<span class="w">   </span><span class="c">! UNICODE_TYPE input</span>
-<span class="w">   </span><span class="n">a_line</span><span class="o">=</span><span class="s1">&#39;&amp;lt; &amp;gt; &amp;amp; &amp;copy; &amp;reg; &amp;trade; &amp;euro; &amp;pound; Before&amp;nbsp;After&#39;</span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;expand_html&#39;</span><span class="p">,</span><span class="n">expand_html</span><span class="p">(</span><span class="n">ut</span><span class="p">(</span><span class="n">a_line</span><span class="p">)).</span><span class="n">eq</span><span class="p">.</span><span class="n">u_line</span><span class="p">,</span><span class="s1">&#39;&amp;NAME;&#39;</span><span class="p">)</span>
-<span class="w">   </span><span class="n">a_line</span><span class="o">=</span><span class="s1">&#39;&amp;#60; &amp;#62; &amp;#38; &amp;#169; &amp;#174; &amp;#8482; &amp;#8364; &amp;#163; Before&amp;#160;After&#39;</span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;expand_html&#39;</span><span class="p">,</span><span class="n">expand_html</span><span class="p">(</span><span class="n">ut</span><span class="p">(</span><span class="n">a_line</span><span class="p">)).</span><span class="n">eq</span><span class="p">.</span><span class="n">u_line</span><span class="p">,</span><span class="s1">&#39;&amp;#NUMBER;&#39;</span><span class="p">)</span>
+<span class="w">   </span><span class="n">in</span><span class="o">=</span><span class="s1">&#39;한국말&#39;</span>
+<span class="w">   </span><span class="n">expected</span><span class="o">=</span><span class="s1">&#39;말국한&#39;</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;reverse&#39;</span><span class="p">,</span><span class="n">reverse</span><span class="p">(</span><span class="n">in</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">expected</span><span class="p">,</span><span class="kt">character</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="n">in</span><span class="p">)))</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;reverse&#39;</span><span class="p">,</span><span class="n">in</span><span class="p">%</span><span class="n">reverse</span><span class="p">().</span><span class="n">eq</span><span class="p">.</span><span class="n">expected</span><span class="p">,</span><span class="kt">character</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="n">in</span><span class="p">)))</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;reverse&#39;</span><span class="p">,</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;한국말&#39;</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="s1">&#39;말국한&#39;</span><span class="p">,</span><span class="kt">character</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;한국말&#39;</span><span class="p">)))</span>
 
-<span class="w">   </span><span class="c">! CHARACTER input</span>
-<span class="w">   </span><span class="n">a_line</span><span class="o">=</span><span class="s1">&#39;&amp;lt; &amp;gt; &amp;amp; &amp;copy; &amp;reg; &amp;trade; &amp;euro; &amp;pound; Before&amp;nbsp;After&#39;</span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;expand_html&#39;</span><span class="p">,</span><span class="n">expand_html</span><span class="p">(</span><span class="n">a_line</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">u_line</span><span class="p">,</span><span class="s1">&#39;&amp;NAME;&#39;</span><span class="p">)</span>
-<span class="w">   </span><span class="n">a_line</span><span class="o">=</span><span class="s1">&#39;&amp;#60; &amp;#62; &amp;#38; &amp;#169; &amp;#174; &amp;#8482; &amp;#8364; &amp;#163; Before&amp;#160;After&#39;</span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;expand_html&#39;</span><span class="p">,</span><span class="n">expand_html</span><span class="p">(</span><span class="n">a_line</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">u_line</span><span class="p">,</span><span class="s1">&#39;&amp;#NUMBER;&#39;</span><span class="p">)</span>
+<span class="w">   </span><span class="n">in</span><span class="o">=</span><span class="s1">&#39;五十七&#39;</span>
+<span class="w">   </span><span class="n">expected</span><span class="o">=</span><span class="s1">&#39;七十五&#39;</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;reverse&#39;</span><span class="p">,</span><span class="n">reverse</span><span class="p">(</span><span class="n">in</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">expected</span><span class="p">,</span><span class="kt">character</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="n">in</span><span class="p">)))</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;reverse&#39;</span><span class="p">,</span><span class="n">in</span><span class="p">%</span><span class="n">reverse</span><span class="p">().</span><span class="n">eq</span><span class="p">.</span><span class="n">expected</span><span class="p">,</span><span class="kt">character</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="n">in</span><span class="p">)))</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;reverse&#39;</span><span class="p">,</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;五十七&#39;</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="s1">&#39;七十五&#39;</span><span class="p">,</span><span class="kt">character</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;五十七&#39;</span><span class="p">)))</span>
 
-<span class="k">end subroutine </span><span class="n">test_expand_html</span>
+<span class="k">end subroutine </span><span class="n">test_reverse</span>
 </pre></div>
 
     </section>

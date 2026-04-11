@@ -81,7 +81,7 @@
     <div class="container">
   <div class="row">
     <h1>upper
-      <small>Function</small>
+      <small>Interface</small>
       
     </h1>
       <div class="container p-2 mb-4 bg-light border rounded-3">
@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 1.0% of total for procedures.">21 statements</a>
+                 title="<p> 0.1% of total for procedures.</p>Including implementation: 31 statements,  1.5% of total for procedures.">3 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -120,10 +120,10 @@
   </script>
 
   </div>
-  
+
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-      <div id="sidebar">
+        <div id="sidebar">
       <h3>Contents</h3>
   
   
@@ -143,26 +143,82 @@
   
   
   
-  
-  
-    <div class="card card-primary">
-      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
-      <div class="list-group">
-        <a class="list-group-item" href="../proc/upper.html#src">upper</a>
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#modprocs-0"
+         aria-expanded="false" aria-controls="modprocs-0">
+         <h4 class="card-header bg-primary text-white">Module Procedures</h4>
+      </a>
+      <div id="modprocs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../interface/upper.html#moduleprocedure-upper_a">upper_a</a>
+            <a class="list-group-item" href="../interface/upper.html#moduleprocedure-upper_u">upper_u</a>
+        </div>
       </div>
     </div>
+
+  
 
 
   </div>
 
     </div>
-    
+
     <div class="col-md-9" id='text'>
-    <h2>public pure elemental function upper(str) result(string)  
-</h2>
+      <h2>public interface upper</h2>
+      
+
+
+
+        <h2>Module Procedures</h2>
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-upper_a"></span> <h3>private elemental function upper_a(string) result(res)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-string~37"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>string</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
+    </h4>
     
 
-    <h2 id="name">NAME</h2>
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-upper_u"></span> <h3>private pure elemental function upper_u(str) result(string)  
+</h3></div>
+    <div class="card-body">
+        <h2 id="name">NAME</h2>
 <p>UPPER(3f) - [M_unicode:CASE] changes a string to uppercase
   (LICENSE:MIT)</p>
 <h2 id="synopsis">SYNOPSIS</h2>
@@ -265,9 +321,8 @@ PASSED</p>
 <div class="codehilite"><pre><span></span><code> MIT
 </code></pre></div>
 
-
-    <h3>Arguments</h3>
-        <table class="table table-striped varlist">
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
     <thead>
       <tr>
         <th scope="col">Type</th>
@@ -279,7 +334,7 @@ PASSED</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~4"></span>
+              <span class="anchor" id="variable-str~7"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -295,62 +350,17 @@ PASSED</p>
     </tbody>
   </table>
 
-      <h3>Return Value
-        <small>
-          <span class="anchor" id="variable-string~31"></span>
-          type(<a href='../type/unicode_type.html'>unicode_type</a>)
-        </small>
-      </h3>
-      
-    <br>
-
-
-    
+    <h4>
+    Return Value
+    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
+    </h4>
     
 
-    
-    
-
-
-
-    
-    <section>
-    <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="k">pure elemental function </span><span class="n">upper</span><span class="p">(</span><span class="n">str</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="w"> </span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
-
-<span class="c">! ident_12=&quot;@(#) M_unicode upper(3f) returns an uppercase string&quot;</span>
-
-<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">str</span><span class="w">                 </span><span class="c">! input string to convert to all uppercase</span>
-<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">string</span><span class="w">              </span><span class="c">! output string that contains no miniscule letters</span>
-<span class="kt">integer</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="w">                   </span><span class="c">! loop counter</span>
-<span class="kt">integer</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">pos</span>
-<span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">ade_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">),</span><span class="w"> </span><span class="n">ade_z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;z&#39;</span><span class="p">)</span>
-<span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">diff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">iachar</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
-
-<span class="w">   </span><span class="n">string</span><span class="o">=</span><span class="n">str</span>
-<span class="w">   </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">str</span><span class="p">)</span><span class="w">                           </span><span class="c">! step thru each letter in the string in specified range</span>
-<span class="w">      </span><span class="k">select case</span><span class="p">(</span><span class="n">str</span><span class="p">%</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="n">ade_a</span><span class="p">:</span><span class="n">ade_z</span><span class="p">)</span>
-<span class="w">         </span><span class="n">string</span><span class="p">%</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str</span><span class="p">%</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">diff</span>
-<span class="w">      </span><span class="k">case </span><span class="n">default</span>
-<span class="w">         </span><span class="n">pos</span><span class="o">=</span><span class="n">binary_search_int</span><span class="p">(</span><span class="n">low_to_up</span><span class="p">(:,</span><span class="mi">1</span><span class="p">),</span><span class="n">str</span><span class="p">%</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-<span class="w">         </span><span class="k">if</span><span class="p">(</span><span class="n">pos</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>
-<span class="k">            </span><span class="n">string</span><span class="p">%</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">low_to_up</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
-<span class="w">         </span><span class="k">endif</span>
-<span class="k">      end select</span>
-<span class="k">   enddo</span>
-
-<span class="k">   if</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">str</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="n">string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str</span>
-
-<span class="k">end function </span><span class="n">upper</span>
-</pre></div>
-
-    </section>
-    <br>
-    
     </div>
   </div>
 
+</div>
+  </div>
       <hr>
     </div> <!-- /container -->
     <footer>
@@ -366,7 +376,7 @@ PASSED</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-04-10 20:55 +0000             </p>
+ on 2026-04-11 03:32 +0000             </p>
           </div>
         </div>
         <br>

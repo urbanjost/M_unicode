@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p>100.0% of total for derived types.</p>Including implementation: 482 statements, 100.0% of total for derived types.">60 statements</a>
+                 title="<p>100.0% of total for derived types.</p>Including implementation: 488 statements, 100.0% of total for derived types.">61 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -133,7 +133,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/unicode_type.html#variable-codes">codes</a>
+            <a class="list-group-item" href="../type/unicode_type.html#variable-codes~2">codes</a>
         </div>
       </div>
     </div>
@@ -175,7 +175,7 @@
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-adjustl">adjustl</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-adjustr">adjustr</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-byte">byte</a>
-            <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-ch">ch</a>
+            <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-ch~4">ch</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-character">character</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-codepoint">codepoint</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-escape">escape</a>
@@ -198,6 +198,7 @@
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-oop_glob_a">oop_glob_a</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-pad">pad</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-replace">replace</a>
+            <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-reverse">reverse</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-scan">scan</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-split">split</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-sub">sub</a>
@@ -244,7 +245,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-codes"></span>
+              <span class="anchor" id="variable-codes~2"></span>
               integer,
             </td>
               <td>public,</td>
@@ -294,7 +295,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-codes~2"></span>
+              <span class="anchor" id="variable-codes~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -337,7 +338,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~3"></span>
+              <span class="anchor" id="variable-string~7"></span>
               character(len=*),
             </td>
 <td>intent(in),</td>
@@ -722,7 +723,7 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-ch"></span>
+      <span class="anchor" id="boundprocedure-ch~4"></span>
       <h3>
           procedure, public ::
   <strong>ch</strong> => oop_character
@@ -3141,6 +3142,64 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-reverse"></span>
+      <h3>
+          procedure, public ::
+  <strong>reverse</strong> => oop_reverse
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                    <h3>
+    private impure function oop_reverse(self) result(string_out)  
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='unicode_type.html'>unicode_type</a>)</small>
+    </h4>
+    
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
       <span class="anchor" id="boundprocedure-scan"></span>
       <h3>
           procedure, public ::
@@ -4018,6 +4077,7 @@
 <span class="w">   </span><span class="c">! transform</span>
 <span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">upper</span><span class="w">      </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_upper</span>
 <span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">lower</span><span class="w">      </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_lower</span>
+<span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">reverse</span><span class="w">    </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_reverse</span>
 <span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">html</span><span class="w">       </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_expand_html</span>
 <span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">expandtabs</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_expandtabs</span>
 <span class="w">   </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">escape</span><span class="w">     </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_escape</span>
@@ -4087,7 +4147,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-04-10 20:55 +0000             </p>
+ on 2026-04-11 03:32 +0000             </p>
           </div>
         </div>
         <br>

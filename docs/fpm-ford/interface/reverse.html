@@ -10,7 +10,7 @@
     <meta name="author" content="John S. Urban" >
     <link rel="icon" href="../favicon.png">
 
-    <title>fmt &ndash; M_unicode</title>
+    <title>reverse &ndash; M_unicode</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -80,7 +80,7 @@
 
     <div class="container">
   <div class="row">
-    <h1>fmt
+    <h1>reverse
       <small>Interface</small>
       
     </h1>
@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.1% of total for procedures.</p>Including implementation: 17 statements,  0.8% of total for procedures.">3 statements</a>
+                 title="<p> 0.1% of total for procedures.</p>Including implementation: 15 statements,  0.7% of total for procedures.">3 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -105,7 +105,7 @@
           <ol class="breadcrumb justify-content-end mb-0">
                 <li class="breadcrumb-item"><a href='../sourcefile/m_unicode.f90.html'>M_unicode.F90</a></li>
                 <li class="breadcrumb-item"><a href='../module/m_unicode.html'>M_unicode</a></li>
-            <li class="breadcrumb-item active" aria-current="page">fmt</li>
+            <li class="breadcrumb-item active" aria-current="page">reverse</li>
           </ol>
         </nav>
       </div>
@@ -150,8 +150,8 @@
       </a>
       <div id="modprocs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../interface/fmt.html#moduleprocedure-fmt_ga">fmt_ga</a>
-            <a class="list-group-item" href="../interface/fmt.html#moduleprocedure-fmt_gs">fmt_gs</a>
+            <a class="list-group-item" href="../interface/reverse.html#moduleprocedure-reverse_a">reverse_a</a>
+            <a class="list-group-item" href="../interface/reverse.html#moduleprocedure-reverse_u">reverse_u</a>
         </div>
       </div>
     </div>
@@ -164,14 +164,14 @@
     </div>
 
     <div class="col-md-9" id='text'>
-      <h2>public interface fmt</h2>
+      <h2>public interface reverse</h2>
       
 
 
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-fmt_ga"></span> <h3>private impure elemental function fmt_ga(generic, format) result(line)  
+    <div class="card-header codesum"><span class="anchor" id="proc-reverse_a"></span> <h3>private impure elemental function reverse_a(string) result(res)  
 </h3></div>
     <div class="card-body">
         
@@ -189,30 +189,15 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-generic~2"></span>
-              class(*),
+              <span class="anchor" id="variable-string~34"></span>
+              character(len=*),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>generic</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-format~4"></span>
-              character(len=*),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>format</strong></td>
+            <td><strong>string</strong></td>
             <td>
                 
             </td>
@@ -230,10 +215,68 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-fmt_gs"></span> <h3>private impure elemental function fmt_gs(generic, format) result(line)  
+    <div class="card-header codesum"><span class="anchor" id="proc-reverse_u"></span> <h3>private impure elemental function reverse_u(string) result(rev)  
 </h3></div>
     <div class="card-body">
-        
+        <h2 id="name">NAME</h2>
+<p>reverse(3f) - [M_unicode:CASE] reverse order of glyphs on a line
+  (LICENSE:MIT)</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nx">impure</span><span class="w"> </span><span class="nx">elemental</span><span class="w"> </span><span class="nx">function</span><span class="w"> </span><span class="nx">reverse</span><span class="p">(</span><span class="nx">str</span><span class="p">)</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="p">(</span><span class="kt">string</span><span class="p">)</span>
+
+<span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">str</span>
+<span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span><span class="w">            </span><span class="o">::</span><span class="w"> </span><span class="kt">string</span>
+</code></pre></div>
+
+<h2 id="description">DESCRIPTION</h2>
+<div class="codehilite"><pre><span></span><code>reverse(string) returns a copy of the input string with all characters
+in reverse position on the line.
+</code></pre></div>
+
+<h2 id="options">OPTIONS</h2>
+<div class="codehilite"><pre><span></span><code> str    string to reverse
+</code></pre></div>
+
+<h2 id="returns">RETURNS</h2>
+<div class="codehilite"><pre><span></span><code> reverse  copy of the input string with order of characters on the
+          line reversed.
+</code></pre></div>
+
+<h2 id="examples">EXAMPLES</h2>
+<p>Sample program:</p>
+<div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">demo_reverse</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">stdout</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nx">output_unit</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">reverse</span><span class="p">,</span><span class="w"> </span><span class="nx">ch</span><span class="o">=&gt;</span><span class="nx">character</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="nx">assignment</span><span class="p">(=)</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">ut</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nx">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="nx">operator</span><span class="p">(</span><span class="o">==</span><span class="p">)</span>
+<span class="nx">implicit</span><span class="w"> </span><span class="nx">none</span>
+<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">parameter</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">g</span><span class="p">=</span><span class="err">&#39;</span><span class="p">(</span><span class="nx">g0</span><span class="p">)</span><span class="err">&#39;</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span><span class="w">         </span><span class="o">::</span><span class="w"> </span><span class="nx">original</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="w">   </span><span class="nx">original</span><span class="p">(</span><span class="mi">1</span><span class="p">)=</span><span class="err">&#39;</span><span class="nx">abcde</span><span class="err">&#39;</span>
+<span class="w">   </span><span class="nx">original</span><span class="p">(</span><span class="mi">2</span><span class="p">)=</span><span class="err">&#39;</span><span class="nx">한국말</span><span class="err">&#39;</span>
+<span class="w">   </span><span class="nx">original</span><span class="p">(</span><span class="mi">3</span><span class="p">)=</span><span class="err">&#39;</span><span class="nx">五十七</span><span class="err">&#39;</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="nx">stdout</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span><span class="nx">ch</span><span class="p">(</span><span class="nx">original</span><span class="p">)</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="nx">stdout</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="nx">stdout</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span><span class="nx">ch</span><span class="p">(</span><span class="nx">reverse</span><span class="p">(</span><span class="nx">original</span><span class="p">))</span>
+<span class="nx">end</span><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_reverse</span>
+</code></pre></div>
+
+<p>Expected output</p>
+<blockquote>
+<p>abcde
+한국말
+五十七</p>
+<p>edcba
+말국한
+七十五</p>
+</blockquote>
+<h2 id="author">AUTHOR</h2>
+<div class="codehilite"><pre><span></span><code> John S. Urban
+</code></pre></div>
+
+<h2 id="license">LICENSE</h2>
+<div class="codehilite"><pre><span></span><code> MIT
+</code></pre></div>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -248,22 +291,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-generic~3"></span>
-              class(*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>generic</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-format~5"></span>
+              <span class="anchor" id="variable-string~33"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -271,7 +299,7 @@
               
             </td>
             <td>::</td>
-            <td><strong>format</strong></td>
+            <td><strong>string</strong></td>
             <td>
                 
             </td>

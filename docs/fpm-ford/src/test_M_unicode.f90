@@ -6,6 +6,7 @@ use M_unicode, only : trim, len, len_trim
 use M_unicode, only : repeat
 use M_unicode, only : upper, lower
 use M_unicode, only : expandtabs
+use M_unicode, only : reverse
 use M_unicode, only : escape, add_backslash
 use M_unicode, only : pound_to_box                           
 use M_unicode, only : add_border
@@ -349,6 +350,30 @@ integer                      :: i
    expected="thisismystring"
    call check('expandtabs',in%expandtabs(tab_size=0).eq.expected,character(in%expandtabs(tab_size=0)))
 end subroutine test_expandtabs
+
+subroutine test_reverse()
+type(unicode_type)           :: in
+type(unicode_type)           :: expected
+
+   in='abcde'
+   expected='edcba'
+   call check('reverse',reverse(in).eq.expected,character(reverse(in)))
+   call check('reverse',in%reverse().eq.expected,character(reverse(in)))
+   call check('reverse',reverse('abcde').eq.'edcba',character(reverse('abcde')))
+
+   in='한국말'
+   expected='말국한'
+   call check('reverse',reverse(in).eq.expected,character(reverse(in)))
+   call check('reverse',in%reverse().eq.expected,character(reverse(in)))
+   call check('reverse',reverse('한국말').eq.'말국한',character(reverse('한국말')))
+
+   in='五十七'
+   expected='七十五'
+   call check('reverse',reverse(in).eq.expected,character(reverse(in)))
+   call check('reverse',in%reverse().eq.expected,character(reverse(in)))
+   call check('reverse',reverse('五十七').eq.'七十五',character(reverse('五十七')))
+
+end subroutine test_reverse
 
 subroutine test_fmt()
 
@@ -1548,6 +1573,7 @@ use testsuite_M_unicode
    call test_pad()
    call test_join()
    call test_expandtabs()
+   call test_reverse()
    call test_fmt()
    call test_escape()
    call test_add_backslash()
