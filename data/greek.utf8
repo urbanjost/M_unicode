@@ -1,0 +1,29 @@
+The Greek alphabet consists of 24 letters, from Alpha to Omega, widely
+used in mathematics, science, and engineering. The letters are 
+
+   Alpha (Αα), Beta (Ββ), Gamma (Γγ), Delta (Δδ), Epsilon (Εε), Zeta
+   (Ζζ), Eta (Ηη), Theta (Θθ), Iota (Ιι), Kappa (Κκ), Lambda
+   (Λλ), Mu (Μμ), Nu (Νν), Xi (Ξξ), Omicron (Οο), Pi (Ππ), Rho
+   (Ρρ), Sigma (Σσ/ς), Tau (Ττ), Upsilon (Υυ), Phi (Φφ), Chi
+   (Χχ), Psi (Ψψ), and Omega (Ωω).
+
+Sigma (Σ, σ/ς) (Note: ς is used only at the end of words)
+
+## As C++ escape sequences
+   Alpha (\u0391\u03B1), Beta (\u0392\u03B2), Gamma (\u0393\u03B3), Delta (\u0394\u03B4), Epsilon (\u0395\u03B5), Zeta
+   (\u0396\u03B6), Eta (\u0397\u03B7), Theta (\u0398\u03B8), Iota (\u0399\u03B9), Kappa (\u039A\u03BA), Lambda
+   (\u039B\u03BB), Mu (\u039C\u03BC), Nu (\u039D\u03BD), Xi (\u039E\u03BE), Omicron (\u039F\u03BF), Pi (\u03A0\u03C0), Rho
+   (\u03A1\u03C1), Sigma (\u03A3\u03C3/\u03C2), Tau (\u03A4\u03C4), Upsilon (\u03A5\u03C5), Phi (\u03A6\u03C6), Chi
+   (\u03A7\u03C7), Psi (\u03A8\u03C8), and Omega (\u03A9\u03C9).
+
+Sigma (\u03A3, \u03C3/\u03C2) (Note: \u03C2 is used only at the end of words)
+
+## As HTML character entities
+&Alpha;,&alpha;, &Beta;,&beta;, &Gamma;,&gamma;,
+&Delta;,&delta;, &Epsilon;,&epsilon;, &Zeta;,&zeta;,
+&Eta;,&eta;, &Theta;,&theta;, &Iota;,&iota;,
+&Kappa;,&kappa;, &Lambda;,&lambda;, &Mu;,&mu;,
+&Nu;,&nu;, &Xi;,&xi;, &Omicron;,&omicron;,
+&Pi;,&pi;, &Rho;,&rho;, &Sigma;,&sigma;,
+&Tau;,&tau;, &Upsilon;,&upsilon;, &Phi;,&phi;,
+&Chi;,&chi;, &Psi;,&psi;, &Omega;&omega;
