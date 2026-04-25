@@ -5,7 +5,8 @@
      use M_unicode,       only : assignment(=), trim
      implicit none
      type(ut),allocatable  :: poem(:)
-     type(ut)              :: test(5)
+     !type(ut)              :: test(5)
+     type(ut)              :: test(:)
      integer               :: i
         !
         ! “The Crow and the Fox” by Jean de la Fontaine

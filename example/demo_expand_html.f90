@@ -5,8 +5,6 @@
      use M_unicode,       only : ch => character
      implicit none
      character(len=*),parameter :: g='(*(g0))'
-     type(unicode_type)         :: input
-     type(unicode_type)         :: output
      integer                    :: i
      character(len=*),parameter :: data(*)=[character(len=132) :: &
      '             HTML Character Entity Test Page', &

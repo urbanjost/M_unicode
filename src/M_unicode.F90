@@ -5788,7 +5788,6 @@ end function pound_to_box_ascii
 !!    type(ut),allocatable       :: textout(:)
 !!    type(ut)                   :: uline
 !!    type(ut),allocatable       :: uparagraph(:)
-!!    character(len=*),parameter :: line='WARNING, WARNING, Will Robinson'
 !!    character(len=*),parameter :: paragraph(*)=[character(len=10) :: &
 !!    &'one',&
 !!    &'two',&
@@ -7819,8 +7818,6 @@ end function expandtabs
 !!    use M_unicode,       only : ch => character
 !!    implicit none
 !!    character(len=*),parameter :: g='(*(g0))'
-!!    type(unicode_type)         :: input
-!!    type(unicode_type)         :: output
 !!    integer                    :: i
 !!    character(len=*),parameter :: data(*)=[character(len=132) :: &
 !!    '             HTML Character Entity Test Page', &
@@ -10167,7 +10164,8 @@ end function expand_html_au
 !!    use M_unicode,       only : assignment(=), trim
 !!    implicit none
 !!    type(ut),allocatable  :: poem(:)
-!!    type(ut)              :: test(5)
+!!    !type(ut)              :: test(5)
+!!    type(ut)              :: test(:)
 !!    integer               :: i
 !!       !
 !!       ! “The Crow and the Fox” by Jean de la Fontaine

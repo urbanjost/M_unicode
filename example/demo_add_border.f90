@@ -5,7 +5,6 @@
      type(ut),allocatable       :: textout(:)
      type(ut)                   :: uline
      type(ut),allocatable       :: uparagraph(:)
-     character(len=*),parameter :: line='WARNING, WARNING, Will Robinson'
      character(len=*),parameter :: paragraph(*)=[character(len=10) :: &
      &'one',&
      &'two',&
