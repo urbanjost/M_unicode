@@ -1,5 +1,5 @@
      program demo_pound_to_box
-     use M_unicode, only : slurp, ut=>unicode_type
+     use M_unicode, only : ut=>unicode_type
      use M_unicode, only : operator(//)
      use M_unicode, only : assignment(=)
      use M_unicode, only : character, pound_to_box
@@ -17,7 +17,6 @@
      '   ###################################', &
      '   # WARNING, WARNING, Will Robinson #', &
      '   ###################################']
-        ! write out slurped data
         textout=text
         call write_text()
         textout=pound_to_box(text)

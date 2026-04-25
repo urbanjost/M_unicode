@@ -10243,7 +10243,6 @@ character(len=:),allocatable :: temp
 
 integer            :: esc    ! Default is backslash
 integer            :: i
-integer            :: j
 integer            :: lgth
 character(len=3)   :: thr
 character(len=4)   :: four

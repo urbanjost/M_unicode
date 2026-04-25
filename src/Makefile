@@ -58,9 +58,9 @@ $(PROG): $(OBJS)
 
 	-$(F90) $(F90FLAGS) $(LDFLAGS) $@.f90 -o $@ $(OBJS) $(LIBS) # && ./$@ </dev/null
 
-#$(TPROG): $(OBJS)
-#
-#       -$(F90) $(LDFLAGS) $@.f90 -o $@ $(OBJS) $(LIBS) # && ./$@ </dev/null
+$(TPROG): $(OBJS)
+
+	-$(F90) $(LDFLAGS) $@.f90 -o $@ $(OBJS) $(LIBS) # && ./$@ </dev/null
 
 .PHONY: clean
 clean:
@@ -71,7 +71,7 @@ clean:
 help:
 	: make    '-- build M_unicode module'
 	: run     '-- run manpage demo programs and test program'
-#	: test    '-- run test program (requires additional modules)'
+	: test    '-- run test program (requires additional modules)'
 	: man     '-- show all manpages as text'
 	: ship    '-- rebuild archive files of manpages'
 	: clean   '-- clean directory of object files and executables'
@@ -82,10 +82,10 @@ help:
 ship:
 	: make easily distributed archive files of manpages
 	mkdir -p ../docs; \
-	 cd ../man/;    gzip */*.?M_unicode; \
-	 zip -r ../docs/manpages.zip   */*M_unicode*.gz; \
-	 tar cvfz ../docs/manpages.tgz */*M_unicode*.gz; \
-	 gunzip */*.?M_unicode.gz
+	 cd ../man/;    gzip */*.?m_unicode; \
+	 gzip -r ../docs/manpages.zip   */*m_unicode*.gz; \
+	 tar cvfz ../docs/manpages.tgz */*m_unicode*.gz; \
+	 gunzip */*.?m_unicode.gz
 
 .PHONY: run
 run: $(PROG)
@@ -94,11 +94,11 @@ run: $(PROG)
 #	echo $? | xargs -n 1  |xargs -iXX /bin/time XX  \</dev/null
 	echo $? | xargs -n 1  |(set +x;xargs -iXX env XX 2>&1)
 
-#.PHONY: test
-#test: $(TPROG)
-#	# run everything
-#	echo $? | xargs -n 1
-#	echo $? | xargs -n 1  |(set +x;xargs -iXX env XX 2>&1)
+.PHONY: test
+test: $(TPROG)
+	# run everything
+	echo $? | xargs -n 1
+	echo $? | xargs -n 1  |(set +x;xargs -iXX env XX 2>&1)
 
 .PHONY: doxygen
 doxygen:

@@ -1,11 +1,13 @@
 function loadthem(){
 append("M_unicode.3m_unicode.html");
 append("add_backslash.3m_unicode.html");
+append("add_border.3m_unicode.html");
 append("adjustl.3m_unicode.html");
 append("adjustr.3m_unicode.html");
 append("character.3m_unicode.html");
 append("codepoints_to_utf8.3m_unicode.html");
 append("escape.3m_unicode.html");
+append("expand_html.3m_unicode.html");
 append("expandtabs.3m_unicode.html");
 append("fmt.3m_unicode.html");
 append("get_arg.3m_unicode.html");
@@ -21,9 +23,11 @@ append("len.3m_unicode.html");
 append("len_trim.3m_unicode.html");
 append("lower.3m_unicode.html");
 append("pad.3m_unicode.html");
+append("pound_to_box.3m_unicode.html");
 append("readline.3m_unicode.html");
 append("repeat.3m_unicode.html");
 append("replace.3m_unicode.html");
+append("reverse.3m_unicode.html");
 append("scan.3m_unicode.html");
 append("slurp.3m_unicode.html");
 append("sort.3m_unicode.html");

@@ -81,8 +81,8 @@ UPPER(3f) - [M_unicode:CASE] changes a string to uppercase
 pure elemental function upper(str) result (string)
 <P>
 <PRE>
-     character(*), intent(in)    :: str
-     character(len(str))         :: string  ! output string
+     type(unicode_type),intent(in) :: str
+     type(unicode_type)            :: string
 <P>
 </PRE>
 </BLOCKQUOTE>
