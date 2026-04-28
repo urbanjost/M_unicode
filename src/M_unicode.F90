@@ -10165,7 +10165,7 @@ end function expand_html_au
 !!    implicit none
 !!    type(ut),allocatable  :: poem(:)
 !!    !type(ut)              :: test(5)
-!!    type(ut)              :: test(:)
+!!    type(ut),allocatable  :: test(:)
 !!    integer               :: i
 !!       !
 !!       ! “The Crow and the Fox” by Jean de la Fontaine
