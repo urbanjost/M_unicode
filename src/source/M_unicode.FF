@@ -108,6 +108,7 @@ SYNOPSIS
 
     pound_to_box  create simple boxes using pound character
     add_border    add border to an array of strings
+    reverse       reverse order of glyphs on a line
 
    CASE
 
@@ -371,6 +372,7 @@ public :: character
 public :: sort
 public :: upper
 public :: lower
+public :: reverse
 public :: expandtabs
 public :: escape
 public :: expand_html
@@ -435,6 +437,7 @@ private  ::  concat_complex64_g,  concat_g_complex64
 private  ::  concat_l_g,          concat_g_l
 private  ::  concat_character_g,  concat_g_character
 
+private ::  reverse_u,  reverse_a
 private :: a2s, s2a
 private :: binary_search_int
 private :: binary_search_chr
@@ -443,15 +446,12 @@ private :: section_ua
 private :: section_au
 private :: section_aa
 
-interface isascii
-   module procedure isascii_a,isascii_u
-end interface isascii
-interface isblank
-   module procedure isblank_a,isblank_u
-end interface isblank
-interface isspace
-   module procedure isspace_a,isspace_u
-end interface isspace
+interface  isascii;  module  procedure  isascii_a,isascii_u;  end  interface  isascii
+interface  isblank;  module  procedure  isblank_a,isblank_u;  end  interface  isblank
+interface  isspace;  module  procedure  isspace_a,isspace_u;  end  interface  isspace
+interface  reverse;  module  procedure  reverse_a,reverse_u;  end  interface  reverse
+interface  upper;    module  procedure  upper_a,upper_u;      end  interface  upper
+interface  lower;    module  procedure  lower_a,lower_u;      end  interface  lower
 
 interface utf8_to_codepoints
    module procedure utf8_to_codepoints_str,utf8_to_codepoints_chars
@@ -673,6 +673,7 @@ contains
    ! transform
    procedure :: upper      => oop_upper
    procedure :: lower      => oop_lower
+   procedure :: reverse    => oop_reverse
    procedure :: html       => oop_expand_html
    procedure :: expandtabs => oop_expandtabs
    procedure :: escape     => oop_escape
@@ -5092,14 +5093,83 @@ end subroutine sort_quick_rx
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
-impure elemental function reverse(string) result (rev)
+$BLOCK COMMENT --file reverse.3m_unicode.man
+NAME
+ reverse(3f) - [M_unicode:CASE] reverse order of glyphs on a line
+ (LICENSE:MIT)
+
+SYNOPSIS
+
+    impure elemental function reverse(str) result (string)
+
+     type(unicode_type),intent(in) :: str      
+     type(unicode_type)            :: string  
+
+DESCRIPTION
+   reverse(string) returns a copy of the input string with all characters
+   in reverse position on the line.
+   
+
+OPTIONS
+    str    string to reverse
+
+RETURNS
+    reverse  copy of the input string with order of characters on the
+             line reversed.
+
+EXAMPLES
+
+  Sample program:
+
+   program demo_reverse
+   use iso_fortran_env, only : stdout => output_unit
+   use M_unicode,       only : reverse, ch=>character
+   use M_unicode,       only : unicode_type, assignment(=)
+   use M_unicode,       only : ut => unicode_type, operator(==)
+   implicit none
+   character(len=*),parameter :: g='(g0)'
+   type(unicode_type)         :: original(3)
+      original(1)='abcde'
+      original(2)='한국말'
+      original(3)='五十七'
+      write(stdout,g)ch(original)
+      write(stdout,*)
+      write(stdout,g)ch(reverse(original))
+   end program demo_reverse
+
+ Expected output
+
+  > abcde
+  > 한국말
+  > 五十七
+
+  > edcba
+  > 말국한
+  > 七十五
+
+AUTHOR
+    John S. Urban
+
+LICENSE
+    MIT
+$ENDBLOCK
+$!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+impure elemental function reverse_u(string) result (rev)
 
 $@(#) M_unicode::reverse(3f): Return a string reversed
 
 type(unicode_type),intent(in)  :: string   ! string to reverse
 type(unicode_type)             :: rev      ! return value (reversed string)
    rev=string%sub(len(string),1,-1)
-end function reverse
+end function reverse_u
+!-----------------------------------------------------------------------------------------------------------------------------------
+impure elemental function reverse_a(string) result(res)
+character(len=*),intent(in) :: string
+type(unicode_type)          :: string_u
+type(unicode_type)          :: res
+   call assign_str_char( string_u,string ) !  string_u=string
+   res=reverse_u(string_u)
+end function reverse_a
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
@@ -6177,7 +6247,7 @@ LICENSE
     MIT
 $ENDBLOCK
 $!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-pure elemental function upper(str) result (string)
+pure elemental function upper_u(str) result (string)
 
 $@(#) M_unicode::upper(3f): returns an uppercase string
 
@@ -6203,7 +6273,15 @@ integer,parameter             :: diff = iachar('A') - iachar('a')
 
    if(len(str).eq.0)string = str
 
-end function upper
+end function upper_u
+!-----------------------------------------------------------------------------------------------------------------------------------
+elemental function upper_a(string) result(res)
+character(len=*),intent(in) :: string
+type(unicode_type)          :: string_u
+type(unicode_type)          :: res
+   call assign_str_char ( string_u,string ) !  string_u=string
+   res=upper_u(string_u)
+end function upper_a
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
@@ -6309,7 +6387,7 @@ LICENSE
     MIT
 $ENDBLOCK
 $!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-pure elemental function lower(str) result (string)
+pure elemental function lower_u(str) result (string)
 
 $@(#) M_unicode::lower(3f): returns a lowercase string
 
@@ -6335,7 +6413,15 @@ integer, parameter             :: diff = iachar('A') - iachar('a')
 
    if(len(str).eq.0)string = str
 
-end function lower
+end function lower_u
+!-----------------------------------------------------------------------------------------------------------------------------------
+elemental function lower_a(string) result(res)
+character(len=*),intent(in) :: string
+type(unicode_type)          :: string_u
+type(unicode_type)          :: res
+   call assign_str_char ( string_u,string ) !  string_u=string
+   res=lower_u(string_u)
+end function lower_a
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
@@ -11407,6 +11493,12 @@ class(unicode_type),intent(in)       :: self
 type(unicode_type)                   :: string_out
    call assign_str_char ( string_out, add_backslash_u(self) )
 end function oop_add_backslash
+!===================================================================================================================================
+impure function oop_reverse(self) result (string_out)
+class(unicode_type),intent(in) :: self
+type(unicode_type)             :: string_out
+   string_out=reverse_u(self)
+end function oop_reverse
 !===================================================================================================================================
 function oop_upper(self) result (string_out)
 class(unicode_type),intent(in) :: self
