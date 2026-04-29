@@ -5270,6 +5270,11 @@ logical            :: ignorecase_local
 logical            :: flip
 type(unicode_type) :: target_local   ! input line to be changed
 
+   kludge: block
+   type(force_keywords),volatile :: quiet_
+      if(present(force_))quiet_=force_  ! so compiler does not complain about force_ being unused
+   endblock kludge
+
    flip=.false.
    ignorecase_local=.false.
    original_input_length=len_trim(target)          ! get non-blank length of input line
@@ -5788,7 +5793,6 @@ end function pound_to_box_ascii
 !!    type(ut),allocatable       :: textout(:)
 !!    type(ut)                   :: uline
 !!    type(ut),allocatable       :: uparagraph(:)
-!!    character(len=*),parameter :: line='WARNING, WARNING, Will Robinson'
 !!    character(len=*),parameter :: paragraph(*)=[character(len=10) :: &
 !!    &'one',&
 !!    &'two',&
@@ -7819,8 +7823,6 @@ end function expandtabs
 !!    use M_unicode,       only : ch => character
 !!    implicit none
 !!    character(len=*),parameter :: g='(*(g0))'
-!!    type(unicode_type)         :: input
-!!    type(unicode_type)         :: output
 !!    integer                    :: i
 !!    character(len=*),parameter :: data(*)=[character(len=132) :: &
 !!    '             HTML Character Entity Test Page', &
@@ -10167,7 +10169,8 @@ end function expand_html_au
 !!    use M_unicode,       only : assignment(=), trim
 !!    implicit none
 !!    type(ut),allocatable  :: poem(:)
-!!    type(ut)              :: test(5)
+!!    !type(ut)              :: test(5)
+!!    type(ut),allocatable  :: test(:)
 !!    integer               :: i
 !!       !
 !!       ! “The Crow and the Fox” by Jean de la Fontaine
@@ -10243,7 +10246,6 @@ character(len=:),allocatable :: temp
 
 integer            :: esc    ! Default is backslash
 integer            :: i
-integer            :: j
 integer            :: lgth
 character(len=3)   :: thr
 character(len=4)   :: four

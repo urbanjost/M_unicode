@@ -1,4 +1,3 @@
-
 [![fpm](https://img.shields.io/badge/fpm-install-blue?logo=fortran)](https://fpm.fortran-lang.org/registry/package/m_unicode)
 <!--
 [![build](https://github.com/urbanjost/M_unicode/actions/workflows/.../badge.svg)](https://github.com/urbanjost/M_unicode/actions)
@@ -13,30 +12,48 @@
 
 ## Overview
 
-The **M\_unicode** module provides direct support for UTF-8 encoded files
-and data, allowing UTF-8 encoded strings to be processed as easily as
-ASCII-7 encoded strings, without depending on the compiler supporting
-the optional ISO_10646 extension.  ASCII-7 being a subset of UTF-8 the
-procedures work with standard ASCII-7 text as well.
+The **M\_unicode** module provides direct support for UTF-8 encoded
+data in source files and internal I/O, not just UTF-8 encoded external data files.
+It allows UTF-8 encoded strings to be processed as easily as ASCII-7
+encoded strings, without depending on a compiler supporting the
+optional ISO_10646 Unicode extension.
 
-The procedural interface supports all basic character intrinsics and
-operators.  The **M\_unicode** module also supports many additional
-string methods such as case conversion and sorting.
+### Not just for UTF-8
+
+ASCII-7 being a subset of UTF-8 the procedures work with standard ASCII-7
+text as well.
+
+### Supports intrinsics and more
+
+The procedural interface provided by **M\_unicode** overloads and
+supports all the basic character intrinsics and operators. The module
+extends this functionality with many additional string methods such as
+case conversion and sorting as well.
+
+### OOPs, lets do it again ..
 
 There is also an OOP interface. The user-defined type **unicode\_type**
 provides not just ragged arrays of strings but nearly all the string
 methods as type-bound procedures.
 
+### The Where and the Why ...
+
 **M\_unicode** is a companion to and fully implements the UTF-8
 processing discussed in the Fortran Wiki [Unicode
 Tutorial](https://fortranwiki.org/fortran/show/Unicode).
 
+### Proviided with Unit-testing and extensive examples
+
 Over 55 [example programs](example) and a self-contained set of unit
 tests are included.
+
+### Documentation
 
 The procedures are described in HTML, \*roff and flat-text format.
 The \*roff files may be installed as man-pages on Unix and GNU/Linux
 platforms.
+
+### Example
 
 A sample program explicitly accessing all the module elements by
 name:
@@ -65,12 +82,11 @@ use M_unicode, only : &
    slurp,   readline,       pound_to_box,     &
    sort,    expandtabs,     replace,          &
    pad,     join,           fmt,              &
-   sub,     character,                        &
    get_arg, get_env,        transliterate,    &
-   escape,  add_backslash
+   escape,  add_backslash,  sub
 
-! operators (and overloads) and SORT(3f) use Unicode codepoint 
-! order (NOT necessarily dictionary order)
+! Note operators (and overloads) and SORT(3f) use Unicode codepoint 
+! order (NOT necessarily dictionary order):
 
 use M_unicode, only : assignment(=)
 use M_unicode, only : operator(<=), lle
@@ -81,7 +97,7 @@ use M_unicode, only : operator(>),  lgt
 use M_unicode, only : operator(>=), lge
 use M_unicode, only : operator(//)
 
-! low-level text conversion to integer codepoint arrays:
+! low-level conversion betwwen utf-8 text and integer codepoint arrays:
 use M_unicode, only : utf8_to_codepoints, codepoints_to_utf8
 
 ! sample usage:
@@ -134,7 +150,7 @@ Hello World and Ni Hao -- 你好
 
 ### Optional Unicode ISO-10646 Fortran extension
 
-As an alternative to __M_unicode__ Fortran 2003 and later standards
+Fortran 2003 and later standards
 describe the optional Unicode ISO-10646 extension, which provides for
 an internal representation of Unicode using 4-byte-per-character UCS-4
 encoding for characters/glyphs, as well as an ability to automatically
@@ -142,58 +158,47 @@ encode and decode data read and written to UTF-8 files.
 
 __But__
  + major compilers still do not support the Unicode ISO-10646 option
- + use of UTF-8 strings in source code is treated as ASCII8 byte streams,
-   not as UTC-4 
+ + use of UTF-8 strings in source code is treated as ASCII-8 byte streams,
+   not as UCS-4 
  + there are no functions provided to convert from UCS-4 to UTF-8 byte
-   streams except via reading and writing to files.
-__In addition:__
+   streams except via reading and writing to external files (__not__
+   internal files!)..
  + ragged string arrays are not supported as intrinsic types
  + no OOP interface is provided for the intrinsic methods 
 
-Where CHARACTER(KIND="ISO_10646") _is_ provided
-the [M_ucs4](https://github.com/urbanjost/M_ucs4) repository
-supplements Unicode usage -- emphasizing adherence to the standard to
+The **M\_unicode** module resolves all these issues.
+
+However, if interested in using CHARACTER(KIND="ISO_10646") the
+[M_ucs4](https://github.com/urbanjost/M_ucs4) repository supplements
+ISO_10646 usage -- and it emphasizes adherence to the standard to
 promote portability.
 
-### M_unicode 
+## Summary
+By default it can often be easy to place UTF-8 characters in fixed
+messages, but if the text needs manipulated or processed in any way
+programattically dealing with Unicode UTF-8 encoded data as a raw series
+of 8-bit-bytes becomes complex and non-intuitive.  The **M_unicode**
+module provides a user-defined type named **UNICODE_TYPE** and many
+procedures that make it very easy to work with such multi-byte characters.
 
-The **M_unicode** module provides direct support for UTF-8 encoded source
-files and data whether the ISO_10646 extension is available or not.
+### Limits on UTF-8 source files 
 
-**M_unicode** supports UTF-8 source files and permits entering multi-byte
-Unicode characters in constant strings on systems supporting UTF-8
-files, not just data files (Nearly all current operating systems and
-many applications support UTF-8 text files).
+Note that UTF-8 characters are supported in the source files just in
+comments and values. This is sufficient, but requires you not use
+multi-byte characters in the executable code itself, even in variable
+names.
 
-Whether in input and output files, or as what-you-see-is-what-you-get
-character constants the compiler will see this text as byte streams,
-and will be unaware of how many Unicode glyphs/characters are represented.
+All code statements and expressions other than string values must use
+just the Fortran character set.
 
-So it may often be easy to place Unicode characters in fixed messages,
-but if the text needs manipulated or processed in any way dealing with
-Unicode as a raw series of 8-bit-bytes becomes complex and non-intuitive.
-
-To keep processing of Unicode as simple as it is to process ASCII-7
-characters the **M_unicode** module provides a user-defined type named
-**UNICODE_TYPE** and a number of procedures for converting byte streams
-that represent UTF8-encoded text into Unicode code points (ie, 32-bit
-integer values that generally identify one specific Unicode character).
-
-Additionally the most common character-related intrinsics and operators
-are overloaded to work with the UNICODE_TYPE variables; and the type
-is extended to include the procedures and operators as type-bound
-procedures for programmers that prefer OOP (Object-Oriented Programming)
-capabilities.
-
-### UTF-8 source files -- just in comments and constants
-
-The Fortran character set is the set of characters used in constructing
-Fortran code. It is now the same as the ASCII 7-bit character set sans
-the unprintable control characters. The letters a-z,A-Z and digits 0-9
-and underscore are the only characters allowed in operator symbols. These
-same characters and the "special" characters (the remaining printable
-ASCII 7-bit characters) are used for operators and bracketing, and
-various forms of separating and delimiting other lexical tokens.
+Per the Fortran Standard the __Fortran character set__ is the set of
+characters used in constructing Fortran code. It is now the same as the
+ASCII 7-bit character set sans the unprintable control characters. The
+letters a-z,A-Z and digits 0-9 and underscore are the only characters
+allowed in operator symbols. These same characters and the "special"
+characters (the remaining printable ASCII 7-bit characters) are used for
+operators and bracketing, and various forms of separating and delimiting
+other lexical tokens.
 
 But what about other non-ASCII-7 characters representable by the
 processor?  Possibilities include the extended ASCII characters or
@@ -213,29 +218,31 @@ system supports UTF-8 files that it therefore will allow multi-byte
 characters to be represented in comments and character constants.
 
 But it is up to the processor whether it supports or even allows
-UTF-8 files.  In the past when UTF-8 file support was rare this meant
+UTF-8 files. In the past when UTF-8 file support was rare this meant
 using UTF-8 multi-byte characters in source files was likely to be
-non-portable.  Now that UTF-8 files are supported on most systems this
+non-portable. Now that UTF-8 files are supported on most systems this
 extension can be useful, particularly with compilers that do not support
 UCS-4 yet.
 
 ### NOTE:
 
 __If concerned about directly placing multi-byte characters into constant
-strings directly in the code, support of arrays of codepoint values is
-supported as well__.
+strings directly in the code, support of arrays of codepoint values
+is supported as well as C-style escape sequences and HTML character
+entities__.
 
 ### Environment
 
 Reading and writing properly to the screen requires that, independent
 of the **M_unicode** module, UTF-8 files display properly.
 
-This may require selecting a specific terminal emulator, setting the locale
-and selecting a font that supports the Unicode characters of interest.
+This may require selecting a specific terminal emulator, setting the
+locale and selecting a font that supports the Unicode characters of
+interest.
 
-Using the following Fortran source file, which does not use
-any Fortran Unicode ISO-10646 extensions, does the output
-appear directly if redirected to a file?
+Using the following Fortran source file, which does not use any Fortran
+Unicode ISO-10646 extensions, does the output appear directly if
+redirected to a file?
 
 ```fortran
 program multibyte
@@ -270,7 +277,7 @@ ways is when you use the **M_unicode** module.
 ![docs](docs/images/docs.gif)
 ---
 
-## Documentation
+## Documentation Details
 
 ### User
 
@@ -313,23 +320,17 @@ examples are included in the [example/](example/) directory.
    cd M_unicode/src
    # change Makefile if not using one of the listed compilers
 
-   # for gfortran
-   make clean
-   make gfortran
+   make clean gfortran|ifx|ifort|nvfortran|nagfor
 
-   # for ifort
+   # or 
    make clean
-   make ifort
-
-   # for nvfortran
-   make clean
-   make nvfortran
+   make F90=<compiler> F90FLAGS=<flags>
 
    # display other options (test, run, doxygen, ford, ...)
    make help
 ```
    To install you then generally copy the *.mod file and *.a file to
-   an appropriate directory.  Unfortunately, the specifics vary but in
+   an appropriate directory. Unfortunately, the specifics vary but in
    general if you have a directory $HOME/.local/lib and copy those files
    there then you can generally enter something like
 ```bash
@@ -488,9 +489,9 @@ characters to other multi-byte characters when editing UTF-8 files, so
 be aware you might need to normalize your source files into the allowed
 Fortran character set outside of constant strings.
 
-When using Unicode as byte streams avoid list-directed output. It
-does not know which bytes are composing a glyph and may split lines at
-inappropriate points.
+When using Unicode UTF-8 encoded data (as byte streams) avoid
+list-directed output. It does not know which bytes are composing a glyph
+and may split lines at inappropriate points.
 
 ### Compiler Support:
 
@@ -498,12 +499,6 @@ inappropriate points.
    files can vary. Some compilers might require specific flags (e.g.,
    -qmbcs for XL Fortran) or might offer better integration with
    system-level Unicode functionalities.
-
-### Source File Encoding:
-
-   The encoding of the Fortran source file itself is crucial. If the
-    file is saved in a Unicode encoding like UTF-8, the compiler needs
-   to be able to correctly interpret these characters during compilation.
 
 ### Limitations:
 
@@ -516,10 +511,6 @@ support for UTF-8 encoding is sufficient, however.
 ### References
  * [![Unicode Home](docs/images/Unicode-Logo-Final-Blue-95x112.jpg)](https://home.unicode.org/)
 
- + iconv  -- a program and library for converting between text encodings.
-   use "iconv --list" on ULS to see the list of encodings supported.
-   One use of iconv(1) is to convert "Latin" encodings to UTF-8 encodings
-   for direct use by the M_unicode(3) module.
 
  * Initially based on a discussion begun in
 https://fortran-lang.discourse.group/t/how-to-use-utf-8-in-gfortran/9949, 2025-08;
@@ -547,6 +538,10 @@ Additionally ...
  + [M_strings](https://github.com/urbanjost/M_strings) for ASCII string procedures
  + [M_io](https://github.com/urbanjost/M_io) for filesystem and I/O related functions
  + [M_attr](https://github.com/urbanjost/M_attr) for ANSI terminal color and attributes
+ + iconv  -- a program and library for converting between text encodings.
+   use "iconv --list" on ULS to see the list of encodings supported.
+   One use of iconv(1) is to convert "Latin" encodings to UTF-8 encodings
+   for direct use by the M_unicode(3) module.
 <!--
  + [https://fortran-lang.discourse.group/t/how-to-use-utf-8-in-gfortran/9949](https://fortran-lang.discourse.group/t/how-to-use-utf-8-in-gfortran/9949)
  + [https://fortran-lang.discourse.group/t/how-do-i-file-read-french-special-characters-like-e-etc/6618](https://fortran-lang.discourse.group/t/how-do-i-file-read-french-special-characters-like-e-etc/6618)

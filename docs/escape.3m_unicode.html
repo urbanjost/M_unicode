@@ -56,7 +56,7 @@ a.existingWikiWord[title]{ //border: 1px dashed #BBB; }
 
 </A>
 <BLOCKQUOTE>
-ESCAPE(3f) - [M_unicode:CONVERSION] expand C-like escape sequences
+ESCAPE(3f) - [M_unicode:CONVERSION] expand C++ escape sequences
 (LICENSE:MIT)
 <P>
 </BLOCKQUOTE>
@@ -97,15 +97,8 @@ function escape(line,protect) result(out)
 
 </A>
 <BLOCKQUOTE>
-ESCAPE(3) expands commonly used escape sequences that represent glyphs
-or control characters.
-<P>
-REMOVE_BACKSLASH(3) should generally be used as it adheres to the
-C-style standard, where-as ESCAPE(3) supports additional sequences
-such as decimal and octal and \c, and \NNNNN support allows \0
-to potentially be the beginning of another value instead of always
-designating a null. Therefore the use of ESCAPE(3) is only recommended
-when it is known that these extensions are required.
+ESCAPE(3) expands commonly used C++ escape sequences that represent
+glyphs or control characters.
 <P>
 Escape sequences
 <P>
@@ -122,20 +115,22 @@ Escape sequences
     v      vertical tab
     "      double quote for compatibility with C strings
     &#146;      single quote for compatibility with C strings
+    ?      used to avoid trigraphs
 <P>
-    oNNN   byte with octal value NNN (3 digits)
+    oNNN   byte with octal value NNN (1 to 3 digits)
     [0-7][0-7]*    digits will be assumed an octal value till a
                    non-octal value character is encountered
     dNNN   byte with decimal value NNN (3 digits)
 <P>
-    xHH        byte with hexadecimal value HH (2 digits);
-               h is an alias for x
+    xHHHHH&#46;&#46;&#46;  byte with hexadecimal value that proceeds to the
+               first non-hexidecimal character or end of line.
+    hHHHHH&#46;&#46;&#46;  "h" is an alias for "x"
     uZZZZ      translate Unicode codepoint value to bytes
     UZZZZZZZZ  translate Unicode codepoint value to bytes
 <P>
 </PRE>
 The default escape character is the backslash, but this may be
-changed using the optional parameter ESCAPE.
+changed using the optional parameter PROTECT.
 </BLOCKQUOTE>
 <A name=3>
 
@@ -174,7 +169,8 @@ Sample Program:
    use M_unicode,       only : assignment(=), trim
    implicit none
    type(ut),allocatable  :: poem(:)
-   type(ut)              :: test(5)
+   !type(ut)              :: test(5)
+   type(ut),allocatable  :: test(:)
    integer               :: i
       !
       ! “The Crow and the Fox” by Jean de la Fontaine

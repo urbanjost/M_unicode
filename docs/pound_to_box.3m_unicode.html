@@ -84,7 +84,7 @@ syntax:
       function pound_to_box(win,style) result(winout)
 <P>
       type(unicode_type)|character(len=*),intent(in) :: win(:)
-      type(unicode_type)|character(len=*),intent(in) :: style
+      type(unicode_type)|character(len=*),intent(in),optional :: style
       type(unicode_type),allocatable :: winout(:)
 <P>
 </PRE>
@@ -127,7 +127,8 @@ input array to be changed
 </TD></TR>
 <TR valign=top><TD colspan=2>
 <B>style</B> </TD></TR><TR valign=top><TD width=3%>&nbsp;</TD><TD>
-may be "light", "bold", or "double".
+may be "light", "bold", or "double". Default is
+"bold".
 </TD></TR>
 <TR></TR></TABLE></BLOCKQUOTE>
 <A name=5>
@@ -140,7 +141,7 @@ may be "light", "bold", or "double".
 <TR valign=top><TD colspan=2>
 <B>winout</B> </TD></TR><TR valign=top><TD width=3%>&nbsp;</TD><TD>
 an array of strings with box characters substituted
-for adjacent box characters.
+for adjacent pound characters.
 </TD></TR>
 <TR></TR></TABLE></BLOCKQUOTE>
 <A name=6>
@@ -154,7 +155,7 @@ Sample Program:
 <P>
 <PRE>
    program demo_pound_to_box
-   use M_unicode, only : slurp, ut=&gt;unicode_type
+   use M_unicode, only : ut=&gt;unicode_type
    use M_unicode, only : operator(//)
    use M_unicode, only : assignment(=)
    use M_unicode, only : character, pound_to_box
@@ -172,7 +173,6 @@ Sample Program:
    &#146;   ###################################&#146;, &
    &#146;   # WARNING, WARNING, Will Robinson #&#146;, &
    &#146;   ###################################&#146;]
-      ! write out slurped data
       textout=text
       call write_text()
       textout=pound_to_box(text)

@@ -85,6 +85,7 @@ impure elemental function sub(str,left,right,step) result(section)
     integer,intent(in),optional :: left
     integer,intent(in),optional :: right
     integer,intent(in),optional :: step
+    type(unicode_type)          :: section
 <P>
 </PRE>
 </BLOCKQUOTE>
@@ -132,8 +133,8 @@ Defaults to 1.
 </A>
 <BLOCKQUOTE>
 <TABLE cellpadding=3>
-<TR valign=top><TD width=6% nowrap>
-<B>out</B> </TD><TD valign=bottom>
+<TR valign=top><TD colspan=2>
+<B>section</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
 The specified subsection of the input string
 </TD></TR>
 <TR></TR></TABLE></BLOCKQUOTE>

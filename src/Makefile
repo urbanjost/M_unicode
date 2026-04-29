@@ -4,13 +4,14 @@
 NULL=
 PROGFILES =  $(wildcard ../example/*.f90) $(wildcard ../example/*/*.F90)
 
-TESTFILES = $(wildcard ../test/*.f90) $(wildcard ../test/*.F90) $(wildcard ../test/*/*.f) $(wildcard ../test/*/*.F)
-TPROG = ${TESTFILES:.f90=}
+TESTFILES = $(wildcard ../test/*.f90) $(wildcard ../test/*.F90)
+TPROG1 = ${TESTFILES:.f90=}
+TPROG  = ${TPROG1:.F90=}
 
 CPROGFILES =
 
 PROG1  = ${PROGFILES:.f90=}
-PROG   = ${PROG1:.f90=}
+PROG   = ${PROG1:.F90=}
 
 CPROG = ${CPROGFILES:.c=}
 
@@ -23,23 +24,27 @@ OBJS =  M_unicode.o
 LIBS :=
 CC := cc
 CFLAGS := -O
-FC := gfortran
-F90FLAGS := -O -finit-local-zero
-
+F90:= gfortran
+FFLAGS := 
 LDFLAGS :=
+F90FLAGS := 
 #
 # You can either ignore it, or disable the "may be used uninitialized"
 # warnings with -Wno-maybe-uninitialized or compile with optimizations
 # (-O1 and more).
 gfortran: F90=gfortran
 gfortran: F90FLAGS := -g -O -Wall -std=f2018 -Wextra -Wno-maybe-uninitialized -Wno-uninitialized -finit-local-zero
-gfortran: FFLAGS := -g -O -Wall -std=f2018 -Wextra -Wno-maybe-uninitialized -Wno-uninitialized -finit-local-zero
 gfortran: all
 	@echo built with $(F90)
 
 nvfortran: F90=nvfortran
 nvfortran: F90FLAGS := -Minform=inform -Mbackslash -traceback
 nvfortran: all
+	@echo built with $(F90)
+
+ifx: F90=ifx
+ifx: F90FLAGS := -warn all -traceback
+ifx: all
 	@echo built with $(F90)
 
 ifort: F90=ifort
@@ -51,41 +56,56 @@ nagfor: F90=nagfor
 nagfor: F90FLAGS := -C all
 nagfor: all
 	@echo built with $(F90)
+
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-all: $(PROG) $(CPROG) # $(TPROG)
+all: show $(PROG) $(CPROG) $(TPROG)
 	@echo "That's all folks!"
+
 $(PROG): $(OBJS)
 
-	-$(F90) $(F90FLAGS) $(LDFLAGS) $@.f90 -o $@ $(OBJS) $(LIBS) # && ./$@ </dev/null
+	-$(F90) $(F90FLAGS) $(LDFLAGS) $@.[fF]90 -o $@ $(OBJS) $(LIBS) # && ./$@ </dev/null
 
-#$(TPROG): $(OBJS)
-#
-#       -$(F90) $(LDFLAGS) $@.f90 -o $@ $(OBJS) $(LIBS) # && ./$@ </dev/null
+$(TPROG): $(OBJS)
+
+	-$(F90) $(LDFLAGS) $@.[fF]90 -o $@ $(OBJS) $(LIBS) # && ./$@ </dev/null
 
 .PHONY: clean
 clean:
-	rm -f $(PROG) $(CPROG) $(OBJS) *.smod *.mod $(TPROG)
+	rm -fv $(PROG) $(CPROG) $(OBJS) *.smod *.mod $(TPROG)
 
 .PHONY: help
-
 help:
-	: make    '-- build M_unicode module'
-	: run     '-- run manpage demo programs and test program'
-#	: test    '-- run test program (requires additional modules)'
-	: man     '-- show all manpages as text'
-	: ship    '-- rebuild archive files of manpages'
-	: clean   '-- clean directory of object files and executables'
-	: doxygen '-- run doxygen(1) if you have it'
-	: help    '-- display this text'
+	- # make [compiler]   -- build M_unicode module                         
+	- # run  [compiler]   -- run manpage demo programs and test program     
+	- # test [compiler]   -- run test program (requires additional modules) 
+	- # man               -- show all manpages as text                      
+	- # ship              -- rebuild archive files of manpages              
+	- # clean             -- clean directory of object files and executables
+	- # doxygen           -- run doxygen(1) if you have it                  
+	- # help              -- display this text                              
+	- #                                                                    
+	- #   where compiler is  gfortran|ifx|nvfortran|ifort|nagfor, and you
+	- #   must build with "make [COMPILER]" before "make run|test [COMPILER]"
 
 .PHONY: ship
 ship:
 	: make easily distributed archive files of manpages
 	mkdir -p ../docs; \
-	 cd ../man/;    gzip */*.?M_unicode; \
-	 zip -r ../docs/manpages.zip   */*M_unicode*.gz; \
-	 tar cvfz ../docs/manpages.tgz */*M_unicode*.gz; \
-	 gunzip */*.?M_unicode.gz
+	 cd ../man/;    gzip */*.?m_unicode; \
+	 gzip -r ../docs/manpages.zip   */*m_unicode*.gz; \
+	 tar cvfz ../docs/manpages.tgz */*m_unicode*.gz; \
+	 gunzip */*.?m_unicode.gz
+
+.PHONY: show
+show:
+	: "CC        $(CC)"
+	: "CFLAGS    $(CLAGS)"
+	: "FC        $(FC)"
+	: "FFLAGS    $(FFLAGS)"
+	: "F90       $(F90)"
+	: "F90FLAGS  $(F90FLAGS)"
+	: "LDFLAGS   $(LDLAGS)"
+	: "LIBS      $(LIBS)"
 
 .PHONY: run
 run: $(PROG)
@@ -94,11 +114,11 @@ run: $(PROG)
 #	echo $? | xargs -n 1  |xargs -iXX /bin/time XX  \</dev/null
 	echo $? | xargs -n 1  |(set +x;xargs -iXX env XX 2>&1)
 
-#.PHONY: test
-#test: $(TPROG)
-#	# run everything
-#	echo $? | xargs -n 1
-#	echo $? | xargs -n 1  |(set +x;xargs -iXX env XX 2>&1)
+.PHONY: test
+test: $(TPROG)
+	# run everything
+	echo $? | xargs -n 1
+	echo $? | xargs -n 1  |(set +x;xargs -iXX env XX 2>&1)
 
 .PHONY: doxygen
 doxygen:
