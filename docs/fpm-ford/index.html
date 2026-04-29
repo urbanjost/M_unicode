@@ -101,7 +101,6 @@ author_pic:
 twitter:
 website:
 -->
-
 <p><a href="https://fpm.fortran-lang.org/registry/package/m_unicode"><img alt="fpm" src="https://img.shields.io/badge/fpm-install-blue?logo=fortran"></a></p>
 <!--
 [![build](https://github.com/urbanjost/M_unicode/actions/workflows/.../badge.svg)](https://github.com/urbanjost/M_unicode/actions)
@@ -114,25 +113,35 @@ website:
 -->
 <p><a href="https://urbanjost.github.io/M_unicode/man3.html"><img alt="M_unicode module" src="docs/images/Phaistos_Disk_sideA.jpg"></a></p>
 <h2 id="overview">Overview</h2>
-<p>The <strong>M_unicode</strong> module provides direct support for UTF-8 encoded files
-and data, allowing UTF-8 encoded strings to be processed as easily as
-ASCII-7 encoded strings, without depending on the compiler supporting
-the optional ISO_10646 extension.  ASCII-7 being a subset of UTF-8 the
-procedures work with standard ASCII-7 text as well.</p>
-<p>The procedural interface supports all basic character intrinsics and
-operators.  The <strong>M_unicode</strong> module also supports many additional
-string methods such as case conversion and sorting.</p>
+<p>The <strong>M_unicode</strong> module provides direct support for UTF-8 encoded
+data in source files and internal I/O, not just UTF-8 encoded external data files.
+It allows UTF-8 encoded strings to be processed as easily as ASCII-7
+encoded strings, without depending on a compiler supporting the
+optional ISO_10646 Unicode extension.</p>
+<h3 id="not-just-for-utf-8">Not just for UTF-8</h3>
+<p>ASCII-7 being a subset of UTF-8 the procedures work with standard ASCII-7
+text as well.</p>
+<h3 id="supports-intrinsics-and-more">Supports intrinsics and more</h3>
+<p>The procedural interface provided by <strong>M_unicode</strong> overloads and
+supports all the basic character intrinsics and operators. The module
+extends this functionality with many additional string methods such as
+case conversion and sorting as well.</p>
+<h3 id="oops-lets-do-it-again">OOPs, lets do it again ..</h3>
 <p>There is also an OOP interface. The user-defined type <strong>unicode_type</strong>
 provides not just ragged arrays of strings but nearly all the string
 methods as type-bound procedures.</p>
+<h3 id="the-where-and-the-why">The Where and the Why &hellip;</h3>
 <p><strong>M_unicode</strong> is a companion to and fully implements the UTF-8
 processing discussed in the Fortran Wiki <a href="https://fortranwiki.org/fortran/show/Unicode">Unicode
 Tutorial</a>.</p>
+<h3 id="proviided-with-unit-testing-and-extensive-examples">Proviided with Unit-testing and extensive examples</h3>
 <p>Over 55 <a href="example">example programs</a> and a self-contained set of unit
 tests are included.</p>
+<h3 id="documentation">Documentation</h3>
 <p>The procedures are described in HTML, *roff and flat-text format.
 The *roff files may be installed as man-pages on Unix and GNU/Linux
 platforms.</p>
+<h3 id="example">Example</h3>
 <p>A sample program explicitly accessing all the module elements by
 name:</p>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">testit</span>
@@ -159,12 +168,11 @@ name:</p>
 <span class="w">   </span><span class="n">slurp</span><span class="p">,</span><span class="w">   </span><span class="n">readline</span><span class="p">,</span><span class="w">       </span><span class="n">pound_to_box</span><span class="p">,</span><span class="w">     </span><span class="p">&amp;</span>
 <span class="w">   </span><span class="n">sort</span><span class="p">,</span><span class="w">    </span><span class="n">expandtabs</span><span class="p">,</span><span class="w">     </span><span class="n">replace</span><span class="p">,</span><span class="w">          </span><span class="p">&amp;</span>
 <span class="w">   </span><span class="n">pad</span><span class="p">,</span><span class="w">     </span><span class="n">join</span><span class="p">,</span><span class="w">           </span><span class="n">fmt</span><span class="p">,</span><span class="w">              </span><span class="p">&amp;</span>
-<span class="w">   </span><span class="n">sub</span><span class="p">,</span><span class="w">     </span><span class="kt">character</span><span class="p">,</span><span class="w">                        </span><span class="p">&amp;</span>
 <span class="w">   </span><span class="n">get_arg</span><span class="p">,</span><span class="w"> </span><span class="n">get_env</span><span class="p">,</span><span class="w">        </span><span class="n">transliterate</span><span class="p">,</span><span class="w">    </span><span class="p">&amp;</span>
-<span class="w">   </span><span class="n">escape</span><span class="p">,</span><span class="w">  </span><span class="n">add_backslash</span>
+<span class="w">   </span><span class="n">escape</span><span class="p">,</span><span class="w">  </span><span class="n">add_backslash</span><span class="p">,</span><span class="w">  </span><span class="n">sub</span>
 
-<span class="c">! operators (and overloads) and SORT(3f) use Unicode codepoint </span>
-<span class="c">! order (NOT necessarily dictionary order)</span>
+<span class="c">! Note operators (and overloads) and SORT(3f) use Unicode codepoint </span>
+<span class="c">! order (NOT necessarily dictionary order):</span>
 
 <span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">)</span>
 <span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">&lt;=</span><span class="p">),</span><span class="w"> </span><span class="nb">lle</span>
@@ -175,7 +183,7 @@ name:</p>
 <span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">&gt;=</span><span class="p">),</span><span class="w"> </span><span class="nb">lge</span>
 <span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">//</span><span class="p">)</span>
 
-<span class="c">! low-level text conversion to integer codepoint arrays:</span>
+<span class="c">! low-level conversion betwwen utf-8 text and integer codepoint arrays:</span>
 <span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">utf8_to_codepoints</span><span class="p">,</span><span class="w"> </span><span class="n">codepoints_to_utf8</span>
 
 <span class="c">! sample usage:</span>
@@ -227,55 +235,47 @@ Hello World and Ni Hao -- 你好
 
 <h2 id="details">Details</h2>
 <h3 id="optional-unicode-iso-10646-fortran-extension">Optional Unicode ISO-10646 Fortran extension</h3>
-<p>As an alternative to <strong>M_unicode</strong> Fortran 2003 and later standards
+<p>Fortran 2003 and later standards
 describe the optional Unicode ISO-10646 extension, which provides for
 an internal representation of Unicode using 4-byte-per-character UCS-4
 encoding for characters/glyphs, as well as an ability to automatically
 encode and decode data read and written to UTF-8 files.</p>
 <p><strong>But</strong>
  + major compilers still do not support the Unicode ISO-10646 option
- + use of UTF-8 strings in source code is treated as ASCII8 byte streams,
-   not as UTC-4 
+ + use of UTF-8 strings in source code is treated as ASCII-8 byte streams,
+   not as UCS-4 
  + there are no functions provided to convert from UCS-4 to UTF-8 byte
-   streams except via reading and writing to files.
-<strong>In addition:</strong>
+   streams except via reading and writing to external files (<strong>not</strong>
+   internal files!)..
  + ragged string arrays are not supported as intrinsic types
  + no OOP interface is provided for the intrinsic methods </p>
-<p>Where CHARACTER(KIND=&rdquo;ISO_10646&rdquo;) <em>is</em> provided
-the <a href="https://github.com/urbanjost/M_ucs4">M_ucs4</a> repository
-supplements Unicode usage &ndash; emphasizing adherence to the standard to
+<p>The <strong>M_unicode</strong> module resolves all these issues.</p>
+<p>However, if interested in using CHARACTER(KIND=&rdquo;ISO_10646&rdquo;) the
+<a href="https://github.com/urbanjost/M_ucs4">M_ucs4</a> repository supplements
+ISO_10646 usage &ndash; and it emphasizes adherence to the standard to
 promote portability.</p>
-<h3 id="m_unicode">M_unicode</h3>
-<p>The <strong>M_unicode</strong> module provides direct support for UTF-8 encoded source
-files and data whether the ISO_10646 extension is available or not.</p>
-<p><strong>M_unicode</strong> supports UTF-8 source files and permits entering multi-byte
-Unicode characters in constant strings on systems supporting UTF-8
-files, not just data files (Nearly all current operating systems and
-many applications support UTF-8 text files).</p>
-<p>Whether in input and output files, or as what-you-see-is-what-you-get
-character constants the compiler will see this text as byte streams,
-and will be unaware of how many Unicode glyphs/characters are represented.</p>
-<p>So it may often be easy to place Unicode characters in fixed messages,
-but if the text needs manipulated or processed in any way dealing with
-Unicode as a raw series of 8-bit-bytes becomes complex and non-intuitive.</p>
-<p>To keep processing of Unicode as simple as it is to process ASCII-7
-characters the <strong>M_unicode</strong> module provides a user-defined type named
-<strong>UNICODE_TYPE</strong> and a number of procedures for converting byte streams
-that represent UTF8-encoded text into Unicode code points (ie, 32-bit
-integer values that generally identify one specific Unicode character).</p>
-<p>Additionally the most common character-related intrinsics and operators
-are overloaded to work with the UNICODE_TYPE variables; and the type
-is extended to include the procedures and operators as type-bound
-procedures for programmers that prefer OOP (Object-Oriented Programming)
-capabilities.</p>
-<h3 id="utf-8-source-files-just-in-comments-and-constants">UTF-8 source files &ndash; just in comments and constants</h3>
-<p>The Fortran character set is the set of characters used in constructing
-Fortran code. It is now the same as the ASCII 7-bit character set sans
-the unprintable control characters. The letters a-z,A-Z and digits 0-9
-and underscore are the only characters allowed in operator symbols. These
-same characters and the &ldquo;special&rdquo; characters (the remaining printable
-ASCII 7-bit characters) are used for operators and bracketing, and
-various forms of separating and delimiting other lexical tokens.</p>
+<h2 id="summary">Summary</h2>
+<p>By default it can often be easy to place UTF-8 characters in fixed
+messages, but if the text needs manipulated or processed in any way
+programattically dealing with Unicode UTF-8 encoded data as a raw series
+of 8-bit-bytes becomes complex and non-intuitive.  The <strong>M_unicode</strong>
+module provides a user-defined type named <strong>UNICODE_TYPE</strong> and many
+procedures that make it very easy to work with such multi-byte characters.</p>
+<h3 id="limits-on-utf-8-source-files">Limits on UTF-8 source files</h3>
+<p>Note that UTF-8 characters are supported in the source files just in
+comments and values. This is sufficient, but requires you not use
+multi-byte characters in the executable code itself, even in variable
+names.</p>
+<p>All code statements and expressions other than string values must use
+just the Fortran character set.</p>
+<p>Per the Fortran Standard the <strong>Fortran character set</strong> is the set of
+characters used in constructing Fortran code. It is now the same as the
+ASCII 7-bit character set sans the unprintable control characters. The
+letters a-z,A-Z and digits 0-9 and underscore are the only characters
+allowed in operator symbols. These same characters and the &ldquo;special&rdquo;
+characters (the remaining printable ASCII 7-bit characters) are used for
+operators and bracketing, and various forms of separating and delimiting
+other lexical tokens.</p>
 <p>But what about other non-ASCII-7 characters representable by the
 processor?  Possibilities include the extended ASCII characters or
 multi-byte characters as defined for UTF-8 text files. The standard
@@ -293,23 +293,25 @@ in character constants:</p>
 system supports UTF-8 files that it therefore will allow multi-byte
 characters to be represented in comments and character constants.</p>
 <p>But it is up to the processor whether it supports or even allows
-UTF-8 files.  In the past when UTF-8 file support was rare this meant
+UTF-8 files. In the past when UTF-8 file support was rare this meant
 using UTF-8 multi-byte characters in source files was likely to be
-non-portable.  Now that UTF-8 files are supported on most systems this
+non-portable. Now that UTF-8 files are supported on most systems this
 extension can be useful, particularly with compilers that do not support
 UCS-4 yet.</p>
 <h3 id="note">NOTE:</h3>
 <p><strong>If concerned about directly placing multi-byte characters into constant
-strings directly in the code, support of arrays of codepoint values is
-supported as well</strong>.</p>
+strings directly in the code, support of arrays of codepoint values
+is supported as well as C-style escape sequences and HTML character
+entities</strong>.</p>
 <h3 id="environment">Environment</h3>
 <p>Reading and writing properly to the screen requires that, independent
 of the <strong>M_unicode</strong> module, UTF-8 files display properly.</p>
-<p>This may require selecting a specific terminal emulator, setting the locale
-and selecting a font that supports the Unicode characters of interest.</p>
-<p>Using the following Fortran source file, which does not use
-any Fortran Unicode ISO-10646 extensions, does the output
-appear directly if redirected to a file?</p>
+<p>This may require selecting a specific terminal emulator, setting the
+locale and selecting a font that supports the Unicode characters of
+interest.</p>
+<p>Using the following Fortran source file, which does not use any Fortran
+Unicode ISO-10646 extensions, does the output appear directly if
+redirected to a file?</p>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">multibyte</span>
 <span class="k">use</span><span class="p">,</span><span class="w"> </span><span class="k">intrinsic</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="o">=&gt;</span><span class="n">output_unit</span>
 <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">all</span><span class="o">=</span><span class="s1">&#39;(*(g0))&#39;</span>
@@ -339,7 +341,7 @@ but if you are manipulating or processing the strings in significant
 ways is when you use the <strong>M_unicode</strong> module.</p>
 <hr>
 <h2 id="_1"><img alt="docs" src="docs/images/docs.gif"></h2>
-<h2 id="documentation">Documentation</h2>
+<h2 id="documentation-details">Documentation Details</h2>
 <h3 id="user">User</h3>
 <p>There are descriptions of each procedures in the style of man-pages in four formats:</p>
 <ul>
@@ -382,24 +384,18 @@ examples are included in the <a href="example/">example/</a> directory.</p>
 <span class="w">   </span><span class="nb">cd</span><span class="w"> </span>M_unicode/src
 <span class="w">   </span><span class="c1"># change Makefile if not using one of the listed compilers</span>
 
-<span class="w">   </span><span class="c1"># for gfortran</span>
-<span class="w">   </span>make<span class="w"> </span>clean
-<span class="w">   </span>make<span class="w"> </span>gfortran
+<span class="w">   </span>make<span class="w"> </span>clean<span class="w"> </span>gfortran<span class="p">|</span>ifx<span class="p">|</span>ifort<span class="p">|</span>nvfortran<span class="p">|</span>nagfor
 
-<span class="w">   </span><span class="c1"># for ifort</span>
+<span class="w">   </span><span class="c1"># or </span>
 <span class="w">   </span>make<span class="w"> </span>clean
-<span class="w">   </span>make<span class="w"> </span>ifort
-
-<span class="w">   </span><span class="c1"># for nvfortran</span>
-<span class="w">   </span>make<span class="w"> </span>clean
-<span class="w">   </span>make<span class="w"> </span>nvfortran
+<span class="w">   </span>make<span class="w"> </span><span class="nv">F90</span><span class="o">=</span>&lt;compiler&gt;<span class="w"> </span><span class="nv">F90FLAGS</span><span class="o">=</span>&lt;flags&gt;
 
 <span class="w">   </span><span class="c1"># display other options (test, run, doxygen, ford, ...)</span>
 <span class="w">   </span>make<span class="w"> </span><span class="nb">help</span>
 </code></pre></div>
 
 <p>To install you then generally copy the <em>.mod file and </em>.a file to
-   an appropriate directory.  Unfortunately, the specifics vary but in
+   an appropriate directory. Unfortunately, the specifics vary but in
    general if you have a directory $HOME/.local/lib and copy those files
    there then you can generally enter something like</p>
 <div class="codehilite"><pre><span></span><code><span class="w">     </span>gfortran<span class="w"> </span>-L<span class="nv">$HOME</span>/.local/lib<span class="w"> </span>-lM_unicode<span class="w">  </span>myprogram.f90<span class="w"> </span>-o<span class="w"> </span>myprogram
@@ -530,7 +526,7 @@ examples are included in the <a href="example/">example/</a> directory.</p>
 <div class="codehilite"><pre><span></span><code><span class="w">        </span><span class="n">M_unicode_dep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">subproject</span><span class="p">(</span><span class="s">&#39;M_unicode&#39;</span><span class="p">).</span><span class="n">get_variable</span><span class="p">(</span><span class="s">&#39;M_unicode_dep&#39;</span><span class="p">)</span>
 </code></pre></div>
 
-<h2 id="summary">Summary</h2>
+<h2 id="summary_1">Summary</h2>
 <p>Yes, a Fortran source file can contain multibyte Unicode characters in
 most environments, but the level of support and how they are handled
 depends on the specific Fortran compiler and operating system and is
@@ -546,18 +542,14 @@ ASCII-7-bit characters are used to write the actual coding instructions.</p>
 characters to other multi-byte characters when editing UTF-8 files, so
 be aware you might need to normalize your source files into the allowed
 Fortran character set outside of constant strings.</p>
-<p>When using Unicode as byte streams avoid list-directed output. It
-does not know which bytes are composing a glyph and may split lines at
-inappropriate points.</p>
+<p>When using Unicode UTF-8 encoded data (as byte streams) avoid
+list-directed output. It does not know which bytes are composing a glyph
+and may split lines at inappropriate points.</p>
 <h3 id="compiler-support">Compiler Support:</h3>
 <p>Even with standard features, compiler support for Unicode in source
    files can vary. Some compilers might require specific flags (e.g.,
    -qmbcs for XL Fortran) or might offer better integration with
    system-level Unicode functionalities.</p>
-<h3 id="source-file-encoding">Source File Encoding:</h3>
-<p>The encoding of the Fortran source file itself is crucial. If the
-    file is saved in a Unicode encoding like UTF-8, the compiler needs
-   to be able to correctly interpret these characters during compilation.</p>
 <h3 id="limitations">Limitations:</h3>
 <p>While modern Fortran can handle Unicode characters, there might still be
 limitations compared to languages like C++ regarding the ease of use with
@@ -568,12 +560,6 @@ support for UTF-8 encoding is sufficient, however.</p>
 <ul>
 <li>
 <p><a href="https://home.unicode.org/"><img alt="Unicode Home" src="docs/images/Unicode-Logo-Final-Blue-95x112.jpg"></a></p>
-</li>
-<li>
-<p>iconv  &ndash; a program and library for converting between text encodings.
-   use &ldquo;iconv &ndash;list&rdquo; on ULS to see the list of encodings supported.
-   One use of iconv(1) is to convert &ldquo;Latin&rdquo; encodings to UTF-8 encodings
-   for direct use by the M_unicode(3) module.</p>
 </li>
 <li>
 <p>Initially based on a discussion begun in
@@ -605,6 +591,10 @@ including features and enhancements from Francois Jacq.</p>
 <li><a href="https://github.com/urbanjost/M_strings">M_strings</a> for ASCII string procedures</li>
 <li><a href="https://github.com/urbanjost/M_io">M_io</a> for filesystem and I/O related functions</li>
 <li><a href="https://github.com/urbanjost/M_attr">M_attr</a> for ANSI terminal color and attributes</li>
+<li>iconv  &ndash; a program and library for converting between text encodings.
+   use &ldquo;iconv &ndash;list&rdquo; on ULS to see the list of encodings supported.
+   One use of iconv(1) is to convert &ldquo;Latin&rdquo; encodings to UTF-8 encodings
+   for direct use by the M_unicode(3) module.</li>
 </ul>
 <!--
  + [https://fortran-lang.discourse.group/t/how-to-use-utf-8-in-gfortran/9949](https://fortran-lang.discourse.group/t/how-to-use-utf-8-in-gfortran/9949)
@@ -697,7 +687,7 @@ with the DT edit descriptor are still undergoing development.</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-04-28 11:19 +0000             </p>
+ on 2026-04-29 01:48 +0000             </p>
           </div>
         </div>
         <br>

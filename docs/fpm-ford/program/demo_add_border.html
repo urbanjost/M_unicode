@@ -90,7 +90,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 1.4% of total for programs.">30 statements</a>
+                 title=" 1.3% of total for programs.">29 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -131,7 +131,6 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../program/demo_add_border.html#variable-line~34">line</a>
             <a class="list-group-item" href="../program/demo_add_border.html#variable-paragraph">paragraph</a>
             <a class="list-group-item" href="../program/demo_add_border.html#variable-textout~4">textout</a>
             <a class="list-group-item" href="../program/demo_add_border.html#variable-uline~13">uline</a>
@@ -210,22 +209,6 @@
 <th></th><th scope="col">Initial</th>        <th scope="col"></th>
     </thead>
     <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-line~34"></span>
-              character(len=*),
-            </td>
-            <td>
-parameter               
-            </td>
-            <td>::</td>
-            <td><strong>line</strong></td>
-<td> =</td>
-                <td>&#39;WARNING, WARNING, Will Robinson&#39;</td>
-            <td>
-                
-            </td>
-        </tr>
         <tr>
             <td>
               <span class="anchor" id="variable-paragraph"></span>
@@ -322,57 +305,56 @@ parameter
 
     <section>
     <h2 id="src">Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">program </span><span class="n">demo_add_border</span>
-<span class="w">   </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ut</span><span class="o">=&gt;</span><span class="n">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">)</span>
-<span class="w">   </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kt">character</span><span class="p">,</span><span class="w"> </span><span class="n">add_border</span><span class="p">,</span><span class="w"> </span><span class="nb">trim</span>
-<span class="nb">   </span><span class="k">implicit none</span>
-<span class="k">   type</span><span class="p">(</span><span class="n">ut</span><span class="p">),</span><span class="k">allocatable</span><span class="w">       </span><span class="kd">::</span><span class="w"> </span><span class="n">textout</span><span class="p">(:)</span>
-<span class="w">   </span><span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">uline</span>
-<span class="w">   </span><span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">),</span><span class="k">allocatable</span><span class="w">       </span><span class="kd">::</span><span class="w"> </span><span class="n">uparagraph</span><span class="p">(:)</span>
-<span class="w">   </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">line</span><span class="o">=</span><span class="s1">&#39;WARNING, WARNING, Will Robinson&#39;</span>
-<span class="w">   </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">paragraph</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="o">=</span><span class="p">[</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">   </span><span class="p">&amp;</span><span class="s1">&#39;one&#39;</span><span class="p">,&amp;</span>
-<span class="w">   </span><span class="p">&amp;</span><span class="s1">&#39;two&#39;</span><span class="p">,&amp;</span>
-<span class="w">   </span><span class="p">&amp;</span><span class="s1">&#39;three&#39;</span><span class="p">,&amp;</span>
-<span class="w">   </span><span class="p">&amp;</span><span class="s1">&#39;four&#39;</span><span class="p">]</span>
+    <div class="hl codehilite"><pre><span></span><span class="w">     </span><span class="k">program </span><span class="n">demo_add_border</span>
+<span class="w">     </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ut</span><span class="o">=&gt;</span><span class="n">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">)</span>
+<span class="w">     </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kt">character</span><span class="p">,</span><span class="w"> </span><span class="n">add_border</span><span class="p">,</span><span class="w"> </span><span class="nb">trim</span>
+<span class="nb">     </span><span class="k">implicit none</span>
+<span class="k">     type</span><span class="p">(</span><span class="n">ut</span><span class="p">),</span><span class="k">allocatable</span><span class="w">       </span><span class="kd">::</span><span class="w"> </span><span class="n">textout</span><span class="p">(:)</span>
+<span class="w">     </span><span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">uline</span>
+<span class="w">     </span><span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">),</span><span class="k">allocatable</span><span class="w">       </span><span class="kd">::</span><span class="w"> </span><span class="n">uparagraph</span><span class="p">(:)</span>
+<span class="w">     </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">paragraph</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="o">=</span><span class="p">[</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">     </span><span class="p">&amp;</span><span class="s1">&#39;one&#39;</span><span class="p">,&amp;</span>
+<span class="w">     </span><span class="p">&amp;</span><span class="s1">&#39;two&#39;</span><span class="p">,&amp;</span>
+<span class="w">     </span><span class="p">&amp;</span><span class="s1">&#39;three&#39;</span><span class="p">,&amp;</span>
+<span class="w">     </span><span class="p">&amp;</span><span class="s1">&#39;four&#39;</span><span class="p">]</span>
 
-<span class="w">      </span><span class="c">! show original text</span>
-<span class="w">      </span><span class="n">textout</span><span class="o">=</span><span class="n">paragraph</span><span class="w">              </span>
-<span class="w">      </span><span class="k">call </span><span class="n">write_text</span><span class="p">()</span><span class="w"> </span>
+<span class="w">        </span><span class="c">! show original text</span>
+<span class="w">        </span><span class="n">textout</span><span class="o">=</span><span class="n">paragraph</span>
+<span class="w">        </span><span class="k">call </span><span class="n">write_text</span><span class="p">()</span>
 
-<span class="w">      </span><span class="c">! character array</span>
-<span class="w">      </span><span class="n">textout</span><span class="o">=</span><span class="n">add_border</span><span class="p">(</span><span class="n">paragraph</span><span class="p">)</span><span class="w">  </span>
-<span class="w">      </span><span class="k">call </span><span class="n">write_text</span><span class="p">()</span><span class="w"> </span>
+<span class="w">        </span><span class="c">! character array</span>
+<span class="w">        </span><span class="n">textout</span><span class="o">=</span><span class="n">add_border</span><span class="p">(</span><span class="n">paragraph</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">write_text</span><span class="p">()</span>
 
-<span class="w">      </span><span class="c">! ragged string array</span>
-<span class="w">      </span><span class="n">uparagraph</span><span class="o">=</span><span class="n">paragraph</span>
-<span class="w">      </span><span class="n">uparagraph</span><span class="o">=</span><span class="nb">trim</span><span class="p">(</span><span class="n">uparagraph</span><span class="p">)</span><span class="w">               </span>
-<span class="w">      </span><span class="n">textout</span><span class="o">=</span><span class="n">add_border</span><span class="p">(</span><span class="n">uparagraph</span><span class="p">)</span><span class="w"> </span>
-<span class="w">      </span><span class="k">call </span><span class="n">write_text</span><span class="p">()</span><span class="w"> </span>
+<span class="w">        </span><span class="c">! ragged string array</span>
+<span class="w">        </span><span class="n">uparagraph</span><span class="o">=</span><span class="n">paragraph</span>
+<span class="w">        </span><span class="n">uparagraph</span><span class="o">=</span><span class="nb">trim</span><span class="p">(</span><span class="n">uparagraph</span><span class="p">)</span>
+<span class="w">        </span><span class="n">textout</span><span class="o">=</span><span class="n">add_border</span><span class="p">(</span><span class="n">uparagraph</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">write_text</span><span class="p">()</span>
 
-<span class="w">      </span><span class="c">! add another border and specify style</span>
-<span class="w">      </span><span class="n">textout</span><span class="o">=</span><span class="n">add_border</span><span class="p">(</span><span class="n">textout</span><span class="p">,</span><span class="n">style</span><span class="o">=</span><span class="s1">&#39;DOUBLE&#39;</span><span class="p">)</span><span class="w">              </span>
-<span class="w">      </span><span class="k">call </span><span class="n">write_text</span><span class="p">()</span>
+<span class="w">        </span><span class="c">! add another border and specify style</span>
+<span class="w">        </span><span class="n">textout</span><span class="o">=</span><span class="n">add_border</span><span class="p">(</span><span class="n">textout</span><span class="p">,</span><span class="n">style</span><span class="o">=</span><span class="s1">&#39;DOUBLE&#39;</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">write_text</span><span class="p">()</span>
 
-<span class="w">      </span><span class="c">! scalar character</span>
-<span class="w">      </span><span class="n">textout</span><span class="o">=</span><span class="n">add_border</span><span class="p">(</span><span class="s2">&quot;To be or not to be!&quot;</span><span class="p">,</span><span class="n">style</span><span class="o">=</span><span class="s1">&#39;DOUBLE&#39;</span><span class="p">)</span>
-<span class="w">      </span><span class="k">call </span><span class="n">write_text</span><span class="p">()</span>
+<span class="w">        </span><span class="c">! scalar character</span>
+<span class="w">        </span><span class="n">textout</span><span class="o">=</span><span class="n">add_border</span><span class="p">(</span><span class="s2">&quot;To be or not to be!&quot;</span><span class="p">,</span><span class="n">style</span><span class="o">=</span><span class="s1">&#39;DOUBLE&#39;</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">write_text</span><span class="p">()</span>
 
-<span class="w">      </span><span class="c">! scalar string</span>
-<span class="w">      </span><span class="n">uline</span><span class="o">=</span><span class="s2">&quot;To be or not to be!&quot;</span>
-<span class="w">      </span><span class="n">textout</span><span class="o">=</span><span class="n">add_border</span><span class="p">(</span><span class="n">uline</span><span class="p">,</span><span class="n">style</span><span class="o">=</span><span class="s1">&#39;light&#39;</span><span class="p">)</span><span class="w">                </span>
-<span class="w">      </span><span class="k">call </span><span class="n">write_text</span><span class="p">()</span>
-<span class="w">   </span>
-<span class="w">   </span><span class="k">contains</span>
-<span class="k">   subroutine </span><span class="n">write_text</span><span class="p">()</span>
-<span class="w">   </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
-<span class="w">      </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(*(a:))&#39;</span><span class="p">,</span><span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">      </span><span class="p">&amp;</span><span class="w"> </span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="n">textout</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="kt">character</span><span class="p">()),</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">      </span><span class="p">&amp;</span><span class="w"> </span><span class="nb">new_line</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">      </span><span class="p">&amp;</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">textout</span><span class="p">))</span>
-<span class="w">   </span><span class="k">end subroutine </span><span class="n">write_text</span>
-<span class="w">   </span>
-<span class="w">   </span><span class="k">end program </span><span class="n">demo_add_border</span>
+<span class="w">        </span><span class="c">! scalar string</span>
+<span class="w">        </span><span class="n">uline</span><span class="o">=</span><span class="s2">&quot;To be or not to be!&quot;</span>
+<span class="w">        </span><span class="n">textout</span><span class="o">=</span><span class="n">add_border</span><span class="p">(</span><span class="n">uline</span><span class="p">,</span><span class="n">style</span><span class="o">=</span><span class="s1">&#39;light&#39;</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">write_text</span><span class="p">()</span>
+
+<span class="w">     </span><span class="k">contains</span>
+<span class="k">     subroutine </span><span class="n">write_text</span><span class="p">()</span>
+<span class="w">     </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(*(a:))&#39;</span><span class="p">,</span><span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">        </span><span class="p">&amp;</span><span class="w"> </span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="n">textout</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="kt">character</span><span class="p">()),</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">        </span><span class="p">&amp;</span><span class="w"> </span><span class="nb">new_line</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">        </span><span class="p">&amp;</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">textout</span><span class="p">))</span>
+<span class="w">     </span><span class="k">end subroutine </span><span class="n">write_text</span>
+
+<span class="w">     </span><span class="k">end program </span><span class="n">demo_add_border</span>
 </pre></div>
 
     </section>
@@ -395,7 +377,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-04-28 11:19 +0000             </p>
+ on 2026-04-29 01:48 +0000             </p>
           </div>
         </div>
         <br>

@@ -1,3 +1,28 @@
+!-----------------------------------------------------------------------------------------------------------------------------------
+#define  __INTEL_COMP        1
+#define  __GFORTRAN_COMP     2
+#define  __NVIDIA_COMP       3
+#define  __NAG_COMP          4
+#define  __LLVM_FLANG_COMP   5
+#define  __UNKNOWN_COMP   9999
+
+#define FLOAT128
+
+#ifdef __INTEL_COMPILER
+#   define __COMPILER__ __INTEL_COMP
+#elif __GFORTRAN__ == 1
+#   define __COMPILER__ __GFORTRAN_COMP
+#elif __flang__
+#   undef FLOAT128
+#   define __COMPILER__ __LLVM_FLANG_COMP
+#elif __NVCOMPILER
+#   undef FLOAT128
+#   define __COMPILER__ __NVIDIA_COMP
+#else
+#   define __COMPILER__ __UNKNOWN_COMP
+#   warning  NOTE: UNKNOWN COMPILER
+#endif
+!-----------------------------------------------------------------------------------------------------------------------------------
 module testsuite_M_unicode
 use iso_fortran_env, only : output_unit
 ! overload intrinsics
@@ -613,12 +638,20 @@ type(unicode_type),allocatable :: array(:)
 
 ! create using ASCII array
 ! --------------------------------
-! bug?
-! array= [ 'red    ','green  ','blue   ','yellow ','orange ','black  ','white  ','brown  ','gray   ','cyan   ','magenta','purple ']
-! Fortran runtime error: Array bound mismatch for dimension 1 of array 'array' (25769804402/12)
-! --------------------------------
+! bug? How to overload == and handle LHS allocatable or not and RHS allocatable or not
+#if __COMPILER__ == __INTEL_COMP
+   array= [ 'red    ','green  ','blue   ','yellow ','orange ','black  ','white  ','brown  ','gray   ','cyan   ','magenta','purple ']
+#elif __COMPILER__ == __GFORTRAN_COMP
+   array= [ 'red    ','green  ','blue   ','yellow ','orange ','black  ','white  ','brown  ','gray   ','cyan   ','magenta','purple ']
+#elif __COMPILER__ == __GFORTRAN_COMP_PRE13
 allocate(array(12))  ! gfortran requires this
 array(:)= [ 'red    ','green  ','blue   ','yellow ','orange ','black  ','white  ','brown  ','gray   ','cyan   ','magenta','purple ']
+! or get following error, but then this syntax causes ifx to fail
+!     Fortran runtime error: Array bound mismatch for dimension 1 of array 'array' (25769804402/12)
+! --------------------------------
+#else
+   array= [ 'red    ','green  ','blue   ','yellow ','orange ','black  ','white  ','brown  ','gray   ','cyan   ','magenta','purple ']
+#endif
 call chk()
 
 ! create using UNICODE_TYPE array

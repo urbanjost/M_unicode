@@ -90,7 +90,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.6% of total for programs.">13 statements</a>
+                 title=" 0.7% of total for programs.">15 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -245,19 +245,21 @@ parameter
 
     <section>
     <h2 id="src">Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">program </span><span class="n">demo_reverse</span>
-<span class="w">   </span><span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">output_unit</span>
-<span class="w">   </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">reverse</span><span class="p">,</span><span class="w"> </span><span class="n">ch</span><span class="o">=&gt;</span><span class="kt">character</span>
-<span class="kt">   </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">)</span>
-<span class="w">   </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ut</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">==</span><span class="p">)</span>
-<span class="w">   </span><span class="k">implicit none</span>
-<span class="k">   </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">g</span><span class="o">=</span><span class="s1">&#39;(g0)&#39;</span>
-<span class="w">   </span><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">         </span><span class="kd">::</span><span class="w"> </span><span class="n">original</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="w">   </span><span class="n">original</span><span class="o">=</span><span class="p">[</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;abcde&#39;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;한국말&#39;</span><span class="p">),</span><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;五十七&#39;</span><span class="p">)]</span>
-<span class="w">      </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="n">ch</span><span class="p">(</span><span class="n">original</span><span class="p">)</span>
-<span class="w">      </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
-<span class="w">      </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="n">ch</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="n">original</span><span class="p">))</span>
-<span class="w">   </span><span class="k">end program </span><span class="n">demo_reverse</span>
+    <div class="hl codehilite"><pre><span></span><span class="w">     </span><span class="k">program </span><span class="n">demo_reverse</span>
+<span class="w">     </span><span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">output_unit</span>
+<span class="w">     </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">reverse</span><span class="p">,</span><span class="w"> </span><span class="n">ch</span><span class="o">=&gt;</span><span class="kt">character</span>
+<span class="kt">     </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">)</span>
+<span class="w">     </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ut</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">==</span><span class="p">)</span>
+<span class="w">     </span><span class="k">implicit none</span>
+<span class="k">     </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">g</span><span class="o">=</span><span class="s1">&#39;(g0)&#39;</span>
+<span class="w">     </span><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">         </span><span class="kd">::</span><span class="w"> </span><span class="n">original</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="w">        </span><span class="n">original</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">=</span><span class="s1">&#39;abcde&#39;</span>
+<span class="w">        </span><span class="n">original</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">=</span><span class="s1">&#39;한국말&#39;</span>
+<span class="w">        </span><span class="n">original</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">=</span><span class="s1">&#39;五十七&#39;</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="n">ch</span><span class="p">(</span><span class="n">original</span><span class="p">)</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="n">ch</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="n">original</span><span class="p">))</span>
+<span class="w">     </span><span class="k">end program </span><span class="n">demo_reverse</span>
 </pre></div>
 
     </section>
@@ -280,7 +282,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-04-28 11:19 +0000             </p>
+ on 2026-04-29 01:48 +0000             </p>
           </div>
         </div>
         <br>
