@@ -5270,6 +5270,11 @@ logical            :: ignorecase_local
 logical            :: flip
 type(unicode_type) :: target_local   ! input line to be changed
 
+   kludge: block
+   type(force_keywords),volatile :: quiet_
+      if(present(force_))quiet_=force_  ! so compiler does not complain about force_ being unused
+   endblock kludge
+
    flip=.false.
    ignorecase_local=.false.
    original_input_length=len_trim(target)          ! get non-blank length of input line

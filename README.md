@@ -320,17 +320,11 @@ examples are included in the [example/](example/) directory.
    cd M_unicode/src
    # change Makefile if not using one of the listed compilers
 
-   # for gfortran
-   make clean
-   make gfortran
+   make clean gfortran|ifx|ifort|nvfortran|nagfor
 
-   # for ifort
+   # or 
    make clean
-   make ifort
-
-   # for nvfortran
-   make clean
-   make nvfortran
+   make F90=<compiler> F90FLAGS=<flags>
 
    # display other options (test, run, doxygen, ford, ...)
    make help
