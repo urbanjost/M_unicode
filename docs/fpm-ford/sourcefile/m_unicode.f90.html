@@ -8053,14 +8053,14 @@
 <a id="ln-7881" name="ln-7881" href="#ln-7881"></a><span class="kt">integer</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">nerr</span>
 <a id="ln-7882" name="ln-7882" href="#ln-7882"></a>
 <a id="ln-7883" name="ln-7883" href="#ln-7883"></a><span class="k">type </span><span class="n">html_entities</span>
-<a id="ln-7884" name="ln-7884" href="#ln-7884"></a><span class="w">   </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">33</span><span class="p">)</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">name</span>
+<a id="ln-7884" name="ln-7884" href="#ln-7884"></a><span class="w">   </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">31</span><span class="p">)</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">name</span>
 <a id="ln-7885" name="ln-7885" href="#ln-7885"></a><span class="w">   </span><span class="kt">integer</span><span class="p">,</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">codes</span><span class="p">(:)</span>
 <a id="ln-7886" name="ln-7886" href="#ln-7886"></a><span class="k">end type </span><span class="n">html_entities</span>
 <a id="ln-7887" name="ln-7887" href="#ln-7887"></a>
 <a id="ln-7888" name="ln-7888" href="#ln-7888"></a><span class="k">type</span><span class="p">(</span><span class="n">html_entities</span><span class="p">),</span><span class="k">save</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">entities</span><span class="p">(</span><span class="mi">2125</span><span class="p">)</span>
 <a id="ln-7889" name="ln-7889" href="#ln-7889"></a>
 <a id="ln-7890" name="ln-7890" href="#ln-7890"></a><span class="kt">logical</span><span class="p">,</span><span class="k">save</span><span class="w">                           </span><span class="kd">::</span><span class="w"> </span><span class="n">virgin</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.</span>
-<a id="ln-7891" name="ln-7891" href="#ln-7891"></a><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">33</span><span class="p">),</span><span class="k">save</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">tokens</span><span class="p">(</span><span class="mi">2125</span><span class="p">)</span>
+<a id="ln-7891" name="ln-7891" href="#ln-7891"></a><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">31</span><span class="p">),</span><span class="k">save</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">tokens</span><span class="p">(</span><span class="mi">2125</span><span class="p">)</span>
 <a id="ln-7892" name="ln-7892" href="#ln-7892"></a><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">line</span>
 <a id="ln-7893" name="ln-7893" href="#ln-7893"></a><span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="n">virgin</span><span class="p">)</span><span class="k">then</span>
 <a id="ln-7894" name="ln-7894" href="#ln-7894"></a><span class="k">      </span><span class="n">virgin</span><span class="o">=</span><span class="p">.</span><span class="n">false</span><span class="p">.</span>
@@ -10204,7 +10204,7 @@
 <a id="ln-10032" name="ln-10032" href="#ln-10032"></a><span class="w">         </span><span class="k">write</span><span class="p">(</span><span class="n">line</span><span class="p">,</span><span class="w">     </span><span class="s1">&#39;(*(g0))&#39;</span><span class="w">             </span><span class="p">)</span><span class="w"> </span><span class="n">entities</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">name</span><span class="p">,</span><span class="s1">&#39; &#39;</span><span class="p">,</span><span class="n">temp</span>
 <a id="ln-10033" name="ln-10033" href="#ln-10033"></a><span class="w">         </span><span class="k">write</span><span class="p">(</span><span class="n">line</span><span class="p">(</span><span class="mi">40</span><span class="p">:),</span><span class="s1">&#39;(*(i0:,&quot;,&quot;))&#39;</span><span class="w">        </span><span class="p">)</span><span class="w"> </span><span class="n">entities</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">codes</span>
 <a id="ln-10034" name="ln-10034" href="#ln-10034"></a><span class="w">         </span><span class="k">write</span><span class="p">(</span><span class="n">line</span><span class="p">(</span><span class="mi">65</span><span class="p">:),</span><span class="s1">&#39;(2x,*(&quot;U+&quot;,z0:,&quot;,&quot;))&#39;</span><span class="p">)</span><span class="w"> </span><span class="n">entities</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">codes</span>
-<a id="ln-10035" name="ln-10035" href="#ln-10035"></a><span class="w">         </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="n">line</span>
+<a id="ln-10035" name="ln-10035" href="#ln-10035"></a><span class="w">         </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="nb">trim</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
 <a id="ln-10036" name="ln-10036" href="#ln-10036"></a><span class="w">      </span><span class="k">enddo</span>
 <a id="ln-10037" name="ln-10037" href="#ln-10037"></a><span class="k">      return</span>
 <a id="ln-10038" name="ln-10038" href="#ln-10038"></a><span class="k">   endif</span>
@@ -13129,7 +13129,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-05-02 19:32 +0000             </p>
+ on 2026-05-03 13:42 +0000             </p>
           </div>
         </div>
         <br>
