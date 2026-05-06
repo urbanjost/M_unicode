@@ -7953,14 +7953,14 @@ integer                                :: lngth
 integer                                :: nerr
 
 type html_entities
-   character(len=33)   :: name
+   character(len=31)   :: name
    integer,allocatable :: codes(:)
 end type html_entities
 
 type(html_entities),save               :: entities(2125)
 
 logical,save                           :: virgin=.true.
-character(len=33),save                 :: tokens(2125)
+character(len=31),save                 :: tokens(2125)
 character(len=80)                      :: line
    if(virgin)then
       virgin=.false.
@@ -10104,7 +10104,7 @@ character(len=80)                      :: line
          write(line,     '(*(g0))'             ) entities(i)%name,' ',temp
          write(line(40:),'(*(i0:,","))'        ) entities(i)%codes
          write(line(65:),'(2x,*("U+",z0:,","))') entities(i)%codes
-	 write(stdout,'(g0)')line
+	 write(stdout,'(g0)')trim(line)
       enddo
       return
    endif
