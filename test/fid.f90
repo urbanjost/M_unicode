@@ -24,11 +24,12 @@ integer(kind=int64)            :: j
       do i=1,huge(0_int64)-1
          call system_clock(count64b,count_rate64,count_max64)
          if(count64b.ne.count64)then
-            write(*,*)count64b-count64
+            write(*,'(1x,g0)',advance='no')count64b-count64
             exit
          endif
       enddo
    enddo
+   write(*,*)
 end subroutine clockrate
 
 subroutine platform()
