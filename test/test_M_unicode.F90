@@ -836,7 +836,6 @@ end subroutine test_verify
 
 subroutine test_ichar()
 type(unicode_type)           :: ut_str
-character(len=:),allocatable :: line
    ut_str='ABC'
    call check('ichar',ut_str%ichar().eq.ichar('A'),'string%ichar()')
    call check('ichar',ichar(ut('A')).eq.ichar('A'),'ichar(ut("A")')
