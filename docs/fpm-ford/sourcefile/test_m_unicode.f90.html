@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="11.9% of total for source files.">1073 statements</a>
+                 title="12.1% of total for source files.">1073 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -1142,7 +1142,7 @@
 <a id="ln-959" name="ln-959" href="#ln-959"></a><span class="s1">   expected=trim(expected)</span>
 <a id="ln-960" name="ln-960" href="#ln-960"></a><span class="s1">   length1=maxval(len(textout))</span>
 <a id="ln-961" name="ln-961" href="#ln-961"></a><span class="s1">   length2=maxval(len(expected))</span>
-<a id="ln-962" name="ln-962" href="#ln-962"></a><span class="s1">   call check(&#39;</span><span class="n">add_border</span><span class="s1">&#39;,length1.eq.length2,character(&#39;</span><span class="n">length</span><span class="o">=</span><span class="s1">&#39;//length1//&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">expected</span><span class="w"> </span><span class="s1">&#39;//length2))</span>
+<a id="ln-962" name="ln-962" href="#ln-962"></a><span class="s1">   call check(&#39;</span><span class="n">add_border</span><span class="s1">&#39;,length1.eq.length2,character(&#39;</span><span class="n">length</span><span class="o">=</span><span class="s1">&#39; .cat. length1 .cat. &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">expected</span><span class="w"> </span><span class="s1">&#39; .cat. length2))</span>
 <a id="ln-963" name="ln-963" href="#ln-963"></a><span class="s1">   int1=size(textout)</span>
 <a id="ln-964" name="ln-964" href="#ln-964"></a><span class="s1">   int2=size(expected)</span>
 <a id="ln-965" name="ln-965" href="#ln-965"></a><span class="s1">   if( int1.eq.int2 )then</span>
@@ -1152,7 +1152,7 @@
 <a id="ln-969" name="ln-969" href="#ln-969"></a><span class="s1">         write(*,&#39;</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">g0</span><span class="p">,</span><span class="o">/</span><span class="p">))</span><span class="s1">&#39;)(trim(textout(i)%character()),trim(expected(i)%character()),i=1,int1)</span>
 <a id="ln-970" name="ln-970" href="#ln-970"></a><span class="s1">      endif</span>
 <a id="ln-971" name="ln-971" href="#ln-971"></a><span class="s1">   else</span>
-<a id="ln-972" name="ln-972" href="#ln-972"></a><span class="s1">      call check(&#39;</span><span class="n">add_border</span><span class="s1">&#39;,int1.eq.int2, character(&#39;</span><span class="n">size</span><span class="w"> </span><span class="n">expected</span><span class="w"> </span><span class="s1">&#39;//int2//&#39;</span><span class="w"> </span><span class="n">got</span><span class="w"> </span><span class="s1">&#39;//int1) )</span>
+<a id="ln-972" name="ln-972" href="#ln-972"></a><span class="s1">      call check(&#39;</span><span class="n">add_border</span><span class="s1">&#39;,int1.eq.int2, character(&#39;</span><span class="n">size</span><span class="w"> </span><span class="n">expected</span><span class="w"> </span><span class="s1">&#39; .cat. int2 .cat. &#39;</span><span class="w"> </span><span class="n">got</span><span class="w"> </span><span class="s1">&#39; .cat. int1) )</span>
 <a id="ln-973" name="ln-973" href="#ln-973"></a><span class="s1">      write(*,&#39;</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">g0</span><span class="p">))</span><span class="s1">&#39;) &#39;</span><span class="k">Result</span><span class="p">:</span><span class="s1">&#39;</span>
 <a id="ln-974" name="ln-974" href="#ln-974"></a><span class="s1">      write(*,&#39;</span><span class="p">(</span><span class="n">g0</span><span class="p">)</span><span class="s1">&#39;)(trim(textout(i)%character()),i=1,int1)</span>
 <a id="ln-975" name="ln-975" href="#ln-975"></a><span class="s1">      write(*,&#39;</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">g0</span><span class="p">))</span><span class="s1">&#39;) &#39;</span><span class="n">Expected</span><span class="p">:</span><span class="s1">&#39;</span>
@@ -1226,7 +1226,7 @@
 <a id="ln-1043" name="ln-1043" href="#ln-1043"></a><span class="s1">   end select</span>
 <a id="ln-1044" name="ln-1044" href="#ln-1044"></a><span class="s1">   length1=maxval(len(textout))</span>
 <a id="ln-1045" name="ln-1045" href="#ln-1045"></a><span class="s1">   length2=maxval(len(expected))</span>
-<a id="ln-1046" name="ln-1046" href="#ln-1046"></a><span class="s1">   call check(&#39;</span><span class="n">pound_to_box</span><span class="s1">&#39;,length1.eq.length2,character(&#39;</span><span class="n">length</span><span class="o">=</span><span class="s1">&#39;//length1//&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">expected</span><span class="w"> </span><span class="s1">&#39;//length2))</span>
+<a id="ln-1046" name="ln-1046" href="#ln-1046"></a><span class="s1">   call check(&#39;</span><span class="n">pound_to_box</span><span class="s1">&#39;,length1.eq.length2,character(&#39;</span><span class="n">length</span><span class="o">=</span><span class="s1">&#39; .cat. length1 .cat. &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">expected</span><span class="w"> </span><span class="s1">&#39; .cat. length2))</span>
 <a id="ln-1047" name="ln-1047" href="#ln-1047"></a><span class="s1">   int1=size(textout)</span>
 <a id="ln-1048" name="ln-1048" href="#ln-1048"></a><span class="s1">   int2=size(expected)</span>
 <a id="ln-1049" name="ln-1049" href="#ln-1049"></a><span class="s1">   if( int1.eq.int2 )then</span>
@@ -1238,7 +1238,7 @@
 <a id="ln-1055" name="ln-1055" href="#ln-1055"></a><span class="s1">         enddo</span>
 <a id="ln-1056" name="ln-1056" href="#ln-1056"></a><span class="s1">      endif</span>
 <a id="ln-1057" name="ln-1057" href="#ln-1057"></a><span class="s1">   else</span>
-<a id="ln-1058" name="ln-1058" href="#ln-1058"></a><span class="s1">      call check(&#39;</span><span class="n">pound_to_box</span><span class="s1">&#39;,int1.eq.int2, character(&#39;</span><span class="n">size</span><span class="w"> </span><span class="n">expected</span><span class="w"> </span><span class="s1">&#39;//int2//&#39;</span><span class="w"> </span><span class="n">got</span><span class="w"> </span><span class="s1">&#39;//int1) )</span>
+<a id="ln-1058" name="ln-1058" href="#ln-1058"></a><span class="s1">      call check(&#39;</span><span class="n">pound_to_box</span><span class="s1">&#39;,int1.eq.int2, character(&#39;</span><span class="n">size</span><span class="w"> </span><span class="n">expected</span><span class="w"> </span><span class="s1">&#39; .cat. int2 .cat. &#39;</span><span class="w"> </span><span class="n">got</span><span class="w"> </span><span class="s1">&#39; .cat. int1) )</span>
 <a id="ln-1059" name="ln-1059" href="#ln-1059"></a><span class="s1">   endif</span>
 <a id="ln-1060" name="ln-1060" href="#ln-1060"></a><span class="s1">enddo</span>
 <a id="ln-1061" name="ln-1061" href="#ln-1061"></a><span class="s1">end subroutine test_pound_to_box</span>
@@ -1250,7 +1250,7 @@
 <a id="ln-1067" name="ln-1067" href="#ln-1067"></a><span class="s1">   UA=[(i,i=0,255)]</span>
 <a id="ln-1068" name="ln-1068" href="#ln-1068"></a><span class="s1">   uline=add_backslash(UA)</span>
 <a id="ln-1069" name="ln-1069" href="#ln-1069"></a>
-<a id="ln-1070" name="ln-1070" href="#ln-1070"></a><span class="s1">   call check(&#39;</span><span class="n">add_backslash</span><span class="s1">&#39;,len(uline).eq.722,character(&#39;</span><span class="nb">len</span><span class="w"> </span><span class="s1">&#39;//len(uline)))</span>
+<a id="ln-1070" name="ln-1070" href="#ln-1070"></a><span class="s1">   call check(&#39;</span><span class="n">add_backslash</span><span class="s1">&#39;,len(uline).eq.722,character(&#39;</span><span class="nb">len</span><span class="w"> </span><span class="s1">&#39; .cat. len(uline)))</span>
 <a id="ln-1071" name="ln-1071" href="#ln-1071"></a><span class="s1">   if( len(uline).eq.772 )then</span>
 <a id="ln-1072" name="ln-1072" href="#ln-1072"></a><span class="s1">      call check(&#39;</span><span class="n">add_backslash</span><span class="s1">&#39;,escape(uline).eq.UA,&#39;</span><span class="n">round</span><span class="w"> </span><span class="n">trip</span><span class="s1">&#39;)</span>
 <a id="ln-1073" name="ln-1073" href="#ln-1073"></a><span class="s1">   endif</span>
@@ -1831,7 +1831,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-06-21 08:48 +0000             </p>
+ on 2026-06-25 00:46 +0000             </p>
           </div>
         </div>
         <br>
