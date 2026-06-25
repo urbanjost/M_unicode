@@ -959,7 +959,7 @@ endif
    expected=trim(expected)
    length1=maxval(len(textout))
    length2=maxval(len(expected))
-   call check('add_border',length1.eq.length2,character('length='//length1//', expected '//length2))
+   call check('add_border',length1.eq.length2,character('length=' .cat. length1 .cat. ', expected ' .cat. length2))
    int1=size(textout)
    int2=size(expected)
    if( int1.eq.int2 )then
@@ -969,7 +969,7 @@ endif
          write(*,'(*(g0,/))')(trim(textout(i)%character()),trim(expected(i)%character()),i=1,int1)
       endif
    else
-      call check('add_border',int1.eq.int2, character('size expected '//int2//' got '//int1) )
+      call check('add_border',int1.eq.int2, character('size expected ' .cat. int2 .cat. ' got ' .cat. int1) )
       write(*,'(*(g0))') 'Result:'
       write(*,'(g0)')(trim(textout(i)%character()),i=1,int1)
       write(*,'(*(g0))') 'Expected:'
@@ -1043,7 +1043,7 @@ do istyle=1,4
    end select
    length1=maxval(len(textout))
    length2=maxval(len(expected))
-   call check('pound_to_box',length1.eq.length2,character('length='//length1//', expected '//length2))
+   call check('pound_to_box',length1.eq.length2,character('length=' .cat. length1 .cat. ', expected ' .cat. length2))
    int1=size(textout)
    int2=size(expected)
    if( int1.eq.int2 )then
@@ -1055,7 +1055,7 @@ do istyle=1,4
          enddo
       endif
    else
-      call check('pound_to_box',int1.eq.int2, character('size expected '//int2//' got '//int1) )
+      call check('pound_to_box',int1.eq.int2, character('size expected ' .cat. int2 .cat. ' got ' .cat. int1) )
    endif
 enddo
 end subroutine test_pound_to_box
@@ -1067,7 +1067,7 @@ integer            :: i
    UA=[(i,i=0,255)]
    uline=add_backslash(UA)
 
-   call check('add_backslash',len(uline).eq.722,character('len '//len(uline)))
+   call check('add_backslash',len(uline).eq.722,character('len ' .cat. len(uline)))
    if( len(uline).eq.772 )then
       call check('add_backslash',escape(uline).eq.UA,'round trip')
    endif

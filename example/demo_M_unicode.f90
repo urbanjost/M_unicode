@@ -3,7 +3,7 @@
      use M_unicode,only : tokenize, replace, character, upper, lower, len
      use M_unicode,only : unicode_type, assignment(=), operator(//)
      use M_unicode,only : ut => unicode_type, ch => character
-     use M_unicode,only : write(formatted)
+     !use M_unicode,only : write(formatted)
      type(unicode_type)             :: string
      type(unicode_type)             :: numeric, uppercase, lowercase
      type(unicode_type),allocatable :: array(:)

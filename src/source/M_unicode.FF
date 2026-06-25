@@ -4,21 +4,32 @@
 #define  __NVIDIA_COMP       3
 #define  __NAG_COMP          4
 #define  __LLVM_FLANG_COMP   5
+#define  __FLANG_COMP        6
 #define  __UNKNOWN_COMP   9999
 
 #define FLOAT128
+#undef  HAS_DT
 
 #ifdef __INTEL_COMPILER
 #   define __COMPILER__ __INTEL_COMP
+#   define HAS_DT
 #elif __GFORTRAN__ == 1
 #   define __COMPILER__ __GFORTRAN_COMP
+#   define HAS_DT
 #elif __flang__
 #   undef FLOAT128
+#   undef HAS_DT
 #   define __COMPILER__ __LLVM_FLANG_COMP
+#elif _flang_
+#   undef FLOAT128
+#   undef HAS_DT
+#   define __COMPILER__ __FLANG_COMP
 #elif __NVCOMPILER
+#   undef HAS_DT
 #   undef FLOAT128
 #   define __COMPILER__ __NVIDIA_COMP
 #else
+#   undef FLOAT128
 #   define __COMPILER__ __UNKNOWN_COMP
 #   warning  NOTE: UNKNOWN COMPILER
 #endif
@@ -52,7 +63,7 @@ DESCRIPTION
    underlying compiler does not yet support those intrinsics.
 
    Overloads of assignment, logical comparisons, and concatenation using
-   the // operator with strings (and other types) are included as well
+   the // operator with strings are included as well
    to make use of TYPE(UNICODE_TYPE) largely consistent with standard
    CHARACTER string manipulations.
 
@@ -206,9 +217,9 @@ $ENDIF
    CONCATENATION
 
    join              join elements of an array into a single string
-   operator(.cat.),
-   operator(//)      concatenate strings and/or convert intrinsics to
+   operator(.cat.)   concatenate strings and/or convert intrinsics to
                      strings and concatenate
+   operator(//)      concatenate strings and character variables
 
    SYSTEM
 
@@ -249,12 +260,12 @@ EXAMPLES
    program demo_M_unicode
    use,intrinsic :: iso_fortran_env, only : stdout=>output_unit
    use M_unicode,only : tokenize, replace, character, upper, lower, len
-   use M_unicode,only : unicode_type, assignment(=), operator(//)
+   use M_unicode,only : unicode_type, assignment(=)
    use M_unicode,only : ut => unicode_type, ch => character
+$IFDEF HAS_DT
    use M_unicode,only : write(formatted)
-$IFDEF DT
-   !use M_unicode,only : read(formatted)
-   !use M_unicode,only : read(unformatted), write(unformatted)
+   use M_unicode,only : read(formatted)
+   use M_unicode,only : read(unformatted), write(unformatted)
 $ENDIF
    type(unicode_type)             :: string
    type(unicode_type)             :: numeric, uppercase, lowercase
@@ -417,25 +428,17 @@ public :: encode_base64, decode_base64
 private :: encode_base64_bytes, decode_base64_bytes
 $ENDIF
 
+#ifdef HAS_DT
 PUBLIC :: write(formatted)
-$IFDEF DT
+#endif
+$IFDEF HAS_DT
 PUBLIC :: WRITE(UNFORMATTED)
 PUBLIC :: READ(FORMATTED), READ(UNFORMATTED)
 $ENDIF
 
 ! just for use in the parent module for operator(//) and operator(.cat. )
 private  ::  concat_g_g
-private  ::  concat_u_g,          concat_g_u
-private  ::  concat_int8_g,       concat_g_int8
-private  ::  concat_int16_g,      concat_g_int16
-private  ::  concat_int32_g,      concat_g_int32
-private  ::  concat_int64_g,      concat_g_int64
-private  ::  concat_real32_g,     concat_g_real32
-private  ::  concat_real64_g,     concat_g_real64
-private  ::  concat_complex32_g,  concat_g_complex32
-private  ::  concat_complex64_g,  concat_g_complex64
-private  ::  concat_l_g,          concat_g_l
-private  ::  concat_character_g,  concat_g_character
+private  ::  concat_character_u,  concat_u_character
 
 private ::  reverse_u,  reverse_a
 private :: a2s, s2a
@@ -627,22 +630,12 @@ interface operator(>=); module procedure :: lge_str_str,   lge_str_char,  lge_ch
 ! should expand the list to include additional non-default common kinds
 
 interface operator(//)
-module   procedure  ::  concat_g_u,          concat_u_g
-module   procedure  ::  concat_g_int8,       concat_int8_g
-module   procedure  ::  concat_g_int16,      concat_int16_g
-module   procedure  ::  concat_g_int32,      concat_int32_g
-module   procedure  ::  concat_g_int64,      concat_int64_g
-module   procedure  ::  concat_g_real32,     concat_real32_g
-module   procedure  ::  concat_g_real64,     concat_real64_g
-module   procedure  ::  concat_g_complex32,  concat_complex32_g
-module   procedure  ::  concat_g_complex64,  concat_complex64_g
-module   procedure  ::  concat_g_l,          concat_l_g
-!module  procedure  ::  concat_g_character,  concat_character_g
+   module procedure :: concat_u_character,  concat_character_u
+   module procedure :: concat_u_u
 end interface operator(//)
 
 interface operator(.cat.)
    module procedure :: concat_g_g
-   !module procedure :: concat_uu_
 end interface operator(.cat.)
 
 type :: unicode_type ! Unicode string type holding an arbitrary sequence of integer codes.
@@ -2195,7 +2188,7 @@ end type force_keywords
 
 !> Write string to connected formatted unit.
 interface write(formatted);   module procedure :: write_formatted;   end interface
-$IFDEF DT
+$IFDEF HAS_DT
 !> Write string to a connected unformatted unit.
 interface write(unformatted); module procedure :: write_unformatted; end interface
 !> Read a connected formatted unit into the string.
@@ -6130,22 +6123,17 @@ integer                                :: i
       do i = 1,size(str)-1
          if(clip_local)then
             temp=adjustl(str(i)) ! avoid gfortran GNU Fortran (GCC) 16.0.0 20250727 (experimental) bug
-            !gfortran!string=string//adjustl(trim(str))//sep_local ! produces no left adjust in gfortran as the moment
-            !ifx!string=string//trim(temp)//sep_local
             temp=trim(temp)
             string%codes=[string%codes,temp%codes,sep_local%codes]
          else
-            !string=string//str(i)//sep_local
             string%codes=[string%codes,str(i)%codes,sep_local%codes]
          endif
       enddo
       if(clip_local)then
          temp=adjustl(str(i))
-         !string=[string//trim(temp)
          temp=trim(temp)
          string%codes=[string%codes,temp%codes]
       else
-         !string=string//str(i)
          string%codes=[string%codes,str(i)%codes]
       endif
    endif
@@ -7114,14 +7102,12 @@ else
    endif
 
    if(local_right)then
-      !out=[local_line//repeat(local_pattern,newlen/len(local_pattern)+1)
       temp=repeat(local_pattern,newlen/len(local_pattern)+1)
       out%codes=[local_line%codes,temp%codes]
    else
       ! make a line of pattern
       out=repeat(local_pattern, ceiling(real(newlen)/len(local_pattern)))
 
-      !out=out%sub(1,newlen-len(local_line))//local_line
       out=out%sub(1,newlen-len(local_line))
       out%codes=[out%codes,local_line%codes]
    endif
@@ -12415,14 +12401,14 @@ end subroutine trimzeros_
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
-impure elemental function concat_uu_(lhs,rhs) result (string)
+impure elemental function concat_u_u(lhs,rhs) result (string)
 type(unicode_type),intent(in) :: lhs
 type(unicode_type),intent(in) :: rhs
 type(unicode_type)            :: string1, string2, string
    string1 = fmt(lhs)
    string2 = fmt(rhs)
    string%codes=[string1%codes,string2%codes]
-end function concat_uu_
+end function concat_u_u
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
@@ -12444,207 +12430,24 @@ type(unicode_type)  :: string1, string2, string
 end function concat_g_g
 !===================================================================================================================================
 ! maybe concat_g_g is non-standard, but intel compiler requires naming everything
+! remove for now, possibly expand via prep(1) template later for more types
 
-impure elemental function concat_u_g(lhs,rhs) result (string)
-type(unicode_type),intent(in) :: lhs
-class(*),intent(in)           :: rhs
-type(unicode_type)            :: string1, string2, string
-   string1 = fmt(lhs)
-   string2 = fmt(rhs)
-   string%codes=[string1%codes,string2%codes]
-end function concat_u_g
-
-impure elemental function concat_g_u(lhs,rhs) result (string)
-class(*),intent(in)           :: lhs
+impure elemental function concat_character_u(lhs,rhs) result (string)
+character(len=*),intent(in)   :: lhs
 type(unicode_type),intent(in) :: rhs
-type(unicode_type)            :: string1, string2, string
+type(unicode_type)            :: string1, string
    string1 = fmt(lhs)
-   string2 = fmt(rhs)
-   string%codes=[string1%codes,string2%codes]
-end function concat_g_u
+   string%codes=[string1%codes,rhs%codes]
+end function concat_character_u
 
-impure elemental function concat_int8_g(lhs,rhs) result (string)
-integer(kind=int8),intent(in) :: lhs
-class(*),intent(in)           :: rhs
-type(unicode_type)            :: string1, string2, string
-   string1 = fmt(lhs)
+impure elemental function concat_u_character(lhs,rhs) result (string)
+type(unicode_type),intent(in) :: lhs
+character(len=*),intent(in)   :: rhs
+type(unicode_type)            :: string2, string
    string2 = fmt(rhs)
-   string%codes=[string1%codes,string2%codes]
-end function concat_int8_g
+   string%codes=[lhs%codes,string2%codes]
+end function concat_u_character
 
-impure elemental function concat_g_int8(lhs,rhs) result (string)
-class(*),intent(in)           :: lhs
-integer(kind=int8),intent(in) :: rhs
-type(unicode_type)            :: string1, string2, string
-   string1 = fmt(lhs)
-   string2 = fmt(rhs)
-   string%codes=[string1%codes,string2%codes]
-end function concat_g_int8
-
-impure elemental function concat_int16_g(lhs,rhs) result (string)
-integer(kind=int16),intent(in) :: lhs
-class(*),intent(in)            :: rhs
-type(unicode_type)             :: string1, string2, string
-   string1 = fmt(lhs)
-   string2 = fmt(rhs)
-   string%codes=[string1%codes,string2%codes]
-end function concat_int16_g
-
-impure elemental function concat_g_int16(lhs,rhs) result (string)
-class(*),intent(in)            :: lhs
-integer(kind=int16),intent(in) :: rhs
-type(unicode_type)             :: string1, string2, string
-   string1 = fmt(lhs)
-   string2 = fmt(rhs)
-   string%codes=[string1%codes,string2%codes]
-end function concat_g_int16
-
-impure elemental function concat_int32_g(lhs,rhs) result (string)
-integer(kind=int32),intent(in) :: lhs
-class(*),intent(in)            :: rhs
-type(unicode_type)             :: string1, string2, string
-   string1 = fmt(lhs)
-   string2 = fmt(rhs)
-   string%codes=[string1%codes,string2%codes]
-end function concat_int32_g
-
-impure elemental function concat_g_int32(lhs,rhs) result (string)
-class(*),intent(in)            :: lhs
-integer(kind=int32),intent(in) :: rhs
-type(unicode_type)             :: string1, string2, string
-   string1 = fmt(lhs)
-   string2 = fmt(rhs)
-   string%codes=[string1%codes,string2%codes]
-end function concat_g_int32
-
-impure elemental function concat_int64_g(lhs,rhs) result (string)
-integer(kind=int64),intent(in) :: lhs
-class(*),intent(in)            :: rhs
-type(unicode_type)             :: string1, string2, string
-   string1 = fmt(lhs)
-   string2 = fmt(rhs)
-   string%codes=[string1%codes,string2%codes]
-end function concat_int64_g
-
-impure elemental function concat_g_int64(lhs,rhs) result (string)
-class(*),intent(in)            :: lhs
-integer(kind=int64),intent(in) :: rhs
-type(unicode_type)             :: string1, string2, string
-   string1 = fmt(lhs)
-   string2 = fmt(rhs)
-   string%codes=[string1%codes,string2%codes]
-end function concat_g_int64
-
-impure elemental function concat_real32_g(lhs,rhs) result (string)
-real(kind=real32),intent(in) :: lhs
-class(*),intent(in)          :: rhs
-type(unicode_type)           :: string1, string2, string
-   string1 = fmt(lhs)
-   string2 = fmt(rhs)
-   string%codes=[string1%codes,string2%codes]
-end function concat_real32_g
-
-impure elemental function concat_g_real32(lhs,rhs) result (string)
-class(*),intent(in)          :: lhs
-real(kind=real32),intent(in) :: rhs
-type(unicode_type)           :: string1, string2, string
-   string1 = fmt(lhs)
-   string2 = fmt(rhs)
-   string%codes=[string1%codes,string2%codes]
-end function concat_g_real32
-
-impure elemental function concat_real64_g(lhs,rhs) result (string)
-real(kind=real64),intent(in) :: lhs
-class(*),intent(in)          :: rhs
-type(unicode_type)           :: string1, string2, string
-   string1 = fmt(lhs)
-   string2 = fmt(rhs)
-   string%codes=[string1%codes,string2%codes]
-end function concat_real64_g
-
-impure elemental function concat_g_real64(lhs,rhs) result (string)
-class(*),intent(in)          :: lhs
-real(kind=real64),intent(in) :: rhs
-type(unicode_type)           :: string1, string2, string
-   string1 = fmt(lhs)
-   string2 = fmt(rhs)
-   string%codes=[string1%codes,string2%codes]
-end function concat_g_real64
-
-impure elemental function concat_complex32_g(lhs,rhs) result (string)
-complex(kind=real32),intent(in) :: lhs
-class(*),intent(in)             :: rhs
-type(unicode_type)              :: string1, string2, string
-   string1 = fmt(lhs)
-   string2 = fmt(rhs)
-   string%codes=[string1%codes,string2%codes]
-end function concat_complex32_g
-
-impure elemental function concat_g_complex32(lhs,rhs) result (string)
-class(*),intent(in)             :: lhs
-complex(kind=real32),intent(in) :: rhs
-type(unicode_type)              :: string1, string2, string
-   string1 = fmt(lhs)
-   string2 = fmt(rhs)
-   string%codes=[string1%codes,string2%codes]
-end function concat_g_complex32
-
-impure elemental function concat_complex64_g(lhs,rhs) result (string)
-complex(kind=real64),intent(in) :: lhs
-class(*),intent(in)             :: rhs
-type(unicode_type)              :: string1, string2, string
-   string1 = fmt(lhs)
-   string2 = fmt(rhs)
-   string%codes=[string1%codes,string2%codes]
-end function concat_complex64_g
-
-impure elemental function concat_g_complex64(lhs,rhs) result (string)
-class(*),intent(in)             :: lhs
-complex(kind=real64),intent(in) :: rhs
-type(unicode_type)              :: string1, string2, string
-   string1 = fmt(lhs)
-   string2 = fmt(rhs)
-   string%codes=[string1%codes,string2%codes]
-end function concat_g_complex64
-
-impure elemental function concat_character_g(lhs,rhs) result (string)
-character(len=*),intent(in) :: lhs
-class(*),intent(in)         :: rhs
-type(unicode_type)          :: string1, string2, string
-   string1 = fmt(lhs)
-   string2 = fmt(rhs)
-   string%codes=[string1%codes,string2%codes]
-end function concat_character_g
-
-impure elemental function concat_g_character(lhs,rhs) result (string)
-class(*),intent(in)         :: lhs
-character(len=*),intent(in) :: rhs
-type(unicode_type)          :: string1, string2, string
-   string1 = fmt(lhs)
-   string2 = fmt(rhs)
-   string%codes=[string1%codes,string2%codes]
-end function concat_g_character
-
-impure elemental function concat_l_g(lhs,rhs) result (string)
-logical,intent(in)          :: lhs
-class(*),intent(in)         :: rhs
-type(unicode_type)          :: string1, string2, string
-   string1 = fmt(lhs)
-   string2 = fmt(rhs)
-   string%codes=[string1%codes,string2%codes]
-end function concat_l_g
-
-impure elemental function concat_g_l(lhs,rhs) result (string)
-class(*),intent(in)         :: lhs
-logical,intent(in)          :: rhs
-type(unicode_type)          :: string1, string2, string
-   string1 = fmt(lhs)
-   string2 = fmt(rhs)
-   string%codes=[string1%codes,string2%codes]
-end function concat_g_l
-!===================================================================================================================================
-!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
-!===================================================================================================================================
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
@@ -13641,7 +13444,7 @@ character(len=*), intent(inout) :: iomsg
    end select
 
 end subroutine write_formatted
-$IFDEF DT
+$IFDEF HAS_DT
 
 !> Write string to connected unformatted unit.
 subroutine write_unformatted(string, unit, iostat, iomsg)
