@@ -52,12 +52,14 @@ jobs:
     - name: ubuntu with gfortran (debug)
       run: |
            ulimit -c unlimited -d unlimited -f unlimited -m unlimited -s unlimited -t unlimited -v unlimited -x unlimited
+           fpm --verbose --version
            fpm test --profile debug --verbose
 
     - name: ubuntu with gfortran (release)
       run: |
            ulimit -c unlimited -d unlimited -f unlimited -m unlimited -s unlimited -t unlimited -v unlimited -x unlimited
-           fpm test --profile release 
+           fpm --verbose --version
+           fpm test --profile release --verbose
 
 #    - name: Run demo programs (fpm run)
 #      run: fpm run --profile release

@@ -550,4 +550,9 @@ Additionally ...
 -->
 ## Note:
 The UDDTIO (User-Defined Derived-Type Input/Output) procedures for use
-with the DT edit descriptor are still undergoing development.
+with the DT edit descriptor are still undergoing development. This 
+feature is not supported by several major compilers at this time so it
+is conditionally removed from the M_unicos module if the compiler has
+not been tested with the feature, meaning a major number of the 
+example files will need removed or modified on such platforms, although
+the main module and unit test will curently run without UDDTIO.
