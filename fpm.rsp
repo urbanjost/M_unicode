@@ -70,7 +70,9 @@ option --flag "-DRSP -D_WIN32 -Wall -Wextra -fmax-errors=1 -g -fcheck=bounds -fc
 
 @test_windows-latest_ifx_debug
 print RESPONSE: windows-latest ifx debug
-option test --target "*" --compiler ifx --profile debug
+#  --profile debug is getting Linux syntax like OS is wrong
+#option test --target "*" --compiler ifx --profile debug
+option test --target "*" --compiler ifx 
 option --flag "/fpp /D RSP"
 
 @test_windows-latest_lfortran_debug
@@ -125,7 +127,9 @@ option --flag "-DRSP"
 option test --target "*" --compiler gfortran
 option --flag "-DRSP -D_WIN32 -O3 -funroll-loops -Wimplicit-interface -fmax-errors=1 -fcoarray=single -fimplicit-none -Werror=implicit-interface"
 @test_windows-latest_ifx_release
-option test --target "*" --compiler ifx --profile release
+#  --profile release is getting Linux syntax like OS is wrong
+#option test --target "*" --compiler ifx --profile release
+option test --target "*" --compiler ifx 
 option --flag "/fpp /D RSP"
 @test_windows-latest_lfortran_release
 option test --target "*" --compiler lfortran --profile release
