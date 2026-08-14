@@ -11850,7 +11850,7 @@ type(unicode_type),allocatable        :: text(:)     ! array to hold file
 type(unicode_type)                    :: line
 character(len=:),allocatable          :: filename_
 integer                               :: nchars      ! holds size of file
-integer                               :: iostat=0
+integer                               :: iostat
 integer                               :: lun
 integer                               :: scratch
 integer                               :: icount

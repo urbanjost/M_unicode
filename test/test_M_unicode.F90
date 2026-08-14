@@ -350,7 +350,9 @@ end subroutine test_trim
 
 subroutine test_concatenate()
 type(ut) :: str
-integer  :: ten=10,twenty=20
+integer  :: ten, twenty
+   ten=10
+   twenty=20
    !need clarification! () required by ifx, not flang_new or gfortran
    !str='so '//ten//'+'//twenty//'='//(ten+twenty)//' 😃'
    str='so '.cat.ten.cat.'+'.cat.twenty.cat.'='.cat.(ten+twenty).cat.' 😃'
