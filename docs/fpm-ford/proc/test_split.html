@@ -136,11 +136,11 @@
             <a class="list-group-item" href="../proc/test_split.html#variable-answer~5">answer</a>
             <a class="list-group-item" href="../proc/test_split.html#variable-delims~2">delims</a>
             <a class="list-group-item" href="../proc/test_split.html#variable-expected~7">expected</a>
-            <a class="list-group-item" href="../proc/test_split.html#variable-first~17">first</a>
-            <a class="list-group-item" href="../proc/test_split.html#variable-i~56">i</a>
-            <a class="list-group-item" href="../proc/test_split.html#variable-last~19">last</a>
-            <a class="list-group-item" href="../proc/test_split.html#variable-pos~13">pos</a>
-            <a class="list-group-item" href="../proc/test_split.html#variable-proverb">proverb</a>
+            <a class="list-group-item" href="../proc/test_split.html#variable-first">first</a>
+            <a class="list-group-item" href="../proc/test_split.html#variable-i~21">i</a>
+            <a class="list-group-item" href="../proc/test_split.html#variable-last~3">last</a>
+            <a class="list-group-item" href="../proc/test_split.html#variable-pos">pos</a>
+            <a class="list-group-item" href="../proc/test_split.html#variable-proverb~2">proverb</a>
         </div>
       </div>
     </div>
@@ -253,7 +253,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first~17"></span>
+              <span class="anchor" id="variable-first"></span>
               integer,
             </td>
               <td>public</td>
@@ -270,7 +270,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~56"></span>
+              <span class="anchor" id="variable-i~21"></span>
               integer,
             </td>
               <td>public</td>
@@ -287,7 +287,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~19"></span>
+              <span class="anchor" id="variable-last~3"></span>
               integer,
             </td>
               <td>public</td>
@@ -304,7 +304,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pos~13"></span>
+              <span class="anchor" id="variable-pos"></span>
               integer,
             </td>
               <td>public</td>
@@ -321,7 +321,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-proverb"></span>
+              <span class="anchor" id="variable-proverb~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
               <td>public</td>
@@ -374,7 +374,7 @@
 <span class="w">      </span><span class="k">call </span><span class="n">split</span><span class="w"> </span><span class="p">(</span><span class="n">proverb</span><span class="p">,</span><span class="w"> </span><span class="n">delims</span><span class="p">,</span><span class="w"> </span><span class="n">pos</span><span class="p">)</span>
 <span class="w">      </span><span class="n">last</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pos</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
 <span class="w">      </span><span class="n">i</span><span class="o">=</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span>
-<span class="w">      </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;split&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">proverb</span><span class="p">%</span><span class="kt">character</span><span class="p">(</span><span class="n">first</span><span class="p">,</span><span class="n">last</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">expected</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="kt">character</span><span class="p">()</span><span class="w"> </span><span class="p">,</span><span class="n">expected</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="kt">character</span><span class="p">()</span><span class="w"> </span><span class="p">)</span>
+<span class="w">      </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;split&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">proverb</span><span class="p">%</span><span class="kt">CHARACTER</span><span class="p">(</span><span class="n">first</span><span class="p">,</span><span class="n">last</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">expected</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="kt">CHARACTER</span><span class="p">()</span><span class="w"> </span><span class="p">,</span><span class="n">expected</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="kt">CHARACTER</span><span class="p">()</span><span class="w"> </span><span class="p">)</span>
 <span class="w">   </span><span class="k">enddo</span>
 
 <span class="w">   </span><span class="c">! OOP</span>
@@ -408,7 +408,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-08-14 19:21 +0000             </p>
+ on 2026-08-15 07:39 +0000             </p>
           </div>
         </div>
         <br>

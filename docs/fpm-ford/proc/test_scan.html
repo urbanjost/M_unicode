@@ -133,8 +133,8 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../proc/test_scan.html#variable-line~19">line</a>
-            <a class="list-group-item" href="../proc/test_scan.html#variable-set~16">set</a>
+            <a class="list-group-item" href="../proc/test_scan.html#variable-line~6">line</a>
+            <a class="list-group-item" href="../proc/test_scan.html#variable-set">set</a>
         </div>
       </div>
     </div>
@@ -196,7 +196,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-line~19"></span>
+              <span class="anchor" id="variable-line~6"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
               <td>public</td>
@@ -213,7 +213,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~16"></span>
+              <span class="anchor" id="variable-set"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
               <td>public</td>
@@ -254,7 +254,7 @@
 <span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;scan&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">scan</span><span class="p">(</span><span class="n">line</span><span class="p">,</span><span class="w"> </span><span class="n">set</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;default&#39;</span><span class="p">)</span>
 <span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;scan&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">scan</span><span class="p">(</span><span class="n">line</span><span class="p">,</span><span class="w"> </span><span class="n">set</span><span class="p">,</span><span class="w"> </span><span class="n">back</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">27</span><span class="p">,</span><span class="s1">&#39;back=true&#39;</span><span class="p">)</span>
 <span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;scan&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">scan</span><span class="p">(</span><span class="n">line</span><span class="p">,</span><span class="w"> </span><span class="n">set</span><span class="p">,</span><span class="w"> </span><span class="n">back</span><span class="o">=</span><span class="p">.</span><span class="n">false</span><span class="p">.)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="p">,</span><span class="s1">&#39;back=false&#39;</span><span class="p">)</span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;scan&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">scan</span><span class="p">(</span><span class="n">line</span><span class="p">,</span><span class="w"> </span><span class="n">unicode_type</span><span class="p">(</span><span class="s2">&quot;NOT&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="s1">&#39;no match&#39;</span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;scan&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">scan</span><span class="p">(</span><span class="n">line</span><span class="p">,</span><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">&quot;NOT&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="s1">&#39;no match&#39;</span><span class="p">)</span>
 <span class="w">   </span><span class="c">! OOP</span>
 <span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;scan&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">line</span><span class="p">%</span><span class="nb">scan</span><span class="p">(</span><span class="n">set</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="s1">&#39;oop test&#39;</span><span class="p">)</span>
 <span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;scan&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">line</span><span class="p">%</span><span class="nb">scan</span><span class="p">(</span><span class="n">ut</span><span class="p">(</span><span class="s2">&quot;o&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">17</span><span class="p">,</span><span class="s1">&#39;oop test&#39;</span><span class="p">)</span>
@@ -282,7 +282,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-08-14 19:21 +0000             </p>
+ on 2026-08-15 07:39 +0000             </p>
           </div>
         </div>
         <br>

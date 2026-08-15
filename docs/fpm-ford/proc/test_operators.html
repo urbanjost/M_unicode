@@ -134,9 +134,9 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../proc/test_operators.html#variable-astr~8">astr</a>
-            <a class="list-group-item" href="../proc/test_operators.html#variable-lhs~30">lhs</a>
-            <a class="list-group-item" href="../proc/test_operators.html#variable-rhs~30">rhs</a>
-            <a class="list-group-item" href="../proc/test_operators.html#variable-smiley">smiley</a>
+            <a class="list-group-item" href="../proc/test_operators.html#variable-lhs">lhs</a>
+            <a class="list-group-item" href="../proc/test_operators.html#variable-rhs">rhs</a>
+            <a class="list-group-item" href="../proc/test_operators.html#variable-smiley~2">smiley</a>
             <a class="list-group-item" href="../proc/test_operators.html#variable-ut_str~7">ut_str</a>
         </div>
       </div>
@@ -216,7 +216,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~30"></span>
+              <span class="anchor" id="variable-lhs"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
               <td>public</td>
@@ -233,7 +233,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~30"></span>
+              <span class="anchor" id="variable-rhs"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
               <td>public</td>
@@ -250,7 +250,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-smiley"></span>
+              <span class="anchor" id="variable-smiley~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
               <td>public</td>
@@ -299,10 +299,10 @@
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="k">subroutine </span><span class="n">test_operators</span><span class="p">()</span>
-<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">lhs</span><span class="p">,</span><span class="w"> </span><span class="n">rhs</span>
-<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">astr</span>
-<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">smiley</span>
-<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">ut_str</span>
+<span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">lhs</span><span class="p">,</span><span class="w"> </span><span class="n">rhs</span>
+<span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">astr</span>
+<span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">smiley</span>
+<span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">ut_str</span>
 <span class="w">   </span><span class="n">smiley</span><span class="o">=</span><span class="s1">&#39;😃&#39;</span>
 <span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g0</span><span class="p">)</span>
 <span class="w">   </span><span class="n">astr</span><span class="o">=</span><span class="s1">&#39;Hello World and Ni Hao -- 你好&#39;</span>
@@ -311,7 +311,7 @@
 
 <span class="w">   </span><span class="n">ut_str</span><span class="o">=</span><span class="n">smiley</span><span class="w"> </span><span class="p">.</span><span class="n">cat</span><span class="p">.</span><span class="w"> </span><span class="s1">&#39; and &#39;</span><span class="w"> </span><span class="p">.</span><span class="n">cat</span><span class="p">.</span><span class="w"> </span><span class="n">smiley</span><span class="w"> </span><span class="p">.</span><span class="n">cat</span><span class="p">.</span><span class="w"> </span><span class="s1">&#39;and&#39;</span><span class="w"> </span><span class="p">.</span><span class="n">cat</span><span class="p">.</span><span class="w"> </span><span class="n">smiley</span><span class="w"> </span><span class="p">.</span><span class="n">cat</span><span class="p">.</span><span class="w"> </span><span class="n">smiley</span><span class="w"> </span><span class="p">.</span><span class="n">cat</span><span class="p">.</span><span class="w"> </span><span class="s1">&#39;is it&#39;</span>
 <span class="w">   </span><span class="n">astr</span><span class="o">=</span><span class="s1">&#39;😃 and 😃and😃😃is it&#39;</span>
-<span class="w">   </span><span class="k">call </span><span class="n">checkit</span><span class="p">(</span><span class="s1">&#39;concatenation&#39;</span><span class="p">,</span><span class="n">astr</span><span class="p">,</span><span class="kt">character</span><span class="p">(</span><span class="n">ut_str</span><span class="p">),</span><span class="w"> </span><span class="s1">&#39;😃 and 😃and😃😃is it&#39;</span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">checkit</span><span class="p">(</span><span class="s1">&#39;concatenation&#39;</span><span class="p">,</span><span class="n">astr</span><span class="p">,</span><span class="n">ch</span><span class="p">(</span><span class="n">ut_str</span><span class="p">),</span><span class="w"> </span><span class="s1">&#39;😃 and 😃and😃😃is it&#39;</span><span class="p">)</span>
 
 <span class="w">   </span><span class="n">lhs</span><span class="o">=</span><span class="s1">&#39;this is the left&#39;</span>
 <span class="w">   </span><span class="n">rhs</span><span class="o">=</span><span class="s1">&#39;this is the right&#39;</span>
@@ -354,7 +354,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-08-14 19:21 +0000             </p>
+ on 2026-08-15 07:39 +0000             </p>
           </div>
         </div>
         <br>
