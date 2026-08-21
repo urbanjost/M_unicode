@@ -414,10 +414,10 @@ Determine if strings represent valid Fortran symbol names
    ! determine if a string is a valid Fortran name
    ! ignoring trailing spaces (but not leading spaces)
    !
-   character(len=*),parameter :: int="0123456789"
+   character(len=*),parameter :: ints="0123456789"
    character(len=*),parameter :: lower="abcdefghijklmnopqrstuvwxyz"
    character(len=*),parameter :: upper="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-   character(len=*),parameter :: allowed=upper//lower//int//"_"
+   character(len=*),parameter :: allowed=upper//lower//ints//"_"
 <P>
    type(ut),intent(in)        :: line
    type(ut)                   :: name
@@ -465,7 +465,7 @@ check if string is of form NN‐HHHHH
    implicit none
    character(len=*),parameter :: g=&#146;(*(g0,1x))&#146;
    !
-   character(len=*),parameter :: int=&#146;1234567890&#146;
+   character(len=*),parameter :: ints=&#146;1234567890&#146;
    character(len=*),parameter :: hex=&#146;abcdefABCDEF0123456789&#146;
    logical                    :: lout
    type(unicode_type)         :: chars
@@ -476,7 +476,7 @@ check if string is of form NN‐HHHHH
       !
       ! are the first two characters integer characters?
       str = chars%character(1,2)
-      lout = (verify( str, ut(int) ) == 0) .and.lout
+      lout = (verify( str, ut(ints) ) == 0) .and.lout
       !
       ! is the third character a dash?
       str = chars%character(3,3)

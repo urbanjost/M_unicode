@@ -166,7 +166,7 @@ AUTHOR
 
 LICENSE
    MIT
-				 May 05, 2026		add_border(3m_unicode)
+				August 19, 2026 	add_border(3m_unicode)
 adjustr(3m_unicode)					   adjustr(3m_unicode)
 
 NAME
@@ -331,7 +331,7 @@ AUTHOR
 
 LICENSE
    MIT
-				 May 05, 2026		   adjustr(3m_unicode)
+				August 19, 2026 	   adjustr(3m_unicode)
 character(3m_unicode)					 character(3m_unicode)
 
 NAME
@@ -505,7 +505,7 @@ AUTHOR
 
 LICENSE
    MIT
-				 May 05, 2026		 character(3m_unicode)
+				August 19, 2026 	 character(3m_unicode)
 expandtabs(3m_unicode)					expandtabs(3m_unicode)
 
 NAME
@@ -578,7 +578,7 @@ AUTHOR
 
 LICENSE
    MIT
-				 May 05, 2026		expandtabs(3m_unicode)
+				August 19, 2026 	expandtabs(3m_unicode)
 fmt(3m_unicode) 					       fmt(3m_unicode)
 
 NAME
@@ -651,7 +651,7 @@ AUTHOR
 
 LICENSE
    MIT
-				 May 05, 2026		       fmt(3m_unicode)
+				August 19, 2026 	       fmt(3m_unicode)
 get_arg(3m_unicode)					   get_arg(3m_unicode)
 
 NAME
@@ -727,7 +727,7 @@ AUTHOR
 
 LICENSE
    MIT
-				 May 05, 2026		   get_arg(3m_unicode)
+				August 19, 2026 	   get_arg(3m_unicode)
 get_env(3m_unicode)					   get_env(3m_unicode)
 
 NAME
@@ -804,7 +804,7 @@ AUTHOR
 
 LICENSE
    MIT
-				 May 05, 2026		   get_env(3m_unicode)
+				August 19, 2026 	   get_env(3m_unicode)
 len(3m_unicode) 					       len(3m_unicode)
 
 NAME
@@ -896,7 +896,7 @@ AUTHOR
 
 LICENSE
    MIT
-				 May 05, 2026		       len(3m_unicode)
+				August 19, 2026 	       len(3m_unicode)
 len_trim(3m_unicode)					  len_trim(3m_unicode)
 
 NAME
@@ -987,7 +987,7 @@ AUTHOR
 
 LICENSE
    MIT
-				 May 05, 2026		  len_trim(3m_unicode)
+				August 19, 2026 	  len_trim(3m_unicode)
 lower(3m_unicode)					     lower(3m_unicode)
 
 NAME
@@ -1088,7 +1088,7 @@ AUTHOR
 
 LICENSE
    MIT
-				 May 05, 2026		     lower(3m_unicode)
+				August 19, 2026 	     lower(3m_unicode)
 M_unicode(3m_unicode)					 M_unicode(3m_unicode)
 
 NAME
@@ -1114,9 +1114,8 @@ DESCRIPTION
   underlying compiler does not yet support those intrinsics.
 
   Overloads of assignment, logical comparisons, and concatenation using the //
-  operator with strings (and other types) are included as well to make use of
-  TYPE(UNICODE_TYPE) largely consistent with standard CHARACTER string
-  manipulations.
+  operator with strings are included as well to make use of TYPE(UNICODE_TYPE)
+  largely consistent with standard CHARACTER string manipulations.
 
   Nearly all the methods are available using both OOP and procedural syntax.
 
@@ -1304,10 +1303,13 @@ SYNOPSIS
 
    CONCATENATION
   join
-    join elements of an array into a single string operator(.cat.),
+    join elements of an array into a single string
+
+  operator(.cat.)
+    concatenate strings and/or convert intrinsics to strings and concatenate
 
   operator(//)
-    concatenate strings and/or convert intrinsics to strings and concatenate
+    concatenate strings and character variables
 
    SYSTEM
   get_env
@@ -1349,7 +1351,6 @@ EXAMPLES
      use M_unicode,only : tokenize, replace, character, upper, lower, len
      use M_unicode,only : unicode_type, assignment(=), operator(//)
      use M_unicode,only : ut => unicode_type, ch => character
-     use M_unicode,only : write(formatted)
      type(unicode_type) 	    :: string
      type(unicode_type) 	    :: numeric, uppercase, lowercase
      type(unicode_type),allocatable :: array(:)
@@ -1359,7 +1360,7 @@ EXAMPLES
      lowercase='абвгґдеєжзиіїйклмнопрстуфхцчшщьюя'
      numeric='0123456789'
       !
-      string=uppercase//numeric//lowercase
+      string=uppercase // numeric // lowercase
       !
       print all, 'Original string:'
       print all, ch(string)
@@ -1426,7 +1427,7 @@ AUTHOR
 
 LICENSE
    MIT
-				 May 05, 2026		 M_unicode(3m_unicode)
+				August 19, 2026 	 M_unicode(3m_unicode)
 pad(3m_unicode) 					       pad(3m_unicode)
 
 NAME
@@ -1563,7 +1564,7 @@ AUTHOR
 
 LICENSE
    MIT
-				 May 05, 2026		       pad(3m_unicode)
+				August 19, 2026 	       pad(3m_unicode)
 pound_to_box(3m_unicode)			      pound_to_box(3m_unicode)
 
 NAME
@@ -1693,7 +1694,7 @@ AUTHOR
 
 LICENSE
    MIT
-				 May 05, 2026	      pound_to_box(3m_unicode)
+				August 19, 2026       pound_to_box(3m_unicode)
 readline(3m_unicode)					  readline(3m_unicode)
 
 NAME
@@ -1821,7 +1822,7 @@ AUTHOR
 
 LICENSE
    MIT
-				 May 05, 2026		  readline(3m_unicode)
+				August 19, 2026 	  readline(3m_unicode)
 repeat(3m_unicode)					    repeat(3m_unicode)
 
 NAME
@@ -1880,7 +1881,7 @@ SEE ALSO
 
 LICENSE
    MIT
-				 May 05, 2026		    repeat(3m_unicode)
+				August 19, 2026 	    repeat(3m_unicode)
 replace(3m_unicode)					   replace(3m_unicode)
 
 NAME
@@ -2028,7 +2029,7 @@ AUTHOR
 
 LICENSE
    MIT
-				 May 05, 2026		   replace(3m_unicode)
+				August 19, 2026 	   replace(3m_unicode)
 reverse(3m_unicode)					   reverse(3m_unicode)
 
 NAME
@@ -2087,7 +2088,7 @@ AUTHOR
 
 LICENSE
    MIT
-				 May 05, 2026		   reverse(3m_unicode)
+				August 19, 2026 	   reverse(3m_unicode)
 scan(3m_unicode)					      scan(3m_unicode)
 
 NAME
@@ -2201,7 +2202,7 @@ AUTHOR
 
 LICENSE
    MIT
-				 May 05, 2026		      scan(3m_unicode)
+				August 19, 2026 	      scan(3m_unicode)
 slurp(3m_unicode)					     slurp(3m_unicode)
 
 NAME
@@ -2328,7 +2329,7 @@ AUTHOR
 
 LICENSE
    MIT
-				 May 05, 2026		     slurp(3m_unicode)
+				August 19, 2026 	     slurp(3m_unicode)
 sort(3m_unicode)					      sort(3m_unicode)
 
 NAME
@@ -2448,7 +2449,7 @@ AUTHOR
 
 LICENSE
    MIT
-				 May 05, 2026		      sort(3m_unicode)
+				August 19, 2026 	      sort(3m_unicode)
 split(3m_unicode)					     split(3m_unicode)
 
 NAME
@@ -2603,7 +2604,7 @@ AUTHOR
 
 LICENSE
    MIT
-				 May 05, 2026		     split(3m_unicode)
+				August 19, 2026 	     split(3m_unicode)
 sub(3m_unicode) 					       sub(3m_unicode)
 
 NAME
@@ -2679,7 +2680,7 @@ AUTHOR
 
 LICENSE
    MIT
-				 May 05, 2026		       sub(3m_unicode)
+				August 19, 2026 	       sub(3m_unicode)
 tokenize(3m_unicode)					  tokenize(3m_unicode)
 
 NAME
@@ -2849,7 +2850,7 @@ AUTHOR
 
 LICENSE
    MIT
-				 May 05, 2026		  tokenize(3m_unicode)
+				August 19, 2026 	  tokenize(3m_unicode)
 transliterate(3m_unicode)			     transliterate(3m_unicode)
 
 NAME
@@ -2987,7 +2988,7 @@ AUTHOR
 
 LICENSE
    MIT
-				 May 05, 2026	     transliterate(3m_unicode)
+				August 19, 2026      transliterate(3m_unicode)
 trim(3m_unicode)					      trim(3m_unicode)
 
 NAME
@@ -3078,7 +3079,7 @@ AUTHOR
 
 LICENSE
    MIT
-				 May 05, 2026		      trim(3m_unicode)
+				August 19, 2026 	      trim(3m_unicode)
 upper(3m_unicode)					     upper(3m_unicode)
 
 NAME
@@ -3179,7 +3180,7 @@ AUTHOR
 
 LICENSE
    MIT
-				 May 05, 2026		     upper(3m_unicode)
+				August 19, 2026 	     upper(3m_unicode)
 utf8_to_codepoints(3m_unicode)			utf8_to_codepoints(3m_unicode)
 
 NAME
@@ -3294,7 +3295,7 @@ AUTHOR
 
 LICENSE
    MIT
-				 May 05, 2026	utf8_to_codepoints(3m_unicode)
+				August 19, 2026 utf8_to_codepoints(3m_unicode)
 verify(3m_unicode)					    verify(3m_unicode)
 
 NAME
@@ -3573,10 +3574,10 @@ EXAMPLES
      ! determine if a string is a valid Fortran name
      ! ignoring trailing spaces (but not leading spaces)
      !
-     character(len=*),parameter :: int="0123456789"
+     character(len=*),parameter :: ints="0123456789"
      character(len=*),parameter :: lower="abcdefghijklmnopqrstuvwxyz"
      character(len=*),parameter :: upper="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-     character(len=*),parameter :: allowed=upper//lower//int//"_"
+     character(len=*),parameter :: allowed=upper//lower//ints//"_"
 
      type(ut),intent(in)	:: line
      type(ut)			:: name
@@ -3620,7 +3621,7 @@ EXAMPLES
      implicit none
      character(len=*),parameter :: g='(*(g0,1x))'
      !
-     character(len=*),parameter :: int='1234567890'
+     character(len=*),parameter :: ints='1234567890'
      character(len=*),parameter :: hex='abcdefABCDEF0123456789'
      logical			:: lout
      type(unicode_type) 	:: chars
@@ -3631,7 +3632,7 @@ EXAMPLES
 	!
 	! are the first two characters integer characters?
 	str = chars%character(1,2)
-	lout = (verify( str, ut(int) ) == 0) .and.lout
+	lout = (verify( str, ut(ints) ) == 0) .and.lout
 	!
 	! is the third character a dash?
 	str = chars%character(3,3)
@@ -3715,7 +3716,7 @@ AUTHOR
 
 LICENSE
    MIT
-				 May 05, 2026		    verify(3m_unicode)
+				August 19, 2026 	    verify(3m_unicode)
 glob(3m_unicode)					      glob(3m_unicode)
 
 NAME
@@ -3926,7 +3927,7 @@ REFERENCES
 
 LICENSE
    MIT
-				 May 05, 2026		      glob(3m_unicode)
+				August 19, 2026 	      glob(3m_unicode)
 ichar(3m_unicode)					     ichar(3m_unicode)
 
 NAME
@@ -4058,7 +4059,7 @@ AUTHOR
 
 LICENSE
    MIT
-				 May 05, 2026		     ichar(3m_unicode)
+				August 19, 2026 	     ichar(3m_unicode)
 index(3m_unicode)					     index(3m_unicode)
 
 NAME
@@ -4176,7 +4177,7 @@ AUTHOR
 
 LICENSE
    MIT
-				 May 05, 2026		     index(3m_unicode)
+				August 19, 2026 	     index(3m_unicode)
 isascii(3m_unicode)					   isascii(3m_unicode)
 
 NAME
@@ -4250,7 +4251,7 @@ AUTHOR
 
 LICENSE
    MIT
-				 May 05, 2026		   isascii(3m_unicode)
+				August 19, 2026 	   isascii(3m_unicode)
 isblank(3m_unicode)					   isblank(3m_unicode)
 
 NAME
@@ -4307,7 +4308,7 @@ AUTHOR
 
 LICENSE
    MIT
-				 May 05, 2026		   isblank(3m_unicode)
+				August 19, 2026 	   isblank(3m_unicode)
 isspace(3m_unicode)					   isspace(3m_unicode)
 
 NAME
@@ -4354,7 +4355,7 @@ AUTHOR
 
 LICENSE
    MIT
-				 May 05, 2026		   isspace(3m_unicode)
+				August 19, 2026 	   isspace(3m_unicode)
 join(3m_unicode)					      join(3m_unicode)
 
 NAME
@@ -4454,7 +4455,7 @@ AUTHOR
 
 LICENSE
    MIT
-				 May 05, 2026		      join(3m_unicode)
+				August 19, 2026 	      join(3m_unicode)
 codepoints_to_utf8(3m_unicode)			codepoints_to_utf8(3m_unicode)
 
 NAME
@@ -4566,7 +4567,7 @@ AUTHOR
 
 LICENSE
    MIT
-				 May 05, 2026	codepoints_to_utf8(3m_unicode)
+				August 19, 2026 codepoints_to_utf8(3m_unicode)
 escape(3m_unicode)					    escape(3m_unicode)
 
 NAME
@@ -4703,7 +4704,7 @@ AUTHOR
 
 LICENSE
    MIT
-				 May 05, 2026		    escape(3m_unicode)
+				August 19, 2026 	    escape(3m_unicode)
 expand_html(3m_unicode) 			       expand_html(3m_unicode)
 
 NAME
@@ -4784,7 +4785,7 @@ AUTHOR
 
 LICENSE
    MIT
-				 May 05, 2026	       expand_html(3m_unicode)
+				August 19, 2026        expand_html(3m_unicode)
 adjustl(3m_unicode)					   adjustl(3m_unicode)
 
 NAME
@@ -4874,7 +4875,7 @@ AUTHOR
 
 LICENSE
    MIT
-				 May 05, 2026		   adjustl(3m_unicode)
+				August 19, 2026 	   adjustl(3m_unicode)
 add_backslash(3m_unicode)			     add_backslash(3m_unicode)
 
 NAME
@@ -4987,4 +4988,4 @@ AUTHOR
 
 LICENSE
    MIT
-				 May 05, 2026	     add_backslash(3m_unicode)
+				August 19, 2026      add_backslash(3m_unicode)

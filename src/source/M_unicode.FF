@@ -260,7 +260,7 @@ EXAMPLES
    program demo_M_unicode
    use,intrinsic :: iso_fortran_env, only : stdout=>output_unit
    use M_unicode,only : tokenize, replace, character, upper, lower, len
-   use M_unicode,only : unicode_type, assignment(=)
+   use M_unicode,only : unicode_type, assignment(=), operator(//)
    use M_unicode,only : ut => unicode_type, ch => character
 $IFDEF HAS_DT
    use M_unicode,only : write(formatted)
@@ -276,7 +276,7 @@ $ENDIF
    lowercase='абвгґдеєжзиіїйклмнопрстуфхцчшщьюя'
    numeric='0123456789'
     !
-    string=uppercase//numeric//lowercase
+    string=uppercase // numeric // lowercase
     !
     print all, 'Original string:'
     print all, ch(string)
@@ -4257,7 +4257,7 @@ integer                       :: i
    res=.true.
    STEPTHRU: do i=1,size(string%codes)
       select case(string%codes(i))
-      case(0)             ! null(0)
+      case(0)       ! null(0)
       case(9:13)    ! tab(9), new line(10), vertical tab(11), formfeed(12), carriage return(13),
       case(32,160,8192,8193,8194,8195,8196,8197,8198,8199,8200,8201,8202,8239,8287,12288) ! Unicode spaces
       case default
@@ -7545,10 +7545,10 @@ EXAMPLES
    ! determine if a string is a valid Fortran name
    ! ignoring trailing spaces (but not leading spaces)
    !
-   character(len=*),parameter :: int="0123456789"
+   character(len=*),parameter :: ints="0123456789"
    character(len=*),parameter :: lower="abcdefghijklmnopqrstuvwxyz"
    character(len=*),parameter :: upper="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-   character(len=*),parameter :: allowed=upper//lower//int//"_"
+   character(len=*),parameter :: allowed=upper//lower//ints//"_"
 
    type(ut),intent(in)        :: line
    type(ut)                   :: name
@@ -7592,7 +7592,7 @@ EXAMPLES
    implicit none
    character(len=*),parameter :: g='(*(g0,1x))'
    !
-   character(len=*),parameter :: int='1234567890'
+   character(len=*),parameter :: ints='1234567890'
    character(len=*),parameter :: hex='abcdefABCDEF0123456789'
    logical                    :: lout
    type(unicode_type)         :: chars
@@ -7603,7 +7603,7 @@ EXAMPLES
       !
       ! are the first two characters integer characters?
       str = chars%character(1,2)
-      lout = (verify( str, ut(int) ) == 0) .and.lout
+      lout = (verify( str, ut(ints) ) == 0) .and.lout
       !
       ! is the third character a dash?
       str = chars%character(3,3)
@@ -12179,7 +12179,7 @@ character(len=:),allocatable         :: fmt_local
 character(len=:),allocatable         :: re,im
 integer                              :: iostat
 character(len=255)                   :: iomsg
-character(len=1),parameter           :: null=char(0)
+character(len=1),parameter           :: null_ch=char(0)
 integer                              :: iilen
 logical                              :: trimit
    if(present(format))then
@@ -12225,18 +12225,18 @@ logical                              :: trimit
    allocate(character(len=256) :: line) ! cannot currently write into allocatable variable
    iostat=0
    select type(generic)
-     type is (integer(kind=int8));  write(line,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
-     type is (integer(kind=int16)); write(line,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
-     type is (integer(kind=int32)); write(line,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
-     type is (integer(kind=int64)); write(line,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
-     type is (real(kind=real32));   write(line,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
-     type is (real(kind=real64));   write(line,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
+     type is (integer(kind=int8));  write(line,fmt_local,iostat=iostat,iomsg=iomsg) generic,null_ch
+     type is (integer(kind=int16)); write(line,fmt_local,iostat=iostat,iomsg=iomsg) generic,null_ch
+     type is (integer(kind=int32)); write(line,fmt_local,iostat=iostat,iomsg=iomsg) generic,null_ch
+     type is (integer(kind=int64)); write(line,fmt_local,iostat=iostat,iomsg=iomsg) generic,null_ch
+     type is (real(kind=real32));   write(line,fmt_local,iostat=iostat,iomsg=iomsg) generic,null_ch
+     type is (real(kind=real64));   write(line,fmt_local,iostat=iostat,iomsg=iomsg) generic,null_ch
 #ifdef FLOAT128
-     type is (real(kind=real128));  write(line,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
+     type is (real(kind=real128));  write(line,fmt_local,iostat=iostat,iomsg=iomsg) generic,null_ch
 #endif
-     type is (logical);             write(line,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
-     type is (character(len=*));    write(line,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
-     type is (unicode_type);        write(line,fmt_local,iostat=iostat,iomsg=iomsg) character(generic),null
+     type is (logical);             write(line,fmt_local,iostat=iostat,iomsg=iomsg) generic,null_ch
+     type is (character(len=*));    write(line,fmt_local,iostat=iostat,iomsg=iomsg) generic,null_ch
+     type is (unicode_type);        write(line,fmt_local,iostat=iostat,iomsg=iomsg) character(generic),null_ch
      type is (complex);
         if(trimit)then
            re=afmt(real(generic))
@@ -12244,10 +12244,10 @@ logical                              :: trimit
            call trimzeros_(re)
            call trimzeros_(im)
            fmt_local='("(",g0,",",g0,")",a)'
-           write(line,fmt_local,iostat=iostat,iomsg=iomsg) trim(re),trim(im),null
+           write(line,fmt_local,iostat=iostat,iomsg=iomsg) trim(re),trim(im),null_ch
            trimit=.false.
         else
-           write(line,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
+           write(line,fmt_local,iostat=iostat,iomsg=iomsg) generic,null_ch
         endif
      type is (complex(kind=real64));
         if(trimit)then
@@ -12256,10 +12256,10 @@ logical                              :: trimit
            call trimzeros_(re)
            call trimzeros_(im)
            fmt_local='("(",g0,",",g0,")",a)'
-           write(line,fmt_local,iostat=iostat,iomsg=iomsg) trim(re),trim(im),null
+           write(line,fmt_local,iostat=iostat,iomsg=iomsg) trim(re),trim(im),null_ch
            trimit=.false.
         else
-           write(line,fmt_local,iostat=iostat,iomsg=iomsg) generic,null
+           write(line,fmt_local,iostat=iostat,iomsg=iomsg) generic,null_ch
         endif
      class default
         stop '<ERROR>*afmt* unknown type'
@@ -12267,7 +12267,7 @@ logical                              :: trimit
    if(iostat /= 0)then
       line='<ERROR>'//trim(iomsg)
    else
-      iilen=index(line,null,back=.true.)
+      iilen=index(line,null_ch,back=.true.)
       if(iilen == 0)iilen=len(line)
       line=line(:iilen-1)
    endif
@@ -12664,7 +12664,7 @@ type(unicode_type),intent(in) :: tame       ! A string without wildcards
 type(unicode_type),intent(in) :: wild       ! A (potentially) corresponding string with wildcards
 type(unicode_type)            :: tametext
 type(unicode_type)            :: wildtext
-integer,parameter             :: NULL=0
+integer,parameter             :: NULL_CH=0
 integer,parameter             :: STAR=ichar('*')
 integer,parameter             :: QUESTION=ichar('?')
 integer                       :: wlen
@@ -12674,11 +12674,11 @@ type(unicode_type)            :: tmp1, ut_NULL
 type(unicode_type)            :: tbookmark, wbookmark
 ! These two values are set when we observe a wildcard character. They
 ! represent the locations, in the two strings, from which we start once we have observed it.
-   tametext%codes=[tame%codes,NULL]
-   wildtext%codes=[wild%codes,NULL]
-   tbookmark%codes = [NULL]
-   wbookmark%codes = [NULL]
-   ut_NULL%codes = [NULL]
+   tametext%codes=[tame%codes,NULL_CH]
+   wildtext%codes=[wild%codes,NULL_CH]
+   tbookmark%codes = [NULL_CH]
+   wbookmark%codes = [NULL_CH]
+   ut_NULL%codes = [NULL_CH]
    wlen=size(wild%codes)
    wi=1
    ti=1
@@ -12691,7 +12691,7 @@ type(unicode_type)            :: tbookmark, wbookmark
                exit
             endif
          enddo
-         if(wildtext%codes(wi) == NULL) then        ! "x" matches "*"
+         if(wildtext%codes(wi) == NULL_CH) then        ! "x" matches "*"
             glob_uu_=.true.
             return
          endif
@@ -12699,7 +12699,7 @@ type(unicode_type)            :: tbookmark, wbookmark
             ! Fast-forward to next possible match.
             do while (tametext%codes(ti)  /=  wildtext%codes(wi))
                ti=ti+1
-               if (tametext%codes(ti) == NULL)then
+               if (tametext%codes(ti) == NULL_CH)then
                   glob_uu_=.false.
                   return                            ! "x" doesn't match "*y*"
                endif
@@ -12725,7 +12725,7 @@ type(unicode_type)            :: tbookmark, wbookmark
                   wi=wi+1
                endif
             endif
-            if (tametext%codes(ti) /= NULL) then
+            if (tametext%codes(ti) /= NULL_CH) then
                ti=ti+1
                cycle                             ! "mississippi" matches "*sip*"
             endif
@@ -12738,14 +12738,14 @@ type(unicode_type)            :: tbookmark, wbookmark
       if (ti > size(tametext%codes)) then
          glob_uu_=.false.
          return
-      elseif (tametext%codes(ti) == NULL) then      ! How do you match a tame text string?
-         if(wildtext%codes(wi) /= NULL)then
+      elseif (tametext%codes(ti) == NULL_CH) then   ! How do you match a tame text string?
+         if(wildtext%codes(wi) /= NULL_CH)then
             do while (wildtext%codes(wi) == STAR)   ! The tame way: unique up on it!
-               wi=wi+1                           ! "x" matches "x*"
-               if(wildtext%codes(wi) == NULL)exit
+               wi=wi+1                              ! "x" matches "x*"
+               if(wildtext%codes(wi) == NULL_CH)exit
             enddo
          endif
-         if (wildtext%codes(wi) == NULL)then
+         if (wildtext%codes(wi) == NULL_CH)then
             glob_uu_=.true.
             return                               ! "x" matches "x"
          endif

@@ -94,7 +94,7 @@ The intrinsic overloads include TOKENIZE(3) and SPLIT(3) even if the
 underlying compiler does not yet support those intrinsics.
 <P>
 Overloads of assignment, logical comparisons, and concatenation using
-the // operator with strings (and other types) are included as well
+the // operator with strings are included as well
 to make use of TYPE(UNICODE_TYPE) largely consistent with standard
 CHARACTER string manipulations.
 <P>
@@ -445,12 +445,15 @@ Scan a string for the absence of a set of characters
 <TR valign=top><TD width=6% nowrap>
 <B>join</B> </TD><TD valign=bottom>
 join elements of an array into a single string
-operator(.cat.),
+</TD></TR>
+<TR valign=top><TD colspan=2>
+<B>operator(.cat.)</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+concatenate strings and/or convert intrinsics to
+strings and concatenate
 </TD></TR>
 <TR valign=top><TD colspan=2>
 <B>operator(//)</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
-concatenate strings and/or convert intrinsics to
-strings and concatenate
+concatenate strings and character variables
 </TD></TR>
 <TR></TR></TABLE></BLOCKQUOTE>
 <A name=>
@@ -544,7 +547,6 @@ Sample program:
    use M_unicode,only : tokenize, replace, character, upper, lower, len
    use M_unicode,only : unicode_type, assignment(=), operator(//)
    use M_unicode,only : ut =&gt; unicode_type, ch =&gt; character
-   use M_unicode,only : write(formatted)
    type(unicode_type)             :: string
    type(unicode_type)             :: numeric, uppercase, lowercase
    type(unicode_type),allocatable :: array(:)
@@ -554,7 +556,7 @@ Sample program:
    lowercase=&#146;абвгґдеєжзиіїйклмнопрстуфхцчшщьюя&#146;
    numeric=&#146;0123456789&#146;
     !
-    string=uppercase//numeric//lowercase
+    string=uppercase // numeric // lowercase
     !
     print all, &#146;Original string:&#146;
     print all, ch(string)
