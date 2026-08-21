@@ -245,23 +245,23 @@
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="k">subroutine </span><span class="n">test_expand_html</span><span class="p">()</span>
-<span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">u_line</span>
-<span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a_line</span>
+<span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">u_line</span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a_line</span>
 
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;expand_html&#39;</span><span class="p">,</span><span class="n">expand_html</span><span class="p">(</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;&amp;&#39;</span><span class="p">)).</span><span class="n">eq</span><span class="p">.</span><span class="s1">&#39;&amp;&#39;</span><span class="p">,</span><span class="s1">&#39;backslash at end of line&#39;</span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'expand_html'</span><span class="p">,</span><span class="n">expand_html</span><span class="p">(</span><span class="n">ut</span><span class="p">(</span><span class="s1">'&amp;'</span><span class="p">)).</span><span class="n">eq</span><span class="p">.</span><span class="s1">'&amp;'</span><span class="p">,</span><span class="s1">'backslash at end of line'</span><span class="p">)</span>
 
-<span class="w">   </span><span class="n">u_line</span><span class="o">=</span><span class="s1">&#39;&lt; &gt; &amp; © ® ™ € £ Before After&#39;</span>
+<span class="w">   </span><span class="n">u_line</span><span class="o">=</span><span class="s1">'&lt; &gt; &amp; © ® ™ € £ Before After'</span>
 <span class="w">   </span><span class="c">! UNICODE_TYPE input</span>
-<span class="w">   </span><span class="n">a_line</span><span class="o">=</span><span class="s1">&#39;&amp;lt; &amp;gt; &amp;amp; &amp;copy; &amp;reg; &amp;trade; &amp;euro; &amp;pound; Before&amp;nbsp;After&#39;</span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;expand_html&#39;</span><span class="p">,</span><span class="n">expand_html</span><span class="p">(</span><span class="n">ut</span><span class="p">(</span><span class="n">a_line</span><span class="p">)).</span><span class="n">eq</span><span class="p">.</span><span class="n">u_line</span><span class="p">,</span><span class="s1">&#39;&amp;NAME;&#39;</span><span class="p">)</span>
-<span class="w">   </span><span class="n">a_line</span><span class="o">=</span><span class="s1">&#39;&amp;#60; &amp;#62; &amp;#38; &amp;#169; &amp;#174; &amp;#8482; &amp;#8364; &amp;#163; Before&amp;#160;After&#39;</span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;expand_html&#39;</span><span class="p">,</span><span class="n">expand_html</span><span class="p">(</span><span class="n">ut</span><span class="p">(</span><span class="n">a_line</span><span class="p">)).</span><span class="n">eq</span><span class="p">.</span><span class="n">u_line</span><span class="p">,</span><span class="s1">&#39;&amp;#NUMBER;&#39;</span><span class="p">)</span>
+<span class="w">   </span><span class="n">a_line</span><span class="o">=</span><span class="s1">'&amp;lt; &amp;gt; &amp;amp; &amp;copy; &amp;reg; &amp;trade; &amp;euro; &amp;pound; Before&amp;nbsp;After'</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'expand_html'</span><span class="p">,</span><span class="n">expand_html</span><span class="p">(</span><span class="n">ut</span><span class="p">(</span><span class="n">a_line</span><span class="p">)).</span><span class="n">eq</span><span class="p">.</span><span class="n">u_line</span><span class="p">,</span><span class="s1">'&amp;NAME;'</span><span class="p">)</span>
+<span class="w">   </span><span class="n">a_line</span><span class="o">=</span><span class="s1">'&amp;#60; &amp;#62; &amp;#38; &amp;#169; &amp;#174; &amp;#8482; &amp;#8364; &amp;#163; Before&amp;#160;After'</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'expand_html'</span><span class="p">,</span><span class="n">expand_html</span><span class="p">(</span><span class="n">ut</span><span class="p">(</span><span class="n">a_line</span><span class="p">)).</span><span class="n">eq</span><span class="p">.</span><span class="n">u_line</span><span class="p">,</span><span class="s1">'&amp;#NUMBER;'</span><span class="p">)</span>
 
 <span class="w">   </span><span class="c">! CHARACTER input</span>
-<span class="w">   </span><span class="n">a_line</span><span class="o">=</span><span class="s1">&#39;&amp;lt; &amp;gt; &amp;amp; &amp;copy; &amp;reg; &amp;trade; &amp;euro; &amp;pound; Before&amp;nbsp;After&#39;</span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;expand_html&#39;</span><span class="p">,</span><span class="n">expand_html</span><span class="p">(</span><span class="n">a_line</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">u_line</span><span class="p">,</span><span class="s1">&#39;&amp;NAME;&#39;</span><span class="p">)</span>
-<span class="w">   </span><span class="n">a_line</span><span class="o">=</span><span class="s1">&#39;&amp;#60; &amp;#62; &amp;#38; &amp;#169; &amp;#174; &amp;#8482; &amp;#8364; &amp;#163; Before&amp;#160;After&#39;</span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;expand_html&#39;</span><span class="p">,</span><span class="n">expand_html</span><span class="p">(</span><span class="n">a_line</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">u_line</span><span class="p">,</span><span class="s1">&#39;&amp;#NUMBER;&#39;</span><span class="p">)</span>
+<span class="w">   </span><span class="n">a_line</span><span class="o">=</span><span class="s1">'&amp;lt; &amp;gt; &amp;amp; &amp;copy; &amp;reg; &amp;trade; &amp;euro; &amp;pound; Before&amp;nbsp;After'</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'expand_html'</span><span class="p">,</span><span class="n">expand_html</span><span class="p">(</span><span class="n">a_line</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">u_line</span><span class="p">,</span><span class="s1">'&amp;NAME;'</span><span class="p">)</span>
+<span class="w">   </span><span class="n">a_line</span><span class="o">=</span><span class="s1">'&amp;#60; &amp;#62; &amp;#38; &amp;#169; &amp;#174; &amp;#8482; &amp;#8364; &amp;#163; Before&amp;#160;After'</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'expand_html'</span><span class="p">,</span><span class="n">expand_html</span><span class="p">(</span><span class="n">a_line</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">u_line</span><span class="p">,</span><span class="s1">'&amp;#NUMBER;'</span><span class="p">)</span>
 
 <span class="k">end subroutine </span><span class="n">test_expand_html</span>
 </pre></div>
@@ -287,7 +287,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-08-15 07:39 +0000             </p>
+ on 2026-08-21 14:29 +0000             </p>
           </div>
         </div>
         <br>

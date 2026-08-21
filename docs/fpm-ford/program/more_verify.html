@@ -131,11 +131,11 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../program/more_verify.html#variable-blank~2">blank</a>
-            <a class="list-group-item" href="../program/more_verify.html#variable-low~2">low</a>
+            <a class="list-group-item" href="../program/more_verify.html#variable-blank~4">blank</a>
+            <a class="list-group-item" href="../program/more_verify.html#variable-low~8">low</a>
             <a class="list-group-item" href="../program/more_verify.html#variable-sets">sets</a>
-            <a class="list-group-item" href="../program/more_verify.html#variable-strings">strings</a>
-            <a class="list-group-item" href="../program/more_verify.html#variable-upp~2">upp</a>
+            <a class="list-group-item" href="../program/more_verify.html#variable-strings~3">strings</a>
+            <a class="list-group-item" href="../program/more_verify.html#variable-upp~6">upp</a>
         </div>
       </div>
     </div>
@@ -201,7 +201,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-blank~2"></span>
+              <span class="anchor" id="variable-blank~4"></span>
               character(len=*),
             </td>
             <td>
@@ -217,7 +217,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-low~2"></span>
+              <span class="anchor" id="variable-low~8"></span>
               character(len=*),
             </td>
             <td>
@@ -249,7 +249,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-strings"></span>
+              <span class="anchor" id="variable-strings~3"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
             <td>
@@ -265,7 +265,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-upp~2"></span>
+              <span class="anchor" id="variable-upp~6"></span>
               character(len=*),
             </td>
             <td>
@@ -301,34 +301,34 @@ parameter
 <span class="w">   </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ch</span><span class="o">=&gt;</span><span class="kt">character</span>
 <span class="kt">   </span><span class="k">implicit none</span>
 <span class="k">   </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">     </span><span class="p">&amp;</span><span class="w"> </span><span class="n">low</span><span class="o">=</span><span class="s2">&quot;abcdefghijklmnopqrstuvwxyz&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">     </span><span class="p">&amp;</span><span class="w"> </span><span class="n">upp</span><span class="o">=</span><span class="s2">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">     </span><span class="p">&amp;</span><span class="w"> </span><span class="n">blank</span><span class="o">=</span><span class="s2">&quot; &quot;</span>
+<span class="w">     </span><span class="p">&amp;</span><span class="w"> </span><span class="n">low</span><span class="o">=</span><span class="s2">"abcdefghijklmnopqrstuvwxyz"</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">     </span><span class="p">&amp;</span><span class="w"> </span><span class="n">upp</span><span class="o">=</span><span class="s2">"ABCDEFGHIJKLMNOPQRSTUVWXYZ"</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">     </span><span class="p">&amp;</span><span class="w"> </span><span class="n">blank</span><span class="o">=</span><span class="s2">" "</span>
 <span class="w">   </span><span class="c">! note character variables in an array have to be of the same length</span>
 <span class="w">   </span><span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">strings</span><span class="p">(:)</span>
 <span class="w">   </span><span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">sets</span><span class="p">(:)</span>
 
-<span class="w">      </span><span class="n">strings</span><span class="o">=</span><span class="p">[</span><span class="n">ut</span><span class="p">(</span><span class="s2">&quot;Go&quot;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s2">&quot;right&quot;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s2">&quot;home!&quot;</span><span class="p">)]</span>
-<span class="w">      </span><span class="n">sets</span><span class="o">=</span><span class="p">[</span><span class="n">ut</span><span class="p">(</span><span class="s2">&quot;do&quot;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s2">&quot;re&quot;</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s2">&quot;me&quot;</span><span class="p">)]</span>
+<span class="w">      </span><span class="n">strings</span><span class="o">=</span><span class="p">[</span><span class="n">ut</span><span class="p">(</span><span class="s2">"Go"</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s2">"right"</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s2">"home!"</span><span class="p">)]</span>
+<span class="w">      </span><span class="n">sets</span><span class="o">=</span><span class="p">[</span><span class="n">ut</span><span class="p">(</span><span class="s2">"do"</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s2">"re"</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s2">"me"</span><span class="p">)]</span>
 
 <span class="w">     </span><span class="c">! elemental ‐‐ you can use arrays for both strings and for sets</span>
 
 <span class="w">      </span><span class="c">! check each string from right to left for non‐letter/non‐blank</span>
-<span class="w">      </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s2">&quot;last non‐letter&quot;</span><span class="p">,</span><span class="nb">verify</span><span class="p">(</span><span class="n">strings</span><span class="p">,</span><span class="n">upp</span><span class="o">//</span><span class="n">low</span><span class="o">//</span><span class="n">blank</span><span class="p">,</span><span class="n">back</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.)</span>
+<span class="w">      </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s2">"last non‐letter"</span><span class="p">,</span><span class="nb">verify</span><span class="p">(</span><span class="n">strings</span><span class="p">,</span><span class="n">upp</span><span class="o">//</span><span class="n">low</span><span class="o">//</span><span class="n">blank</span><span class="p">,</span><span class="n">back</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.)</span>
 
 <span class="w">      </span><span class="c">! even BACK can be an array</span>
-<span class="w">      </span><span class="c">! find last non‐uppercase character in &quot;Howdy &quot;</span>
-<span class="w">      </span><span class="c">! and first non‐lowercase in &quot;there &quot;</span>
+<span class="w">      </span><span class="c">! find last non‐uppercase character in "Howdy "</span>
+<span class="w">      </span><span class="c">! and first non‐lowercase in "there "</span>
 <span class="w">      </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="nb">verify</span><span class="p">(</span><span class="n">strings</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">),[</span><span class="n">upp</span><span class="p">,</span><span class="n">low</span><span class="p">],</span><span class="n">back</span><span class="o">=</span><span class="p">[.</span><span class="n">true</span><span class="p">.,.</span><span class="n">false</span><span class="p">.])</span>
 
 <span class="w">      </span><span class="c">! using a null string for a set is not well defined. Avoid it</span>
-<span class="w">      </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;null&quot;</span><span class="p">,</span><span class="nb">verify</span><span class="p">(</span><span class="s2">&quot;for tran &quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.)</span><span class="w"> </span><span class="c">! 8,length of string?</span>
+<span class="w">      </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">"null"</span><span class="p">,</span><span class="nb">verify</span><span class="p">(</span><span class="s2">"for tran "</span><span class="p">,</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.)</span><span class="w"> </span><span class="c">! 8,length of string?</span>
 <span class="w">      </span><span class="c">! probably what you expected</span>
-<span class="w">      </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;blank&quot;</span><span class="p">,</span><span class="nb">verify</span><span class="p">(</span><span class="s2">&quot;for tran &quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot; &quot;</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.)</span><span class="w"> </span><span class="c">! 7,found ’n’</span>
+<span class="w">      </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">"blank"</span><span class="p">,</span><span class="nb">verify</span><span class="p">(</span><span class="s2">"for tran "</span><span class="p">,</span><span class="w"> </span><span class="s2">" "</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.)</span><span class="w"> </span><span class="c">! 7,found ’n’</span>
 
-<span class="w">      </span><span class="c">! first character in  &quot;Go    &quot; not in &quot;do&quot;,</span>
-<span class="w">      </span><span class="c">! and first letter in &quot;right &quot; not in &quot;ri&quot;</span>
-<span class="w">      </span><span class="c">! and first letter in &quot;home! &quot; not in &quot;me&quot;</span>
+<span class="w">      </span><span class="c">! first character in  "Go    " not in "do",</span>
+<span class="w">      </span><span class="c">! and first letter in "right " not in "ri"</span>
+<span class="w">      </span><span class="c">! and first letter in "home! " not in "me"</span>
 <span class="w">      </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="nb">verify</span><span class="p">(</span><span class="n">strings</span><span class="p">,</span><span class="n">sets</span><span class="p">)</span>
 
 <span class="w">   </span><span class="k">end program </span><span class="n">more_verify</span>
@@ -354,7 +354,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-08-15 07:39 +0000             </p>
+ on 2026-08-21 14:29 +0000             </p>
           </div>
         </div>
         <br>

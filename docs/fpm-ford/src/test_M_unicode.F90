@@ -33,7 +33,7 @@ use M_unicode, only : upper, lower
 use M_unicode, only : expandtabs
 use M_unicode, only : reverse
 use M_unicode, only : escape, add_backslash
-use M_unicode, only : pound_to_box                           
+use M_unicode, only : pound_to_box
 use M_unicode, only : add_border
 use M_unicode, only : sort
 use M_unicode, only : scan, verify
@@ -67,8 +67,8 @@ use M_unicode, only : ut => unicode_type
 use M_unicode, only : ch => character
 
 implicit none
-CHARACTER(len=*),parameter :: g0='(*(g0))'
-CHARACTER(len=*),parameter :: g1='(*(g0,1x))'
+character(len=*),parameter :: g0='(*(g0))'
+character(len=*),parameter :: g1='(*(g0,1x))'
 logical,parameter          :: T=.true.
 logical,parameter          :: F=.false.
 integer                    :: total
@@ -76,19 +76,19 @@ integer                    :: total
 contains
 
 subroutine checkit(label,aline,answer,expected)
-CHARACTER(len=*),intent(in) :: label
-CHARACTER(len=*),intent(in) :: aline
-CHARACTER(len=*),intent(in) :: answer
-CHARACTER(len=*),intent(in) :: expected
+character(len=*),intent(in) :: label
+character(len=*),intent(in) :: aline
+character(len=*),intent(in) :: answer
+character(len=*),intent(in) :: expected
    write(*,g0)merge('PASSED','FAILED',answer.eq.expected),' ',label,':[',aline,'][',answer,'][',expected,']'
    if(answer.ne.expected)total=total+1
 end subroutine checkit
 
 subroutine checkits(label,aline,answer,expected)
-CHARACTER(len=*),intent(in) :: label
-CHARACTER(len=*),intent(in) :: aline
-CHARACTER(len=*),intent(in) :: answer(:)
-CHARACTER(len=*),intent(in) :: expected(:)
+character(len=*),intent(in) :: label
+character(len=*),intent(in) :: aline
+character(len=*),intent(in) :: answer(:)
+character(len=*),intent(in) :: expected(:)
    if(size(answer).eq.size(expected) )then
       write(*,g0)merge('PASSED','FAILED',all(answer.eq.expected)),' ',label,':[',aline,'][',answer,'][',expected,']'
       if(all(answer.ne.expected))total=total+1
@@ -99,8 +99,8 @@ CHARACTER(len=*),intent(in) :: expected(:)
 end subroutine checkits
 
 subroutine checkits_l(label,aline,answer,expected)
-CHARACTER(len=*),intent(in) :: label
-CHARACTER(len=*),intent(in) :: aline
+character(len=*),intent(in) :: label
+character(len=*),intent(in) :: aline
 logical,intent(in) :: answer(:)
 logical,intent(in) :: expected(:)
    write(*,g0)merge('PASSED','FAILED',all(answer.eqv.expected)),' ',label,':[',aline,'][',answer,'][',expected,']'
@@ -108,9 +108,9 @@ logical,intent(in) :: expected(:)
 end subroutine checkits_l
 
 subroutine check(label,test,description)
-CHARACTER(len=*),intent(in)          :: label
+character(len=*),intent(in)          :: label
 logical,intent(in)                   :: test
-CHARACTER(len=*),intent(in),optional :: description
+character(len=*),intent(in),optional :: description
    if( present(description) )then
       write(*,g0)merge('PASSED','FAILED',test),' ',label,':',description
    else
@@ -123,13 +123,13 @@ subroutine platform()
 use, intrinsic :: iso_fortran_env, only : compiler_version
 use, intrinsic :: iso_fortran_env, only : compiler_options
 implicit none
-CHARACTER(len=:),allocatable :: version, options
-CHARACTER(len=*),parameter   :: nl=new_line('a')
+character(len=:),allocatable :: version, options
+character(len=*),parameter   :: nl=new_line('a')
 integer                      :: where, start, break, i, last, col
    version=compiler_version()//' '
    options=' '//compiler_options()
    start=1
-   do 
+   do
       where=index(options(start:),' -')
       if(where.eq.0)exit
       break=where+start-1
@@ -137,7 +137,7 @@ integer                      :: where, start, break, i, last, col
       start=where
    enddo
    if(start.eq.1)then
-      do 
+      do
          where=index(options(start:),' /')
          if(where.eq.0)exit
          break=where+start-1
@@ -162,9 +162,9 @@ integer                      :: where, start, break, i, last, col
 end subroutine platform
 
 function inset(string) result(longer)
-CHARACTER(len=*),intent(in)  :: string
-CHARACTER(len=:),allocatable :: longer
-CHARACTER(len=*),parameter   :: nl=new_line('a')
+character(len=*),intent(in)  :: string
+character(len=:),allocatable :: longer
+character(len=*),parameter   :: nl=new_line('a')
 integer                      :: i
    longer=''
    do i=1,len(string)
@@ -176,44 +176,44 @@ integer                      :: i
 end function inset
 
 subroutine test_index()
-type(ut)                       :: string, substring
-CHARACTER(len=:),allocatable   :: astr
+type(ut)             :: string, substring
+character(len=:),allocatable   :: astr
    string=" can you find me here? "
    substring="find me"
    astr=ch(substring)
-   call check('index '//string%CHARACTER()//':'//substring%CHARACTER(),index(string,substring).eq.10)
-   call check('index '//string%CHARACTER()//':'//astr,index(string,astr).eq.10)
+   call check('index '//string%character()//':'//substring%character(),index(string,substring).eq.10)
+   call check('index '//string%character()//':'//astr,index(string,astr).eq.10)
 
    string=" can you find me here? "
    substring="not there"
    astr=ch(substring)
-   call check('index '//string%CHARACTER()//':'//substring%CHARACTER(),index(string,substring).eq.0)
-   call check('index '//string%CHARACTER()//':'//astr,index(string,astr).eq.0)
+   call check('index '//string%character()//':'//substring%character(),index(string,substring).eq.0)
+   call check('index '//string%character()//':'//astr,index(string,astr).eq.0)
 
    string="short"
    substring="shortnot"
    astr=ch(substring)
-   call check('index '//string%CHARACTER()//':'//substring%CHARACTER(),index(string,substring).eq.0)
-   call check('index '//string%CHARACTER()//':'//astr,index(string,astr).eq.0)
+   call check('index '//string%character()//':'//substring%character(),index(string,substring).eq.0)
+   call check('index '//string%character()//':'//astr,index(string,astr).eq.0)
 end subroutine test_index
 
 subroutine test_repeat()
-CHARACTER(len=:),allocatable   :: astr
-type(ut)                       :: ut_str
+character(len=:),allocatable   :: astr
+type(ut)             :: ut_str
 integer                        :: i
    ut_str='💣💥💣💥💣💥'
-   astr=ut_str%CHARACTER()
+   astr=ut_str%character()
    ut_str=repeat(ut_str,5)
-   call checkit('repeat',astr,ut_str%CHARACTER(),&
+   call checkit('repeat',astr,ut_str%character(),&
    '💣💥💣💥💣💥💣💥💣💥💣💥💣💥💣💥💣💥💣💥💣💥💣💥💣💥💣💥💣💥')
    ut_str=[(i,i=48,57)]
-   ut_str=ut_str%CHARACTER(2,10)//ut_str%CHARACTER(1,1)
-   call checkit('repeat',ut_str%CHARACTER(),ch(repeat(ut_str, 3)),'123456789012345678901234567890')
+   ut_str=ut_str%character(2,10)//ut_str%character(1,1)
+   call checkit('repeat',ut_str%character(),ch(repeat(ut_str, 3)),'123456789012345678901234567890')
 end subroutine test_repeat
 
 subroutine test_adjustl()
-CHARACTER(len=:),allocatable   :: astr
-type(ut)                       :: ut_str
+character(len=:),allocatable   :: astr
+type(ut)             :: ut_str
 
    astr="  this is a string    "
    ut_str=astr
@@ -242,8 +242,8 @@ type(ut)                       :: ut_str
 end subroutine test_adjustl
 
 subroutine test_adjustr()
-CHARACTER(len=:),allocatable   :: astr
-type(ut)                       :: ut_str
+character(len=:),allocatable   :: astr
+type(ut)             :: ut_str
    astr="  this is a string    "
    ut_str=astr
    call checkit('adjustr',astr,ch(ut_str%adjustr()),'      this is a string')
@@ -271,8 +271,8 @@ type(ut)                       :: ut_str
 end subroutine test_adjustr
 
 subroutine test_len()
-CHARACTER(len=:),allocatable   :: astr
-type(ut)                       :: ut_str
+character(len=:),allocatable   :: astr
+type(ut)             :: ut_str
    astr="  this is a string    "
    ut_str=astr
    call check('len',ut_str%len().eq.22)
@@ -297,8 +297,8 @@ type(ut)                       :: ut_str
 end subroutine test_len
 
 subroutine test_len_trim()
-CHARACTER(len=:),allocatable   :: astr
-type(ut)                       :: ut_str
+character(len=:),allocatable   :: astr
+type(ut)             :: ut_str
    astr="  this is a string    "
    ut_str=astr
    call check('len_trim',ut_str%len_trim().eq.18)
@@ -323,8 +323,8 @@ type(ut)                       :: ut_str
 end subroutine test_len_trim
 
 subroutine test_trim()
-CHARACTER(len=:),allocatable   :: astr
-type(ut)                       :: ut_str
+character(len=:),allocatable   :: astr
+type(ut)             :: ut_str
    astr="  this is a string    "
    ut_str=astr
    call checkit('trim',astr,ch(trim(ut_str%trim())),'  this is a string')
@@ -356,13 +356,13 @@ integer  :: ten, twenty
    !str='so '//ten//'+'//twenty//'='//(ten+twenty)//' 😃'
    str='so '.cat.ten.cat.'+'.cat.twenty.cat.'='.cat.(ten+twenty).cat.' 😃'
    ! ifx cannot print when // overloaded
-   call check('//',str == 'so 10+20=30 😃','concatenate got '//str%CHARACTER())
+   call check('//',str == 'so 10+20=30 😃','concatenate got '//str%character())
 end subroutine test_concatenate
 
 subroutine test_expandtabs()
-CHARACTER(len=:),allocatable :: str
-type(ut)                     :: in
-type(ut)                     :: expected
+character(len=:),allocatable :: str
+type(ut)           :: in
+type(ut)           :: expected
 integer                      :: i
    str='  this is my string  '
    ! change spaces to tabs to make a sample input
@@ -378,8 +378,8 @@ integer                      :: i
 end subroutine test_expandtabs
 
 subroutine test_reverse()
-type(ut)                     :: in
-type(ut)                     :: expected
+type(ut)           :: in
+type(ut)           :: expected
 
    in='abcde'
    expected='edcba'
@@ -413,18 +413,18 @@ subroutine test_fmt()
 contains
 
 subroutine add(message,question,answer)
-CHARACTER(len=*),intent(in)   :: message
+character(len=*),intent(in)   :: message
 type(ut),intent(in)           :: question
-CHARACTER(len=*),intent(in)   :: answer
+character(len=*),intent(in)   :: answer
   call check('fmt',question.eq.answer,'testing '//message//' expected '//answer//' got '//ch(question))
 end subroutine add
 
 end subroutine test_fmt
 
 subroutine test_upper()
-type(ut)           :: upp, low, temp
+type(ut) :: upp, low, temp
 integer            :: i
-CHARACTER(len=128) :: ascii7
+character(len=128) :: ascii7
 !
 ! remember unicode characters are multi-byte so be careful
 ! with older compilers to not exceed 132 bytes per line
@@ -477,9 +477,9 @@ CHARACTER(len=128) :: ascii7
    ascii7( ichar('a')+1:ichar('z')+1 ) = ' '
    ascii7( ichar('A')+1:ichar('Z')+1 ) = ' '
    temp=ascii7
-   call check('upper',temp%CHARACTER()==ascii7,'check non-alphameric like'//ascii7(ichar(' ')+1:len(ascii7)-1) )
-   call check('upper',upper(temp)==lower(temp),'expect no difference')
-   call check('upper',temp==upper(temp),'expect no change')
+   call check('upper',temp%character() == ascii7,'check non-alphameric like'//ascii7(ichar(' ')+1:len(ascii7)-1) )
+   call check('upper',upper(temp) == lower(temp),'expect no difference')
+   call check('upper',temp == upper(temp),'expect no change')
 
    call check('%upper', low%upper() == upp )
    call check('%upper', ch(low%upper()) == ch(upp) )
@@ -487,11 +487,11 @@ CHARACTER(len=128) :: ascii7
 end subroutine test_upper
 
 subroutine test_lower()
-type(ut)            :: upp, low, lowkludge, temp, letter1, letter2, letter3, letter4
+type(ut)  :: upp, low, lowkludge, temp, letter1, letter2, letter3, letter4
 
 integer             :: i
 integer,allocatable :: codes(:)
-CHARACTER(len=128)  :: ascii7
+character(len=128)  :: ascii7
 !
 ! remember unicode characters are multi-byte so be careful
 ! with older compilers to not exceed 132 bytes per line
@@ -541,18 +541,18 @@ CHARACTER(len=128)  :: ascii7
    codes=low%codepoint()
    codes(82)=ichar('i')
    lowkludge=codes
-   !call check('lower', temp==low )
-   !call check('lower', ch(temp)==ch(low) )
-   call check('lower', temp==lowkludge )
-   call check('lower', ch(temp)==ch(lowkludge) )
+   !call check('lower', temp == low )
+   !call check('lower', ch(temp) == ch(low) )
+   call check('lower', temp == lowkludge )
+   call check('lower', ch(temp) == ch(lowkludge) )
 
    write(ascii7,g0)(achar(i),i=0,127)
    ascii7( ichar('a')+1:ichar('z')+1 ) = ' '
    ascii7( ichar('A')+1:ichar('Z')+1 ) = ' '
    temp=ascii7
-   !call check('lower',temp%CHARACTER()==ascii7,'check non-alphameric like'//ascii7(ichar(' ')+1:len(ascii7)-1) )
-   call check('lower',upper(temp)==lower(temp),'expect no difference')
-   call check('lower',temp==lower(temp),'expect no change')
+   !call check('lower',temp%character() == ascii7,'check non-alphameric like'//ascii7(ichar(' ')+1:len(ascii7)-1) )
+   call check('lower',upper(temp) == lower(temp),'expect no difference')
+   call check('lower',temp == lower(temp),'expect no change')
 
    temp=upp%lower()
    !write(*,*)ch(temp,82,82) ! known conundrum at 82 i ı
@@ -570,13 +570,13 @@ CHARACTER(len=128)  :: ascii7
    subroutine reportit()
    ! known conundrum at 82 i ı
    do i=1,len(temp)
-      letter1=temp%CHARACTER(i)
-      letter2=low%CHARACTER(i,i)
+      letter1=temp%character(i)
+      letter2=low%character(i,i)
       if ( letter1 /= letter2 )then
          if(i.eq.82)then
-            call check('lower',i==82,'expected difference'//letter1%CHARACTER()//letter2%CHARACTER())
+            call check('lower',i==82,'expected difference'//letter1%character()//letter2%character())
          else
-            call check('lower',letter1==letter2,'failed'//letter1%CHARACTER()//letter2%CHARACTER())
+            call check('lower',letter1 == letter2,'failed'//letter1%character()//letter2%character())
          endif
       endif
    enddo
@@ -585,11 +585,11 @@ CHARACTER(len=128)  :: ascii7
 end subroutine test_lower
 
 subroutine test_tokenize()
-type(ut),allocatable             :: tokens(:), expected(:)
-type(ut),allocatable             :: separators(:)
-type(ut)                         :: delims
-type(ut)                         :: herbs
-CHARACTER(len=:),allocatable     :: line
+type(ut),allocatable   :: tokens(:), expected(:)
+type(ut),allocatable   :: separators(:)
+type(ut)               :: delims
+type(ut)               :: herbs
+character(len=:),allocatable     :: line
 integer,allocatable,dimension(:) :: begins
 integer,allocatable,dimension(:) :: ends
 integer                          :: i
@@ -601,14 +601,14 @@ integer                          :: i
    CALL TOKENIZE (herbs, delims, tokens, separators)
    line='tokens:'
    do i=1,size(tokens)
-      line=line//'['//tokens(i)%CHARACTER()//']'
+      line=line//'['//tokens(i)%character()//']'
    enddo
    call check('tokenize', all(tokens == expected), line )
 
    expected=[ut(','),ut(','),ut('&') ]
    line='separators:'
    do i=1,size(separators)
-      line=line//'['//separators(i)%CHARACTER()//']'
+      line=line//'['//separators(i)%character()//']'
    enddo
    call check('tokenize', all(separators == expected), line )
 
@@ -628,7 +628,7 @@ integer                          :: i
    tokens=herbs%tokenize(delims)
    line='tokens:'
    do i=1,size(tokens)
-      line=line//'['//tokens(i)%CHARACTER()//']'
+      line=line//'['//tokens(i)%character()//']'
    enddo
    call check('tokenize', all(tokens == expected), line )
 
@@ -676,7 +676,7 @@ integer,allocatable            :: ints(:)
    call check('sort',all(array(1:csz-1) .le. array(2:csz)),'sort array') ! verify in ascending order
    if(total.ne.temp)then
       do i=1,size(array)
-         write(*,g0)array(i)%CHARACTER()
+         write(*,g0)array(i)%character()
       enddo
    endif
 end subroutine chk
@@ -684,8 +684,8 @@ end subroutine chk
 end subroutine test_sort
 
 subroutine test_other()
-type(ut)                   :: string
-CHARACTER(len=*),parameter :: upagain=&
+type(ut)         :: string
+character(len=*),parameter :: upagain=&
 "七転び八起き。転んでもまた立ち上がる。くじけずに前を向いて歩いていこう。"
 ! Romanization:
 ! Nanakorobi yaoki. Koronde mo mata tachiagaru. Kujikezu ni mae o muite aruite ikou.
@@ -699,15 +699,15 @@ CHARACTER(len=*),parameter :: upagain=&
    ! the OS may not longer recognize the output as UTF-8
    !write(*,g0)'bytes reversed  :', (upagain(i:i),i=len(upagain),1,-1)
    !-------------------
-   write(*,g0)'original string :', string%CHARACTER()
-   write(*,g0)'string reversed :', string%CHARACTER(string%len(),1,-1)
+   write(*,g0)'original string :', string%character()
+   write(*,g0)'string reversed :', string%character(string%len(),1,-1)
 end subroutine test_other
 
 subroutine test_operators()
-type(ut)                       :: lhs, rhs
-CHARACTER(len=:),allocatable   :: astr
-type(ut)                       :: smiley
-type(ut)                       :: ut_str
+type(ut)             :: lhs, rhs
+character(len=:),allocatable   :: astr
+type(ut)             :: smiley
+type(ut)             :: ut_str
    smiley='😃'
    write(*,g0)
    astr='Hello World and Ni Hao -- 你好'
@@ -741,19 +741,19 @@ function random_ascii_string(chars,length) result(out)
 
 !$@(#) M_random::random_string(3f): create random string composed of provided characters of specified length
 
-CHARACTER(len=*),intent(in)  :: chars
+character(len=*),intent(in)  :: chars
 integer,intent(in)           :: length
-CHARACTER(len=:),allocatable :: out
+character(len=:),allocatable :: out
 real                         :: x
-integer                      :: ilen   ! length of list of characters
+integer                      :: ilength   ! length of list of characters
 integer                      :: which
 integer                      :: i
-   ilen=len(chars)
+   ilength=len(chars)
    out=''
-   if(ilen.gt.0)then
+   if(ilength.gt.0)then
       do i=1,length
          call random_number(x)
-         which=nint(real(ilen-1)*x)+1
+         which=nint(real(ilength-1)*x)+1
          out=out//chars(which:which)
       enddo
    endif
@@ -781,7 +781,7 @@ integer                    :: i
       call split (proverb, delims, pos)
       last = pos - 1
       i=i+1
-      call check('split', proverb%CHARACTER(first,last) == expected(i)%CHARACTER() ,expected(i)%CHARACTER() )
+      call check('split', proverb%character(first,last) == expected(i)%character() ,expected(i)%character() )
    enddo
 
    ! OOP
@@ -810,33 +810,33 @@ type(ut) :: set
 end subroutine test_scan
 
 subroutine test_verify()
-CHARACTER(len=*),parameter :: int='1234567890'
-CHARACTER(len=*),parameter :: hex='abcdefABCDEF0123456789'
+character(len=*),parameter :: int='1234567890'
+character(len=*),parameter :: hex='abcdefABCDEF0123456789'
 logical                    :: lout
-type(ut)                   :: chars
-type(ut)                   :: str
+type(ut)         :: chars
+type(ut)         :: str
 
    chars='32‐af43d'
    lout=.true.
 
    ! are the first two characters integer characters?
-   str = chars%CHARACTER(1,2)
+   str = chars%character(1,2)
    lout = (verify( str, ut(int) ) == 0) .and.lout
 
    ! is the third character a dash?
-   str = chars%CHARACTER(3,3)
+   str = chars%character(3,3)
    lout = (verify( str, ut('‐-') ) == 0) .and.lout
 
    ! is remaining string a valid representation of a hex value?
-   str = chars%CHARACTER(4,8)
+   str = chars%character(4,8)
    lout = (verify( str, ut(hex) ) == 0) .and.lout
 
-   call check( 'verify', lout, chars%CHARACTER() )
+   call check( 'verify', lout, chars%character() )
 
 end subroutine test_verify
 
 subroutine test_ichar()
-type(ut)                     :: ut_str
+type(ut)           :: ut_str
    ut_str='ABC'
    call check('ichar',ut_str%ichar().eq.ichar('A'),'string%ichar()')
    call check('ichar',ichar(ut('A')).eq.ichar('A'),'ichar(ut("A")')
@@ -844,8 +844,8 @@ type(ut)                     :: ut_str
 end subroutine test_ichar
 
 subroutine test_escape()
-type(ut)                     :: ut_str
-CHARACTER(len=:),allocatable :: line
+type(ut)           :: ut_str
+character(len=:),allocatable :: line
 integer,allocatable          :: ints(:)
 !    \      backslash
 !    a      alert (BEL) -- g is an alias for a
@@ -905,8 +905,8 @@ integer,allocatable          :: ints(:)
 end subroutine test_escape
 
 subroutine test_expand_html()
-type(ut)                     :: u_line
-CHARACTER(len=:),allocatable :: a_line
+type(ut)           :: u_line
+character(len=:),allocatable :: a_line
 
    call check('expand_html',expand_html(ut('&')).eq.'&','backslash at end of line')
 
@@ -926,16 +926,16 @@ CHARACTER(len=:),allocatable :: a_line
 end subroutine test_expand_html
 
 subroutine test_add_border()
-integer                    :: length1, length2, i, j, int1, int2
+integer                    :: length1, length2, i, j, int_1, int_2
 logical                    :: bool1
 type(ut),allocatable       :: textout(:), expected(:)
-CHARACTER(len=*),parameter :: text(*)=[CHARACTER(len=15) :: &
+character(len=*),parameter :: text(*)=[character(len=15) :: &
 '    WARNING, ', &
 '    WARNING, ', &
 ' Will Robinson ']
 do j=1,2
 if (j.eq.1)then
-   expected=[CHARACTER(len=21*4) :: &
+   expected=[character(len=21*4) :: &
 '┌───────────────────┐', &
 '│┏━━━━━━━━━━━━━━━━━┓│', &
 '│┃╔═══════════════╗┃│', &
@@ -945,7 +945,7 @@ if (j.eq.1)then
 '└───────────────────┘']
    textout=add_border(add_border(add_border(text(3),style='double')),style='light')
 else
-   expected=[CHARACTER(len=21*4) :: &
+   expected=[character(len=21*4) :: &
 '┌───────────────────┐', &
 '│┏━━━━━━━━━━━━━━━━━┓│', &
 '│┃╔═══════════════╗┃│', &
@@ -961,20 +961,20 @@ endif
    length1=maxval(len(textout))
    length2=maxval(len(expected))
    call check('add_border',length1.eq.length2,ch('length=' .cat. length1 .cat. ', expected ' .cat. length2))
-   int1=size(textout)
-   int2=size(expected)
-   if( int1.eq.int2 )then
+   int_1=size(textout)
+   int_2=size(expected)
+   if( int_1.eq.int_2 )then
       bool1=all(textout.eq.expected)
       call check('add_border',bool1,'compare all output text')
       if(.not.bool1)then
-         write(*,'(*(g0,/))')(trim(textout(i)%CHARACTER()),trim(expected(i)%CHARACTER()),i=1,int1)
+         write(*,'(*(g0,/))')(trim(textout(i)%character()),trim(expected(i)%character()),i=1,int_1)
       endif
    else
-      call check('add_border',int1.eq.int2, ch('size expected ' .cat. int2 .cat. ' got ' .cat. int1) )
+      call check('add_border',int_1.eq.int_2, ch('size expected ' .cat. int_2 .cat. ' got ' .cat. int_1) )
       write(*,'(*(g0))') 'Result:'
-      write(*,'(g0)')(trim(textout(i)%CHARACTER()),i=1,int1)
+      write(*,'(g0)')(trim(textout(i)%character()),i=1,int_1)
       write(*,'(*(g0))') 'Expected:'
-      write(*,'(g0)')(trim(expected(i)%CHARACTER()),i=1,int2)
+      write(*,'(g0)')(trim(expected(i)%character()),i=1,int_2)
    endif
 enddo
 end subroutine test_add_border
@@ -982,12 +982,12 @@ end subroutine test_add_border
 subroutine test_pound_to_box()
 integer                      :: length1, length2
 integer                      :: i
-integer                      :: int1,int2
+integer                      :: int_1,int_2
 integer                      :: istyle
-CHARACTER(len=:),allocatable :: style
-logical                      :: bool1 
+character(len=:),allocatable :: style
+logical                      :: bool1
 type(ut),allocatable         :: textout(:), expected(:)
-CHARACTER(len=*),parameter   :: text(*)=[CHARACTER(len=108) :: &
+character(len=*),parameter   :: text(*)=[character(len=108) :: &
 '', &
 '   ###################################', &
 '   # WARNING, WARNING, Will Robinson #', &
@@ -999,7 +999,7 @@ do istyle=1,4
    select case(istyle)
    case(1)
       style='double'
-      expected=[CHARACTER(len=108) :: &
+      expected=[character(len=108) :: &
       '', &
       '   ╔═════════════════════════════════╗', &
       '   ║ WARNING, WARNING, Will Robinson ║', &
@@ -1010,7 +1010,7 @@ do istyle=1,4
       textout=pound_to_box(text,style=style)
    case(2)
       style='light'
-      expected=[CHARACTER(len=108) :: &
+      expected=[character(len=108) :: &
       '', &
       '   ┌─────────────────────────────────┐', &
       '   │ WARNING, WARNING, Will Robinson │', &
@@ -1021,7 +1021,7 @@ do istyle=1,4
       textout=pound_to_box(text,style=style)
    case(3)
       style='bold'
-      expected=[CHARACTER(len=108) :: &
+      expected=[character(len=108) :: &
       '', &
       '   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓', &
       '   ┃ WARNING, WARNING, Will Robinson ┃', &
@@ -1032,7 +1032,7 @@ do istyle=1,4
       textout=pound_to_box(text,style=style)
    case(4)
       style='default'
-      expected=[CHARACTER(len=108) :: &
+      expected=[character(len=108) :: &
       '', &
       '   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓', &
       '   ┃ WARNING, WARNING, Will Robinson ┃', &
@@ -1045,18 +1045,18 @@ do istyle=1,4
    length1=maxval(len(textout))
    length2=maxval(len(expected))
    call check('pound_to_box',length1.eq.length2,ch('length=' .cat. length1 .cat. ', expected ' .cat. length2))
-   int1=size(textout)
-   int2=size(expected)
-   if( int1.eq.int2 )then
+   int_1=size(textout)
+   int_2=size(expected)
+   if( int_1.eq.int_2 )then
       bool1=all(textout.eq.expected)
       call check('pound_to_box',bool1,'compare expected to result for '//style)
       if(.not.bool1)then
-         do i=1,int1
-            write(*,'(*(g0,/))')trim(textout(i)%CHARACTER()),trim(expected(i)%CHARACTER())
+         do i=1,int_1
+            write(*,'(*(g0,/))')trim(textout(i)%character()),trim(expected(i)%character())
          enddo
       endif
    else
-      call check('pound_to_box',int1.eq.int2, ch('size expected ' .cat. int2 .cat. ' got ' .cat. int1) )
+      call check('pound_to_box',int_1.eq.int_2, ch('size expected ' .cat. int_2 .cat. ' got ' .cat. int_1) )
    endif
 enddo
 end subroutine test_pound_to_box
@@ -1064,7 +1064,7 @@ end subroutine test_pound_to_box
 subroutine test_add_backslash()
 type(ut) :: UA
 type(ut) :: uline
-integer  :: i
+integer            :: i
    UA=[(i,i=0,255)]
    uline=add_backslash(UA)
 
@@ -1083,10 +1083,10 @@ integer  :: i
 end subroutine test_add_backslash
 
 subroutine test_isascii()
-CHARACTER(len=:),allocatable :: a_str
-type(ut)                     :: ut_str
+character(len=:),allocatable :: a_str
+type(ut)           :: ut_str
 integer,parameter            :: number_of_chars=128
-CHARACTER(len=1)             :: ch
+character(len=1)             :: ch
 integer                      :: i
    a_str='😃'
    ut_str='😃'
@@ -1118,7 +1118,7 @@ end subroutine test_isascii
 !TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
 subroutine test_isspace
 integer,parameter             :: number_of_chars=128
-CHARACTER(len=1)              :: ch
+character(len=1)              :: ch
 integer                       :: i
    ! true if is a null,space,tab,carriage return, new line, vertical tab, or formfeed
    do i=0,number_of_chars-1
@@ -1132,7 +1132,7 @@ end subroutine test_isspace
 !TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
 subroutine test_isblank
 integer,parameter             :: number_of_chars=128
-CHARACTER(len=1)              :: ch
+character(len=1)              :: ch
 integer                       :: i
    do i=0,number_of_chars-1
       ch=char(i)
@@ -1144,11 +1144,11 @@ integer                       :: i
 end subroutine test_isblank
 !TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
 subroutine test_join()
-CHARACTER(len=20),allocatable :: proverb(:)
+character(len=20),allocatable :: proverb(:)
 type(ut),allocatable       :: s(:)
 type(ut),allocatable       :: sep
 type(ut)                   :: expected
-   proverb=[ CHARACTER(len=13) :: &
+   proverb=[ character(len=13) :: &
      & ' United'       ,&
      & '  we'          ,&
      & '   stand,'     ,&
@@ -1171,16 +1171,16 @@ type(ut)                   :: expected
 
    sep=ut()
    expected='Unitedwestand,dividedwe fall.'
-   call check('join', sep%join(s)==expected, 'OOP SIMPLE JOIN')
+   call check('join', sep%join(s) == expected, 'OOP SIMPLE JOIN')
    sep=' '
    expected='United we stand, divided we fall.'
-   call check('join', sep%join(s)==expected, 'OOP JOIN WITH SEPARATOR')
+   call check('join', sep%join(s) == expected, 'OOP JOIN WITH SEPARATOR')
    sep='<-->'
    expected='United<-->we<-->stand,<-->divided<-->we fall.'
-   call check('join', sep%join(s)==expected, 'OOP CUSTOM SEPARATOR')
+   call check('join', sep%join(s) == expected, 'OOP CUSTOM SEPARATOR')
    sep=''
    expected=' United               we                   stand,               divided              we fall.'
-   call check('join', sep%join(s,clip=.false.)==expected, 'OOP NO TRIMMING')
+   call check('join', sep%join(s,clip=.false.) == expected, 'OOP NO TRIMMING')
 
 end subroutine test_join
 
@@ -1234,7 +1234,7 @@ end function bracket
 end subroutine test_pad
 
 subroutine test_sub()
-type(ut)            :: line
+type(ut)           :: line
 line='this is the string'
 call check('sub', 'this is the string'  == ch( sub(line    ) ) )
 call check('sub', 'the string'          == ch( sub(line, 9 ) ) )
@@ -1251,18 +1251,18 @@ call check('sub', 'is the'              == ch( line%sub( 6,       11) ) )
 end subroutine test_sub
 
 subroutine test_replace()
-type(ut)                     :: line
-CHARACTER(len=:),allocatable :: aline
+type(ut)           :: line
+character(len=:),allocatable :: aline
 !
 call check('replace',&
  'this is the string' == ch( replace(ut('Xis is Xe string'),ut('X'),ut('th') ) ) )
 call check('replace',&
- 'this is the string'==ch( replace(ut('Xis is xe string'),ut('x'),ut('th'),ignorecase=.true.) ) )
+ 'this is the string' == ch( replace(ut('Xis is xe string'),ut('x'),ut('th'),ignorecase=.true.) ) )
 call check('replace',&
- 'this is xe string'==ch( replace(ut('Xis is xe string'),ut('X'),ut('th'),ignorecase=.false.) ) )
+ 'this is xe string' == ch( replace(ut('Xis is xe string'),ut('X'),ut('th'),ignorecase=.false.) ) )
 
 call check('replace',&
- 'BEFORE:my line of text'==ch(replace(ut('my line of text'),ut(''),ut('BEFORE:'))),&
+ 'BEFORE:my line of text' == ch(replace(ut('my line of text'),ut(''),ut('BEFORE:'))),&
  'a null new substring means "at beginning of line"' )
 !
 call check('replace',&
@@ -1272,18 +1272,18 @@ call check('replace',&
 ! Examples of the use of RANGE
 !
 line=replace(ut('aaaaaaaaa'),ut('a'),ut('A'),occurrence=1,repeat=1)
-call check('replace', line == ut('Aaaaaaaaa'), 'replace first a with A ['//line%CHARACTER()//']' )
+call check('replace', line == ut('Aaaaaaaaa'), 'replace first a with A ['//line%character()//']' )
 !
 line=replace(ut('aaaaaaaaa'),ut('a'),ut('A'),occurrence=3,repeat=3)
-call check('replace', line==ut('aaAAAaaaa'),'replace a with A for 3rd to 5th occurrence ['//line%CHARACTER()//']')
+call check('replace', line == ut('aaAAAaaaa'),'replace a with A for 3rd to 5th occurrence ['//line%character()//']')
 !
 line=replace(ut('ababababa'),ut('a'),ut(''),occurrence=3,repeat=3)
-call check('replace',line==ut('ababbb'),'replace a with null instances 3 to 5 ['//line%CHARACTER()//']' )
+call check('replace',line == ut('ababbb'),'replace a with null instances 3 to 5 ['//line%character()//']' )
 !
 line=replace( &
  & ut('a b ab baaa aaaa aa aa a a a aa aaaaaa'),&
  & ut('aa'),ut('CCCC'),occurrence=-1,repeat=1)
-call check('replace', line == ut('a b ab baaa aaaa aa aa a a a aa aaaaCCCC'),'replace last aa with CCCC ['//line%CHARACTER()//']')
+call check('replace', line == ut('a b ab baaa aaaa aa aa a a a aa aaaaCCCC'),'replace last aa with CCCC ['//line%character()//']')
 !
 line=replace(ut('myf90stuff.f90.f90'),ut('f90'),ut('for'),occurrence=-1,repeat=1)
 call check('replace',line== 'myf90stuff.f90.for')
@@ -1552,8 +1552,8 @@ contains
  ! matching routines.
  !
 function test(tame, wild, bExpectedResult) result(bPassed)
-CHARACTER(len=*) :: tame
-CHARACTER(len=*) :: wild
+character(len=*) :: tame
+character(len=*) :: wild
 logical          :: bExpectedResult
 logical          :: bResult
 logical          :: bPassed

@@ -133,9 +133,9 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../proc/test_index.html#variable-astr">astr</a>
-            <a class="list-group-item" href="../proc/test_index.html#variable-string~4">string</a>
-            <a class="list-group-item" href="../proc/test_index.html#variable-substring">substring</a>
+            <a class="list-group-item" href="../proc/test_index.html#variable-astr~2">astr</a>
+            <a class="list-group-item" href="../proc/test_index.html#variable-string~57">string</a>
+            <a class="list-group-item" href="../proc/test_index.html#variable-substring~5">substring</a>
         </div>
       </div>
     </div>
@@ -197,7 +197,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-astr"></span>
+              <span class="anchor" id="variable-astr~2"></span>
               character(len=:),
             </td>
               <td>public,</td>
@@ -214,7 +214,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~4"></span>
+              <span class="anchor" id="variable-string~57"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
               <td>public</td>
@@ -231,7 +231,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-substring"></span>
+              <span class="anchor" id="variable-substring~5"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
               <td>public</td>
@@ -263,25 +263,25 @@
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="k">subroutine </span><span class="n">test_index</span><span class="p">()</span>
-<span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="n">substring</span>
-<span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">astr</span>
-<span class="w">   </span><span class="n">string</span><span class="o">=</span><span class="s2">&quot; can you find me here? &quot;</span>
-<span class="w">   </span><span class="n">substring</span><span class="o">=</span><span class="s2">&quot;find me&quot;</span>
+<span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="n">substring</span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">astr</span>
+<span class="w">   </span><span class="n">string</span><span class="o">=</span><span class="s2">" can you find me here? "</span>
+<span class="w">   </span><span class="n">substring</span><span class="o">=</span><span class="s2">"find me"</span>
 <span class="w">   </span><span class="n">astr</span><span class="o">=</span><span class="n">ch</span><span class="p">(</span><span class="n">substring</span><span class="p">)</span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;index &#39;</span><span class="o">//</span><span class="n">string</span><span class="p">%</span><span class="kt">CHARACTER</span><span class="p">()</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">substring</span><span class="p">%</span><span class="kt">CHARACTER</span><span class="p">(),</span><span class="nb">index</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="n">substring</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="mi">10</span><span class="p">)</span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;index &#39;</span><span class="o">//</span><span class="n">string</span><span class="p">%</span><span class="kt">CHARACTER</span><span class="p">()</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">astr</span><span class="p">,</span><span class="nb">index</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="n">astr</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="mi">10</span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'index '</span><span class="o">//</span><span class="n">string</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="o">//</span><span class="s1">':'</span><span class="o">//</span><span class="n">substring</span><span class="p">%</span><span class="kt">character</span><span class="p">(),</span><span class="nb">index</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="n">substring</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="mi">10</span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'index '</span><span class="o">//</span><span class="n">string</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="o">//</span><span class="s1">':'</span><span class="o">//</span><span class="n">astr</span><span class="p">,</span><span class="nb">index</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="n">astr</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="mi">10</span><span class="p">)</span>
 
-<span class="w">   </span><span class="n">string</span><span class="o">=</span><span class="s2">&quot; can you find me here? &quot;</span>
-<span class="w">   </span><span class="n">substring</span><span class="o">=</span><span class="s2">&quot;not there&quot;</span>
+<span class="w">   </span><span class="n">string</span><span class="o">=</span><span class="s2">" can you find me here? "</span>
+<span class="w">   </span><span class="n">substring</span><span class="o">=</span><span class="s2">"not there"</span>
 <span class="w">   </span><span class="n">astr</span><span class="o">=</span><span class="n">ch</span><span class="p">(</span><span class="n">substring</span><span class="p">)</span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;index &#39;</span><span class="o">//</span><span class="n">string</span><span class="p">%</span><span class="kt">CHARACTER</span><span class="p">()</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">substring</span><span class="p">%</span><span class="kt">CHARACTER</span><span class="p">(),</span><span class="nb">index</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="n">substring</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;index &#39;</span><span class="o">//</span><span class="n">string</span><span class="p">%</span><span class="kt">CHARACTER</span><span class="p">()</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">astr</span><span class="p">,</span><span class="nb">index</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="n">astr</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'index '</span><span class="o">//</span><span class="n">string</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="o">//</span><span class="s1">':'</span><span class="o">//</span><span class="n">substring</span><span class="p">%</span><span class="kt">character</span><span class="p">(),</span><span class="nb">index</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="n">substring</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'index '</span><span class="o">//</span><span class="n">string</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="o">//</span><span class="s1">':'</span><span class="o">//</span><span class="n">astr</span><span class="p">,</span><span class="nb">index</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="n">astr</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span>
 
-<span class="w">   </span><span class="n">string</span><span class="o">=</span><span class="s2">&quot;short&quot;</span>
-<span class="w">   </span><span class="n">substring</span><span class="o">=</span><span class="s2">&quot;shortnot&quot;</span>
+<span class="w">   </span><span class="n">string</span><span class="o">=</span><span class="s2">"short"</span>
+<span class="w">   </span><span class="n">substring</span><span class="o">=</span><span class="s2">"shortnot"</span>
 <span class="w">   </span><span class="n">astr</span><span class="o">=</span><span class="n">ch</span><span class="p">(</span><span class="n">substring</span><span class="p">)</span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;index &#39;</span><span class="o">//</span><span class="n">string</span><span class="p">%</span><span class="kt">CHARACTER</span><span class="p">()</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">substring</span><span class="p">%</span><span class="kt">CHARACTER</span><span class="p">(),</span><span class="nb">index</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="n">substring</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;index &#39;</span><span class="o">//</span><span class="n">string</span><span class="p">%</span><span class="kt">CHARACTER</span><span class="p">()</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">astr</span><span class="p">,</span><span class="nb">index</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="n">astr</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'index '</span><span class="o">//</span><span class="n">string</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="o">//</span><span class="s1">':'</span><span class="o">//</span><span class="n">substring</span><span class="p">%</span><span class="kt">character</span><span class="p">(),</span><span class="nb">index</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="n">substring</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'index '</span><span class="o">//</span><span class="n">string</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="o">//</span><span class="s1">':'</span><span class="o">//</span><span class="n">astr</span><span class="p">,</span><span class="nb">index</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="n">astr</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span>
 <span class="k">end subroutine </span><span class="n">test_index</span>
 </pre></div>
 
@@ -306,7 +306,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-08-15 07:39 +0000             </p>
+ on 2026-08-21 14:29 +0000             </p>
           </div>
         </div>
         <br>

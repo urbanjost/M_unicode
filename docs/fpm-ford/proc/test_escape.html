@@ -134,7 +134,7 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../proc/test_escape.html#variable-ints~2">ints</a>
-            <a class="list-group-item" href="../proc/test_escape.html#variable-line~7">line</a>
+            <a class="list-group-item" href="../proc/test_escape.html#variable-line~22">line</a>
             <a class="list-group-item" href="../proc/test_escape.html#variable-ut_str~9">ut_str</a>
         </div>
       </div>
@@ -214,7 +214,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-line~7"></span>
+              <span class="anchor" id="variable-line~22"></span>
               character(len=:),
             </td>
               <td>public,</td>
@@ -263,8 +263,8 @@
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="k">subroutine </span><span class="n">test_escape</span><span class="p">()</span>
-<span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">ut_str</span>
-<span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">line</span>
+<span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">ut_str</span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">line</span>
 <span class="kt">integer</span><span class="p">,</span><span class="k">allocatable</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">ints</span><span class="p">(:)</span>
 <span class="c">!    \      backslash</span>
 <span class="c">!    a      alert (BEL) -- g is an alias for a</span>
@@ -287,39 +287,39 @@
 <span class="c">!               h is an alias for x</span>
 <span class="c">!    uZZZZ      translate Unicode codepoint value to bytes</span>
 <span class="c">!    UZZZZZZZZ  translate Unicode codepoint value to bytes</span>
-<span class="w">   </span><span class="n">ut_str</span><span class="o">=</span><span class="s1">&#39;\\\a\b\e\f\n\r\t\v\c&#39;</span>
+<span class="w">   </span><span class="n">ut_str</span><span class="o">=</span><span class="s1">'\\\a\b\e\f\n\r\t\v\c'</span>
 <span class="w">   </span><span class="n">ints</span><span class="o">=</span><span class="p">[</span><span class="mi">92</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">27</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">11</span><span class="p">]</span>
 <span class="w">   </span><span class="n">ut_str</span><span class="o">=</span><span class="n">escape</span><span class="p">(</span><span class="n">ut_str</span><span class="p">)</span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;escape&#39;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">ut_str</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="mi">9</span><span class="p">,</span><span class="s1">&#39;len&#39;</span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'escape'</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">ut_str</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="mi">9</span><span class="p">,</span><span class="s1">'len'</span><span class="p">)</span>
 <span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">ut_str</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="mi">9</span><span class="w"> </span><span class="p">)</span><span class="k">then</span>
-<span class="k">      call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;escape&#39;</span><span class="p">,</span><span class="k">all</span><span class="p">(</span><span class="n">ut_str</span><span class="p">%</span><span class="n">codepoint</span><span class="p">().</span><span class="n">eq</span><span class="p">.</span><span class="n">ints</span><span class="p">),</span><span class="s1">&#39;codes&#39;</span><span class="p">)</span>
+<span class="k">      call </span><span class="n">check</span><span class="p">(</span><span class="s1">'escape'</span><span class="p">,</span><span class="k">all</span><span class="p">(</span><span class="n">ut_str</span><span class="p">%</span><span class="n">codepoint</span><span class="p">().</span><span class="n">eq</span><span class="p">.</span><span class="n">ints</span><span class="p">),</span><span class="s1">'codes'</span><span class="p">)</span>
 <span class="w">   </span><span class="k">endif</span>
-<span class="k">   call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;escape&#39;</span><span class="p">,</span><span class="n">escape</span><span class="p">(</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;\&#39;)).eq.&#39;</span><span class="err">\</span><span class="s1">&#39;,&#39;</span><span class="n">backslash</span><span class="w"> </span><span class="n">at</span><span class="w"> </span><span class="k">end </span><span class="n">of</span><span class="w"> </span><span class="n">line</span><span class="s1">&#39;)</span>
-<span class="s1">   call check(&#39;</span><span class="n">escape</span><span class="s1">&#39;,escape(ut(&#39;</span><span class="n">text</span><span class="err">\</span><span class="mi">0</span><span class="s1">&#39;)).eq.&#39;</span><span class="n">text</span><span class="s1">&#39;//char(0),&#39;</span><span class="nb">null </span><span class="n">at</span><span class="w"> </span><span class="k">end</span><span class="s1">&#39;)</span>
-<span class="s1">   call check(&#39;</span><span class="n">escape</span><span class="s1">&#39;,escape(ut(&#39;</span><span class="err">\</span><span class="mi">122</span><span class="err">\</span><span class="mi">123</span><span class="n">A</span><span class="s1">&#39;)).eq.&#39;</span><span class="n">RSA</span><span class="s1">&#39;,&#39;</span><span class="n">two</span><span class="s1">&#39;)</span>
+<span class="k">   call </span><span class="n">check</span><span class="p">(</span><span class="s1">'escape'</span><span class="p">,</span><span class="n">escape</span><span class="p">(</span><span class="n">ut</span><span class="p">(</span><span class="s1">'\')).eq.'</span><span class="err">\</span><span class="s1">','</span><span class="n">backslash</span><span class="w"> </span><span class="n">at</span><span class="w"> </span><span class="k">end </span><span class="n">of</span><span class="w"> </span><span class="n">line</span><span class="s1">')</span>
+<span class="s1">   call check('</span><span class="n">escape</span><span class="s1">',escape(ut('</span><span class="n">text</span><span class="err">\</span><span class="mi">0</span><span class="s1">')).eq.'</span><span class="n">text</span><span class="s1">'//char(0),'</span><span class="nb">null </span><span class="n">at</span><span class="w"> </span><span class="k">end</span><span class="s1">')</span>
+<span class="s1">   call check('</span><span class="n">escape</span><span class="s1">',escape(ut('</span><span class="err">\</span><span class="mi">122</span><span class="err">\</span><span class="mi">123</span><span class="n">A</span><span class="s1">')).eq.'</span><span class="n">RSA</span><span class="s1">','</span><span class="n">two</span><span class="s1">')</span>
 
 <span class="s1">   !\oN\oNN\oNNN</span>
-<span class="s1">   call check(&#39;</span><span class="n">escape</span><span class="s1">&#39;,escape(ut(&#39;</span><span class="err">\</span><span class="n">o0Z</span><span class="s1">&#39;)).eq.char(0)//&#39;</span><span class="n">Z</span><span class="s1">&#39;,&#39;</span><span class="nb">null</span><span class="s1">&#39;)</span>
-<span class="s1">   call check(&#39;</span><span class="n">escape</span><span class="s1">&#39;,escape(ut(&#39;</span><span class="err">\</span><span class="n">o75Z</span><span class="s1">&#39;)).eq.&#39;</span><span class="o">=</span><span class="n">Z</span><span class="s1">&#39;,&#39;</span><span class="n">oNN</span><span class="w"> </span><span class="s1">&#39;//ch(escape(&#39;</span><span class="err">\</span><span class="n">o75z</span><span class="s1">&#39;)))</span>
-<span class="s1">   call check(&#39;</span><span class="n">escape</span><span class="s1">&#39;,escape(ut(&#39;</span><span class="err">\</span><span class="n">o075Z</span><span class="s1">&#39;)).eq.&#39;</span><span class="o">=</span><span class="n">Z</span><span class="s1">&#39;,&#39;</span><span class="n">oNNN</span><span class="w"> </span><span class="s1">&#39;//ch(escape(&#39;</span><span class="err">\</span><span class="n">o075z</span><span class="s1">&#39;)))</span>
-<span class="s1">   call check(&#39;</span><span class="n">escape</span><span class="s1">&#39;,escape(ut(&#39;</span><span class="err">\</span><span class="n">o75</span><span class="err">\</span><span class="n">o75</span><span class="err">\</span><span class="n">o076</span><span class="s1">&#39;)).eq.&#39;</span><span class="o">==&gt;</span><span class="s1">&#39;,&#39;</span><span class="n">oNNoNNoNN</span><span class="w"> </span><span class="s1">&#39;//ch(escape(&#39;</span><span class="err">\</span><span class="n">o75</span><span class="err">\</span><span class="n">o75</span><span class="err">\</span><span class="n">o76</span><span class="s1">&#39;)))</span>
-<span class="s1">   call check(&#39;</span><span class="n">escape</span><span class="s1">&#39;,escape(ut(&#39;</span><span class="err">\</span><span class="n">oZ</span><span class="s1">&#39;)).eq.&#39;</span><span class="n">oZ</span><span class="s1">&#39;,&#39;</span><span class="n">reasonable</span><span class="w"> </span><span class="s1">&#39;//ch(escape(&#39;</span><span class="err">\</span><span class="n">oZ</span><span class="s1">&#39;)))</span>
+<span class="s1">   call check('</span><span class="n">escape</span><span class="s1">',escape(ut('</span><span class="err">\</span><span class="n">o0Z</span><span class="s1">')).eq.char(0)//'</span><span class="n">Z</span><span class="s1">','</span><span class="nb">null</span><span class="s1">')</span>
+<span class="s1">   call check('</span><span class="n">escape</span><span class="s1">',escape(ut('</span><span class="err">\</span><span class="n">o75Z</span><span class="s1">')).eq.'</span><span class="o">=</span><span class="n">Z</span><span class="s1">','</span><span class="n">oNN</span><span class="w"> </span><span class="s1">'//ch(escape('</span><span class="err">\</span><span class="n">o75z</span><span class="s1">')))</span>
+<span class="s1">   call check('</span><span class="n">escape</span><span class="s1">',escape(ut('</span><span class="err">\</span><span class="n">o075Z</span><span class="s1">')).eq.'</span><span class="o">=</span><span class="n">Z</span><span class="s1">','</span><span class="n">oNNN</span><span class="w"> </span><span class="s1">'//ch(escape('</span><span class="err">\</span><span class="n">o075z</span><span class="s1">')))</span>
+<span class="s1">   call check('</span><span class="n">escape</span><span class="s1">',escape(ut('</span><span class="err">\</span><span class="n">o75</span><span class="err">\</span><span class="n">o75</span><span class="err">\</span><span class="n">o076</span><span class="s1">')).eq.'</span><span class="o">==&gt;</span><span class="s1">','</span><span class="n">oNNoNNoNN</span><span class="w"> </span><span class="s1">'//ch(escape('</span><span class="err">\</span><span class="n">o75</span><span class="err">\</span><span class="n">o75</span><span class="err">\</span><span class="n">o76</span><span class="s1">')))</span>
+<span class="s1">   call check('</span><span class="n">escape</span><span class="s1">',escape(ut('</span><span class="err">\</span><span class="n">oZ</span><span class="s1">')).eq.'</span><span class="n">oZ</span><span class="s1">','</span><span class="n">reasonable</span><span class="w"> </span><span class="s1">'//ch(escape('</span><span class="err">\</span><span class="n">oZ</span><span class="s1">')))</span>
 
 <span class="s1">   ! (kaufii hai?) [Literal Meaning: “Is there coffee?”] “Do you have coffee?” (Informal)</span>
 
-<span class="s1">   ut_str=&#39;</span><span class="err">\</span><span class="n">u0915</span><span class="err">\</span><span class="n">u0949</span><span class="err">\</span><span class="n">u092B</span><span class="err">\</span><span class="n">U0000093C</span><span class="err">\</span><span class="n">U00000940</span><span class="err">\</span><span class="n">x20</span><span class="err">\</span><span class="n">u0939</span><span class="err">\</span><span class="n">u0948</span><span class="err">\</span><span class="n">x3F</span><span class="s1">&#39;</span>
-<span class="s1">   call check(&#39;</span><span class="n">escape</span><span class="s1">&#39;,&amp;</span>
-<span class="s1">   &amp; escape(ut_str).eq.&#39;</span><span class="err">कॉफ़ी</span><span class="w"> </span><span class="err">है?</span><span class="s1">&#39;,&amp;</span>
-<span class="s1">   &amp; &#39;</span><span class="n">hexadecimal</span><span class="w"> </span><span class="nb">and </span><span class="n">unicode</span><span class="w"> </span><span class="s1">&#39; // &amp;</span>
+<span class="s1">   ut_str='</span><span class="err">\</span><span class="n">u0915</span><span class="err">\</span><span class="n">u0949</span><span class="err">\</span><span class="n">u092B</span><span class="err">\</span><span class="n">U0000093C</span><span class="err">\</span><span class="n">U00000940</span><span class="err">\</span><span class="n">x20</span><span class="err">\</span><span class="n">u0939</span><span class="err">\</span><span class="n">u0948</span><span class="err">\</span><span class="n">x3F</span><span class="s1">'</span>
+<span class="s1">   call check('</span><span class="n">escape</span><span class="s1">',&amp;</span>
+<span class="s1">   &amp; escape(ut_str).eq.'</span><span class="err">कॉफ़ी</span><span class="w"> </span><span class="err">है?</span><span class="s1">',&amp;</span>
+<span class="s1">   &amp; '</span><span class="n">hexadecimal</span><span class="w"> </span><span class="nb">and </span><span class="n">unicode</span><span class="w"> </span><span class="s1">' // &amp;</span>
 <span class="s1">   &amp; ch(escape(ut_str)) )</span>
-<span class="s1">   call check(&#39;</span><span class="n">escape</span><span class="s1">&#39;,&amp;</span>
-<span class="s1">   &amp; ch(escape(ut_str)).eq.&#39;</span><span class="err">कॉफ़ी</span><span class="w"> </span><span class="err">है?</span><span class="s1">&#39;,&amp;</span>
-<span class="s1">   &amp; &#39;</span><span class="n">hexadecimal</span><span class="w"> </span><span class="nb">and </span><span class="n">unicode</span><span class="s1">&#39; // &amp;</span>
+<span class="s1">   call check('</span><span class="n">escape</span><span class="s1">',&amp;</span>
+<span class="s1">   &amp; ch(escape(ut_str)).eq.'</span><span class="err">कॉफ़ी</span><span class="w"> </span><span class="err">है?</span><span class="s1">',&amp;</span>
+<span class="s1">   &amp; '</span><span class="n">hexadecimal</span><span class="w"> </span><span class="nb">and </span><span class="n">unicode</span><span class="s1">' // &amp;</span>
 <span class="s1">   &amp; ch(escape(ut_str)) )</span>
 
-<span class="s1">   ut_str=&#39;</span><span class="err">\</span><span class="n">x9</span><span class="err">\</span><span class="n">x09</span><span class="err">\</span><span class="n">x008</span><span class="err">\</span><span class="n">xA4</span><span class="err">\</span><span class="n">x3B1</span><span class="err">\</span><span class="n">x3B2</span><span class="err">\</span><span class="n">x221A</span><span class="err">\</span><span class="n">x221E</span><span class="s1">&#39;</span>
-<span class="s1">   line=char(9)//char(9)//char(8)//&#39;</span><span class="err">¤αβ√∞</span><span class="s1">&#39;</span>
-<span class="s1">   call check(&#39;</span><span class="n">escape</span><span class="s1">&#39;,escape(ut_str).eq.line,&#39;</span><span class="n">hexadecimal</span><span class="err">&#39;</span><span class="p">)</span>
+<span class="s1">   ut_str='</span><span class="err">\</span><span class="n">x9</span><span class="err">\</span><span class="n">x09</span><span class="err">\</span><span class="n">x008</span><span class="err">\</span><span class="n">xA4</span><span class="err">\</span><span class="n">x3B1</span><span class="err">\</span><span class="n">x3B2</span><span class="err">\</span><span class="n">x221A</span><span class="err">\</span><span class="n">x221E</span><span class="s1">'</span>
+<span class="s1">   line=char(9)//char(9)//char(8)//'</span><span class="err">¤αβ√∞</span><span class="s1">'</span>
+<span class="s1">   call check('</span><span class="n">escape</span><span class="s1">',escape(ut_str).eq.line,'</span><span class="n">hexadecimal</span><span class="err">'</span><span class="p">)</span>
 
 <span class="k">end subroutine </span><span class="n">test_escape</span>
 </pre></div>
@@ -345,7 +345,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-08-15 07:39 +0000             </p>
+ on 2026-08-21 14:29 +0000             </p>
           </div>
         </div>
         <br>

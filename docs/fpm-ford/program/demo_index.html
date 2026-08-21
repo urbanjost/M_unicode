@@ -131,9 +131,9 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../program/demo_index.html#variable-all~2">all</a>
-            <a class="list-group-item" href="../program/demo_index.html#variable-ii~2">ii</a>
-            <a class="list-group-item" href="../program/demo_index.html#variable-str~6">str</a>
+            <a class="list-group-item" href="../program/demo_index.html#variable-all~4">all</a>
+            <a class="list-group-item" href="../program/demo_index.html#variable-ii~5">ii</a>
+            <a class="list-group-item" href="../program/demo_index.html#variable-str~21">str</a>
         </div>
       </div>
     </div>
@@ -199,7 +199,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-all~2"></span>
+              <span class="anchor" id="variable-all~4"></span>
               character(len=*),
             </td>
             <td>
@@ -215,7 +215,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ii~2"></span>
+              <span class="anchor" id="variable-ii~5"></span>
               integer
             </td>
             <td>
@@ -231,7 +231,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~6"></span>
+              <span class="anchor" id="variable-str~21"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>)
             </td>
             <td>
@@ -267,29 +267,29 @@ parameter
 <span class="w">     </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nb">index</span>
 <span class="nb">     </span><span class="k">implicit none</span>
 <span class="k">     type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">str</span>
-<span class="w">     </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">all</span><span class="o">=</span><span class="s1">&#39;(*(g0))&#39;</span>
+<span class="w">     </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">all</span><span class="o">=</span><span class="s1">'(*(g0))'</span>
 <span class="w">     </span><span class="kt">integer</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">ii</span>
 <span class="w">        </span><span class="c">!</span>
-<span class="w">        </span><span class="n">str</span><span class="o">=</span><span class="s1">&#39;Huli i kēia kaula no kēia ʻōlelo&#39;</span>
-<span class="w">        </span><span class="c">!bug!print all, index(str,&#39;kēia&#39;).eq.8</span>
-<span class="w">        </span><span class="n">ii</span><span class="o">=</span><span class="nb">index</span><span class="p">(</span><span class="n">str</span><span class="p">,</span><span class="s1">&#39;kēia&#39;</span><span class="p">);</span><span class="w"> </span><span class="k">print all</span><span class="p">,</span><span class="w"> </span><span class="n">ii</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">8</span>
+<span class="w">        </span><span class="n">str</span><span class="o">=</span><span class="s1">'Huli i kēia kaula no kēia ʻōlelo'</span>
+<span class="w">        </span><span class="c">!bug!print all, index(str,'kēia').eq.8</span>
+<span class="w">        </span><span class="n">ii</span><span class="o">=</span><span class="nb">index</span><span class="p">(</span><span class="n">str</span><span class="p">,</span><span class="s1">'kēia'</span><span class="p">);</span><span class="w"> </span><span class="k">print all</span><span class="p">,</span><span class="w"> </span><span class="n">ii</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">8</span>
 <span class="w">        </span><span class="c">!</span>
 <span class="w">        </span><span class="c">! return value is counted from the left end even if BACK=.TRUE.</span>
-<span class="w">        </span><span class="c">!bug!print all, index(str,&#39;kēia&#39;,back=.true.).eq.22</span>
-<span class="w">        </span><span class="n">ii</span><span class="o">=</span><span class="nb">index</span><span class="p">(</span><span class="n">str</span><span class="p">,</span><span class="s1">&#39;kēia&#39;</span><span class="p">,</span><span class="n">back</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.);</span><span class="w"> </span><span class="k">print all</span><span class="p">,</span><span class="w"> </span><span class="n">ii</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">22</span>
+<span class="w">        </span><span class="c">!bug!print all, index(str,'kēia',back=.true.).eq.22</span>
+<span class="w">        </span><span class="n">ii</span><span class="o">=</span><span class="nb">index</span><span class="p">(</span><span class="n">str</span><span class="p">,</span><span class="s1">'kēia'</span><span class="p">,</span><span class="n">back</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.);</span><span class="w"> </span><span class="k">print all</span><span class="p">,</span><span class="w"> </span><span class="n">ii</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">22</span>
 <span class="w">        </span><span class="c">!</span>
 <span class="w">        </span><span class="c">! INDEX is case-sensitive</span>
-<span class="w">        </span><span class="c">!bug!print all, index(str,&#39;Kēia&#39;).eq.0</span>
-<span class="w">        </span><span class="n">ii</span><span class="o">=</span><span class="nb">index</span><span class="p">(</span><span class="n">str</span><span class="p">,</span><span class="s1">&#39;Kēia&#39;</span><span class="p">);</span><span class="w"> </span><span class="k">print all</span><span class="p">,</span><span class="w"> </span><span class="n">ii</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span>
+<span class="w">        </span><span class="c">!bug!print all, index(str,'Kēia').eq.0</span>
+<span class="w">        </span><span class="n">ii</span><span class="o">=</span><span class="nb">index</span><span class="p">(</span><span class="n">str</span><span class="p">,</span><span class="s1">'Kēia'</span><span class="p">);</span><span class="w"> </span><span class="k">print all</span><span class="p">,</span><span class="w"> </span><span class="n">ii</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span>
 <span class="w">        </span><span class="c">!&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span>
 <span class="w">        </span><span class="c">!ifx bug: ifx (IFX) 2024.1.0 20240308</span>
 <span class="w">        </span><span class="c">!</span>
 <span class="w">        </span><span class="c">!example/demo_index.f90(17): error #6766: A binary defined OPERATOR</span>
 <span class="w">        </span><span class="c">!definition is missing or incorrect.   [EQ]</span>
-<span class="w">        </span><span class="c">!        print all, index(str,&#39;k  ia&#39;,back=.true.).eq.22</span>
+<span class="w">        </span><span class="c">!        print all, index(str,'k  ia',back=.true.).eq.22</span>
 <span class="w">        </span><span class="c">!--------------------------------------------------^</span>
 <span class="w">        </span><span class="c">!Original works with gfortran and flang_new and this works with ifx</span>
-<span class="w">        </span><span class="c">!        ii=ndex(str,&#39;k  ia&#39;,back=.true.)</span>
+<span class="w">        </span><span class="c">!        ii=ndex(str,'k  ia',back=.true.)</span>
 <span class="w">        </span><span class="c">!    print all, ii.eq.22</span>
 <span class="w">        </span><span class="c">!&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span>
 <span class="w">     </span><span class="k">end program </span><span class="n">demo_index</span>
@@ -315,7 +315,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-08-15 07:39 +0000             </p>
+ on 2026-08-21 14:29 +0000             </p>
           </div>
         </div>
         <br>

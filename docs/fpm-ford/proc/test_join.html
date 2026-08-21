@@ -133,9 +133,9 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../proc/test_join.html#variable-expected~10">expected</a>
+            <a class="list-group-item" href="../proc/test_join.html#variable-expected~12">expected</a>
             <a class="list-group-item" href="../proc/test_join.html#variable-proverb~3">proverb</a>
-            <a class="list-group-item" href="../proc/test_join.html#variable-s~2">s</a>
+            <a class="list-group-item" href="../proc/test_join.html#variable-s">s</a>
             <a class="list-group-item" href="../proc/test_join.html#variable-sep~2">sep</a>
         </div>
       </div>
@@ -198,7 +198,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-expected~10"></span>
+              <span class="anchor" id="variable-expected~12"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
               <td>public</td>
@@ -232,7 +232,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-s~2"></span>
+              <span class="anchor" id="variable-s"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
               <td>public,</td>
@@ -281,43 +281,43 @@
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="k">subroutine </span><span class="n">test_join</span><span class="p">()</span>
-<span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">20</span><span class="p">),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">proverb</span><span class="p">(:)</span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">20</span><span class="p">),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">proverb</span><span class="p">(:)</span>
 <span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">),</span><span class="k">allocatable</span><span class="w">       </span><span class="kd">::</span><span class="w"> </span><span class="n">s</span><span class="p">(:)</span>
 <span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">),</span><span class="k">allocatable</span><span class="w">       </span><span class="kd">::</span><span class="w"> </span><span class="n">sep</span>
 <span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">expected</span>
-<span class="w">   </span><span class="n">proverb</span><span class="o">=</span><span class="p">[</span><span class="w"> </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">     </span><span class="p">&amp;</span><span class="w"> </span><span class="s1">&#39; United&#39;</span><span class="w">       </span><span class="p">,&amp;</span>
-<span class="w">     </span><span class="p">&amp;</span><span class="w"> </span><span class="s1">&#39;  we&#39;</span><span class="w">          </span><span class="p">,&amp;</span>
-<span class="w">     </span><span class="p">&amp;</span><span class="w"> </span><span class="s1">&#39;   stand,&#39;</span><span class="w">     </span><span class="p">,&amp;</span>
-<span class="w">     </span><span class="p">&amp;</span><span class="w"> </span><span class="s1">&#39;    divided&#39;</span><span class="w">   </span><span class="p">,&amp;</span>
-<span class="w">     </span><span class="p">&amp;</span><span class="w"> </span><span class="s1">&#39;     we fall.&#39;</span><span class="w"> </span><span class="p">]</span>
+<span class="w">   </span><span class="n">proverb</span><span class="o">=</span><span class="p">[</span><span class="w"> </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">     </span><span class="p">&amp;</span><span class="w"> </span><span class="s1">' United'</span><span class="w">       </span><span class="p">,&amp;</span>
+<span class="w">     </span><span class="p">&amp;</span><span class="w"> </span><span class="s1">'  we'</span><span class="w">          </span><span class="p">,&amp;</span>
+<span class="w">     </span><span class="p">&amp;</span><span class="w"> </span><span class="s1">'   stand,'</span><span class="w">     </span><span class="p">,&amp;</span>
+<span class="w">     </span><span class="p">&amp;</span><span class="w"> </span><span class="s1">'    divided'</span><span class="w">   </span><span class="p">,&amp;</span>
+<span class="w">     </span><span class="p">&amp;</span><span class="w"> </span><span class="s1">'     we fall.'</span><span class="w"> </span><span class="p">]</span>
 <span class="w">   </span><span class="k">allocate</span><span class="p">(</span><span class="n">s</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">proverb</span><span class="p">)))</span><span class="w"> </span><span class="c">! avoid GNU Fortran (GCC) 16.0.0 bug</span>
 <span class="w">   </span><span class="n">s</span><span class="o">=</span><span class="n">proverb</span>
 
-<span class="w">   </span><span class="n">expected</span><span class="o">=</span><span class="s1">&#39;Unitedwestand,dividedwe fall.&#39;</span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;join&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">join</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">expected</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;SIMPLE JOIN&#39;</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="n">expected</span><span class="o">=</span><span class="s1">'Unitedwestand,dividedwe fall.'</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'join'</span><span class="p">,</span><span class="w"> </span><span class="n">join</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">expected</span><span class="p">,</span><span class="w"> </span><span class="s1">'SIMPLE JOIN'</span><span class="w"> </span><span class="p">)</span>
 
-<span class="w">   </span><span class="n">expected</span><span class="o">=</span><span class="s1">&#39;United we stand, divided we fall.&#39;</span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;join&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">join</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">sep</span><span class="o">=</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">expected</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;JOIN WITH SEPARATOR&#39;</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="n">expected</span><span class="o">=</span><span class="s1">'United we stand, divided we fall.'</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'join'</span><span class="p">,</span><span class="w"> </span><span class="n">join</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">sep</span><span class="o">=</span><span class="n">ut</span><span class="p">(</span><span class="s1">' '</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">expected</span><span class="p">,</span><span class="w"> </span><span class="s1">'JOIN WITH SEPARATOR'</span><span class="w"> </span><span class="p">)</span>
 
-<span class="w">   </span><span class="n">expected</span><span class="o">=</span><span class="s1">&#39;United&lt;--&gt;we&lt;--&gt;stand,&lt;--&gt;divided&lt;--&gt;we fall.&#39;</span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;join&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">join</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">sep</span><span class="o">=</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;&lt;--&gt;&#39;</span><span class="p">))</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">expected</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;CUSTOM SEPARATOR&#39;</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="n">expected</span><span class="o">=</span><span class="s1">'United&lt;--&gt;we&lt;--&gt;stand,&lt;--&gt;divided&lt;--&gt;we fall.'</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'join'</span><span class="p">,</span><span class="w"> </span><span class="n">join</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">sep</span><span class="o">=</span><span class="n">ut</span><span class="p">(</span><span class="s1">'&lt;--&gt;'</span><span class="p">))</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">expected</span><span class="p">,</span><span class="w"> </span><span class="s1">'CUSTOM SEPARATOR'</span><span class="w"> </span><span class="p">)</span>
 
-<span class="w">   </span><span class="n">expected</span><span class="o">=</span><span class="s1">&#39; United               we                   stand,               divided              we fall.&#39;</span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;join&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">join</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">clip</span><span class="o">=</span><span class="p">.</span><span class="n">false</span><span class="p">.)</span><span class="w">  </span><span class="o">==</span><span class="w"> </span><span class="n">expected</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;NO TRIMMING&#39;</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="n">expected</span><span class="o">=</span><span class="s1">' United               we                   stand,               divided              we fall.'</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'join'</span><span class="p">,</span><span class="w"> </span><span class="n">join</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">clip</span><span class="o">=</span><span class="p">.</span><span class="n">false</span><span class="p">.)</span><span class="w">  </span><span class="o">==</span><span class="w"> </span><span class="n">expected</span><span class="p">,</span><span class="w"> </span><span class="s1">'NO TRIMMING'</span><span class="w"> </span><span class="p">)</span>
 
 <span class="w">   </span><span class="n">sep</span><span class="o">=</span><span class="n">ut</span><span class="p">()</span>
-<span class="w">   </span><span class="n">expected</span><span class="o">=</span><span class="s1">&#39;Unitedwestand,dividedwe fall.&#39;</span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;join&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="p">%</span><span class="n">join</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">==</span><span class="n">expected</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;OOP SIMPLE JOIN&#39;</span><span class="p">)</span>
-<span class="w">   </span><span class="n">sep</span><span class="o">=</span><span class="s1">&#39; &#39;</span>
-<span class="w">   </span><span class="n">expected</span><span class="o">=</span><span class="s1">&#39;United we stand, divided we fall.&#39;</span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;join&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="p">%</span><span class="n">join</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">==</span><span class="n">expected</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;OOP JOIN WITH SEPARATOR&#39;</span><span class="p">)</span>
-<span class="w">   </span><span class="n">sep</span><span class="o">=</span><span class="s1">&#39;&lt;--&gt;&#39;</span>
-<span class="w">   </span><span class="n">expected</span><span class="o">=</span><span class="s1">&#39;United&lt;--&gt;we&lt;--&gt;stand,&lt;--&gt;divided&lt;--&gt;we fall.&#39;</span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;join&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="p">%</span><span class="n">join</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">==</span><span class="n">expected</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;OOP CUSTOM SEPARATOR&#39;</span><span class="p">)</span>
-<span class="w">   </span><span class="n">sep</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
-<span class="w">   </span><span class="n">expected</span><span class="o">=</span><span class="s1">&#39; United               we                   stand,               divided              we fall.&#39;</span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;join&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="p">%</span><span class="n">join</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">clip</span><span class="o">=</span><span class="p">.</span><span class="n">false</span><span class="p">.)</span><span class="o">==</span><span class="n">expected</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;OOP NO TRIMMING&#39;</span><span class="p">)</span>
+<span class="w">   </span><span class="n">expected</span><span class="o">=</span><span class="s1">'Unitedwestand,dividedwe fall.'</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'join'</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="p">%</span><span class="n">join</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">expected</span><span class="p">,</span><span class="w"> </span><span class="s1">'OOP SIMPLE JOIN'</span><span class="p">)</span>
+<span class="w">   </span><span class="n">sep</span><span class="o">=</span><span class="s1">' '</span>
+<span class="w">   </span><span class="n">expected</span><span class="o">=</span><span class="s1">'United we stand, divided we fall.'</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'join'</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="p">%</span><span class="n">join</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">expected</span><span class="p">,</span><span class="w"> </span><span class="s1">'OOP JOIN WITH SEPARATOR'</span><span class="p">)</span>
+<span class="w">   </span><span class="n">sep</span><span class="o">=</span><span class="s1">'&lt;--&gt;'</span>
+<span class="w">   </span><span class="n">expected</span><span class="o">=</span><span class="s1">'United&lt;--&gt;we&lt;--&gt;stand,&lt;--&gt;divided&lt;--&gt;we fall.'</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'join'</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="p">%</span><span class="n">join</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">expected</span><span class="p">,</span><span class="w"> </span><span class="s1">'OOP CUSTOM SEPARATOR'</span><span class="p">)</span>
+<span class="w">   </span><span class="n">sep</span><span class="o">=</span><span class="s1">''</span>
+<span class="w">   </span><span class="n">expected</span><span class="o">=</span><span class="s1">' United               we                   stand,               divided              we fall.'</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'join'</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="p">%</span><span class="n">join</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">clip</span><span class="o">=</span><span class="p">.</span><span class="n">false</span><span class="p">.)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">expected</span><span class="p">,</span><span class="w"> </span><span class="s1">'OOP NO TRIMMING'</span><span class="p">)</span>
 
 <span class="k">end subroutine </span><span class="n">test_join</span>
 </pre></div>
@@ -343,7 +343,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-08-15 07:39 +0000             </p>
+ on 2026-08-21 14:29 +0000             </p>
           </div>
         </div>
         <br>

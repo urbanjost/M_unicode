@@ -133,11 +133,11 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../program/demo_utf8_to_codepoints.html#variable-bytes~2">bytes</a>
             <a class="list-group-item" href="../program/demo_utf8_to_codepoints.html#variable-codepoints~6">codepoints</a>
-            <a class="list-group-item" href="../program/demo_utf8_to_codepoints.html#variable-i~87">i</a>
+            <a class="list-group-item" href="../program/demo_utf8_to_codepoints.html#variable-i~98">i</a>
             <a class="list-group-item" href="../program/demo_utf8_to_codepoints.html#variable-nerr~25">nerr</a>
             <a class="list-group-item" href="../program/demo_utf8_to_codepoints.html#variable-solid~2">solid</a>
             <a class="list-group-item" href="../program/demo_utf8_to_codepoints.html#variable-space~2">space</a>
-            <a class="list-group-item" href="../program/demo_utf8_to_codepoints.html#variable-string~65">string</a>
+            <a class="list-group-item" href="../program/demo_utf8_to_codepoints.html#variable-string~69">string</a>
             <a class="list-group-item" href="../program/demo_utf8_to_codepoints.html#variable-z~2">z</a>
         </div>
       </div>
@@ -236,7 +236,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~87"></span>
+              <span class="anchor" id="variable-i~98"></span>
               integer
             </td>
             <td>
@@ -300,7 +300,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~65"></span>
+              <span class="anchor" id="variable-string~69"></span>
               character(len=*),
             </td>
             <td>
@@ -349,35 +349,35 @@ parameter
     <div class="hl codehilite"><pre><span></span><span class="w">     </span><span class="k">program </span><span class="n">demo_utf8_to_codepoints</span>
 <span class="w">     </span><span class="k">use </span><span class="n">m_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">utf8_to_codepoints</span>
 <span class="w">     </span><span class="k">implicit none</span>
-<span class="k">     </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">string</span><span class="w"> </span><span class="o">=</span><span class="s1">&#39;Noho me ka hau’oli&#39;</span><span class="w"> </span><span class="c">!(Be happy)</span>
+<span class="k">     </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">string</span><span class="w"> </span><span class="o">=</span><span class="s1">'Noho me ka hau’oli'</span><span class="w"> </span><span class="c">!(Be happy)</span>
 <span class="w">     </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">bytes</span><span class="p">(:)</span>
-<span class="w">     </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">solid</span><span class="o">=</span><span class="s1">&#39;(*(g0))&#39;</span>
-<span class="w">     </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">space</span><span class="o">=</span><span class="s1">&#39;(*(g0,1x))&#39;</span>
-<span class="w">     </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">z</span><span class="o">=</span><span class="s1">&#39;(a,*(z0,1x))&#39;</span>
+<span class="w">     </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">solid</span><span class="o">=</span><span class="s1">'(*(g0))'</span>
+<span class="w">     </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">space</span><span class="o">=</span><span class="s1">'(*(g0,1x))'</span>
+<span class="w">     </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">z</span><span class="o">=</span><span class="s1">'(a,*(z0,1x))'</span>
 <span class="w">     </span><span class="kt">integer</span><span class="p">,</span><span class="k">allocatable</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">codepoints</span><span class="p">(:)</span>
 <span class="w">     </span><span class="kt">integer</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">nerr</span>
 <span class="w">     </span><span class="kt">integer</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
 <span class="w">     </span><span class="c">! BASIC USAGE: SCALAR CHARACTER VARIABLE</span>
-<span class="w">       </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">solid</span><span class="p">)</span><span class="s1">&#39;STRING:&#39;</span><span class="p">,</span><span class="n">string</span>
+<span class="w">       </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">solid</span><span class="p">)</span><span class="s1">'STRING:'</span><span class="p">,</span><span class="n">string</span>
 <span class="w">       </span><span class="k">call </span><span class="n">utf8_to_codepoints</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="n">codepoints</span><span class="p">,</span><span class="n">nerr</span><span class="p">)</span>
-<span class="w">       </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">space</span><span class="p">)</span><span class="s1">&#39;CODEPOINTS:&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">codepoints</span>
-<span class="w">       </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">z</span><span class="p">)</span><span class="s1">&#39;HEXADECIMAL CODEPOINTS:&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">codepoints</span>
+<span class="w">       </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">space</span><span class="p">)</span><span class="s1">'CODEPOINTS:'</span><span class="p">,</span><span class="w"> </span><span class="n">codepoints</span>
+<span class="w">       </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">z</span><span class="p">)</span><span class="s1">'HEXADECIMAL CODEPOINTS:'</span><span class="p">,</span><span class="w"> </span><span class="n">codepoints</span>
 <span class="w">     </span><span class="c">!</span>
-<span class="w">       </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">space</span><span class="p">)</span><span class="s1">&#39;How long is this string in glyphs? &#39;</span>
+<span class="w">       </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">space</span><span class="p">)</span><span class="s1">'How long is this string in glyphs? '</span>
 <span class="w">       </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">space</span><span class="p">)</span><span class="n">size</span><span class="p">(</span><span class="n">codepoints</span><span class="p">)</span>
-<span class="w">       </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">space</span><span class="p">)</span><span class="s1">&#39;How long is this string in bytes? &#39;</span>
+<span class="w">       </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">space</span><span class="p">)</span><span class="s1">'How long is this string in bytes? '</span>
 <span class="w">       </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">space</span><span class="p">)</span><span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
 <span class="w">     </span><span class="c">!</span>
 <span class="w">     </span><span class="c">! BASIC USAGE: ARRAY OF BYTES</span>
 <span class="w">       </span><span class="n">bytes</span><span class="o">=</span><span class="p">[(</span><span class="n">string</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">),</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">))]</span>
-<span class="w">       </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">solid</span><span class="p">)</span><span class="s1">&#39;STRING:&#39;</span><span class="p">,</span><span class="n">bytes</span>
+<span class="w">       </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">solid</span><span class="p">)</span><span class="s1">'STRING:'</span><span class="p">,</span><span class="n">bytes</span>
 <span class="w">       </span><span class="k">call </span><span class="n">utf8_to_codepoints</span><span class="p">(</span><span class="n">bytes</span><span class="p">,</span><span class="n">codepoints</span><span class="p">,</span><span class="n">nerr</span><span class="p">)</span>
-<span class="w">       </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">space</span><span class="p">)</span><span class="s1">&#39;CODEPOINTS:&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">codepoints</span>
-<span class="w">       </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">z</span><span class="p">)</span><span class="s1">&#39;HEXADECIMAL CODEPOINTS:&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">codepoints</span>
+<span class="w">       </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">space</span><span class="p">)</span><span class="s1">'CODEPOINTS:'</span><span class="p">,</span><span class="w"> </span><span class="n">codepoints</span>
+<span class="w">       </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">z</span><span class="p">)</span><span class="s1">'HEXADECIMAL CODEPOINTS:'</span><span class="p">,</span><span class="w"> </span><span class="n">codepoints</span>
 <span class="w">     </span><span class="c">!</span>
-<span class="w">       </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">space</span><span class="p">)</span><span class="s1">&#39;How long is this string in glyphs? &#39;</span>
+<span class="w">       </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">space</span><span class="p">)</span><span class="s1">'How long is this string in glyphs? '</span>
 <span class="w">       </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">space</span><span class="p">)</span><span class="n">size</span><span class="p">(</span><span class="n">codepoints</span><span class="p">)</span>
-<span class="w">       </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">space</span><span class="p">)</span><span class="s1">&#39;How long is this string in bytes? &#39;</span>
+<span class="w">       </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">space</span><span class="p">)</span><span class="s1">'How long is this string in bytes? '</span>
 <span class="w">       </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">space</span><span class="p">)</span><span class="n">size</span><span class="p">(</span><span class="n">bytes</span><span class="p">)</span>
 <span class="w">     </span><span class="c">!</span>
 <span class="w">     </span><span class="k">end program </span><span class="n">demo_utf8_to_codepoints</span>
@@ -403,7 +403,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-08-15 07:39 +0000             </p>
+ on 2026-08-21 14:29 +0000             </p>
           </div>
         </div>
         <br>

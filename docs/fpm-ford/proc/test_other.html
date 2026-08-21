@@ -133,7 +133,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../proc/test_other.html#variable-string~5">string</a>
+            <a class="list-group-item" href="../proc/test_other.html#variable-string~58">string</a>
             <a class="list-group-item" href="../proc/test_other.html#variable-upagain">upagain</a>
         </div>
       </div>
@@ -196,7 +196,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~5"></span>
+              <span class="anchor" id="variable-string~58"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
               <td>public</td>
@@ -245,23 +245,23 @@ parameter
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="k">subroutine </span><span class="n">test_other</span><span class="p">()</span>
-<span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">string</span>
-<span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">upagain</span><span class="o">=</span><span class="p">&amp;</span>
-<span class="s2">&quot;七転び八起き。転んでもまた立ち上がる。くじけずに前を向いて歩いていこう。&quot;</span>
+<span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">         </span><span class="kd">::</span><span class="w"> </span><span class="n">string</span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">upagain</span><span class="o">=</span><span class="p">&amp;</span>
+<span class="s2">"七転び八起き。転んでもまた立ち上がる。くじけずに前を向いて歩いていこう。"</span>
 <span class="c">! Romanization:</span>
 <span class="c">! Nanakorobi yaoki. Koronde mo mata tachiagaru. Kujikezu ni mae o muite aruite ikou.</span>
 <span class="c">! or English translation</span>
-<span class="c">! &quot;Fall seven times, stand up eight. Even if you fall down, you will get up again. Don&#39;t be discouraged, just keep walking forward.&quot;</span>
+<span class="c">! "Fall seven times, stand up eight. Even if you fall down, you will get up again. Don't be discouraged, just keep walking forward."</span>
 <span class="c">!</span>
 <span class="w">   </span><span class="n">string</span><span class="o">=</span><span class="n">upagain</span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g0</span><span class="p">)</span><span class="s1">&#39;original bytes  :&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">upagain</span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g0</span><span class="p">)</span><span class="s1">'original bytes  :'</span><span class="p">,</span><span class="w"> </span><span class="n">upagain</span>
 <span class="w">   </span><span class="c">!-------------------</span>
 <span class="w">   </span><span class="c">! doing this generates non-unicode byte sequences in UTF-8, which means</span>
 <span class="w">   </span><span class="c">! the OS may not longer recognize the output as UTF-8</span>
-<span class="w">   </span><span class="c">!write(*,g0)&#39;bytes reversed  :&#39;, (upagain(i:i),i=len(upagain),1,-1)</span>
+<span class="w">   </span><span class="c">!write(*,g0)'bytes reversed  :', (upagain(i:i),i=len(upagain),1,-1)</span>
 <span class="w">   </span><span class="c">!-------------------</span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g0</span><span class="p">)</span><span class="s1">&#39;original string :&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">string</span><span class="p">%</span><span class="kt">CHARACTER</span><span class="p">()</span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g0</span><span class="p">)</span><span class="s1">&#39;string reversed :&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">string</span><span class="p">%</span><span class="kt">CHARACTER</span><span class="p">(</span><span class="n">string</span><span class="p">%</span><span class="nb">len</span><span class="p">(),</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g0</span><span class="p">)</span><span class="s1">'original string :'</span><span class="p">,</span><span class="w"> </span><span class="n">string</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g0</span><span class="p">)</span><span class="s1">'string reversed :'</span><span class="p">,</span><span class="w"> </span><span class="n">string</span><span class="p">%</span><span class="kt">character</span><span class="p">(</span><span class="n">string</span><span class="p">%</span><span class="nb">len</span><span class="p">(),</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 <span class="k">end subroutine </span><span class="n">test_other</span>
 </pre></div>
 
@@ -286,7 +286,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-08-15 07:39 +0000             </p>
+ on 2026-08-21 14:29 +0000             </p>
           </div>
         </div>
         <br>

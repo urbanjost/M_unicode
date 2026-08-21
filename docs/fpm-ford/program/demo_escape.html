@@ -131,9 +131,9 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../program/demo_escape.html#variable-i~3">i</a>
-            <a class="list-group-item" href="../program/demo_escape.html#variable-poem~2">poem</a>
-            <a class="list-group-item" href="../program/demo_escape.html#variable-test">test</a>
+            <a class="list-group-item" href="../program/demo_escape.html#variable-i~67">i</a>
+            <a class="list-group-item" href="../program/demo_escape.html#variable-poem">poem</a>
+            <a class="list-group-item" href="../program/demo_escape.html#variable-test~3">test</a>
         </div>
       </div>
     </div>
@@ -175,8 +175,8 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/m_unicode.html'>M_unicode</a></li>
                   <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_fortran_env'>iso_fortran_env</a></li>
+                  <li class="list-inline-item"><a href='../module/m_unicode.html'>M_unicode</a></li>
               </ul>
             </li>
         </ul>
@@ -200,7 +200,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~3"></span>
+              <span class="anchor" id="variable-i~67"></span>
               integer
             </td>
             <td>
@@ -216,7 +216,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-poem~2"></span>
+              <span class="anchor" id="variable-poem"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
             <td>
@@ -232,7 +232,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-test"></span>
+              <span class="anchor" id="variable-test~3"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
             <td>
@@ -274,45 +274,45 @@
 <span class="w">     </span><span class="kt">integer</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
 <span class="w">        </span><span class="c">!</span>
 <span class="w">        </span><span class="c">! “The Crow and the Fox” by Jean de la Fontaine</span>
-<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(a,/)&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">        </span><span class="s1">&#39;Le Corbeau et le Renard -- Jean de la Fontaine&#39;</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">'(a,/)'</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">        </span><span class="s1">'Le Corbeau et le Renard -- Jean de la Fontaine'</span>
 <span class="w">        </span><span class="c">!</span>
 <span class="w">        </span><span class="n">poem</span><span class="o">=</span><span class="p">[&amp;</span>
-<span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">&#39;Le Corbeau et le Renard&#39;</span><span class="w">                                   </span><span class="p">),&amp;</span>
-<span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="w">                                                          </span><span class="p">),&amp;</span>
-<span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">&#39;Ma\u00EEtre Corbeau, sur un arbre perch\u00E9,&#39;</span><span class="w">            </span><span class="p">),&amp;</span>
-<span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">&#39;Tenait en son bec un fromage.&#39;</span><span class="w">                             </span><span class="p">),&amp;</span>
-<span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">&#39;Ma\u00EEtre Renard, par l\u2019odeur all\u00E9ch\u00E9,&#39;</span><span class="w">   </span><span class="p">),&amp;</span>
-<span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">&#39;Lui tint \U000000E0 peu pr\U000000E8s ce langage :&#39;</span><span class="w">        </span><span class="p">),&amp;</span>
-<span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">&#39;\U000000ABH\U000000E9 ! bonjour, Monsieur du Corbeau.&#39;</span><span class="w">     </span><span class="p">),&amp;</span>
-<span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">&#39;Que vous \U000000EAtes joli ! que vous me semblez beau !&#39;</span><span class="w">  </span><span class="p">),&amp;</span>
-<span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">&#39;Sans mentir, si votre ramage&#39;</span><span class="w">                              </span><span class="p">),&amp;</span>
-<span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">&#39;Se rapporte \U000000E0 votre plumage,&#39;</span><span class="w">                     </span><span class="p">),&amp;</span>
-<span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">&#39;Vous \xEAtes le Ph\xE9nix des h\xF4tes de ces bois.\xBB&#39;</span><span class="w">   </span><span class="p">),&amp;</span>
-<span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">&#39;A ces mots le Corbeau ne se sent pas de joie ;&#39;</span><span class="w">            </span><span class="p">),&amp;</span>
-<span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">&#39;Et pour montrer sa belle voix,&#39;</span><span class="w">                            </span><span class="p">),&amp;</span>
-<span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">&#39;Il ouvre un large bec, laisse tomber sa proie.&#39;</span><span class="w">            </span><span class="p">),&amp;</span>
-<span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">&#39;Le Renard s\u2019en saisit, et dit : \xABMon bon Monsieur,&#39;</span><span class="p">),&amp;</span>
-<span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">&#39;Apprenez que tout flatteur&#39;</span><span class="w">                                </span><span class="p">),&amp;</span>
-<span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">&#39;Vit aux d\xE9pens de celui qui l\U00002019\u00E9coute :&#39;</span><span class="w">   </span><span class="p">),&amp;</span>
-<span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">&#39;Cette le\xE7on vaut bien un fromage, sans doute.\xBB&#39;</span><span class="w">      </span><span class="p">),&amp;</span>
-<span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">&#39;Le Corbeau, honteux et confus,&#39;</span><span class="w">                            </span><span class="p">),&amp;</span>
+<span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">'Le Corbeau et le Renard'</span><span class="w">                                   </span><span class="p">),&amp;</span>
+<span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">''</span><span class="w">                                                          </span><span class="p">),&amp;</span>
+<span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">'Ma\u00EEtre Corbeau, sur un arbre perch\u00E9,'</span><span class="w">            </span><span class="p">),&amp;</span>
+<span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">'Tenait en son bec un fromage.'</span><span class="w">                             </span><span class="p">),&amp;</span>
+<span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">'Ma\u00EEtre Renard, par l\u2019odeur all\u00E9ch\u00E9,'</span><span class="w">   </span><span class="p">),&amp;</span>
+<span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">'Lui tint \U000000E0 peu pr\U000000E8s ce langage :'</span><span class="w">        </span><span class="p">),&amp;</span>
+<span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">'\U000000ABH\U000000E9 ! bonjour, Monsieur du Corbeau.'</span><span class="w">     </span><span class="p">),&amp;</span>
+<span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">'Que vous \U000000EAtes joli ! que vous me semblez beau !'</span><span class="w">  </span><span class="p">),&amp;</span>
+<span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">'Sans mentir, si votre ramage'</span><span class="w">                              </span><span class="p">),&amp;</span>
+<span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">'Se rapporte \U000000E0 votre plumage,'</span><span class="w">                     </span><span class="p">),&amp;</span>
+<span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">'Vous \xEAtes le Ph\xE9nix des h\xF4tes de ces bois.\xBB'</span><span class="w">   </span><span class="p">),&amp;</span>
+<span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">'A ces mots le Corbeau ne se sent pas de joie ;'</span><span class="w">            </span><span class="p">),&amp;</span>
+<span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">'Et pour montrer sa belle voix,'</span><span class="w">                            </span><span class="p">),&amp;</span>
+<span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">'Il ouvre un large bec, laisse tomber sa proie.'</span><span class="w">            </span><span class="p">),&amp;</span>
+<span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">'Le Renard s\u2019en saisit, et dit : \xABMon bon Monsieur,'</span><span class="p">),&amp;</span>
+<span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">'Apprenez que tout flatteur'</span><span class="w">                                </span><span class="p">),&amp;</span>
+<span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">'Vit aux d\xE9pens de celui qui l\U00002019\u00E9coute :'</span><span class="w">   </span><span class="p">),&amp;</span>
+<span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">'Cette le\xE7on vaut bien un fromage, sans doute.\xBB'</span><span class="w">      </span><span class="p">),&amp;</span>
+<span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">'Le Corbeau, honteux et confus,'</span><span class="w">                            </span><span class="p">),&amp;</span>
 <span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">        </span><span class="s1">&#39;Jura, mais un peu tard, qu\u2019on ne l\u2019y prendrait plus.&#39;</span><span class="p">),&amp;</span>
-<span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">&#39; -- Jean de la Fontaine&#39;</span><span class="p">)]</span>
+<span class="w">        </span><span class="s1">'Jura, mais un peu tard, qu\u2019on ne l\u2019y prendrait plus.'</span><span class="p">),&amp;</span>
+<span class="w">        </span><span class="n">ut</span><span class="p">(</span><span class="w"> </span><span class="s1">' -- Jean de la Fontaine'</span><span class="p">)]</span>
 <span class="w">        </span><span class="c">!</span>
 <span class="w">        </span><span class="n">poem</span><span class="o">=</span><span class="n">escape</span><span class="p">(</span><span class="n">poem</span><span class="p">)</span>
-<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">&#39;(g0)&#39;</span><span class="p">)</span><span class="n">ch</span><span class="p">(</span><span class="n">poem</span><span class="p">)</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">'(g0)'</span><span class="p">)</span><span class="n">ch</span><span class="p">(</span><span class="n">poem</span><span class="p">)</span>
 <span class="w">        </span><span class="c">!</span>
 <span class="w">        </span><span class="n">test</span><span class="o">=</span><span class="p">[</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="s1">&#39;\e[H\e[2J           &#39;</span><span class="p">,&amp;</span><span class="w"> </span><span class="c">! home cursor and clear screen</span>
+<span class="w">         </span><span class="s1">'\e[H\e[2J           '</span><span class="p">,&amp;</span><span class="w"> </span><span class="c">! home cursor and clear screen</span>
 <span class="w">                                  </span><span class="c">! on ANSI terminals</span>
-<span class="w">         </span><span class="s1">&#39;\tABC\tabc          &#39;</span><span class="p">,&amp;</span><span class="w"> </span><span class="c">! write some tabs in the output</span>
-<span class="w">         </span><span class="s1">&#39;\tA\a               &#39;</span><span class="p">,&amp;</span><span class="w"> </span><span class="c">! ring bell at end if supported</span>
-<span class="w">         </span><span class="s1">&#39;\nONE\nTWO\nTHREE   &#39;</span><span class="p">,&amp;</span><span class="w"> </span><span class="c">! place one word per line</span>
-<span class="w">         </span><span class="s1">&#39;\\                  &#39;</span><span class="p">]</span>
+<span class="w">         </span><span class="s1">'\tABC\tabc          '</span><span class="p">,&amp;</span><span class="w"> </span><span class="c">! write some tabs in the output</span>
+<span class="w">         </span><span class="s1">'\tA\a               '</span><span class="p">,&amp;</span><span class="w"> </span><span class="c">! ring bell at end if supported</span>
+<span class="w">         </span><span class="s1">'\nONE\nTWO\nTHREE   '</span><span class="p">,&amp;</span><span class="w"> </span><span class="c">! place one word per line</span>
+<span class="w">         </span><span class="s1">'\\                  '</span><span class="p">]</span>
 <span class="w">        </span><span class="n">test</span><span class="o">=</span><span class="nb">trim</span><span class="p">(</span><span class="n">escape</span><span class="p">(</span><span class="n">test</span><span class="p">))</span>
-<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">)(</span><span class="n">test</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="kt">character</span><span class="p">(),</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">test</span><span class="p">))</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(a)'</span><span class="p">)(</span><span class="n">test</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="kt">character</span><span class="p">(),</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">test</span><span class="p">))</span>
 <span class="w">        </span><span class="c">!</span>
 <span class="w">     </span><span class="k">end program </span><span class="n">demo_escape</span>
 </pre></div>
@@ -337,7 +337,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-08-15 07:39 +0000             </p>
+ on 2026-08-21 14:29 +0000             </p>
           </div>
         </div>
         <br>

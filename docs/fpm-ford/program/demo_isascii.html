@@ -133,7 +133,7 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../program/demo_isascii.html#variable-ascii8">ascii8</a>
             <a class="list-group-item" href="../program/demo_isascii.html#variable-astring">astring</a>
-            <a class="list-group-item" href="../program/demo_isascii.html#variable-i~81">i</a>
+            <a class="list-group-item" href="../program/demo_isascii.html#variable-i~99">i</a>
             <a class="list-group-item" href="../program/demo_isascii.html#variable-uascii8">uascii8</a>
             <a class="list-group-item" href="../program/demo_isascii.html#variable-ustring~3">ustring</a>
         </div>
@@ -233,7 +233,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~81"></span>
+              <span class="anchor" id="variable-i~99"></span>
               integer
             </td>
             <td>
@@ -309,24 +309,24 @@
 <span class="w">         </span><span class="k">enddo</span>
 <span class="k">         </span><span class="n">uascii8</span><span class="o">=</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="mi">255</span><span class="p">)]</span>
 
-<span class="w">         </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">&#39;CHARACTER:   all of ascii8&#39;</span><span class="p">,</span><span class="n">isascii</span><span class="p">(</span><span class="n">ascii8</span><span class="p">)</span>
-<span class="w">         </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">&#39;CHARACTER:   all of ascii7&#39;</span><span class="p">,</span><span class="n">isascii</span><span class="p">(</span><span class="n">ascii8</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">128</span><span class="p">))</span>
-<span class="w">         </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">&#39;UNICODE TYPE:all of ascii8&#39;</span><span class="p">,</span><span class="n">isascii</span><span class="p">(</span><span class="n">uascii8</span><span class="p">)</span>
-<span class="w">         </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">&#39;UNICODE TYPE:all of ascii7&#39;</span><span class="p">,</span><span class="n">isascii</span><span class="p">(</span><span class="n">uascii8</span><span class="p">%</span><span class="n">sub</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">128</span><span class="p">))</span>
+<span class="w">         </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'CHARACTER:   all of ascii8'</span><span class="p">,</span><span class="n">isascii</span><span class="p">(</span><span class="n">ascii8</span><span class="p">)</span>
+<span class="w">         </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'CHARACTER:   all of ascii7'</span><span class="p">,</span><span class="n">isascii</span><span class="p">(</span><span class="n">ascii8</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">128</span><span class="p">))</span>
+<span class="w">         </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'UNICODE TYPE:all of ascii8'</span><span class="p">,</span><span class="n">isascii</span><span class="p">(</span><span class="n">uascii8</span><span class="p">)</span>
+<span class="w">         </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'UNICODE TYPE:all of ascii7'</span><span class="p">,</span><span class="n">isascii</span><span class="p">(</span><span class="n">uascii8</span><span class="p">%</span><span class="n">sub</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">128</span><span class="p">))</span>
 
 <span class="w">         </span><span class="c">! French pangram translates from the French to</span>
-<span class="w">         </span><span class="c">! &quot;Take this old whisky to the blond judge who is smoking.&quot;</span>
+<span class="w">         </span><span class="c">! "Take this old whisky to the blond judge who is smoking."</span>
 
-<span class="w">         </span><span class="n">astring</span><span class="o">=</span><span class="s1">&#39;Portez ce vieux whisky au juge blond qui fume.&#39;</span>
+<span class="w">         </span><span class="n">astring</span><span class="o">=</span><span class="s1">'Portez ce vieux whisky au juge blond qui fume.'</span>
 <span class="w">         </span><span class="n">ustring</span><span class="o">=</span><span class="n">astring</span>
-<span class="w">         </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">&#39;CHARACTER:   &#39;</span><span class="p">,</span><span class="n">isascii</span><span class="p">(</span><span class="n">astring</span><span class="p">),</span><span class="n">astring</span>
-<span class="w">         </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">&#39;UNICODE_TYPE:&#39;</span><span class="p">,</span><span class="n">isascii</span><span class="p">(</span><span class="n">ustring</span><span class="p">),</span><span class="n">ch</span><span class="p">(</span><span class="n">ustring</span><span class="p">)</span>
+<span class="w">         </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'CHARACTER:   '</span><span class="p">,</span><span class="n">isascii</span><span class="p">(</span><span class="n">astring</span><span class="p">),</span><span class="n">astring</span>
+<span class="w">         </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'UNICODE_TYPE:'</span><span class="p">,</span><span class="n">isascii</span><span class="p">(</span><span class="n">ustring</span><span class="p">),</span><span class="n">ch</span><span class="p">(</span><span class="n">ustring</span><span class="p">)</span>
 
 <span class="w">         </span><span class="c">! (variant with “é”)</span>
-<span class="w">         </span><span class="n">astring</span><span class="o">=</span><span class="s1">&#39;Portez ce vieux whisky au juge blond qui a fumé.&#39;</span>
+<span class="w">         </span><span class="n">astring</span><span class="o">=</span><span class="s1">'Portez ce vieux whisky au juge blond qui a fumé.'</span>
 <span class="w">         </span><span class="n">ustring</span><span class="o">=</span><span class="n">astring</span>
-<span class="w">         </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">&#39;CHARACTER    &#39;</span><span class="p">,</span><span class="n">isascii</span><span class="p">(</span><span class="n">ustring</span><span class="p">),</span><span class="n">ch</span><span class="p">(</span><span class="n">ustring</span><span class="p">)</span>
-<span class="w">         </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">&#39;UNICODE_TYPE:&#39;</span><span class="p">,</span><span class="n">isascii</span><span class="p">(</span><span class="n">ustring</span><span class="p">),</span><span class="n">ch</span><span class="p">(</span><span class="n">ustring</span><span class="p">)</span>
+<span class="w">         </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'CHARACTER    '</span><span class="p">,</span><span class="n">isascii</span><span class="p">(</span><span class="n">ustring</span><span class="p">),</span><span class="n">ch</span><span class="p">(</span><span class="n">ustring</span><span class="p">)</span>
+<span class="w">         </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'UNICODE_TYPE:'</span><span class="p">,</span><span class="n">isascii</span><span class="p">(</span><span class="n">ustring</span><span class="p">),</span><span class="n">ch</span><span class="p">(</span><span class="n">ustring</span><span class="p">)</span>
 
 <span class="w">      </span><span class="k">end program </span><span class="n">demo_isascii</span>
 </pre></div>
@@ -351,7 +351,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-08-15 07:39 +0000             </p>
+ on 2026-08-21 14:29 +0000             </p>
           </div>
         </div>
         <br>

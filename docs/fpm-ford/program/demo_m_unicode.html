@@ -131,11 +131,11 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../program/demo_m_unicode.html#variable-all">all</a>
-            <a class="list-group-item" href="../program/demo_m_unicode.html#variable-array~2">array</a>
-            <a class="list-group-item" href="../program/demo_m_unicode.html#variable-lowercase">lowercase</a>
+            <a class="list-group-item" href="../program/demo_m_unicode.html#variable-all~3">all</a>
+            <a class="list-group-item" href="../program/demo_m_unicode.html#variable-array~7">array</a>
+            <a class="list-group-item" href="../program/demo_m_unicode.html#variable-lowercase~2">lowercase</a>
             <a class="list-group-item" href="../program/demo_m_unicode.html#variable-numeric">numeric</a>
-            <a class="list-group-item" href="../program/demo_m_unicode.html#variable-string~7">string</a>
+            <a class="list-group-item" href="../program/demo_m_unicode.html#variable-string~64">string</a>
             <a class="list-group-item" href="../program/demo_m_unicode.html#variable-uppercase">uppercase</a>
         </div>
       </div>
@@ -178,8 +178,8 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/m_unicode.html'>M_unicode</a></li>
                   <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_fortran_env'>iso_fortran_env</a></li>
+                  <li class="list-inline-item"><a href='../module/m_unicode.html'>M_unicode</a></li>
               </ul>
             </li>
         </ul>
@@ -203,7 +203,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-all"></span>
+              <span class="anchor" id="variable-all~3"></span>
               character(len=*),
             </td>
             <td>
@@ -219,7 +219,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~2"></span>
+              <span class="anchor" id="variable-array~7"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
             <td>
@@ -235,7 +235,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lowercase"></span>
+              <span class="anchor" id="variable-lowercase~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>)
             </td>
             <td>
@@ -267,7 +267,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~7"></span>
+              <span class="anchor" id="variable-string~64"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>)
             </td>
             <td>
@@ -318,43 +318,42 @@ parameter
 <span class="w">     </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">tokenize</span><span class="p">,</span><span class="w"> </span><span class="n">replace</span><span class="p">,</span><span class="w"> </span><span class="kt">character</span><span class="p">,</span><span class="w"> </span><span class="n">upper</span><span class="p">,</span><span class="w"> </span><span class="n">lower</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span>
 <span class="nb">     </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">),</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">//</span><span class="p">)</span>
 <span class="w">     </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ut</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="n">ch</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="kt">character</span>
-<span class="w">     </span><span class="c">!use M_unicode,only : write(formatted)</span>
-<span class="w">     </span><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">string</span>
+<span class="kt">     </span><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">string</span>
 <span class="w">     </span><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">numeric</span><span class="p">,</span><span class="w"> </span><span class="n">uppercase</span><span class="p">,</span><span class="w"> </span><span class="n">lowercase</span>
 <span class="w">     </span><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">array</span><span class="p">(:)</span>
-<span class="w">     </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">     </span><span class="kd">::</span><span class="w"> </span><span class="k">all</span><span class="o">=</span><span class="s1">&#39;(g0)&#39;</span>
-<span class="w">     </span><span class="c">!character(len=*),parameter     :: uni=&#39;(DT)&#39;</span>
-<span class="w">     </span><span class="n">uppercase</span><span class="o">=</span><span class="s1">&#39;АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ&#39;</span>
-<span class="w">     </span><span class="n">lowercase</span><span class="o">=</span><span class="s1">&#39;абвгґдеєжзиіїйклмнопрстуфхцчшщьюя&#39;</span>
-<span class="w">     </span><span class="n">numeric</span><span class="o">=</span><span class="s1">&#39;0123456789&#39;</span>
+<span class="w">     </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">     </span><span class="kd">::</span><span class="w"> </span><span class="k">all</span><span class="o">=</span><span class="s1">'(g0)'</span>
+<span class="w">     </span><span class="c">!character(len=*),parameter     :: uni='(DT)'</span>
+<span class="w">     </span><span class="n">uppercase</span><span class="o">=</span><span class="s1">'АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ'</span>
+<span class="w">     </span><span class="n">lowercase</span><span class="o">=</span><span class="s1">'абвгґдеєжзиіїйклмнопрстуфхцчшщьюя'</span>
+<span class="w">     </span><span class="n">numeric</span><span class="o">=</span><span class="s1">'0123456789'</span>
 <span class="w">      </span><span class="c">!</span>
-<span class="w">      </span><span class="n">string</span><span class="o">=</span><span class="n">uppercase</span><span class="o">//</span><span class="n">numeric</span><span class="o">//</span><span class="n">lowercase</span>
+<span class="w">      </span><span class="n">string</span><span class="o">=</span><span class="n">uppercase</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">numeric</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">lowercase</span>
 <span class="w">      </span><span class="c">!</span>
-<span class="w">      </span><span class="k">print all</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Original string:&#39;</span>
+<span class="w">      </span><span class="k">print all</span><span class="p">,</span><span class="w"> </span><span class="s1">'Original string:'</span>
 <span class="w">      </span><span class="k">print all</span><span class="p">,</span><span class="w"> </span><span class="n">ch</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
-<span class="w">      </span><span class="k">print all</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;length in bytes :&#39;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">%</span><span class="kt">character</span><span class="p">())</span>
-<span class="w">      </span><span class="k">print all</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;length in glyphs:&#39;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+<span class="w">      </span><span class="k">print all</span><span class="p">,</span><span class="w"> </span><span class="s1">'length in bytes :'</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">%</span><span class="kt">character</span><span class="p">())</span>
+<span class="w">      </span><span class="k">print all</span><span class="p">,</span><span class="w"> </span><span class="s1">'length in glyphs:'</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
 <span class="w">      </span><span class="k">print all</span>
 <span class="w">      </span><span class="c">!</span>
-<span class="w">      </span><span class="k">print all</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;convert to all uppercase:&#39;</span>
+<span class="w">      </span><span class="k">print all</span><span class="p">,</span><span class="w"> </span><span class="s1">'convert to all uppercase:'</span>
 <span class="w">      </span><span class="k">print all</span><span class="p">,</span><span class="w"> </span><span class="n">ch</span><span class="p">(</span><span class="w"> </span><span class="n">UPPER</span><span class="p">(</span><span class="n">string</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
 <span class="w">      </span><span class="k">print all</span>
 <span class="w">      </span><span class="c">!</span>
-<span class="w">      </span><span class="k">print all</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;convert to all lowercase:&#39;</span>
+<span class="w">      </span><span class="k">print all</span><span class="p">,</span><span class="w"> </span><span class="s1">'convert to all lowercase:'</span>
 <span class="w">      </span><span class="k">print all</span><span class="p">,</span><span class="w"> </span><span class="n">ch</span><span class="p">(</span><span class="w"> </span><span class="n">string</span><span class="p">%</span><span class="n">LOWER</span><span class="p">()</span><span class="w"> </span><span class="p">)</span>
 <span class="w">      </span><span class="k">print all</span>
 <span class="w">      </span><span class="c">!</span>
-<span class="w">      </span><span class="k">print all</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;tokenize on spaces ... &#39;</span>
-<span class="w">      </span><span class="k">call </span><span class="n">TOKENIZE</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">),</span><span class="k">array</span><span class="p">)</span>
-<span class="w">      </span><span class="k">print all</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;... writing with A or G format:&#39;</span><span class="p">,</span><span class="kt">character</span><span class="p">(</span><span class="k">array</span><span class="p">)</span>
-<span class="w">      </span><span class="c">!print uni, ut(&#39;... writing with DT format&#39;),array</span>
+<span class="w">      </span><span class="k">print all</span><span class="p">,</span><span class="w"> </span><span class="s1">'tokenize on spaces ... '</span>
+<span class="w">      </span><span class="k">call </span><span class="n">TOKENIZE</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="n">ut</span><span class="p">(</span><span class="s1">' '</span><span class="p">),</span><span class="k">array</span><span class="p">)</span>
+<span class="w">      </span><span class="k">print all</span><span class="p">,</span><span class="w"> </span><span class="s1">'... writing with A or G format:'</span><span class="p">,</span><span class="kt">character</span><span class="p">(</span><span class="k">array</span><span class="p">)</span>
+<span class="w">      </span><span class="c">!print uni, ut('... writing with DT format'),array</span>
 <span class="w">      </span><span class="k">print all</span>
 <span class="w">      </span><span class="c">!</span>
-<span class="w">      </span><span class="k">print all</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;case-insensitive replace:&#39;</span>
+<span class="w">      </span><span class="k">print all</span><span class="p">,</span><span class="w"> </span><span class="s1">'case-insensitive replace:'</span>
 <span class="w">      </span><span class="k">print all</span><span class="p">,</span><span class="w"> </span><span class="n">ch</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">      </span><span class="p">&amp;</span><span class="w"> </span><span class="n">REPLACE</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">      </span><span class="p">&amp;</span><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;клмнопрс&#39;</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">      </span><span class="p">&amp;</span><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;--------&#39;</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">      </span><span class="p">&amp;</span><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s1">'клмнопрс'</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">      </span><span class="p">&amp;</span><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s1">'--------'</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">      </span><span class="p">&amp;</span><span class="w"> </span><span class="n">ignorecase</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.)</span><span class="w"> </span><span class="p">)</span>
 <span class="w">      </span><span class="c">!</span>
 <span class="w">      </span><span class="k">print all</span>
@@ -382,7 +381,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-08-15 07:39 +0000             </p>
+ on 2026-08-21 14:29 +0000             </p>
           </div>
         </div>
         <br>

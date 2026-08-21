@@ -131,10 +131,10 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../program/demo_adjustr.html#variable-array~7">array</a>
-            <a class="list-group-item" href="../program/demo_adjustr.html#variable-bracket~3">bracket</a>
-            <a class="list-group-item" href="../program/demo_adjustr.html#variable-i~84">i</a>
-            <a class="list-group-item" href="../program/demo_adjustr.html#variable-str~21">str</a>
+            <a class="list-group-item" href="../program/demo_adjustr.html#variable-array~8">array</a>
+            <a class="list-group-item" href="../program/demo_adjustr.html#variable-bracket~4">bracket</a>
+            <a class="list-group-item" href="../program/demo_adjustr.html#variable-i~89">i</a>
+            <a class="list-group-item" href="../program/demo_adjustr.html#variable-str~20">str</a>
         </div>
       </div>
     </div>
@@ -211,7 +211,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~7"></span>
+              <span class="anchor" id="variable-array~8"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
             <td>
@@ -227,7 +227,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-bracket~3"></span>
+              <span class="anchor" id="variable-bracket~4"></span>
               character(len=*),
             </td>
             <td>
@@ -243,7 +243,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~84"></span>
+              <span class="anchor" id="variable-i~89"></span>
               integer
             </td>
             <td>
@@ -259,7 +259,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~21"></span>
+              <span class="anchor" id="variable-str~20"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>)
             </td>
             <td>
@@ -341,12 +341,12 @@ parameter
 <span class="k">    type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">str</span>
 <span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">),</span><span class="k">allocatable</span><span class="w">       </span><span class="kd">::</span><span class="w"> </span><span class="k">array</span><span class="p">(:)</span>
 <span class="w">    </span><span class="kt">integer</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
-<span class="w">    </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">bracket</span><span class="o">=</span><span class="s1">&#39;(&quot;[&quot;,DT,&quot;]&quot;)&#39;</span>
+<span class="w">    </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">bracket</span><span class="o">=</span><span class="s1">'("[",DT,"]")'</span>
 <span class="w">        </span><span class="c">!</span>
 <span class="w">        </span><span class="k">call </span><span class="n">numberline</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="w">        </span><span class="c">!</span>
 <span class="w">        </span><span class="c">! basic usage</span>
-<span class="w">        </span><span class="n">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;  sample string     &#39;</span>
+<span class="w">        </span><span class="n">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'  sample string     '</span>
 <span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">bracket</span><span class="p">)</span><span class="w"> </span><span class="n">str</span>
 <span class="w">        </span><span class="n">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">adjustr</span><span class="p">(</span><span class="n">str</span><span class="p">)</span>
 <span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">bracket</span><span class="p">)</span><span class="w"> </span><span class="n">str</span>
@@ -355,18 +355,18 @@ parameter
 <span class="w">        </span><span class="c">!</span>
 <span class="w">        </span><span class="c">! elemental</span>
 <span class="w">        </span><span class="k">array</span><span class="o">=</span><span class="n">ut</span><span class="p">([</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">        </span><span class="s1">&#39;    एक (ek) &#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">        </span><span class="s1">&#39;       दो (do) &#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">        </span><span class="s1">&#39;          तीन(teen) &#39;</span><span class="w"> </span><span class="p">])</span>
+<span class="w">        </span><span class="s1">'    एक (ek) '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">        </span><span class="s1">'       दो (do) '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">        </span><span class="s1">'          तीन(teen) '</span><span class="w"> </span><span class="p">])</span>
 <span class="w">        </span><span class="c">!</span>
 <span class="w">        </span><span class="c">! print array unadjusted</span>
 <span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">bracket</span><span class="p">)</span><span class="k">array</span>
 <span class="w">        </span><span class="c">!do i=1,size(array)</span>
-<span class="w">        </span><span class="c">!   write(*,&#39;(*(g0,1x))&#39;)array(i)%codepoint()</span>
+<span class="w">        </span><span class="c">!   write(*,'(*(g0,1x))')array(i)%codepoint()</span>
 <span class="w">        </span><span class="c">!enddo</span>
 <span class="w">        </span><span class="c">! note 50 bytes is not necessarily 50 glyphs</span>
-<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(*(g0,1x))&#39;</span><span class="p">)</span><span class="s1">&#39;length in glyphs=&#39;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="k">array</span><span class="p">)</span>
-<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(*(g0,1x))&#39;</span><span class="p">)</span><span class="s1">&#39;length in bytes=&#39;</span><span class="p">,(</span><span class="nb">len</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="kt">character</span><span class="p">()),</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="k">array</span><span class="p">))</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(*(g0,1x))'</span><span class="p">)</span><span class="s1">'length in glyphs='</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="k">array</span><span class="p">)</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(*(g0,1x))'</span><span class="p">)</span><span class="s1">'length in bytes='</span><span class="p">,(</span><span class="nb">len</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="kt">character</span><span class="p">()),</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="k">array</span><span class="p">))</span>
 <span class="w">        </span><span class="c">!</span>
 <span class="w">        </span><span class="k">call </span><span class="n">numberline</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 <span class="w">        </span><span class="c">!</span>
@@ -376,29 +376,29 @@ parameter
 <span class="w">        </span><span class="k">call </span><span class="n">numberline</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 <span class="w">        </span><span class="c">!</span>
 <span class="w">        </span><span class="c">! print array right-justified specifying number of glyphs</span>
-<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">&#39;set to 50&#39;</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'set to 50'</span>
 <span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">bracket</span><span class="p">)</span><span class="nb">adjustr</span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="mi">50</span><span class="p">)</span>
 <span class="w">        </span><span class="c">!</span>
-<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">&#39;set to 60&#39;</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'set to 60'</span>
 <span class="w">        </span><span class="k">call </span><span class="n">numberline</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
 <span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">bracket</span><span class="p">)</span><span class="nb">adjustr</span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="mi">60</span><span class="p">)</span>
-<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">&#39;set to 40&#39;</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'set to 40'</span>
 <span class="w">        </span><span class="k">call </span><span class="n">numberline</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 <span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">bracket</span><span class="p">)</span><span class="nb">adjustr</span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="mi">40</span><span class="p">)</span>
-<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">&#39;set to 10&#39;</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'set to 10'</span>
 <span class="w">        </span><span class="k">call </span><span class="n">numberline</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">bracket</span><span class="p">)</span><span class="nb">adjustr</span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
-<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">&#39;set to 5&#39;</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'set to 5'</span>
 <span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">bracket</span><span class="p">)</span><span class="nb">adjustr</span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
-<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">&#39;set to 4&#39;</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'set to 4'</span>
 <span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">bracket</span><span class="p">)</span><span class="nb">adjustr</span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
-<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">&#39;set to 1&#39;</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'set to 1'</span>
 <span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">bracket</span><span class="p">)</span><span class="nb">adjustr</span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
 <span class="w">     </span><span class="k">contains</span>
 <span class="w">        </span><span class="c">!</span>
 <span class="w">        </span><span class="k">subroutine </span><span class="n">numberline</span><span class="p">(</span><span class="n">ireps</span><span class="p">)</span>
 <span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ireps</span>
-<span class="w">           </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(1x,a)&#39;</span><span class="p">)</span><span class="nb">repeat</span><span class="p">(</span><span class="s1">&#39;1234567890&#39;</span><span class="p">,</span><span class="n">ireps</span><span class="p">)</span>
+<span class="w">           </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(1x,a)'</span><span class="p">)</span><span class="nb">repeat</span><span class="p">(</span><span class="s1">'1234567890'</span><span class="p">,</span><span class="n">ireps</span><span class="p">)</span>
 <span class="w">        </span><span class="k">end subroutine </span><span class="n">numberline</span>
 <span class="w">     </span><span class="k">end program </span><span class="n">demo_adjustr</span>
 </pre></div>
@@ -423,7 +423,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-08-15 07:39 +0000             </p>
+ on 2026-08-21 14:29 +0000             </p>
           </div>
         </div>
         <br>

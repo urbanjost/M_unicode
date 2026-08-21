@@ -328,38 +328,38 @@ parameter
 <span class="w">      </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="k">write</span><span class="p">(</span><span class="n">formatted</span><span class="p">),</span><span class="n">ch</span><span class="o">=&gt;</span><span class="kt">character</span>
 <span class="kt">      </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">)</span>
 <span class="w">      </span><span class="k">implicit none</span>
-<span class="k">      </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">u</span><span class="o">=</span><span class="s1">&#39;(DT)&#39;</span>
+<span class="k">      </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">u</span><span class="o">=</span><span class="s1">'(DT)'</span>
 <span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">STRING</span><span class="p">,</span><span class="w"> </span><span class="n">UPPER</span><span class="p">,</span><span class="w"> </span><span class="n">LOWER</span>
 <span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">MIDDLE_DOT</span>
 
-<span class="w">         </span><span class="n">STRING</span><span class="o">=</span><span class="s1">&#39;aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ&#39;</span>
-<span class="w">         </span><span class="n">LOWER</span><span class="o">=</span><span class="s1">&#39;abcdefghijklmnopqrstuvwxyz&#39;</span>
-<span class="w">         </span><span class="n">UPPER</span><span class="o">=</span><span class="s1">&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ&#39;</span>
+<span class="w">         </span><span class="n">STRING</span><span class="o">=</span><span class="s1">'aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ'</span>
+<span class="w">         </span><span class="n">LOWER</span><span class="o">=</span><span class="s1">'abcdefghijklmnopqrstuvwxyz'</span>
+<span class="w">         </span><span class="n">UPPER</span><span class="o">=</span><span class="s1">'ABCDEFGHIJKLMNOPQRSTUVWXYZ'</span>
 <span class="w">         </span><span class="k">call </span><span class="n">callit</span><span class="p">()</span>
 
 <span class="w">         </span><span class="k">print </span><span class="n">u</span>
-<span class="w">         </span><span class="k">print </span><span class="n">u</span><span class="p">,</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;Greek&#39;</span><span class="p">)</span>
+<span class="w">         </span><span class="k">print </span><span class="n">u</span><span class="p">,</span><span class="n">ut</span><span class="p">(</span><span class="s1">'Greek'</span><span class="p">)</span>
 <span class="w">         </span><span class="c">!</span>
 <span class="w">         </span><span class="c">! | Α α | Β β | Γ γ | Δ δ | Ε ε | Ζ ζ       |</span>
 <span class="w">         </span><span class="c">! | Η η | Θ θ | Ι ι | Κ κ | Λ λ | Μ μ       |</span>
 <span class="w">         </span><span class="c">! | Ν ν | Ξ ξ | Ο ο | Π π | Ρ ρ | Σ σ ς |</span>
 <span class="w">         </span><span class="c">! | Τ τ | Υ υ | Φ φ | Χ χ | Ψ ψ | Ω ω       |</span>
 <span class="w">         </span><span class="c">!</span>
-<span class="w">         </span><span class="n">STRING</span><span class="o">=</span><span class="s1">&#39;ΑαΒβΓγΔδΕεΖζΗηΘθΙιΚκΛλΜμΝνΞξΟοΠπΡρΣσςΤτΥυΦφΧχΨψΩω&#39;</span>
+<span class="w">         </span><span class="n">STRING</span><span class="o">=</span><span class="s1">'ΑαΒβΓγΔδΕεΖζΗηΘθΙιΚκΛλΜμΝνΞξΟοΠπΡρΣσςΤτΥυΦφΧχΨψΩω'</span>
 <span class="w">         </span><span class="c">! ignoring ς for simplicity</span>
-<span class="w">         </span><span class="n">UPPER</span><span class="o">=</span><span class="s1">&#39;ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ&#39;</span>
-<span class="w">         </span><span class="n">LOWER</span><span class="o">=</span><span class="s1">&#39;αβγδεζηθικλμνξοπρστυφχψω&#39;</span>
+<span class="w">         </span><span class="n">UPPER</span><span class="o">=</span><span class="s1">'ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ'</span>
+<span class="w">         </span><span class="n">LOWER</span><span class="o">=</span><span class="s1">'αβγδεζηθικλμνξοπρστυφχψω'</span>
 <span class="w">         </span><span class="k">call </span><span class="n">callit</span><span class="p">()</span>
 
 <span class="w">         </span><span class="c">! OOP</span>
 <span class="w">         </span><span class="k">print </span><span class="n">u</span>
-<span class="w">         </span><span class="k">print </span><span class="n">u</span><span class="p">,</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;OOP!&#39;</span><span class="p">)</span>
-<span class="w">         </span><span class="k">print </span><span class="n">u</span><span class="p">,</span><span class="n">STRING</span><span class="p">%</span><span class="n">TRANSLITERATE</span><span class="p">(</span><span class="n">UPPER</span><span class="p">,</span><span class="s1">&#39;_&#39;</span><span class="p">)</span>
+<span class="w">         </span><span class="k">print </span><span class="n">u</span><span class="p">,</span><span class="n">ut</span><span class="p">(</span><span class="s1">'OOP!'</span><span class="p">)</span>
+<span class="w">         </span><span class="k">print </span><span class="n">u</span><span class="p">,</span><span class="n">STRING</span><span class="p">%</span><span class="n">TRANSLITERATE</span><span class="p">(</span><span class="n">UPPER</span><span class="p">,</span><span class="s1">'_'</span><span class="p">)</span>
 
 <span class="w">         </span><span class="c">! U+00B7 Middle Dot Unicode Character</span>
-<span class="w">         </span><span class="k">print </span><span class="n">u</span><span class="p">,</span><span class="n">STRING</span><span class="p">%</span><span class="n">TRANSLITERATE</span><span class="p">(</span><span class="n">LOWER</span><span class="p">,</span><span class="s1">&#39;·&#39;</span><span class="p">)</span><span class="w"> </span><span class="c">! ASCII bytes</span>
-<span class="w">         </span><span class="k">print </span><span class="n">u</span><span class="p">,</span><span class="n">STRING</span><span class="p">%</span><span class="n">TRANSLITERATE</span><span class="p">(</span><span class="n">LOWER</span><span class="p">,</span><span class="n">ut</span><span class="p">(</span><span class="s1">&#39;·&#39;</span><span class="p">))</span><span class="w"> </span><span class="c">! cast</span>
-<span class="w">         </span><span class="n">MIDDLE_DOT</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">&#39;00B7&#39;</span><span class="p">)</span>
+<span class="w">         </span><span class="k">print </span><span class="n">u</span><span class="p">,</span><span class="n">STRING</span><span class="p">%</span><span class="n">TRANSLITERATE</span><span class="p">(</span><span class="n">LOWER</span><span class="p">,</span><span class="s1">'·'</span><span class="p">)</span><span class="w"> </span><span class="c">! ASCII bytes</span>
+<span class="w">         </span><span class="k">print </span><span class="n">u</span><span class="p">,</span><span class="n">STRING</span><span class="p">%</span><span class="n">TRANSLITERATE</span><span class="p">(</span><span class="n">LOWER</span><span class="p">,</span><span class="n">ut</span><span class="p">(</span><span class="s1">'·'</span><span class="p">))</span><span class="w"> </span><span class="c">! cast</span>
+<span class="w">         </span><span class="n">MIDDLE_DOT</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'00B7'</span><span class="p">)</span>
 <span class="w">         </span><span class="k">print </span><span class="n">u</span><span class="p">,</span><span class="n">STRING</span><span class="p">%</span><span class="n">TRANSLITERATE</span><span class="p">(</span><span class="n">LOWER</span><span class="p">,</span><span class="n">MIDDLE_DOT</span><span class="p">)</span><span class="w"> </span><span class="c">! hexadecimal</span>
 
 <span class="w">      </span><span class="k">contains</span>
@@ -369,11 +369,11 @@ parameter
 <span class="w">           </span><span class="c">! convert -7 string to uppercase:</span>
 <span class="w">           </span><span class="k">print </span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="n">TRANSLITERATE</span><span class="p">(</span><span class="n">STRING</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">LOWER</span><span class="p">,</span><span class="w"> </span><span class="n">UPPER</span><span class="w"> </span><span class="p">)</span>
 
-<span class="w">           </span><span class="c">! change all miniscule letters to a colon (&quot;:&quot;):</span>
-<span class="w">           </span><span class="k">print </span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="n">TRANSLITERATE</span><span class="p">(</span><span class="n">STRING</span><span class="p">,</span><span class="w"> </span><span class="n">LOWER</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;:&#39;</span><span class="p">)</span>
+<span class="w">           </span><span class="c">! change all miniscule letters to a colon (":"):</span>
+<span class="w">           </span><span class="k">print </span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="n">TRANSLITERATE</span><span class="p">(</span><span class="n">STRING</span><span class="p">,</span><span class="w"> </span><span class="n">LOWER</span><span class="p">,</span><span class="w"> </span><span class="s1">':'</span><span class="p">)</span>
 
 <span class="w">           </span><span class="c">! delete all miniscule letters</span>
-<span class="w">           </span><span class="k">print </span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="n">TRANSLITERATE</span><span class="p">(</span><span class="n">STRING</span><span class="p">,</span><span class="w"> </span><span class="n">LOWER</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="w">           </span><span class="k">print </span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="n">TRANSLITERATE</span><span class="p">(</span><span class="n">STRING</span><span class="p">,</span><span class="w"> </span><span class="n">LOWER</span><span class="p">,</span><span class="w"> </span><span class="s1">''</span><span class="p">)</span>
 
 <span class="w">           </span><span class="k">end subroutine </span><span class="n">callit</span>
 
@@ -400,7 +400,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-08-15 07:39 +0000             </p>
+ on 2026-08-21 14:29 +0000             </p>
           </div>
         </div>
         <br>

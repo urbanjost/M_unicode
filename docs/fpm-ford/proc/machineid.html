@@ -133,9 +133,9 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../proc/machineid.html#variable-iostat~3">iostat</a>
-            <a class="list-group-item" href="../proc/machineid.html#variable-line~4">line</a>
-            <a class="list-group-item" href="../proc/machineid.html#variable-lun">lun</a>
+            <a class="list-group-item" href="../proc/machineid.html#variable-iostat~7">iostat</a>
+            <a class="list-group-item" href="../proc/machineid.html#variable-line~19">line</a>
+            <a class="list-group-item" href="../proc/machineid.html#variable-lun~3">lun</a>
         </div>
       </div>
     </div>
@@ -197,7 +197,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-iostat~3"></span>
+              <span class="anchor" id="variable-iostat~7"></span>
               integer,
             </td>
               <td>public</td>
@@ -214,7 +214,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-line~4"></span>
+              <span class="anchor" id="variable-line~19"></span>
               character(len=256),
             </td>
               <td>public</td>
@@ -231,7 +231,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lun"></span>
+              <span class="anchor" id="variable-lun~3"></span>
               integer,
             </td>
               <td>public</td>
@@ -268,11 +268,11 @@
 <span class="kt">integer</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">lun</span>
 <span class="kt">integer</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">iostat</span>
 <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">line</span>
-<span class="w">   </span><span class="k">open</span><span class="p">(</span><span class="n">newunit</span><span class="o">=</span><span class="n">lun</span><span class="p">,</span><span class="k">file</span><span class="o">=</span><span class="s1">&#39;/var/lib/dbus/machine-id&#39;</span><span class="p">,</span><span class="n">iostat</span><span class="o">=</span><span class="n">iostat</span><span class="p">)</span>
+<span class="w">   </span><span class="k">open</span><span class="p">(</span><span class="n">newunit</span><span class="o">=</span><span class="n">lun</span><span class="p">,</span><span class="k">file</span><span class="o">=</span><span class="s1">'/var/lib/dbus/machine-id'</span><span class="p">,</span><span class="n">iostat</span><span class="o">=</span><span class="n">iostat</span><span class="p">)</span>
 <span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="n">iostat</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>
-<span class="k">      read</span><span class="p">(</span><span class="n">lun</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">,</span><span class="n">iostat</span><span class="o">=</span><span class="n">iostat</span><span class="p">)</span><span class="n">line</span>
+<span class="k">      read</span><span class="p">(</span><span class="n">lun</span><span class="p">,</span><span class="s1">'(a)'</span><span class="p">,</span><span class="n">iostat</span><span class="o">=</span><span class="n">iostat</span><span class="p">)</span><span class="n">line</span>
 <span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">iostat</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>
-<span class="k">         write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(*(g0))&#39;</span><span class="p">)</span><span class="s1">&#39;pseudo machine-id : &#39;</span><span class="p">,</span><span class="nb">trim</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+<span class="k">         write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(*(g0))'</span><span class="p">)</span><span class="s1">'pseudo machine-id : '</span><span class="p">,</span><span class="nb">trim</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
 <span class="w">      </span><span class="k">endif</span>
 <span class="k">   endif</span>
 <span class="k">end subroutine </span><span class="n">machineid</span>
@@ -299,7 +299,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-08-15 07:39 +0000             </p>
+ on 2026-08-21 14:29 +0000             </p>
           </div>
         </div>
         <br>

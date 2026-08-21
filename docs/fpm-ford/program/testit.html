@@ -134,7 +134,7 @@
             <a class="list-group-item" href="../program/testit.html#variable-g~6">g</a>
             <a class="list-group-item" href="../program/testit.html#variable-gh">gh</a>
             <a class="list-group-item" href="../program/testit.html#variable-gx">gx</a>
-            <a class="list-group-item" href="../program/testit.html#variable-ustr~2">ustr</a>
+            <a class="list-group-item" href="../program/testit.html#variable-ustr~4">ustr</a>
         </div>
       </div>
     </div>
@@ -176,8 +176,8 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/m_unicode.html'>M_unicode</a></li>
                   <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_fortran_env'>iso_fortran_env</a></li>
+                  <li class="list-inline-item"><a href='../module/m_unicode.html'>M_unicode</a></li>
               </ul>
             </li>
         </ul>
@@ -249,7 +249,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ustr~2"></span>
+              <span class="anchor" id="variable-ustr~4"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>)
             </td>
             <td>
@@ -313,9 +313,9 @@ parameter
 <span class="c">! example usage:</span>
 <span class="k">implicit none</span>
 <span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">ustr</span>
-<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">g</span><span class="o">=</span><span class="s1">&#39;(*(g0))&#39;</span>
-<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">gx</span><span class="o">=</span><span class="s1">&#39;(*(g0,1x))&#39;</span>
-<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">gh</span><span class="o">=</span><span class="s1">&#39;(*(z0,1x))&#39;</span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">g</span><span class="o">=</span><span class="s1">'(*(g0))'</span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">gx</span><span class="o">=</span><span class="s1">'(*(g0,1x))'</span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">gh</span><span class="o">=</span><span class="s1">'(*(z0,1x))'</span>
 
 <span class="w">   </span><span class="c">! Constructors</span>
 <span class="w">   </span><span class="c">! UNICODE_VARIABLE= UNICODE_VARIABLE|CHARACTER(LEN=*)|INTEGER_ARRAY</span>
@@ -323,12 +323,12 @@ parameter
 <span class="w">   </span><span class="c">! VARIABLE%CHARACTER(start,end,step) returns a CHARACTER string</span>
 <span class="w">   </span><span class="c">! VARIABLE%BYTE() returns an array of CHARACTER(len=1) values</span>
 
-<span class="w">   </span><span class="n">ustr</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Hello World and Ni Hao -- 你好  &#39;</span>
+<span class="w">   </span><span class="n">ustr</span><span class="o">=</span><span class="w"> </span><span class="s1">'Hello World and Ni Hao -- 你好  '</span>
 
 <span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="kt">character</span><span class="p">(</span><span class="n">ustr</span><span class="p">)</span><span class="w"> </span><span class="c">! convert to intrinsic CHARACTER variable</span>
 <span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">ustr</span><span class="p">)</span>
 <span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="nb">len_trim</span><span class="p">(</span><span class="n">ustr</span><span class="p">)</span>
-<span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="nb">index</span><span class="p">(</span><span class="n">ustr</span><span class="p">,</span><span class="s1">&#39;你&#39;</span><span class="p">)</span>
+<span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="nb">index</span><span class="p">(</span><span class="n">ustr</span><span class="p">,</span><span class="s1">'你'</span><span class="p">)</span>
 
 <span class="w">   </span><span class="c">! OOPS</span>
 <span class="w">   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w">  </span><span class="n">ustr</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="w">      </span><span class="c">! convert to CHARACTER variable</span>
@@ -362,7 +362,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-08-15 07:39 +0000             </p>
+ on 2026-08-21 14:29 +0000             </p>
           </div>
         </div>
         <br>

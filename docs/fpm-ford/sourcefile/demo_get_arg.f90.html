@@ -179,10 +179,10 @@
 <a id="ln-7" name="ln-7" href="#ln-7"></a><span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">value</span>
 <a id="ln-8" name="ln-8" href="#ln-8"></a><span class="k">      type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">smiley</span>
 <a id="ln-9" name="ln-9" href="#ln-9"></a><span class="w">      </span><span class="kt">integer</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
-<a id="ln-10" name="ln-10" href="#ln-10"></a><span class="w">      </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">bracket</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;(1x,*(&quot;[&quot;,a,&quot;]&quot;,:))&#39;</span>
+<a id="ln-10" name="ln-10" href="#ln-10"></a><span class="w">      </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">bracket</span><span class="o">=</span><span class="w"> </span><span class="s1">'(1x,*("[",a,"]",:))'</span>
 <a id="ln-11" name="ln-11" href="#ln-11"></a><span class="w">         </span><span class="c">!</span>
 <a id="ln-12" name="ln-12" href="#ln-12"></a><span class="w">         </span><span class="n">smiley</span><span class="o">=</span><span class="mi">128515</span><span class="w"> </span><span class="c">! set with Unicode code point</span>
-<a id="ln-13" name="ln-13" href="#ln-13"></a><span class="w">         </span><span class="n">default</span><span class="o">=</span><span class="s1">&#39;Wish I was first &#39;</span><span class="o">//</span><span class="n">smiley</span><span class="o">//</span><span class="s1">&#39;!&#39;</span><span class="w"> </span><span class="c">! set with unicode_type</span>
+<a id="ln-13" name="ln-13" href="#ln-13"></a><span class="w">         </span><span class="n">default</span><span class="o">=</span><span class="s1">'Wish I was first '</span><span class="o">//</span><span class="n">smiley</span><span class="o">//</span><span class="s1">'!'</span><span class="w"> </span><span class="c">! set with unicode_type</span>
 <a id="ln-14" name="ln-14" href="#ln-14"></a><span class="w">         </span><span class="c">!</span>
 <a id="ln-15" name="ln-15" href="#ln-15"></a><span class="w">         </span><span class="c">! arguments can be type(unicode_type) or character</span>
 <a id="ln-16" name="ln-16" href="#ln-16"></a><span class="w">         </span><span class="c">! but type(unicode_type) is always returned</span>
@@ -191,7 +191,7 @@
 <a id="ln-19" name="ln-19" href="#ln-19"></a><span class="w">            </span><span class="k">value</span><span class="o">=</span><span class="n">get_arg</span><span class="p">(</span><span class="n">position</span><span class="p">,</span><span class="w"> </span><span class="n">default</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="w"> </span><span class="p">)</span>
 <a id="ln-20" name="ln-20" href="#ln-20"></a><span class="w">            </span><span class="c">!</span>
 <a id="ln-21" name="ln-21" href="#ln-21"></a><span class="w">            </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="k">value</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span>
-<a id="ln-22" name="ln-22" href="#ln-22"></a><span class="w">            </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(DT)&#39;</span><span class="p">)</span><span class="n">default</span><span class="p">%</span><span class="n">get_arg</span><span class="p">(</span><span class="n">position</span><span class="p">)</span>
+<a id="ln-22" name="ln-22" href="#ln-22"></a><span class="w">            </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(DT)'</span><span class="p">)</span><span class="n">default</span><span class="p">%</span><span class="n">get_arg</span><span class="p">(</span><span class="n">position</span><span class="p">)</span>
 <a id="ln-23" name="ln-23" href="#ln-23"></a><span class="w">            </span><span class="c">!</span>
 <a id="ln-24" name="ln-24" href="#ln-24"></a><span class="w">            </span><span class="c">! print each glyph surrounded by brackets</span>
 <a id="ln-25" name="ln-25" href="#ln-25"></a><span class="w">            </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">bracket</span><span class="p">)(</span><span class="k">value</span><span class="p">%</span><span class="kt">character</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">i</span><span class="p">),</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="k">value</span><span class="p">%</span><span class="nb">len</span><span class="p">())</span>
@@ -219,7 +219,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-08-15 07:39 +0000             </p>
+ on 2026-08-21 14:29 +0000             </p>
           </div>
         </div>
         <br>
