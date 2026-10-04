@@ -90,7 +90,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 2.1% of total for programs.">47 statements</a>
+                 title=" 2.1% of total for programs.">49 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -191,40 +191,42 @@
 <span class="w">   </span><span class="c">!open (output_unit, encoding='UTF-8')</span>
 
 <span class="w">   </span><span class="k">call </span><span class="n">platform</span><span class="p">()</span>
+<span class="w">   </span><span class="k">call </span><span class="n">test_add_backslash</span><span class="p">()</span>
+<span class="w">   </span><span class="k">call </span><span class="n">test_add_border</span><span class="p">()</span>
+<span class="w">   </span><span class="k">call </span><span class="n">test_add_html</span><span class="p">()</span>
 <span class="w">   </span><span class="k">call </span><span class="n">test_adjustl</span><span class="p">()</span>
 <span class="w">   </span><span class="k">call </span><span class="n">test_adjustr</span><span class="p">()</span>
-<span class="w">   </span><span class="k">call </span><span class="n">test_trim</span><span class="p">()</span>
-<span class="w">   </span><span class="k">call </span><span class="n">test_len_trim</span><span class="p">()</span>
-<span class="w">   </span><span class="k">call </span><span class="n">test_len</span><span class="p">()</span>
-<span class="w">   </span><span class="k">call </span><span class="n">test_index</span><span class="p">()</span>
-<span class="w">   </span><span class="k">call </span><span class="n">test_repeat</span><span class="p">()</span>
-<span class="w">   </span><span class="k">call </span><span class="n">test_transliterate</span><span class="p">()</span>
-<span class="w">   </span><span class="k">call </span><span class="n">test_upper</span><span class="p">()</span>
-<span class="w">   </span><span class="k">call </span><span class="n">test_lower</span><span class="p">()</span>
-<span class="w">   </span><span class="k">call </span><span class="n">test_tokenize</span><span class="p">()</span>
-<span class="w">   </span><span class="k">call </span><span class="n">test_expand_html</span><span class="p">()</span>
-<span class="w">   </span><span class="k">call </span><span class="n">test_sort</span><span class="p">()</span>
-<span class="w">   </span><span class="k">call </span><span class="n">test_operators</span><span class="p">()</span>
-<span class="w">   </span><span class="k">call </span><span class="n">test_split</span><span class="p">()</span>
-<span class="w">   </span><span class="k">call </span><span class="n">test_scan</span><span class="p">()</span>
-<span class="w">   </span><span class="k">call </span><span class="n">test_verify</span><span class="p">()</span>
-<span class="w">   </span><span class="k">call </span><span class="n">test_ichar</span><span class="p">()</span>
-<span class="w">   </span><span class="k">call </span><span class="n">test_replace</span><span class="p">()</span>
-<span class="w">   </span><span class="k">call </span><span class="n">test_sub</span><span class="p">()</span>
-<span class="w">   </span><span class="k">call </span><span class="n">test_pad</span><span class="p">()</span>
-<span class="w">   </span><span class="k">call </span><span class="n">test_join</span><span class="p">()</span>
-<span class="w">   </span><span class="k">call </span><span class="n">test_expandtabs</span><span class="p">()</span>
-<span class="w">   </span><span class="k">call </span><span class="n">test_reverse</span><span class="p">()</span>
-<span class="w">   </span><span class="k">call </span><span class="n">test_fmt</span><span class="p">()</span>
+<span class="w">   </span><span class="k">call </span><span class="n">test_concatenate</span><span class="p">()</span>
 <span class="w">   </span><span class="k">call </span><span class="n">test_escape</span><span class="p">()</span>
-<span class="w">   </span><span class="k">call </span><span class="n">test_add_backslash</span><span class="p">()</span>
-<span class="w">   </span><span class="k">call </span><span class="n">test_pound_to_box</span><span class="p">()</span>
-<span class="w">   </span><span class="k">call </span><span class="n">test_add_border</span><span class="p">()</span>
+<span class="w">   </span><span class="k">call </span><span class="n">test_expand_html</span><span class="p">()</span>
+<span class="w">   </span><span class="k">call </span><span class="n">test_expandtabs</span><span class="p">()</span>
+<span class="w">   </span><span class="k">call </span><span class="n">test_fmt</span><span class="p">()</span>
+<span class="w">   </span><span class="k">call </span><span class="n">test_get_env</span><span class="p">()</span>
+<span class="w">   </span><span class="k">call </span><span class="n">test_glob</span><span class="p">()</span>
+<span class="w">   </span><span class="k">call </span><span class="n">test_ichar</span><span class="p">()</span>
+<span class="w">   </span><span class="k">call </span><span class="n">test_index</span><span class="p">()</span>
 <span class="w">   </span><span class="k">call </span><span class="n">test_isascii</span><span class="p">()</span>
 <span class="w">   </span><span class="k">call </span><span class="n">test_isblank</span><span class="p">()</span>
 <span class="w">   </span><span class="k">call </span><span class="n">test_isspace</span><span class="p">()</span>
-<span class="w">   </span><span class="k">call </span><span class="n">test_concatenate</span><span class="p">()</span>
-<span class="w">   </span><span class="k">call </span><span class="n">test_glob</span><span class="p">()</span>
+<span class="w">   </span><span class="k">call </span><span class="n">test_join</span><span class="p">()</span>
+<span class="w">   </span><span class="k">call </span><span class="n">test_len</span><span class="p">()</span>
+<span class="w">   </span><span class="k">call </span><span class="n">test_len_trim</span><span class="p">()</span>
+<span class="w">   </span><span class="k">call </span><span class="n">test_lower</span><span class="p">()</span>
+<span class="w">   </span><span class="k">call </span><span class="n">test_operators</span><span class="p">()</span>
+<span class="w">   </span><span class="k">call </span><span class="n">test_pad</span><span class="p">()</span>
+<span class="w">   </span><span class="k">call </span><span class="n">test_pound_to_box</span><span class="p">()</span>
+<span class="w">   </span><span class="k">call </span><span class="n">test_repeat</span><span class="p">()</span>
+<span class="w">   </span><span class="k">call </span><span class="n">test_replace</span><span class="p">()</span>
+<span class="w">   </span><span class="k">call </span><span class="n">test_reverse</span><span class="p">()</span>
+<span class="w">   </span><span class="k">call </span><span class="n">test_scan</span><span class="p">()</span>
+<span class="w">   </span><span class="k">call </span><span class="n">test_sort</span><span class="p">()</span>
+<span class="w">   </span><span class="k">call </span><span class="n">test_split</span><span class="p">()</span>
+<span class="w">   </span><span class="k">call </span><span class="n">test_sub</span><span class="p">()</span>
+<span class="w">   </span><span class="k">call </span><span class="n">test_tokenize</span><span class="p">()</span>
+<span class="w">   </span><span class="k">call </span><span class="n">test_transliterate</span><span class="p">()</span>
+<span class="w">   </span><span class="k">call </span><span class="n">test_trim</span><span class="p">()</span>
+<span class="w">   </span><span class="k">call </span><span class="n">test_upper</span><span class="p">()</span>
+<span class="w">   </span><span class="k">call </span><span class="n">test_verify</span><span class="p">()</span>
 <span class="w">   </span><span class="k">call </span><span class="n">test_other</span><span class="p">()</span>
 
 <span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g0</span><span class="p">)</span>
@@ -258,7 +260,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-08-21 14:29 +0000             </p>
+ on 2026-10-04 04:21 +0000             </p>
           </div>
         </div>
         <br>

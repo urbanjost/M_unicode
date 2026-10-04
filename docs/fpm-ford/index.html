@@ -134,7 +134,7 @@ methods as type-bound procedures.</p>
 <p><strong>M_unicode</strong> is a companion to and fully implements the UTF-8
 processing discussed in the Fortran Wiki <a href="https://fortranwiki.org/fortran/show/Unicode">Unicode
 Tutorial</a>.</p>
-<h3 id="proviided-with-unit-testing-and-extensive-examples">Proviided with Unit-testing and extensive examples</h3>
+<h3 id="provided-with-unit-testing-and-extensive-examples">Provided with Unit-testing and extensive examples</h3>
 <p>Over 55 <a href="example">example programs</a> and a self-contained set of unit
 tests are included.</p>
 <h3 id="documentation">Documentation</h3>
@@ -163,13 +163,14 @@ name:</p>
 
 <span class="c">! additional methods</span>
 <span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">   </span><span class="n">upper</span><span class="p">,</span><span class="w">   </span><span class="n">lower</span><span class="p">,</span><span class="w">          </span><span class="n">glob</span><span class="p">,</span><span class="w">             </span><span class="p">&amp;</span>
-<span class="w">   </span><span class="n">isascii</span><span class="p">,</span><span class="w"> </span><span class="n">isblank</span><span class="p">,</span><span class="w">        </span><span class="n">isspace</span><span class="p">,</span><span class="w">          </span><span class="p">&amp;</span>
-<span class="w">   </span><span class="n">slurp</span><span class="p">,</span><span class="w">   </span><span class="n">readline</span><span class="p">,</span><span class="w">       </span><span class="n">pound_to_box</span><span class="p">,</span><span class="w">     </span><span class="p">&amp;</span>
-<span class="w">   </span><span class="n">sort</span><span class="p">,</span><span class="w">    </span><span class="n">expandtabs</span><span class="p">,</span><span class="w">     </span><span class="n">replace</span><span class="p">,</span><span class="w">          </span><span class="p">&amp;</span>
-<span class="w">   </span><span class="n">pad</span><span class="p">,</span><span class="w">     </span><span class="n">join</span><span class="p">,</span><span class="w">           </span><span class="n">fmt</span><span class="p">,</span><span class="w">              </span><span class="p">&amp;</span>
-<span class="w">   </span><span class="n">get_arg</span><span class="p">,</span><span class="w"> </span><span class="n">get_env</span><span class="p">,</span><span class="w">        </span><span class="n">transliterate</span><span class="p">,</span><span class="w">    </span><span class="p">&amp;</span>
-<span class="w">   </span><span class="n">escape</span><span class="p">,</span><span class="w">  </span><span class="n">add_backslash</span><span class="p">,</span><span class="w">  </span><span class="n">sub</span>
+<span class="w">   </span><span class="n">upper</span><span class="p">,</span><span class="w">        </span><span class="n">lower</span><span class="p">,</span><span class="w">          </span><span class="n">glob</span><span class="p">,</span><span class="w">           </span><span class="p">&amp;</span>
+<span class="w">   </span><span class="n">isascii</span><span class="p">,</span><span class="w">      </span><span class="n">isblank</span><span class="p">,</span><span class="w">        </span><span class="n">isspace</span><span class="p">,</span><span class="w">        </span><span class="p">&amp;</span>
+<span class="w">   </span><span class="n">slurp</span><span class="p">,</span><span class="w">        </span><span class="n">readline</span><span class="p">,</span><span class="w">       </span><span class="n">pound_to_box</span><span class="p">,</span><span class="w">   </span><span class="p">&amp;</span>
+<span class="w">   </span><span class="n">sort</span><span class="p">,</span><span class="w">         </span><span class="n">expandtabs</span><span class="p">,</span><span class="w">     </span><span class="n">replace</span><span class="p">,</span><span class="w">        </span><span class="p">&amp;</span>
+<span class="w">   </span><span class="n">pad</span><span class="p">,</span><span class="w">          </span><span class="n">join</span><span class="p">,</span><span class="w">           </span><span class="n">fmt</span><span class="p">,</span><span class="w">            </span><span class="p">&amp;</span>
+<span class="w">   </span><span class="n">get_arg</span><span class="p">,</span><span class="w">      </span><span class="n">get_env</span><span class="p">,</span><span class="w">        </span><span class="n">transliterate</span><span class="p">,</span><span class="w">  </span><span class="p">&amp;</span>
+<span class="w">   </span><span class="n">expand_html</span><span class="p">,</span><span class="w">  </span><span class="n">add_html</span><span class="p">,</span><span class="w">                       </span><span class="p">&amp;</span>
+<span class="w">   </span><span class="n">escape</span><span class="p">,</span><span class="w">       </span><span class="n">add_backslash</span><span class="p">,</span><span class="w">  </span><span class="n">sub</span>
 
 <span class="c">! Note operators (and overloads) and SORT(3f) use Unicode codepoint </span>
 <span class="c">! order (NOT necessarily dictionary order):</span>
@@ -183,7 +184,7 @@ name:</p>
 <span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">&gt;=</span><span class="p">),</span><span class="w"> </span><span class="nb">lge</span>
 <span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">//</span><span class="p">)</span>
 
-<span class="c">! low-level conversion betwwen utf-8 text and integer codepoint arrays:</span>
+<span class="c">! low-level conversion between utf-8 text and integer codepoint arrays:</span>
 <span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">utf8_to_codepoints</span><span class="p">,</span><span class="w"> </span><span class="n">codepoints_to_utf8</span>
 
 <span class="c">! sample usage:</span>
@@ -257,7 +258,7 @@ promote portability.</p>
 <h2 id="summary">Summary</h2>
 <p>By default it can often be easy to place UTF-8 characters in fixed
 messages, but if the text needs manipulated or processed in any way
-programattically dealing with Unicode UTF-8 encoded data as a raw series
+programatically dealing with Unicode UTF-8 encoded data as a raw series
 of 8-bit-bytes becomes complex and non-intuitive.  The <strong>M_unicode</strong>
 module provides a user-defined type named <strong>UNICODE_TYPE</strong> and many
 procedures that make it very easy to work with such multi-byte characters.</p>
@@ -630,7 +631,7 @@ with the DT edit descriptor are still undergoing development.</p>
           <div class="col-xs-6 col-sm-3">
             <div>
               <h3>Source Files</h3>
-              <ul><li><a href='sourcefile/assignment.f90.html'>assignment.f90</a></li><li><a href='sourcefile/bom_start.f90.html'>bom_start.f90</a></li><li><a href='sourcefile/codepoint.f90.html'>codepoint.f90</a></li><li><a href='sourcefile/codepoint_range.f90.html'>codepoint_range.f90</a></li><li><a href='sourcefile/concatenate.f90.html'>concatenate.f90</a></li><li><a href='sourcefile/construct.f90.html'>construct.f90</a></li><li><a href='sourcefile/demo_add_backslash.f90.html'>demo_add_backslash.f90</a></li><li><a href='sourcefile/demo_add_border.f90.html'>demo_add_border.f90</a></li><li><a href='sourcefile/demo_adjustl.f90.html'>demo_adjustl.f90</a></li><li><a href='sourcefile/demo_adjustr.f90.html'>demo_adjustr.f90</a></li></ul>
+              <ul><li><a href='sourcefile/assignment.f90.html'>assignment.f90</a></li><li><a href='sourcefile/bom_start.f90.html'>bom_start.f90</a></li><li><a href='sourcefile/codepoint.f90.html'>codepoint.f90</a></li><li><a href='sourcefile/codepoint_range.f90.html'>codepoint_range.f90</a></li><li><a href='sourcefile/concatenate.f90.html'>concatenate.f90</a></li><li><a href='sourcefile/construct.f90.html'>construct.f90</a></li><li><a href='sourcefile/demo_add_backslash.f90.html'>demo_add_backslash.f90</a></li><li><a href='sourcefile/demo_add_border.f90.html'>demo_add_border.f90</a></li><li><a href='sourcefile/demo_add_html.f90.html'>demo_add_html.f90</a></li><li><a href='sourcefile/demo_adjustl.f90.html'>demo_adjustl.f90</a></li></ul>
             </div>
             <div>
               <ul>
@@ -652,7 +653,7 @@ with the DT edit descriptor are still undergoing development.</p>
           <div class="col-xs-6 col-sm-3">
             <div>
               <h3>Procedures</h3>
-              <ul><li><a href='interface/add_backslash.html'>add_backslash</a></li><li><a href='interface/add_border.html'>add_border</a></li><li><a href='interface/adjustl.html'>adjustl</a></li><li><a href='interface/adjustr.html'>adjustr</a></li><li><a href='proc/afmt.html'>afmt</a></li><li><a href='interface/assignment(=).html'>assignment(=)</a></li><li><a href='proc/callit.html'>callit</a></li><li><a href='interface/character.html'>character</a></li><li><a href='proc/check.html'>check</a></li><li><a href='proc/checkit.html'>checkit</a></li></ul>
+              <ul><li><a href='interface/add_backslash.html'>add_backslash</a></li><li><a href='interface/add_border.html'>add_border</a></li><li><a href='interface/add_html.html'>add_html</a></li><li><a href='interface/adjustl.html'>adjustl</a></li><li><a href='interface/adjustr.html'>adjustr</a></li><li><a href='proc/afmt.html'>afmt</a></li><li><a href='interface/assignment(=).html'>assignment(=)</a></li><li><a href='proc/basics.html'>basics</a></li><li><a href='proc/callit.html'>callit</a></li><li><a href='interface/character.html'>character</a></li></ul>
             </div>
             <div>
               <ul>
@@ -687,7 +688,7 @@ with the DT edit descriptor are still undergoing development.</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-08-21 14:29 +0000             </p>
+ on 2026-10-04 04:21 +0000             </p>
           </div>
         </div>
         <br>

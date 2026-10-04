@@ -90,7 +90,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 1.4% of total for programs.">31 statements</a>
+                 title=" 2.6% of total for programs.">61 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -132,7 +132,7 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../program/demo_tokenize.html#variable-a_commas">a_commas</a>
-            <a class="list-group-item" href="../program/demo_tokenize.html#variable-brackets">brackets</a>
+            <a class="list-group-item" href="../program/demo_tokenize.html#variable-brackets~2">brackets</a>
             <a class="list-group-item" href="../program/demo_tokenize.html#variable-gen">gen</a>
         </div>
       </div>
@@ -148,7 +148,18 @@
   
   
   
-  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#subs-0"
+         aria-expanded="false" aria-controls="subs-0">
+         <h4 class="card-header bg-primary text-white">Subroutines</h4>
+      </a>
+      <div id="subs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../program/demo_tokenize.html#proc-basics">basics</a>
+        </div>
+      </div>
+    </div>
+
   
   
   
@@ -215,7 +226,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-brackets"></span>
+              <span class="anchor" id="variable-brackets~2"></span>
               character(len=*),
             </td>
             <td>
@@ -257,6 +268,49 @@ parameter
     
 
 
+    <section>
+    <h2>Subroutines</h2>
+      <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-basics"></span> <h3> subroutine <a href='../proc/basics.html'>basics</a>(string)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-string~65"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>string</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+    </section>    
     
 
     <section>
@@ -275,9 +329,41 @@ parameter
 <span class="w">     </span><span class="c">! Execution of TOKEN form (return array of tokens)</span>
 <span class="w">     </span><span class="c">!</span>
 <span class="w">        </span><span class="k">block</span>
-<span class="k">        type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">string</span>
-<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tokens</span><span class="p">(:)</span>
-<span class="w">        </span><span class="kt">integer</span><span class="w">              </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
+<span class="k">        type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">string</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">),</span><span class="k">allocatable</span><span class="w">       </span><span class="kd">::</span><span class="w"> </span><span class="n">tokens</span><span class="p">(:)</span>
+<span class="w">        </span><span class="kt">integer</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
+<span class="w">        </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">set</span><span class="o">=</span><span class="s1">' ,'</span>
+
+<span class="w">        </span><span class="c">! basics</span>
+
+<span class="w">           </span><span class="k">call </span><span class="n">basics</span><span class="p">(</span><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s1">''</span><span class="w">               </span><span class="p">))</span>
+<span class="w">           </span><span class="k">call </span><span class="n">basics</span><span class="p">(</span><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s1">' '</span><span class="w">              </span><span class="p">))</span>
+<span class="w">           </span><span class="k">call </span><span class="n">basics</span><span class="p">(</span><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s1">'  '</span><span class="w">             </span><span class="p">))</span>
+<span class="w">           </span><span class="k">call </span><span class="n">basics</span><span class="p">(</span><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s1">'G'</span><span class="w">              </span><span class="p">))</span>
+<span class="w">           </span><span class="k">call </span><span class="n">basics</span><span class="p">(</span><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s1">'     G'</span><span class="w">         </span><span class="p">))</span>
+<span class="w">           </span><span class="k">call </span><span class="n">basics</span><span class="p">(</span><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s1">'     G    '</span><span class="w">     </span><span class="p">))</span>
+<span class="w">           </span><span class="k">call </span><span class="n">basics</span><span class="p">(</span><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s1">'     G    e  '</span><span class="w">  </span><span class="p">))</span>
+<span class="w">           </span><span class="k">call </span><span class="n">basics</span><span class="p">(</span><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s1">'G    e'</span><span class="w">         </span><span class="p">))</span>
+
+<span class="w">        </span><span class="c">! assigns the value ['first ','second','third ' ] to TOKENS</span>
+<span class="w">           </span><span class="n">string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'first,second,third'</span>
+<span class="w">           </span><span class="k">call </span><span class="n">tokenize</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="n">set</span><span class="p">,</span><span class="w"> </span><span class="n">tokens</span><span class="w"> </span><span class="p">)</span>
+<span class="w">           </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">brackets</span><span class="p">)</span><span class="n">ch</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span>
+
+<span class="w">           </span><span class="n">string</span><span class="w"> </span><span class="o">=</span><span class="w">    </span><span class="s1">'first,second,,fourth'</span>
+<span class="w">           </span><span class="k">call </span><span class="n">tokenize</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="n">set</span><span class="p">,</span><span class="w"> </span><span class="n">tokens</span><span class="w"> </span><span class="p">)</span>
+<span class="w">           </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">brackets</span><span class="p">)</span><span class="n">ch</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span>
+
+<span class="w">           </span><span class="n">string</span><span class="w"> </span><span class="o">=</span><span class="w">    </span><span class="s1">'first,second,,,fifth'</span>
+<span class="w">           </span><span class="k">call </span><span class="n">tokenize</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="n">set</span><span class="p">,</span><span class="w"> </span><span class="n">tokens</span><span class="w"> </span><span class="p">)</span>
+<span class="w">           </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">brackets</span><span class="p">)</span><span class="n">ch</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span>
+
+<span class="w">           </span><span class="n">string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'  first second  third       '</span>
+<span class="w">           </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">gen</span><span class="p">)</span><span class="s1">'Parse on spaces ...'</span>
+<span class="w">           </span><span class="k">call </span><span class="n">tokenize</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="n">set</span><span class="o">=</span><span class="s1">' '</span><span class="p">,</span><span class="w"> </span><span class="n">tokens</span><span class="o">=</span><span class="n">tokens</span><span class="w"> </span><span class="p">)</span>
+<span class="w">           </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">brackets</span><span class="p">)</span><span class="n">ch</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span>
+
+<span class="w">           </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">gen</span><span class="p">)</span><span class="s1">'Parse on semicolons and commas ...'</span>
 <span class="w">           </span><span class="n">string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'  first,second ,third       '</span>
 <span class="w">           </span><span class="k">call </span><span class="n">tokenize</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="n">set</span><span class="o">=</span><span class="s1">';,'</span><span class="p">,</span><span class="w"> </span><span class="n">tokens</span><span class="o">=</span><span class="n">tokens</span><span class="w"> </span><span class="p">)</span>
 <span class="w">           </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">brackets</span><span class="p">)</span><span class="n">ch</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span>
@@ -285,6 +371,7 @@ parameter
 <span class="w">           </span><span class="n">string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'  first , second ,third       '</span>
 <span class="w">           </span><span class="k">call </span><span class="n">tokenize</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="n">set</span><span class="o">=</span><span class="s1">' ,'</span><span class="p">,</span><span class="w"> </span><span class="n">tokens</span><span class="o">=</span><span class="n">tokens</span><span class="w"> </span><span class="p">)</span>
 <span class="w">           </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">brackets</span><span class="p">)(</span><span class="n">tokens</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="kt">character</span><span class="p">(),</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">tokens</span><span class="p">))</span>
+
 <span class="w">           </span><span class="c">! remove blank tokens</span>
 <span class="w">           </span><span class="n">tokens</span><span class="o">=</span><span class="nb">pack</span><span class="p">(</span><span class="n">tokens</span><span class="p">,</span><span class="w"> </span><span class="n">tokens</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="s1">''</span><span class="w"> </span><span class="p">)</span>
 <span class="w">           </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">brackets</span><span class="p">)</span><span class="n">ch</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span>
@@ -297,14 +384,25 @@ parameter
 <span class="k">        type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">string</span>
 <span class="w">        </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">set</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">" ,"</span>
 <span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="k">allocatable</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">first</span><span class="p">(:),</span><span class="w"> </span><span class="n">last</span><span class="p">(:)</span>
+
 <span class="w">           </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">gen</span><span class="p">)</span><span class="nb">repeat</span><span class="p">(</span><span class="s1">'1234567890'</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span>
+
 <span class="w">           </span><span class="n">string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'first,second,,fourth'</span>
 <span class="w">           </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">gen</span><span class="p">)</span><span class="n">ch</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+
 <span class="w">           </span><span class="k">call </span><span class="n">tokenize</span><span class="w"> </span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="n">set</span><span class="p">,</span><span class="w"> </span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">last</span><span class="p">)</span>
 <span class="w">           </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">a_commas</span><span class="p">)</span><span class="s1">'FIRST='</span><span class="p">,</span><span class="n">first</span>
 <span class="w">           </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">a_commas</span><span class="p">)</span><span class="s1">'LAST='</span><span class="p">,</span><span class="n">last</span>
 <span class="w">           </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">a_commas</span><span class="p">)</span><span class="s1">'HAS LENGTH='</span><span class="p">,</span><span class="n">last</span><span class="o">-</span><span class="n">first</span><span class="p">.</span><span class="n">gt</span><span class="p">.</span><span class="mi">0</span>
+
 <span class="w">        </span><span class="k">endblock</span>
+<span class="k">        contains</span>
+<span class="k">        subroutine </span><span class="n">basics</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">string</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tokens</span><span class="p">(:)</span>
+<span class="w">           </span><span class="k">call </span><span class="n">tokenize</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="w"> </span><span class="n">tokens</span><span class="w"> </span><span class="p">)</span>
+<span class="w">           </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">brackets</span><span class="p">)</span><span class="n">string</span><span class="p">%</span><span class="kt">character</span><span class="p">(),</span><span class="s2">"&lt;==&gt;"</span><span class="p">,</span><span class="n">ch</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span>
+<span class="w">        </span><span class="k">end subroutine </span><span class="n">basics</span>
 <span class="w">     </span><span class="c">!</span>
 <span class="w">     </span><span class="k">end program </span><span class="n">demo_tokenize</span>
 </pre></div>
@@ -329,7 +427,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-08-21 14:29 +0000             </p>
+ on 2026-10-04 04:21 +0000             </p>
           </div>
         </div>
         <br>
