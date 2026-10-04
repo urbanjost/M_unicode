@@ -49,7 +49,8 @@ use M_unicode, only : join
 use M_unicode, only : fmt, afmt
 use M_unicode, only : transliterate
 use M_unicode, only : glob
-use M_unicode, only : expand_html
+use M_unicode, only : expand_html, add_html
+use M_unicode, only : get_env
 
 use M_unicode, only : assignment(=)
 use M_unicode, only : operator(.cat.)
@@ -174,6 +175,43 @@ integer                      :: i
       endif
    enddo
 end function inset
+
+function fgetenv(name,default) result(value)
+use, intrinsic :: iso_fortran_env, only : stderr=>ERROR_UNIT
+! a function that makes calling get_environment_variable(3) simple
+implicit none
+character(len=*),intent(in)          :: name
+character(len=*),intent(in),optional :: default
+character(len=:),allocatable         :: value
+integer                              :: howbig
+integer                              :: stat
+integer                              :: length
+   length=0
+   value=''
+   if(name.ne.'')then
+      call get_environment_variable( name, &
+      & length=howbig,status=stat,trim_name=.true.)
+      select case (stat)
+       case (1)
+         write(stderr,*) &
+         & name, " is not defined in the environment. Strange..."
+         value=''
+       case (2)
+         write(stderr,*) &
+         & "This processor does not support environment variables. Boooh!"
+         value=''
+       case default
+         ! make string of sufficient size to hold value
+         if(allocated(value))deallocate(value)
+         allocate(character(len=max(howbig,1)) :: value)
+         ! get value
+         call get_environment_variable( &
+         & name,value,status=stat,trim_name=.true.)
+         if(stat.ne.0)value=''
+      end select
+   endif
+   if(value.eq.''.and.present(default))value=default
+end function fgetenv
 
 subroutine test_index()
 type(ut)             :: string, substring
@@ -904,6 +942,28 @@ integer,allocatable          :: ints(:)
 
 end subroutine test_escape
 
+subroutine test_get_env()
+type(ut) :: uname
+type(ut) :: udefault
+type(ut) :: usmiley
+integer  :: i
+character(len=:),allocatable :: avarvalue
+
+   usmiley=128515 ! set with Unicode code point
+   udefault='Have a nice day '//usmiley//'!' ! set with unicode_type
+
+   avarvalue=fgetenv('HOME') ! get a value using standard method
+   uname='HOME'
+
+   ! arguments can be type(unicode_type) or character
+   ! but type(unicode_type) is always returned
+   call check('get_env', get_env(uname,             udefault             ) == avarvalue,'unicode_type and unicode_type')
+   call check('get_env', get_env(uname%character(), udefault%character() ) == avarvalue,'ASCII        and ASCII')
+   call check('get_env', get_env(uname,             udefault%character() ) == avarvalue,'unicode_type and ASCII')
+   call check('get_env', get_env(uname%character(), udefault             ) == avarvalue,'ASCII        and unicode_type')
+
+end subroutine test_get_env
+
 subroutine test_expand_html()
 type(ut)           :: u_line
 character(len=:),allocatable :: a_line
@@ -1060,6 +1120,26 @@ do istyle=1,4
    endif
 enddo
 end subroutine test_pound_to_box
+
+subroutine test_add_html()
+type(ut) :: UA
+type(ut) :: uline
+integer            :: i
+   UA=[(i,i=0,255)]
+   uline=add_html(UA)
+
+   call check('add_html',len(uline).eq.1019,ch('len ' .cat. len(uline)))
+   if( len(uline).eq.772 )then
+      call check('add_html',expand_html(uline).eq.UA,'round trip')
+   endif
+   call check('add_html',add_html(ut('text'//char(0))).eq.'text&#0;','null at end')
+
+   ! (kaufii hai?) [Literal Meaning: “Is there coffee?”] “Do you have coffee?” (Informal)
+   uline='कॉफ़ी है?'
+   UA = '&#2325;&#2377;&#2347;&#2364;&#2368; &#2361;&#2376;?'
+   call check('add_html',add_html(uline).eq.UA,'decimal:'//ch(add_html(uline)//'=='//UA))
+
+end subroutine test_add_html
 
 subroutine test_add_backslash()
 type(ut) :: UA
@@ -1545,6 +1625,8 @@ integer :: i
    else
       write(*,'(a)')"Failed"
    endif
+
+   call oop()
 contains
  ! This is a test program for wildcard matching routines.
  ! It can be used either to test a single routine for correctness,
@@ -1571,6 +1653,25 @@ logical          :: bPassed
    endif
 
 end function test
+
+subroutine oop()
+!use M_unicode, only : write(formatted)
+character(len=*),parameter :: u='(DT)'
+type(ut)  :: USTRING
+   !print *,'OOP! Remember to match entire string'
+   ! ignoring ς for simplicity
+   USTRING='ΑαΒβΓγΔδΕεΖζΗηΘθΙιΚκΛλΜμΝνΞξΟοΠπΡρΣσςΤτΥυΦφΧχΨψΩω'
+   !print u,' string is : ' // USTRING
+   !print *,' string is : ' // USTRING
+
+   ! pattern may be UTF-8 or ASCII
+   call check('glob', USTRING%glob('*Α*Ζ*Ω*'), 'oop glob with utf8 pattern')
+   call check('glob', .not.USTRING%glob('*Ω*Α*Ζ*') , 'oop glob with utf8 pattern')
+   ! pattern may be unicode_type
+   call check('glob', USTRING%glob(ut('*Α*Ζ*Ω*')) , 'oop glob with unicode_type pattern')
+   call check('glob', .not.USTRING%glob(ut('*Ω*Α*Ζ*')) , 'oop glob with unicode_type pattern')
+
+end subroutine oop
 end subroutine test_glob
 
 end module testsuite_M_unicode
@@ -1583,40 +1684,42 @@ use testsuite_M_unicode
    !open (output_unit, encoding='UTF-8')
 
    call platform()
+   call test_add_backslash()
+   call test_add_border()
+   call test_add_html()
    call test_adjustl()
    call test_adjustr()
-   call test_trim()
-   call test_len_trim()
-   call test_len()
-   call test_index()
-   call test_repeat()
-   call test_transliterate()
-   call test_upper()
-   call test_lower()
-   call test_tokenize()
-   call test_expand_html()
-   call test_sort()
-   call test_operators()
-   call test_split()
-   call test_scan()
-   call test_verify()
-   call test_ichar()
-   call test_replace()
-   call test_sub()
-   call test_pad()
-   call test_join()
-   call test_expandtabs()
-   call test_reverse()
-   call test_fmt()
+   call test_concatenate()
    call test_escape()
-   call test_add_backslash()
-   call test_pound_to_box()
-   call test_add_border()
+   call test_expand_html()
+   call test_expandtabs()
+   call test_fmt()
+   call test_get_env()
+   call test_glob()
+   call test_ichar()
+   call test_index()
    call test_isascii()
    call test_isblank()
    call test_isspace()
-   call test_concatenate()
-   call test_glob()
+   call test_join()
+   call test_len()
+   call test_len_trim()
+   call test_lower()
+   call test_operators()
+   call test_pad()
+   call test_pound_to_box()
+   call test_repeat()
+   call test_replace()
+   call test_reverse()
+   call test_scan()
+   call test_sort()
+   call test_split()
+   call test_sub()
+   call test_tokenize()
+   call test_transliterate()
+   call test_trim()
+   call test_upper()
+   call test_verify()
    call test_other()
 
    write(*,g0)

@@ -48,7 +48,7 @@ a.existingWikiWord[title]{ //border: 1px dashed #BBB; }
 <div id="Container">
 <div id="Content">
 <CENTER>
-<H1><HR><I>Manual Reference Pages &nbsp;-&nbsp;</I><NOBR>isblank (3m_unicode)</NOBR><HR></H1>
+<H1><HR><I>Manual Reference Pages &nbsp;-&nbsp;</I><NOBR>keyword_update (3m_unicode)</NOBR><HR></H1>
 </CENTER>
 <A name=0>
 
@@ -56,8 +56,8 @@ a.existingWikiWord[title]{ //border: 1px dashed #BBB; }
 
 </A>
 <BLOCKQUOTE>
-isblank(3f) - [M_unicode:COMPARE] returns .true. if character is a
-Unicode or ASCII-7 blank character (space or horizontal tab) .
+keyword_update(3f) - [M_unicode] update internal dictionary given
+keyword and value
 (LICENSE:MIT)
 <P>
 </BLOCKQUOTE>
@@ -66,26 +66,26 @@ Unicode or ASCII-7 blank character (space or horizontal tab) .
 <A HREF=#1>Synopsis</A><BR>
 <A HREF=#2>Description</A><BR>
 <A HREF=#3>Options</A><BR>
-<A HREF=#4>Returns</A><BR>
-<A HREF=#5>Examples</A><BR>
-<A HREF=#6>Author</A><BR>
-<A HREF=#7>License</A><BR>
+<A HREF=#4>Examples</A><BR>
+<A HREF=#5>Author</A><BR>
+<A HREF=#6>License</A><BR>
 </BLOCKQUOTE>
-<A name=8>
+<A name=7>
 
      <H3>SYNOPSIS</H3>
 
 </A>
 <BLOCKQUOTE>
-<P>
-elemental function isblank(onechar)
+subroutine keyword_update(key,val,plainval)
 <P>
 <PRE>
-    type(unicode_type),intent(in)   :: string
-    !or
-    character(len=*,intent(in)      :: characters
-<P>
-    logical              :: isblank
+       type(unicode_type),intent(in)           :: key
+       type(unicode_type),intent(in),optional  :: val
+       type(unicode_type),intent(in),optional  :: plainval
+       ! or
+       character(len=*),intent(in)           :: key
+       character(len=*),intent(in),optional  :: val
+       character(len=*),intent(in),optional  :: plainval
 <P>
 </PRE>
 </BLOCKQUOTE>
@@ -95,8 +95,7 @@ elemental function isblank(onechar)
 
 </A>
 <BLOCKQUOTE>
-isblank(3f) returns .true. if all characters are a blank character (ASCII-7
-space or Unicode blank character) or horizontal tab.
+Update internal dictionary in M_unicode(3f) module.
 </BLOCKQUOTE>
 <A name=3>
 
@@ -106,65 +105,75 @@ space or Unicode blank character) or horizontal tab.
 <BLOCKQUOTE>
 <TABLE cellpadding=3>
 <TR valign=top><TD width=6% nowrap>
-<B>str</B> </TD><TD valign=bottom>
-variable to test
+<B>key</B> </TD><TD valign=bottom>
+name of keyword to add, replace, or delete from dictionary
+</TD></TR>
+<TR valign=top><TD width=6% nowrap>
+<B>val</B> </TD><TD valign=bottom>
+if present add or replace value associated with keyword. If
+not present remove keyword entry from dictionary.
+</TD></TR>
+<TR valign=top><TD colspan=2>
+<B>plainval</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+VAL must be present if PLAINVAL is specified. This is the
+value to replace the keyword with if mode is set to
+"plain_mode" via keyword_action(3f). Defaults to the same
+value as VAL.
 </TD></TR>
 <TR></TR></TABLE></BLOCKQUOTE>
 <A name=4>
-
-     <H3>RETURNS</H3>
-
-</A>
-<BLOCKQUOTE>
-<TABLE cellpadding=3>
-<TR valign=top><TD colspan=2>
-<B>isblank</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
-logical value returns true if character is a "blank"
-( an ASCII space or Unicode blank) or horizontal tab character.
-</TD></TR>
-<TR></TR></TABLE></BLOCKQUOTE>
-<A name=5>
 
      <H3>EXAMPLES</H3>
 
 </A>
 <BLOCKQUOTE>
-Sample program:
+Sample program
 <P>
 <PRE>
-    program demo_isblank
-    use M_unicode, only : isblank, unicode, ch=&gt;character, unicode_type
-    use M_unicode, only : assignment(=)
-    implicit none
-    integer                    :: i
-    type(unicode_type)         :: string_u
-    character(len=1),parameter :: string_a(*)=[(char(i),i=0,127)]
+     program demo_keyword_update
+     use M_unicode, only : keyword, keyword_update, ch=&gt;character
+        write(*,&#146;(a)&#146;) ch(keyword(&#146;&lt;clear&gt;TEST CUSTOMIZATIONS:&#146;))
+        ! add custom keywords
 <P>
-       write(*,&#146;(*(g0,1x))&#146;)&#146;ISBLANK PASSED TYPE(CHARACTER) : &#146;,isblank(string_a)
+        call keyword_update(&#146;blink&#146;,char(27)//&#146;[5m&#146;,&#146;&#146;)
+        call keyword_update(&#146;/blink&#146;,char(27)//&#146;[25m&#146;,&#146;&#146;)
+        write(*,*)
+        write(*,&#146;(a)&#146;) ch(keyword(&#146;&lt;blink&gt;Items for Friday&lt;/blink&gt;&#146;))
 <P>
-       string_u=unicode%SPACES
-       write(*,&#146;(*(g0,1x))&#146;)&#146;ISBLANK PASSED TYPE(UNICODE_TYPE): &#146;,isblank(string_u)
-       write(*,&#146;(*(g0))&#146;)&#146;BLANKS: &#146;,ch(string_u)
-       write(*,&#146;(*(g0,1x))&#146;)&#146;BLANKS: &#146;,string_u%codepoint()
-    end program demo_isblank
+        call keyword_update(&#146;ouch&#146;,keyword( &
+        &#146; &lt;R&gt;&lt;bo&gt;&lt;w&gt;BIG mistake!&lt;/R&gt;&lt;/w&gt; &#146;))
+        write(*,*)
+        write(*,&#146;(a)&#146;) ch(keyword(&#146;&lt;ouch&gt; Did not see that coming.&#146;))
 <P>
-</PRE>
-Results:
+        write(*,*)
+        write(*,&#146;(a)&#146;) ch(keyword( &
+        &#146;ORIGINALLY: &lt;r&gt;Apple&lt;/r&gt;, &lt;b&gt;Sky&lt;/b&gt;, &lt;g&gt;Grass&lt;/g&gt;&#146;))
 <P>
-<PRE>
-   ISBLANK:  9 32
+        ! delete
+        call keyword_update(&#146;r&#146;)
+        call keyword_update(&#146;/r&#146;)
+<P>
+        ! replace (or create)
+        call keyword_update(&#146;b&#146;,&#146;&lt;&lt;&lt;&lt;&#146;)
+        call keyword_update(&#146;/b&#146;,&#146;&gt;&gt;&gt;&gt;&#146;)
+<P>
+        write(*,*)
+        write(*,&#146;(a)&#146;) ch(keyword( &
+        &#146;CUSTOMIZED: &lt;r&gt;Apple&lt;/r&gt;, &lt;b&gt;Sky&lt;/b&gt;, &lt;g&gt;Grass&lt;/g&gt;&#146;))
+        write(*,&#146;(a)&#146;) ch(keyword(&#146;&lt;reset&gt;&#146;))
+     end program demo_keyword_update
 <P>
 </PRE>
 </BLOCKQUOTE>
-<A name=6>
+<A name=5>
 
      <H3>AUTHOR</H3>
 
 </A>
 <BLOCKQUOTE>
-John S. Urban
+John S. Urban, 2021
 </BLOCKQUOTE>
-<A name=7>
+<A name=6>
 
      <H3>LICENSE</H3>
 
@@ -178,7 +187,7 @@ John S. Urban
 <BLOCKQUOTE>
 </BLOCKQUOTE>
 <P><HR>
-<br><br><center><img src="images/isblank.gif"></center>
+<br><br><center><img src="images/keyword_update.gif"></center>
 </div>
 </div>
 </body>

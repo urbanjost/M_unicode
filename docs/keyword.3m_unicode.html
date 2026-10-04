@@ -1,0 +1,261 @@
+<html> 
+<head> 
+<title> </title>
+<style> 
+px {font-family: "Lucida Console", Monaco, monospace }
+p { font-size:100%; line-height:1.1em; }
+body {xfont-style: sans-serif}
+body {
+color:#333; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:1em; line-height:1.3em; }
+a:visited { color:#666; }
+h1,h2,h3,h4,h5,h6 { color:#333; font-family:georgia, verdana, sans-serif; }
+h1 { font-size:150%; page-break-before:auto;background-color: #aaaaff}
+h2 { font-size:143%;color:teal; }
+h3 { font-size:134%;color:blue; }
+h4 { font-size:120%;color:gray; }
+img { max-width: 55em}
+p{ padding: 0;margin:0; }
+p{ padding-right:1.4em; }
+p{ padding-bottom:0.1em; }
+p{ padding-top:1em; }
+p{ whitespace: pre-wrap; }
+h5,h6 { font-size:100% }
+a.nav,a:link.nav, a:visited.nav { background-color:#FFF; color:#000; }
+XXtable { border:double #000; border-collapse:collapse; }
+XXtable { border-collapse:collapse; }
+XXtd { border:thin solid #888; }
+XXtd { border:none; }
+li { margin-bottom:0.5em; }
+blockquote { display:block; font-size:100%; line-height:1.1em; margin:0 0 0.5em; padding:0 2.5em; }
+pre { background-color:#DDD; font-size:100%; overflow:auto; padding:1em; }
+a,li span { color:#000; }
+a:hover, a.nav:hover, a:hover math { background-color:#000; color:#FFF; }
+#Container { margin:0 10px; text-align:center; background-color: #BBB}
+#Content { border-top:none; margin:auto; padding:0.3em; text-align:left; width:100%; max-width:55em; background:#FFF}
+span.webName { font-size:.5em; }
+textarea#content { font-size: 1em; line-height: 1.125; }
+h1#pageName { line-height:1em; margin:0.2em 0 0.2em 0; padding:0; }
+.property { color:#666; font-size:100%; }
+a.existingWikiWord[title]{ //border: 1px dashed #BBB; }
+.byline { color:#666; font-size:1.0em; font-style:italic; margin-bottom:1em; padding-top:1px; } 
+</style> 
+</head>
+<BODY bgcolor=#F0F0F0 text=#000000 link=#0000ff vlink=#C000C0 alink=#ff0000><A NAME=top></A>
+<!--
+<h5><a href="https://github.com/urbanjost/M_unicode">[UP]</a></h5>
+<button type="button" onclick="javascript:history.back()">Back</button>
+-->
+<div id="Container">
+<div id="Content">
+<CENTER>
+<H1><HR><I>Manual Reference Pages &nbsp;-&nbsp;</I><NOBR>keyword (3m_unicode)</NOBR><HR></H1>
+</CENTER>
+<A name=0>
+
+     <H3>NAME</H3>
+
+</A>
+<BLOCKQUOTE>
+keyword(3f) - [M_unicode] substitute HTML-like keywords with other strings
+(LICENSE:MIT)
+<P>
+</BLOCKQUOTE>
+<A name=contents></A><H3>CONTENTS</H3></A>
+<BLOCKQUOTE>
+<A HREF=#1>Synopsis</A><BR>
+<A HREF=#2>Description</A><BR>
+<A HREF=#3>Options</A><BR>
+<A HREF=#4>Output</A><BR>
+<A HREF=#5>Limitations</A><BR>
+<A HREF=#6>Examples</A><BR>
+<A HREF=#7>Author</A><BR>
+<A HREF=#8>License</A><BR>
+<A HREF=#9>See Also</A><BR>
+</BLOCKQUOTE>
+<A name=10>
+
+     <H3>SYNOPSIS</H3>
+
+</A>
+<BLOCKQUOTE>
+function keyword(string) result (expanded)
+<P>
+<PRE>
+       ! scalar
+       character(len=*),intent(in) :: string
+       ! or
+       type(unicode_type),intent(in) :: string
+<P>
+       ! or array
+       character(len=*),intent(in) :: string(*)
+       ! or
+       type(unicode_type),intent(in) :: string(*)
+<P>
+       ! output
+       type(unicode_type)             :: expanded
+       ! or array
+       type(unicode_type),allocatable :: expanded(*)
+<P>
+</PRE>
+</BLOCKQUOTE>
+<A name=2>
+
+     <H3>DESCRIPTION</H3>
+
+</A>
+<BLOCKQUOTE>
+Strings of the form &lt;name&gt; are replaced with another string.
+Use this HTML-like syntax for purposes such as:
+<TABLE cellpadding=3><!-- tsb: Strings of the form &lt;name&gt; are replaced with another string.
+ -->
+<TR></TR><TR></TR>
+<TR valign=top><TD width=3%>
+o
+</TD><TD>
+generate UTF-8 from ASCII-7 abbreviations or keywords.
+</TD></TR>
+<TR></TR></TABLE><!-- .nf -->
+<PRE>
+          in:   c=&lt;pi&gt;&lt;times&gt;d  a=&lt;pi&gt;&lt;times&gt;r&lt;S2&gt;
+          out:  c=π×d
+<P>
+</PRE>
+<TABLE cellpadding=3>
+<TR valign=top><TD width=3%>
+o
+</TD><TD>
+expand custom acronyms or abbreviations
+</TD></TR>
+<TR></TR></TABLE><!-- .nf -->
+<PRE>
+          in:   &lt;DOE&gt;
+          out:  DOE(Department of Energy)
+<P>
+</PRE>
+By default all HTML entity names are predefined including Greek
+letters. Custom substitutions may be defined. The list of keywords
+and their substitution string may be dumped to stdout.
+</BLOCKQUOTE>
+<A name=3>
+
+     <H3>OPTIONS</H3>
+
+</A>
+<BLOCKQUOTE>
+<TABLE cellpadding=3>
+<TR valign=top><TD width=6% nowrap>
+<B>string</B> </TD><TD valign=bottom>
+case-sensitive input string  of form
+</TD></TR>
+<TR></TR></TABLE><!-- .nf -->
+<PRE>
+                     "arbitrary text&lt;keyword&gt;arbitrary text"
+</PRE>
+</BLOCKQUOTE>
+<A name=4>
+
+     <H3>OUTPUT</H3>
+
+</A>
+<BLOCKQUOTE>
+A string with all "&lt;keyword&gt;" strings expanded
+or optionally left as-is
+</BLOCKQUOTE>
+<A name=5>
+
+     <H3>LIMITATIONS</H3>
+
+</A>
+<BLOCKQUOTE>
+<TABLE cellpadding=3>
+<TR valign=top><TD width=3%>
+o
+</TD><TD>
+you should use "&lt;gt&gt;" and "&lt;lt&gt;" instead of "&gt;" and "&lt;" in an string
+processed by keyword(3f) so that the raw mode will create correct
+input for the keyword(3f) function if read back in.
+</TD></TR>
+<TR valign=top><TD width=3%>
+o
+</TD><TD>
+keywords are case-sensitive
+</TD></TR>
+<TR></TR></TABLE></BLOCKQUOTE>
+<A name=6>
+
+     <H3>EXAMPLES</H3>
+
+</A>
+<BLOCKQUOTE>
+Sample program
+<P>
+<PRE>
+    program demo_keyword
+    use M_unicode, only : keyword, keyword_mode, keyword_update
+    use M_unicode, only : ch=&gt;character
+<P>
+       call printstuff(&#146;raw_mode&#146;)
+       call printstuff(&#146;alias_mode&#146;)
+<P>
+       write(*,&#146;(a)&#146;) &#146;ADDING A CUSTOM SEQUENCE:&#146;
+       call keyword_update(&#146;blink&#146;,char(27)//&#146;[5m&#146;)
+       call keyword_update(&#146;/blink&#146;,char(27)//&#146;[25m&#146;)
+       write(*,&#146;(a)&#146;) ch(keyword(&#146;&lt;blink&gt;Items for Friday&lt;/blink&gt;&#146;))
+<P>
+    contains
+    subroutine printstuff(action)
+    character(len=*),intent(in)  :: action
+    character(len=:),allocatable :: array(:)
+<P>
+      call keyword_mode(action=action)
+<P>
+      array=[character(len=60) :: &
+       &#146;TEST ACTION=&#146;//action,    &
+       &#146;c=&lt;pi&gt;&lt;times&gt;d&#146;,          &
+       &#146;a=&lt;pi&gt;&lt;times&gt;r&lt;S2&gt;&#146;,      &
+       &#146;&lt;Delta&gt;&lt;delta&gt;&#146;,          &
+       &#146;Copyright&lt;copy&gt;&#146;]
+<P>
+      write(*,&#146;(a)&#146;) ch(keyword(array))
+<P>
+    end subroutine printstuff
+    end program demo_keyword
+<P>
+</PRE>
+</BLOCKQUOTE>
+<A name=7>
+
+     <H3>AUTHOR</H3>
+
+</A>
+<BLOCKQUOTE>
+John S. Urban, 2021
+</BLOCKQUOTE>
+<A name=8>
+
+     <H3>LICENSE</H3>
+
+</A>
+<BLOCKQUOTE>
+</BLOCKQUOTE>
+<A name=>
+
+    <H4>&nbsp; &nbsp; MIT</H4>
+</A>
+<BLOCKQUOTE>
+<P>
+</BLOCKQUOTE>
+<A name=9>
+
+     <H3>SEE ALSO</H3>
+
+</A>
+<BLOCKQUOTE>
+keyword_mode(3f), keyword_update(3f)
+</BLOCKQUOTE>
+<P><HR>
+<br><br><center><img src="images/keyword.gif"></center>
+</div>
+</div>
+</body>
+</HTML>

@@ -269,8 +269,8 @@ Right adjust a string
 <B>character(STRING,start,end,inc)</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
 converts a string to type CHARACTER.
 </TD></TR>
-<TR valign=top><TD width=6% nowrap>
-<B>escape</B> </TD><TD valign=bottom>
+<TR valign=top><TD colspan=2>
+<B>expand_backslash</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
 expand C-like escape strings
 </TD></TR>
 <TR valign=top><TD colspan=2>
@@ -281,6 +281,11 @@ characters with C-like escape strings
 <TR valign=top><TD colspan=2>
 <B>expand_html</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
 expand html "&NAME;" escape strings
+</TD></TR>
+<TR valign=top><TD colspan=2>
+<B>add_html</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+replace other than printable ASCII-7
+characters with HTML decimal codes
 </TD></TR>
 <TR valign=top><TD colspan=2>
 <B>codepoints_to_utf8(codepoints,utf8,nerr)</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>

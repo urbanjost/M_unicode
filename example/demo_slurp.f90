@@ -1,6 +1,6 @@
      program demo_slurp
      use M_unicode, only : slurp, ut=>unicode_type
-     use M_unicode, only : add_backslash, escape
+     use M_unicode, only : add_backslash, expand_backslash
      use M_unicode, only : assignment(=)
      implicit none
      type(ut),allocatable         :: text(:)
@@ -27,7 +27,7 @@
 
         ! deencode escape sequences and write data again
         do i=1,size(text)
-           text(i)=escape(text(i))
+           text(i)=expand_backslash(text(i))
         enddo
         call write_text()
 

@@ -42,7 +42,7 @@ methods as type-bound procedures.
 processing discussed in the Fortran Wiki [Unicode
 Tutorial](https://fortranwiki.org/fortran/show/Unicode).
 
-### Proviided with Unit-testing and extensive examples
+### Provided with Unit-testing and extensive examples
 
 Over 55 [example programs](example) and a self-contained set of unit
 tests are included.
@@ -77,13 +77,14 @@ use M_unicode, only : &
 
 ! additional methods
 use M_unicode, only : &
-   upper,   lower,          glob,             &
-   isascii, isblank,        isspace,          &
-   slurp,   readline,       pound_to_box,     &
-   sort,    expandtabs,     replace,          &
-   pad,     join,           fmt,              &
-   get_arg, get_env,        transliterate,    &
-   escape,  add_backslash,  sub
+   upper,        lower,          glob,           &
+   isascii,      isblank,        isspace,        &
+   slurp,        readline,       pound_to_box,   &
+   sort,         expandtabs,     replace,        &
+   pad,          join,           fmt,            &
+   get_arg,      get_env,        transliterate,  &
+   expand_html,  add_html,                       &
+   escape,       add_backslash,  sub
 
 ! Note operators (and overloads) and SORT(3f) use Unicode codepoint 
 ! order (NOT necessarily dictionary order):
@@ -97,7 +98,7 @@ use M_unicode, only : operator(>),  lgt
 use M_unicode, only : operator(>=), lge
 use M_unicode, only : operator(//)
 
-! low-level conversion betwwen utf-8 text and integer codepoint arrays:
+! low-level conversion between utf-8 text and integer codepoint arrays:
 use M_unicode, only : utf8_to_codepoints, codepoints_to_utf8
 
 ! sample usage:
@@ -176,7 +177,7 @@ promote portability.
 ## Summary
 By default it can often be easy to place UTF-8 characters in fixed
 messages, but if the text needs manipulated or processed in any way
-programattically dealing with Unicode UTF-8 encoded data as a raw series
+programatically dealing with Unicode UTF-8 encoded data as a raw series
 of 8-bit-bytes becomes complex and non-intuitive.  The **M_unicode**
 module provides a user-defined type named **UNICODE_TYPE** and many
 procedures that make it very easy to work with such multi-byte characters.

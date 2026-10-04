@@ -256,9 +256,41 @@ Sample of uses
    ! Execution of TOKEN form (return array of tokens)
    !
       block
-      type(ut)             :: string
-      type(ut),allocatable :: tokens(:)
-      integer              :: i
+      type(ut)                   :: string
+      type(ut),allocatable       :: tokens(:)
+      integer                    :: i
+      character(len=*),parameter :: set=&#146; ,&#146;
+<P>
+      ! basics
+<P>
+         call basics( ut(&#146;&#146;               ))
+         call basics( ut(&#146; &#146;              ))
+         call basics( ut(&#146;  &#146;             ))
+         call basics( ut(&#146;G&#146;              ))
+         call basics( ut(&#146;     G&#146;         ))
+         call basics( ut(&#146;     G    &#146;     ))
+         call basics( ut(&#146;     G    e  &#146;  ))
+         call basics( ut(&#146;G    e&#146;         ))
+<P>
+      ! assigns the value [&#146;first &#146;,&#146;second&#146;,&#146;third &#146; ] to TOKENS
+         string = &#146;first,second,third&#146;
+         call tokenize(string, set, tokens )
+         write(*,brackets)ch(tokens)
+<P>
+         string =    &#146;first,second,,fourth&#146;
+         call tokenize(string, set, tokens )
+         write(*,brackets)ch(tokens)
+<P>
+         string =    &#146;first,second,,,fifth&#146;
+         call tokenize(string, set, tokens )
+         write(*,brackets)ch(tokens)
+<P>
+         string = &#146;  first second  third       &#146;
+         write(*,gen)&#146;Parse on spaces &#46;&#46;&#46;&#146;
+         call tokenize(string, set=&#146; &#146;, tokens=tokens )
+         write(*,brackets)ch(tokens)
+<P>
+         write(*,gen)&#146;Parse on semicolons and commas &#46;&#46;&#46;&#146;
          string = &#146;  first,second ,third       &#146;
          call tokenize(string, set=&#146;;,&#146;, tokens=tokens )
          write(*,brackets)ch(tokens)
@@ -266,6 +298,7 @@ Sample of uses
          string = &#146;  first , second ,third       &#146;
          call tokenize(string, set=&#146; ,&#146;, tokens=tokens )
          write(*,brackets)(tokens(i)%character(),i=1,size(tokens))
+<P>
          ! remove blank tokens
          tokens=pack(tokens, tokens /= &#146;&#146; )
          write(*,brackets)ch(tokens)
@@ -278,14 +311,25 @@ Sample of uses
       type(ut)                   :: string
       character(len=*),parameter :: set = " ,"
       integer,allocatable        :: first(:), last(:)
+<P>
          write(*,gen)repeat(&#146;1234567890&#146;,6)
+<P>
          string = &#146;first,second,,fourth&#146;
          write(*,gen)ch(string)
+<P>
          call tokenize (string, set, first, last)
          write(*,a_commas)&#146;FIRST=&#146;,first
          write(*,a_commas)&#146;LAST=&#146;,last
          write(*,a_commas)&#146;HAS LENGTH=&#146;,last-first.gt.0
+<P>
       endblock
+      contains
+      subroutine basics(string)
+      type(ut),intent(in)  :: string
+      type(ut),allocatable :: tokens(:)
+         call tokenize(string,&#146; &#146;, tokens )
+         write(*,brackets)string%character(),"&lt;==&gt;",ch(tokens)
+      end subroutine basics
    !
    end program demo_tokenize
 <P>
@@ -293,8 +337,22 @@ Sample of uses
 Results:
 <P>
 <PRE>
+   &gt; [],[&lt;==&gt;]
+   &gt; [ ],[&lt;==&gt;],[]
+   &gt; [  ],[&lt;==&gt;],[],[]
+   &gt; [G],[&lt;==&gt;],[G]
+   &gt; [     G],[&lt;==&gt;],[ ],[ ],[ ],[ ],[ ],[G]
+   &gt; [     G    ],[&lt;==&gt;],[ ],[ ],[ ],[ ],[ ],[G],[ ],[ ],[ ]
+   &gt; [     G    e  ],[&lt;==&gt;],[ ],[ ],[ ],[ ],[ ],[G],[ ],[ ],[ ],[e],[ ]
+   &gt; [G    e],[&lt;==&gt;],[G],[ ],[ ],[ ],[e]
+   &gt; [first ],[second],[third ]
+   &gt; [first ],[second],[      ],[fourth]
+   &gt; [first ],[second],[      ],[      ],[fifth ]
+   &gt; Parse on spaces &#46;&#46;&#46;
+   &gt; [ ],[ ],[first ],[second],[ ],[third ],[ ],[ ],[ ],[ ],[ ],[ ]
+   &gt; Parse on spaces and commas &#46;&#46;&#46;
    &gt; [  first     ],[second      ],[third       ]
-   &gt; [],[first],[],[],[second],[],[third],[],[],[],[],[]
+   &gt; [],[],[first],[],[],[second],[],[third],[],[],[],[],[],[]
    &gt; [first ],[second],[third ]
    &gt; 123456789012345678901234567890123456789012345678901234567890
    &gt; first,second,,fourth
