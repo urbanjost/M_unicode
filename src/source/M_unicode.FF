@@ -8827,116 +8827,167 @@ EXAMPLES
 
   Sample of uses
 
-   program demo_tokenize
-   use M_unicode, only : tokenize, ut=>unicode_type,ch=>character
-   use M_unicode, only : assignment(=),operator(/=)
-   implicit none
-   !
-   ! some useful formats
-   character(len=*),parameter ::       &
-    & brackets='(*("[",g0,"]":,","))' ,&
-    & a_commas='(a,*(g0:,","))'       ,&
-    & gen='(*(g0))'
-   !
-   ! Execution of TOKEN form (return array of tokens)
-   !
-      block
-      type(ut)                   :: string
-      type(ut),allocatable       :: tokens(:)
-      integer                    :: i
-      character(len=*),parameter :: set=' ,'
+     program demo_tokenize
+     use M_unicode, only : tokenize, ut=>unicode_type,ch=>character
+     use M_unicode, only : assignment(=),operator(/=)
+     implicit none
+     !
+     ! some useful formats
+     character(len=*),parameter ::       &
+      & brackets='(*("[",g0,"]":,","))' ,&
+      & a_commas='(a,*(g0:,","))'       ,&
+      & gen='(*(g0))'
+     !
+     ! Execution of TOKEN form (return array of tokens)
+     !
+        block
+        type(ut)                   :: string
+        type(ut),allocatable       :: tokens(:)
+        integer                    :: i
+        character(len=*),parameter :: set=' ,'
 
-      ! basics
+        ! basics
 
-         call basics( ut(''               ))
-         call basics( ut(' '              ))
-         call basics( ut('  '             ))
-         call basics( ut('G'              ))
-         call basics( ut('     G'         ))
-         call basics( ut('     G    '     ))
-         call basics( ut('     G    e  '  ))
-         call basics( ut('G    e'         ))
+           call basics( ut(''               ))
+           call basics( ut(','              ))
+           call basics( ut(',,'             ))
+           call basics( ut(',G'             ))
+           call basics( ut('G,'             ))
+           call basics( ut(',,G'            ))
+           call basics( ut('G'              ))
+           call basics( ut(',,,,,G'         ))
+           call basics( ut(',   ,G,,,,'     ))
+           call basics( ut(',, ,,G,  ,e,,'  ))
+           call basics( ut('G,,,,e'         ))
+           call basics( ut(''               ))
+           call basics( ut(' '              ))
+           call basics( ut('  '             ))
+           call basics( ut(' G'             ))
+           call basics( ut('G '             ))
+           call basics( ut('  G'            ))
+           call basics( ut('G'              ))
+           call basics( ut('     G'         ))
+           call basics( ut('     G    '     ))
+           call basics( ut('     G    e  '  ))
+           call basics( ut('G    e'         ))
 
-      ! assigns the value ['first ','second','third ' ] to TOKENS
-         string = 'first,second,third'
-         call tokenize(string, set, tokens )
-         write(*,brackets)ch(tokens)
+        ! assigns the value ['first ','second','third ' ] to TOKENS
+           string = 'first,second,third'
+           call tokenize(string, set, tokens )
+           write(*,brackets)ch(tokens)
 
-         string =    'first,second,,fourth'
-         call tokenize(string, set, tokens )
-         write(*,brackets)ch(tokens)
+           string =    'first,second,,fourth'
+           call tokenize(string, set, tokens )
+           write(*,brackets)ch(tokens)
 
-         string =    'first,second,,,fifth'
-         call tokenize(string, set, tokens )
-         write(*,brackets)ch(tokens)
+           string =    'first,second,,,fifth'
+           call tokenize(string, set, tokens )
+           write(*,brackets)ch(tokens)
 
-         string = '  first second  third       '
-         write(*,gen)'Parse on spaces ...'
-         call tokenize(string, set=' ', tokens=tokens )
-         write(*,brackets)ch(tokens)
+           string = '  first second  third       '
+           write(*,gen)'Parse on spaces ...'
+           call tokenize(string, set=' ', tokens=tokens )
+           write(*,brackets)ch(tokens)
 
-         write(*,gen)'Parse on semicolons and commas ...'
-         string = '  first,second ,third       '
-         call tokenize(string, set=';,', tokens=tokens )
-         write(*,brackets)ch(tokens)
+           write(*,gen)'Parse on semicolons and commas ...'
+           string = '  first,second ,third       '
+           call tokenize(string, set=';,', tokens=tokens )
+           write(*,brackets)ch(tokens)
 
-         string = '  first , second ,third       '
-         call tokenize(string, set=' ,', tokens=tokens )
-         write(*,brackets)(tokens(i)%character(),i=1,size(tokens))
+           string = '  first , second ,third       '
+           call tokenize(string, set=' ,', tokens=tokens )
+           write(*,brackets)(tokens(i)%character(),i=1,size(tokens))
 
-         ! remove blank tokens
-         tokens=pack(tokens, tokens /= '' )
-         write(*,brackets)ch(tokens)
-   !
-      endblock
-   !
-   ! Execution of BOUNDS form (return position of tokens)
-   !
-      block
-      type(ut)                   :: string
-      character(len=*),parameter :: set = " ,"
-      integer,allocatable        :: first(:), last(:)
+           ! remove blank tokens
+           tokens=pack(tokens, tokens /= '' )
+           write(*,brackets)ch(tokens)
+     !
+        endblock
+     !
+     ! Execution of BOUNDS form (return position of tokens)
+     !
+        block
+        type(ut)                   :: string
+        character(len=*),parameter :: set = " ,"
+        integer,allocatable        :: first(:), last(:)
 
+           write(*,gen)repeat('1234567890',6)
 
-         write(*,gen)repeat('1234567890',6)
+           string = 'first,second,,fourth'
+           write(*,gen)ch(string)
 
-         string = 'first,second,,fourth'
-         write(*,gen)ch(string)
+           call tokenize (string, set, first, last)
+           write(*,a_commas)'FIRST=',first
+           write(*,a_commas)'LAST=',last
+           write(*,a_commas)'HAS LENGTH=',last-first.gt.0
 
-         call tokenize (string, set, first, last)
-         write(*,a_commas)'FIRST=',first
-         write(*,a_commas)'LAST=',last
-         write(*,a_commas)'HAS LENGTH=',last-first.gt.0
-
-      endblock
-      contains
-      subroutine basics(string)
-      type(ut),intent(in)  :: string
-      type(ut),allocatable :: tokens(:)
-         call tokenize(string,' ', tokens )
-         write(*,brackets)string%character(),"<==>",ch(tokens)
-      end subroutine basics
-   !
-   end program demo_tokenize
+        endblock
+        contains
+        subroutine basics(string)
+        type(ut),intent(in)  :: string
+        type(ut),allocatable :: tokens(:)
+        type(ut),allocatable :: separator(:)
+           call tokenize(string,' ,', tokens, separator )
+           write(*,brackets)string%character(),"<T>",ch(tokens)
+           write(*,brackets)string%character(),"<S>",ch(separator)
+        end subroutine basics
+     !
+     end program demo_tokenize
 
   Results:
 
-   > [],[<==>]
-   > [ ],[<==>],[]
-   > [  ],[<==>],[],[]
-   > [G],[<==>],[G]
-   > [     G],[<==>],[ ],[ ],[ ],[ ],[ ],[G]
-   > [     G    ],[<==>],[ ],[ ],[ ],[ ],[ ],[G],[ ],[ ],[ ]
-   > [     G    e  ],[<==>],[ ],[ ],[ ],[ ],[ ],[G],[ ],[ ],[ ],[e],[ ]
-   > [G    e],[<==>],[G],[ ],[ ],[ ],[e]
+   > [],[<T>]
+   > [],[<S>]
+   > [,],[<T>],[],[]
+   > [,],[<S>],[,]
+   > [,,],[<T>],[],[],[]
+   > [,,],[<S>],[,],[,]
+   > [,G],[<T>],[ ],[G]
+   > [,G],[<S>],[,]
+   > [G,],[<T>],[G],[ ]
+   > [G,],[<S>],[,]
+   > [,,G],[<T>],[ ],[ ],[G]
+   > [,,G],[<S>],[,],[,]
+   > [G],[<T>],[G]
+   > [G],[<S>]
+   > [,,,,,G],[<T>],[ ],[ ],[ ],[ ],[ ],[G]
+   > [,,,,,G],[<S>],[,],[,],[,],[,],[,]
+   > [,   ,G,,,,],[<T>],[ ],[ ],[ ],[ ],[ ],[G],[ ],[ ],[ ],[ ]
+   > [,   ,G,,,,],[<S>],[,],[ ],[ ],[ ],[,],[,],[,],[,],[,]
+   > [,, ,,G,  ,e,,],[<T>],[ ],[ ],[ ],[ ],[ ],[G],[ ],[ ],[ ],[e],[ ],[ ]
+   > [,, ,,G,  ,e,,],[<S>],[,],[,],[ ],[,],[,],[,],[ ],[ ],[,],[,],[,]
+   > [G,,,,e],[<T>],[G],[ ],[ ],[ ],[e]
+   > [G,,,,e],[<S>],[,],[,],[,],[,]
+   > [],[<T>]
+   > [],[<S>]
+   > [ ],[<T>],[],[]
+   > [ ],[<S>],[ ]
+   > [  ],[<T>],[],[],[]
+   > [  ],[<S>],[ ],[ ]
+   > [ G],[<T>],[ ],[G]
+   > [ G],[<S>],[ ]
+   > [G ],[<T>],[G],[ ]
+   > [G ],[<S>],[ ]
+   > [  G],[<T>],[ ],[ ],[G]
+   > [  G],[<S>],[ ],[ ]
+   > [G],[<T>],[G]
+   > [G],[<S>]
+   > [     G],[<T>],[ ],[ ],[ ],[ ],[ ],[G]
+   > [     G],[<S>],[ ],[ ],[ ],[ ],[ ]
+   > [     G    ],[<T>],[ ],[ ],[ ],[ ],[ ],[G],[ ],[ ],[ ],[ ]
+   > [     G    ],[<S>],[ ],[ ],[ ],[ ],[ ],[ ],[ ],[ ],[ ]
+   > [     G    e  ],[<T>],[ ],[ ],[ ],[ ],[ ],[G],[ ],[ ],[ ],[e],[ ],[ ]
+   > [     G    e  ],[<S>],[ ],[ ],[ ],[ ],[ ],[ ],[ ],[ ],[ ],[ ],[ ]
+   > [G    e],[<T>],[G],[ ],[ ],[ ],[e]
+   > [G    e],[<S>],[ ],[ ],[ ],[ ]
    > [first ],[second],[third ]
    > [first ],[second],[      ],[fourth]
    > [first ],[second],[      ],[      ],[fifth ]
    > Parse on spaces ...
-   > [ ],[ ],[first ],[second],[ ],[third ],[ ],[ ],[ ],[ ],[ ],[ ]
-   > Parse on spaces and commas ...
+   > [ ],[ ],[first ],[second],[ ],[third ],[ ],[ ],[ ],[ ],[ ],[ ],[ ]
+   > Parse on semicolons and commas ...
    > [  first     ],[second      ],[third       ]
-   > [],[],[first],[],[],[second],[],[third],[],[],[],[],[],[]
+   > [],[],[first],[],[],[second],[],[third],[],[],[],[],[],[],[]
    > [first ],[second],[third ]
    > 123456789012345678901234567890123456789012345678901234567890
    > first,second,,fourth
@@ -8973,6 +9024,7 @@ type(unicode_type), allocatable, intent(out), optional :: separator(:)
 integer, allocatable                                   :: first(:), last(:)
 integer                                                :: n
 integer                                                :: imax
+integer                                                :: isep
 ! AUTHOR   : Milan Curcic, "milancurcic@hey.com"
 ! LICENSE  : MIT
 ! VERSION  : version 0.1.0, copyright 2020, Milan Curcic
@@ -8992,11 +9044,16 @@ integer                                                :: imax
       call assign_str_char ( tokens(n) , string%character(first(n),last(n),1) )
     enddo
     !
+    ! should be able to do this looking at first and last with less ops
     if (present(separator)) then
       if(allocated(separator))deallocate(separator)
-      allocate(separator(size(tokens) - 1))
-      do n = 1,size(tokens) - 1
-        call assign_str_char ( separator(n) , string%character(first(n+1)-1,first(n+1)-1,1) )
+      allocate(separator(max(0,size(tokens) - 1)))
+      isep=0
+      do n = 1, len(string)
+        if(scan_uu(string%sub(n,n),set).ne.0)then
+           isep=isep+1
+           separator(isep)%codes=string%codes(n:n)
+        endif
       enddo
     endif
 
@@ -9069,8 +9126,14 @@ integer                                    :: slen
       endif
     enddo
 
-    first = pack([(n, n = 1, slen)], is_first(1:slen))
-    last = pack([(n, n = 1, slen)], is_last(1:slen))
+    if(slen.ne.0.and.is_separator(slen))then
+       first = pack([(n, n = 1, slen),slen], is_first(1:slen+1))
+       last = pack([(n, n = 1, slen),slen], is_last(1:slen+1))
+    else
+       first = pack([(n, n = 1, slen)], is_first(1:slen))
+       last = pack([(n, n = 1, slen)], is_last(1:slen))
+    endif
+
     do i=1,size(last)
        if(last(i)-first(i).eq.0)then
           if(scan(string%sub(first(i),last(i)),set).ne.0)then
@@ -11836,7 +11899,11 @@ integer                         :: which
    case(int(b'110')) ; start=first ; end=last      ; inc=1
    case(int(b'111')) ; start=first ; end=last      ; inc=step
    end select
-   temp%codes=self%codes(start:end:inc)
+   if(end.lt.start.and.inc.gt.0)then
+      temp%codes=[integer :: ]
+   else
+      temp%codes=self%codes(start:end:inc)
+   endif
    str_out=str_to_char(temp)
 end function oop_character
 !===================================================================================================================================
@@ -11875,7 +11942,11 @@ integer                         :: which
    case(int(b'110')) ; start=first ; end=last      ; inc=1
    case(int(b'111')) ; start=first ; end=last      ; inc=step
    end select
-   codes_out=self%codes(start:end:inc)
+   if(end.lt.start.and.inc.gt.0)then
+      codes_out=[integer :: ]
+   else
+      codes_out=self%codes(start:end:inc)
+   endif
 end function oop_codepoint
 !===================================================================================================================================
 impure function oop_verify(self,set,back) result(pos)
