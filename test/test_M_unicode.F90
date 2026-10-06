@@ -32,7 +32,7 @@ use M_unicode, only : repeat
 use M_unicode, only : upper, lower
 use M_unicode, only : expandtabs
 use M_unicode, only : reverse
-use M_unicode, only : escape, add_backslash
+use M_unicode, only : expand_backslash, add_backslash
 use M_unicode, only : pound_to_box
 use M_unicode, only : add_border
 use M_unicode, only : sort
@@ -624,13 +624,131 @@ end subroutine test_lower
 
 subroutine test_tokenize()
 type(ut),allocatable   :: tokens(:), expected(:)
+type(ut),allocatable   :: expect_t(:), expect_s(:)
 type(ut),allocatable   :: separators(:)
+type(ut)               :: in
 type(ut)               :: delims
 type(ut)               :: herbs
 character(len=:),allocatable     :: line
 integer,allocatable,dimension(:) :: begins
 integer,allocatable,dimension(:) :: ends
 integer                          :: i
+
+in='';
+expect_t=[character(len=0) ::]
+expect_s=[character(len=0) ::]
+call expectations()
+
+in=',';
+expect_t=['',''];
+expect_s=[',']
+call expectations()
+
+in=',,';
+expect_t=['','',''];
+expect_s=[',',',']
+call expectations()
+
+in=',G';
+expect_t=[' ','G'];
+expect_s=[',']
+call expectations()
+
+in='G,';
+expect_t=['G',' '];
+expect_s=[',']
+call expectations()
+
+in=',,G';
+expect_t=[' ',' ','G'];
+expect_s=[',',',']
+call expectations()
+
+in='G';
+expect_t=['G'];
+expect_s=[character(len=0)::]
+call expectations()
+
+in=',,,,,G';
+expect_t=[' ',' ',' ',' ',' ','G'];
+expect_s=[',',',',',',',',',']
+call expectations()
+
+in=',   ,G,,,,';
+expect_t=[' ',' ',' ',' ',' ','G',' ',' ',' ',' '];
+expect_s=[',',' ',' ',' ',',',',',',',',',',']
+call expectations()
+
+in=',, ,,G,  ,e,,';
+expect_t=[' ',' ',' ',' ',' ','G',' ',' ',' ','e',' ',' '];
+expect_s=[',',',',' ',',',',',',',' ',' ',',',',',',']
+call expectations()
+
+in='G,,,,e';
+expect_t=['G',' ',' ',' ','e'];
+expect_s=[',',',',',',',']
+call expectations()
+
+! wide
+in='';
+expect_t=[character(len=0) ::]
+expect_s=[character(len=0) :: ]
+call expectations()
+
+in=' ';
+expect_t=['',''];
+expect_s=[' ']
+call expectations()
+
+in='  ';
+expect_t=['','',''];
+expect_s=[' ',' ']
+call expectations()
+
+in=' 😃';
+expect_t=[ut([32]),ut([128515])];
+expect_s=[' ']
+call expectations()
+
+in='😃 ';
+expect_t=[ut([128515]),ut([32])];
+expect_s=[' ']
+call expectations()
+
+in='  😃';
+expect_t=[ut([32]),ut([32]),ut([128515])];
+expect_s=[' ',' ']
+call expectations()
+
+in='😃';
+expect_t=[ut([128515])];
+expect_s=[character(len=0) :: ];
+call expectations()
+
+in='     😃';
+expect_t=[ut([32]),ut([32]),ut([32]),ut([32]),ut([32]),ut([128515])];
+expect_s=[' ',' ',' ',' ',' ']
+call expectations()
+
+in='     😃    ';
+expect_t=[ut([32]),ut([32]),ut([32]),ut([32]),ut([32]),ut([128515]),ut([32]),ut([32]),ut([32]),ut([32])];
+expect_s=[' ',' ',' ',' ',' ',' ',' ',' ',' ']
+call expectations()
+
+in='     😃    e  ';
+expect_t=[ut([32]),ut([32]),ut([32]),ut([32]),ut([32]),ut([128515]),ut([32]),ut([32]),ut([32]),ut([101]),ut([32]),ut([32])];
+expect_s=[' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ']
+call expectations()
+
+in='😃    e';
+expect_t=[ut([128515]),ut([32]),ut([32]),ut([32]),ut([101])];
+expect_s=[' ',' ',' ',' ']
+call expectations()
+
+in="α β γ"
+expect_t=[ ut("α"), ut("β"), ut("γ")]
+expect_s=[ ' ',' ']
+call expectations()
 
    delims = ' ,&'
    herbs  = 'parsley,sage,rosemary&thyme'
@@ -670,7 +788,74 @@ integer                          :: i
    enddo
    call check('tokenize', all(tokens == expected), line )
 
+   call urdu()
+contains
+
+subroutine expectations()
+type(ut),allocatable :: t(:),s(:)
+type(ut)             :: sep
+ sep=' ,'
+ call tokenize(in,sep,t,s)
+ if(size(t).eq.size(expect_t) )then
+   call check('tokenize',all(t.eq.expect_t),'for "'//ch(in)//'" expected tokens '//pra( expect_t)//' got '//pra(t))
+ else
+   call check('tokenize',.false.,'for "'//ch(in)//'" expected token size '//afmt(size( expect_t))//' got '//pra(t))
+ endif
+ if(size(s).eq.size(expect_s) )then
+   call check('tokenize',all(s.eq.expect_s),'for "'//ch(in)//'" expected separator '//pra( expect_s)//' got '//pra(s))
+ else
+   call check('tokenize',.false.,'for "'//ch(in)//'" expected separator size '//afmt(size( expect_s))//' got '//pra(s))
+ endif
+
+end subroutine expectations
+
+subroutine urdu()
+type(ut)             :: quotedurdu, romanized, english
+type(ut),allocatable :: t(:), expect_t(:), expect_s(:)
+type(ut)             :: sep
+ sep=' ,'
+
+quotedurdu=expand_backslash('\u0627\u0686\u06BE\u06D2 \u0644\u0648\u06AF\u0648\u06BA \u06A9\u0627 &
+ \u0645\u0644\u0646\u0627 \u06C1\u06CC \u0627\u0686\u06BE\u06D2 \u0645\u0633\u062A\u0642\u0628\u0644 &
+ \u06A9\u06CC \u0636\u0645\u0627\u0646\u062A \u06C1\u06D2\u06D4')
+
+romanized='ache logon ka milna hi ache mustaqbil ki zamanat hai.'
+
+english='Meeting good people is the guarantee of a good future.'
+ 
+expect_t =[ &
+expand_backslash('\u0627\u0686\u06BE\u06D2'), & 
+expand_backslash('\u0644\u0648\u06AF\u0648\u06BA'), &
+expand_backslash('\u06A9\u0627'), &
+expand_backslash('\u0645\u0644\u0646\u0627'), &
+expand_backslash('\u06C1\u06CC'), &
+expand_backslash('\u0627\u0686\u06BE\u06D2'), &
+expand_backslash('\u0645\u0633\u062A\u0642\u0628\u0644'), &
+expand_backslash('\u06A9\u06CC'), &
+expand_backslash('\u0636\u0645\u0627\u0646\u062A'), &
+expand_backslash('\u06C1\u06D2\u06D4') ]
+
+call tokenize(quotedurdu,sep,t)
+
+ if(size(t).eq.size(expect_t) )then
+   call check('tokenize',all(t.eq.expect_t),'for "'//ch(quotedurdu)//'" expected tokens '//pra( expect_t)//' got '//pra(t))
+ else
+   call check('tokenize',.false.,'for "'//ch(quotedurdu)//'" expected token size '//afmt(size( expect_t))//' got '//pra(t))
+ endif
+
+end subroutine urdu
+
 end subroutine test_tokenize
+
+function pra(uarr) result (str)
+type(ut),intent(in)          :: uarr(:)
+character(len=:),allocatable :: str
+integer                      :: i
+   str=''
+   do i=1,size(uarr)
+      str=str//'['//uarr(i)//']'
+   enddo
+end function pra
 
 subroutine test_sort()
 type(ut),allocatable :: array(:)
@@ -881,7 +1066,7 @@ type(ut)           :: ut_str
    call check('ichar',ichar(ut_str%sub(2,3)).eq.ichar('B'),'ichar(ut_str%sub(2,3))')
 end subroutine test_ichar
 
-subroutine test_escape()
+subroutine test_expand_backslash()
 type(ut)           :: ut_str
 character(len=:),allocatable :: line
 integer,allocatable          :: ints(:)
@@ -889,7 +1074,7 @@ integer,allocatable          :: ints(:)
 !    a      alert (BEL) -- g is an alias for a
 !    b      backspace
 !    c      suppress further output
-!    e      escape
+!    e      expand_backslash
 !    f      form feed
 !    n      new line
 !    r      carriage return
@@ -908,39 +1093,39 @@ integer,allocatable          :: ints(:)
 !    UZZZZZZZZ  translate Unicode codepoint value to bytes
    ut_str='\\\a\b\e\f\n\r\t\v\c'
    ints=[92,7,8,27,12,10,13,9,11]
-   ut_str=escape(ut_str)
-   call check('escape',len(ut_str).eq.9,'len')
+   ut_str=expand_backslash(ut_str)
+   call check('expand_backslash',len(ut_str).eq.9,'len')
    if( len(ut_str).eq.9 )then
-      call check('escape',all(ut_str%codepoint().eq.ints),'codes')
+      call check('expand_backslash',all(ut_str%codepoint().eq.ints),'codes')
    endif
-   call check('escape',escape(ut('\')).eq.'\','backslash at end of line')
-   call check('escape',escape(ut('text\0')).eq.'text'//char(0),'null at end')
-   call check('escape',escape(ut('\122\123A')).eq.'RSA','two')
+   call check('expand_backslash',expand_backslash(ut('\')).eq.'\','backslash at end of line')
+   call check('expand_backslash',expand_backslash(ut('text\0')).eq.'text'//char(0),'null at end')
+   call check('expand_backslash',expand_backslash(ut('\122\123A')).eq.'RSA','two')
 
    !\oN\oNN\oNNN
-   call check('escape',escape(ut('\o0Z')).eq.char(0)//'Z','null')
-   call check('escape',escape(ut('\o75Z')).eq.'=Z','oNN '//ch(escape('\o75z')))
-   call check('escape',escape(ut('\o075Z')).eq.'=Z','oNNN '//ch(escape('\o075z')))
-   call check('escape',escape(ut('\o75\o75\o076')).eq.'==>','oNNoNNoNN '//ch(escape('\o75\o75\o76')))
-   call check('escape',escape(ut('\oZ')).eq.'oZ','reasonable '//ch(escape('\oZ')))
+   call check('expand_backslash',expand_backslash(ut('\o0Z')).eq.char(0)//'Z','null')
+   call check('expand_backslash',expand_backslash(ut('\o75Z')).eq.'=Z','oNN '//ch(expand_backslash('\o75z')))
+   call check('expand_backslash',expand_backslash(ut('\o075Z')).eq.'=Z','oNNN '//ch(expand_backslash('\o075z')))
+   call check('expand_backslash',expand_backslash(ut('\o75\o75\o076')).eq.'==>','oNNoNNoNN '//ch(expand_backslash('\o75\o75\o76')))
+   call check('expand_backslash',expand_backslash(ut('\oZ')).eq.'oZ','reasonable '//ch(expand_backslash('\oZ')))
 
    ! (kaufii hai?) [Literal Meaning: “Is there coffee?”] “Do you have coffee?” (Informal)
 
    ut_str='\u0915\u0949\u092B\U0000093C\U00000940\x20\u0939\u0948\x3F'
-   call check('escape',&
-   & escape(ut_str).eq.'कॉफ़ी है?',&
+   call check('expand_backslash',&
+   & expand_backslash(ut_str).eq.'कॉफ़ी है?',&
    & 'hexadecimal and unicode ' // &
-   & ch(escape(ut_str)) )
-   call check('escape',&
-   & ch(escape(ut_str)).eq.'कॉफ़ी है?',&
+   & ch(expand_backslash(ut_str)) )
+   call check('expand_backslash',&
+   & ch(expand_backslash(ut_str)).eq.'कॉफ़ी है?',&
    & 'hexadecimal and unicode' // &
-   & ch(escape(ut_str)) )
+   & ch(expand_backslash(ut_str)) )
 
    ut_str='\x9\x09\x008\xA4\x3B1\x3B2\x221A\x221E'
    line=char(9)//char(9)//char(8)//'¤αβ√∞'
-   call check('escape',escape(ut_str).eq.line,'hexadecimal')
+   call check('expand_backslash',expand_backslash(ut_str).eq.line,'hexadecimal')
 
-end subroutine test_escape
+end subroutine test_expand_backslash
 
 subroutine test_get_env()
 type(ut) :: uname
@@ -1150,7 +1335,7 @@ integer            :: i
 
    call check('add_backslash',len(uline).eq.722,ch('len ' .cat. len(uline)))
    if( len(uline).eq.772 )then
-      call check('add_backslash',escape(uline).eq.UA,'round trip')
+      call check('add_backslash',expand_backslash(uline).eq.UA,'round trip')
    endif
    call check('add_backslash',add_backslash(ut('\')).eq.'\\','backslash at end of line')
    call check('add_backslash',add_backslash(ut('text'//char(0))).eq.'text\0','null at end')
@@ -1690,7 +1875,7 @@ use testsuite_M_unicode
    call test_adjustl()
    call test_adjustr()
    call test_concatenate()
-   call test_escape()
+   call test_expand_backslash()
    call test_expand_html()
    call test_expandtabs()
    call test_fmt()

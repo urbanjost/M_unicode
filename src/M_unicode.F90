@@ -8999,7 +8999,8 @@ integer                                                :: isep
       call assign_str_char ( tokens(n) , string%character(first(n),last(n),1) )
     enddo
     !
-    ! should be able to do this looking at first and last with less ops
+    ! should be able to do this looking at first and last with less ops in split_first_last()
+    ! as calculated which character positions are separators in split_first_last()
     if (present(separator)) then
       if(allocated(separator))deallocate(separator)
       allocate(separator(max(0,size(tokens) - 1)))
