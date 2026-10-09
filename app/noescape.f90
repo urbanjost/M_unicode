@@ -1,4 +1,4 @@
-program backslash_to_utf8
+program noescape
 ! @(#) convert backslash escape sequences to UTF-8
 use,intrinsic :: iso_fortran_env, only : stdin=>input_unit
 use,intrinsic :: iso_fortran_env, only : iostat_end
@@ -17,4 +17,4 @@ integer  :: iostat
    if(iostat /= iostat_end)then
       write(*,*)'error reading input:',ch(line)
    endif
-end program backslash_to_utf8
+end program noescape

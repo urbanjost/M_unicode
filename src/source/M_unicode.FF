@@ -1,3 +1,11 @@
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
+! next:
+! strings to numbers
+! regular expressions
+! utf-8 to keyword 
+! conversion to keyword should look to substitute HTML entity words instead of just numbers
 !-----------------------------------------------------------------------------------------------------------------------------------
 #include "define_compiler.inc"
 !-----------------------------------------------------------------------------------------------------------------------------------
@@ -398,10 +406,10 @@ PUBLIC :: READ(FORMATTED), READ(UNFORMATTED)
 $ENDIF
 
 ! just for use in the parent module for operator(//) and operator(.cat. )
-private  ::  concat_g_g
-private  ::  concat_character_u,  concat_u_character
+private :: concat_g_g
+private :: concat_character_u,  concat_u_character
 
-private ::  reverse_u,  reverse_a
+private :: reverse_u,  reverse_a
 private :: a2s, s2a
 private :: binary_search_int
 private :: binary_search_chr
@@ -409,6 +417,9 @@ private :: section_uu
 private :: section_ua
 private :: section_au
 private :: section_aa
+
+private :: trimzeros_
+private :: atoi
 
 interface  isascii;  module  procedure  isascii_a,isascii_u;  end  interface  isascii
 interface  isblank;  module  procedure  isblank_a,isblank_u;  end  interface  isblank
@@ -472,13 +483,17 @@ interface pound_to_box
 end interface pound_to_box
 
 interface add_html
-   module procedure :: add_html_u
-   module procedure :: add_html_ascii
+   module procedure :: add_html_u_ascii
+   module procedure :: add_html_ascii_ascii
+   module procedure :: add_html_u_ascii_arr
+   module procedure :: add_html_ascii_ascii_arr
 end interface add_html
 
 interface add_backslash
-   module procedure :: add_backslash_u
-   module procedure :: add_backslash_ascii
+   module procedure :: add_backslash_u_ascii
+   module procedure :: add_backslash_ascii_ascii
+   module procedure :: add_backslash_u_ascii_arr
+   module procedure :: add_backslash_ascii_ascii_arr
 end interface add_backslash
 
 interface scan
@@ -2163,6 +2178,8 @@ private :: keyword_scalar_ut
 private :: keyword_matrix_ut
 private :: keyword_scalar_utf8
 private :: keyword_matrix_utf8
+
+!private :: keyword_key_scalar_ut
 
 private :: keyword_get
 
@@ -4920,8 +4937,8 @@ end subroutine assign_char_str
 
 !> Assign a character sequence to a string.
 pure elemental subroutine assign_str_char(lhs, rhs)
-type(unicode_type), intent(out) :: lhs
-character(len=*), intent(in)    :: rhs
+type(unicode_type),intent(out)  :: lhs
+character(len=*),intent(in)     :: rhs
 integer                         :: nerr
    call utf8_to_codepoints_str(rhs,lhs%codes,nerr)
 end subroutine assign_str_char
@@ -4931,7 +4948,7 @@ type(unicode_type),intent(out) :: lhs
 character(len=*),intent(in)    :: rhs(:)
 integer                        :: nerr
 integer                        :: i
-integer,allocatable              :: temp(:)
+integer,allocatable            :: temp(:)
    if(allocated(lhs%codes))deallocate(lhs%codes)
    allocate(lhs%codes(0))
    do i=1,size(rhs)
@@ -10749,15 +10766,7 @@ LICENSE
     MIT
 $ENDBLOCK
 $!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-function add_backslash_ascii(line) result(out)
-character(len=*),intent(in)   :: line
-character(len=:),allocatable  :: out
-type(unicode_type)            :: uline
-   call assign_str_char ( uline, line )
-   out=add_backslash(uline)
-end function add_backslash_ascii
-
-function add_backslash_u(line) result(out)
+function add_backslash_u_ascii(line) result(out)
 !$@(#) M_unicode::add_backslash(3f): return string with non-printable ASCII-8 and non-ASCII-7 characters encoded as escape sequences
 type(unicode_type),intent(in) :: line
 character(len=:),allocatable  :: out
@@ -10805,7 +10814,53 @@ do i=1,len(line)
    end select
    out=out//str
 enddo
-end function add_backslash_u
+end function add_backslash_u_ascii
+
+function add_backslash_ascii_ascii(line) result(out)
+!
+! wrapper for ascii ==> ascii_escaped
+!
+character(len=*),intent(in)   :: line
+character(len=:),allocatable  :: out
+type(unicode_type)            :: uline
+   call assign_str_char ( uline, line )
+   out=add_backslash(uline)
+end function add_backslash_ascii_ascii
+
+function add_backslash_u_ascii_arr(uline) result(aout)
+! given array of strings return array of expanded character variables
+type(unicode_type),intent(in) :: uline(:)
+character(len=:),allocatable  :: aout(:)
+integer                       :: i
+integer                       :: maxlen
+integer                       :: isize
+isize=size(uline)
+
+   ! render just to get maximum length, which is exprensive
+   maxlen=0
+   do i=1,isize
+      maxlen=max(maxlen,len(add_backslash(uline(i)) ))
+   enddo
+
+   allocate(character(len=maxlen) :: aout(isize) )
+   do i=1,isize
+      aout(i)=add_backslash( uline(i) )
+   enddo
+
+end function add_backslash_u_ascii_arr
+
+
+function add_backslash_ascii_ascii_arr(line) result(aout)
+! given array of strings return array of expanded character variables
+character(len=*),intent(in)  :: line(:)
+character(len=len(line))     :: aout(size(line))
+integer                      :: i
+
+   do i=1,size(line)
+      aout(i)=add_backslash_ascii_ascii( line(i) )
+   enddo
+
+end function add_backslash_ascii_ascii_arr
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
@@ -10908,15 +10963,42 @@ LICENSE
     MIT
 $ENDBLOCK
 $!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-function add_html_ascii(line) result(out)
+function add_html_ascii_ascii(line) result(out)
 character(len=*),intent(in)   :: line
 character(len=:),allocatable  :: out
 type(unicode_type)            :: uline
    call assign_str_char ( uline, line )
    out=add_html(uline)
-end function add_html_ascii
+end function add_html_ascii_ascii
 
-function add_html_u(line) result(out)
+function add_html_ascii_ascii_arr(line) result(out)
+character(len=*),intent(in)    :: line(:)
+character(len=:),allocatable   :: out(:)
+type(unicode_type),allocatable :: uline(:)
+   uline=line
+   out=add_html_u_ascii_arr( uline )
+end function add_html_ascii_ascii_arr
+
+function add_html_u_ascii_arr(line) result(aout)
+! given array of strings return array of expanded character variables
+type(unicode_type),allocatable :: line(:)
+character(len=:),allocatable   :: aout(:)
+integer                        :: i
+integer                        :: maxlen
+integer                        :: isize
+   isize=size(line)
+   ! render just to get maximum length, which is not efficient
+   maxlen=0
+   do i=1,isize
+      maxlen=max(maxlen,len(add_html(line(i)) ))
+   enddo
+   allocate(character(len=maxlen) :: aout(size(line) ) )
+   do i=1,isize
+      aout(i)=add_html_u_ascii( line(i) )
+   enddo
+end function add_html_u_ascii_arr
+
+function add_html_u_ascii(line) result(out)
 !$@(#) M_unicode::add_html(3f): return string with non-printable ASCII-8 and non-ASCII-7 characters encoded as HTML
 type(unicode_type),intent(in) :: line
 character(len=:),allocatable  :: out
@@ -10944,7 +11026,7 @@ do i=1,len(line)
    end select
    out=out//trim(str)
 enddo
-end function add_html_u
+end function add_html_u_ascii
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
@@ -11773,13 +11855,13 @@ end function oop_expand_backslash
 function oop_add_html(self) result (string_out)
 class(unicode_type),intent(in)       :: self
 type(unicode_type)                   :: string_out
-   call assign_str_char ( string_out, add_html_u(self) )
+   call assign_str_char ( string_out, add_html_u_ascii(self) )
 end function oop_add_html
 !===================================================================================================================================
 function oop_add_backslash(self) result (string_out)
 class(unicode_type),intent(in)       :: self
 type(unicode_type)                   :: string_out
-   call assign_str_char ( string_out, add_backslash_u(self) )
+   call assign_str_char ( string_out, add_backslash_u_ascii(self) )
 end function oop_add_backslash
 !===================================================================================================================================
 impure function oop_reverse(self) result (string_out)
@@ -12602,6 +12684,116 @@ end function fmt_gs
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
+$BLOCK COMMENT --file PRIVATE/atoi.3m_unicode.man
+NAME
+   atoi(3f) - [M_strings:TYPE] function returns a 32-bit
+   integer value from a string
+   (LICENSE:PD)
+
+SYNOPSIS
+
+   pure elemental function atoi (string) result(val)
+
+    character(len=*),intent(in)              :: string
+    integer(kind=int32),intent(out) :: val
+
+DESCRIPTION
+   function atoi(3f) converts a string representing an integer value
+   to a numeric 32-bit integer value.
+
+OPTIONS
+   str   holds string assumed to represent a numeric integer value
+
+RETURNS
+   val   returned INTEGER.
+
+EXAMPLES
+
+   Sample Program:
+
+      program demo_atoi
+
+       use iso_fortran_env, only: wp => int32
+       use M_unicode, only: atoi
+       implicit none
+       character(len=14),allocatable :: strings(:)
+       integer(kind=wp)              :: iv
+       integer                       :: i
+
+       ! different strings representing whole numbers
+       strings=[&
+       &'+10           ',&
+       &'    -3        ',&
+       &'              ',& ! Note: will return zero without an error message
+       &'1 2 1 2 1 . 0 ',& ! Note: will just read first value
+       &'WHAT?         ']  ! Note: will return zero without an error message
+
+       do i=1,size(strings)
+          iv=atoi(strings(i))
+          write(*,'(*(g0,1x))')'STRING:',strings(i),':VALUE:',iv
+       enddo
+
+       end program demo_atoi
+
+ Results:
+
+  > STRING: +10            :VALUE: 10
+  > STRING:     -3         :VALUE: -3
+  > STRING:                :VALUE: 0
+  > STRING: 1 2 1 2 1 . 0  :VALUE: 1
+  > STRING: WHAT?          :VALUE: 0
+
+AUTHOR
+   John S. Urban
+
+LICENSE
+   Public Domain
+$ENDBLOCK
+$!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+pure elemental function atoi (string) result(val)    ! Convert STRING to an integer value
+integer(kind=int32) :: val
+character(len=*), intent(in) :: string
+character(len=1)             :: c
+integer                      :: i
+integer                      :: j
+integer                      :: iilen
+logical                      :: neg
+
+   val = 0
+   neg=.false.
+   i=0
+   c=' '
+
+   iilen=len(string)
+   do i=1, iilen                               ! Pass over any leading spaces
+      c = string(i:i)
+      if (c  /=  ' ') exit
+   enddo
+
+   if (c  ==  '-') then                       ! check for +- as first digit
+      neg = .true.
+      i = i + 1
+   elseif (c  ==  '+') then
+      neg = .false.
+      i = i + 1
+   endif
+
+   do j=i,iilen                                ! Continue as long as its a digit ...
+      c = string(j:j)
+      if (lge(c, '0') .and. lle(c, '9')) then
+         val = 10*val + ichar(c)-48           ! Shift number over and add new digit
+      else
+         exit
+      endif
+   enddo
+
+   if (neg) val = -val                        ! Negate the result if necessary
+
+end function atoi
+$ENDBLOCK 
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
 $BLOCK COMMENT --file PRIVATE/trimzeros_.3m_unicode.man
 NAME
     TRIMZEROS_(3fp) - [M_unicode:EDITING] Delete trailing zeros from
@@ -13309,6 +13501,9 @@ EXAMPLES
        call keyword_update('/blink',char(27)//'[25m')
        write(*,'(a)') ch(keyword('<blink>Items for Friday</blink>'))
 
+       write(*,'(a)') ch(keyword(&
+       'decimal keywords <119 79 114 107> as well'))
+
     contains
     subroutine printstuff(action)
     character(len=*),intent(in)  :: action
@@ -13327,6 +13522,24 @@ EXAMPLES
 
     end subroutine printstuff
     end program demo_keyword
+
+
+  Results:
+
+   > TEST ACTION=raw_mode
+   > c=<pi><times>d
+   > a=<pi><times>r<S2>
+   > <Delta><delta>
+   > Copyright<copy>
+
+   > TEST ACTION=alias_mode
+   > c=π×d
+   > a=π×r²
+   > Δδ
+   > Copyright©
+
+   > ADDING A CUSTOM SEQUENCE:
+   > \e[5mItems for Friday\e[25m
 
 AUTHOR
    John S. Urban, 2021
@@ -13383,15 +13596,19 @@ character(len=1)               :: letter
             name=padded%character(i+1,i+ii-1)
             name=trim(adjustl(name))
             call tokenize(name,set=unicode_type(' ,'),tokens=names)
-            do j=1,size(names)
-               if(names(j).eq.' ')cycle
-               call keyword_locate(keywords,names(j),place)
 
-               if(place.le.0)then     ! unknown name; print what you found
-                  expanded=expanded .cat. padded%character(i,i+ii)
-               else
-                  expanded=expanded .cat. keyword_get(names(j))
-               endif
+            do j=1,size(names)
+               if( names(j) .eq. ' ' )cycle
+               if( names(j)%codes(1) .gt.ichar('0') .and. names(j)%codes(1) .le. ichar('9') ) then
+	          expanded%codes = [ expanded%codes, atoi(names(j)%character()) ] 
+	       else
+                  call keyword_locate(keywords,names(j),place)
+                  if(place.le.0)then     ! unknown name; print what you found
+                     expanded=expanded .cat. names(j)
+                  else
+                     expanded=expanded .cat. keyword_get(names(j))
+                  endif
+	       endif
             enddo
             i=ii+i+1
          endif
@@ -13447,6 +13664,57 @@ do i=1,size(strings)
 enddo
 
 end subroutine kludge_bug
+
+!function keyword_key_scalar_ut(string) result (expanded)
+!type(unicode_type),intent(in)  :: string
+!type(unicode_type)             :: expanded
+!integer                        :: i
+!integer                        :: j
+!integer                        :: iout
+!integer                        :: place
+!integer,allocatable            :: ints(:)
+!integer                        :: letter
+!integer,parameter              :: gt=ichar('>'), lt=ichar('<')
+!character(len=:),allocatable   :: name
+!
+!   if(allocated(ints))deallocate(ints)
+!
+!   ! for now, longest name is 31 characters so make large enough to expand anything
+!   allocate(ints(31*(len(string)+2)))
+!
+!   iout=0
+!   do i=1,len(string)
+!      letter=string%codes(i)
+!      select case(letter)
+!       case(32:126)
+!         iout=iout+1
+!         ints(iout)=letter
+!       case(:-1)
+!       case default
+!   
+!          call keyword_locate(entities,names(j),place)
+!         place=binary_search_int(entities%codes,letter)
+!   
+!         if(place.le.0)then
+!            iout=iout+1
+!            ints(iout)=letter
+!         else
+!            iout=iout+1
+!            ints(iout)=lt
+!   
+!            name=entities(place)%name
+!            do j=1,len_trim(name)
+!               iout=iout+1
+!               ints(iout)=ichar(name(j:j))
+!            enddo
+!   
+!            iout=iout+1
+!            ints(iout)=gt
+!         endif
+!      end select
+!   enddo
+!   expanded%codes=ints(1:iout)
+!end function keyword_key_scalar_ut
 
 subroutine keyword_load_defaults()
 ! create a dictionary with character keywords, values, and value lengths
@@ -13664,6 +13932,42 @@ EXAMPLES
 
     end program demo_keyword_mode
 
+  Results:
+
+   The escape sequences below add or remove text attributes
+   like color when displayed on an ANSI-compatible terminal
+
+   > δ
+   > \e[40m\e[32m c=π×d \e[39m\e[49m
+   > ω
+   > 
+   > <delta>                       
+   > <E><g> c=<pi><times>d </g></E>
+   > <omega>                       
+   >                               
+   > δ        
+   >    c=π×d
+   > ω        
+   >           
+   > δ                           
+   > \e[40m\e[32m c=π×d \e[39m\e[49m
+   > ω                           
+   >                              
+   > KEYWORD         VALUE
+   > AElig            [Æ]      [Æ]
+   > Abreve           [Ă]      [Ă]
+   > Acirc            [Â]      [Â]
+   >   :               :        :
+   >   :               :        :
+   >   :               :        :
+   > zeetrf           [ℨ]      [ℨ]
+   > zeta             [ζ]      [ζ]
+   > zfr              [𝔷]      [𝔷]
+   > zhcy             [ж]      [ж]
+   > zigrarr          [⇝]      [⇝]
+   > zopf             [𝕫]      [𝕫]
+   > zscr             [𝓏]      [𝓏]
+
 AUTHOR
    John S. Urban, 2021
 
@@ -13787,6 +14091,22 @@ EXAMPLES
         'CUSTOMIZED: <r>Apple</r>, <b>Sky</b>, <g>Grass</g>'))
         write(*,'(a)') ch(keyword('<reset>'))
      end program demo_keyword_update
+
+  Results:
+
+  The escape sequences below change text attributes and color when
+  displayed on an ANSI-compatible terminal
+
+   > \e[H\e[2JTEST CUSTOMIZATIONS:
+   > 
+   > \e[5mItems for Friday\e[25m
+   > 
+   >  \e[41m\e[1m\e[37mBIG mistake!\e[49m\e[39m Did not see that coming.
+   > 
+   > ORIGINALLY: \e[31mApple\e[39m, \e[34mSky\e[39m, \e[32mGrass\e[39m
+   > 
+   > CUSTOMIZED: <r>Apple</r>, <<<<Sky>>>>, \e[32mGrass\e[39m
+   > \e[0m
 
 AUTHOR
    John S. Urban, 2021
@@ -13915,9 +14235,9 @@ integer                       :: place
 end function keyword_get
 
 subroutine keyword_locate(list,value,place,ier,errmsg)
+type(unicode_type),allocatable        :: list(:)
 type(unicode_type),intent(in)         :: value
 integer,intent(out)                   :: place
-type(unicode_type),allocatable        :: list(:)
 integer,intent(out),optional          :: ier
 character(len=*),intent(out),optional :: errmsg
 integer                               :: i
