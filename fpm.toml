@@ -11,13 +11,3 @@ homepage = "https://github.com/urbanjost/M_unicode.git"
 
 [install]
    library = true
-
-[[executable]]
-   name="escape"
-   source-dir="app"
-   main="escape.f90"
-
-[[executable]]
-   name="utf8_to_backslash"
-   source-dir="app"
-   main="utf8_to_backslash.f90"
