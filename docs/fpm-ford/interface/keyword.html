@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.3% of total for procedures.</p>Including implementation: 83 statements,  3.6% of total for procedures.">6 statements</a>
+                 title="<p> 0.3% of total for procedures.</p>Including implementation: 87 statements,  3.7% of total for procedures.">6 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -176,113 +176,7 @@
     <div class="card-header codesum"><span class="anchor" id="proc-keyword_scalar_ut"></span> <h3>private  function keyword_scalar_ut(string) result(expanded)  
 </h3></div>
     <div class="card-body">
-        <h2 id="name">NAME</h2>
-<div class="codehilite"><pre><span></span><code><span class="n">keyword</span><span class="p">(</span><span class="mi">3</span><span class="n">f</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">[</span><span class="n">M_unicode</span><span class="o">]</span><span class="w"> </span><span class="n">substitute</span><span class="w"> </span><span class="n">HTML</span><span class="o">-</span><span class="ow">like</span><span class="w"> </span><span class="n">keywords</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">other</span><span class="w"> </span><span class="n">strings</span>
-<span class="p">(</span><span class="nl">LICENSE</span><span class="p">:</span><span class="n">MIT</span><span class="p">)</span>
-</code></pre></div>
-
-<h2 id="synopsis">SYNOPSIS</h2>
-<div class="codehilite"><pre><span></span><code><span class="w">  </span><span class="k">function</span><span class="w"> </span><span class="nf">keyword</span><span class="p">(</span>string<span class="p">)</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="p">(</span><span class="n">expanded</span><span class="p">)</span>
-
-<span class="w">    </span>!<span class="w"> </span><span class="n">scalar</span>
-<span class="w">    </span><span class="n">character</span><span class="p">(</span><span class="n">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="nb">string</span>
-<span class="w">    </span>!<span class="w"> </span><span class="n">or</span>
-<span class="w">    </span><span class="nb">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="nb">string</span>
-
-<span class="w">    </span>!<span class="w"> </span><span class="n">or</span><span class="w"> </span><span class="n">array</span>
-<span class="w">    </span><span class="n">character</span><span class="p">(</span><span class="n">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
-<span class="w">    </span>!<span class="w"> </span><span class="n">or</span>
-<span class="w">    </span><span class="nb">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
-
-<span class="w">    </span>!<span class="w"> </span><span class="n">output</span>
-<span class="w">    </span><span class="nb">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">             </span><span class="p">::</span><span class="w"> </span><span class="n">expanded</span>
-<span class="w">    </span>!<span class="w"> </span><span class="n">or</span><span class="w"> </span><span class="n">array</span>
-<span class="w">    </span><span class="nb">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="n">allocatable</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">expanded</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
-</code></pre></div>
-
-<h2 id="description">DESCRIPTION</h2>
-<div class="codehilite"><pre><span></span><code><span class="nv">Strings</span><span class="w"> </span><span class="nv">of</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">form</span><span class="w"> </span><span class="o">&lt;</span><span class="nv">name</span><span class="o">&gt;</span><span class="w"> </span><span class="nv">are</span><span class="w"> </span><span class="nv">replaced</span><span class="w"> </span><span class="nv">with</span><span class="w"> </span><span class="nv">another</span><span class="w"> </span><span class="nv">string</span>.
-<span class="nv">Use</span><span class="w"> </span><span class="nv">this</span><span class="w"> </span><span class="nv">HTML</span><span class="o">-</span><span class="nv">like</span><span class="w"> </span><span class="nv">syntax</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nv">purposes</span><span class="w"> </span><span class="nv">such</span><span class="w"> </span><span class="nv">as</span>:
-
-<span class="o">+</span><span class="w">  </span><span class="nv">generate</span><span class="w"> </span><span class="nv">UTF</span><span class="o">-</span><span class="mi">8</span><span class="w"> </span><span class="nv">from</span><span class="w"> </span><span class="nv">ASCII</span><span class="o">-</span><span class="mi">7</span><span class="w"> </span><span class="nv">abbreviations</span><span class="w"> </span><span class="nv">or</span><span class="w"> </span><span class="nv">keywords</span>.
-
-<span class="w">       </span><span class="nv">in</span>:<span class="w">   </span><span class="nv">c</span><span class="o">=&lt;</span><span class="nv">pi</span><span class="o">&gt;&lt;</span><span class="nv">times</span><span class="o">&gt;</span><span class="nv">d</span><span class="w">  </span><span class="nv">a</span><span class="o">=&lt;</span><span class="nv">pi</span><span class="o">&gt;&lt;</span><span class="nv">times</span><span class="o">&gt;</span><span class="nv">r</span><span class="o">&lt;</span><span class="nv">S2</span><span class="o">&gt;</span>
-<span class="w">       </span><span class="nv">out</span>:<span class="w">  </span><span class="nv">c</span><span class="o">=</span>π×<span class="nv">d</span>
-
-<span class="o">+</span><span class="w">  </span><span class="nv">expand</span><span class="w"> </span><span class="nv">custom</span><span class="w"> </span><span class="nv">acronyms</span><span class="w"> </span><span class="nv">or</span><span class="w"> </span><span class="nv">abbreviations</span>
-
-<span class="w">       </span><span class="nv">in</span>:<span class="w">   </span><span class="o">&lt;</span><span class="nv">DOE</span><span class="o">&gt;</span>
-<span class="w">       </span><span class="nv">out</span>:<span class="w">  </span><span class="nv">DOE</span><span class="ss">(</span><span class="nv">Department</span><span class="w"> </span><span class="nv">of</span><span class="w"> </span><span class="nv">Energy</span><span class="ss">)</span>
-
-<span class="nv">By</span><span class="w"> </span><span class="nv">default</span><span class="w"> </span><span class="nv">all</span><span class="w"> </span><span class="nv">HTML</span><span class="w"> </span><span class="nv">entity</span><span class="w"> </span><span class="nv">names</span><span class="w"> </span><span class="nv">are</span><span class="w"> </span><span class="nv">predefined</span><span class="w"> </span><span class="nv">including</span><span class="w"> </span><span class="nv">Greek</span>
-<span class="nv">letters</span>.<span class="w"> </span><span class="nv">Custom</span><span class="w"> </span><span class="nv">substitutions</span><span class="w"> </span><span class="nv">may</span><span class="w"> </span><span class="nv">be</span><span class="w"> </span><span class="nv">defined</span>.<span class="w"> </span><span class="nv">The</span><span class="w"> </span><span class="nv">list</span><span class="w"> </span><span class="nv">of</span><span class="w"> </span><span class="nv">keywords</span>
-<span class="nv">and</span><span class="w"> </span><span class="nv">their</span><span class="w"> </span><span class="nv">substitution</span><span class="w"> </span><span class="nv">string</span><span class="w"> </span><span class="nv">may</span><span class="w"> </span><span class="nv">be</span><span class="w"> </span><span class="nv">dumped</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">stdout</span>.
-</code></pre></div>
-
-<h2 id="options">OPTIONS</h2>
-<div class="codehilite"><pre><span></span><code>string        case-sensitive input string  of form
-
-                  "arbitrary text&lt;keyword&gt;arbitrary text"
-</code></pre></div>
-
-<h2 id="output">OUTPUT</h2>
-<div class="codehilite"><pre><span></span><code>              A string with all "&lt;keyword&gt;" strings expanded
-              or optionally left as-is
-</code></pre></div>
-
-<h2 id="limitations">LIMITATIONS</h2>
-<div class="codehilite"><pre><span></span><code><span class="nv">o</span><span class="w"> </span><span class="nv">you</span><span class="w"> </span><span class="nv">should</span><span class="w"> </span><span class="nv">use</span><span class="w"> </span><span class="s2">"&lt;gt&gt;"</span><span class="w"> </span><span class="nv">and</span><span class="w"> </span><span class="s2">"&lt;lt&gt;"</span><span class="w"> </span><span class="nv">instead</span><span class="w"> </span><span class="nv">of</span><span class="w"> </span><span class="s2">"&gt;"</span><span class="w"> </span><span class="nv">and</span><span class="w"> </span><span class="s2">"&lt;"</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">an</span><span class="w"> </span><span class="nv">string</span>
-<span class="w">  </span><span class="nv">processed</span><span class="w"> </span><span class="nv">by</span><span class="w"> </span><span class="nv">keyword</span><span class="ss">(</span><span class="mi">3</span><span class="nv">f</span><span class="ss">)</span><span class="w"> </span><span class="nv">so</span><span class="w"> </span><span class="nv">that</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">raw</span><span class="w"> </span><span class="nv">mode</span><span class="w"> </span><span class="nv">will</span><span class="w"> </span><span class="nv">create</span><span class="w"> </span><span class="nv">correct</span>
-<span class="w">  </span><span class="nv">input</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">keyword</span><span class="ss">(</span><span class="mi">3</span><span class="nv">f</span><span class="ss">)</span><span class="w"> </span><span class="nv">function</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">read</span><span class="w"> </span><span class="nv">back</span><span class="w"> </span><span class="nv">in</span>.
-<span class="nv">o</span><span class="w"> </span><span class="nv">keywords</span><span class="w"> </span><span class="nv">are</span><span class="w"> </span><span class="nv">case</span><span class="o">-</span><span class="nv">sensitive</span>
-</code></pre></div>
-
-<h2 id="examples">EXAMPLES</h2>
-<div class="codehilite"><pre><span></span><code>Sample<span class="w"> </span>program
-
-<span class="w"> </span>program<span class="w"> </span>demo_keyword
-<span class="w"> </span>use<span class="w"> </span>M_unicode,<span class="w"> </span>only<span class="w"> </span>:<span class="w"> </span>keyword,<span class="w"> </span>keyword_mode,<span class="w"> </span>keyword_update
-<span class="w"> </span>use<span class="w"> </span>M_unicode,<span class="w"> </span>only<span class="w"> </span>:<span class="w"> </span>ch=&gt;character
-
-<span class="w">    </span>call<span class="w"> </span>printstuff('raw_mode')
-<span class="w">    </span>call<span class="w"> </span>printstuff('alias_mode')
-
-<span class="w">    </span>write(*,'(a)')<span class="w"> </span>'ADDING<span class="w"> </span>A<span class="w"> </span>CUSTOM<span class="w"> </span>SEQUENCE:'
-<span class="w">    </span>call<span class="w"> </span>keyword_update('blink',char(27)//'[5m')
-<span class="w">    </span>call<span class="w"> </span>keyword_update('/blink',char(27)//'[25m')
-<span class="w">    </span>write(*,'(a)')<span class="w"> </span>ch(keyword('<span class="nt">&lt;blink&gt;</span>Items<span class="w"> </span>for<span class="w"> </span>Friday<span class="nt">&lt;/blink&gt;</span>'))
-
-<span class="w"> </span>contains
-<span class="w"> </span>subroutine<span class="w"> </span>printstuff(action)
-<span class="w"> </span>character(len=*),intent(in)<span class="w">  </span>::<span class="w"> </span>action
-<span class="w"> </span>character(len=:),allocatable<span class="w"> </span>::<span class="w"> </span>array(:)
-
-<span class="w">   </span>call<span class="w"> </span>keyword_mode(action=action)
-
-<span class="w">   </span>array=[character(len=60)<span class="w"> </span>::<span class="w"> </span><span class="err">&amp;</span>
-<span class="w">    </span>'TEST<span class="w"> </span>ACTION='//action,<span class="w">    </span><span class="err">&amp;</span>
-<span class="w">    </span>'c=<span class="nt">&lt;pi&gt;&lt;times&gt;</span>d',<span class="w">          </span><span class="err">&amp;</span>
-<span class="w">    </span>'a=<span class="nt">&lt;pi&gt;&lt;times&gt;</span>r<span class="nt">&lt;S2&gt;</span>',<span class="w">      </span><span class="err">&amp;</span>
-<span class="w">    </span>'<span class="nt">&lt;Delta&gt;&lt;delta&gt;</span>',<span class="w">          </span><span class="err">&amp;</span>
-<span class="w">    </span>'Copyright<span class="nt">&lt;copy&gt;</span>']
-
-<span class="w">   </span>write(*,'(a)')<span class="w"> </span>ch(keyword(array))
-
-<span class="w"> </span>end<span class="w"> </span>subroutine<span class="w"> </span>printstuff
-<span class="w"> </span>end<span class="w"> </span>program<span class="w"> </span>demo_keyword
-</code></pre></div>
-
-<h2 id="author">AUTHOR</h2>
-<div class="codehilite"><pre><span></span><code>John S. Urban, 2021
-</code></pre></div>
-
-<h2 id="license">LICENSE</h2>
-<div class="codehilite"><pre><span></span><code>MIT
-</code></pre></div>
-
-<h2 id="see-also">SEE ALSO</h2>
-<div class="codehilite"><pre><span></span><code>keyword_mode(3f), keyword_update(3f)
-</code></pre></div>
+        
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -297,7 +191,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~66"></span>
+              <span class="anchor" id="variable-string~64"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -385,7 +279,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~67"></span>
+              <span class="anchor" id="variable-string~65"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -471,7 +365,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-10-06 12:01 +0000             </p>
+ on 2026-10-09 21:22 +0000             </p>
           </div>
         </div>
         <br>

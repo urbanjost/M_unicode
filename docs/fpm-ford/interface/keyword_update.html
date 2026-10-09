@@ -493,82 +493,7 @@
     <div class="card-header codesum"><span class="anchor" id="proc-keyword_update_ut"></span> <h3>private  subroutine keyword_update_ut(key)  
 </h3></div>
     <div class="card-body">
-        <h2 id="name">NAME</h2>
-<div class="codehilite"><pre><span></span><code><span class="n">keyword_update</span><span class="p">(</span><span class="mi">3</span><span class="n">f</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">[</span><span class="n">M_unicode</span><span class="o">]</span><span class="w"> </span><span class="k">update</span><span class="w"> </span><span class="n">internal</span><span class="w"> </span><span class="k">dictionary</span><span class="w"> </span><span class="n">given</span>
-<span class="n">keyword</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="k">value</span>
-<span class="p">(</span><span class="nl">LICENSE</span><span class="p">:</span><span class="n">MIT</span><span class="p">)</span>
-</code></pre></div>
-
-<h2 id="synopsis">SYNOPSIS</h2>
-<div class="codehilite"><pre><span></span><code><span class="nx">subroutine</span><span class="w"> </span><span class="nx">keyword_update</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span><span class="nx">val</span><span class="p">,</span><span class="nx">plainval</span><span class="p">)</span>
-
-<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w">           </span><span class="o">::</span><span class="w"> </span><span class="nx">key</span>
-<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">),</span><span class="nx">optional</span><span class="w">  </span><span class="o">::</span><span class="w"> </span><span class="nx">val</span>
-<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">),</span><span class="nx">optional</span><span class="w">  </span><span class="o">::</span><span class="w"> </span><span class="nx">plainval</span>
-<span class="w">    </span><span class="p">!</span><span class="w"> </span><span class="k">or</span>
-<span class="w">    </span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w">           </span><span class="o">::</span><span class="w"> </span><span class="nx">key</span>
-<span class="w">    </span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">),</span><span class="nx">optional</span><span class="w">  </span><span class="o">::</span><span class="w"> </span><span class="nx">val</span>
-<span class="w">    </span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">),</span><span class="nx">optional</span><span class="w">  </span><span class="o">::</span><span class="w"> </span><span class="nx">plainval</span>
-</code></pre></div>
-
-<h2 id="description">DESCRIPTION</h2>
-<div class="codehilite"><pre><span></span><code>Update internal dictionary in M_unicode(3f) module.
-</code></pre></div>
-
-<h2 id="options">OPTIONS</h2>
-<div class="codehilite"><pre><span></span><code>key       name of keyword to add, replace, or delete from dictionary
-val       if present add or replace value associated with keyword. If
-          not present remove keyword entry from dictionary.
-plainval  VAL must be present if PLAINVAL is specified. This is the
-          value to replace the keyword with if mode is set to
-          "plain_mode" via keyword_action(3f). Defaults to the same
-          value as VAL.
-</code></pre></div>
-
-<h2 id="examples">EXAMPLES</h2>
-<div class="codehilite"><pre><span></span><code>Sample<span class="w"> </span>program
-
-<span class="w">  </span>program<span class="w"> </span>demo_keyword_update
-<span class="w">  </span>use<span class="w"> </span>M_unicode,<span class="w"> </span>only<span class="w"> </span>:<span class="w"> </span>keyword,<span class="w"> </span>keyword_update,<span class="w"> </span>ch=&gt;character
-<span class="w">     </span>write(*,'(a)')<span class="w"> </span>ch(keyword('<span class="nt">&lt;clear&gt;</span>TEST<span class="w"> </span>CUSTOMIZATIONS:'))
-<span class="w">     </span>!<span class="w"> </span>add<span class="w"> </span>custom<span class="w"> </span>keywords
-
-<span class="w">     </span>call<span class="w"> </span>keyword_update('blink',char(27)//'[5m','')
-<span class="w">     </span>call<span class="w"> </span>keyword_update('/blink',char(27)//'[25m','')
-<span class="w">     </span>write(*,*)
-<span class="w">     </span>write(*,'(a)')<span class="w"> </span>ch(keyword('<span class="nt">&lt;blink&gt;</span>Items<span class="w"> </span>for<span class="w"> </span>Friday<span class="nt">&lt;/blink&gt;</span>'))
-
-<span class="w">     </span>call<span class="w"> </span>keyword_update('ouch',keyword(<span class="w"> </span><span class="err">&amp;</span>
-<span class="w">     </span>'<span class="w"> </span><span class="nt">&lt;R&gt;&lt;bo&gt;&lt;w&gt;</span>BIG<span class="w"> </span>mistake!<span class="nt">&lt;/R&gt;&lt;/w&gt;</span><span class="w"> </span>'))
-<span class="w">     </span>write(*,*)
-<span class="w">     </span>write(*,'(a)')<span class="w"> </span>ch(keyword('<span class="nt">&lt;ouch&gt;</span><span class="w"> </span>Did<span class="w"> </span>not<span class="w"> </span>see<span class="w"> </span>that<span class="w"> </span>coming.'))
-
-<span class="w">     </span>write(*,*)
-<span class="w">     </span>write(*,'(a)')<span class="w"> </span>ch(keyword(<span class="w"> </span><span class="err">&amp;</span>
-<span class="w">     </span>'ORIGINALLY:<span class="w"> </span><span class="nt">&lt;r&gt;</span>Apple<span class="nt">&lt;/r&gt;</span>,<span class="w"> </span><span class="nt">&lt;b&gt;</span>Sky<span class="nt">&lt;/b&gt;</span>,<span class="w"> </span><span class="nt">&lt;g&gt;</span>Grass<span class="nt">&lt;/g&gt;</span>'))
-
-<span class="w">     </span>!<span class="w"> </span>delete
-<span class="w">     </span>call<span class="w"> </span>keyword_update('r')
-<span class="w">     </span>call<span class="w"> </span>keyword_update('/r')
-
-<span class="w">     </span>!<span class="w"> </span>replace<span class="w"> </span>(or<span class="w"> </span>create)
-<span class="w">     </span>call<span class="w"> </span>keyword_update('b','<span class="err">&lt;&lt;&lt;&lt;</span>')
-<span class="w">     </span>call<span class="w"> </span>keyword_update('/b','&gt;&gt;&gt;&gt;')
-
-<span class="w">     </span>write(*,*)
-<span class="w">     </span>write(*,'(a)')<span class="w"> </span>ch(keyword(<span class="w"> </span><span class="err">&amp;</span>
-<span class="w">     </span>'CUSTOMIZED:<span class="w"> </span><span class="nt">&lt;r&gt;</span>Apple<span class="nt">&lt;/r&gt;</span>,<span class="w"> </span><span class="nt">&lt;b&gt;</span>Sky<span class="nt">&lt;/b&gt;</span>,<span class="w"> </span><span class="nt">&lt;g&gt;</span>Grass<span class="nt">&lt;/g&gt;</span>'))
-<span class="w">     </span>write(*,'(a)')<span class="w"> </span>ch(keyword('<span class="nt">&lt;reset&gt;</span>'))
-<span class="w">  </span>end<span class="w"> </span>program<span class="w"> </span>demo_keyword_update
-</code></pre></div>
-
-<h2 id="author">AUTHOR</h2>
-<div class="codehilite"><pre><span></span><code>John S. Urban, 2021
-</code></pre></div>
-
-<h2 id="license">LICENSE</h2>
-<div class="codehilite"><pre><span></span><code>MIT
-</code></pre></div>
+        
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -620,7 +545,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-10-06 12:01 +0000             </p>
+ on 2026-10-09 21:22 +0000             </p>
           </div>
         </div>
         <br>

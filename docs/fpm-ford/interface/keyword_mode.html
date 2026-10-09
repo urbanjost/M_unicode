@@ -189,7 +189,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-action~3"></span>
+              <span class="anchor" id="variable-action~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -213,79 +213,7 @@
     <div class="card-header codesum"><span class="anchor" id="proc-keyword_mode_utf8"></span> <h3>private  subroutine keyword_mode_utf8(action)  
 </h3></div>
     <div class="card-body">
-        <h2 id="name">NAME</h2>
-<div class="codehilite"><pre><span></span><code><span class="n">keyword_mode</span><span class="p">(</span><span class="mi">3</span><span class="n">f</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">[</span><span class="n">M_unicode</span><span class="o">]</span><span class="w"> </span><span class="k">select</span><span class="w"> </span><span class="n">processing</span><span class="w"> </span><span class="n">mode</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="k">output</span>
-<span class="k">from</span><span class="w"> </span><span class="n">keyword</span><span class="p">(</span><span class="mi">3</span><span class="n">f</span><span class="p">)</span>
-<span class="p">(</span><span class="nl">LICENSE</span><span class="p">:</span><span class="n">MIT</span><span class="p">)</span>
-</code></pre></div>
-
-<h2 id="synopsis">SYNOPSIS</h2>
-<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nx">subroutine</span><span class="w"> </span><span class="nx">keyword_mode</span><span class="p">(</span><span class="nx">action</span><span class="p">)</span>
-
-<span class="w">    </span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">action</span>
-<span class="w">    </span><span class="p">!</span><span class="k">or</span>
-<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">action</span>
-</code></pre></div>
-
-<h2 id="description">DESCRIPTION</h2>
-<div class="codehilite"><pre><span></span><code>When using the keyword(3f) procedure turn the substitution of strings
-associated with the keywords on or off. That is, turn off string
-processing so keyword(3f) just echos its input.
-</code></pre></div>
-
-<h2 id="options">OPTIONS</h2>
-<div class="codehilite"><pre><span></span><code><span class="n">ACTION</span><span class="w">  </span><span class="n">The</span><span class="w"> </span><span class="n">current</span><span class="w"> </span><span class="n">modes</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">actions</span><span class="w"> </span><span class="n">supported</span><span class="w"> </span><span class="n">are</span>
-
-<span class="n">raw_mode</span><span class="p">,</span><span class="n">raw</span><span class="w">        </span><span class="n">echo</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">input</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">keyword</span><span class="p">(</span><span class="mi">3</span><span class="n">f</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">its</span><span class="w"> </span><span class="n">output</span>
-<span class="n">alias_mode</span><span class="p">,</span><span class="n">default</span><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">alias</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">defined</span><span class="w"> </span><span class="o">&lt;</span><span class="n">keyword</span><span class="o">&gt;</span><span class="w"> </span><span class="n">string</span><span class="o">.</span>
-<span class="n">plain_mode</span><span class="p">,</span><span class="n">plain</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">alias</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">defined</span><span class="w"> </span><span class="o">&lt;</span><span class="n">keyword</span><span class="o">&gt;</span><span class="w"> </span><span class="n">string</span>
-<span class="w">                    </span><span class="n">using</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">alternate</span><span class="w"> </span><span class="n">replacement</span><span class="w"> </span><span class="n">string</span><span class="w"> </span><span class="n">specified</span>
-<span class="w">                    </span><span class="n">on</span><span class="w"> </span><span class="n">keyword_update</span><span class="p">(</span><span class="mi">3</span><span class="n">f</span><span class="p">)</span><span class="o">.</span>
-<span class="n">reload</span><span class="w">              </span><span class="n">restore</span><span class="w"> </span><span class="n">original</span><span class="w"> </span><span class="n">keyword</span><span class="w"> </span><span class="n">meanings</span><span class="w"> </span><span class="n">deleted</span><span class="w"> </span><span class="ow">or</span>
-<span class="w">                    </span><span class="n">replaced</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="n">calls</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">keyword_update</span><span class="p">(</span><span class="mi">3</span><span class="n">f</span><span class="p">)</span><span class="o">.</span>
-<span class="n">dump</span><span class="w">                </span><span class="n">display</span><span class="w"> </span><span class="n">keyword</span><span class="w"> </span><span class="n">dictionary</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">stdout</span>
-<span class="n">wipe</span><span class="w">                </span><span class="n">erase</span><span class="w"> </span><span class="n">keyword</span><span class="w"> </span><span class="n">dictionary</span>
-</code></pre></div>
-
-<h2 id="examples">EXAMPLES</h2>
-<div class="codehilite"><pre><span></span><code>Sample<span class="w"> </span>program
-
-<span class="w"> </span>program<span class="w"> </span>demo_keyword_mode
-<span class="w"> </span>use<span class="w"> </span>M_unicode,<span class="w"> </span>only<span class="w"> </span>:<span class="w"> </span>keyword,<span class="w"> </span>keyword_mode,<span class="w"> </span>character
-<span class="w"> </span>implicit<span class="w"> </span>none
-<span class="w"> </span>character(len=:),allocatable<span class="w"> </span>::<span class="w"> </span>lines(:)
-<span class="w"> </span>character(len=:),allocatable<span class="w"> </span>::<span class="w"> </span>outlines(:)
-<span class="w"> </span>integer<span class="w"> </span>::<span class="w"> </span>i
-<span class="w">    </span>lines=[character(len=110)::<span class="w"> </span><span class="err">&amp;</span>
-<span class="w">    </span><span class="err">&amp;</span>'<span class="nt">&lt;delta&gt;</span>',<span class="w">   </span><span class="err">&amp;</span>
-<span class="w">    </span><span class="err">&amp;</span>'<span class="nt">&lt;E&gt;&lt;g&gt;</span><span class="w"> </span>c=<span class="nt">&lt;pi&gt;&lt;times&gt;</span>d<span class="w"> </span><span class="nt">&lt;/g&gt;&lt;/E&gt;</span>',<span class="w">  </span><span class="err">&amp;</span>
-<span class="w">    </span><span class="err">&amp;</span>'<span class="nt">&lt;omega&gt;</span>',<span class="w">   </span><span class="err">&amp;</span>
-<span class="w">    </span><span class="err">&amp;</span>'<span class="w"> </span>']
-
-<span class="w">    </span>outlines=character(keyword(lines))
-<span class="w">    </span>write(*,'(a)')(trim(outlines(i)),i=1,size(outlines))
-
-<span class="w">    </span>call<span class="w"> </span>keyword_mode(action='raw_mode')<span class="w">   </span>!<span class="w"> </span>write<span class="w"> </span>as-is
-<span class="w">    </span>write(*,'(a)')character(keyword(lines))
-
-<span class="w">    </span>call<span class="w"> </span>keyword_mode(action='plain_mode')<span class="w">  </span>!<span class="w"> </span>return<span class="w"> </span>to<span class="w"> </span>default<span class="w"> </span>mode
-<span class="w">    </span>write(*,'(a)')character(keyword(lines))
-
-<span class="w">    </span>call<span class="w"> </span>keyword_mode(action='alias_mode')<span class="w">  </span>!<span class="w"> </span>return<span class="w"> </span>to<span class="w"> </span>default<span class="w"> </span>mode
-<span class="w">    </span>write(*,'(a)')character(keyword(lines))
-
-<span class="w">    </span>call<span class="w"> </span>keyword_mode(action='dump')
-
-<span class="w"> </span>end<span class="w"> </span>program<span class="w"> </span>demo_keyword_mode
-</code></pre></div>
-
-<h2 id="author">AUTHOR</h2>
-<div class="codehilite"><pre><span></span><code>John S. Urban, 2021
-</code></pre></div>
-
-<h2 id="license">LICENSE</h2>
-<div class="codehilite"><pre><span></span><code>MIT
-</code></pre></div>
+        
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -300,7 +228,7 @@ processing so keyword(3f) just echos its input.
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-action~2"></span>
+              <span class="anchor" id="variable-action"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -337,7 +265,7 @@ processing so keyword(3f) just echos its input.
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-10-06 12:01 +0000             </p>
+ on 2026-10-09 21:22 +0000             </p>
           </div>
         </div>
         <br>
