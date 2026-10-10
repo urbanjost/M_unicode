@@ -17,8 +17,8 @@
 !     (LICENSE:MIT)
 ! 
 ! DESCRIPTION
-!    The M_unicode(3f) module is a collection of Fortran string
-!    methods that work with UTF-8 encoded text not just ASCII-7 data.
+!    The M_unicode(3f) module is a collection of Fortran string methods
+!    that work with UTF-8 encoded text not just ASCII-7 data.
 ! 
 !    Strings are declared using the user-defined type "UNICODE_TYPE". The
 !    type supports allocatable ragged arrays where each element may be of
@@ -27,27 +27,26 @@
 !    Compiler support of the optional Fortran ISO_10646 extension is
 !    not required.
 ! 
-!    The M_unicode(3) module overloads the Fortran built-in CHARACTER
+!    The M_unicode(3f) module overloads the Fortran built-in CHARACTER
 !    intrinsics and operators to allow TYPE(UNICODE_TYPE) to use the
 !    intrinsic procedure names in much the same manner the intrinsics are
 !    used with CHARACTER variables.
 ! 
-!    The intrinsic overloads include TOKENIZE(3) and SPLIT(3) even if the
-!    underlying compiler does not yet support those intrinsics.
+!    The intrinsic overloads include TOKENIZE(3f) and SPLIT(3f) even if
+!    the underlying compiler does not yet support those intrinsics.
 ! 
-!    Overloads of assignment, logical comparisons, and concatenation using
-!    the // operator with strings are included as well
-!    to make use of TYPE(UNICODE_TYPE) largely consistent with standard
-!    CHARACTER string manipulations.
+!    Overloads of assignment, logical comparisons, and concatenation
+!    using the // operator with strings are included as well to make use
+!    of TYPE(UNICODE_TYPE) largely consistent with standard CHARACTER
+!    string manipulations.
 ! 
 !    Nearly all the methods are available using both OOP and procedural
 !    syntax.
 ! 
-!    In addition M_unicode(3) includes routines for parsing, tokenizing,
+!    In addition M_unicode(3f) includes routines for parsing, tokenizing,
 !    changing case, substituting new strings for substrings, locating
-!    strings with simple wildcard expressions, removing tabs and
-!    line terminators and other advanced non-intrinsic string
-!    manipulations.
+!    strings with simple wildcard expressions, removing tabs and line
+!    terminators and other advanced non-intrinsic string manipulations.
 ! 
 !    The **UPPER()** and **LOWER()** functions support the concept of
 !    case for the Unicode Latin characters not just the ASCII subset,
@@ -61,17 +60,18 @@
 !    particularly if the compiler does not support the UCS-4 extensions
 !    of Fortran.
 ! 
-!    Until proven otherwise M_unicode(3) should work with any environment
+!    Until proven otherwise M_unicode(3f) should work with any environment
 !    where UTF-8 files are supported.
 ! 
 !    The type components are not public to allow for use of the same user
-!    code when using other modules such as M_ucs4(3) which ultimately will
+!    code when using other modules such as M_ucs4(3f) which ultimately will
 !    provide the same user interface but internally using ISO_10646 internal
 !    encoding instead of an array of integers containing codepoints (which
-!    is what M_unicode(3) uses). This has the drawback of not permitting
+!    is what M_unicode(3f) uses). This has the drawback of not permitting
 !    easy use of array syntax directly on the codepoint array. Perhaps
-!    this decision will change but in the meantime several methods such as
-!    REPLACE(3) and CHARACTER(3) and SUB(3) provide similar functionality.
+!    this decision will change but in the meantime several methods
+!    such as REPLACE(3f) and CHARACTER(3f) and SUB(3f) provide similar
+!    functionality.
 ! 
 ! SYNOPSIS
 ! 
@@ -492,10 +492,12 @@ interface assignment(=)
    module procedure :: assign_strs_chars
    module procedure :: assign_strs_char
    module procedure :: assign_str_char
-   module procedure :: assign_str_code
-   module procedure :: assign_str_codes
+   module procedure :: assign_chars_strs
    module procedure :: assign_char_str
    module procedure :: assign_ints_str
+   module procedure :: assign_str_code
+   module procedure :: assign_str_codes
+
 end interface assignment(=)
 
 interface character
@@ -4501,6 +4503,30 @@ character, allocatable            :: temp_utf8(:)
 
 end subroutine codepoints_to_utf8_chars
 !===================================================================================================================================
+pure subroutine byte_length_of_codepoints(codepoints,lensum,nerr)
+! determine the bytes required in character variable to hold codepoints if converted to UTF-8
+intrinsic char
+integer,intent(in)                :: codepoints(:)
+integer,intent(out)               :: lensum
+integer,intent(out)               :: nerr
+integer                           :: i
+
+   nerr=0
+   lensum=0
+
+   do i = 1, size(codepoints)
+      select case ( codepoints(i) )
+      case (0:127);         lensum=lensum+1 ! 1 byte : 0xxxxxxx
+      case (128:2047);      lensum=lensum+2 ! 2 bytes : 110xxxxx 10xxxxxx
+      case (2048:65535);    lensum=lensum+3 ! 3 bytes : 1110xxxx 10xxxxxx 10xxxxxx
+      case (65536:1114111); lensum=lensum+4 ! 4 bytes : 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
+      case default;
+         if(nerr.eq.0) nerr=-i
+      end select
+   enddo
+
+end subroutine byte_length_of_codepoints
+!===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 ! NAME
@@ -4881,6 +4907,33 @@ integer                                  :: nerr
    call codepoints_to_utf8_str(rhs%codes,lhs,nerr)
 end subroutine assign_char_str
 
+!> Assign a string array to a character array
+subroutine assign_chars_strs(lhs, rhs)
+character(len=:),allocatable,intent(out) :: lhs(:)
+character(len=:),allocatable             :: temp
+type(unicode_type),intent(in)            :: rhs(:)
+integer                                  :: i
+integer                                  :: mx
+integer                                  :: lensum
+integer                                  :: nerr
+
+   ! get max length in bytes (not glyphs)
+   mx=0
+   do i=1,size(rhs)
+      call byte_length_of_codepoints(rhs(i)%codes,lensum,nerr)
+      mx=max( mx, lensum )
+   enddo
+
+   if(allocated(lhs))deallocate(lhs)
+   allocate(character(len=mx) :: lhs(size(rhs)))
+
+   do i=1,size(rhs)
+      call codepoints_to_utf8_str(rhs(i)%codes,temp,nerr)
+      lhs(i)(:)=temp
+   enddo
+
+end subroutine assign_chars_strs
+
 !> Assign a character sequence to a string.
 pure elemental subroutine assign_str_char(lhs, rhs)
 type(unicode_type),intent(out)  :: lhs
@@ -4946,7 +4999,7 @@ end subroutine assign_str_code
 !   + the returned value is of default INTEGER kind
 ! 
 ! DESCRIPTION
-!   LEN(3) returns the length of a type(unicode_type) string.
+!   LEN(3f) returns the length of a type(unicode_type) string.
 ! 
 !   Note that unlike the intrinsic of the same name STRING needs to be
 !   defined; as the length of each element is not defined until allocated;
@@ -5222,12 +5275,14 @@ character(len=:),allocatable   :: lines(:)
 character(len=:),allocatable   :: aline
 integer                        :: i
 integer                        :: mx
+integer                        :: lensum
 integer                        :: nerr
 
+   ! get max length in bytes (not glyphs)
    mx=0
    do i=1,size(string)
-      call codepoints_to_utf8_str(string(i)%codes,aline,nerr)
-      mx=max(mx,len(aline))
+      call byte_length_of_codepoints(string(i)%codes,lensum,nerr)
+      mx=max( mx, lensum )
    enddo
 
    if(allocated(lines))deallocate(lines)
@@ -5290,16 +5345,18 @@ character(len=:),allocatable   :: lines(:)
 character(len=:),allocatable   :: aline
 integer                        :: i
 integer                        :: mx
+integer                        :: lensum
 integer                        :: last_local
 integer                        :: nerr
 
-   mx=0
 
+   ! get max length in bytes (not glyphs)
+   mx=0
    do i=1,size(string)
       last_local=last
       if(last_local.le.0)last_local=len(string(i))
-      call codepoints_to_utf8_str(string(i)%codes(first:last_local),aline,nerr)
-      mx=max(mx,len(aline))
+      call byte_length_of_codepoints(string(i)%codes(first:last_local),lensum,nerr)
+      mx=max( mx, lensum )
    enddo
 
    if(allocated(lines))deallocate(lines)
@@ -5336,15 +5393,17 @@ character(len=:),allocatable   :: lines(:)
 character(len=:),allocatable   :: aline
 integer                        :: i
 integer                        :: mx
+integer                        :: lensum
 integer                        :: nerr
 integer                        :: last_local
 
+   ! get max length in bytes (not glyphs)
    mx=0
    do i=1,size(string)
       last_local=last
       if(last_local.le.0)last_local=len(string(i))
-      call codepoints_to_utf8_str(string(i)%codes(first:last_local:step),aline,nerr)
-      mx=max(mx,len(aline))
+      call byte_length_of_codepoints(string(i)%codes(first:last_local:step),lensum,nerr)
+      mx=max( mx, lensum )
    enddo
 
    if(allocated(lines))deallocate(lines)
@@ -5362,7 +5421,7 @@ end function strs_to_chars_range_step
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 ! NAME
-!   REPEAT(3) - [M_unicode:PAD] Repeated string concatenation
+!   REPEAT(3f) - [M_unicode:PAD] Repeated string concatenation
 !   (LICENSE:MIT)
 ! 
 ! SYNOPSIS
@@ -5380,7 +5439,7 @@ end function strs_to_chars_range_step
 !   + the result is a new scalar string of type type(unicode_type)
 ! 
 ! DESCRIPTION
-!   REPEAT(3) concatenates copies of a string.
+!   REPEAT(3f) concatenates copies of a string.
 ! 
 ! OPTIONS
 !   +  STRING : The input string to repeat
@@ -5445,7 +5504,7 @@ end function repeat_str
 !   + the return value is of type default integer.
 ! 
 ! DESCRIPTION
-!   len_trim(3) returns the length of a string, ignoring any trailing
+!   len_trim(3f) returns the length of a string, ignoring any trailing
 !   blanks.
 ! 
 ! OPTIONS
@@ -5554,13 +5613,13 @@ end function len_trim_str
 !   •  the return value is of default integer kind.
 ! 
 ! DESCRIPTION
-!   ichar(3) returns the code for the character in the system's native
+!   ichar(3f) returns the code for the character in the system's native
 !   character set. the correspondence between characters and their codes is
 !   not necessarily the same across different Fortran implementations. For
 !   example, a platform using EBCDIC would return different values than
 !   an ASCII platform.
 ! 
-!   See IACHAR(3) for specifically working with the ASCII character set.
+!   See IACHAR(3f) for specifically working with the ASCII character set.
 ! 
 ! OPTIONS
 !   +  C : The input character to determine the decimal code of.
@@ -5596,7 +5655,7 @@ end function len_trim_str
 !       string=[949, 8021, 961, 951, 954, 945, 33] ! eureka
 !       write(*,'(*(DT,1x,"(AKA. eureka!)"))')string
 !       !
-!       ! call ichar(3) on each glyph of the string to convert
+!       ! call ichar(3f) on each glyph of the string to convert
 !       ! the string to an array of integer codepoints
 !       ilets=[(ichar(string%sub(i,i)),i=1,len(string))]
 !       write(*,'(*(z0,1x))')ilets
@@ -5701,7 +5760,7 @@ end function ichar_str
 !   + the result is a string.
 ! 
 ! DESCRIPTION
-!   trim(3) removes trailing blank characters from a string.
+!   trim(3f) removes trailing blank characters from a string.
 ! 
 ! OPTIONS
 !   + string : a string to trim
@@ -5806,7 +5865,7 @@ end function trim_str
 !   + the return value is a string variable
 ! 
 ! DESCRIPTION
-!   ADJUSTR(3) right-justifies a string by removing trailing spaces. Spaces
+!   ADJUSTR(3f) right-justifies a string by removing trailing spaces. Spaces
 !   are inserted at the start of the string as needed to retain the
 !   original length unless an explicit return length is specified by the
 !   GLYPHS parameter.
@@ -6008,7 +6067,7 @@ end function adjustr_str
 !   + The return value is a string variable of type(unicode_type)
 ! 
 ! DESCRIPTION
-!   adjustl(3) will left-justify a string by removing leading spaces. Spaces
+!   adjustl(3f) will left-justify a string by removing leading spaces. Spaces
 !   are inserted at the end of the string as needed to keep the number of
 !   glyphs on output the same as the number on input unless overridden by
 !   the GLYPHS parameter.
@@ -6041,10 +6100,10 @@ end function adjustr_str
 !       write(*,adt) 'original: ',usample
 !     !
 !     ! note a string stays the same length
-!     ! and is not trimmed by just an adjustl(3) call.
+!     ! and is not trimmed by just an adjustl(3f) call.
 !       write(*,adt) 'adjusted: ',adjustl(usample)
 !     !
-!     ! a fixed‐length string can be trimmed using trim(3)
+!     ! a fixed‐length string can be trimmed using trim(3f)
 !       uout=trim(adjustl(usample))
 !       write(*,adt) 'trimmed:  ',uout
 !     !
@@ -6637,7 +6696,7 @@ end function lgt_char_str
 !   + KIND       is a scalar integer constant expression.
 ! 
 ! DESCRIPTION
-!   INDEX(3) returns the position of the start of the leftmost or
+!   INDEX(3f) returns the position of the start of the leftmost or
 !   rightmost occurrence of string SUBSTRING in STRING, counting from
 !   one. If SUBSTRING is not present in STRING, zero is returned.
 ! 
@@ -8665,8 +8724,8 @@ end function lower_a
 !      coindexed object.
 ! 
 ! DESCRIPTION
-!   TOKENIZE(3) parses a string into tokens. There are two forms of the
-!   subroutine TOKENIZE(3).
+!   TOKENIZE(3f) parses a string into tokens. There are two forms of the
+!   subroutine TOKENIZE(3f).
 ! 
 !   +  The token form returns an array with one token per element,
 !      all of the same length as the longest token.
@@ -9320,7 +9379,7 @@ end function pad
 !   +  the result is an integer of default kind.
 ! 
 ! DESCRIPTION
-!   SCAN(3) scans a STRING for any of the characters in a SET of characters.
+!   SCAN(3f) scans a STRING for any of the characters in a SET of characters.
 ! 
 !   If BACK is either absent or equals .false., this function returns the
 !   position of the leftmost character of STRING that is in SET. If BACK
@@ -9474,7 +9533,7 @@ end function scan_ua
 !   +  A default integer kind is returned.
 ! 
 ! DESCRIPTION
-!   VERIFY(3) verifies that all the characters in STRING belong to the set of
+!   VERIFY(3f) verifies that all the characters in STRING belong to the set of
 !   characters in SET by identifying the position of the first character in the
 !   string that is not in the set.
 ! 
@@ -9556,8 +9615,8 @@ end function scan_ua
 !       stru=replace(stru,10,10,ut(char(11)))
 !       write(*,*)"isprint?",verify(stru,prnt) == 0
 !       !
-!       print *,"VERIFY(3) is very powerful using expressions as masks"
-!       ! verify(3) is often used in a logical expression
+!       print *,"VERIFY(3f) is very powerful using expressions as masks"
+!       ! verify(3f) is often used in a logical expression
 !       stru=" This is NOT all UPPERCASE "
 !       write(*,*)"all uppercase/spaces?",verify(stru, blank//upp) == 0
 !       stru=" This IS all uppercase "
@@ -9577,7 +9636,7 @@ end function scan_ua
 !       write(*,*)"last non‐blank character",verify(stru, blank,back=.true.)
 !       write(*,*)"first non‐letter non‐blank",verify(stru,low//upp//blank)
 !       !
-!      !VERIFY(3) is elemental (can check an array of strings in one call)
+!      !VERIFY(3f) is elemental (can check an array of strings in one call)
 !       print *, "elemental"
 !       ! are strings all letters (or blanks)?
 !       write(*,*) "array of strings",verify( &
@@ -9611,7 +9670,7 @@ end function scan_ua
 !        >  isblank aBc dEf? T
 !        >  isprint? T
 !        >  isprint? F
-!        >  VERIFY(3) is very powerful using expressions as masks
+!        >  VERIFY(3f) is very powerful using expressions as masks
 !        >  all uppercase/spaces? F
 !        >  string=[ This IS all uppercase ]
 !        >  all uppercase/spaces? F
@@ -9651,7 +9710,7 @@ end function scan_ua
 !     allocate(ints(size(asciiints))) ! gfortran bug
 !     ints=asciiints
 !     ints=trim(ints)
-!     ! show if strings pass or fail the test done by isint(3)
+!     ! show if strings pass or fail the test done by isint(3f)
 !     write(*,"('is integer?')")
 !     do i=1,size(ints)
 !       write(*,'("|",DT,T14,"|",l1,"|")') ints(i), isint(ints(i))
@@ -9922,7 +9981,7 @@ end function verify_au
 !      type(unicode_type)              :: OUT
 ! 
 ! DESCRIPTION
-!    EXPANDTABS(3) expands tabs in INSTR to spaces in OUT. It assumes a
+!    EXPANDTABS(3f) expands tabs in INSTR to spaces in OUT. It assumes a
 !    tab is set every 8 characters by default. Trailing spaces are removed.
 ! 
 ! OPTIONS
@@ -10210,7 +10269,7 @@ end function expand_html_au
 !     type(unicode_type)                     :: out
 ! 
 ! DESCRIPTION
-!    expand_backslash(3) expands commonly used C++ escape sequences that represent
+!    expand_backslash(3f) expands commonly used C++ escape sequences that represent
 !    glyphs or control characters.
 ! 
 !    Escape sequences
@@ -10528,7 +10587,7 @@ end function expand_backslash_ua
 !     character(len=:),allocatable  :: out
 ! 
 ! DESCRIPTION
-!    ADD_BACKSLASH(3) replaces non-printable ASCII-7 characters
+!    ADD_BACKSLASH(3f) replaces non-printable ASCII-7 characters
 !    and UTF-8 non-ASCII-7 characters to ASCII-7 escape sequences.
 ! 
 !    Escape sequences will all be preceded by a backslash.
@@ -10691,17 +10750,17 @@ function add_backslash_u_ascii_arr(uline) result(aout)
 type(unicode_type),intent(in) :: uline(:)
 character(len=:),allocatable  :: aout(:)
 integer                       :: i
-integer                       :: maxlen
+integer                       :: mx
 integer                       :: isize
 isize=size(uline)
 
-   ! render just to get maximum length, which is exprensive
-   maxlen=0
+   ! render just to get maximum length, which is expensive
+   mx=0
    do i=1,isize
-      maxlen=max(maxlen,len(add_backslash(uline(i)) ))
+      mx=max(mx,len(add_backslash(uline(i)) ))
    enddo
 
-   allocate(character(len=maxlen) :: aout(isize) )
+   allocate(character(len=mx) :: aout(isize) )
    do i=1,isize
       aout(i)=add_backslash( uline(i) )
    enddo
@@ -10739,7 +10798,7 @@ end function add_backslash_ascii_ascii_arr
 !     character(len=:),allocatable  :: out
 ! 
 ! DESCRIPTION
-!    ADD_HTML(3) returns a string with non-printable ASCII-7 characters
+!    ADD_HTML(3f) returns a string with non-printable ASCII-7 characters
 !    and UTF8 (ie. non-ASCII-7) characters encoded as HTML
 ! 
 !    Each converted character is printed in the form
@@ -10840,15 +10899,15 @@ function add_html_u_ascii_arr(line) result(aout)
 type(unicode_type),allocatable :: line(:)
 character(len=:),allocatable   :: aout(:)
 integer                        :: i
-integer                        :: maxlen
+integer                        :: mx
 integer                        :: isize
    isize=size(line)
    ! render just to get maximum length, which is not efficient
-   maxlen=0
+   mx=0
    do i=1,isize
-      maxlen=max(maxlen,len(add_html(line(i)) ))
+      mx=max(mx,len(add_html(line(i)) ))
    enddo
-   allocate(character(len=maxlen) :: aout(size(line) ) )
+   allocate(character(len=mx) :: aout(size(line) ) )
    do i=1,isize
       aout(i)=add_html_u_ascii( line(i) )
    enddo
@@ -11282,7 +11341,7 @@ end function transliterate_auu
 !    NAME and DEFAULT may be default CHARACTER type as well.
 ! 
 ! DESCRIPTION
-!    get_env(3) gets the value of the requested environment variable
+!    get_env(3f) gets the value of the requested environment variable
 !    as TYPE(UNICODE_TYPE) .
 ! 
 ! OPTIONS
@@ -11340,7 +11399,7 @@ end function transliterate_auu
 ! LICENSE
 !     MIT
 impure elemental function get_env_aa(name,default) result(uvalue)
-! a function that makes calling get_environment_variable(3) simple
+! a function that makes calling get_environment_variable(3f) simple
 character(len=*),intent(in)          :: name
 character(len=*),intent(in),optional :: default
 character(len=:),allocatable         :: value
@@ -11379,7 +11438,7 @@ integer                              :: length
 end function get_env_aa
 
 impure elemental function get_env_uu(name,default) result(value)
-! a function that makes calling get_environment_variable(3) simple
+! a function that makes calling get_environment_variable(3f) simple
 type(unicode_type),intent(in)          :: name
 type(unicode_type),intent(in),optional :: default
 type(unicode_type)                     :: value
@@ -11396,7 +11455,7 @@ integer                                :: nerr
 end function get_env_uu
 
 impure elemental function get_env_au(name,default) result(value)
-! a function that makes calling get_environment_variable(3) simple
+! a function that makes calling get_environment_variable(3f) simple
 character(len=*),intent(in)   :: name
 type(unicode_type),intent(in) :: default
 type(unicode_type)            :: value
@@ -11407,7 +11466,7 @@ integer                       :: nerr
 end function get_env_au
 
 impure elemental function get_env_ua(name,default) result(value)
-! a function that makes calling get_environment_variable(3) simple
+! a function that makes calling get_environment_variable(3f) simple
 type(unicode_type),intent(in)        :: name
 character(len=*),intent(in)          :: default
 type(unicode_type)                   :: value
@@ -11435,7 +11494,7 @@ end function get_env_ua
 !    DEFAULT may be default CHARACTER type as well.
 ! 
 ! DESCRIPTION
-!    get_arg(3) gets the value of the requested command line argument
+!    get_arg(3f) gets the value of the requested command line argument
 !    as TYPE(UNICODE_TYPE) .
 ! 
 ! OPTIONS
@@ -12143,7 +12202,7 @@ end function readline
 ! 
 !    type(unicode_type),allocatable,intent(out)        :: text(:)
 ! DESCRIPTION
-!    Uses READLINE(3) to read an entire formatted UTF-8 encoded file into
+!    Uses READLINE(3f) to read an entire formatted UTF-8 encoded file into
 !    a TYPE(UNICODE_TYPE) string array, each line of the file becoming an
 !    element of the output array.
 ! 
@@ -13202,7 +13261,13 @@ end subroutine write_formatted
 ! 
 !    By default all HTML entity names are predefined including Greek
 !    letters. Custom substitutions may be defined. The list of keywords
-!    and their substitution string may be dumped to stdout.
+!    and their substitution string may be dumped to stdout using
+!    keyword_mode(3f):
+! 
+!        call keyword_mode(action='dump')
+! 
+!    More than one keyword may be enclosed. Numeric keywords are assumed
+!    to be Unicode codepoints.
 ! 
 ! OPTIONS
 !    string        case-sensitive input string  of form
@@ -13229,10 +13294,11 @@ end subroutine write_formatted
 !        call printstuff('alias_mode')
 ! 
 !        write(*,'(a)') 'ADDING A CUSTOM SEQUENCE:'
-!        call keyword_update('blink',char(27)//'[5m')
-!        call keyword_update('/blink',char(27)//'[25m')
+!        call keyword_update('blink',char(27)//'[5m','')
+!        call keyword_update('/blink',char(27)//'[25m','')
 !        write(*,'(a)') ch(keyword('<blink>Items for Friday</blink>'))
 ! 
+!        write(*,'(a)') 'DECIMAL NUMBERS AS WELL:'
 !        write(*,'(a)') ch(keyword(&
 !        'decimal keywords <119 79 114 107> as well'))
 ! 
@@ -13244,7 +13310,7 @@ end subroutine write_formatted
 !       call keyword_mode(action=action)
 ! 
 !       array=[character(len=60) :: &
-!        'TEST ACTION='//action,    &
+!        'Test the mode ='//action,    &
 !        'c=<pi><times>d',          &
 !        'a=<pi><times>r<S2>',      &
 !        '<Delta><delta>',          &
@@ -13291,7 +13357,7 @@ integer                        :: i
 integer                        :: j
 integer                        :: ii
 integer                        :: padded_end
-integer                        :: maxlen
+integer                        :: mx
 integer                        :: trimmedlen
 integer                        :: place
 character(len=1)               :: letter
@@ -13305,7 +13371,7 @@ character(len=1)               :: letter
       return
    endif
 
-   maxlen=len(string)
+   mx=len(string)
    trimmedlen=len_trim(string)
    padded=string .cat. ' '
    padded_end=len(padded)
@@ -13348,7 +13414,7 @@ character(len=1)               :: letter
       end select
       if(i >= trimmedlen+1)exit
    enddo
-   expanded=expanded .cat. repeat(' ',maxlen-trimmedlen)
+   expanded=expanded .cat. repeat(' ',mx-trimmedlen)
 end function keyword_scalar_ut
 
 function keyword_scalar_utf8(string) result (expanded)
