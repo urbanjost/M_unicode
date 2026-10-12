@@ -184,22 +184,22 @@
     <section>
     <h2 id="src">Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="w">       </span><span class="k">program </span><span class="n">demo_keyword_update</span>
-<span class="w">       </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">keyword</span><span class="p">,</span><span class="w"> </span><span class="n">keyword_update</span><span class="p">,</span><span class="w"> </span><span class="n">ch</span><span class="o">=&gt;</span><span class="kt">character</span>
-<span class="kt">          </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(a)'</span><span class="p">)</span><span class="w"> </span><span class="n">ch</span><span class="p">(</span><span class="n">keyword</span><span class="p">(</span><span class="s1">'&lt;clear&gt;TEST CUSTOMIZATIONS:'</span><span class="p">))</span>
+<span class="w">       </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">keyword_expand</span><span class="p">,</span><span class="w"> </span><span class="n">keyword_update</span><span class="p">,</span><span class="w"> </span><span class="n">ch</span><span class="o">=&gt;</span><span class="kt">character</span>
+<span class="kt">          </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(a)'</span><span class="p">)</span><span class="w"> </span><span class="n">ch</span><span class="p">(</span><span class="n">keyword_expand</span><span class="p">(</span><span class="s1">'&lt;clear&gt;TEST CUSTOMIZATIONS:'</span><span class="p">))</span>
 <span class="w">          </span><span class="c">! add custom keywords</span>
 
 <span class="w">          </span><span class="k">call </span><span class="n">keyword_update</span><span class="p">(</span><span class="s1">'blink'</span><span class="p">,</span><span class="nb">char</span><span class="p">(</span><span class="mi">27</span><span class="p">)</span><span class="o">//</span><span class="s1">'[5m'</span><span class="p">,</span><span class="s1">''</span><span class="p">)</span>
 <span class="w">          </span><span class="k">call </span><span class="n">keyword_update</span><span class="p">(</span><span class="s1">'/blink'</span><span class="p">,</span><span class="nb">char</span><span class="p">(</span><span class="mi">27</span><span class="p">)</span><span class="o">//</span><span class="s1">'[25m'</span><span class="p">,</span><span class="s1">''</span><span class="p">)</span>
 <span class="w">          </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
-<span class="w">          </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(a)'</span><span class="p">)</span><span class="w"> </span><span class="n">ch</span><span class="p">(</span><span class="n">keyword</span><span class="p">(</span><span class="s1">'&lt;blink&gt;Items for Friday&lt;/blink&gt;'</span><span class="p">))</span>
+<span class="w">          </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(a)'</span><span class="p">)</span><span class="w"> </span><span class="n">ch</span><span class="p">(</span><span class="n">keyword_expand</span><span class="p">(</span><span class="s1">'&lt;blink&gt;Items for Friday&lt;/blink&gt;'</span><span class="p">))</span>
 
-<span class="w">          </span><span class="k">call </span><span class="n">keyword_update</span><span class="p">(</span><span class="s1">'ouch'</span><span class="p">,</span><span class="n">keyword</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">          </span><span class="k">call </span><span class="n">keyword_update</span><span class="p">(</span><span class="s1">'ouch'</span><span class="p">,</span><span class="n">keyword_expand</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">          </span><span class="s1">' &lt;R&gt;&lt;bo&gt;&lt;w&gt;BIG mistake!&lt;/R&gt;&lt;/w&gt; '</span><span class="p">))</span>
 <span class="w">          </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
-<span class="w">          </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(a)'</span><span class="p">)</span><span class="w"> </span><span class="n">ch</span><span class="p">(</span><span class="n">keyword</span><span class="p">(</span><span class="s1">'&lt;ouch&gt; Did not see that coming.'</span><span class="p">))</span>
+<span class="w">          </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(a)'</span><span class="p">)</span><span class="w"> </span><span class="n">ch</span><span class="p">(</span><span class="n">keyword_expand</span><span class="p">(</span><span class="s1">'&lt;ouch&gt; Did not see that coming.'</span><span class="p">))</span>
 
 <span class="w">          </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
-<span class="w">          </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(a)'</span><span class="p">)</span><span class="w"> </span><span class="n">ch</span><span class="p">(</span><span class="n">keyword</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">          </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(a)'</span><span class="p">)</span><span class="w"> </span><span class="n">ch</span><span class="p">(</span><span class="n">keyword_expand</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">          </span><span class="s1">'ORIGINALLY: &lt;r&gt;Apple&lt;/r&gt;, &lt;b&gt;Sky&lt;/b&gt;, &lt;g&gt;Grass&lt;/g&gt;'</span><span class="p">))</span>
 
 <span class="w">          </span><span class="c">! delete</span>
@@ -211,9 +211,9 @@
 <span class="w">          </span><span class="k">call </span><span class="n">keyword_update</span><span class="p">(</span><span class="s1">'/b'</span><span class="p">,</span><span class="s1">'&gt;&gt;&gt;&gt;'</span><span class="p">)</span>
 
 <span class="w">          </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
-<span class="w">          </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(a)'</span><span class="p">)</span><span class="w"> </span><span class="n">ch</span><span class="p">(</span><span class="n">keyword</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">          </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(a)'</span><span class="p">)</span><span class="w"> </span><span class="n">ch</span><span class="p">(</span><span class="n">keyword_expand</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">          </span><span class="s1">'CUSTOMIZED: &lt;r&gt;Apple&lt;/r&gt;, &lt;b&gt;Sky&lt;/b&gt;, &lt;g&gt;Grass&lt;/g&gt;'</span><span class="p">))</span>
-<span class="w">          </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(a)'</span><span class="p">)</span><span class="w"> </span><span class="n">ch</span><span class="p">(</span><span class="n">keyword</span><span class="p">(</span><span class="s1">'&lt;reset&gt;'</span><span class="p">))</span>
+<span class="w">          </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(a)'</span><span class="p">)</span><span class="w"> </span><span class="n">ch</span><span class="p">(</span><span class="n">keyword_expand</span><span class="p">(</span><span class="s1">'&lt;reset&gt;'</span><span class="p">))</span>
 <span class="w">       </span><span class="k">end program </span><span class="n">demo_keyword_update</span>
 </pre></div>
 
@@ -237,7 +237,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-10-09 21:22 +0000             </p>
+ on 2026-10-12 00:11 +0000             </p>
           </div>
         </div>
         <br>

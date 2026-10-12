@@ -10,7 +10,7 @@
     <meta name="author" content="John S. Urban" >
     <link rel="icon" href="../favicon.png">
 
-    <title>demo_keyword &ndash; M_unicode</title>
+    <title>demo_keyword_expand &ndash; M_unicode</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -80,7 +80,7 @@
 
     <div class="container">
   <div class="row">
-    <h1>demo_keyword      <small>Program</small>
+    <h1>demo_keyword_expand      <small>Program</small>
       
     </h1>
       <div class="container p-2 mb-4 bg-light border rounded-3">
@@ -95,15 +95,15 @@
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/demo_keyword.f90"> Source File</a>
+              <a href="../src/demo_expand_keyword.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/demo_keyword.f90.html'>demo_keyword.f90</a></li>
-            <li class="breadcrumb-item active" aria-current="page">demo_keyword</li>
+                <li class="breadcrumb-item"><a href='../sourcefile/demo_expand_keyword.f90.html'>demo_expand_keyword.f90</a></li>
+            <li class="breadcrumb-item active" aria-current="page">demo_keyword_expand</li>
           </ol>
         </nav>
       </div>
@@ -142,7 +142,7 @@
       </a>
       <div id="subs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../program/demo_keyword.html#proc-printstuff">printstuff</a>
+            <a class="list-group-item" href="../program/demo_keyword_expand.html#proc-printstuff">printstuff</a>
         </div>
       </div>
     </div>
@@ -157,7 +157,7 @@
     <div class="card card-primary">
       <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
       <div class="list-group">
-        <a class="list-group-item" href="../program/demo_keyword.html#src">demo_keyword</a>
+        <a class="list-group-item" href="../program/demo_keyword_expand.html#src">demo_keyword_expand</a>
       </div>
     </div>
 
@@ -212,7 +212,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-action~3"></span>
+              <span class="anchor" id="variable-action"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -237,8 +237,8 @@
 
     <section>
     <h2 id="src">Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="w">      </span><span class="k">program </span><span class="n">demo_keyword</span>
-<span class="w">      </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">keyword</span><span class="p">,</span><span class="w"> </span><span class="n">keyword_mode</span><span class="p">,</span><span class="w"> </span><span class="n">keyword_update</span>
+    <div class="hl codehilite"><pre><span></span><span class="w">      </span><span class="k">program </span><span class="n">demo_keyword_expand</span>
+<span class="w">      </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">keyword_expand</span><span class="p">,</span><span class="w"> </span><span class="n">keyword_mode</span><span class="p">,</span><span class="w"> </span><span class="n">keyword_update</span>
 <span class="w">      </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ch</span><span class="o">=&gt;</span><span class="kt">character</span>
 
 <span class="kt">         </span><span class="k">call </span><span class="n">printstuff</span><span class="p">(</span><span class="s1">'raw_mode'</span><span class="p">)</span>
@@ -247,7 +247,7 @@
 <span class="w">         </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(a)'</span><span class="p">)</span><span class="w"> </span><span class="s1">'ADDING A CUSTOM SEQUENCE:'</span>
 <span class="w">         </span><span class="k">call </span><span class="n">keyword_update</span><span class="p">(</span><span class="s1">'blink'</span><span class="p">,</span><span class="nb">char</span><span class="p">(</span><span class="mi">27</span><span class="p">)</span><span class="o">//</span><span class="s1">'[5m'</span><span class="p">)</span>
 <span class="w">         </span><span class="k">call </span><span class="n">keyword_update</span><span class="p">(</span><span class="s1">'/blink'</span><span class="p">,</span><span class="nb">char</span><span class="p">(</span><span class="mi">27</span><span class="p">)</span><span class="o">//</span><span class="s1">'[25m'</span><span class="p">)</span>
-<span class="w">         </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(a)'</span><span class="p">)</span><span class="w"> </span><span class="n">ch</span><span class="p">(</span><span class="n">keyword</span><span class="p">(</span><span class="s1">'&lt;blink&gt;Items for Friday&lt;/blink&gt;'</span><span class="p">))</span>
+<span class="w">         </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(a)'</span><span class="p">)</span><span class="w"> </span><span class="n">ch</span><span class="p">(</span><span class="n">keyword_expand</span><span class="p">(</span><span class="s1">'&lt;blink&gt;Items for Friday&lt;/blink&gt;'</span><span class="p">))</span>
 
 <span class="w">      </span><span class="k">contains</span>
 <span class="k">      subroutine </span><span class="n">printstuff</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
@@ -263,10 +263,10 @@
 <span class="w">         </span><span class="s1">'&lt;Delta&gt;&lt;delta&gt;'</span><span class="p">,</span><span class="w">          </span><span class="p">&amp;</span>
 <span class="w">         </span><span class="s1">'Copyright&lt;copy&gt;'</span><span class="p">]</span>
 
-<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(a)'</span><span class="p">)</span><span class="w"> </span><span class="n">ch</span><span class="p">(</span><span class="n">keyword</span><span class="p">(</span><span class="k">array</span><span class="p">))</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(a)'</span><span class="p">)</span><span class="w"> </span><span class="n">ch</span><span class="p">(</span><span class="n">keyword_expand</span><span class="p">(</span><span class="k">array</span><span class="p">))</span>
 
 <span class="w">      </span><span class="k">end subroutine </span><span class="n">printstuff</span>
-<span class="w">      </span><span class="k">end program </span><span class="n">demo_keyword</span>
+<span class="w">      </span><span class="k">end program </span><span class="n">demo_keyword_expand</span>
 </pre></div>
 
     </section>
@@ -289,7 +289,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-10-09 21:22 +0000             </p>
+ on 2026-10-12 00:11 +0000             </p>
           </div>
         </div>
         <br>

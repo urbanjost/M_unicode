@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.4% of total for procedures.</p>Including implementation: 60 statements,  2.6% of total for procedures.">9 statements</a>
+                 title="<p> 0.4% of total for procedures.</p>Including implementation: 81 statements,  3.5% of total for procedures.">10 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -153,10 +153,11 @@
             <a class="list-group-item" href="../interface/assignment(=).html#moduleprocedure-assign_strs_chars">assign_strs_chars</a>
             <a class="list-group-item" href="../interface/assignment(=).html#moduleprocedure-assign_strs_char">assign_strs_char</a>
             <a class="list-group-item" href="../interface/assignment(=).html#moduleprocedure-assign_str_char">assign_str_char</a>
-            <a class="list-group-item" href="../interface/assignment(=).html#moduleprocedure-assign_str_code">assign_str_code</a>
-            <a class="list-group-item" href="../interface/assignment(=).html#moduleprocedure-assign_str_codes">assign_str_codes</a>
+            <a class="list-group-item" href="../interface/assignment(=).html#moduleprocedure-assign_chars_strs">assign_chars_strs</a>
             <a class="list-group-item" href="../interface/assignment(=).html#moduleprocedure-assign_char_str">assign_char_str</a>
             <a class="list-group-item" href="../interface/assignment(=).html#moduleprocedure-assign_ints_str">assign_ints_str</a>
+            <a class="list-group-item" href="../interface/assignment(=).html#moduleprocedure-assign_str_code">assign_str_code</a>
+            <a class="list-group-item" href="../interface/assignment(=).html#moduleprocedure-assign_str_codes">assign_str_codes</a>
         </div>
       </div>
     </div>
@@ -194,7 +195,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~6"></span>
+              <span class="anchor" id="variable-lhs~7"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(out),</td>
@@ -209,7 +210,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~6"></span>
+              <span class="anchor" id="variable-rhs~7"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -248,7 +249,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~5"></span>
+              <span class="anchor" id="variable-lhs~6"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(out)</td>
@@ -263,7 +264,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~5"></span>
+              <span class="anchor" id="variable-rhs~6"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -302,7 +303,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~4"></span>
+              <span class="anchor" id="variable-lhs~5"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(out)</td>
@@ -317,7 +318,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~4"></span>
+              <span class="anchor" id="variable-rhs~5"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -338,10 +339,10 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-assign_str_code"></span> <h3>private elemental subroutine assign_str_code(lhs, rhs)  
+    <div class="card-header codesum"><span class="anchor" id="proc-assign_chars_strs"></span> <h3>private  subroutine assign_chars_strs(lhs, rhs)  
 </h3></div>
     <div class="card-body">
-        
+        <p>Assign a string array to a character array</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -356,77 +357,23 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~8"></span>
+              <span class="anchor" id="variable-lhs~4"></span>
+              character(len=:),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~4"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rhs~8"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-assign_str_codes"></span> <h3>private  subroutine assign_str_codes(lhs, rhs)  
-</h3></div>
-    <div class="card-body">
-        
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lhs~7"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rhs~7"></span>
-              integer,
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -553,6 +500,114 @@
     </div>
   </div>
 
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-assign_str_code"></span> <h3>private elemental subroutine assign_str_code(lhs, rhs)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~9"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~9"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-assign_str_codes"></span> <h3>private  subroutine assign_str_codes(lhs, rhs)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~8"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~8"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
 </div>
   </div>
       <hr>
@@ -570,7 +625,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-10-09 21:22 +0000             </p>
+ on 2026-10-12 00:11 +0000             </p>
           </div>
         </div>
         <br>

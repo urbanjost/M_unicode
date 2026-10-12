@@ -118,6 +118,7 @@ data in source files and internal I/O, not just UTF-8 encoded external data file
 It allows UTF-8 encoded strings to be processed as easily as ASCII-7
 encoded strings, without depending on a compiler supporting the
 optional ISO_10646 Unicode extension.</p>
+<p><a href="https://urbanjost.github.io/M_unicode/man3.html">index of procedures</a></p>
 <h3 id="not-just-for-utf-8">Not just for UTF-8</h3>
 <p>ASCII-7 being a subset of UTF-8 the procedures work with standard ASCII-7
 text as well.</p>
@@ -126,10 +127,16 @@ text as well.</p>
 supports all the basic character intrinsics and operators. The module
 extends this functionality with many additional string methods such as
 case conversion and sorting as well.</p>
+<h3 id="encodings">Encodings</h3>
+<p>C-style escape sequences, HTML entities, and a customizable list of
+keywords that when enclosed in greater-than less-than pairs are expanded
+to designated aliases (predefined with keywords for all the standard
+HTML entities and text attributes such as bold, italics, underline, and
+color) are all available.</p>
 <h3 id="oops-lets-do-it-again">OOPs, lets do it again ..</h3>
-<p>There is also an OOP interface. The user-defined type <strong>unicode_type</strong>
-provides not just ragged arrays of strings but nearly all the string
-methods as type-bound procedures.</p>
+<p>There is an OOP interface to the majority of the functions. The
+user-defined type <strong>unicode_type</strong> provides not just ragged arrays of
+strings but nearly all the string methods as type-bound procedures.</p>
 <h3 id="the-where-and-the-why">The Where and the Why &hellip;</h3>
 <p><strong>M_unicode</strong> is a companion to and fully implements the UTF-8
 processing discussed in the Fortran Wiki <a href="https://fortranwiki.org/fortran/show/Unicode">Unicode
@@ -163,14 +170,18 @@ name:</p>
 
 <span class="c">! additional methods</span>
 <span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">   </span><span class="n">upper</span><span class="p">,</span><span class="w">        </span><span class="n">lower</span><span class="p">,</span><span class="w">          </span><span class="n">glob</span><span class="p">,</span><span class="w">           </span><span class="p">&amp;</span>
-<span class="w">   </span><span class="n">isascii</span><span class="p">,</span><span class="w">      </span><span class="n">isblank</span><span class="p">,</span><span class="w">        </span><span class="n">isspace</span><span class="p">,</span><span class="w">        </span><span class="p">&amp;</span>
-<span class="w">   </span><span class="n">slurp</span><span class="p">,</span><span class="w">        </span><span class="n">readline</span><span class="p">,</span><span class="w">       </span><span class="n">pound_to_box</span><span class="p">,</span><span class="w">   </span><span class="p">&amp;</span>
-<span class="w">   </span><span class="n">sort</span><span class="p">,</span><span class="w">         </span><span class="n">expandtabs</span><span class="p">,</span><span class="w">     </span><span class="n">replace</span><span class="p">,</span><span class="w">        </span><span class="p">&amp;</span>
-<span class="w">   </span><span class="n">pad</span><span class="p">,</span><span class="w">          </span><span class="n">join</span><span class="p">,</span><span class="w">           </span><span class="n">fmt</span><span class="p">,</span><span class="w">            </span><span class="p">&amp;</span>
-<span class="w">   </span><span class="n">get_arg</span><span class="p">,</span><span class="w">      </span><span class="n">get_env</span><span class="p">,</span><span class="w">        </span><span class="n">transliterate</span><span class="p">,</span><span class="w">  </span><span class="p">&amp;</span>
-<span class="w">   </span><span class="n">expand_html</span><span class="p">,</span><span class="w">  </span><span class="n">add_html</span><span class="p">,</span><span class="w">                       </span><span class="p">&amp;</span>
-<span class="w">   </span><span class="n">escape</span><span class="p">,</span><span class="w">       </span><span class="n">add_backslash</span><span class="p">,</span><span class="w">  </span><span class="n">sub</span>
+<span class="w">   </span><span class="n">upper</span><span class="p">,</span><span class="w">               </span><span class="n">lower</span><span class="p">,</span><span class="w">                              </span><span class="p">&amp;</span><span class="w">               </span>
+<span class="w">   </span><span class="n">isascii</span><span class="p">,</span><span class="w">             </span><span class="n">isblank</span><span class="p">,</span><span class="w">            </span><span class="n">isspace</span><span class="p">,</span><span class="w">        </span><span class="p">&amp;</span>
+<span class="w">   </span><span class="n">glob</span><span class="p">,</span><span class="w">                                                    </span><span class="p">&amp;</span><span class="w">                                   </span>
+<span class="w">   </span><span class="n">slurp</span><span class="p">,</span><span class="w">               </span><span class="n">readline</span><span class="p">,</span><span class="w">                           </span><span class="p">&amp;</span><span class="w">               </span>
+<span class="w">   </span><span class="n">sort</span><span class="p">,</span><span class="w">                </span><span class="n">expandtabs</span><span class="p">,</span><span class="w">         </span><span class="n">replace</span><span class="p">,</span><span class="w">        </span><span class="p">&amp;</span>
+<span class="w">   </span><span class="n">pad</span><span class="p">,</span><span class="w">                 </span><span class="n">join</span><span class="p">,</span><span class="w">               </span><span class="n">fmt</span><span class="p">,</span><span class="w">            </span><span class="p">&amp;</span>
+<span class="w">   </span><span class="n">get_arg</span><span class="p">,</span><span class="w">             </span><span class="n">get_env</span><span class="p">,</span><span class="w">            </span><span class="n">transliterate</span><span class="p">,</span><span class="w">  </span><span class="p">&amp;</span>
+<span class="w">   </span><span class="n">expand_html</span><span class="p">,</span><span class="w">         </span><span class="n">add_html</span><span class="p">,</span><span class="w">                           </span><span class="p">&amp;</span><span class="w">               </span>
+<span class="w">   </span><span class="n">expand_keyword</span><span class="p">,</span><span class="w">      </span><span class="n">keyword_update</span><span class="p">,</span><span class="w">     </span><span class="n">keyword_mode</span><span class="p">,</span><span class="w">   </span><span class="p">&amp;</span>
+<span class="w">   </span><span class="n">expand_backslash</span><span class="p">,</span><span class="w">    </span><span class="n">add_backslash</span><span class="p">,</span><span class="w">                      </span><span class="p">&amp;</span><span class="w">               </span>
+<span class="w">   </span><span class="n">pound_to_box</span><span class="p">,</span><span class="w">        </span><span class="n">add_border</span><span class="p">,</span><span class="w">                         </span><span class="p">&amp;</span>
+<span class="w">   </span><span class="n">reverse</span><span class="p">,</span><span class="w">             </span><span class="n">sub</span><span class="p">,</span><span class="w">                </span><span class="kt">character</span>
 
 <span class="c">! Note operators (and overloads) and SORT(3f) use Unicode codepoint </span>
 <span class="c">! order (NOT necessarily dictionary order):</span>
@@ -185,6 +196,7 @@ name:</p>
 <span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">//</span><span class="p">)</span>
 
 <span class="c">! low-level conversion between utf-8 text and integer codepoint arrays:</span>
+
 <span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">utf8_to_codepoints</span><span class="p">,</span><span class="w"> </span><span class="n">codepoints_to_utf8</span>
 
 <span class="c">! sample usage:</span>
@@ -688,7 +700,7 @@ with the DT edit descriptor are still undergoing development.</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-10-09 21:22 +0000             </p>
+ on 2026-10-12 00:11 +0000             </p>
           </div>
         </div>
         <br>
