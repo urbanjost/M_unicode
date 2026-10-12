@@ -5,7 +5,7 @@
 ! strings to numbers
 ! regular expressions
 ! utf-8 to keyword
-! conversion to keyword should look to substitute HTML entity words instead of just numbers
+! conversion to HTML should look to substitute HTML entity words instead of just numbers
 !-----------------------------------------------------------------------------------------------------------------------------------
 #include "define_compiler.inc"
 !-----------------------------------------------------------------------------------------------------------------------------------
@@ -2138,7 +2138,7 @@ end type force_keywords
 !> Write string to connected formatted unit.
 interface write(formatted);   module procedure :: write_formatted;   end interface
 !== BEGIN KEYWORD section ==========================================================================================================
-public  :: keyword
+public  :: keyword_expand
 public  :: keyword_mode
 public  :: keyword_update
 
@@ -2164,7 +2164,7 @@ interface keyword_mode
    module procedure keyword_mode_utf8
 end interface
 
-interface keyword
+interface keyword_expand
    module procedure keyword_scalar_ut
    module procedure keyword_matrix_ut
    module procedure keyword_scalar_utf8
@@ -13224,11 +13224,11 @@ end subroutine write_formatted
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 ! NAME
-!    keyword(3f) - [M_unicode] substitute HTML-like keywords with other strings
+!    keyword_expand(3f) - [M_unicode] substitute HTML-like keywords with other strings
 !    (LICENSE:MIT)
 ! 
 ! SYNOPSIS
-!      function keyword(string) result (expanded)
+!      function keyword_expand(string) result (expanded)
 ! 
 !        ! scalar
 !        character(len=*),intent(in) :: string
@@ -13279,15 +13279,15 @@ end subroutine write_formatted
 ! 
 ! LIMITATIONS
 !    o you should use "<gt>" and "<lt>" instead of ">" and "<" in an string
-!      processed by keyword(3f) so that the raw mode will create correct
-!      input for the keyword(3f) function if read back in.
+!      processed by keyword_expand(3f) so that the raw mode will create correct
+!      input for the keyword_expand(3f) function if read back in.
 !    o keywords are case-sensitive
 ! 
 ! EXAMPLES
 !    Sample program
 ! 
 !     program demo_keyword
-!     use M_unicode, only : keyword, keyword_mode, keyword_update
+!     use M_unicode, only : keyword_expand, keyword_mode, keyword_update
 !     use M_unicode, only : ch=>character
 ! 
 !        call printstuff('raw_mode')
@@ -13296,10 +13296,10 @@ end subroutine write_formatted
 !        write(*,'(a)') 'ADDING A CUSTOM SEQUENCE:'
 !        call keyword_update('blink',char(27)//'[5m','')
 !        call keyword_update('/blink',char(27)//'[25m','')
-!        write(*,'(a)') ch(keyword('<blink>Items for Friday</blink>'))
+!        write(*,'(a)') ch(keyword_expand('<blink>Items for Friday</blink>'))
 ! 
 !        write(*,'(a)') 'DECIMAL NUMBERS AS WELL:'
-!        write(*,'(a)') ch(keyword(&
+!        write(*,'(a)') ch(keyword_expand(&
 !        'decimal keywords <119 79 114 107> as well'))
 ! 
 !     contains
@@ -13316,7 +13316,7 @@ end subroutine write_formatted
 !        '<Delta><delta>',          &
 !        'Copyright<copy>']
 ! 
-!       write(*,'(a)') ch(keyword(array))
+!       write(*,'(a)') ch(keyword_expand(array))
 ! 
 !     end subroutine printstuff
 !     end program demo_keyword
@@ -13667,7 +13667,7 @@ integer :: i
 end subroutine keyword_load_defaults
 ! NAME
 !    keyword_mode(3f) - [M_unicode] select processing mode for output
-!    from keyword(3f)
+!    from keyword_expand(3f)
 !    (LICENSE:MIT)
 ! 
 ! SYNOPSIS
@@ -13678,14 +13678,14 @@ end subroutine keyword_load_defaults
 !        type(unicode_type),intent(in) :: action
 ! 
 ! DESCRIPTION
-!    When using the keyword(3f) procedure turn the substitution of strings
+!    When using the keyword_expand(3f) procedure turn the substitution of strings
 !    associated with the keywords on or off. That is, turn off string
-!    processing so keyword(3f) just echos its input.
+!    processing so keyword_expand(3f) just echos its input.
 ! 
 ! OPTIONS
 !    ACTION  The current modes and actions supported are
 ! 
-!    raw_mode,raw        echo the input to keyword(3f) as its output
+!    raw_mode,raw        echo the input to keyword_expand(3f) as its output
 !    alias_mode,default  return the alias for a defined <keyword> string.
 !    plain_mode,plain    return the alias for a defined <keyword> string
 !                        using the alternate replacement string specified
@@ -13699,7 +13699,7 @@ end subroutine keyword_load_defaults
 !    Sample program
 ! 
 !     program demo_keyword_mode
-!     use M_unicode, only : keyword, keyword_mode, character
+!     use M_unicode, only : keyword_expand, keyword_mode, character
 !     implicit none
 !     character(len=:),allocatable :: lines(:)
 !     character(len=:),allocatable :: outlines(:)
@@ -13710,17 +13710,17 @@ end subroutine keyword_load_defaults
 !        &'<omega>',   &
 !        &' ']
 ! 
-!        outlines=character(keyword(lines))
+!        outlines=character(keyword_expand(lines))
 !        write(*,'(a)')(trim(outlines(i)),i=1,size(outlines))
 ! 
 !        call keyword_mode(action='raw_mode')   ! write as-is
-!        write(*,'(a)')character(keyword(lines))
+!        write(*,'(a)')character(keyword_expand(lines))
 ! 
 !        call keyword_mode(action='plain_mode')  ! return to default mode
-!        write(*,'(a)')character(keyword(lines))
+!        write(*,'(a)')character(keyword_expand(lines))
 ! 
 !        call keyword_mode(action='alias_mode')  ! return to default mode
-!        write(*,'(a)')character(keyword(lines))
+!        write(*,'(a)')character(keyword_expand(lines))
 ! 
 !        call keyword_mode(action='dump')
 ! 
@@ -13850,21 +13850,22 @@ end subroutine keyword_wipe_dictionary
 ! 
 !      program demo_keyword_update
 !      use M_unicode, only : keyword, keyword_update, ch=>character
-!         write(*,'(a)') ch(keyword('<clear>TEST CUSTOMIZATIONS:'))
+!      character(len=*),parameter :: a='(a)'
+!         write(*,'(a)') ch(keyword_expand('<clear>TEST CUSTOMIZATIONS:'))
 !         ! add custom keywords
 ! 
 !         call keyword_update('blink',char(27)//'[5m','')
 !         call keyword_update('/blink',char(27)//'[25m','')
 !         write(*,*)
-!         write(*,'(a)') ch(keyword('<blink>Items for Friday</blink>'))
+!         write(*,a) ch(keyword_expand('<blink>Items for Friday</blink>'))
 ! 
-!         call keyword_update('ouch',keyword( &
+!         call keyword_update('ouch',keyword_expand( &
 !         ' <R><bo><w>BIG mistake!</R></w> '))
 !         write(*,*)
-!         write(*,'(a)') ch(keyword('<ouch> Did not see that coming.'))
+!         write(*,a)ch(keyword_expand('<ouch> Did not see that coming.'))
 ! 
 !         write(*,*)
-!         write(*,'(a)') ch(keyword( &
+!         write(*,a) ch(keyword_expand( &
 !         'ORIGINALLY: <r>Apple</r>, <b>Sky</b>, <g>Grass</g>'))
 ! 
 !         ! delete
@@ -13876,9 +13877,9 @@ end subroutine keyword_wipe_dictionary
 !         call keyword_update('/b','>>>>')
 ! 
 !         write(*,*)
-!         write(*,'(a)') ch(keyword( &
+!         write(*,a) ch(keyword_expand( &
 !         'CUSTOMIZED: <r>Apple</r>, <b>Sky</b>, <g>Grass</g>'))
-!         write(*,'(a)') ch(keyword('<reset>'))
+!         write(*,a) ch(keyword_expand('<reset>'))
 !      end program demo_keyword_update
 ! 
 !   Results:

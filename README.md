@@ -18,6 +18,8 @@ It allows UTF-8 encoded strings to be processed as easily as ASCII-7
 encoded strings, without depending on a compiler supporting the
 optional ISO_10646 Unicode extension.
 
+[index of procedures](https://urbanjost.github.io/M_unicode/man3.html)
+
 ### Not just for UTF-8
 
 ASCII-7 being a subset of UTF-8 the procedures work with standard ASCII-7
@@ -30,11 +32,18 @@ supports all the basic character intrinsics and operators. The module
 extends this functionality with many additional string methods such as
 case conversion and sorting as well.
 
+### Encodings
+C-style escape sequences, HTML entities, and a customizable list of
+keywords that when enclosed in greater-than less-than pairs are expanded
+to designated aliases (predefined with keywords for all the standard
+HTML entities and text attributes such as bold, italics, underline, and
+color) are all available.
+
 ### OOPs, lets do it again ..
 
-There is also an OOP interface. The user-defined type **unicode\_type**
-provides not just ragged arrays of strings but nearly all the string
-methods as type-bound procedures.
+There is an OOP interface to the majority of the functions. The
+user-defined type **unicode\_type** provides not just ragged arrays of
+strings but nearly all the string methods as type-bound procedures.
 
 ### The Where and the Why ...
 
@@ -77,14 +86,18 @@ use M_unicode, only : &
 
 ! additional methods
 use M_unicode, only : &
-   upper,        lower,          glob,           &
-   isascii,      isblank,        isspace,        &
-   slurp,        readline,       pound_to_box,   &
-   sort,         expandtabs,     replace,        &
-   pad,          join,           fmt,            &
-   get_arg,      get_env,        transliterate,  &
-   expand_html,  add_html,                       &
-   escape,       add_backslash,  sub
+   upper,               lower,                              &               
+   isascii,             isblank,            isspace,        &
+   glob,                                                    &                                   
+   slurp,               readline,                           &               
+   sort,                expandtabs,         replace,        &
+   pad,                 join,               fmt,            &
+   get_arg,             get_env,            transliterate,  &
+   expand_html,         add_html,                           &               
+   expand_keyword,      keyword_update,     keyword_mode,   &
+   expand_backslash,    add_backslash,                      &               
+   pound_to_box,        add_border,                         &
+   reverse,             sub,                character
 
 ! Note operators (and overloads) and SORT(3f) use Unicode codepoint 
 ! order (NOT necessarily dictionary order):
@@ -99,6 +112,7 @@ use M_unicode, only : operator(>=), lge
 use M_unicode, only : operator(//)
 
 ! low-level conversion between utf-8 text and integer codepoint arrays:
+
 use M_unicode, only : utf8_to_codepoints, codepoints_to_utf8
 
 ! sample usage:

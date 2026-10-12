@@ -1,5 +1,5 @@
       program demo_keyword_mode
-      use M_unicode, only : keyword, keyword_mode, character
+      use M_unicode, only : keyword_expand, keyword_mode, character
       implicit none
       character(len=:),allocatable :: lines(:)
       character(len=:),allocatable :: outlines(:)
@@ -10,17 +10,17 @@
          &'<omega>',   &
          &' ']
 
-         outlines=character(keyword(lines))
+         outlines=character(keyword_expand(lines))
          write(*,'(a)')(trim(outlines(i)),i=1,size(outlines))
 
          call keyword_mode(action='raw_mode')   ! write as-is
-         write(*,'(a)')character(keyword(lines))
+         write(*,'(a)')character(keyword_expand(lines))
 
          call keyword_mode(action='plain_mode')  ! return to default mode
-         write(*,'(a)')character(keyword(lines))
+         write(*,'(a)')character(keyword_expand(lines))
 
          call keyword_mode(action='alias_mode')  ! return to default mode
-         write(*,'(a)')character(keyword(lines))
+         write(*,'(a)')character(keyword_expand(lines))
 
          call keyword_mode(action='dump')
 
