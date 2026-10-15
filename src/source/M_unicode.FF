@@ -2,10 +2,12 @@
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 ! next:
-! strings to numbers 
 ! regular expressions
+! strings to numbers
 ! utf-8 to keyword
 ! conversion to HTML should look to substitute HTML entity words instead of just numbers
+! sort with customized collation
+! Unicode Collation Algorithm (UCA) for sorting
 !-----------------------------------------------------------------------------------------------------------------------------------
 #include "define_compiler.inc"
 !-----------------------------------------------------------------------------------------------------------------------------------
@@ -189,9 +191,12 @@ SYNOPSIS
    CONCATENATION
 
    join              join elements of an array into a single string
-   operator(.cat.)   concatenate strings and/or convert intrinsics to
+
+   operator(.cat.),  concatenate strings and/or convert intrinsics to
                      strings and concatenate
-   operator(//)      concatenate strings and character variables
+
+   operator(//),     concatenate strings and character variables
+   operator(+)    
 
    SYSTEM
 
@@ -233,6 +238,7 @@ EXAMPLES
    use,intrinsic :: iso_fortran_env, only : stdout=>output_unit
    use M_unicode,only : tokenize, replace, character, upper, lower, len
    use M_unicode,only : unicode_type, assignment(=), operator(//)
+   use M_unicode,only : operator(+),operator(.cat.)
    use M_unicode,only : ut => unicode_type, ch => character
 $IFDEF HAS_DT
    use M_unicode,only : write(formatted)
@@ -391,6 +397,7 @@ PUBLIC :: LLE, LLT, LNE, LEQ, LGT, LGE
 PUBLIC :: OPERATOR(<=), OPERATOR(<), OPERATOR(/=), OPERATOR(==), OPERATOR(>), OPERATOR(>=)
 public :: assignment(=)
 public :: operator(.cat.)
+public :: operator(+)
 public :: operator(//)
 public :: isascii
 public :: isblank
@@ -438,6 +445,7 @@ end interface codepoints_to_utf8
 
 interface sort
    module procedure :: sort_quick_rx
+   module procedure :: sort_quick_rx_custom
 end interface sort
 
 interface expand_html
@@ -601,6 +609,11 @@ end interface operator(//)
 interface operator(.cat.)
    module procedure :: concat_g_g
 end interface operator(.cat.)
+
+interface operator(+)
+   module procedure :: concat_u_character,  concat_character_u
+   module procedure :: concat_u_u
+end interface operator(+)
 
 type :: unicode_type ! Unicode string type holding an arbitrary sequence of integer codes.
    !sequence ! not used for storage association; a kludge to prevent extending this type.
@@ -2221,6 +2234,18 @@ type(unicode_type),allocatable,save :: keyword_values(:)
 type(unicode_type),allocatable,save :: plain_keyword_values(:)
 
 character(len=:),allocatable,save   :: mode
+
+! An abstract interface that specifies what a custom collation function
+! should look like for SORT(3f). It must take two values and return a
+! logical value
+
+abstract interface
+   logical function unicode_comparator(str1, str2)
+      import :: unicode_type
+      type(unicode_type), intent(in) :: str1, str2
+   end function unicode_comparator
+end interface
+
 !== End of KEYWORD section =========================================================================================================
 ! backward compatibililty
 interface escape
@@ -4540,7 +4565,7 @@ character, allocatable            :: temp_utf8(:)
 
 end subroutine codepoints_to_utf8_chars
 !===================================================================================================================================
-pure subroutine byte_length_of_codepoints(codepoints,lensum,nerr) 
+pure subroutine byte_length_of_codepoints(codepoints,lensum,nerr)
 ! determine the bytes required in character variable to hold codepoints if converted to UTF-8
 intrinsic char
 integer,intent(in)                :: codepoints(:)
@@ -4557,7 +4582,7 @@ integer                           :: i
       case (128:2047);      lensum=lensum+2 ! 2 bytes : 110xxxxx 10xxxxxx
       case (2048:65535);    lensum=lensum+3 ! 3 bytes : 1110xxxx 10xxxxxx 10xxxxxx
       case (65536:1114111); lensum=lensum+4 ! 4 bytes : 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
-      case default;       
+      case default;
          if(nerr.eq.0) nerr=-i
       end select
    enddo
@@ -4961,7 +4986,7 @@ integer                                  :: nerr
    call codepoints_to_utf8_str(rhs%codes,lhs,nerr)
 end subroutine assign_char_str
 
-!> Assign a string array to a character array 
+!> Assign a string array to a character array
 subroutine assign_chars_strs(lhs, rhs)
 character(len=:),allocatable,intent(out) :: lhs(:)
 character(len=:),allocatable             :: temp
@@ -4974,7 +4999,7 @@ integer                                  :: nerr
    ! get max length in bytes (not glyphs)
    mx=0
    do i=1,size(rhs)
-      call byte_length_of_codepoints(rhs(i)%codes,lensum,nerr) 
+      call byte_length_of_codepoints(rhs(i)%codes,lensum,nerr)
       mx=max( mx, lensum )
    enddo
 
@@ -5341,7 +5366,7 @@ integer                        :: nerr
    ! get max length in bytes (not glyphs)
    mx=0
    do i=1,size(string)
-      call byte_length_of_codepoints(string(i)%codes,lensum,nerr) 
+      call byte_length_of_codepoints(string(i)%codes,lensum,nerr)
       mx=max( mx, lensum )
    enddo
 
@@ -5415,7 +5440,7 @@ integer                        :: nerr
    do i=1,size(string)
       last_local=last
       if(last_local.le.0)last_local=len(string(i))
-      call byte_length_of_codepoints(string(i)%codes(first:last_local),lensum,nerr) 
+      call byte_length_of_codepoints(string(i)%codes(first:last_local),lensum,nerr)
       mx=max( mx, lensum )
    enddo
 
@@ -5462,7 +5487,7 @@ integer                        :: last_local
    do i=1,size(string)
       last_local=last
       if(last_local.le.0)last_local=len(string(i))
-      call byte_length_of_codepoints(string(i)%codes(first:last_local:step),lensum,nerr) 
+      call byte_length_of_codepoints(string(i)%codes(first:last_local:step),lensum,nerr)
       mx=max( mx, lensum )
    enddo
 
@@ -5663,7 +5688,7 @@ end function len_trim_str
 !===================================================================================================================================
 $BLOCK COMMENT --file ichar.3m_unicode.man
 NAME
-  ICHAR(3f) - [M_unicode:CONVERSION] character-to-integer code conversion
+  ICHAR(3f) - [M_unicode:CONVERSION] character-to-integer Unicode codepoint conversion
   function
   (LICENSE:MIT)
 
@@ -5680,16 +5705,17 @@ CHARACTERISTICS
   •  the return value is of default integer kind.
 
 DESCRIPTION
-  ichar(3f) returns the code for the character in the system's native
-  character set. the correspondence between characters and their codes is
-  not necessarily the same across different Fortran implementations. For
-  example, a platform using EBCDIC would return different values than
-  an ASCII platform.
+  This overload of ichar(3f) only returns values from input type
+  unicode_type.  This is because the intrinsic ichar(3f) returns the
+  code for the character in the system's native character set. the
+  correspondence between characters and their codes is not necessarily the
+  same across different Fortran implementations. For example, a platform
+  using EBCDIC would return different values than an ASCII platform.
 
   See IACHAR(3f) for specifically working with the ASCII character set.
 
 OPTIONS
-  +  C : The input character to determine the decimal code of.
+  +  C : The input character to determine the Unicode codepoint of.
 
 RESULT
    The codepoint in the Unicode character set for the character being
@@ -5698,8 +5724,8 @@ RESULT
    The result is the position of C in the Unicode collating sequence,
    which is generally not the dictionary order in a particular language.
 
-   It is nonnegative and less than n, where n is the number of characters
-   in the collating sequence.
+   It is nonnegative and less than n, where n is the largest value in
+   the Unicode collating sequence (ie. 1 114 111,).
 
    For any characters C and D capable of representation in the processor,
    C <= D is true if and only if ICHAR(C) <= ICHAR(D) is true and C ==
@@ -5712,6 +5738,7 @@ EXAMPLES
    use M_unicode, only : assignment(=),ch=>character
    use M_unicode, only : ut=>unicode_type, write(formatted)
    use M_unicode, only : ichar, expand_backslash, len
+   use M_unicode, only : ord=>ichar ! a common alias
    implicit none
    type(ut)             :: string
    type(ut),allocatable :: lets(:)
@@ -5730,6 +5757,14 @@ EXAMPLES
       ! note that the %codepoint method is commonly used to
       ! convert a string to an integer array of codepoints
       write(*,'(*(z0,1x))')string%codepoint()
+      !
+      ! it is important to remember ICHAR(3f) with an ASCII argument
+      ! is not overloaded so multibyte quoted characters will not 
+      ! produce the correct unicode value, only unicode_type variables
+      ! will, unless the compiler has an extension (eg. currently 
+      ! flang(1) will return 8364 but gfortran(1) will return 226) for
+      ! the first call.
+      write(*,'(a)')ichar('€'),ichar(ut('€'))]
 
       ! elemental
       write(*,'("WRITING ISSUES:")')
@@ -5748,6 +5783,7 @@ EXAMPLES
       ! can take various numbers of bytes
       write(*,'(*(g0,":"))')'CHARACTER array elements have same length',&
          & len(ch(lets))
+      !
       ! this will not appear correctly because all elements are padded to
       ! the same length in bytes
       write(*,'(*(a,":"))')ch(lets)
@@ -5760,25 +5796,27 @@ EXAMPLES
       write(*,'("ELEMENTAL:",*(z0,1x))')ichar(lets)
 
       ! OOPS
-      write(*,'("OOPS:",*(z0,1x))')lets%ichar()
+      write(*,'("OOPS:     ",*(z0,1x))')lets%ichar()
    end program demo_ichar
 
   results:
 
-   > Project is up to date
    > εὕρηκα! (AKA. eureka!)
    > 3B5 1F55 3C1 3B7 3BA 3B1 21
    > 3B5 1F55 3C1 3B7 3BA 3B1 21
+   > 226  8364
    > WRITING ISSUES:
    > each element is a single glyph 1 1 1 1 1 1 1
    > CHARACTER array elements have same length:3:
    > ε :ὕ:ρ :η :κ :α :!  :
    > ε:ὕ:ρ:η:κ:α:!:
    > ELEMENTAL:3B5 1F55 3C1 3B7 3BA 3B1 21
-   > OOPS:3B5 1F55 3C1 3B7 3BA 3B1 21
+   > OOPS:     3B5 1F55 3C1 3B7 3BA 3B1 21
 
 SEE ALSO
-  achar(3), char(3), iachar(3)
+  achar(3), char(3), iachar(3),
+  utf8_to_codepoints(3f),
+  STRING%codepoint(start,end,inc)
 
   functions that perform operations on character strings, return
   lengths of arguments, and search for certain arguments:
@@ -7027,20 +7065,34 @@ NAME
 
 SYNOPSIS
 
-      subroutine sort(data,index)
+    subroutine sort(data,index,comparison_func)
 
-          type(unicode_type),intent(in) :: data(:)
-          integer,intent(out)           :: indx(size(data))
+        type(unicode_type),intent(in)           :: data(:)
+        integer,intent(out)                     :: indx(size(data))
+        procedure(unicode_comparator), optional :: comparison_func
 
 DESCRIPTION
    A rank hybrid quicksort. The data is not moved. An integer array is
    generated instead with values that are indices to the sorted order
    of the data. This requires a second array the size of the input
    array, which for large arrays would require a significant amount of
-   memory. One major advantage of this method is that the indices can
-   be used to access an entire user-defined type in sorted order. This
-   makes this seemingly simple sort procedure usable with the vast
-   majority of user-defined types. or other correlated data.
+   memory. One major advantage of this method is that the indices can be
+   used to access an entire user-defined type in sorted order. This makes
+   this seemingly simple sort procedure usable with the vast majority
+   of user-defined types. or other correlated data.
+
+   By default data is sorted according to the Unicode codepoint values of
+   the characters. A user-supplied comparison function may be supplied
+   if another order is required.  A custom collation function must take
+   two values and return a logical value:
+
+       abstract interface
+          logical function unicode_comparator(str1, str2)
+	  ! true if str1 comes before or is equal to str2 else false
+             import :: unicode_type
+             type(unicode_type), intent(in) :: str1, str2
+          end function unicode_comparator
+       end interface
 
 BACKGROUND
     From Leonard J. Moss of SLAC:
@@ -7059,7 +7111,7 @@ BACKGROUND
     The original data is not physically rearranged. The original order
     of equal input values is not necessarily preserved.
 
-    sort(3f) uses a hybrid QuickSort algorithm, based on several
+    SORT(3f) uses a hybrid QuickSort algorithm, based on several
     suggestions in Knuth, Volume 3, Section 5.2.2. In particular, the
     "pivot key" [my term] for dividing each subsequence is chosen to be
     the median of the first, last, and middle values of the subsequence;
@@ -7089,6 +7141,7 @@ EXAMPLES
    use M_unicode,       only : sort, unicode_type, assignment(=)
    use M_unicode,       only : ut=>unicode_type, write(formatted)
    use M_unicode,       only : ch=>character
+   use M_unicode,       only : lower, operator(<)
    implicit none
    character(len=*),parameter :: g='(*(g0,1x))'
    integer,parameter          :: isz=4
@@ -7117,20 +7170,44 @@ EXAMPLES
       write(stdout,g)'reorder original'
       rr=rr(ii)
       write(stdout,g)ch(rr)
+
+      print g, 
+      write(stdout,g)'input for custom sort'
+      rr=[ut("Banana"), ut("apple"), ut("Cherry"), ut("orange")]
+      call print_output()
+
+      print g,  'convert to lower and sort (likely creating temporary array)'
+      call sort(lower(rr), ii )
+      call print_output()
+   
+      print g,  'Sort using custom rule'
+      call sort(rr, ii, comparison_func=case_insensitive_compare)
+      call print_output()
+
+   contains
+
+   subroutine print_output()
+   character(len=:),allocatable :: output(:)
+   integer                      :: i
+      output=rr(ii)
+      print g, ( output(i),i=1,size(rr) )
+      print g, 
+   end subroutine print_output
+
+   function case_insensitive_compare(str1, str2) result (answer)
+   ! case-insensitive comparison
+   type(unicode_type), intent(in) :: str1, str2
+   logical                        :: answer
+      answer = lower(str1) < lower(str2)
+   end function case_insensitive_compare
+
    end program demo_sort
+
 
   Results:
 
    > sort array with sort(3f)
-   > original order
-   > the quick brown fox
-   > sorted order
-   > 001 brown
-   > 002 fox
-   > 003 quick
-   > 004 the
-   > reorder original
-   > brown fox quick the
+
 AUTHOR
     John S. Urban
 
@@ -7138,9 +7215,185 @@ LICENSE
     MIT
 $ENDBLOCK
 $!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+subroutine sort_quick_rx_custom(data,indx,comparison_func)
+
+$@(#) M_unicode::sort_quick_rx_custom(3f): indexed hybrid quicksort of a type(unicode_type) array using custom comparison function
+
+type(unicode_type),intent(in)   :: data(:)
+integer(kind=int32),intent(out) :: indx(:)
+procedure(unicode_comparator)   :: comparison_func
+type(unicode_type)              :: datap
+
+integer(kind=int32)             :: n
+integer(kind=int32)             :: lstk(31),rstk(31),istk
+integer(kind=int32)             :: l,r,i,j,p,indexp,indext
+
+!  QuickSort Cutoff
+!
+!  Quit QuickSort-ing when a subsequence contains M or fewer elements and finish off at end with straight insertion sort.
+!  According to Knuth, V.3, the optimum value of M is around 9.
+
+integer,parameter :: M=9
+!===================================================================================================================================
+n=size(data)
+if(size(indx).lt.n)then  ! if index is not big enough, only sort part of the data
+  write(*,*)'*sort_quick_rx_custom* ERROR: insufficient space to store index data'
+  n=size(indx)
+endif
+!===================================================================================================================================
+!  Make initial guess for INDEX
+
+do i=1,n
+   indx(i)=i
+enddo
+
+!  If array is short go directly to the straight insertion sort, else execute a QuickSort
+if (N.gt.M)then
+   !=============================================================================================================================
+   !  QuickSort
+   !
+   !  The "Qn:"s correspond roughly to steps in Algorithm Q, Knuth, V.3, PP.116-117, modified to select the median
+   !  of the first, last, and middle elements as the "pivot key" (in Knuth's notation, "K"). Also modified to leave
+   !  data in place and produce an INDEX array. To simplify comments, let DATA[I]=DATA(INDX(I)).
+
+   ! Q1: Initialize
+   istk=0
+   l=1
+   r=n
+   !=============================================================================================================================
+   TOP: do
+
+      ! Q2: Sort the subsequence DATA[L]..DATA[R].
+      !
+      !  At this point, DATA[l] <= DATA[m] <= DATA[r] for all l < L, r > R, and L <= m <= R.
+      !  (First time through, there is no DATA for l < L or r > R.)
+
+      i=l
+      j=r
+
+      ! Q2.5: Select pivot key
+      !
+      !  Let the pivot, P, be the midpoint of this subsequence, P=(L+R)/2; then rearrange INDX(L), INDX(P), and INDX(R)
+      !  so the corresponding DATA values are in increasing order. The pivot key, DATAP, is then DATA[P].
+
+      p=(l+r)/2
+      indexp=indx(p)
+      datap=data(indexp)
+
+      if (comparison_func(datap,data(indx(l)))) then             !rx! if (data(indx(l)) .gt. datap) then
+         indx(p)=indx(l)
+         indx(l)=indexp
+         indexp=indx(p)
+         datap=data(indexp)
+      endif
+
+      if (comparison_func(data(indx(r)),datap) ) then             !rx! if (datap .gt. data(indx(r))) then
+
+         if (comparison_func( data(indx(r)), data(indx(l)) )) then  !rx! if (data(indx(l)) .gt. data(indx(r))) then
+            indx(p)=indx(l)
+            indx(l)=indx(r)
+         else
+            indx(p)=indx(r)
+         endif
+
+         indx(r)=indexp
+         indexp=indx(p)
+         datap=data(indexp)
+      endif
+
+      !  Now we swap values between the right and left sides and/or move DATAP until all smaller values are on the left and all
+      !  larger values are on the right. Neither the left or right side will be internally ordered yet; however, DATAP will be
+      !  in its final position.
+      Q3: do
+         ! Q3: Search for datum on left >= DATAP
+         !   At this point, DATA[L] <= DATAP. We can therefore start scanning up from L, looking for a value >= DATAP
+         !   (this scan is guaranteed to terminate since we initially placed DATAP near the middle of the subsequence).
+         I=I+1
+         if (comparison_func(data(indx(i)),datap))then !rx! if (data(indx(i)).lt.datap)then
+            cycle Q3
+         endif
+         !-----------------------------------------------------------------------------------------------------------------------
+         ! Q4: Search for datum on right <= DATAP
+         !
+         !   At this point, DATA[R] >= DATAP. We can therefore start scanning down from R, looking for a value <= DATAP
+         !   (this scan is guaranteed to terminate since we initially placed DATAP near the middle of the subsequence).
+         Q4: do
+            j=j-1
+            if (comparison_func(data(indx(j)),datap)) then  !rx! if (data(indx(j)).le.datap) then
+               exit Q4
+            endif
+         enddo Q4
+         !-----------------------------------------------------------------------------------------------------------------------
+         ! Q5: Have the two scans collided?
+         if (i.lt.j) then
+            ! Q6: No, interchange DATA[I] <--> DATA[J] and continue
+            indext=indx(i)
+            indx(i)=indx(j)
+            indx(j)=indext
+            cycle Q3
+         else
+            ! Q7: Yes, select next subsequence to sort
+            !   At this point, I >= J and DATA[l] <= DATA[I] == DATAP <= DATA[r], for all L <= l < I and J < r <= R.
+         !   If both subsequences are more than M elements long, push the longer one on the stack
+            !   and go back to QuickSort the shorter; if only one is more than M elements long, go back and QuickSort it;
+         !   otherwise, pop a subsequence off the stack and QuickSort it.
+            if (r-j .ge. i-l .and. i-l .gt. m) then
+               istk=istk+1
+               lstk(istk)=j+1
+               rstk(istk)=r
+               r=i-1
+            elseif (i-l .gt. r-j .and. r-j .gt. m) then
+               istk=istk+1
+               lstk(istk)=l
+               rstk(istk)=i-1
+               l=j+1
+            elseif (r-j .gt. m) then
+               l=j+1
+            elseif (i-l .gt. m) then
+               r=i-1
+            else
+               ! Q8: Pop the stack, or terminate QuickSort if empty
+               if (istk.lt.1) then
+                  exit TOP
+               endif
+               l=lstk(istk)
+               r=rstk(istk)
+               istk=istk-1
+            endif
+            cycle TOP
+         endif
+         ! never get here, as cycle Q3 or cycle TOP
+      enddo Q3
+      exit TOP
+   enddo TOP
+endif
+!===================================================================================================================================
+! Q9: Straight Insertion sort
+do i=2,n
+   if (comparison_func( data(indx(i)),data(indx(i-1))) ) then !rx! if (data(indx(i-1)) .gt. data(indx(i))) then
+      indexp=indx(i)
+      datap=data(indexp)
+      p=i-1
+      INNER: do
+         indx(p+1) = indx(p)
+         p=p-1
+         if (p.le.0)then
+            exit INNER
+         endif
+         if ( comparison_func( data(indx(p)), datap) )then !rx! if (data(indx(p)).le.datap)then
+            exit INNER
+         endif
+      enddo INNER
+      indx(p+1) = indexp
+   endif
+enddo
+!===================================================================================================================================
+!     All done
+end subroutine sort_quick_rx_custom
+$!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 subroutine sort_quick_rx(data,indx)
 
-$@(#) M_unicode::sort_quick_rx(3f): indexed hybrid quicksort of a type(unicode_type) array
+$@(#) M_unicode::sort_quick_rx(3f): indexed hybrid quicksort of a type(unicode_type) array 
 
 type(unicode_type),intent(in)   :: data(:)
 integer(kind=int32),intent(out) :: indx(:)
@@ -12849,7 +13102,7 @@ logical                      :: neg
    if (neg) val = -val                        ! Negate the result if necessary
 
 end function atoi
-$ENDBLOCK 
+$ENDBLOCK
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
@@ -13666,15 +13919,15 @@ character(len=1)               :: letter
             do j=1,size(names)
                if( names(j) .eq. ' ' )cycle
                if( names(j)%codes(1) .gt.ichar('0') .and. names(j)%codes(1) .le. ichar('9') ) then
-	          expanded%codes = [ expanded%codes, atoi(names(j)%character()) ] 
-	       else
+                  expanded%codes = [ expanded%codes, atoi(names(j)%character()) ]
+               else
                   call keyword_locate(keywords,names(j),place)
                   if(place.le.0)then     ! unknown name; print what you found
                      expanded=expanded .cat. names(j)
                   else
                      expanded=expanded .cat. keyword_get(names(j))
                   endif
-	       endif
+               endif
             enddo
             i=ii+i+1
          endif
@@ -13757,23 +14010,23 @@ end subroutine kludge_bug
 !         ints(iout)=letter
 !       case(:-1)
 !       case default
-!   
+!
 !          call keyword_locate(entities,names(j),place)
 !         place=binary_search_int(entities%codes,letter)
-!   
+!
 !         if(place.le.0)then
 !            iout=iout+1
 !            ints(iout)=letter
 !         else
 !            iout=iout+1
 !            ints(iout)=lt
-!   
+!
 !            name=entities(place)%name
 !            do j=1,len_trim(name)
 !               iout=iout+1
 !               ints(iout)=ichar(name(j:j))
 !            enddo
-!   
+!
 !            iout=iout+1
 !            ints(iout)=gt
 !         endif
@@ -14006,19 +14259,19 @@ EXAMPLES
    > δ
    > \e[40m\e[32m c=π×d \e[39m\e[49m
    > ω
-   > 
-   > <delta>                       
+   >
+   > <delta>
    > <E><g> c=<pi><times>d </g></E>
-   > <omega>                       
-   >                               
-   > δ        
+   > <omega>
+   >
+   > δ
    >    c=π×d
-   > ω        
-   >           
-   > δ                           
+   > ω
+   >
+   > δ
    > \e[40m\e[32m c=π×d \e[39m\e[49m
-   > ω                           
-   >                              
+   > ω
+   >
    > KEYWORD         VALUE
    > AElig            [Æ]      [Æ]
    > Abreve           [Ă]      [Ă]
@@ -14064,12 +14317,12 @@ character(len=*),parameter  :: fmts(*)=[character(len=80) :: '(*(a,t30,"[",a,"]"
    case('dump')  ! dump dictionary for debugging
       if(allocated(keywords))then
          write(stdout,'(*(a,t30,a))')'KEYWORD','VALUE'
-	 do i=size(keywords),1,-1 ! if keyword is less than 30 characters use 30, else whatever length is needed so no truncation
+         do i=size(keywords),1,-1 ! if keyword is less than 30 characters use 30, else whatever length is needed so no truncation
             write(stdout,fmts(merge(1,2,len_trim(keywords(i)).lt.30))) &
             & character(trim(keywords(i))), &
             & character(keyword_values(i)), &
             & character(plain_keyword_values(i))
-	 enddo
+         enddo
       endif
    case default
       write(*,*)'*keyword_mode* unknown action. Try raw_mode|alias_mode|reload|wipe|dump'
@@ -14165,13 +14418,13 @@ EXAMPLES
   displayed on an ANSI-compatible terminal
 
    > \e[H\e[2JTEST CUSTOMIZATIONS:
-   > 
+   >
    > \e[5mItems for Friday\e[25m
-   > 
+   >
    >  \e[41m\e[1m\e[37mBIG mistake!\e[49m\e[39m Did not see that coming.
-   > 
+   >
    > ORIGINALLY: \e[31mApple\e[39m, \e[34mSky\e[39m, \e[32mGrass\e[39m
-   > 
+   >
    > CUSTOMIZED: <r>Apple</r>, <<<<Sky>>>>, \e[32mGrass\e[39m
    > \e[0m
 
