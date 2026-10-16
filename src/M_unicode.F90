@@ -14167,9 +14167,9 @@ integer :: i
 !   ü u\u0308 \xFC   LATIN SMALL LETTER U WITH DIAERESIS
 !   β \u03B2         GREEK SMALL LETTER BETA
 !
-   call keyword_update('Ae', expand_backslash('\C4'),    unicode_type('Ae') )
-   call keyword_update('Oe', expand_backslash('\D6'),    unicode_type('Oe') )
-   call keyword_update('Ue', expand_backslash('\DC'),    unicode_type('Ue') )
+   call keyword_update('Ae', expand_backslash('\xC4'),   unicode_type('Ae') )
+   call keyword_update('Oe', expand_backslash('\xD6'),   unicode_type('Oe') )
+   call keyword_update('Ue', expand_backslash('\xDC'),   unicode_type('Ue') )
    call keyword_update('Ss', expand_backslash('\u0392'), unicode_type('Ss') )
    call keyword_update('ae', expand_backslash('\xE4'),   unicode_type('ae') )
    call keyword_update('oe', expand_backslash('\xF6'),   unicode_type('oe') )
