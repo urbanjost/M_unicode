@@ -859,6 +859,8 @@ end function pra
 
 subroutine test_sort()
 type(ut),allocatable :: array(:)
+type(ut),allocatable :: answer(:)
+integer,allocatable  :: ii(:)
 
 ! create using ASCII array
 ! --------------------------------
@@ -883,6 +885,64 @@ array= [ ut('RED'),ut('GREEN'),ut('BLUE'),ut('YELLOW'),ut('ORANGE'),ut('BLACK'),
 & ut('WHITE'),ut('BROWN'),ut('GRAY'),ut('CYAN'),ut('MAGENTA'),ut('PURPLE')]
 call chk()
 
+! input for custom sort
+array=[ut("Banana"), ut("apple"), ut("Cherry"), ut("orange")]
+answer=[ut("apple"), ut("Banana"), ut("Cherry"), ut("orange")]
+if(allocated(ii))deallocate(ii)
+allocate(ii(size(array)))
+! convert to lower and sort (likely creating temp array)
+call sort(lower(array), ii )
+call check('sort',all(array(ii).eq.answer),'case insensitive')
+! Sort ignoring case by using custom rule
+call sort(array, ii, comparison_func=case_insensitive_compare)
+call check('sort',all(array(ii).eq.answer),'custom case insensitive')
+! Sort in German dictionary order using custom rule
+array=[ &
+ ut("Band"),        & 
+ ut("Buße"),        & 
+ ut("Öl"),          & 
+ ut("Ufer"),        & 
+ ut("Apfel"),       & 
+ ut("Oase"),        & 
+ ut("Bus"),         & 
+ ut("Möve"),        & 
+ ut("Bär"),         & 
+ ut("Zebra"),       & 
+ ut("Mutter"),      & 
+ ut("Bussard"),     & 
+ ut("Äpfel"),       & 
+ ut("Mond"),        & 
+ ut("Mütter"),      & 
+ ut("Übung"),       & 
+ ut("F\xE4hnlein"), &   
+ ut("Fa\u0308hnlein") ] 
+array=expand_backslash(array) 
+if(allocated(ii))deallocate(ii)  
+allocate(ii(size(array)))
+! Sort using custom German dictionary order
+call sort(array, ii, comparison_func=german_dictionary)
+! Correct Order
+answer=[ &
+ ut("Apfel"),     &
+ ut("Äpfel"),     &
+ ut("Band"),      &
+ ut("Bär"),       &
+ ut("Bus"),       &
+ ut("Bussard"),   &
+ ut("Buße"),      &
+ ut("Fähnlein"),  &
+ ut("Fähnlein"),  &
+ ut("Mond"),      &
+ ut("Möve"),      &
+ ut("Mutter"),    &
+ ut("Mütter"),    &
+ ut("Oase"),      &
+ ut("Öl"),        &
+ ut("Ufer"),      &
+ ut("Übung"),     &
+ ut("Zebra")      ]
+call check('sort',all(array(ii).eq.answer),'custom German dictionary')
+
 contains
 subroutine chk()
 integer                        :: temp
@@ -903,6 +963,68 @@ integer,allocatable            :: ints(:)
       enddo
    endif
 end subroutine chk
+function case_insensitive_compare(str1, str2) result (answer)
+
+type(ut), intent(in) :: str1, str2
+logical                        :: answer
+   answer = lower(str1) < lower(str2)
+end function case_insensitive_compare
+
+function german_dictionary(lhs, rhs) result(is_lle)
+type(ut), intent(in) :: lhs, rhs
+logical              :: is_lle
+   is_lle = nmi(lhs) < nmi(rhs)
+end function german_dictionary
+
+function nmi(in) result (out)
+type(ut),intent(in)  :: in
+type(ut)             :: out
+integer,allocatable  :: codes(:)
+integer              :: i, j, ikeep
+integer,parameter    :: comb=2*int(z'308'), &
+ &  um_lower_a  =  2*int(z'E4'),       &
+ &  um_lower_o  =  2*int(z'F6'),       &
+ &  um_lower_u  =  2*int(z'FC'),       &
+ &  um_upper_a  =  2*int(z'C4'),       &
+ &  um_upper_o  =  2*int(z'D6'),       &
+ &  um_upper_u  =  2*int(z'DC'),       &
+ &  lower_a     =  2*ichar('a')+1,     &
+ &  lower_o     =  2*ichar('o')+1,     &
+ &  lower_u     =  2*ichar('u')+1,     &
+ &  upper_a     =  2*ichar('A')+1,     &
+ &  upper_o     =  2*ichar('O')+1,     &
+ &  upper_u     =  2*ichar('U')+1,     &
+ &  lower_beta  =  2*int(z'03b2'),     &
+ &  upper_beta  =  2*int(z'0392'),     &
+ &  lower_s     =  2*int(ichar('s')),  &
+ &  upper_s     =  2*int(ichar('S'))
+   allocate(codes(0:2*size(in%codes)))
+   ikeep=0
+   do concurrent ( i=1:size(in%codes) )
+      if(in%codes(i).eq.comb)then
+         codes(ikeep)=codes(ikeep)+1
+      else
+         ikeep=ikeep+1
+         codes(ikeep)=in%codes(i)*2
+         select case(codes(ikeep))
+          case(:127*2)
+          case(um_lower_a); codes(ikeep)=lower_a
+          case(um_lower_o); codes(ikeep)=lower_o
+          case(um_lower_u); codes(ikeep)=lower_u
+          case(um_upper_a); codes(ikeep)=upper_a
+          case(um_upper_o); codes(ikeep)=upper_o
+          case(um_upper_u); codes(ikeep)=upper_u
+          case(lower_beta)
+             codes(ikeep:ikeep+1)=lower_s
+             ikeep=ikeep+1
+          case(upper_beta)
+             codes(ikeep:ikeep+1)=upper_s
+             ikeep=ikeep+1
+         end select
+      endif
+   enddo
+   out=codes(1:ikeep)
+end function nmi
 
 end subroutine test_sort
 

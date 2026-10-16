@@ -90,7 +90,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 2.0% of total for programs.">48 statements</a>
+                 title=" 4.3% of total for programs.">113 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -131,10 +131,11 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../program/demo_sort.html#variable-g~10">g</a>
-            <a class="list-group-item" href="../program/demo_sort.html#variable-i~49">i</a>
-            <a class="list-group-item" href="../program/demo_sort.html#variable-ii~3">ii</a>
-            <a class="list-group-item" href="../program/demo_sort.html#variable-isz">isz</a>
+            <a class="list-group-item" href="../program/demo_sort.html#variable-answer~10">answer</a>
+            <a class="list-group-item" href="../program/demo_sort.html#variable-g~11">g</a>
+            <a class="list-group-item" href="../program/demo_sort.html#variable-g0~3">g0</a>
+            <a class="list-group-item" href="../program/demo_sort.html#variable-i~108">i</a>
+            <a class="list-group-item" href="../program/demo_sort.html#variable-ii~6">ii</a>
             <a class="list-group-item" href="../program/demo_sort.html#variable-rr">rr</a>
         </div>
       </div>
@@ -157,6 +158,8 @@
       <div id="funcs-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../program/demo_sort.html#proc-case_insensitive_compare">case_insensitive_compare</a>
+            <a class="list-group-item" href="../program/demo_sort.html#proc-german_dictionary">german_dictionary</a>
+            <a class="list-group-item" href="../program/demo_sort.html#proc-nmi">nmi</a>
         </div>
       </div>
     </div>
@@ -224,7 +227,23 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-g~10"></span>
+              <span class="anchor" id="variable-answer~10"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>answer</strong>(:)</td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-g~11"></span>
               character(len=*),
             </td>
             <td>
@@ -240,7 +259,23 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~49"></span>
+              <span class="anchor" id="variable-g0~3"></span>
+              character(len=*),
+            </td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>g0</strong></td>
+<td> =</td>
+                <td>&#39;(g0)&#39;</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-i~108"></span>
               integer
             </td>
             <td>
@@ -256,32 +291,16 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ii~3"></span>
-              integer
-            </td>
-            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>ii</strong>(isz)</td>
-                <td></td>
-                <td></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-isz"></span>
+              <span class="anchor" id="variable-ii~6"></span>
               integer,
             </td>
             <td>
-parameter               
+              allocatable
             </td>
             <td>::</td>
-            <td><strong>isz</strong></td>
-<td> =</td>
-                <td>4</td>
+            <td><strong>ii</strong>(:)</td>
+                <td></td>
+                <td></td>
             <td>
                 
             </td>
@@ -289,13 +308,13 @@ parameter
         <tr>
             <td>
               <span class="anchor" id="variable-rr"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>)
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
             <td>
-              
+              allocatable
             </td>
             <td>::</td>
-            <td><strong>rr</strong>(isz)</td>
+            <td><strong>rr</strong>(:)</td>
                 <td></td>
                 <td></td>
             <td>
@@ -335,7 +354,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str1"></span>
+              <span class="anchor" id="variable-str1~3"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -350,7 +369,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-str2"></span>
+              <span class="anchor" id="variable-str2~3"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -369,6 +388,111 @@ parameter
     <h4>
     Return Value
     <small>logical</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+      <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-german_dictionary"></span> <h3> function <a href='../proc/german_dictionary.html'>german_dictionary</a>(lhs, rhs) result(is_lle)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~33"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~33"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+      <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-nmi"></span> <h3> function <a href='../proc/nmi.html'>nmi</a>(in) result(out)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-in~9"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>in</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
     </h4>
     
 
@@ -399,62 +523,128 @@ parameter
 
     <section>
     <h2 id="src">Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">program </span><span class="n">demo_sort</span>
-<span class="w">   </span><span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">output_unit</span>
-<span class="w">   </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">sort</span><span class="p">,</span><span class="w"> </span><span class="n">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">)</span>
-<span class="w">   </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ut</span><span class="o">=&gt;</span><span class="n">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="k">write</span><span class="p">(</span><span class="n">formatted</span><span class="p">)</span>
-<span class="w">   </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ch</span><span class="o">=&gt;</span><span class="kt">character</span>
-<span class="kt">   </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">lower</span><span class="p">,</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">&lt;</span><span class="p">)</span>
-<span class="w">   </span><span class="k">implicit none</span>
-<span class="k">   </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">g</span><span class="o">=</span><span class="s1">'(*(g0,1x))'</span>
-<span class="w">   </span><span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">isz</span><span class="o">=</span><span class="mi">4</span>
-<span class="w">   </span><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">         </span><span class="kd">::</span><span class="w"> </span><span class="n">rr</span><span class="p">(</span><span class="n">isz</span><span class="p">)</span>
-<span class="w">   </span><span class="kt">integer</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">ii</span><span class="p">(</span><span class="n">isz</span><span class="p">)</span>
-<span class="w">   </span><span class="kt">integer</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
-<span class="w">      </span><span class="c">!</span>
-<span class="w">      </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="s1">'sort array with sort(3f)'</span>
-<span class="w">      </span><span class="n">rr</span><span class="o">=</span><span class="p">[</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">       </span><span class="n">ut</span><span class="p">(</span><span class="s2">"the"</span><span class="p">),</span><span class="w">   </span><span class="p">&amp;</span>
-<span class="w">       </span><span class="n">ut</span><span class="p">(</span><span class="s2">"quick"</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">       </span><span class="n">ut</span><span class="p">(</span><span class="s2">"brown"</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">       </span><span class="n">ut</span><span class="p">(</span><span class="s2">"fox"</span><span class="p">)</span><span class="w"> </span><span class="p">]</span>
-<span class="w">      </span><span class="c">!</span>
-<span class="w">      </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="s1">'original order'</span>
-<span class="w">      </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="n">ch</span><span class="p">(</span><span class="n">rr</span><span class="p">)</span>
-<span class="w">      </span><span class="c">!</span>
-<span class="w">      </span><span class="k">call </span><span class="n">sort</span><span class="p">(</span><span class="n">rr</span><span class="p">,</span><span class="n">ii</span><span class="p">)</span>
-<span class="w">      </span><span class="c">!</span>
-<span class="w">      </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="s1">'sorted order'</span>
-<span class="w">      </span><span class="c">! convert to character</span>
-<span class="w">      </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">rr</span><span class="p">)</span>
-<span class="w">         </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">'(i3.3,1x,a)'</span><span class="p">)</span><span class="n">i</span><span class="p">,</span><span class="n">rr</span><span class="p">(</span><span class="n">ii</span><span class="p">(</span><span class="n">i</span><span class="p">))%</span><span class="kt">character</span><span class="p">()</span>
-<span class="w">      </span><span class="k">enddo</span>
-<span class="w">      </span><span class="c">!</span>
-<span class="w">      </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="s1">'reorder original'</span>
-<span class="w">      </span><span class="n">rr</span><span class="o">=</span><span class="n">rr</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span>
-<span class="w">      </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="n">ch</span><span class="p">(</span><span class="n">rr</span><span class="p">)</span>
+    <div class="hl codehilite"><pre><span></span><span class="k">program </span><span class="n">demo_sort</span>
+<span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">output_unit</span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">unicode_type</span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ut</span><span class="o">=&gt;</span><span class="n">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="k">write</span><span class="p">(</span><span class="n">formatted</span><span class="p">)</span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ch</span><span class="o">=&gt;</span><span class="kt">character</span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">lower</span><span class="p">,</span><span class="w"> </span><span class="n">sort</span><span class="p">,</span><span class="w"> </span><span class="n">expand_backslash</span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">&lt;</span><span class="p">),</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">),</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">==</span><span class="p">)</span>
+<span class="k">implicit none</span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">g</span><span class="o">=</span><span class="s1">'(*(g0,1x))'</span><span class="p">,</span><span class="w"> </span><span class="n">g0</span><span class="o">=</span><span class="s1">'(g0)'</span>
+<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">rr</span><span class="p">(:)</span>
+<span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">answer</span><span class="p">(:)</span>
+<span class="kt">integer</span><span class="p">,</span><span class="k">allocatable</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">ii</span><span class="p">(:)</span>
+<span class="kt">integer</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
+<span class="w">   </span><span class="c">!</span>
+<span class="w">   </span><span class="k">print </span><span class="n">g</span><span class="p">,</span><span class="s1">'sort array with sort(3f)'</span>
+<span class="w">   </span><span class="n">rr</span><span class="o">=</span><span class="p">[</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">      </span><span class="n">ut</span><span class="p">(</span><span class="s2">"the"</span><span class="p">),</span><span class="w">   </span><span class="p">&amp;</span>
+<span class="w">      </span><span class="n">ut</span><span class="p">(</span><span class="s2">"quick"</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">      </span><span class="n">ut</span><span class="p">(</span><span class="s2">"brown"</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">      </span><span class="n">ut</span><span class="p">(</span><span class="s2">"fox"</span><span class="p">)</span><span class="w"> </span><span class="p">]</span>
+<span class="w">   </span><span class="k">allocate</span><span class="p">(</span><span class="n">ii</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">rr</span><span class="p">)))</span>
+<span class="w">   </span><span class="c">!</span>
+<span class="w">   </span><span class="k">print </span><span class="n">g</span><span class="p">,</span><span class="s1">'original order'</span>
+<span class="w">   </span><span class="k">print </span><span class="n">g</span><span class="p">,</span><span class="n">ch</span><span class="p">(</span><span class="n">rr</span><span class="p">)</span>
+<span class="w">   </span><span class="c">!</span>
+<span class="w">   </span><span class="k">call </span><span class="n">sort</span><span class="p">(</span><span class="n">rr</span><span class="p">,</span><span class="n">ii</span><span class="p">)</span>
+<span class="w">   </span><span class="c">!</span>
+<span class="w">   </span><span class="k">print </span><span class="n">g</span><span class="p">,</span><span class="s1">'sorted order'</span>
+<span class="w">   </span><span class="c">! convert to character</span>
+<span class="w">   </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">rr</span><span class="p">)</span>
+<span class="w">      </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">'(i3.3,1x,a)'</span><span class="p">)</span><span class="n">i</span><span class="p">,</span><span class="n">rr</span><span class="p">(</span><span class="n">ii</span><span class="p">(</span><span class="n">i</span><span class="p">))%</span><span class="kt">character</span><span class="p">()</span>
+<span class="w">   </span><span class="k">enddo</span>
+<span class="w">   </span><span class="c">!</span>
+<span class="w">   </span><span class="k">print </span><span class="n">g</span><span class="p">,</span><span class="s1">'reorder original'</span>
+<span class="w">   </span><span class="n">rr</span><span class="o">=</span><span class="n">rr</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span>
+<span class="w">   </span><span class="k">print </span><span class="n">g</span><span class="p">,</span><span class="n">ch</span><span class="p">(</span><span class="n">rr</span><span class="p">)</span>
 
-<span class="w">      </span><span class="k">print </span><span class="n">g</span><span class="p">,</span><span class="w"> </span>
-<span class="w">      </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="s1">'input for custom sort'</span>
-<span class="w">      </span><span class="n">rr</span><span class="o">=</span><span class="p">[</span><span class="n">ut</span><span class="p">(</span><span class="s2">"Banana"</span><span class="p">),</span><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"apple"</span><span class="p">),</span><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Cherry"</span><span class="p">),</span><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"orange"</span><span class="p">)]</span>
-<span class="w">      </span><span class="k">call </span><span class="n">print_output</span><span class="p">()</span>
+<span class="w">   </span><span class="k">print </span><span class="n">g</span><span class="p">,</span>
+<span class="w">   </span><span class="k">print </span><span class="n">g</span><span class="p">,</span><span class="s1">'input for custom sort'</span>
+<span class="w">   </span><span class="n">rr</span><span class="o">=</span><span class="p">[</span><span class="n">ut</span><span class="p">(</span><span class="s2">"Banana"</span><span class="p">),</span><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"apple"</span><span class="p">),</span><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Cherry"</span><span class="p">),</span><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"orange"</span><span class="p">)]</span>
+<span class="w">   </span><span class="k">call </span><span class="n">print_output</span><span class="p">()</span>
 
-<span class="w">      </span><span class="k">print </span><span class="n">g</span><span class="p">,</span><span class="w">  </span><span class="s1">'convert to lower and sort (likely creating temporary array)'</span>
-<span class="w">      </span><span class="k">call </span><span class="n">sort</span><span class="p">(</span><span class="n">lower</span><span class="p">(</span><span class="n">rr</span><span class="p">),</span><span class="w"> </span><span class="n">ii</span><span class="w"> </span><span class="p">)</span>
-<span class="w">      </span><span class="k">call </span><span class="n">print_output</span><span class="p">()</span>
-<span class="w">   </span>
-<span class="w">      </span><span class="k">print </span><span class="n">g</span><span class="p">,</span><span class="w">  </span><span class="s1">'Sort using custom rule'</span>
-<span class="w">      </span><span class="k">call </span><span class="n">sort</span><span class="p">(</span><span class="n">rr</span><span class="p">,</span><span class="w"> </span><span class="n">ii</span><span class="p">,</span><span class="w"> </span><span class="n">comparison_func</span><span class="o">=</span><span class="n">case_insensitive_compare</span><span class="p">)</span>
-<span class="w">      </span><span class="k">call </span><span class="n">print_output</span><span class="p">()</span>
+<span class="w">   </span><span class="k">print </span><span class="n">g</span><span class="p">,</span><span class="w">  </span><span class="s1">'convert to lower and sort (likely creating temp array)'</span>
+<span class="w">   </span><span class="k">call </span><span class="n">sort</span><span class="p">(</span><span class="n">lower</span><span class="p">(</span><span class="n">rr</span><span class="p">),</span><span class="w"> </span><span class="n">ii</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">print_output</span><span class="p">()</span>
 
-<span class="w">   </span><span class="k">contains</span>
+<span class="w">   </span><span class="k">print </span><span class="n">g</span><span class="p">,</span><span class="w">  </span><span class="s1">'Sort ignoring case by using custom rule'</span>
+<span class="w">   </span><span class="k">call </span><span class="n">sort</span><span class="p">(</span><span class="n">rr</span><span class="p">,</span><span class="w"> </span><span class="n">ii</span><span class="p">,</span><span class="w"> </span><span class="n">comparison_func</span><span class="o">=</span><span class="n">case_insensitive_compare</span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">print_output</span><span class="p">()</span>
+
+<span class="w">   </span><span class="k">print </span><span class="n">g</span><span class="p">,</span><span class="w">  </span><span class="s1">'Sort in German dictionary order using custom rule'</span>
+<span class="w">   </span><span class="c">! A list of German words designed to test a dictionary</span>
+<span class="w">   </span><span class="n">rr</span><span class="o">=</span><span class="p">[</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">      </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Band"</span><span class="p">),</span><span class="w">        </span><span class="p">&amp;</span><span class="w"> </span><span class="c">! (Standard B)</span>
+<span class="w">      </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Buße"</span><span class="p">),</span><span class="w">        </span><span class="p">&amp;</span><span class="w"> </span><span class="c">! (Contains ß — often sorted as 'ss')</span>
+<span class="w">      </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Öl"</span><span class="p">),</span><span class="w">          </span><span class="p">&amp;</span><span class="w"> </span><span class="c">! (Umlaut Ö at the start)</span>
+<span class="w">      </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Ufer"</span><span class="p">),</span><span class="w">        </span><span class="p">&amp;</span><span class="w"> </span><span class="c">! (Standard U)</span>
+<span class="w">      </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Apfel"</span><span class="p">),</span><span class="w">       </span><span class="p">&amp;</span><span class="w"> </span><span class="c">! (Standard A)</span>
+<span class="w">      </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Oase"</span><span class="p">),</span><span class="w">        </span><span class="p">&amp;</span><span class="w"> </span><span class="c">! (Standard O)</span>
+<span class="w">      </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Bus"</span><span class="p">),</span><span class="w">         </span><span class="p">&amp;</span><span class="w"> </span><span class="c">! (Standard B)</span>
+<span class="w">      </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Möve"</span><span class="p">),</span><span class="w">        </span><span class="p">&amp;</span><span class="w"> </span><span class="c">! (Umlaut Ö)</span>
+<span class="w">      </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Bär"</span><span class="p">),</span><span class="w">         </span><span class="p">&amp;</span><span class="w"> </span><span class="c">! (Umlaut Ä in the middle)</span>
+<span class="w">      </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Zebra"</span><span class="p">),</span><span class="w">       </span><span class="p">&amp;</span><span class="w"> </span><span class="c">! (Standard Z)</span>
+<span class="w">      </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Mutter"</span><span class="p">),</span><span class="w">      </span><span class="p">&amp;</span><span class="w"> </span><span class="c">! (Standard M)</span>
+<span class="w">      </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Bussard"</span><span class="p">),</span><span class="w">     </span><span class="p">&amp;</span><span class="w"> </span><span class="c">! (Standard double 's' comparison with ß)</span>
+<span class="w">      </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Äpfel"</span><span class="p">),</span><span class="w">       </span><span class="p">&amp;</span><span class="w"> </span><span class="c">! (Umlaut Ä )</span>
+<span class="w">      </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Mond"</span><span class="p">),</span><span class="w">        </span><span class="p">&amp;</span><span class="w"> </span><span class="c">! (Standard M)</span>
+<span class="w">      </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Mütter"</span><span class="p">),</span><span class="w">      </span><span class="p">&amp;</span><span class="w"> </span><span class="c">! (Umlaut Ü)</span>
+<span class="w">      </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Übung"</span><span class="p">),</span><span class="w">       </span><span class="p">&amp;</span><span class="w"> </span><span class="c">! (Umlaut Ü at the start)</span>
+<span class="w">      </span><span class="n">ut</span><span class="p">(</span><span class="s2">"F\xE4hnlein"</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w">   </span><span class="c">! (Same word using Unicode codepoint</span>
+<span class="w">      </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Fa\u0308hnlein"</span><span class="p">)</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="c">! and Latin letter followed by</span>
+<span class="w">                             </span><span class="c">! combining dieresis modifier U+0308.</span>
+<span class="w">   </span><span class="c">!</span>
+<span class="w">   </span><span class="n">rr</span><span class="o">=</span><span class="n">expand_backslash</span><span class="p">(</span><span class="n">rr</span><span class="p">)</span><span class="w"> </span><span class="c">! convert escape codes to UTF-8</span>
+
+<span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="nb">allocated</span><span class="p">(</span><span class="n">ii</span><span class="p">))</span><span class="k">deallocate</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="w">  </span><span class="c">! create index array</span>
+<span class="w">   </span><span class="k">allocate</span><span class="p">(</span><span class="n">ii</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">rr</span><span class="p">)))</span>
+<span class="w">   </span><span class="c">!</span>
+<span class="w">   </span><span class="k">print </span><span class="n">g</span><span class="p">,</span><span class="s1">'original order'</span>
+<span class="w">   </span><span class="k">print </span><span class="n">g</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="nb">trim</span><span class="p">(</span><span class="n">rr</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">ch</span><span class="p">()),</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">rr</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">print </span><span class="n">g</span><span class="p">,</span>
+<span class="w">   </span><span class="c">!</span>
+<span class="w">   </span><span class="k">print </span><span class="n">g</span><span class="p">,</span><span class="w">  </span><span class="s1">'Sort using default Unicode rule for comparison'</span>
+<span class="w">   </span><span class="k">call </span><span class="n">sort</span><span class="p">(</span><span class="n">rr</span><span class="p">,</span><span class="w"> </span><span class="n">ii</span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">print_output</span><span class="p">()</span>
+<span class="w">   </span><span class="c">!</span>
+<span class="w">   </span><span class="k">print </span><span class="n">g</span><span class="p">,</span><span class="w">  </span><span class="s1">'Sort using custom German dictionary order'</span>
+<span class="w">   </span><span class="k">call </span><span class="n">sort</span><span class="p">(</span><span class="n">rr</span><span class="p">,</span><span class="w"> </span><span class="n">ii</span><span class="p">,</span><span class="w"> </span><span class="n">comparison_func</span><span class="o">=</span><span class="n">german_dictionary</span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">print_output</span><span class="p">()</span>
+
+<span class="w">   </span><span class="k">print </span><span class="n">g</span><span class="p">,</span><span class="w">  </span><span class="s1">'Correct Order'</span>
+<span class="w">   </span><span class="n">answer</span><span class="o">=</span><span class="p">[</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">      </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Apfel"</span><span class="p">),</span><span class="w">     </span><span class="p">&amp;</span>
+<span class="w">      </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Äpfel"</span><span class="p">),</span><span class="w">     </span><span class="p">&amp;</span>
+<span class="w">      </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Band"</span><span class="p">),</span><span class="w">      </span><span class="p">&amp;</span>
+<span class="w">      </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Bär"</span><span class="p">),</span><span class="w">       </span><span class="p">&amp;</span>
+<span class="w">      </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Bus"</span><span class="p">),</span><span class="w">       </span><span class="p">&amp;</span>
+<span class="w">      </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Bussard"</span><span class="p">),</span><span class="w">   </span><span class="p">&amp;</span>
+<span class="w">      </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Buße"</span><span class="p">),</span><span class="w">      </span><span class="p">&amp;</span>
+<span class="w">      </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Fähnlein"</span><span class="p">),</span><span class="w">  </span><span class="p">&amp;</span>
+<span class="w">      </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Fähnlein"</span><span class="p">),</span><span class="w">  </span><span class="p">&amp;</span>
+<span class="w">      </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Mond"</span><span class="p">),</span><span class="w">      </span><span class="p">&amp;</span>
+<span class="w">      </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Möve"</span><span class="p">),</span><span class="w">      </span><span class="p">&amp;</span>
+<span class="w">      </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Mutter"</span><span class="p">),</span><span class="w">    </span><span class="p">&amp;</span>
+<span class="w">      </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Mütter"</span><span class="p">),</span><span class="w">    </span><span class="p">&amp;</span>
+<span class="w">      </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Oase"</span><span class="p">),</span><span class="w">      </span><span class="p">&amp;</span>
+<span class="w">      </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Öl"</span><span class="p">),</span><span class="w">        </span><span class="p">&amp;</span>
+<span class="w">      </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Ufer"</span><span class="p">),</span><span class="w">      </span><span class="p">&amp;</span>
+<span class="w">      </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Übung"</span><span class="p">),</span><span class="w">     </span><span class="p">&amp;</span>
+<span class="w">      </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Zebra"</span><span class="p">)</span><span class="w">      </span><span class="p">]</span>
+<span class="w">   </span><span class="k">print </span><span class="n">g</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="nb">trim</span><span class="p">(</span><span class="n">answer</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">ch</span><span class="p">()),</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">answer</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">print </span><span class="n">g</span><span class="p">,</span><span class="w"> </span><span class="s1">'CHECK TEST WORDS:'</span><span class="p">,</span><span class="n">rr</span><span class="p">(</span><span class="n">ii</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">answer</span>
+<span class="w">   </span><span class="k">print </span><span class="n">g</span><span class="p">,</span><span class="w"> </span><span class="nb">merge</span><span class="p">(</span><span class="s1">'PAssED'</span><span class="p">,</span><span class="s1">'FAILED'</span><span class="p">,</span><span class="w"> </span><span class="k">all</span><span class="p">(</span><span class="n">rr</span><span class="p">(</span><span class="n">ii</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">answer</span><span class="p">))</span>
+
+<span class="k">contains</span>
 
 <span class="k">   subroutine </span><span class="n">print_output</span><span class="p">()</span>
 <span class="w">   </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">output</span><span class="p">(:)</span>
 <span class="w">   </span><span class="kt">integer</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
 <span class="w">      </span><span class="n">output</span><span class="o">=</span><span class="n">rr</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span>
-<span class="w">      </span><span class="k">print </span><span class="n">g</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">output</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">rr</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
-<span class="w">      </span><span class="k">print </span><span class="n">g</span><span class="p">,</span><span class="w"> </span>
+<span class="w">      </span><span class="k">print </span><span class="n">g</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="nb">trim</span><span class="p">(</span><span class="n">output</span><span class="p">(</span><span class="n">i</span><span class="p">)),</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">output</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
+<span class="w">      </span><span class="k">print </span><span class="n">g</span><span class="p">,</span>
 <span class="w">   </span><span class="k">end subroutine </span><span class="n">print_output</span>
 
 <span class="w">   </span><span class="k">function </span><span class="n">case_insensitive_compare</span><span class="p">(</span><span class="n">str1</span><span class="p">,</span><span class="w"> </span><span class="n">str2</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="w"> </span><span class="p">(</span><span class="n">answer</span><span class="p">)</span>
@@ -463,8 +653,112 @@ parameter
 <span class="w">   </span><span class="kt">logical</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="n">answer</span>
 <span class="w">      </span><span class="n">answer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lower</span><span class="p">(</span><span class="n">str1</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">lower</span><span class="p">(</span><span class="n">str2</span><span class="p">)</span>
 <span class="w">   </span><span class="k">end function </span><span class="n">case_insensitive_compare</span>
+<span class="c">!</span>
+<span class="c">! German dictionaries follow specific guidelines</span>
+<span class="c">! for sorting umlauts (ä, ö, ü) and the eszett (β).</span>
+<span class="c">!</span>
+<span class="c">! Standard Dictionary Rules (DIN 5007-1, Variant 1)</span>
+<span class="c">!</span>
+<span class="c">! In traditional German dictionaries, words with umlauts are treated as</span>
+<span class="c">! their base vowels and the letter β is treated as ss. That is ...</span>
+<span class="c">!</span>
+<span class="c">!     Amlausts:</span>
+<span class="c">!         ä is sorted as a</span>
+<span class="c">!         ö is sorted as o</span>
+<span class="c">!         ü is sorted as u</span>
+<span class="c">!     Eszett:</span>
+<span class="c">!         β is sorted as ss</span>
+<span class="c">!</span>
+<span class="c">!  along with a similar exchange for their uppercase cases.</span>
+<span class="c">!</span>
+<span class="c">!  If normalized words are identical, the umlaut comes second.</span>
+<span class="c">!</span>
+<span class="c">!  The multibyte characters with an umlaut may be a single Unicode</span>
+<span class="c">!  codepoint or the associated Latin character followed by the</span>
+<span class="c">!  combining dieresis modifier U+0308.</span>
+<span class="c">!</span>
+<span class="c">! Note for reference that depending on the context (such as phone books</span>
+<span class="c">! or digital systems), other official standards apply:</span>
+<span class="c">!</span>
+<span class="c">!   + Phone Book Rules (DIN 5007-1, Variant 2): Umlauts are expanded by</span>
+<span class="c">!     adding an e after the vowel (ä = ae, ö = oe, ü = ue). As in Variant</span>
+<span class="c">!     1 the letter β is treated as ss.</span>
+<span class="c">!</span>
+<span class="c">!   + Strict / Character-by-Character Order: Some systems or older indexes</span>
+<span class="c">!     place umlauts right after their base letter as separate characters</span>
+<span class="c">!     (a, ä, b, c...).</span>
+<span class="c">!</span>
+<span class="k">function </span><span class="n">german_dictionary</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span><span class="w"> </span><span class="n">rhs</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">is_lle</span><span class="p">)</span>
+<span class="c">!</span>
+<span class="c">! @(#) Lexically compare two strings using German dictionary order</span>
+<span class="c">!</span>
+<span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">lhs</span><span class="p">,</span><span class="w"> </span><span class="n">rhs</span>
+<span class="kt">logical</span><span class="w">              </span><span class="kd">::</span><span class="w"> </span><span class="n">is_lle</span>
 
-<span class="w">   </span><span class="k">end program </span><span class="n">demo_sort</span>
+<span class="w">   </span><span class="n">is_lle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nmi</span><span class="p">(</span><span class="n">lhs</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">nmi</span><span class="p">(</span><span class="n">rhs</span><span class="p">)</span>
+
+<span class="k">end function </span><span class="n">german_dictionary</span>
+
+<span class="k">function </span><span class="n">nmi</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="w"> </span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+<span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">in</span>
+<span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">out</span>
+<span class="kt">integer</span><span class="p">,</span><span class="k">allocatable</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">codes</span><span class="p">(:)</span>
+<span class="kt">integer</span><span class="w">              </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">ikeep</span>
+<span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">comb</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'308'</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">um_lower_a</span><span class="w">  </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'E4'</span><span class="p">),</span><span class="w">       </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">um_lower_o</span><span class="w">  </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'F6'</span><span class="p">),</span><span class="w">       </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">um_lower_u</span><span class="w">  </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'FC'</span><span class="p">),</span><span class="w">       </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">um_upper_a</span><span class="w">  </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'C4'</span><span class="p">),</span><span class="w">       </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">um_upper_o</span><span class="w">  </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'D6'</span><span class="p">),</span><span class="w">       </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">um_upper_u</span><span class="w">  </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'DC'</span><span class="p">),</span><span class="w">       </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">lower_a</span><span class="w">     </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">ichar</span><span class="p">(</span><span class="s1">'a'</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="w">     </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">lower_o</span><span class="w">     </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">ichar</span><span class="p">(</span><span class="s1">'o'</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="w">     </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">lower_u</span><span class="w">     </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">ichar</span><span class="p">(</span><span class="s1">'u'</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="w">     </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">upper_a</span><span class="w">     </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">ichar</span><span class="p">(</span><span class="s1">'A'</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="w">     </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">upper_o</span><span class="w">     </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">ichar</span><span class="p">(</span><span class="s1">'O'</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="w">     </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">upper_u</span><span class="w">     </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">ichar</span><span class="p">(</span><span class="s1">'U'</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="w">     </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">lower_beta</span><span class="w">  </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'03b2'</span><span class="p">),</span><span class="w">     </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">upper_beta</span><span class="w">  </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'0392'</span><span class="p">),</span><span class="w">     </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">lower_s</span><span class="w">     </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="nb">ichar</span><span class="p">(</span><span class="s1">'s'</span><span class="p">)),</span><span class="w">  </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">upper_s</span><span class="w">     </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="nb">ichar</span><span class="p">(</span><span class="s1">'S'</span><span class="p">))</span>
+
+<span class="w">   </span><span class="c">! if every letter is a beta and first letter is COMB</span>
+<span class="w">   </span><span class="c">! (which should not happen) longest index required would be</span>
+<span class="w">   </span><span class="k">allocate</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="o">*</span><span class="n">size</span><span class="p">(</span><span class="n">in</span><span class="p">%</span><span class="n">codes</span><span class="p">)))</span>
+
+<span class="w">   </span><span class="n">ikeep</span><span class="o">=</span><span class="mi">0</span>
+<span class="w">   </span><span class="k">do</span><span class="w"> </span><span class="k">concurrent</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">size</span><span class="p">(</span><span class="n">in</span><span class="p">%</span><span class="n">codes</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">in</span><span class="p">%</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">comb</span><span class="p">)</span><span class="k">then</span>
+<span class="k">         </span><span class="n">codes</span><span class="p">(</span><span class="n">ikeep</span><span class="p">)</span><span class="o">=</span><span class="n">codes</span><span class="p">(</span><span class="n">ikeep</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span>
+<span class="w">      </span><span class="k">else</span>
+<span class="k">         </span><span class="n">ikeep</span><span class="o">=</span><span class="n">ikeep</span><span class="o">+</span><span class="mi">1</span>
+<span class="w">         </span><span class="n">codes</span><span class="p">(</span><span class="n">ikeep</span><span class="p">)</span><span class="o">=</span><span class="n">in</span><span class="p">%</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span>
+<span class="w">         </span><span class="k">select case</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">ikeep</span><span class="p">))</span>
+<span class="w">          </span><span class="k">case</span><span class="p">(:</span><span class="mi">127</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">          </span><span class="k">case</span><span class="p">(</span><span class="n">um_lower_a</span><span class="p">);</span><span class="w"> </span><span class="n">codes</span><span class="p">(</span><span class="n">ikeep</span><span class="p">)</span><span class="o">=</span><span class="n">lower_a</span>
+<span class="w">          </span><span class="k">case</span><span class="p">(</span><span class="n">um_lower_o</span><span class="p">);</span><span class="w"> </span><span class="n">codes</span><span class="p">(</span><span class="n">ikeep</span><span class="p">)</span><span class="o">=</span><span class="n">lower_o</span>
+<span class="w">          </span><span class="k">case</span><span class="p">(</span><span class="n">um_lower_u</span><span class="p">);</span><span class="w"> </span><span class="n">codes</span><span class="p">(</span><span class="n">ikeep</span><span class="p">)</span><span class="o">=</span><span class="n">lower_u</span>
+<span class="w">          </span><span class="k">case</span><span class="p">(</span><span class="n">um_upper_a</span><span class="p">);</span><span class="w"> </span><span class="n">codes</span><span class="p">(</span><span class="n">ikeep</span><span class="p">)</span><span class="o">=</span><span class="n">upper_a</span>
+<span class="w">          </span><span class="k">case</span><span class="p">(</span><span class="n">um_upper_o</span><span class="p">);</span><span class="w"> </span><span class="n">codes</span><span class="p">(</span><span class="n">ikeep</span><span class="p">)</span><span class="o">=</span><span class="n">upper_o</span>
+<span class="w">          </span><span class="k">case</span><span class="p">(</span><span class="n">um_upper_u</span><span class="p">);</span><span class="w"> </span><span class="n">codes</span><span class="p">(</span><span class="n">ikeep</span><span class="p">)</span><span class="o">=</span><span class="n">upper_u</span>
+<span class="w">          </span><span class="k">case</span><span class="p">(</span><span class="n">lower_beta</span><span class="p">)</span>
+<span class="w">             </span><span class="n">codes</span><span class="p">(</span><span class="n">ikeep</span><span class="p">:</span><span class="n">ikeep</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">=</span><span class="n">lower_s</span>
+<span class="w">             </span><span class="n">ikeep</span><span class="o">=</span><span class="n">ikeep</span><span class="o">+</span><span class="mi">1</span>
+<span class="w">          </span><span class="k">case</span><span class="p">(</span><span class="n">upper_beta</span><span class="p">)</span>
+<span class="w">             </span><span class="n">codes</span><span class="p">(</span><span class="n">ikeep</span><span class="p">:</span><span class="n">ikeep</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">=</span><span class="n">upper_s</span>
+<span class="w">             </span><span class="n">ikeep</span><span class="o">=</span><span class="n">ikeep</span><span class="o">+</span><span class="mi">1</span>
+<span class="w">         </span><span class="k">end select</span>
+<span class="k">      endif</span>
+<span class="k">   enddo</span>
+<span class="w">   </span><span class="c">! codes are no longer valid Unicode codepoints for the input but</span>
+<span class="w">   </span><span class="c">! can be used to compare lexically to another normalized value</span>
+<span class="w">   </span><span class="c">! only because needed some method of telling if an A,O,U used to</span>
+<span class="w">   </span><span class="c">! have an umlaut</span>
+<span class="w">   </span><span class="n">out</span><span class="o">=</span><span class="n">codes</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">ikeep</span><span class="p">)</span>
+
+<span class="k">end function </span><span class="n">nmi</span>
+
+<span class="k">end program </span><span class="n">demo_sort</span>
 </pre></div>
 
     </section>
@@ -487,7 +781,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-10-15 12:25 +0000             </p>
+ on 2026-10-16 18:53 +0000             </p>
           </div>
         </div>
         <br>

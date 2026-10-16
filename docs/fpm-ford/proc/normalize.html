@@ -1,0 +1,773 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="Fortran Unicode when ISO_10646 is not supported">
+    <meta name="author" content="John S. Urban" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>normalize &ndash; M_unicode</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">M_unicode </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>normalize
+      <small>Function</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 2.0% of total for procedures.">52 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/german_dictionary.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/german_dictionary.f90.html'>german_dictionary.f90</a></li>
+                <li class="breadcrumb-item"><a href='../program/demo_sort~2.html'>demo_sort</a></li>
+            <li class="breadcrumb-item active" aria-current="page">normalize</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#vars-0"
+         aria-expanded="false" aria-controls="vars-0">
+         <h4 class="card-header bg-primary text-white">Variables</h4>
+      </a>
+      <div id="vars-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../proc/normalize.html#variable-comb">COMB</a>
+            <a class="list-group-item" href="../proc/normalize.html#variable-la">LA</a>
+            <a class="list-group-item" href="../proc/normalize.html#variable-lo">LO</a>
+            <a class="list-group-item" href="../proc/normalize.html#variable-lu">LU</a>
+            <a class="list-group-item" href="../proc/normalize.html#variable-ua~3">UA</a>
+            <a class="list-group-item" href="../proc/normalize.html#variable-umla">UMLA</a>
+            <a class="list-group-item" href="../proc/normalize.html#variable-umlo">UMLO</a>
+            <a class="list-group-item" href="../proc/normalize.html#variable-umlu">UMLU</a>
+            <a class="list-group-item" href="../proc/normalize.html#variable-umua">UMUA</a>
+            <a class="list-group-item" href="../proc/normalize.html#variable-umuo">UMUO</a>
+            <a class="list-group-item" href="../proc/normalize.html#variable-umuu">UMUU</a>
+            <a class="list-group-item" href="../proc/normalize.html#variable-uo">UO</a>
+            <a class="list-group-item" href="../proc/normalize.html#variable-uu~2">UU</a>
+            <a class="list-group-item" href="../proc/normalize.html#variable-codes~9">codes</a>
+            <a class="list-group-item" href="../proc/normalize.html#variable-i~121">i</a>
+            <a class="list-group-item" href="../proc/normalize.html#variable-j~11">j</a>
+            <a class="list-group-item" href="../proc/normalize.html#variable-multi">multi</a>
+            <a class="list-group-item" href="../proc/normalize.html#variable-sub~2">sub</a>
+            <a class="list-group-item" href="../proc/normalize.html#variable-sz">sz</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/normalize.html#src">normalize</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2> function normalize(in) result(out)  
+</h2>
+    
+
+
+
+    <h3>Arguments</h3>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-in~10"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>in</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+      <h3>Return Value
+        <small>
+          <span class="anchor" id="variable-out~22"></span>
+          type(<a href='../type/unicode_type.html'>unicode_type</a>)
+        </small>
+      </h3>
+      
+    <br>
+
+
+    <section>    
+      <h2>Variables</h2>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-comb"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>COMB</strong></td>
+<td> =</td>
+                <td>2*int(z&#39;308&#39;)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-la"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>LA</strong></td>
+<td> =</td>
+                <td>2*ichar(&#39;a&#39;)+1</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lo"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>LO</strong></td>
+<td> =</td>
+                <td>2*ichar(&#39;o&#39;)+1</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lu"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>LU</strong></td>
+<td> =</td>
+                <td>2*ichar(&#39;u&#39;)+1</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ua~3"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>UA</strong></td>
+<td> =</td>
+                <td>2*ichar(&#39;A&#39;)+1</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-umla"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>UMLA</strong></td>
+<td> =</td>
+                <td>2*int(z&#39;E4&#39;)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-umlo"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>UMLO</strong></td>
+<td> =</td>
+                <td>2*int(z&#39;F6&#39;)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-umlu"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>UMLU</strong></td>
+<td> =</td>
+                <td>2*int(z&#39;FC&#39;)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-umua"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>UMUA</strong></td>
+<td> =</td>
+                <td>2*int(z&#39;C4&#39;)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-umuo"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>UMUO</strong></td>
+<td> =</td>
+                <td>2*int(z&#39;D6&#39;)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-umuu"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>UMUU</strong></td>
+<td> =</td>
+                <td>2*int(z&#39;DC&#39;)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-uo"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>UO</strong></td>
+<td> =</td>
+                <td>2*ichar(&#39;O&#39;)+1</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-uu~2"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>UU</strong></td>
+<td> =</td>
+                <td>2*ichar(&#39;U&#39;)+1</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-codes~9"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>codes</strong>(:)</td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-i~121"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>i</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-j~11"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>j</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-multi"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>multi</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sub~2"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>sub</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sz"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>sz</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    </section>
+    <br>
+    
+    
+
+    
+    
+
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl codehilite"><pre><span></span><span class="k">function </span><span class="n">normalize</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="w"> </span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+<span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">in</span>
+<span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">out</span>
+<span class="kt">integer</span><span class="p">,</span><span class="k">allocatable</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">codes</span><span class="p">(:)</span>
+<span class="kt">integer</span><span class="w">              </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span>
+<span class="kt">integer</span><span class="w">              </span><span class="kd">::</span><span class="w"> </span><span class="n">multi</span>
+<span class="kt">integer</span><span class="w">              </span><span class="kd">::</span><span class="w"> </span><span class="n">sub</span>
+<span class="kt">integer</span><span class="w">              </span><span class="kd">::</span><span class="w"> </span><span class="n">sz</span>
+<span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">COMB</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'308'</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                        </span><span class="n">UMLA</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'E4'</span><span class="p">),</span><span class="w"> </span><span class="n">UMLO</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'F6'</span><span class="p">),</span><span class="w"> </span><span class="n">UMLU</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'FC'</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                        </span><span class="n">UMUA</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'C4'</span><span class="p">),</span><span class="w"> </span><span class="n">UMUO</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'D6'</span><span class="p">),</span><span class="w"> </span><span class="n">UMUU</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'DC'</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                        </span><span class="n">LA</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="nb">ichar</span><span class="p">(</span><span class="s1">'a'</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">LO</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="nb">ichar</span><span class="p">(</span><span class="s1">'o'</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">LU</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="nb">ichar</span><span class="p">(</span><span class="s1">'u'</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                        </span><span class="n">UA</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="nb">ichar</span><span class="p">(</span><span class="s1">'A'</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">UO</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="nb">ichar</span><span class="p">(</span><span class="s1">'O'</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">UU</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="nb">ichar</span><span class="p">(</span><span class="s1">'U'</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span>
+<span class="w">   </span><span class="c">! RETURN 41.31user 1.41system 0:44.24elapsed 96%CPU (0avgtext+0avgdata 239980maxresident)k</span>
+<span class="w">   </span><span class="c">! The code values in OUT are not valid UTF-8, they are used just</span>
+<span class="w">   </span><span class="c">! for a comparison</span>
+
+<span class="w">   </span><span class="c">! make codes all even (assuming doubling causes no overflow) to make room for umlaut values</span>
+<span class="w">   </span><span class="c">! because if two strings are equal when normalized umlauted character should be last</span>
+<span class="w">   </span><span class="n">codes</span><span class="o">=</span><span class="n">in</span><span class="p">%</span><span class="n">codes</span><span class="o">*</span><span class="mi">2</span>
+<span class="w">   </span><span class="c">!codes=in%codepoint()*2</span>
+<span class="w">   </span><span class="c">! RETURN codes     61.72user 1.36system 1:05.50elapsed 96%CPU (0avgtext+0avgdata 240200maxresident)k</span>
+<span class="w">   </span><span class="c">! RETURN codepoint 86.98user 1.55system 1:31.00elapsed 97%CPU (0avgtext+0avgdata 240096maxresident)k</span>
+<span class="w">   </span><span class="c">! now if followed by the combining dieresis add one so can tell between a Latin letter and Latin letter that was umlauted</span>
+<span class="w">   </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">codes</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">COMB</span><span class="p">)</span><span class="k">then</span>
+<span class="k">         </span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span>
+<span class="w">      </span><span class="k">endif</span>
+<span class="k">   enddo</span>
+<span class="w">   </span><span class="c">! RETURN 89.06user 1.88system 1:33.57elapsed 97%CPU (0avgtext+0avgdata 240148maxresident)k</span>
+
+<span class="w">   </span><span class="c">! Now remove the combining dieresis modifier U+0308. Note that assuming it only occurs following a,o,u so possible</span>
+<span class="w">   </span><span class="c">! issue if not pure German</span>
+<span class="w">   </span><span class="n">codes</span><span class="o">=</span><span class="nb">pack</span><span class="p">(</span><span class="w"> </span><span class="n">codes</span><span class="p">,</span><span class="w"> </span><span class="n">codes</span><span class="p">.</span><span class="n">ne</span><span class="p">.</span><span class="n">COMB</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="c">! RETURN 144.46user 2.52system 2:33.78elapsed 95%CPU (0avgtext+0avgdata 129356maxresident)k</span>
+<span class="c">!=================================================================</span>
+<span class="w">   </span><span class="c">! replace umlauted characters with associated Latin letters doubled and add one to mark as previously umlauted</span>
+<span class="w">   </span><span class="c">! RETURN 182.90user 2.11system 3:11.02elapsed 96%CPU</span>
+<span class="c">!=================================================================</span>
+<span class="c">! 208.31user 1.75system 3:35.43elapsed 97%CPU (0avgtext+0avgdata 240860maxresident)k</span>
+<span class="c">!   DO I=1,size(codes)</span>
+<span class="c">!      if(codes(i).le.2*127)then</span>
+<span class="c">!      elseif(codes(i).eq.UMLA)then</span>
+<span class="c">!         codes(i)=LA</span>
+<span class="c">!      elseif(codes(i).eq.UMLO)then</span>
+<span class="c">!         codes(i)=LO</span>
+<span class="c">!      elseif(codes(i).eq.UMLU)then</span>
+<span class="c">!         codes(i)=LU</span>
+<span class="c">!      elseif(codes(i).eq.UMUA)then</span>
+<span class="c">!         codes(i)=UA</span>
+<span class="c">!      elseif(codes(i).eq.UMUO)then</span>
+<span class="c">!         codes(i)=UO</span>
+<span class="c">!      elseif(codes(i).eq.UMUU)then</span>
+<span class="c">!         codes(i)=UU</span>
+<span class="c">!      endif</span>
+<span class="c">!   ENDDO</span>
+<span class="c">!=================================================================</span>
+<span class="c">! 205.77user 2.11system 3:34.21elapsed 97%CPU</span>
+<span class="c">!   DO CONCURRENT ( I=1:size(codes) )</span>
+<span class="c">!      if(codes(i).le.2*127)then</span>
+<span class="c">!      elseif(codes(i).eq.UMLA)then</span>
+<span class="c">!         codes(i)=LA</span>
+<span class="c">!      elseif(codes(i).eq.UMLO)then</span>
+<span class="c">!         codes(i)=LO</span>
+<span class="c">!      elseif(codes(i).eq.UMLU)then</span>
+<span class="c">!         codes(i)=LU</span>
+<span class="c">!      elseif(codes(i).eq.UMUA)then</span>
+<span class="c">!         codes(i)=UA</span>
+<span class="c">!      elseif(codes(i).eq.UMUO)then</span>
+<span class="c">!         codes(i)=UO</span>
+<span class="c">!      elseif(codes(i).eq.UMUU)then</span>
+<span class="c">!         codes(i)=UU</span>
+<span class="c">!      endif</span>
+<span class="c">!   ENDDO</span>
+<span class="c">!=================================================================</span>
+<span class="c">! 182.90user 2.11system 3:11.02elapsed 96%CPU</span>
+<span class="w">   </span><span class="k">DO</span><span class="w"> </span><span class="k">CONCURRENT</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">I</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">size</span><span class="p">(</span><span class="n">codes</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">UMLA</span><span class="p">)</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">LA</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">UMLO</span><span class="p">)</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">LO</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">UMLU</span><span class="p">)</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">LU</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">UMUA</span><span class="p">)</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">UA</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">UMUO</span><span class="p">)</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">UO</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">UMUU</span><span class="p">)</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">UU</span>
+<span class="w">   </span><span class="k">ENDDO</span>
+<span class="c">!=================================================================</span>
+<span class="c">! 216.14user 1.54system 3:44.74elapsed 96%CPU</span>
+<span class="c">!    codes= merge( LA,codes, codes.eq.UMLA )</span>
+<span class="c">!    codes= merge( LO,codes, codes.eq.UMLO )</span>
+<span class="c">!    codes= merge( LU,codes, codes.eq.UMLU )</span>
+<span class="c">!    codes= merge( UA,codes, codes.eq.UMUA )</span>
+<span class="c">!    codes= merge( UO,codes, codes.eq.UMUO )</span>
+<span class="c">!    codes= merge( UU,codes, codes.eq.UMUU )</span>
+<span class="c">!=================================================================</span>
+<span class="c">! 212.39user 2.33system 3:53.28elapsed 92%CPU</span>
+<span class="c">!   do i=1,size(codes)</span>
+<span class="c">!      select case (codes(i))</span>
+<span class="c">!       case( :2*127)</span>
+<span class="c">!       case( UMLA); codes(i)=LA</span>
+<span class="c">!       case( UMLO); codes(i)=LO</span>
+<span class="c">!       case( UMLU); codes(i)=LU</span>
+<span class="c">!       case( UMUA); codes(i)=UA</span>
+<span class="c">!       case( UMUO); codes(i)=UO</span>
+<span class="c">!       case( UMUU); codes(i)=UU</span>
+<span class="c">!      end select</span>
+<span class="c">!   enddo</span>
+<span class="c">!=================================================================</span>
+<span class="c">! 276.06user 2.76system 4:54.66elapsed 94%CPU</span>
+<span class="c">!    WHERE ( codes.eq.UMLA )</span>
+<span class="c">!       codes=LA</span>
+<span class="c">!    ELSEWHERE ( codes.eq.UMLO )</span>
+<span class="c">!       codes=LO</span>
+<span class="c">!    ELSEWHERE ( codes.eq.UMLU )</span>
+<span class="c">!       codes=LU</span>
+<span class="c">!    ELSEWHERE ( codes.eq.UMUA )</span>
+<span class="c">!       codes=UA</span>
+<span class="c">!    ELSEWHERE ( codes.eq.UMUO )</span>
+<span class="c">!       codes=UO</span>
+<span class="c">!    ELSEWHERE ( codes.eq.UMUU )</span>
+<span class="c">!       codes=UU</span>
+<span class="c">!    END WHERE</span>
+<span class="c">!=================================================================</span>
+<span class="w">   </span><span class="c">! substitute in 'ss' and 'SS'</span>
+<span class="w">   </span><span class="c">!    \u0382 = β (Greek small letter beta)</span>
+<span class="w">   </span><span class="c">!    \u0392 = Β (Greek capital letter beta)</span>
+<span class="w">   </span><span class="c">!</span>
+<span class="w">   </span><span class="k">do </span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span>
+
+<span class="w">      </span><span class="k">select case</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+<span class="w">       </span><span class="k">case</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">         </span><span class="n">multi</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'03B2'</span><span class="p">)</span>
+<span class="w">         </span><span class="n">sub</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="nb">ichar</span><span class="p">(</span><span class="s1">'s'</span><span class="p">))</span>
+<span class="w">       </span><span class="k">case</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">         </span><span class="n">multi</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'0392'</span><span class="p">)</span>
+<span class="w">         </span><span class="n">sub</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="nb">ichar</span><span class="p">(</span><span class="s1">'S'</span><span class="p">))</span>
+<span class="w">       </span><span class="k">case </span><span class="n">default</span>
+<span class="w">         </span><span class="k">stop</span><span class="w"> </span><span class="s1">'*normalize* internal error: j out of range'</span>
+<span class="w">      </span><span class="k">end select</span>
+
+<span class="k">      </span><span class="n">sz</span><span class="o">=</span><span class="n">size</span><span class="p">(</span><span class="n">codes</span><span class="p">)</span>
+<span class="w">      </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="n">sz</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span>
+<span class="w">         </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">multi</span><span class="p">)</span><span class="k">then</span>
+<span class="k">            if</span><span class="p">(</span><span class="n">sz</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">1</span><span class="p">)</span><span class="k">then</span>
+<span class="k">               </span><span class="n">codes</span><span class="o">=</span><span class="p">[</span><span class="n">sub</span><span class="p">,</span><span class="n">sub</span><span class="p">]</span>
+<span class="w">            </span><span class="k">elseif</span><span class="p">(</span><span class="n">i</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="n">sz</span><span class="p">)</span><span class="k">then</span>
+<span class="k">               </span><span class="n">codes</span><span class="o">=</span><span class="p">[</span><span class="n">codes</span><span class="p">(:</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="n">sub</span><span class="p">,</span><span class="n">sub</span><span class="p">]</span>
+<span class="w">            </span><span class="k">elseif</span><span class="p">(</span><span class="n">i</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">1</span><span class="p">)</span><span class="k">then</span>
+<span class="k">               </span><span class="n">codes</span><span class="o">=</span><span class="p">[</span><span class="n">sub</span><span class="p">,</span><span class="n">sub</span><span class="p">,</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:)]</span>
+<span class="w">            </span><span class="k">else</span>
+<span class="k">               </span><span class="n">codes</span><span class="o">=</span><span class="p">[</span><span class="n">codes</span><span class="p">(:</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="n">sub</span><span class="p">,</span><span class="n">sub</span><span class="p">,</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:)]</span>
+<span class="w">            </span><span class="k">endif</span>
+<span class="k">         endif</span>
+<span class="k">      enddo</span>
+<span class="k">   enddo</span>
+
+<span class="k">   </span><span class="n">out</span><span class="o">=</span><span class="n">codes</span>
+
+<span class="k">end function </span><span class="n">normalize</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              M_unicode
+ was developed by John S. Urban<br>              &copy; 2026 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2026-10-16 18:53 +0000             </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>
