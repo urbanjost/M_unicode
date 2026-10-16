@@ -14446,6 +14446,8 @@ integer :: i
    call keyword_update('oe', expand_backslash('\xF6'),   unicode_type('oe') )
    call keyword_update('ue', expand_backslash('\xFC'),   unicode_type('ue') )
    call keyword_update('ss', expand_backslash('\u03B2'), unicode_type('ss') )
+   call keyword_update('ldquo', expand_backslash('\u201E'), unicode_type('"') )
+   call keyword_update('bdquo', expand_backslash('\u201C'), unicode_type('"') )
 !
 ! Character  Entity  Numeric     Description / Unicode
 !            Name    (Decimal)                           
