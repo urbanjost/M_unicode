@@ -1,13 +1,43 @@
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
-! next:
+! next: Pondering or Planning
+!
 ! regular expressions
+!
 ! strings to numbers
+!
 ! utf-8 to keyword
+!
 ! conversion to HTML should look to substitute HTML entity words instead of just numbers
-! sort with customized collation
+
+! Incomplete UDDTIO support: The User-Defined Derived-Type Input/Output
+!    (UDDTIO) procedures meant for use with the DT edit descriptor are
+!    still undergoing development because of compiler incompatibilities
+!
 ! Unicode Collation Algorithm (UCA) for sorting
+!
+! sort with customized collation is available, but generally inefficient and requires custom coding
+!
+! Dictionary sorting: While M_unicode(3f) includes a sorting method, it
+!    uses Unicode codepoint order, meaning it does not natively support
+!    dictionary or alphabetical sorting order for localized languages.
+!    Perhaps add calls to C to use existing Locale-specific sorting.
+!
+! Complex Unicode handling limits: The library has limited
+!    capability when it comes to complex Unicode features, specifically surrogate pairs,
+!    text directionality, and advanced text normalization.
+!
+! NOTE: List-directed output constraints: Because the underlying Fortran
+!    compiler treats UTF-8 strings as raw 8-bit byte streams, list-directed
+!    output (*) is not safely supported for UTF-8 data, as it can split
+!    multi-byte characters across lines inappropriately if not using
+!    ENCODE='UTF-8' mode on the OPEN statement, which is not supported
+!    by all compilers.
+!
+!  Text positioning and TUI capabilities such as with ncurses, terminfo, tput, ...
+!    although rudimentary terminal attributes are available via keyword substitution
+!    "<B y>yellow text on blue background <reset>".
 !-----------------------------------------------------------------------------------------------------------------------------------
 #include "define_compiler.inc"
 !-----------------------------------------------------------------------------------------------------------------------------------
@@ -14125,6 +14155,39 @@ integer :: i
    call keyword_update('CSI',         expand_backslash('\e['),       unicode_type(' ') )
 
    call keyword_update('clear',       expand_backslash('\e[H\e[2J'), unicode_type(' ') )
+
+!==German================================================================================
+!   Ä A\u0308 \xC4   LATIN CAPITAL LETTER WITH A DIAERESIS
+!   Ö O\u0308 \xD6   LATIN CAPITAL LETTER WITH O DIAERESIS
+!   Ü U\u0308 \xDC   LATIN CAPITAL LETTER WITH U DIAERESIS
+!   Β \u0392         GREEK CAPITAL LETTER BETA
+!
+!   ä a\u0308 \xE4   LATIN SMALL LETTER A WITH DIAERESIS
+!   ö o\u0308 \xF6   LATIN SMALL LETTER O WITH DIAERESIS
+!   ü u\u0308 \xFC   LATIN SMALL LETTER U WITH DIAERESIS
+!   β \u03B2         GREEK SMALL LETTER BETA
+!
+   call keyword_update('Ae', expand_backslash('\C4'),    unicode_type('Ae') )
+   call keyword_update('Oe', expand_backslash('\D6'),    unicode_type('Oe') )
+   call keyword_update('Ue', expand_backslash('\DC'),    unicode_type('Ue') )
+   call keyword_update('Ss', expand_backslash('\u0392'), unicode_type('Ss') )
+   call keyword_update('ae', expand_backslash('\xE4'),   unicode_type('ae') )
+   call keyword_update('oe', expand_backslash('\xF6'),   unicode_type('oe') )
+   call keyword_update('ue', expand_backslash('\xFC'),   unicode_type('ue') )
+   call keyword_update('ss', expand_backslash('\u03B2'), unicode_type('ss') )
+!
+! Character  Entity  Numeric     Description / Unicode
+!            Name    (Decimal)
+!
+! Ä          &Auml;  &#196;      Capital A with umlaut / diaeresis
+! Ö          &Ouml;  &#214;      Capital O with umlaut / diaeresis
+! Ü          &Uuml;  &#220;      Capital U with umlaut / diaeresis
+! Β          &Beta;  &#914;      Greek capital letter beta
+! ä          &auml;  &#228;      Lowercase a with umlaut / diaeresis
+! ö          &ouml;  &#246;      Lowercase o with umlaut / diaeresis
+! ü          &uuml;  &#252;      Lowercase u with umlaut / diaeresis
+! β          &beta;  &#946;      Greek small letter beta
+!========================================================================================
 
 end subroutine keyword_load_defaults
 ! NAME
