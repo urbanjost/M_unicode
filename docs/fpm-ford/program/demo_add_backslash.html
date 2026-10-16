@@ -90,19 +90,19 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 1.4% of total for programs.">38 statements</a>
+                 title=" 0.8% of total for programs.">21 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/try.f90"> Source File</a>
+              <a href="../src/demo_add_backslash.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/try.f90.html'>try.f90</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/demo_add_backslash.f90.html'>demo_add_backslash.f90</a></li>
             <li class="breadcrumb-item active" aria-current="page">demo_add_backslash</li>
           </ol>
         </nav>
@@ -131,13 +131,10 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../program/demo_add_backslash.html#variable-apoem">apoem</a>
-            <a class="list-group-item" href="../program/demo_add_backslash.html#variable-astring">astring</a>
-            <a class="list-group-item" href="../program/demo_add_backslash.html#variable-astrings">astrings</a>
-            <a class="list-group-item" href="../program/demo_add_backslash.html#variable-i~9">i</a>
-            <a class="list-group-item" href="../program/demo_add_backslash.html#variable-upoem">upoem</a>
-            <a class="list-group-item" href="../program/demo_add_backslash.html#variable-ustring">ustring</a>
-            <a class="list-group-item" href="../program/demo_add_backslash.html#variable-ustrings">ustrings</a>
+            <a class="list-group-item" href="../program/demo_add_backslash.html#variable-aline~2">aline</a>
+            <a class="list-group-item" href="../program/demo_add_backslash.html#variable-i~7">i</a>
+            <a class="list-group-item" href="../program/demo_add_backslash.html#variable-poem">poem</a>
+            <a class="list-group-item" href="../program/demo_add_backslash.html#variable-uline~4">uline</a>
         </div>
       </div>
     </div>
@@ -179,8 +176,8 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_fortran_env'>iso_fortran_env</a></li>
                   <li class="list-inline-item"><a href='../module/m_unicode.html'>M_unicode</a></li>
+                  <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_fortran_env'>iso_fortran_env</a></li>
               </ul>
             </li>
         </ul>
@@ -204,14 +201,14 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-apoem"></span>
+              <span class="anchor" id="variable-aline~2"></span>
               character(len=:),
             </td>
             <td>
               allocatable
             </td>
             <td>::</td>
-            <td><strong>apoem</strong>(:)</td>
+            <td><strong>aline</strong></td>
                 <td></td>
                 <td></td>
             <td>
@@ -220,39 +217,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-astring"></span>
-              character(len=:),
-            </td>
-            <td>
-              allocatable
-            </td>
-            <td>::</td>
-            <td><strong>astring</strong></td>
-                <td></td>
-                <td></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-astrings"></span>
-              character(len=:),
-            </td>
-            <td>
-              allocatable
-            </td>
-            <td>::</td>
-            <td><strong>astrings</strong>(:)</td>
-                <td></td>
-                <td></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-i~9"></span>
+              <span class="anchor" id="variable-i~7"></span>
               integer
             </td>
             <td>
@@ -268,14 +233,14 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-upoem"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+              <span class="anchor" id="variable-poem"></span>
+              character(len=:),
             </td>
             <td>
               allocatable
             </td>
             <td>::</td>
-            <td><strong>upoem</strong>(:)</td>
+            <td><strong>poem</strong>(:)</td>
                 <td></td>
                 <td></td>
             <td>
@@ -284,30 +249,14 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ustring"></span>
+              <span class="anchor" id="variable-uline~4"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>)
             </td>
             <td>
               
             </td>
             <td>::</td>
-            <td><strong>ustring</strong></td>
-                <td></td>
-                <td></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-ustrings"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-            <td>
-              allocatable
-            </td>
-            <td>::</td>
-            <td><strong>ustrings</strong>(:)</td>
+            <td><strong>uline</strong></td>
                 <td></td>
                 <td></td>
             <td>
@@ -330,64 +279,57 @@
 
     <section>
     <h2 id="src">Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="k">program </span><span class="n">demo_add_backslash</span>
+    <div class="hl codehilite"><pre><span></span><span class="w">       </span><span class="k">program </span><span class="n">demo_add_backslash</span>
+<span class="w">       </span><span class="c">! filter to replace all but printable ASCII-7 characters</span>
+<span class="w">       </span><span class="c">! with C-like escape sequences</span>
+<span class="w">       </span><span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">output_unit</span>
+<span class="w">       </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">add_backslash</span>
+<span class="w">       </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">)</span>
+<span class="w">       </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ut</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">unicode_type</span>
+<span class="w">       </span><span class="k">implicit none</span>
+<span class="k">       </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">poem</span><span class="p">(:)</span>
+<span class="w">       </span><span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">uline</span>
+<span class="w">       </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">aline</span>
+<span class="w">       </span><span class="kt">integer</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
+<span class="w">          </span><span class="c">!</span>
+<span class="w">          </span><span class="c">! “The Crow and the Fox” by Jean de la Fontaine</span>
+<span class="w">          </span><span class="c">!</span>
+<span class="w">          </span><span class="n">poem</span><span class="o">=</span><span class="p">[</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">          </span><span class="s1">'Le Corbeau et le Renard                               '</span><span class="p">,&amp;</span>
+<span class="w">          </span><span class="s1">'                                                      '</span><span class="p">,&amp;</span>
+<span class="w">          </span><span class="s1">'Maître Corbeau, sur un arbre perché,                '</span><span class="p">,&amp;</span>
+<span class="w">          </span><span class="s1">'Tenait en son bec un fromage.                         '</span><span class="p">,&amp;</span>
+<span class="w">          </span><span class="s1">'Maître Renard, par l’odeur alléché,                      '</span><span class="p">,&amp;</span>
+<span class="w">          </span><span class="s1">'Lui tint à peu près ce langage :                    '</span><span class="p">,&amp;</span>
+<span class="w">          </span><span class="s1">'«Hé ! bonjour, Monsieur du Corbeau.                         '</span><span class="p">,&amp;</span>
+<span class="w">          </span><span class="s1">'Que vous êtes joli ! que vous me semblez beau !      '</span><span class="p">,&amp;</span>
+<span class="w">          </span><span class="s1">'Sans mentir, si votre ramage                          '</span><span class="p">,&amp;</span>
+<span class="w">          </span><span class="s1">'Se rapporte à votre plumage,                         '</span><span class="p">,&amp;</span>
+<span class="w">          </span><span class="s1">'Vous êtes le Phénix des hôtes de ces bois.»               '</span><span class="p">,&amp;</span>
+<span class="w">          </span><span class="s1">'A ces mots le Corbeau ne se sent pas de joie ;        '</span><span class="p">,&amp;</span>
+<span class="w">          </span><span class="s1">'Et pour montrer sa belle voix,                        '</span><span class="p">,&amp;</span>
+<span class="w">          </span><span class="s1">'Il ouvre un large bec, laisse tomber sa proie.        '</span><span class="p">,&amp;</span>
+<span class="w">          </span><span class="s1">'Le Renard s’en saisit, et dit : «Mon bon Monsieur,         '</span><span class="p">,&amp;</span>
+<span class="w">          </span><span class="s1">'Apprenez que tout flatteur                            '</span><span class="p">,&amp;</span>
+<span class="w">          </span><span class="s1">'Vit aux dépens de celui qui l’écoute :            '</span><span class="p">,&amp;</span>
+<span class="w">          </span><span class="s1">'Cette leçon vaut bien un fromage, sans doute.»      '</span><span class="p">,&amp;</span>
+<span class="w">          </span><span class="s1">'Le Corbeau, honteux et confus,                        '</span><span class="p">,&amp;</span>
+<span class="w">          </span><span class="s1">'Jura, mais un peu tard, qu’on ne l’y prendrait plus.  '</span><span class="p">,&amp;</span>
+<span class="w">          </span><span class="s1">' -- Jean de la Fontaine                               '</span><span class="p">]</span>
 
-<span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">output_unit</span>
-<span class="k">use </span><span class="n">m_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">add_backslash</span><span class="p">,</span><span class="w"> </span><span class="n">expand_backslash</span>
-<span class="k">use </span><span class="n">m_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">add_html</span><span class="p">,</span><span class="w"> </span><span class="n">expand_html</span>
-<span class="k">use </span><span class="n">m_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">keyword_expand</span>
-<span class="k">use </span><span class="n">m_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">upper</span><span class="p">,</span><span class="w"> </span><span class="n">lower</span>
-<span class="k">use </span><span class="n">m_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">)</span>
-<span class="k">use </span><span class="n">m_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ut</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">unicode_type</span>
-<span class="k">use </span><span class="n">m_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kt">character</span><span class="p">,</span><span class="w"> </span><span class="n">ch</span><span class="o">=&gt;</span><span class="kt">character</span><span class="p">,</span><span class="w"> </span><span class="nb">trim</span>
-<span class="k">implicit none</span>
-<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">apoem</span><span class="p">(:)</span>
-<span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">),</span><span class="k">allocatable</span><span class="w">         </span><span class="kd">::</span><span class="w"> </span><span class="n">upoem</span><span class="p">(:)</span>
-<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">astrings</span><span class="p">(:)</span>
-<span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">),</span><span class="k">allocatable</span><span class="w">         </span><span class="kd">::</span><span class="w"> </span><span class="n">ustrings</span><span class="p">(:)</span>
-<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">astring</span>
-<span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">ustring</span>
-<span class="kt">integer</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
+<span class="w">          </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">poem</span><span class="p">)</span>
+<span class="w">             </span><span class="c">! convert UTF-8 to UNICODE_TYPE for demonstration purposes</span>
+<span class="w">             </span><span class="n">uline</span><span class="o">=</span><span class="n">poem</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="w">             </span><span class="n">aline</span><span class="o">=</span><span class="n">add_backslash</span><span class="p">(</span><span class="n">uline</span><span class="p">)</span>
+<span class="w">             </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">'(g0)'</span><span class="p">)</span><span class="nb">trim</span><span class="p">(</span><span class="n">aline</span><span class="p">)</span>
+<span class="w">          </span><span class="k">enddo</span>
 
-<span class="w">      </span><span class="n">apoem</span><span class="o">=</span><span class="p">[</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">      </span><span class="s1">'古池や    '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">      </span><span class="s1">'蛙飛びこむ'</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">      </span><span class="s1">'水の音    '</span><span class="w"> </span><span class="p">]</span>
+<span class="k">          do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">poem</span><span class="p">)</span>
+<span class="w">             </span><span class="n">aline</span><span class="o">=</span><span class="n">add_backslash</span><span class="p">(</span><span class="n">poem</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+<span class="w">             </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">'(g0)'</span><span class="p">)</span><span class="nb">trim</span><span class="p">(</span><span class="n">aline</span><span class="p">)</span>
+<span class="w">          </span><span class="k">enddo</span>
 
-<span class="w">   </span><span class="n">upoem</span><span class="o">=</span><span class="n">apoem</span>
-
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(a)'</span><span class="p">)(</span><span class="nb">trim</span><span class="p">(</span><span class="n">upoem</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">ch</span><span class="p">()),</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">upoem</span><span class="p">))</span>
-
-<span class="w">   </span><span class="n">ustrings</span><span class="o">=</span><span class="n">add_backslash</span><span class="p">(</span><span class="n">upoem</span><span class="p">)</span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(a)'</span><span class="p">)(</span><span class="nb">trim</span><span class="p">(</span><span class="n">ustrings</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">ch</span><span class="p">()),</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">ustrings</span><span class="p">))</span>
-
-<span class="w">   </span><span class="n">ustrings</span><span class="o">=</span><span class="n">expand_backslash</span><span class="p">(</span><span class="n">ustrings</span><span class="p">)</span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(a)'</span><span class="p">)</span><span class="w"> </span><span class="n">ch</span><span class="p">(</span><span class="n">ustrings</span><span class="p">)</span>
-
-<span class="w">   </span><span class="n">astrings</span><span class="o">=</span><span class="n">add_html</span><span class="p">(</span><span class="n">upoem</span><span class="p">)</span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(a)'</span><span class="p">)(</span><span class="nb">trim</span><span class="p">(</span><span class="n">astrings</span><span class="p">(</span><span class="n">i</span><span class="p">)),</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">astrings</span><span class="p">))</span>
-
-<span class="w">   </span><span class="n">ustrings</span><span class="o">=</span><span class="n">expand_html</span><span class="p">(</span><span class="n">ustrings</span><span class="p">)</span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(a)'</span><span class="p">)</span><span class="w"> </span><span class="n">ch</span><span class="p">(</span><span class="n">ustrings</span><span class="p">)</span>
-
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
-
-<span class="w">   </span><span class="n">astrings</span><span class="o">=</span><span class="p">[</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">    </span><span class="s1">'c=&lt;pi&gt;&lt;times&gt;d'</span><span class="p">,</span><span class="w">          </span><span class="p">&amp;</span>
-<span class="w">    </span><span class="s1">'a=&lt;pi&gt;&lt;times&gt;r&lt;S2&gt;'</span><span class="p">,</span><span class="w">      </span><span class="p">&amp;</span>
-<span class="w">    </span><span class="s1">'&lt;Delta&gt;&lt;delta&gt;'</span><span class="p">,</span><span class="w">          </span><span class="p">&amp;</span>
-<span class="w">    </span><span class="s1">'Copyright&lt;copy&gt;'</span><span class="p">]</span>
-
-<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(a)'</span><span class="p">)</span><span class="w"> </span><span class="n">ch</span><span class="p">(</span><span class="n">keyword_expand</span><span class="p">(</span><span class="n">astrings</span><span class="p">))</span>
-
-<span class="w">    </span><span class="n">astring</span><span class="o">=</span><span class="s1">'АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ'</span>
-<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">'(a)'</span><span class="p">)</span><span class="w"> </span><span class="n">astring</span>
-<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">'(a)'</span><span class="p">)</span><span class="w"> </span><span class="n">ch</span><span class="p">(</span><span class="n">lower</span><span class="p">(</span><span class="n">astring</span><span class="p">))</span>
-<span class="w">    </span><span class="n">ustring</span><span class="o">=</span><span class="n">astring</span>
-<span class="w">    </span><span class="n">astring</span><span class="o">=</span><span class="n">ustring</span>
-<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">'(a)'</span><span class="p">)</span><span class="w"> </span><span class="n">astring</span>
-
-<span class="k">end program </span><span class="n">demo_add_backslash</span>
+<span class="k">       end program </span><span class="n">demo_add_backslash</span>
 </pre></div>
 
     </section>
@@ -410,7 +352,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-10-16 20:27 +0000             </p>
+ on 2026-10-16 20:38 +0000             </p>
           </div>
         </div>
         <br>
