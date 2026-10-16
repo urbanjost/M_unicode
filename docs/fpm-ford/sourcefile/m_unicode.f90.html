@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="62.3% of total for source files.">6499 statements</a>
+                 title="62.3% of total for source files.">6501 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -14347,502 +14347,504 @@
 <a id="ln-14175" name="ln-14175" href="#ln-14175"></a><span class="w">   </span><span class="k">call </span><span class="n">keyword_update</span><span class="p">(</span><span class="s1">'oe'</span><span class="p">,</span><span class="w"> </span><span class="n">expand_backslash</span><span class="p">(</span><span class="s1">'\xF6'</span><span class="p">),</span><span class="w">   </span><span class="n">unicode_type</span><span class="p">(</span><span class="s1">'oe'</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
 <a id="ln-14176" name="ln-14176" href="#ln-14176"></a><span class="w">   </span><span class="k">call </span><span class="n">keyword_update</span><span class="p">(</span><span class="s1">'ue'</span><span class="p">,</span><span class="w"> </span><span class="n">expand_backslash</span><span class="p">(</span><span class="s1">'\xFC'</span><span class="p">),</span><span class="w">   </span><span class="n">unicode_type</span><span class="p">(</span><span class="s1">'ue'</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
 <a id="ln-14177" name="ln-14177" href="#ln-14177"></a><span class="w">   </span><span class="k">call </span><span class="n">keyword_update</span><span class="p">(</span><span class="s1">'ss'</span><span class="p">,</span><span class="w"> </span><span class="n">expand_backslash</span><span class="p">(</span><span class="s1">'\u03B2'</span><span class="p">),</span><span class="w"> </span><span class="n">unicode_type</span><span class="p">(</span><span class="s1">'ss'</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
-<a id="ln-14178" name="ln-14178" href="#ln-14178"></a><span class="c">!</span>
-<a id="ln-14179" name="ln-14179" href="#ln-14179"></a><span class="c">! Character  Entity  Numeric     Description / Unicode</span>
-<a id="ln-14180" name="ln-14180" href="#ln-14180"></a><span class="c">!            Name    (Decimal)</span>
-<a id="ln-14181" name="ln-14181" href="#ln-14181"></a><span class="c">!</span>
-<a id="ln-14182" name="ln-14182" href="#ln-14182"></a><span class="c">! Ä          &amp;Auml;  &amp;#196;      Capital A with umlaut / diaeresis</span>
-<a id="ln-14183" name="ln-14183" href="#ln-14183"></a><span class="c">! Ö          &amp;Ouml;  &amp;#214;      Capital O with umlaut / diaeresis</span>
-<a id="ln-14184" name="ln-14184" href="#ln-14184"></a><span class="c">! Ü          &amp;Uuml;  &amp;#220;      Capital U with umlaut / diaeresis</span>
-<a id="ln-14185" name="ln-14185" href="#ln-14185"></a><span class="c">! Β          &amp;Beta;  &amp;#914;      Greek capital letter beta</span>
-<a id="ln-14186" name="ln-14186" href="#ln-14186"></a><span class="c">! ä          &amp;auml;  &amp;#228;      Lowercase a with umlaut / diaeresis</span>
-<a id="ln-14187" name="ln-14187" href="#ln-14187"></a><span class="c">! ö          &amp;ouml;  &amp;#246;      Lowercase o with umlaut / diaeresis</span>
-<a id="ln-14188" name="ln-14188" href="#ln-14188"></a><span class="c">! ü          &amp;uuml;  &amp;#252;      Lowercase u with umlaut / diaeresis</span>
-<a id="ln-14189" name="ln-14189" href="#ln-14189"></a><span class="c">! β          &amp;beta;  &amp;#946;      Greek small letter beta</span>
-<a id="ln-14190" name="ln-14190" href="#ln-14190"></a><span class="c">!========================================================================================</span>
-<a id="ln-14191" name="ln-14191" href="#ln-14191"></a>
-<a id="ln-14192" name="ln-14192" href="#ln-14192"></a><span class="k">end subroutine </span><span class="n">keyword_load_defaults</span>
-<a id="ln-14193" name="ln-14193" href="#ln-14193"></a><span class="c">! NAME</span>
-<a id="ln-14194" name="ln-14194" href="#ln-14194"></a><span class="c">!    keyword_mode(3f) - [M_unicode] select processing mode for output</span>
-<a id="ln-14195" name="ln-14195" href="#ln-14195"></a><span class="c">!    from keyword_expand(3f)</span>
-<a id="ln-14196" name="ln-14196" href="#ln-14196"></a><span class="c">!    (LICENSE:MIT)</span>
-<a id="ln-14197" name="ln-14197" href="#ln-14197"></a><span class="c">! </span>
-<a id="ln-14198" name="ln-14198" href="#ln-14198"></a><span class="c">! SYNOPSIS</span>
-<a id="ln-14199" name="ln-14199" href="#ln-14199"></a><span class="c">!     subroutine keyword_mode(action)</span>
-<a id="ln-14200" name="ln-14200" href="#ln-14200"></a><span class="c">! </span>
-<a id="ln-14201" name="ln-14201" href="#ln-14201"></a><span class="c">!        character(len=*),intent(in) :: action</span>
-<a id="ln-14202" name="ln-14202" href="#ln-14202"></a><span class="c">!        !or</span>
-<a id="ln-14203" name="ln-14203" href="#ln-14203"></a><span class="c">!        type(unicode_type),intent(in) :: action</span>
-<a id="ln-14204" name="ln-14204" href="#ln-14204"></a><span class="c">! </span>
-<a id="ln-14205" name="ln-14205" href="#ln-14205"></a><span class="c">! DESCRIPTION</span>
-<a id="ln-14206" name="ln-14206" href="#ln-14206"></a><span class="c">!    When using the keyword_expand(3f) procedure turn the substitution of strings</span>
-<a id="ln-14207" name="ln-14207" href="#ln-14207"></a><span class="c">!    associated with the keywords on or off. That is, turn off string</span>
-<a id="ln-14208" name="ln-14208" href="#ln-14208"></a><span class="c">!    processing so keyword_expand(3f) just echos its input.</span>
-<a id="ln-14209" name="ln-14209" href="#ln-14209"></a><span class="c">! </span>
-<a id="ln-14210" name="ln-14210" href="#ln-14210"></a><span class="c">! OPTIONS</span>
-<a id="ln-14211" name="ln-14211" href="#ln-14211"></a><span class="c">!    ACTION  The current modes and actions supported are</span>
-<a id="ln-14212" name="ln-14212" href="#ln-14212"></a><span class="c">! </span>
-<a id="ln-14213" name="ln-14213" href="#ln-14213"></a><span class="c">!    raw_mode,raw        echo the input to keyword_expand(3f) as its output</span>
-<a id="ln-14214" name="ln-14214" href="#ln-14214"></a><span class="c">!    alias_mode,default  return the alias for a defined &lt;keyword&gt; string.</span>
-<a id="ln-14215" name="ln-14215" href="#ln-14215"></a><span class="c">!    plain_mode,plain    return the alias for a defined &lt;keyword&gt; string</span>
-<a id="ln-14216" name="ln-14216" href="#ln-14216"></a><span class="c">!                        using the alternate replacement string specified</span>
-<a id="ln-14217" name="ln-14217" href="#ln-14217"></a><span class="c">!                        on keyword_update(3f).</span>
-<a id="ln-14218" name="ln-14218" href="#ln-14218"></a><span class="c">!    reload              restore original keyword meanings deleted or</span>
-<a id="ln-14219" name="ln-14219" href="#ln-14219"></a><span class="c">!                        replaced by calls to keyword_update(3f).</span>
-<a id="ln-14220" name="ln-14220" href="#ln-14220"></a><span class="c">!    dump                display keyword dictionary to stdout</span>
-<a id="ln-14221" name="ln-14221" href="#ln-14221"></a><span class="c">!    wipe                erase keyword dictionary</span>
-<a id="ln-14222" name="ln-14222" href="#ln-14222"></a><span class="c">! </span>
-<a id="ln-14223" name="ln-14223" href="#ln-14223"></a><span class="c">! EXAMPLES</span>
-<a id="ln-14224" name="ln-14224" href="#ln-14224"></a><span class="c">!    Sample program</span>
-<a id="ln-14225" name="ln-14225" href="#ln-14225"></a><span class="c">! </span>
-<a id="ln-14226" name="ln-14226" href="#ln-14226"></a><span class="c">!     program demo_keyword_mode</span>
-<a id="ln-14227" name="ln-14227" href="#ln-14227"></a><span class="c">!     use M_unicode, only : keyword_expand, keyword_mode, character</span>
-<a id="ln-14228" name="ln-14228" href="#ln-14228"></a><span class="c">!     implicit none</span>
-<a id="ln-14229" name="ln-14229" href="#ln-14229"></a><span class="c">!     character(len=:),allocatable :: lines(:)</span>
-<a id="ln-14230" name="ln-14230" href="#ln-14230"></a><span class="c">!     character(len=:),allocatable :: outlines(:)</span>
-<a id="ln-14231" name="ln-14231" href="#ln-14231"></a><span class="c">!     integer :: i</span>
-<a id="ln-14232" name="ln-14232" href="#ln-14232"></a><span class="c">!        lines=[character(len=110):: &amp;</span>
-<a id="ln-14233" name="ln-14233" href="#ln-14233"></a><span class="c">!        &amp;'&lt;delta&gt;',   &amp;</span>
-<a id="ln-14234" name="ln-14234" href="#ln-14234"></a><span class="c">!        &amp;'&lt;E&gt;&lt;g&gt; c=&lt;pi&gt;&lt;times&gt;d &lt;/g&gt;&lt;/E&gt;',  &amp;</span>
-<a id="ln-14235" name="ln-14235" href="#ln-14235"></a><span class="c">!        &amp;'&lt;omega&gt;',   &amp;</span>
-<a id="ln-14236" name="ln-14236" href="#ln-14236"></a><span class="c">!        &amp;' ']</span>
-<a id="ln-14237" name="ln-14237" href="#ln-14237"></a><span class="c">! </span>
-<a id="ln-14238" name="ln-14238" href="#ln-14238"></a><span class="c">!        outlines=character(keyword_expand(lines))</span>
-<a id="ln-14239" name="ln-14239" href="#ln-14239"></a><span class="c">!        write(*,'(a)')(trim(outlines(i)),i=1,size(outlines))</span>
-<a id="ln-14240" name="ln-14240" href="#ln-14240"></a><span class="c">! </span>
-<a id="ln-14241" name="ln-14241" href="#ln-14241"></a><span class="c">!        call keyword_mode(action='raw_mode')   ! write as-is</span>
-<a id="ln-14242" name="ln-14242" href="#ln-14242"></a><span class="c">!        write(*,'(a)')character(keyword_expand(lines))</span>
-<a id="ln-14243" name="ln-14243" href="#ln-14243"></a><span class="c">! </span>
-<a id="ln-14244" name="ln-14244" href="#ln-14244"></a><span class="c">!        call keyword_mode(action='plain_mode')  ! return to default mode</span>
-<a id="ln-14245" name="ln-14245" href="#ln-14245"></a><span class="c">!        write(*,'(a)')character(keyword_expand(lines))</span>
-<a id="ln-14246" name="ln-14246" href="#ln-14246"></a><span class="c">! </span>
-<a id="ln-14247" name="ln-14247" href="#ln-14247"></a><span class="c">!        call keyword_mode(action='alias_mode')  ! return to default mode</span>
-<a id="ln-14248" name="ln-14248" href="#ln-14248"></a><span class="c">!        write(*,'(a)')character(keyword_expand(lines))</span>
-<a id="ln-14249" name="ln-14249" href="#ln-14249"></a><span class="c">! </span>
-<a id="ln-14250" name="ln-14250" href="#ln-14250"></a><span class="c">!        call keyword_mode(action='dump')</span>
+<a id="ln-14178" name="ln-14178" href="#ln-14178"></a><span class="w">   </span><span class="k">call </span><span class="n">keyword_update</span><span class="p">(</span><span class="s1">'ldquo'</span><span class="p">,</span><span class="w"> </span><span class="n">expand_backslash</span><span class="p">(</span><span class="s1">'\u201E'</span><span class="p">),</span><span class="w"> </span><span class="n">unicode_type</span><span class="p">(</span><span class="s1">'"'</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
+<a id="ln-14179" name="ln-14179" href="#ln-14179"></a><span class="w">   </span><span class="k">call </span><span class="n">keyword_update</span><span class="p">(</span><span class="s1">'bdquo'</span><span class="p">,</span><span class="w"> </span><span class="n">expand_backslash</span><span class="p">(</span><span class="s1">'\u201C'</span><span class="p">),</span><span class="w"> </span><span class="n">unicode_type</span><span class="p">(</span><span class="s1">'"'</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
+<a id="ln-14180" name="ln-14180" href="#ln-14180"></a><span class="c">!</span>
+<a id="ln-14181" name="ln-14181" href="#ln-14181"></a><span class="c">! Character  Entity  Numeric     Description / Unicode</span>
+<a id="ln-14182" name="ln-14182" href="#ln-14182"></a><span class="c">!            Name    (Decimal)</span>
+<a id="ln-14183" name="ln-14183" href="#ln-14183"></a><span class="c">!</span>
+<a id="ln-14184" name="ln-14184" href="#ln-14184"></a><span class="c">! Ä          &amp;Auml;  &amp;#196;      Capital A with umlaut / diaeresis</span>
+<a id="ln-14185" name="ln-14185" href="#ln-14185"></a><span class="c">! Ö          &amp;Ouml;  &amp;#214;      Capital O with umlaut / diaeresis</span>
+<a id="ln-14186" name="ln-14186" href="#ln-14186"></a><span class="c">! Ü          &amp;Uuml;  &amp;#220;      Capital U with umlaut / diaeresis</span>
+<a id="ln-14187" name="ln-14187" href="#ln-14187"></a><span class="c">! Β          &amp;Beta;  &amp;#914;      Greek capital letter beta</span>
+<a id="ln-14188" name="ln-14188" href="#ln-14188"></a><span class="c">! ä          &amp;auml;  &amp;#228;      Lowercase a with umlaut / diaeresis</span>
+<a id="ln-14189" name="ln-14189" href="#ln-14189"></a><span class="c">! ö          &amp;ouml;  &amp;#246;      Lowercase o with umlaut / diaeresis</span>
+<a id="ln-14190" name="ln-14190" href="#ln-14190"></a><span class="c">! ü          &amp;uuml;  &amp;#252;      Lowercase u with umlaut / diaeresis</span>
+<a id="ln-14191" name="ln-14191" href="#ln-14191"></a><span class="c">! β          &amp;beta;  &amp;#946;      Greek small letter beta</span>
+<a id="ln-14192" name="ln-14192" href="#ln-14192"></a><span class="c">!========================================================================================</span>
+<a id="ln-14193" name="ln-14193" href="#ln-14193"></a>
+<a id="ln-14194" name="ln-14194" href="#ln-14194"></a><span class="k">end subroutine </span><span class="n">keyword_load_defaults</span>
+<a id="ln-14195" name="ln-14195" href="#ln-14195"></a><span class="c">! NAME</span>
+<a id="ln-14196" name="ln-14196" href="#ln-14196"></a><span class="c">!    keyword_mode(3f) - [M_unicode] select processing mode for output</span>
+<a id="ln-14197" name="ln-14197" href="#ln-14197"></a><span class="c">!    from keyword_expand(3f)</span>
+<a id="ln-14198" name="ln-14198" href="#ln-14198"></a><span class="c">!    (LICENSE:MIT)</span>
+<a id="ln-14199" name="ln-14199" href="#ln-14199"></a><span class="c">! </span>
+<a id="ln-14200" name="ln-14200" href="#ln-14200"></a><span class="c">! SYNOPSIS</span>
+<a id="ln-14201" name="ln-14201" href="#ln-14201"></a><span class="c">!     subroutine keyword_mode(action)</span>
+<a id="ln-14202" name="ln-14202" href="#ln-14202"></a><span class="c">! </span>
+<a id="ln-14203" name="ln-14203" href="#ln-14203"></a><span class="c">!        character(len=*),intent(in) :: action</span>
+<a id="ln-14204" name="ln-14204" href="#ln-14204"></a><span class="c">!        !or</span>
+<a id="ln-14205" name="ln-14205" href="#ln-14205"></a><span class="c">!        type(unicode_type),intent(in) :: action</span>
+<a id="ln-14206" name="ln-14206" href="#ln-14206"></a><span class="c">! </span>
+<a id="ln-14207" name="ln-14207" href="#ln-14207"></a><span class="c">! DESCRIPTION</span>
+<a id="ln-14208" name="ln-14208" href="#ln-14208"></a><span class="c">!    When using the keyword_expand(3f) procedure turn the substitution of strings</span>
+<a id="ln-14209" name="ln-14209" href="#ln-14209"></a><span class="c">!    associated with the keywords on or off. That is, turn off string</span>
+<a id="ln-14210" name="ln-14210" href="#ln-14210"></a><span class="c">!    processing so keyword_expand(3f) just echos its input.</span>
+<a id="ln-14211" name="ln-14211" href="#ln-14211"></a><span class="c">! </span>
+<a id="ln-14212" name="ln-14212" href="#ln-14212"></a><span class="c">! OPTIONS</span>
+<a id="ln-14213" name="ln-14213" href="#ln-14213"></a><span class="c">!    ACTION  The current modes and actions supported are</span>
+<a id="ln-14214" name="ln-14214" href="#ln-14214"></a><span class="c">! </span>
+<a id="ln-14215" name="ln-14215" href="#ln-14215"></a><span class="c">!    raw_mode,raw        echo the input to keyword_expand(3f) as its output</span>
+<a id="ln-14216" name="ln-14216" href="#ln-14216"></a><span class="c">!    alias_mode,default  return the alias for a defined &lt;keyword&gt; string.</span>
+<a id="ln-14217" name="ln-14217" href="#ln-14217"></a><span class="c">!    plain_mode,plain    return the alias for a defined &lt;keyword&gt; string</span>
+<a id="ln-14218" name="ln-14218" href="#ln-14218"></a><span class="c">!                        using the alternate replacement string specified</span>
+<a id="ln-14219" name="ln-14219" href="#ln-14219"></a><span class="c">!                        on keyword_update(3f).</span>
+<a id="ln-14220" name="ln-14220" href="#ln-14220"></a><span class="c">!    reload              restore original keyword meanings deleted or</span>
+<a id="ln-14221" name="ln-14221" href="#ln-14221"></a><span class="c">!                        replaced by calls to keyword_update(3f).</span>
+<a id="ln-14222" name="ln-14222" href="#ln-14222"></a><span class="c">!    dump                display keyword dictionary to stdout</span>
+<a id="ln-14223" name="ln-14223" href="#ln-14223"></a><span class="c">!    wipe                erase keyword dictionary</span>
+<a id="ln-14224" name="ln-14224" href="#ln-14224"></a><span class="c">! </span>
+<a id="ln-14225" name="ln-14225" href="#ln-14225"></a><span class="c">! EXAMPLES</span>
+<a id="ln-14226" name="ln-14226" href="#ln-14226"></a><span class="c">!    Sample program</span>
+<a id="ln-14227" name="ln-14227" href="#ln-14227"></a><span class="c">! </span>
+<a id="ln-14228" name="ln-14228" href="#ln-14228"></a><span class="c">!     program demo_keyword_mode</span>
+<a id="ln-14229" name="ln-14229" href="#ln-14229"></a><span class="c">!     use M_unicode, only : keyword_expand, keyword_mode, character</span>
+<a id="ln-14230" name="ln-14230" href="#ln-14230"></a><span class="c">!     implicit none</span>
+<a id="ln-14231" name="ln-14231" href="#ln-14231"></a><span class="c">!     character(len=:),allocatable :: lines(:)</span>
+<a id="ln-14232" name="ln-14232" href="#ln-14232"></a><span class="c">!     character(len=:),allocatable :: outlines(:)</span>
+<a id="ln-14233" name="ln-14233" href="#ln-14233"></a><span class="c">!     integer :: i</span>
+<a id="ln-14234" name="ln-14234" href="#ln-14234"></a><span class="c">!        lines=[character(len=110):: &amp;</span>
+<a id="ln-14235" name="ln-14235" href="#ln-14235"></a><span class="c">!        &amp;'&lt;delta&gt;',   &amp;</span>
+<a id="ln-14236" name="ln-14236" href="#ln-14236"></a><span class="c">!        &amp;'&lt;E&gt;&lt;g&gt; c=&lt;pi&gt;&lt;times&gt;d &lt;/g&gt;&lt;/E&gt;',  &amp;</span>
+<a id="ln-14237" name="ln-14237" href="#ln-14237"></a><span class="c">!        &amp;'&lt;omega&gt;',   &amp;</span>
+<a id="ln-14238" name="ln-14238" href="#ln-14238"></a><span class="c">!        &amp;' ']</span>
+<a id="ln-14239" name="ln-14239" href="#ln-14239"></a><span class="c">! </span>
+<a id="ln-14240" name="ln-14240" href="#ln-14240"></a><span class="c">!        outlines=character(keyword_expand(lines))</span>
+<a id="ln-14241" name="ln-14241" href="#ln-14241"></a><span class="c">!        write(*,'(a)')(trim(outlines(i)),i=1,size(outlines))</span>
+<a id="ln-14242" name="ln-14242" href="#ln-14242"></a><span class="c">! </span>
+<a id="ln-14243" name="ln-14243" href="#ln-14243"></a><span class="c">!        call keyword_mode(action='raw_mode')   ! write as-is</span>
+<a id="ln-14244" name="ln-14244" href="#ln-14244"></a><span class="c">!        write(*,'(a)')character(keyword_expand(lines))</span>
+<a id="ln-14245" name="ln-14245" href="#ln-14245"></a><span class="c">! </span>
+<a id="ln-14246" name="ln-14246" href="#ln-14246"></a><span class="c">!        call keyword_mode(action='plain_mode')  ! return to default mode</span>
+<a id="ln-14247" name="ln-14247" href="#ln-14247"></a><span class="c">!        write(*,'(a)')character(keyword_expand(lines))</span>
+<a id="ln-14248" name="ln-14248" href="#ln-14248"></a><span class="c">! </span>
+<a id="ln-14249" name="ln-14249" href="#ln-14249"></a><span class="c">!        call keyword_mode(action='alias_mode')  ! return to default mode</span>
+<a id="ln-14250" name="ln-14250" href="#ln-14250"></a><span class="c">!        write(*,'(a)')character(keyword_expand(lines))</span>
 <a id="ln-14251" name="ln-14251" href="#ln-14251"></a><span class="c">! </span>
-<a id="ln-14252" name="ln-14252" href="#ln-14252"></a><span class="c">!     end program demo_keyword_mode</span>
+<a id="ln-14252" name="ln-14252" href="#ln-14252"></a><span class="c">!        call keyword_mode(action='dump')</span>
 <a id="ln-14253" name="ln-14253" href="#ln-14253"></a><span class="c">! </span>
-<a id="ln-14254" name="ln-14254" href="#ln-14254"></a><span class="c">!   Results:</span>
+<a id="ln-14254" name="ln-14254" href="#ln-14254"></a><span class="c">!     end program demo_keyword_mode</span>
 <a id="ln-14255" name="ln-14255" href="#ln-14255"></a><span class="c">! </span>
-<a id="ln-14256" name="ln-14256" href="#ln-14256"></a><span class="c">!    The escape sequences below add or remove text attributes</span>
-<a id="ln-14257" name="ln-14257" href="#ln-14257"></a><span class="c">!    like color when displayed on an ANSI-compatible terminal</span>
-<a id="ln-14258" name="ln-14258" href="#ln-14258"></a><span class="c">! </span>
-<a id="ln-14259" name="ln-14259" href="#ln-14259"></a><span class="c">!    &gt; δ</span>
-<a id="ln-14260" name="ln-14260" href="#ln-14260"></a><span class="c">!    &gt; \e[40m\e[32m c=π×d \e[39m\e[49m</span>
-<a id="ln-14261" name="ln-14261" href="#ln-14261"></a><span class="c">!    &gt; ω</span>
-<a id="ln-14262" name="ln-14262" href="#ln-14262"></a><span class="c">!    &gt;</span>
-<a id="ln-14263" name="ln-14263" href="#ln-14263"></a><span class="c">!    &gt; &lt;delta&gt;</span>
-<a id="ln-14264" name="ln-14264" href="#ln-14264"></a><span class="c">!    &gt; &lt;E&gt;&lt;g&gt; c=&lt;pi&gt;&lt;times&gt;d &lt;/g&gt;&lt;/E&gt;</span>
-<a id="ln-14265" name="ln-14265" href="#ln-14265"></a><span class="c">!    &gt; &lt;omega&gt;</span>
-<a id="ln-14266" name="ln-14266" href="#ln-14266"></a><span class="c">!    &gt;</span>
-<a id="ln-14267" name="ln-14267" href="#ln-14267"></a><span class="c">!    &gt; δ</span>
-<a id="ln-14268" name="ln-14268" href="#ln-14268"></a><span class="c">!    &gt;    c=π×d</span>
-<a id="ln-14269" name="ln-14269" href="#ln-14269"></a><span class="c">!    &gt; ω</span>
-<a id="ln-14270" name="ln-14270" href="#ln-14270"></a><span class="c">!    &gt;</span>
-<a id="ln-14271" name="ln-14271" href="#ln-14271"></a><span class="c">!    &gt; δ</span>
-<a id="ln-14272" name="ln-14272" href="#ln-14272"></a><span class="c">!    &gt; \e[40m\e[32m c=π×d \e[39m\e[49m</span>
-<a id="ln-14273" name="ln-14273" href="#ln-14273"></a><span class="c">!    &gt; ω</span>
-<a id="ln-14274" name="ln-14274" href="#ln-14274"></a><span class="c">!    &gt;</span>
-<a id="ln-14275" name="ln-14275" href="#ln-14275"></a><span class="c">!    &gt; KEYWORD         VALUE</span>
-<a id="ln-14276" name="ln-14276" href="#ln-14276"></a><span class="c">!    &gt; AElig            [Æ]      [Æ]</span>
-<a id="ln-14277" name="ln-14277" href="#ln-14277"></a><span class="c">!    &gt; Abreve           [Ă]      [Ă]</span>
-<a id="ln-14278" name="ln-14278" href="#ln-14278"></a><span class="c">!    &gt; Acirc            [Â]      [Â]</span>
-<a id="ln-14279" name="ln-14279" href="#ln-14279"></a><span class="c">!    &gt;   :               :        :</span>
-<a id="ln-14280" name="ln-14280" href="#ln-14280"></a><span class="c">!    &gt;   :               :        :</span>
+<a id="ln-14256" name="ln-14256" href="#ln-14256"></a><span class="c">!   Results:</span>
+<a id="ln-14257" name="ln-14257" href="#ln-14257"></a><span class="c">! </span>
+<a id="ln-14258" name="ln-14258" href="#ln-14258"></a><span class="c">!    The escape sequences below add or remove text attributes</span>
+<a id="ln-14259" name="ln-14259" href="#ln-14259"></a><span class="c">!    like color when displayed on an ANSI-compatible terminal</span>
+<a id="ln-14260" name="ln-14260" href="#ln-14260"></a><span class="c">! </span>
+<a id="ln-14261" name="ln-14261" href="#ln-14261"></a><span class="c">!    &gt; δ</span>
+<a id="ln-14262" name="ln-14262" href="#ln-14262"></a><span class="c">!    &gt; \e[40m\e[32m c=π×d \e[39m\e[49m</span>
+<a id="ln-14263" name="ln-14263" href="#ln-14263"></a><span class="c">!    &gt; ω</span>
+<a id="ln-14264" name="ln-14264" href="#ln-14264"></a><span class="c">!    &gt;</span>
+<a id="ln-14265" name="ln-14265" href="#ln-14265"></a><span class="c">!    &gt; &lt;delta&gt;</span>
+<a id="ln-14266" name="ln-14266" href="#ln-14266"></a><span class="c">!    &gt; &lt;E&gt;&lt;g&gt; c=&lt;pi&gt;&lt;times&gt;d &lt;/g&gt;&lt;/E&gt;</span>
+<a id="ln-14267" name="ln-14267" href="#ln-14267"></a><span class="c">!    &gt; &lt;omega&gt;</span>
+<a id="ln-14268" name="ln-14268" href="#ln-14268"></a><span class="c">!    &gt;</span>
+<a id="ln-14269" name="ln-14269" href="#ln-14269"></a><span class="c">!    &gt; δ</span>
+<a id="ln-14270" name="ln-14270" href="#ln-14270"></a><span class="c">!    &gt;    c=π×d</span>
+<a id="ln-14271" name="ln-14271" href="#ln-14271"></a><span class="c">!    &gt; ω</span>
+<a id="ln-14272" name="ln-14272" href="#ln-14272"></a><span class="c">!    &gt;</span>
+<a id="ln-14273" name="ln-14273" href="#ln-14273"></a><span class="c">!    &gt; δ</span>
+<a id="ln-14274" name="ln-14274" href="#ln-14274"></a><span class="c">!    &gt; \e[40m\e[32m c=π×d \e[39m\e[49m</span>
+<a id="ln-14275" name="ln-14275" href="#ln-14275"></a><span class="c">!    &gt; ω</span>
+<a id="ln-14276" name="ln-14276" href="#ln-14276"></a><span class="c">!    &gt;</span>
+<a id="ln-14277" name="ln-14277" href="#ln-14277"></a><span class="c">!    &gt; KEYWORD         VALUE</span>
+<a id="ln-14278" name="ln-14278" href="#ln-14278"></a><span class="c">!    &gt; AElig            [Æ]      [Æ]</span>
+<a id="ln-14279" name="ln-14279" href="#ln-14279"></a><span class="c">!    &gt; Abreve           [Ă]      [Ă]</span>
+<a id="ln-14280" name="ln-14280" href="#ln-14280"></a><span class="c">!    &gt; Acirc            [Â]      [Â]</span>
 <a id="ln-14281" name="ln-14281" href="#ln-14281"></a><span class="c">!    &gt;   :               :        :</span>
-<a id="ln-14282" name="ln-14282" href="#ln-14282"></a><span class="c">!    &gt; zeetrf           [ℨ]      [ℨ]</span>
-<a id="ln-14283" name="ln-14283" href="#ln-14283"></a><span class="c">!    &gt; zeta             [ζ]      [ζ]</span>
-<a id="ln-14284" name="ln-14284" href="#ln-14284"></a><span class="c">!    &gt; zfr              [𝔷]      [𝔷]</span>
-<a id="ln-14285" name="ln-14285" href="#ln-14285"></a><span class="c">!    &gt; zhcy             [ж]      [ж]</span>
-<a id="ln-14286" name="ln-14286" href="#ln-14286"></a><span class="c">!    &gt; zigrarr          [⇝]      [⇝]</span>
-<a id="ln-14287" name="ln-14287" href="#ln-14287"></a><span class="c">!    &gt; zopf             [𝕫]      [𝕫]</span>
-<a id="ln-14288" name="ln-14288" href="#ln-14288"></a><span class="c">!    &gt; zscr             [𝓏]      [𝓏]</span>
-<a id="ln-14289" name="ln-14289" href="#ln-14289"></a><span class="c">! </span>
-<a id="ln-14290" name="ln-14290" href="#ln-14290"></a><span class="c">! AUTHOR</span>
-<a id="ln-14291" name="ln-14291" href="#ln-14291"></a><span class="c">!    John S. Urban, 2021</span>
-<a id="ln-14292" name="ln-14292" href="#ln-14292"></a><span class="c">! </span>
-<a id="ln-14293" name="ln-14293" href="#ln-14293"></a><span class="c">! LICENSE</span>
-<a id="ln-14294" name="ln-14294" href="#ln-14294"></a><span class="c">!    MIT</span>
-<a id="ln-14295" name="ln-14295" href="#ln-14295"></a><span class="k">subroutine </span><span class="n">keyword_mode_utf8</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
-<a id="ln-14296" name="ln-14296" href="#ln-14296"></a><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">action</span>
-<a id="ln-14297" name="ln-14297" href="#ln-14297"></a><span class="kt">integer</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
-<a id="ln-14298" name="ln-14298" href="#ln-14298"></a><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">fmts</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="o">=</span><span class="p">[</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="s1">'(*(a,t30,"[",a,"]",t60,"[",a,"]"))'</span><span class="p">,</span><span class="w"> </span><span class="s1">'(*(a,1x,"[",a,"]"),"[",a,"]")'</span><span class="w"> </span><span class="p">]</span>
-<a id="ln-14299" name="ln-14299" href="#ln-14299"></a><span class="w">   </span><span class="k">if</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="nb">allocated</span><span class="p">(</span><span class="n">mode</span><span class="p">))</span><span class="k">then</span><span class="w">  </span><span class="c">! set substitution mode</span>
-<a id="ln-14300" name="ln-14300" href="#ln-14300"></a><span class="w">      </span><span class="n">mode</span><span class="o">=</span><span class="s1">'alias_mode'</span>
-<a id="ln-14301" name="ln-14301" href="#ln-14301"></a><span class="w">      </span><span class="k">call </span><span class="n">keyword_load_defaults</span><span class="p">()</span>
-<a id="ln-14302" name="ln-14302" href="#ln-14302"></a><span class="w">   </span><span class="k">endif</span>
-<a id="ln-14303" name="ln-14303" href="#ln-14303"></a><span class="k">   select case</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
-<a id="ln-14304" name="ln-14304" href="#ln-14304"></a><span class="w">   </span><span class="k">case</span><span class="p">(</span><span class="s1">'alias_mode'</span><span class="p">,</span><span class="s1">'alias'</span><span class="p">,</span><span class="s1">'default'</span><span class="p">,</span><span class="s1">'keyword'</span><span class="p">,</span><span class="s1">'default_mode'</span><span class="p">)</span>
-<a id="ln-14305" name="ln-14305" href="#ln-14305"></a><span class="w">      </span><span class="n">mode</span><span class="o">=</span><span class="s1">'alias_mode'</span>
-<a id="ln-14306" name="ln-14306" href="#ln-14306"></a><span class="w">   </span><span class="k">case</span><span class="p">(</span><span class="s1">'plain_mode'</span><span class="p">,</span><span class="s1">'plain'</span><span class="p">)</span>
-<a id="ln-14307" name="ln-14307" href="#ln-14307"></a><span class="w">      </span><span class="n">mode</span><span class="o">=</span><span class="s1">'plain_mode'</span>
-<a id="ln-14308" name="ln-14308" href="#ln-14308"></a><span class="w">   </span><span class="k">case</span><span class="p">(</span><span class="s1">'reload'</span><span class="p">,</span><span class="s1">''</span><span class="p">)</span>
-<a id="ln-14309" name="ln-14309" href="#ln-14309"></a><span class="w">      </span><span class="k">call </span><span class="n">keyword_load_defaults</span><span class="p">()</span>
-<a id="ln-14310" name="ln-14310" href="#ln-14310"></a><span class="w">      </span><span class="n">mode</span><span class="o">=</span><span class="s1">'alias_mode'</span>
-<a id="ln-14311" name="ln-14311" href="#ln-14311"></a><span class="w">   </span><span class="k">case</span><span class="p">(</span><span class="s1">'raw_mode'</span><span class="p">,</span><span class="s1">'raw'</span><span class="p">)</span>
-<a id="ln-14312" name="ln-14312" href="#ln-14312"></a><span class="w">      </span><span class="n">mode</span><span class="o">=</span><span class="s1">'raw_mode'</span>
-<a id="ln-14313" name="ln-14313" href="#ln-14313"></a><span class="w">   </span><span class="k">case</span><span class="p">(</span><span class="s1">'wipe'</span><span class="p">)</span>
-<a id="ln-14314" name="ln-14314" href="#ln-14314"></a><span class="w">      </span><span class="k">call </span><span class="n">keyword_wipe_dictionary</span><span class="p">()</span>
-<a id="ln-14315" name="ln-14315" href="#ln-14315"></a><span class="w">   </span><span class="k">case</span><span class="p">(</span><span class="s1">'dump'</span><span class="p">)</span><span class="w">  </span><span class="c">! dump dictionary for debugging</span>
-<a id="ln-14316" name="ln-14316" href="#ln-14316"></a><span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="nb">allocated</span><span class="p">(</span><span class="n">keywords</span><span class="p">))</span><span class="k">then</span>
-<a id="ln-14317" name="ln-14317" href="#ln-14317"></a><span class="k">         write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">'(*(a,t30,a))'</span><span class="p">)</span><span class="s1">'KEYWORD'</span><span class="p">,</span><span class="s1">'VALUE'</span>
-<a id="ln-14318" name="ln-14318" href="#ln-14318"></a><span class="w">         </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="n">size</span><span class="p">(</span><span class="n">keywords</span><span class="p">),</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="w"> </span><span class="c">! if keyword is less than 30 characters use 30, else whatever length is needed so no truncation</span>
-<a id="ln-14319" name="ln-14319" href="#ln-14319"></a><span class="w">            </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">fmts</span><span class="p">(</span><span class="nb">merge</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="nb">len_trim</span><span class="p">(</span><span class="n">keywords</span><span class="p">(</span><span class="n">i</span><span class="p">)).</span><span class="n">lt</span><span class="p">.</span><span class="mi">30</span><span class="p">)))</span><span class="w"> </span><span class="p">&amp;</span>
-<a id="ln-14320" name="ln-14320" href="#ln-14320"></a><span class="w">            </span><span class="p">&amp;</span><span class="w"> </span><span class="kt">character</span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="n">keywords</span><span class="p">(</span><span class="n">i</span><span class="p">))),</span><span class="w"> </span><span class="p">&amp;</span>
-<a id="ln-14321" name="ln-14321" href="#ln-14321"></a><span class="w">            </span><span class="p">&amp;</span><span class="w"> </span><span class="kt">character</span><span class="p">(</span><span class="n">keyword_values</span><span class="p">(</span><span class="n">i</span><span class="p">)),</span><span class="w"> </span><span class="p">&amp;</span>
-<a id="ln-14322" name="ln-14322" href="#ln-14322"></a><span class="w">            </span><span class="p">&amp;</span><span class="w"> </span><span class="kt">character</span><span class="p">(</span><span class="n">plain_keyword_values</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-<a id="ln-14323" name="ln-14323" href="#ln-14323"></a><span class="w">         </span><span class="k">enddo</span>
-<a id="ln-14324" name="ln-14324" href="#ln-14324"></a><span class="k">      endif</span>
-<a id="ln-14325" name="ln-14325" href="#ln-14325"></a><span class="k">   case </span><span class="n">default</span>
-<a id="ln-14326" name="ln-14326" href="#ln-14326"></a><span class="w">      </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'*keyword_mode* unknown action. Try raw_mode|alias_mode|reload|wipe|dump'</span>
-<a id="ln-14327" name="ln-14327" href="#ln-14327"></a><span class="w">      </span><span class="n">mode</span><span class="o">=</span><span class="s1">'alias_mode'</span>
-<a id="ln-14328" name="ln-14328" href="#ln-14328"></a><span class="w">   </span><span class="k">end select</span>
-<a id="ln-14329" name="ln-14329" href="#ln-14329"></a><span class="k">end subroutine </span><span class="n">keyword_mode_utf8</span>
-<a id="ln-14330" name="ln-14330" href="#ln-14330"></a>
-<a id="ln-14331" name="ln-14331" href="#ln-14331"></a><span class="k">subroutine </span><span class="n">keyword_mode_ut</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
-<a id="ln-14332" name="ln-14332" href="#ln-14332"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">action</span>
-<a id="ln-14333" name="ln-14333" href="#ln-14333"></a><span class="w">   </span><span class="k">call </span><span class="n">keyword_mode_utf8</span><span class="p">(</span><span class="kt">character</span><span class="p">(</span><span class="n">action</span><span class="p">))</span>
-<a id="ln-14334" name="ln-14334" href="#ln-14334"></a><span class="k">end subroutine </span><span class="n">keyword_mode_ut</span>
-<a id="ln-14335" name="ln-14335" href="#ln-14335"></a>
-<a id="ln-14336" name="ln-14336" href="#ln-14336"></a><span class="k">subroutine </span><span class="n">keyword_wipe_dictionary</span><span class="p">()</span>
-<a id="ln-14337" name="ln-14337" href="#ln-14337"></a><span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="nb">allocated</span><span class="p">(</span><span class="n">keywords</span><span class="p">))</span><span class="k">deallocate</span><span class="p">(</span><span class="n">keywords</span><span class="p">)</span>
-<a id="ln-14338" name="ln-14338" href="#ln-14338"></a><span class="w">   </span><span class="k">allocate</span><span class="p">(</span><span class="n">keywords</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
-<a id="ln-14339" name="ln-14339" href="#ln-14339"></a><span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="nb">allocated</span><span class="p">(</span><span class="n">keyword_values</span><span class="p">))</span><span class="k">deallocate</span><span class="p">(</span><span class="n">keyword_values</span><span class="p">)</span>
-<a id="ln-14340" name="ln-14340" href="#ln-14340"></a><span class="w">   </span><span class="k">allocate</span><span class="p">(</span><span class="n">keyword_values</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
-<a id="ln-14341" name="ln-14341" href="#ln-14341"></a><span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="nb">allocated</span><span class="p">(</span><span class="n">plain_keyword_values</span><span class="p">))</span><span class="k">deallocate</span><span class="p">(</span><span class="n">plain_keyword_values</span><span class="p">)</span>
-<a id="ln-14342" name="ln-14342" href="#ln-14342"></a><span class="w">   </span><span class="k">allocate</span><span class="p">(</span><span class="n">plain_keyword_values</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
-<a id="ln-14343" name="ln-14343" href="#ln-14343"></a><span class="k">end subroutine </span><span class="n">keyword_wipe_dictionary</span>
-<a id="ln-14344" name="ln-14344" href="#ln-14344"></a>
-<a id="ln-14345" name="ln-14345" href="#ln-14345"></a><span class="c">! NAME</span>
-<a id="ln-14346" name="ln-14346" href="#ln-14346"></a><span class="c">!    keyword_update(3f) - [M_unicode] update internal dictionary given</span>
-<a id="ln-14347" name="ln-14347" href="#ln-14347"></a><span class="c">!    keyword and value</span>
-<a id="ln-14348" name="ln-14348" href="#ln-14348"></a><span class="c">!    (LICENSE:MIT)</span>
-<a id="ln-14349" name="ln-14349" href="#ln-14349"></a><span class="c">! </span>
-<a id="ln-14350" name="ln-14350" href="#ln-14350"></a><span class="c">! SYNOPSIS</span>
-<a id="ln-14351" name="ln-14351" href="#ln-14351"></a><span class="c">!    subroutine keyword_update(key,val,plainval)</span>
-<a id="ln-14352" name="ln-14352" href="#ln-14352"></a><span class="c">! </span>
-<a id="ln-14353" name="ln-14353" href="#ln-14353"></a><span class="c">!        type(unicode_type),intent(in)           :: key</span>
-<a id="ln-14354" name="ln-14354" href="#ln-14354"></a><span class="c">!        type(unicode_type),intent(in),optional  :: val</span>
-<a id="ln-14355" name="ln-14355" href="#ln-14355"></a><span class="c">!        type(unicode_type),intent(in),optional  :: plainval</span>
-<a id="ln-14356" name="ln-14356" href="#ln-14356"></a><span class="c">!        ! or</span>
-<a id="ln-14357" name="ln-14357" href="#ln-14357"></a><span class="c">!        character(len=*),intent(in)           :: key</span>
-<a id="ln-14358" name="ln-14358" href="#ln-14358"></a><span class="c">!        character(len=*),intent(in),optional  :: val</span>
-<a id="ln-14359" name="ln-14359" href="#ln-14359"></a><span class="c">!        character(len=*),intent(in),optional  :: plainval</span>
-<a id="ln-14360" name="ln-14360" href="#ln-14360"></a><span class="c">! </span>
-<a id="ln-14361" name="ln-14361" href="#ln-14361"></a><span class="c">! DESCRIPTION</span>
-<a id="ln-14362" name="ln-14362" href="#ln-14362"></a><span class="c">!    Update internal dictionary in M_unicode(3f) module.</span>
-<a id="ln-14363" name="ln-14363" href="#ln-14363"></a><span class="c">! </span>
-<a id="ln-14364" name="ln-14364" href="#ln-14364"></a><span class="c">! OPTIONS</span>
-<a id="ln-14365" name="ln-14365" href="#ln-14365"></a><span class="c">!    key       name of keyword to add, replace, or delete from dictionary</span>
-<a id="ln-14366" name="ln-14366" href="#ln-14366"></a><span class="c">!    val       if present add or replace value associated with keyword. If</span>
-<a id="ln-14367" name="ln-14367" href="#ln-14367"></a><span class="c">!              not present remove keyword entry from dictionary.</span>
-<a id="ln-14368" name="ln-14368" href="#ln-14368"></a><span class="c">!    plainval  VAL must be present if PLAINVAL is specified. This is the</span>
-<a id="ln-14369" name="ln-14369" href="#ln-14369"></a><span class="c">!              value to replace the keyword with if mode is set to</span>
-<a id="ln-14370" name="ln-14370" href="#ln-14370"></a><span class="c">!              "plain_mode" via keyword_action(3f). Defaults to the same</span>
-<a id="ln-14371" name="ln-14371" href="#ln-14371"></a><span class="c">!              value as VAL.</span>
-<a id="ln-14372" name="ln-14372" href="#ln-14372"></a><span class="c">! </span>
-<a id="ln-14373" name="ln-14373" href="#ln-14373"></a><span class="c">! EXAMPLES</span>
-<a id="ln-14374" name="ln-14374" href="#ln-14374"></a><span class="c">!    Sample program</span>
-<a id="ln-14375" name="ln-14375" href="#ln-14375"></a><span class="c">! </span>
-<a id="ln-14376" name="ln-14376" href="#ln-14376"></a><span class="c">!      program demo_keyword_update</span>
-<a id="ln-14377" name="ln-14377" href="#ln-14377"></a><span class="c">!      use M_unicode, only : keyword, keyword_update, ch=&gt;character</span>
-<a id="ln-14378" name="ln-14378" href="#ln-14378"></a><span class="c">!      character(len=*),parameter :: a='(a)'</span>
-<a id="ln-14379" name="ln-14379" href="#ln-14379"></a><span class="c">!         write(*,'(a)') ch(keyword_expand('&lt;clear&gt;TEST CUSTOMIZATIONS:'))</span>
-<a id="ln-14380" name="ln-14380" href="#ln-14380"></a><span class="c">!         ! add custom keywords</span>
-<a id="ln-14381" name="ln-14381" href="#ln-14381"></a><span class="c">! </span>
-<a id="ln-14382" name="ln-14382" href="#ln-14382"></a><span class="c">!         call keyword_update('blink',char(27)//'[5m','')</span>
-<a id="ln-14383" name="ln-14383" href="#ln-14383"></a><span class="c">!         call keyword_update('/blink',char(27)//'[25m','')</span>
-<a id="ln-14384" name="ln-14384" href="#ln-14384"></a><span class="c">!         write(*,*)</span>
-<a id="ln-14385" name="ln-14385" href="#ln-14385"></a><span class="c">!         write(*,a) ch(keyword_expand('&lt;blink&gt;Items for Friday&lt;/blink&gt;'))</span>
-<a id="ln-14386" name="ln-14386" href="#ln-14386"></a><span class="c">! </span>
-<a id="ln-14387" name="ln-14387" href="#ln-14387"></a><span class="c">!         call keyword_update('ouch',keyword_expand( &amp;</span>
-<a id="ln-14388" name="ln-14388" href="#ln-14388"></a><span class="c">!         ' &lt;R&gt;&lt;bo&gt;&lt;w&gt;BIG mistake!&lt;/R&gt;&lt;/w&gt; '))</span>
-<a id="ln-14389" name="ln-14389" href="#ln-14389"></a><span class="c">!         write(*,*)</span>
-<a id="ln-14390" name="ln-14390" href="#ln-14390"></a><span class="c">!         write(*,a)ch(keyword_expand('&lt;ouch&gt; Did not see that coming.'))</span>
-<a id="ln-14391" name="ln-14391" href="#ln-14391"></a><span class="c">! </span>
-<a id="ln-14392" name="ln-14392" href="#ln-14392"></a><span class="c">!         write(*,*)</span>
-<a id="ln-14393" name="ln-14393" href="#ln-14393"></a><span class="c">!         write(*,a) ch(keyword_expand( &amp;</span>
-<a id="ln-14394" name="ln-14394" href="#ln-14394"></a><span class="c">!         'ORIGINALLY: &lt;r&gt;Apple&lt;/r&gt;, &lt;b&gt;Sky&lt;/b&gt;, &lt;g&gt;Grass&lt;/g&gt;'))</span>
-<a id="ln-14395" name="ln-14395" href="#ln-14395"></a><span class="c">! </span>
-<a id="ln-14396" name="ln-14396" href="#ln-14396"></a><span class="c">!         ! delete</span>
-<a id="ln-14397" name="ln-14397" href="#ln-14397"></a><span class="c">!         call keyword_update('r')</span>
-<a id="ln-14398" name="ln-14398" href="#ln-14398"></a><span class="c">!         call keyword_update('/r')</span>
-<a id="ln-14399" name="ln-14399" href="#ln-14399"></a><span class="c">! </span>
-<a id="ln-14400" name="ln-14400" href="#ln-14400"></a><span class="c">!         ! replace (or create)</span>
-<a id="ln-14401" name="ln-14401" href="#ln-14401"></a><span class="c">!         call keyword_update('b','&lt;&lt;&lt;&lt;')</span>
-<a id="ln-14402" name="ln-14402" href="#ln-14402"></a><span class="c">!         call keyword_update('/b','&gt;&gt;&gt;&gt;')</span>
-<a id="ln-14403" name="ln-14403" href="#ln-14403"></a><span class="c">! </span>
-<a id="ln-14404" name="ln-14404" href="#ln-14404"></a><span class="c">!         write(*,*)</span>
-<a id="ln-14405" name="ln-14405" href="#ln-14405"></a><span class="c">!         write(*,a) ch(keyword_expand( &amp;</span>
-<a id="ln-14406" name="ln-14406" href="#ln-14406"></a><span class="c">!         'CUSTOMIZED: &lt;r&gt;Apple&lt;/r&gt;, &lt;b&gt;Sky&lt;/b&gt;, &lt;g&gt;Grass&lt;/g&gt;'))</span>
-<a id="ln-14407" name="ln-14407" href="#ln-14407"></a><span class="c">!         write(*,a) ch(keyword_expand('&lt;reset&gt;'))</span>
-<a id="ln-14408" name="ln-14408" href="#ln-14408"></a><span class="c">!      end program demo_keyword_update</span>
-<a id="ln-14409" name="ln-14409" href="#ln-14409"></a><span class="c">! </span>
-<a id="ln-14410" name="ln-14410" href="#ln-14410"></a><span class="c">!   Results:</span>
+<a id="ln-14282" name="ln-14282" href="#ln-14282"></a><span class="c">!    &gt;   :               :        :</span>
+<a id="ln-14283" name="ln-14283" href="#ln-14283"></a><span class="c">!    &gt;   :               :        :</span>
+<a id="ln-14284" name="ln-14284" href="#ln-14284"></a><span class="c">!    &gt; zeetrf           [ℨ]      [ℨ]</span>
+<a id="ln-14285" name="ln-14285" href="#ln-14285"></a><span class="c">!    &gt; zeta             [ζ]      [ζ]</span>
+<a id="ln-14286" name="ln-14286" href="#ln-14286"></a><span class="c">!    &gt; zfr              [𝔷]      [𝔷]</span>
+<a id="ln-14287" name="ln-14287" href="#ln-14287"></a><span class="c">!    &gt; zhcy             [ж]      [ж]</span>
+<a id="ln-14288" name="ln-14288" href="#ln-14288"></a><span class="c">!    &gt; zigrarr          [⇝]      [⇝]</span>
+<a id="ln-14289" name="ln-14289" href="#ln-14289"></a><span class="c">!    &gt; zopf             [𝕫]      [𝕫]</span>
+<a id="ln-14290" name="ln-14290" href="#ln-14290"></a><span class="c">!    &gt; zscr             [𝓏]      [𝓏]</span>
+<a id="ln-14291" name="ln-14291" href="#ln-14291"></a><span class="c">! </span>
+<a id="ln-14292" name="ln-14292" href="#ln-14292"></a><span class="c">! AUTHOR</span>
+<a id="ln-14293" name="ln-14293" href="#ln-14293"></a><span class="c">!    John S. Urban, 2021</span>
+<a id="ln-14294" name="ln-14294" href="#ln-14294"></a><span class="c">! </span>
+<a id="ln-14295" name="ln-14295" href="#ln-14295"></a><span class="c">! LICENSE</span>
+<a id="ln-14296" name="ln-14296" href="#ln-14296"></a><span class="c">!    MIT</span>
+<a id="ln-14297" name="ln-14297" href="#ln-14297"></a><span class="k">subroutine </span><span class="n">keyword_mode_utf8</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+<a id="ln-14298" name="ln-14298" href="#ln-14298"></a><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">action</span>
+<a id="ln-14299" name="ln-14299" href="#ln-14299"></a><span class="kt">integer</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
+<a id="ln-14300" name="ln-14300" href="#ln-14300"></a><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">fmts</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="o">=</span><span class="p">[</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="s1">'(*(a,t30,"[",a,"]",t60,"[",a,"]"))'</span><span class="p">,</span><span class="w"> </span><span class="s1">'(*(a,1x,"[",a,"]"),"[",a,"]")'</span><span class="w"> </span><span class="p">]</span>
+<a id="ln-14301" name="ln-14301" href="#ln-14301"></a><span class="w">   </span><span class="k">if</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="nb">allocated</span><span class="p">(</span><span class="n">mode</span><span class="p">))</span><span class="k">then</span><span class="w">  </span><span class="c">! set substitution mode</span>
+<a id="ln-14302" name="ln-14302" href="#ln-14302"></a><span class="w">      </span><span class="n">mode</span><span class="o">=</span><span class="s1">'alias_mode'</span>
+<a id="ln-14303" name="ln-14303" href="#ln-14303"></a><span class="w">      </span><span class="k">call </span><span class="n">keyword_load_defaults</span><span class="p">()</span>
+<a id="ln-14304" name="ln-14304" href="#ln-14304"></a><span class="w">   </span><span class="k">endif</span>
+<a id="ln-14305" name="ln-14305" href="#ln-14305"></a><span class="k">   select case</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+<a id="ln-14306" name="ln-14306" href="#ln-14306"></a><span class="w">   </span><span class="k">case</span><span class="p">(</span><span class="s1">'alias_mode'</span><span class="p">,</span><span class="s1">'alias'</span><span class="p">,</span><span class="s1">'default'</span><span class="p">,</span><span class="s1">'keyword'</span><span class="p">,</span><span class="s1">'default_mode'</span><span class="p">)</span>
+<a id="ln-14307" name="ln-14307" href="#ln-14307"></a><span class="w">      </span><span class="n">mode</span><span class="o">=</span><span class="s1">'alias_mode'</span>
+<a id="ln-14308" name="ln-14308" href="#ln-14308"></a><span class="w">   </span><span class="k">case</span><span class="p">(</span><span class="s1">'plain_mode'</span><span class="p">,</span><span class="s1">'plain'</span><span class="p">)</span>
+<a id="ln-14309" name="ln-14309" href="#ln-14309"></a><span class="w">      </span><span class="n">mode</span><span class="o">=</span><span class="s1">'plain_mode'</span>
+<a id="ln-14310" name="ln-14310" href="#ln-14310"></a><span class="w">   </span><span class="k">case</span><span class="p">(</span><span class="s1">'reload'</span><span class="p">,</span><span class="s1">''</span><span class="p">)</span>
+<a id="ln-14311" name="ln-14311" href="#ln-14311"></a><span class="w">      </span><span class="k">call </span><span class="n">keyword_load_defaults</span><span class="p">()</span>
+<a id="ln-14312" name="ln-14312" href="#ln-14312"></a><span class="w">      </span><span class="n">mode</span><span class="o">=</span><span class="s1">'alias_mode'</span>
+<a id="ln-14313" name="ln-14313" href="#ln-14313"></a><span class="w">   </span><span class="k">case</span><span class="p">(</span><span class="s1">'raw_mode'</span><span class="p">,</span><span class="s1">'raw'</span><span class="p">)</span>
+<a id="ln-14314" name="ln-14314" href="#ln-14314"></a><span class="w">      </span><span class="n">mode</span><span class="o">=</span><span class="s1">'raw_mode'</span>
+<a id="ln-14315" name="ln-14315" href="#ln-14315"></a><span class="w">   </span><span class="k">case</span><span class="p">(</span><span class="s1">'wipe'</span><span class="p">)</span>
+<a id="ln-14316" name="ln-14316" href="#ln-14316"></a><span class="w">      </span><span class="k">call </span><span class="n">keyword_wipe_dictionary</span><span class="p">()</span>
+<a id="ln-14317" name="ln-14317" href="#ln-14317"></a><span class="w">   </span><span class="k">case</span><span class="p">(</span><span class="s1">'dump'</span><span class="p">)</span><span class="w">  </span><span class="c">! dump dictionary for debugging</span>
+<a id="ln-14318" name="ln-14318" href="#ln-14318"></a><span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="nb">allocated</span><span class="p">(</span><span class="n">keywords</span><span class="p">))</span><span class="k">then</span>
+<a id="ln-14319" name="ln-14319" href="#ln-14319"></a><span class="k">         write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">'(*(a,t30,a))'</span><span class="p">)</span><span class="s1">'KEYWORD'</span><span class="p">,</span><span class="s1">'VALUE'</span>
+<a id="ln-14320" name="ln-14320" href="#ln-14320"></a><span class="w">         </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="n">size</span><span class="p">(</span><span class="n">keywords</span><span class="p">),</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="w"> </span><span class="c">! if keyword is less than 30 characters use 30, else whatever length is needed so no truncation</span>
+<a id="ln-14321" name="ln-14321" href="#ln-14321"></a><span class="w">            </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">fmts</span><span class="p">(</span><span class="nb">merge</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="nb">len_trim</span><span class="p">(</span><span class="n">keywords</span><span class="p">(</span><span class="n">i</span><span class="p">)).</span><span class="n">lt</span><span class="p">.</span><span class="mi">30</span><span class="p">)))</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-14322" name="ln-14322" href="#ln-14322"></a><span class="w">            </span><span class="p">&amp;</span><span class="w"> </span><span class="kt">character</span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="n">keywords</span><span class="p">(</span><span class="n">i</span><span class="p">))),</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-14323" name="ln-14323" href="#ln-14323"></a><span class="w">            </span><span class="p">&amp;</span><span class="w"> </span><span class="kt">character</span><span class="p">(</span><span class="n">keyword_values</span><span class="p">(</span><span class="n">i</span><span class="p">)),</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-14324" name="ln-14324" href="#ln-14324"></a><span class="w">            </span><span class="p">&amp;</span><span class="w"> </span><span class="kt">character</span><span class="p">(</span><span class="n">plain_keyword_values</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+<a id="ln-14325" name="ln-14325" href="#ln-14325"></a><span class="w">         </span><span class="k">enddo</span>
+<a id="ln-14326" name="ln-14326" href="#ln-14326"></a><span class="k">      endif</span>
+<a id="ln-14327" name="ln-14327" href="#ln-14327"></a><span class="k">   case </span><span class="n">default</span>
+<a id="ln-14328" name="ln-14328" href="#ln-14328"></a><span class="w">      </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'*keyword_mode* unknown action. Try raw_mode|alias_mode|reload|wipe|dump'</span>
+<a id="ln-14329" name="ln-14329" href="#ln-14329"></a><span class="w">      </span><span class="n">mode</span><span class="o">=</span><span class="s1">'alias_mode'</span>
+<a id="ln-14330" name="ln-14330" href="#ln-14330"></a><span class="w">   </span><span class="k">end select</span>
+<a id="ln-14331" name="ln-14331" href="#ln-14331"></a><span class="k">end subroutine </span><span class="n">keyword_mode_utf8</span>
+<a id="ln-14332" name="ln-14332" href="#ln-14332"></a>
+<a id="ln-14333" name="ln-14333" href="#ln-14333"></a><span class="k">subroutine </span><span class="n">keyword_mode_ut</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+<a id="ln-14334" name="ln-14334" href="#ln-14334"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">action</span>
+<a id="ln-14335" name="ln-14335" href="#ln-14335"></a><span class="w">   </span><span class="k">call </span><span class="n">keyword_mode_utf8</span><span class="p">(</span><span class="kt">character</span><span class="p">(</span><span class="n">action</span><span class="p">))</span>
+<a id="ln-14336" name="ln-14336" href="#ln-14336"></a><span class="k">end subroutine </span><span class="n">keyword_mode_ut</span>
+<a id="ln-14337" name="ln-14337" href="#ln-14337"></a>
+<a id="ln-14338" name="ln-14338" href="#ln-14338"></a><span class="k">subroutine </span><span class="n">keyword_wipe_dictionary</span><span class="p">()</span>
+<a id="ln-14339" name="ln-14339" href="#ln-14339"></a><span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="nb">allocated</span><span class="p">(</span><span class="n">keywords</span><span class="p">))</span><span class="k">deallocate</span><span class="p">(</span><span class="n">keywords</span><span class="p">)</span>
+<a id="ln-14340" name="ln-14340" href="#ln-14340"></a><span class="w">   </span><span class="k">allocate</span><span class="p">(</span><span class="n">keywords</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<a id="ln-14341" name="ln-14341" href="#ln-14341"></a><span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="nb">allocated</span><span class="p">(</span><span class="n">keyword_values</span><span class="p">))</span><span class="k">deallocate</span><span class="p">(</span><span class="n">keyword_values</span><span class="p">)</span>
+<a id="ln-14342" name="ln-14342" href="#ln-14342"></a><span class="w">   </span><span class="k">allocate</span><span class="p">(</span><span class="n">keyword_values</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<a id="ln-14343" name="ln-14343" href="#ln-14343"></a><span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="nb">allocated</span><span class="p">(</span><span class="n">plain_keyword_values</span><span class="p">))</span><span class="k">deallocate</span><span class="p">(</span><span class="n">plain_keyword_values</span><span class="p">)</span>
+<a id="ln-14344" name="ln-14344" href="#ln-14344"></a><span class="w">   </span><span class="k">allocate</span><span class="p">(</span><span class="n">plain_keyword_values</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<a id="ln-14345" name="ln-14345" href="#ln-14345"></a><span class="k">end subroutine </span><span class="n">keyword_wipe_dictionary</span>
+<a id="ln-14346" name="ln-14346" href="#ln-14346"></a>
+<a id="ln-14347" name="ln-14347" href="#ln-14347"></a><span class="c">! NAME</span>
+<a id="ln-14348" name="ln-14348" href="#ln-14348"></a><span class="c">!    keyword_update(3f) - [M_unicode] update internal dictionary given</span>
+<a id="ln-14349" name="ln-14349" href="#ln-14349"></a><span class="c">!    keyword and value</span>
+<a id="ln-14350" name="ln-14350" href="#ln-14350"></a><span class="c">!    (LICENSE:MIT)</span>
+<a id="ln-14351" name="ln-14351" href="#ln-14351"></a><span class="c">! </span>
+<a id="ln-14352" name="ln-14352" href="#ln-14352"></a><span class="c">! SYNOPSIS</span>
+<a id="ln-14353" name="ln-14353" href="#ln-14353"></a><span class="c">!    subroutine keyword_update(key,val,plainval)</span>
+<a id="ln-14354" name="ln-14354" href="#ln-14354"></a><span class="c">! </span>
+<a id="ln-14355" name="ln-14355" href="#ln-14355"></a><span class="c">!        type(unicode_type),intent(in)           :: key</span>
+<a id="ln-14356" name="ln-14356" href="#ln-14356"></a><span class="c">!        type(unicode_type),intent(in),optional  :: val</span>
+<a id="ln-14357" name="ln-14357" href="#ln-14357"></a><span class="c">!        type(unicode_type),intent(in),optional  :: plainval</span>
+<a id="ln-14358" name="ln-14358" href="#ln-14358"></a><span class="c">!        ! or</span>
+<a id="ln-14359" name="ln-14359" href="#ln-14359"></a><span class="c">!        character(len=*),intent(in)           :: key</span>
+<a id="ln-14360" name="ln-14360" href="#ln-14360"></a><span class="c">!        character(len=*),intent(in),optional  :: val</span>
+<a id="ln-14361" name="ln-14361" href="#ln-14361"></a><span class="c">!        character(len=*),intent(in),optional  :: plainval</span>
+<a id="ln-14362" name="ln-14362" href="#ln-14362"></a><span class="c">! </span>
+<a id="ln-14363" name="ln-14363" href="#ln-14363"></a><span class="c">! DESCRIPTION</span>
+<a id="ln-14364" name="ln-14364" href="#ln-14364"></a><span class="c">!    Update internal dictionary in M_unicode(3f) module.</span>
+<a id="ln-14365" name="ln-14365" href="#ln-14365"></a><span class="c">! </span>
+<a id="ln-14366" name="ln-14366" href="#ln-14366"></a><span class="c">! OPTIONS</span>
+<a id="ln-14367" name="ln-14367" href="#ln-14367"></a><span class="c">!    key       name of keyword to add, replace, or delete from dictionary</span>
+<a id="ln-14368" name="ln-14368" href="#ln-14368"></a><span class="c">!    val       if present add or replace value associated with keyword. If</span>
+<a id="ln-14369" name="ln-14369" href="#ln-14369"></a><span class="c">!              not present remove keyword entry from dictionary.</span>
+<a id="ln-14370" name="ln-14370" href="#ln-14370"></a><span class="c">!    plainval  VAL must be present if PLAINVAL is specified. This is the</span>
+<a id="ln-14371" name="ln-14371" href="#ln-14371"></a><span class="c">!              value to replace the keyword with if mode is set to</span>
+<a id="ln-14372" name="ln-14372" href="#ln-14372"></a><span class="c">!              "plain_mode" via keyword_action(3f). Defaults to the same</span>
+<a id="ln-14373" name="ln-14373" href="#ln-14373"></a><span class="c">!              value as VAL.</span>
+<a id="ln-14374" name="ln-14374" href="#ln-14374"></a><span class="c">! </span>
+<a id="ln-14375" name="ln-14375" href="#ln-14375"></a><span class="c">! EXAMPLES</span>
+<a id="ln-14376" name="ln-14376" href="#ln-14376"></a><span class="c">!    Sample program</span>
+<a id="ln-14377" name="ln-14377" href="#ln-14377"></a><span class="c">! </span>
+<a id="ln-14378" name="ln-14378" href="#ln-14378"></a><span class="c">!      program demo_keyword_update</span>
+<a id="ln-14379" name="ln-14379" href="#ln-14379"></a><span class="c">!      use M_unicode, only : keyword, keyword_update, ch=&gt;character</span>
+<a id="ln-14380" name="ln-14380" href="#ln-14380"></a><span class="c">!      character(len=*),parameter :: a='(a)'</span>
+<a id="ln-14381" name="ln-14381" href="#ln-14381"></a><span class="c">!         write(*,'(a)') ch(keyword_expand('&lt;clear&gt;TEST CUSTOMIZATIONS:'))</span>
+<a id="ln-14382" name="ln-14382" href="#ln-14382"></a><span class="c">!         ! add custom keywords</span>
+<a id="ln-14383" name="ln-14383" href="#ln-14383"></a><span class="c">! </span>
+<a id="ln-14384" name="ln-14384" href="#ln-14384"></a><span class="c">!         call keyword_update('blink',char(27)//'[5m','')</span>
+<a id="ln-14385" name="ln-14385" href="#ln-14385"></a><span class="c">!         call keyword_update('/blink',char(27)//'[25m','')</span>
+<a id="ln-14386" name="ln-14386" href="#ln-14386"></a><span class="c">!         write(*,*)</span>
+<a id="ln-14387" name="ln-14387" href="#ln-14387"></a><span class="c">!         write(*,a) ch(keyword_expand('&lt;blink&gt;Items for Friday&lt;/blink&gt;'))</span>
+<a id="ln-14388" name="ln-14388" href="#ln-14388"></a><span class="c">! </span>
+<a id="ln-14389" name="ln-14389" href="#ln-14389"></a><span class="c">!         call keyword_update('ouch',keyword_expand( &amp;</span>
+<a id="ln-14390" name="ln-14390" href="#ln-14390"></a><span class="c">!         ' &lt;R&gt;&lt;bo&gt;&lt;w&gt;BIG mistake!&lt;/R&gt;&lt;/w&gt; '))</span>
+<a id="ln-14391" name="ln-14391" href="#ln-14391"></a><span class="c">!         write(*,*)</span>
+<a id="ln-14392" name="ln-14392" href="#ln-14392"></a><span class="c">!         write(*,a)ch(keyword_expand('&lt;ouch&gt; Did not see that coming.'))</span>
+<a id="ln-14393" name="ln-14393" href="#ln-14393"></a><span class="c">! </span>
+<a id="ln-14394" name="ln-14394" href="#ln-14394"></a><span class="c">!         write(*,*)</span>
+<a id="ln-14395" name="ln-14395" href="#ln-14395"></a><span class="c">!         write(*,a) ch(keyword_expand( &amp;</span>
+<a id="ln-14396" name="ln-14396" href="#ln-14396"></a><span class="c">!         'ORIGINALLY: &lt;r&gt;Apple&lt;/r&gt;, &lt;b&gt;Sky&lt;/b&gt;, &lt;g&gt;Grass&lt;/g&gt;'))</span>
+<a id="ln-14397" name="ln-14397" href="#ln-14397"></a><span class="c">! </span>
+<a id="ln-14398" name="ln-14398" href="#ln-14398"></a><span class="c">!         ! delete</span>
+<a id="ln-14399" name="ln-14399" href="#ln-14399"></a><span class="c">!         call keyword_update('r')</span>
+<a id="ln-14400" name="ln-14400" href="#ln-14400"></a><span class="c">!         call keyword_update('/r')</span>
+<a id="ln-14401" name="ln-14401" href="#ln-14401"></a><span class="c">! </span>
+<a id="ln-14402" name="ln-14402" href="#ln-14402"></a><span class="c">!         ! replace (or create)</span>
+<a id="ln-14403" name="ln-14403" href="#ln-14403"></a><span class="c">!         call keyword_update('b','&lt;&lt;&lt;&lt;')</span>
+<a id="ln-14404" name="ln-14404" href="#ln-14404"></a><span class="c">!         call keyword_update('/b','&gt;&gt;&gt;&gt;')</span>
+<a id="ln-14405" name="ln-14405" href="#ln-14405"></a><span class="c">! </span>
+<a id="ln-14406" name="ln-14406" href="#ln-14406"></a><span class="c">!         write(*,*)</span>
+<a id="ln-14407" name="ln-14407" href="#ln-14407"></a><span class="c">!         write(*,a) ch(keyword_expand( &amp;</span>
+<a id="ln-14408" name="ln-14408" href="#ln-14408"></a><span class="c">!         'CUSTOMIZED: &lt;r&gt;Apple&lt;/r&gt;, &lt;b&gt;Sky&lt;/b&gt;, &lt;g&gt;Grass&lt;/g&gt;'))</span>
+<a id="ln-14409" name="ln-14409" href="#ln-14409"></a><span class="c">!         write(*,a) ch(keyword_expand('&lt;reset&gt;'))</span>
+<a id="ln-14410" name="ln-14410" href="#ln-14410"></a><span class="c">!      end program demo_keyword_update</span>
 <a id="ln-14411" name="ln-14411" href="#ln-14411"></a><span class="c">! </span>
-<a id="ln-14412" name="ln-14412" href="#ln-14412"></a><span class="c">!   The escape sequences below change text attributes and color when</span>
-<a id="ln-14413" name="ln-14413" href="#ln-14413"></a><span class="c">!   displayed on an ANSI-compatible terminal</span>
-<a id="ln-14414" name="ln-14414" href="#ln-14414"></a><span class="c">! </span>
-<a id="ln-14415" name="ln-14415" href="#ln-14415"></a><span class="c">!    &gt; \e[H\e[2JTEST CUSTOMIZATIONS:</span>
-<a id="ln-14416" name="ln-14416" href="#ln-14416"></a><span class="c">!    &gt;</span>
-<a id="ln-14417" name="ln-14417" href="#ln-14417"></a><span class="c">!    &gt; \e[5mItems for Friday\e[25m</span>
+<a id="ln-14412" name="ln-14412" href="#ln-14412"></a><span class="c">!   Results:</span>
+<a id="ln-14413" name="ln-14413" href="#ln-14413"></a><span class="c">! </span>
+<a id="ln-14414" name="ln-14414" href="#ln-14414"></a><span class="c">!   The escape sequences below change text attributes and color when</span>
+<a id="ln-14415" name="ln-14415" href="#ln-14415"></a><span class="c">!   displayed on an ANSI-compatible terminal</span>
+<a id="ln-14416" name="ln-14416" href="#ln-14416"></a><span class="c">! </span>
+<a id="ln-14417" name="ln-14417" href="#ln-14417"></a><span class="c">!    &gt; \e[H\e[2JTEST CUSTOMIZATIONS:</span>
 <a id="ln-14418" name="ln-14418" href="#ln-14418"></a><span class="c">!    &gt;</span>
-<a id="ln-14419" name="ln-14419" href="#ln-14419"></a><span class="c">!    &gt;  \e[41m\e[1m\e[37mBIG mistake!\e[49m\e[39m Did not see that coming.</span>
+<a id="ln-14419" name="ln-14419" href="#ln-14419"></a><span class="c">!    &gt; \e[5mItems for Friday\e[25m</span>
 <a id="ln-14420" name="ln-14420" href="#ln-14420"></a><span class="c">!    &gt;</span>
-<a id="ln-14421" name="ln-14421" href="#ln-14421"></a><span class="c">!    &gt; ORIGINALLY: \e[31mApple\e[39m, \e[34mSky\e[39m, \e[32mGrass\e[39m</span>
+<a id="ln-14421" name="ln-14421" href="#ln-14421"></a><span class="c">!    &gt;  \e[41m\e[1m\e[37mBIG mistake!\e[49m\e[39m Did not see that coming.</span>
 <a id="ln-14422" name="ln-14422" href="#ln-14422"></a><span class="c">!    &gt;</span>
-<a id="ln-14423" name="ln-14423" href="#ln-14423"></a><span class="c">!    &gt; CUSTOMIZED: &lt;r&gt;Apple&lt;/r&gt;, &lt;&lt;&lt;&lt;Sky&gt;&gt;&gt;&gt;, \e[32mGrass\e[39m</span>
-<a id="ln-14424" name="ln-14424" href="#ln-14424"></a><span class="c">!    &gt; \e[0m</span>
-<a id="ln-14425" name="ln-14425" href="#ln-14425"></a><span class="c">! </span>
-<a id="ln-14426" name="ln-14426" href="#ln-14426"></a><span class="c">! AUTHOR</span>
-<a id="ln-14427" name="ln-14427" href="#ln-14427"></a><span class="c">!    John S. Urban, 2021</span>
-<a id="ln-14428" name="ln-14428" href="#ln-14428"></a><span class="c">! </span>
-<a id="ln-14429" name="ln-14429" href="#ln-14429"></a><span class="c">! LICENSE</span>
-<a id="ln-14430" name="ln-14430" href="#ln-14430"></a><span class="c">!    MIT</span>
-<a id="ln-14431" name="ln-14431" href="#ln-14431"></a><span class="k">subroutine </span><span class="n">keyword_update_ut</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-<a id="ln-14432" name="ln-14432" href="#ln-14432"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">key</span>
-<a id="ln-14433" name="ln-14433" href="#ln-14433"></a><span class="kt">integer</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">place</span>
-<a id="ln-14434" name="ln-14434" href="#ln-14434"></a>
-<a id="ln-14435" name="ln-14435" href="#ln-14435"></a><span class="k">if</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="nb">allocated</span><span class="p">(</span><span class="n">mode</span><span class="p">))</span><span class="k">then</span><span class="w">  </span><span class="c">! set substitution mode</span>
-<a id="ln-14436" name="ln-14436" href="#ln-14436"></a><span class="w">   </span><span class="n">mode</span><span class="o">=</span><span class="s1">'alias_mode'</span>
-<a id="ln-14437" name="ln-14437" href="#ln-14437"></a><span class="w">   </span><span class="k">call </span><span class="n">keyword_load_defaults</span><span class="p">()</span>
-<a id="ln-14438" name="ln-14438" href="#ln-14438"></a><span class="k">endif</span>
-<a id="ln-14439" name="ln-14439" href="#ln-14439"></a>
-<a id="ln-14440" name="ln-14440" href="#ln-14440"></a><span class="k">   call </span><span class="n">keyword_locate</span><span class="p">(</span><span class="n">keywords</span><span class="p">,</span><span class="n">key</span><span class="p">,</span><span class="n">place</span><span class="p">)</span>
-<a id="ln-14441" name="ln-14441" href="#ln-14441"></a><span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="n">place</span><span class="p">.</span><span class="n">gt</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>
-<a id="ln-14442" name="ln-14442" href="#ln-14442"></a><span class="k">      call </span><span class="n">keyword_remove</span><span class="p">(</span><span class="n">keywords</span><span class="p">,</span><span class="n">place</span><span class="p">)</span>
-<a id="ln-14443" name="ln-14443" href="#ln-14443"></a><span class="w">      </span><span class="k">call </span><span class="n">keyword_remove</span><span class="p">(</span><span class="n">keyword_values</span><span class="p">,</span><span class="n">place</span><span class="p">)</span>
-<a id="ln-14444" name="ln-14444" href="#ln-14444"></a><span class="w">      </span><span class="k">call </span><span class="n">keyword_remove</span><span class="p">(</span><span class="n">plain_keyword_values</span><span class="p">,</span><span class="n">place</span><span class="p">)</span>
-<a id="ln-14445" name="ln-14445" href="#ln-14445"></a><span class="w">   </span><span class="k">endif</span>
-<a id="ln-14446" name="ln-14446" href="#ln-14446"></a>
-<a id="ln-14447" name="ln-14447" href="#ln-14447"></a><span class="k">end subroutine </span><span class="n">keyword_update_ut</span>
+<a id="ln-14423" name="ln-14423" href="#ln-14423"></a><span class="c">!    &gt; ORIGINALLY: \e[31mApple\e[39m, \e[34mSky\e[39m, \e[32mGrass\e[39m</span>
+<a id="ln-14424" name="ln-14424" href="#ln-14424"></a><span class="c">!    &gt;</span>
+<a id="ln-14425" name="ln-14425" href="#ln-14425"></a><span class="c">!    &gt; CUSTOMIZED: &lt;r&gt;Apple&lt;/r&gt;, &lt;&lt;&lt;&lt;Sky&gt;&gt;&gt;&gt;, \e[32mGrass\e[39m</span>
+<a id="ln-14426" name="ln-14426" href="#ln-14426"></a><span class="c">!    &gt; \e[0m</span>
+<a id="ln-14427" name="ln-14427" href="#ln-14427"></a><span class="c">! </span>
+<a id="ln-14428" name="ln-14428" href="#ln-14428"></a><span class="c">! AUTHOR</span>
+<a id="ln-14429" name="ln-14429" href="#ln-14429"></a><span class="c">!    John S. Urban, 2021</span>
+<a id="ln-14430" name="ln-14430" href="#ln-14430"></a><span class="c">! </span>
+<a id="ln-14431" name="ln-14431" href="#ln-14431"></a><span class="c">! LICENSE</span>
+<a id="ln-14432" name="ln-14432" href="#ln-14432"></a><span class="c">!    MIT</span>
+<a id="ln-14433" name="ln-14433" href="#ln-14433"></a><span class="k">subroutine </span><span class="n">keyword_update_ut</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+<a id="ln-14434" name="ln-14434" href="#ln-14434"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">key</span>
+<a id="ln-14435" name="ln-14435" href="#ln-14435"></a><span class="kt">integer</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">place</span>
+<a id="ln-14436" name="ln-14436" href="#ln-14436"></a>
+<a id="ln-14437" name="ln-14437" href="#ln-14437"></a><span class="k">if</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="nb">allocated</span><span class="p">(</span><span class="n">mode</span><span class="p">))</span><span class="k">then</span><span class="w">  </span><span class="c">! set substitution mode</span>
+<a id="ln-14438" name="ln-14438" href="#ln-14438"></a><span class="w">   </span><span class="n">mode</span><span class="o">=</span><span class="s1">'alias_mode'</span>
+<a id="ln-14439" name="ln-14439" href="#ln-14439"></a><span class="w">   </span><span class="k">call </span><span class="n">keyword_load_defaults</span><span class="p">()</span>
+<a id="ln-14440" name="ln-14440" href="#ln-14440"></a><span class="k">endif</span>
+<a id="ln-14441" name="ln-14441" href="#ln-14441"></a>
+<a id="ln-14442" name="ln-14442" href="#ln-14442"></a><span class="k">   call </span><span class="n">keyword_locate</span><span class="p">(</span><span class="n">keywords</span><span class="p">,</span><span class="n">key</span><span class="p">,</span><span class="n">place</span><span class="p">)</span>
+<a id="ln-14443" name="ln-14443" href="#ln-14443"></a><span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="n">place</span><span class="p">.</span><span class="n">gt</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>
+<a id="ln-14444" name="ln-14444" href="#ln-14444"></a><span class="k">      call </span><span class="n">keyword_remove</span><span class="p">(</span><span class="n">keywords</span><span class="p">,</span><span class="n">place</span><span class="p">)</span>
+<a id="ln-14445" name="ln-14445" href="#ln-14445"></a><span class="w">      </span><span class="k">call </span><span class="n">keyword_remove</span><span class="p">(</span><span class="n">keyword_values</span><span class="p">,</span><span class="n">place</span><span class="p">)</span>
+<a id="ln-14446" name="ln-14446" href="#ln-14446"></a><span class="w">      </span><span class="k">call </span><span class="n">keyword_remove</span><span class="p">(</span><span class="n">plain_keyword_values</span><span class="p">,</span><span class="n">place</span><span class="p">)</span>
+<a id="ln-14447" name="ln-14447" href="#ln-14447"></a><span class="w">   </span><span class="k">endif</span>
 <a id="ln-14448" name="ln-14448" href="#ln-14448"></a>
-<a id="ln-14449" name="ln-14449" href="#ln-14449"></a><span class="k">subroutine </span><span class="n">keyword_update_utf8</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-<a id="ln-14450" name="ln-14450" href="#ln-14450"></a><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">key</span>
-<a id="ln-14451" name="ln-14451" href="#ln-14451"></a><span class="kt">integer</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">place</span>
-<a id="ln-14452" name="ln-14452" href="#ln-14452"></a>
-<a id="ln-14453" name="ln-14453" href="#ln-14453"></a><span class="k">if</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="nb">allocated</span><span class="p">(</span><span class="n">mode</span><span class="p">))</span><span class="k">then</span><span class="w">  </span><span class="c">! set substitution mode</span>
-<a id="ln-14454" name="ln-14454" href="#ln-14454"></a><span class="w">   </span><span class="n">mode</span><span class="o">=</span><span class="s1">'alias_mode'</span>
-<a id="ln-14455" name="ln-14455" href="#ln-14455"></a><span class="w">   </span><span class="k">call </span><span class="n">keyword_load_defaults</span><span class="p">()</span>
-<a id="ln-14456" name="ln-14456" href="#ln-14456"></a><span class="k">endif</span>
-<a id="ln-14457" name="ln-14457" href="#ln-14457"></a>
-<a id="ln-14458" name="ln-14458" href="#ln-14458"></a><span class="k">   call </span><span class="n">keyword_locate</span><span class="p">(</span><span class="n">keywords</span><span class="p">,</span><span class="n">unicode_type</span><span class="p">(</span><span class="n">key</span><span class="p">),</span><span class="n">place</span><span class="p">)</span>
-<a id="ln-14459" name="ln-14459" href="#ln-14459"></a><span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="n">place</span><span class="p">.</span><span class="n">gt</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>
-<a id="ln-14460" name="ln-14460" href="#ln-14460"></a><span class="k">      call </span><span class="n">keyword_remove</span><span class="p">(</span><span class="n">keywords</span><span class="p">,</span><span class="n">place</span><span class="p">)</span>
-<a id="ln-14461" name="ln-14461" href="#ln-14461"></a><span class="w">      </span><span class="k">call </span><span class="n">keyword_remove</span><span class="p">(</span><span class="n">keyword_values</span><span class="p">,</span><span class="n">place</span><span class="p">)</span>
-<a id="ln-14462" name="ln-14462" href="#ln-14462"></a><span class="w">      </span><span class="k">call </span><span class="n">keyword_remove</span><span class="p">(</span><span class="n">plain_keyword_values</span><span class="p">,</span><span class="n">place</span><span class="p">)</span>
-<a id="ln-14463" name="ln-14463" href="#ln-14463"></a><span class="w">   </span><span class="k">endif</span>
-<a id="ln-14464" name="ln-14464" href="#ln-14464"></a>
-<a id="ln-14465" name="ln-14465" href="#ln-14465"></a><span class="k">end subroutine </span><span class="n">keyword_update_utf8</span>
+<a id="ln-14449" name="ln-14449" href="#ln-14449"></a><span class="k">end subroutine </span><span class="n">keyword_update_ut</span>
+<a id="ln-14450" name="ln-14450" href="#ln-14450"></a>
+<a id="ln-14451" name="ln-14451" href="#ln-14451"></a><span class="k">subroutine </span><span class="n">keyword_update_utf8</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+<a id="ln-14452" name="ln-14452" href="#ln-14452"></a><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">key</span>
+<a id="ln-14453" name="ln-14453" href="#ln-14453"></a><span class="kt">integer</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">place</span>
+<a id="ln-14454" name="ln-14454" href="#ln-14454"></a>
+<a id="ln-14455" name="ln-14455" href="#ln-14455"></a><span class="k">if</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="nb">allocated</span><span class="p">(</span><span class="n">mode</span><span class="p">))</span><span class="k">then</span><span class="w">  </span><span class="c">! set substitution mode</span>
+<a id="ln-14456" name="ln-14456" href="#ln-14456"></a><span class="w">   </span><span class="n">mode</span><span class="o">=</span><span class="s1">'alias_mode'</span>
+<a id="ln-14457" name="ln-14457" href="#ln-14457"></a><span class="w">   </span><span class="k">call </span><span class="n">keyword_load_defaults</span><span class="p">()</span>
+<a id="ln-14458" name="ln-14458" href="#ln-14458"></a><span class="k">endif</span>
+<a id="ln-14459" name="ln-14459" href="#ln-14459"></a>
+<a id="ln-14460" name="ln-14460" href="#ln-14460"></a><span class="k">   call </span><span class="n">keyword_locate</span><span class="p">(</span><span class="n">keywords</span><span class="p">,</span><span class="n">unicode_type</span><span class="p">(</span><span class="n">key</span><span class="p">),</span><span class="n">place</span><span class="p">)</span>
+<a id="ln-14461" name="ln-14461" href="#ln-14461"></a><span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="n">place</span><span class="p">.</span><span class="n">gt</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>
+<a id="ln-14462" name="ln-14462" href="#ln-14462"></a><span class="k">      call </span><span class="n">keyword_remove</span><span class="p">(</span><span class="n">keywords</span><span class="p">,</span><span class="n">place</span><span class="p">)</span>
+<a id="ln-14463" name="ln-14463" href="#ln-14463"></a><span class="w">      </span><span class="k">call </span><span class="n">keyword_remove</span><span class="p">(</span><span class="n">keyword_values</span><span class="p">,</span><span class="n">place</span><span class="p">)</span>
+<a id="ln-14464" name="ln-14464" href="#ln-14464"></a><span class="w">      </span><span class="k">call </span><span class="n">keyword_remove</span><span class="p">(</span><span class="n">plain_keyword_values</span><span class="p">,</span><span class="n">place</span><span class="p">)</span>
+<a id="ln-14465" name="ln-14465" href="#ln-14465"></a><span class="w">   </span><span class="k">endif</span>
 <a id="ln-14466" name="ln-14466" href="#ln-14466"></a>
-<a id="ln-14467" name="ln-14467" href="#ln-14467"></a><span class="k">subroutine </span><span class="n">keyword_update_ut_ut</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="n">valin</span><span class="p">,</span><span class="n">plainvalin</span><span class="p">)</span>
-<a id="ln-14468" name="ln-14468" href="#ln-14468"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">key</span>
-<a id="ln-14469" name="ln-14469" href="#ln-14469"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">valin</span>
-<a id="ln-14470" name="ln-14470" href="#ln-14470"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">plainvalin</span>
-<a id="ln-14471" name="ln-14471" href="#ln-14471"></a><span class="kt">integer</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">place</span>
-<a id="ln-14472" name="ln-14472" href="#ln-14472"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">val</span>
-<a id="ln-14473" name="ln-14473" href="#ln-14473"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">plainval</span>
-<a id="ln-14474" name="ln-14474" href="#ln-14474"></a>
-<a id="ln-14475" name="ln-14475" href="#ln-14475"></a><span class="k">if</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="nb">allocated</span><span class="p">(</span><span class="n">mode</span><span class="p">))</span><span class="k">then</span><span class="w">  </span><span class="c">! set substitution mode</span>
-<a id="ln-14476" name="ln-14476" href="#ln-14476"></a><span class="w">   </span><span class="n">mode</span><span class="o">=</span><span class="s1">'alias_mode'</span>
-<a id="ln-14477" name="ln-14477" href="#ln-14477"></a><span class="w">   </span><span class="k">call </span><span class="n">keyword_load_defaults</span><span class="p">()</span>
-<a id="ln-14478" name="ln-14478" href="#ln-14478"></a><span class="k">endif</span>
-<a id="ln-14479" name="ln-14479" href="#ln-14479"></a>
-<a id="ln-14480" name="ln-14480" href="#ln-14480"></a><span class="k">   </span><span class="n">val</span><span class="o">=</span><span class="n">valin</span>
-<a id="ln-14481" name="ln-14481" href="#ln-14481"></a><span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="nb">present</span><span class="p">(</span><span class="n">plainvalin</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="k">then</span>
-<a id="ln-14482" name="ln-14482" href="#ln-14482"></a><span class="k">      </span><span class="n">plainval</span><span class="o">=</span><span class="n">plainvalin</span>
-<a id="ln-14483" name="ln-14483" href="#ln-14483"></a><span class="w">   </span><span class="k">else</span>
-<a id="ln-14484" name="ln-14484" href="#ln-14484"></a><span class="k">      </span><span class="n">plainval</span><span class="o">=</span><span class="n">val</span>
-<a id="ln-14485" name="ln-14485" href="#ln-14485"></a><span class="w">   </span><span class="k">endif</span>
-<a id="ln-14486" name="ln-14486" href="#ln-14486"></a><span class="w">   </span><span class="c">! find where string is or should be</span>
-<a id="ln-14487" name="ln-14487" href="#ln-14487"></a><span class="w">   </span><span class="k">call </span><span class="n">keyword_locate</span><span class="p">(</span><span class="n">keywords</span><span class="p">,</span><span class="n">key</span><span class="p">,</span><span class="n">place</span><span class="p">)</span>
-<a id="ln-14488" name="ln-14488" href="#ln-14488"></a><span class="w">   </span><span class="c">! if string was not found insert it</span>
-<a id="ln-14489" name="ln-14489" href="#ln-14489"></a><span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="n">place</span><span class="p">.</span><span class="n">lt</span><span class="p">.</span><span class="mi">1</span><span class="p">)</span><span class="k">then</span>
-<a id="ln-14490" name="ln-14490" href="#ln-14490"></a><span class="k">      call </span><span class="n">keyword_insert</span><span class="p">(</span><span class="n">keywords</span><span class="p">,</span><span class="n">key</span><span class="p">,</span><span class="nb">abs</span><span class="p">(</span><span class="n">place</span><span class="p">))</span>
-<a id="ln-14491" name="ln-14491" href="#ln-14491"></a><span class="w">      </span><span class="k">call </span><span class="n">keyword_insert</span><span class="p">(</span><span class="n">keyword_values</span><span class="p">,</span><span class="n">val</span><span class="p">,</span><span class="nb">abs</span><span class="p">(</span><span class="n">place</span><span class="p">))</span>
-<a id="ln-14492" name="ln-14492" href="#ln-14492"></a><span class="w">      </span><span class="k">call </span><span class="n">keyword_insert</span><span class="p">(</span><span class="n">plain_keyword_values</span><span class="p">,</span><span class="n">plainval</span><span class="p">,</span><span class="nb">abs</span><span class="p">(</span><span class="n">place</span><span class="p">))</span>
-<a id="ln-14493" name="ln-14493" href="#ln-14493"></a><span class="w">   </span><span class="k">else</span>
-<a id="ln-14494" name="ln-14494" href="#ln-14494"></a><span class="k">      call </span><span class="n">keyword_replace</span><span class="p">(</span><span class="n">keyword_values</span><span class="p">,</span><span class="n">val</span><span class="p">,</span><span class="n">place</span><span class="p">)</span>
-<a id="ln-14495" name="ln-14495" href="#ln-14495"></a><span class="w">      </span><span class="k">call </span><span class="n">keyword_replace</span><span class="p">(</span><span class="n">plain_keyword_values</span><span class="p">,</span><span class="n">plainval</span><span class="p">,</span><span class="n">place</span><span class="p">)</span>
-<a id="ln-14496" name="ln-14496" href="#ln-14496"></a><span class="w">   </span><span class="k">endif</span>
-<a id="ln-14497" name="ln-14497" href="#ln-14497"></a><span class="k">end subroutine </span><span class="n">keyword_update_ut_ut</span>
-<a id="ln-14498" name="ln-14498" href="#ln-14498"></a>
-<a id="ln-14499" name="ln-14499" href="#ln-14499"></a><span class="k">subroutine </span><span class="n">keyword_update_utf8_utf8</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="n">valin</span><span class="p">,</span><span class="n">plainvalin</span><span class="p">)</span>
-<a id="ln-14500" name="ln-14500" href="#ln-14500"></a><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">key</span>
-<a id="ln-14501" name="ln-14501" href="#ln-14501"></a><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">valin</span>
-<a id="ln-14502" name="ln-14502" href="#ln-14502"></a><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">plainvalin</span>
-<a id="ln-14503" name="ln-14503" href="#ln-14503"></a><span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="nb">present</span><span class="p">(</span><span class="n">plainvalin</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="k">then</span>
-<a id="ln-14504" name="ln-14504" href="#ln-14504"></a><span class="k">      call </span><span class="n">keyword_update_ut_ut</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">(</span><span class="n">key</span><span class="p">),</span><span class="n">unicode_type</span><span class="p">(</span><span class="n">valin</span><span class="p">),</span><span class="n">unicode_type</span><span class="p">(</span><span class="n">plainvalin</span><span class="p">))</span>
-<a id="ln-14505" name="ln-14505" href="#ln-14505"></a><span class="w">   </span><span class="k">else</span>
-<a id="ln-14506" name="ln-14506" href="#ln-14506"></a><span class="k">      call </span><span class="n">keyword_update_ut_ut</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">(</span><span class="n">key</span><span class="p">),</span><span class="n">unicode_type</span><span class="p">(</span><span class="n">valin</span><span class="p">))</span>
-<a id="ln-14507" name="ln-14507" href="#ln-14507"></a><span class="w">   </span><span class="k">endif</span>
-<a id="ln-14508" name="ln-14508" href="#ln-14508"></a><span class="k">end subroutine </span><span class="n">keyword_update_utf8_utf8</span>
-<a id="ln-14509" name="ln-14509" href="#ln-14509"></a>
-<a id="ln-14510" name="ln-14510" href="#ln-14510"></a><span class="k">subroutine </span><span class="n">keyword_update_ut_utf8</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="n">valin</span><span class="p">,</span><span class="n">plainvalin</span><span class="p">)</span>
-<a id="ln-14511" name="ln-14511" href="#ln-14511"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">key</span>
-<a id="ln-14512" name="ln-14512" href="#ln-14512"></a><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">valin</span>
-<a id="ln-14513" name="ln-14513" href="#ln-14513"></a><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">plainvalin</span>
-<a id="ln-14514" name="ln-14514" href="#ln-14514"></a><span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="nb">present</span><span class="p">(</span><span class="n">plainvalin</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="k">then</span>
-<a id="ln-14515" name="ln-14515" href="#ln-14515"></a><span class="k">      call </span><span class="n">keyword_update_ut_ut</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="n">unicode_type</span><span class="p">(</span><span class="n">valin</span><span class="p">),</span><span class="n">unicode_type</span><span class="p">(</span><span class="n">plainvalin</span><span class="p">))</span>
-<a id="ln-14516" name="ln-14516" href="#ln-14516"></a><span class="w">   </span><span class="k">else</span>
-<a id="ln-14517" name="ln-14517" href="#ln-14517"></a><span class="k">      call </span><span class="n">keyword_update_ut_ut</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="n">unicode_type</span><span class="p">(</span><span class="n">valin</span><span class="p">))</span>
-<a id="ln-14518" name="ln-14518" href="#ln-14518"></a><span class="w">   </span><span class="k">endif</span>
-<a id="ln-14519" name="ln-14519" href="#ln-14519"></a><span class="k">end subroutine </span><span class="n">keyword_update_ut_utf8</span>
-<a id="ln-14520" name="ln-14520" href="#ln-14520"></a>
-<a id="ln-14521" name="ln-14521" href="#ln-14521"></a><span class="k">subroutine </span><span class="n">keyword_update_utf8_ut</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="n">valin</span><span class="p">,</span><span class="n">plainvalin</span><span class="p">)</span>
-<a id="ln-14522" name="ln-14522" href="#ln-14522"></a><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">key</span>
-<a id="ln-14523" name="ln-14523" href="#ln-14523"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">valin</span>
-<a id="ln-14524" name="ln-14524" href="#ln-14524"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">plainvalin</span>
-<a id="ln-14525" name="ln-14525" href="#ln-14525"></a><span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="nb">present</span><span class="p">(</span><span class="n">plainvalin</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="k">then</span>
-<a id="ln-14526" name="ln-14526" href="#ln-14526"></a><span class="k">      call </span><span class="n">keyword_update_ut_ut</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">(</span><span class="n">key</span><span class="p">),</span><span class="n">valin</span><span class="p">,</span><span class="n">plainvalin</span><span class="p">)</span>
-<a id="ln-14527" name="ln-14527" href="#ln-14527"></a><span class="w">   </span><span class="k">else</span>
-<a id="ln-14528" name="ln-14528" href="#ln-14528"></a><span class="k">      call </span><span class="n">keyword_update_ut_ut</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">(</span><span class="n">key</span><span class="p">),</span><span class="n">valin</span><span class="p">)</span>
-<a id="ln-14529" name="ln-14529" href="#ln-14529"></a><span class="w">   </span><span class="k">endif</span>
-<a id="ln-14530" name="ln-14530" href="#ln-14530"></a><span class="k">end subroutine </span><span class="n">keyword_update_utf8_ut</span>
-<a id="ln-14531" name="ln-14531" href="#ln-14531"></a>
-<a id="ln-14532" name="ln-14532" href="#ln-14532"></a><span class="k">function </span><span class="n">keyword_get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">valout</span><span class="p">)</span>
-<a id="ln-14533" name="ln-14533" href="#ln-14533"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">key</span>
-<a id="ln-14534" name="ln-14534" href="#ln-14534"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">valout</span>
-<a id="ln-14535" name="ln-14535" href="#ln-14535"></a><span class="kt">integer</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">place</span>
-<a id="ln-14536" name="ln-14536" href="#ln-14536"></a><span class="w">   </span><span class="c">! find where string is or should be</span>
-<a id="ln-14537" name="ln-14537" href="#ln-14537"></a><span class="w">   </span><span class="k">call </span><span class="n">keyword_locate</span><span class="p">(</span><span class="n">keywords</span><span class="p">,</span><span class="n">key</span><span class="p">,</span><span class="n">place</span><span class="p">)</span>
-<a id="ln-14538" name="ln-14538" href="#ln-14538"></a><span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="n">place</span><span class="p">.</span><span class="n">lt</span><span class="p">.</span><span class="mi">1</span><span class="p">)</span><span class="k">then</span>
-<a id="ln-14539" name="ln-14539" href="#ln-14539"></a><span class="k">      </span><span class="n">valout</span><span class="o">=</span><span class="n">unicode_type</span><span class="p">(</span><span class="s1">''</span><span class="p">)</span>
-<a id="ln-14540" name="ln-14540" href="#ln-14540"></a><span class="w">   </span><span class="k">else</span>
-<a id="ln-14541" name="ln-14541" href="#ln-14541"></a><span class="k">      if</span><span class="p">(</span><span class="n">mode</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="s1">'plain_mode'</span><span class="p">)</span><span class="k">then</span>
-<a id="ln-14542" name="ln-14542" href="#ln-14542"></a><span class="k">         </span><span class="n">valout</span><span class="o">=</span><span class="nb">trim</span><span class="p">(</span><span class="n">plain_keyword_values</span><span class="p">(</span><span class="n">place</span><span class="p">))</span>
-<a id="ln-14543" name="ln-14543" href="#ln-14543"></a><span class="w">      </span><span class="k">else</span>
-<a id="ln-14544" name="ln-14544" href="#ln-14544"></a><span class="k">         </span><span class="n">valout</span><span class="o">=</span><span class="nb">trim</span><span class="p">(</span><span class="n">keyword_values</span><span class="p">(</span><span class="n">place</span><span class="p">))</span>
-<a id="ln-14545" name="ln-14545" href="#ln-14545"></a><span class="w">      </span><span class="k">endif</span>
-<a id="ln-14546" name="ln-14546" href="#ln-14546"></a><span class="k">      if</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">valout</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="n">valout</span><span class="o">=</span><span class="s1">' '</span>
-<a id="ln-14547" name="ln-14547" href="#ln-14547"></a><span class="w">   </span><span class="k">endif</span>
-<a id="ln-14548" name="ln-14548" href="#ln-14548"></a><span class="k">end function </span><span class="n">keyword_get</span>
-<a id="ln-14549" name="ln-14549" href="#ln-14549"></a>
-<a id="ln-14550" name="ln-14550" href="#ln-14550"></a><span class="k">subroutine </span><span class="n">keyword_locate</span><span class="p">(</span><span class="n">list</span><span class="p">,</span><span class="k">value</span><span class="p">,</span><span class="n">place</span><span class="p">,</span><span class="n">ier</span><span class="p">,</span><span class="n">errmsg</span><span class="p">)</span>
-<a id="ln-14551" name="ln-14551" href="#ln-14551"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">allocatable</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">list</span><span class="p">(:)</span>
-<a id="ln-14552" name="ln-14552" href="#ln-14552"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">         </span><span class="kd">::</span><span class="w"> </span><span class="k">value</span>
-<a id="ln-14553" name="ln-14553" href="#ln-14553"></a><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">place</span>
-<a id="ln-14554" name="ln-14554" href="#ln-14554"></a><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">),</span><span class="k">optional</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">ier</span>
-<a id="ln-14555" name="ln-14555" href="#ln-14555"></a><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">),</span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">errmsg</span>
-<a id="ln-14556" name="ln-14556" href="#ln-14556"></a><span class="kt">integer</span><span class="w">                               </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
-<a id="ln-14557" name="ln-14557" href="#ln-14557"></a><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">message</span>
-<a id="ln-14558" name="ln-14558" href="#ln-14558"></a><span class="kt">integer</span><span class="w">                               </span><span class="kd">::</span><span class="w"> </span><span class="n">arraysize</span>
-<a id="ln-14559" name="ln-14559" href="#ln-14559"></a><span class="kt">integer</span><span class="w">                               </span><span class="kd">::</span><span class="w"> </span><span class="n">maxtry</span>
-<a id="ln-14560" name="ln-14560" href="#ln-14560"></a><span class="kt">integer</span><span class="w">                               </span><span class="kd">::</span><span class="w"> </span><span class="n">imin</span><span class="p">,</span><span class="w"> </span><span class="n">imax</span>
-<a id="ln-14561" name="ln-14561" href="#ln-14561"></a><span class="kt">integer</span><span class="w">                               </span><span class="kd">::</span><span class="w"> </span><span class="n">error</span>
-<a id="ln-14562" name="ln-14562" href="#ln-14562"></a><span class="w">   </span><span class="k">if</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="nb">allocated</span><span class="p">(</span><span class="n">list</span><span class="p">))</span><span class="k">then</span>
-<a id="ln-14563" name="ln-14563" href="#ln-14563"></a><span class="k">           allocate</span><span class="p">(</span><span class="n">list</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
-<a id="ln-14564" name="ln-14564" href="#ln-14564"></a><span class="w">   </span><span class="k">endif</span>
-<a id="ln-14565" name="ln-14565" href="#ln-14565"></a><span class="k">   </span><span class="n">arraysize</span><span class="o">=</span><span class="n">size</span><span class="p">(</span><span class="n">list</span><span class="p">)</span>
-<a id="ln-14566" name="ln-14566" href="#ln-14566"></a>
-<a id="ln-14567" name="ln-14567" href="#ln-14567"></a><span class="w">   </span><span class="n">error</span><span class="o">=</span><span class="mi">0</span>
-<a id="ln-14568" name="ln-14568" href="#ln-14568"></a><span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="n">arraysize</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>
-<a id="ln-14569" name="ln-14569" href="#ln-14569"></a><span class="k">      </span><span class="n">maxtry</span><span class="o">=</span><span class="mi">0</span>
-<a id="ln-14570" name="ln-14570" href="#ln-14570"></a><span class="w">      </span><span class="n">place</span><span class="o">=-</span><span class="mi">1</span>
-<a id="ln-14571" name="ln-14571" href="#ln-14571"></a><span class="w">   </span><span class="k">else</span>
-<a id="ln-14572" name="ln-14572" href="#ln-14572"></a><span class="k">      </span><span class="n">maxtry</span><span class="o">=</span><span class="nb">nint</span><span class="p">(</span><span class="nb">log</span><span class="p">(</span><span class="kt">real</span><span class="p">(</span><span class="n">arraysize</span><span class="p">))</span><span class="o">/</span><span class="nb">log</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span><span class="o">+</span><span class="mf">1.0</span><span class="p">)</span>
-<a id="ln-14573" name="ln-14573" href="#ln-14573"></a><span class="w">      </span><span class="n">place</span><span class="o">=</span><span class="p">(</span><span class="n">arraysize</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
-<a id="ln-14574" name="ln-14574" href="#ln-14574"></a><span class="w">   </span><span class="k">endif</span>
-<a id="ln-14575" name="ln-14575" href="#ln-14575"></a><span class="k">   </span><span class="n">imin</span><span class="o">=</span><span class="mi">1</span>
-<a id="ln-14576" name="ln-14576" href="#ln-14576"></a><span class="w">   </span><span class="n">imax</span><span class="o">=</span><span class="n">arraysize</span>
-<a id="ln-14577" name="ln-14577" href="#ln-14577"></a><span class="w">   </span><span class="n">message</span><span class="o">=</span><span class="s1">''</span>
-<a id="ln-14578" name="ln-14578" href="#ln-14578"></a>
-<a id="ln-14579" name="ln-14579" href="#ln-14579"></a><span class="w">   </span><span class="n">LOOP</span><span class="p">:</span><span class="w"> </span><span class="k">block</span>
-<a id="ln-14580" name="ln-14580" href="#ln-14580"></a><span class="k">   do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">maxtry</span>
-<a id="ln-14581" name="ln-14581" href="#ln-14581"></a><span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="k">value</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="n">list</span><span class="p">(</span><span class="n">PLACE</span><span class="p">))</span><span class="k">then</span>
-<a id="ln-14582" name="ln-14582" href="#ln-14582"></a><span class="k">         exit </span><span class="n">LOOP</span>
-<a id="ln-14583" name="ln-14583" href="#ln-14583"></a><span class="w">      </span><span class="k">else if</span><span class="p">(</span><span class="k">value</span><span class="p">.</span><span class="n">gt</span><span class="p">.</span><span class="n">list</span><span class="p">(</span><span class="n">place</span><span class="p">))</span><span class="k">then</span>
-<a id="ln-14584" name="ln-14584" href="#ln-14584"></a><span class="k">         </span><span class="n">imax</span><span class="o">=</span><span class="n">place</span><span class="o">-</span><span class="mi">1</span>
-<a id="ln-14585" name="ln-14585" href="#ln-14585"></a><span class="w">      </span><span class="k">else</span>
-<a id="ln-14586" name="ln-14586" href="#ln-14586"></a><span class="k">         </span><span class="n">imin</span><span class="o">=</span><span class="n">place</span><span class="o">+</span><span class="mi">1</span>
-<a id="ln-14587" name="ln-14587" href="#ln-14587"></a><span class="w">      </span><span class="k">endif</span>
-<a id="ln-14588" name="ln-14588" href="#ln-14588"></a><span class="k">      if</span><span class="p">(</span><span class="n">imin</span><span class="p">.</span><span class="n">gt</span><span class="p">.</span><span class="n">imax</span><span class="p">)</span><span class="k">then</span>
-<a id="ln-14589" name="ln-14589" href="#ln-14589"></a><span class="k">         </span><span class="n">place</span><span class="o">=-</span><span class="n">imin</span>
-<a id="ln-14590" name="ln-14590" href="#ln-14590"></a><span class="w">         </span><span class="k">if</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">place</span><span class="p">).</span><span class="n">gt</span><span class="p">.</span><span class="n">arraysize</span><span class="p">)</span><span class="k">then</span><span class="w"> </span><span class="c">! ran off end of list. Where new value should go or an unsorted input array'</span>
-<a id="ln-14591" name="ln-14591" href="#ln-14591"></a><span class="w">            </span><span class="k">exit </span><span class="n">LOOP</span>
-<a id="ln-14592" name="ln-14592" href="#ln-14592"></a><span class="w">         </span><span class="k">endif</span>
-<a id="ln-14593" name="ln-14593" href="#ln-14593"></a><span class="k">         exit </span><span class="n">LOOP</span>
-<a id="ln-14594" name="ln-14594" href="#ln-14594"></a><span class="w">      </span><span class="k">endif</span>
-<a id="ln-14595" name="ln-14595" href="#ln-14595"></a><span class="k">      </span><span class="n">place</span><span class="o">=</span><span class="p">(</span><span class="n">imax</span><span class="o">+</span><span class="n">imin</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
-<a id="ln-14596" name="ln-14596" href="#ln-14596"></a><span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">place</span><span class="p">.</span><span class="n">gt</span><span class="p">.</span><span class="n">arraysize</span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="n">place</span><span class="p">.</span><span class="n">le</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>
-<a id="ln-14597" name="ln-14597" href="#ln-14597"></a><span class="k">         </span><span class="n">message</span><span class="o">=</span><span class="s1">'*keyword_locate* error: search is out of bounds of list. Probably an unsorted input array'</span>
-<a id="ln-14598" name="ln-14598" href="#ln-14598"></a><span class="w">         </span><span class="n">error</span><span class="o">=-</span><span class="mi">1</span>
-<a id="ln-14599" name="ln-14599" href="#ln-14599"></a><span class="w">         </span><span class="k">exit </span><span class="n">LOOP</span>
-<a id="ln-14600" name="ln-14600" href="#ln-14600"></a><span class="w">      </span><span class="k">endif</span>
-<a id="ln-14601" name="ln-14601" href="#ln-14601"></a><span class="k">   enddo</span>
-<a id="ln-14602" name="ln-14602" href="#ln-14602"></a><span class="k">   </span><span class="n">message</span><span class="o">=</span><span class="s1">'*keyword_locate* exceeded allowed tries. Probably an unsorted input array'</span>
-<a id="ln-14603" name="ln-14603" href="#ln-14603"></a><span class="w">   </span><span class="k">endblock </span><span class="n">LOOP</span>
-<a id="ln-14604" name="ln-14604" href="#ln-14604"></a><span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">ier</span><span class="p">))</span><span class="k">then</span>
-<a id="ln-14605" name="ln-14605" href="#ln-14605"></a><span class="k">      </span><span class="n">ier</span><span class="o">=</span><span class="n">error</span>
-<a id="ln-14606" name="ln-14606" href="#ln-14606"></a><span class="w">   </span><span class="k">else if</span><span class="p">(</span><span class="n">error</span><span class="p">.</span><span class="n">ne</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>
-<a id="ln-14607" name="ln-14607" href="#ln-14607"></a><span class="k">      write</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="n">message</span><span class="o">//</span><span class="s1">' VALUE='</span><span class="p">,</span><span class="nb">trim</span><span class="p">(</span><span class="k">value</span><span class="p">)</span><span class="o">//</span><span class="s1">' PLACE='</span><span class="p">,</span><span class="n">place</span>
-<a id="ln-14608" name="ln-14608" href="#ln-14608"></a><span class="w">      </span><span class="k">stop </span><span class="mi">1</span>
-<a id="ln-14609" name="ln-14609" href="#ln-14609"></a><span class="w">   </span><span class="k">endif</span>
-<a id="ln-14610" name="ln-14610" href="#ln-14610"></a><span class="k">   if</span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">errmsg</span><span class="p">))</span><span class="k">then</span>
-<a id="ln-14611" name="ln-14611" href="#ln-14611"></a><span class="k">      </span><span class="n">errmsg</span><span class="o">=</span><span class="n">message</span>
-<a id="ln-14612" name="ln-14612" href="#ln-14612"></a><span class="w">   </span><span class="k">endif</span>
-<a id="ln-14613" name="ln-14613" href="#ln-14613"></a><span class="k">end subroutine </span><span class="n">keyword_locate</span>
-<a id="ln-14614" name="ln-14614" href="#ln-14614"></a>
-<a id="ln-14615" name="ln-14615" href="#ln-14615"></a><span class="k">subroutine </span><span class="n">keyword_remove</span><span class="p">(</span><span class="n">list</span><span class="p">,</span><span class="n">place</span><span class="p">)</span>
-<a id="ln-14616" name="ln-14616" href="#ln-14616"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">list</span><span class="p">(:)</span>
-<a id="ln-14617" name="ln-14617" href="#ln-14617"></a><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">place</span>
-<a id="ln-14618" name="ln-14618" href="#ln-14618"></a><span class="kt">integer</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="k">end</span>
-<a id="ln-14619" name="ln-14619" href="#ln-14619"></a><span class="k">   if</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="nb">allocated</span><span class="p">(</span><span class="n">list</span><span class="p">))</span><span class="k">then</span>
-<a id="ln-14620" name="ln-14620" href="#ln-14620"></a><span class="k">       allocate</span><span class="p">(</span><span class="n">list</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
-<a id="ln-14621" name="ln-14621" href="#ln-14621"></a><span class="w">   </span><span class="k">endif</span>
-<a id="ln-14622" name="ln-14622" href="#ln-14622"></a><span class="k">   end</span><span class="o">=</span><span class="n">size</span><span class="p">(</span><span class="n">list</span><span class="p">)</span>
-<a id="ln-14623" name="ln-14623" href="#ln-14623"></a><span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="n">place</span><span class="p">.</span><span class="n">le</span><span class="p">.</span><span class="mf">0.</span><span class="nb">or</span><span class="p">.</span><span class="n">place</span><span class="p">.</span><span class="n">gt</span><span class="p">.</span><span class="k">end</span><span class="p">)</span><span class="k">then</span><span class="w">                       </span><span class="c">! index out of bounds of array</span>
-<a id="ln-14624" name="ln-14624" href="#ln-14624"></a><span class="w">   </span><span class="k">elseif</span><span class="p">(</span><span class="n">place</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="k">end</span><span class="p">)</span><span class="k">then</span><span class="w">                                 </span><span class="c">! remove from array</span>
-<a id="ln-14625" name="ln-14625" href="#ln-14625"></a><span class="w">      </span><span class="n">list</span><span class="o">=</span><span class="p">[</span><span class="n">list</span><span class="p">(:</span><span class="n">place</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">]</span>
-<a id="ln-14626" name="ln-14626" href="#ln-14626"></a><span class="w">   </span><span class="k">else</span>
-<a id="ln-14627" name="ln-14627" href="#ln-14627"></a><span class="k">      </span><span class="n">list</span><span class="o">=</span><span class="p">[</span><span class="n">list</span><span class="p">(:</span><span class="n">place</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">list</span><span class="p">(</span><span class="n">place</span><span class="o">+</span><span class="mi">1</span><span class="p">:)</span><span class="w"> </span><span class="p">]</span>
-<a id="ln-14628" name="ln-14628" href="#ln-14628"></a><span class="w">   </span><span class="k">endif</span>
-<a id="ln-14629" name="ln-14629" href="#ln-14629"></a><span class="k">end subroutine </span><span class="n">keyword_remove</span>
-<a id="ln-14630" name="ln-14630" href="#ln-14630"></a>
-<a id="ln-14631" name="ln-14631" href="#ln-14631"></a><span class="k">subroutine </span><span class="n">keyword_replace</span><span class="p">(</span><span class="n">list</span><span class="p">,</span><span class="k">value</span><span class="p">,</span><span class="n">place</span><span class="p">)</span>
-<a id="ln-14632" name="ln-14632" href="#ln-14632"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="k">value</span>
-<a id="ln-14633" name="ln-14633" href="#ln-14633"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">list</span><span class="p">(:)</span>
-<a id="ln-14634" name="ln-14634" href="#ln-14634"></a><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">place</span>
-<a id="ln-14635" name="ln-14635" href="#ln-14635"></a><span class="kt">integer</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="n">tlen</span>
-<a id="ln-14636" name="ln-14636" href="#ln-14636"></a><span class="kt">integer</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="k">end</span>
-<a id="ln-14637" name="ln-14637" href="#ln-14637"></a><span class="k">   if</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="nb">allocated</span><span class="p">(</span><span class="n">list</span><span class="p">))</span><span class="k">then</span>
-<a id="ln-14638" name="ln-14638" href="#ln-14638"></a><span class="k">      allocate</span><span class="p">(</span><span class="n">list</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
-<a id="ln-14639" name="ln-14639" href="#ln-14639"></a><span class="w">   </span><span class="k">endif</span>
-<a id="ln-14640" name="ln-14640" href="#ln-14640"></a><span class="k">   </span><span class="n">tlen</span><span class="o">=</span><span class="nb">len_trim</span><span class="p">(</span><span class="k">value</span><span class="p">)</span>
-<a id="ln-14641" name="ln-14641" href="#ln-14641"></a><span class="w">   </span><span class="k">end</span><span class="o">=</span><span class="n">size</span><span class="p">(</span><span class="n">list</span><span class="p">)</span>
-<a id="ln-14642" name="ln-14642" href="#ln-14642"></a><span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="n">place</span><span class="p">.</span><span class="n">lt</span><span class="p">.</span><span class="mf">0.</span><span class="nb">or</span><span class="p">.</span><span class="n">place</span><span class="p">.</span><span class="n">gt</span><span class="p">.</span><span class="k">end</span><span class="p">)</span><span class="k">then</span>
-<a id="ln-14643" name="ln-14643" href="#ln-14643"></a><span class="k">       write</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'*replace* error: index out of range. end='</span><span class="p">,</span><span class="k">end</span><span class="p">,</span><span class="s1">' index='</span><span class="p">,</span><span class="n">place</span>
-<a id="ln-14644" name="ln-14644" href="#ln-14644"></a><span class="w">   </span><span class="k">else</span>
-<a id="ln-14645" name="ln-14645" href="#ln-14645"></a><span class="k">      </span><span class="n">list</span><span class="p">(</span><span class="n">place</span><span class="p">)</span><span class="o">=</span><span class="k">value</span>
-<a id="ln-14646" name="ln-14646" href="#ln-14646"></a><span class="k">   endif</span>
-<a id="ln-14647" name="ln-14647" href="#ln-14647"></a><span class="k">end subroutine </span><span class="n">keyword_replace</span>
-<a id="ln-14648" name="ln-14648" href="#ln-14648"></a>
-<a id="ln-14649" name="ln-14649" href="#ln-14649"></a><span class="k">subroutine </span><span class="n">keyword_insert</span><span class="p">(</span><span class="n">list</span><span class="p">,</span><span class="k">value</span><span class="p">,</span><span class="n">place</span><span class="p">)</span>
-<a id="ln-14650" name="ln-14650" href="#ln-14650"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="k">value</span>
-<a id="ln-14651" name="ln-14651" href="#ln-14651"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">list</span><span class="p">(:)</span>
-<a id="ln-14652" name="ln-14652" href="#ln-14652"></a><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">place</span>
-<a id="ln-14653" name="ln-14653" href="#ln-14653"></a><span class="kt">integer</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="k">end</span>
-<a id="ln-14654" name="ln-14654" href="#ln-14654"></a><span class="k">   if</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="nb">allocated</span><span class="p">(</span><span class="n">list</span><span class="p">))</span><span class="k">then</span>
-<a id="ln-14655" name="ln-14655" href="#ln-14655"></a><span class="k">      allocate</span><span class="p">(</span><span class="n">list</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
-<a id="ln-14656" name="ln-14656" href="#ln-14656"></a><span class="w">   </span><span class="k">endif</span>
-<a id="ln-14657" name="ln-14657" href="#ln-14657"></a><span class="k">   end</span><span class="o">=</span><span class="n">size</span><span class="p">(</span><span class="n">list</span><span class="p">)</span>
-<a id="ln-14658" name="ln-14658" href="#ln-14658"></a><span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="k">end</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="k">then</span><span class="w">                                          </span><span class="c">! empty array</span>
-<a id="ln-14659" name="ln-14659" href="#ln-14659"></a><span class="w">      </span><span class="n">list</span><span class="o">=</span><span class="p">[</span><span class="w"> </span><span class="k">value</span><span class="w"> </span><span class="p">]</span>
-<a id="ln-14660" name="ln-14660" href="#ln-14660"></a><span class="w">   </span><span class="k">elseif</span><span class="p">(</span><span class="n">place</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">1</span><span class="p">)</span><span class="k">then</span><span class="w">                                    </span><span class="c">! put in front of array</span>
-<a id="ln-14661" name="ln-14661" href="#ln-14661"></a><span class="w">      </span><span class="n">list</span><span class="o">=</span><span class="p">[</span><span class="k">value</span><span class="p">,</span><span class="w"> </span><span class="n">list</span><span class="p">]</span>
-<a id="ln-14662" name="ln-14662" href="#ln-14662"></a><span class="w">   </span><span class="k">elseif</span><span class="p">(</span><span class="n">place</span><span class="p">.</span><span class="n">gt</span><span class="p">.</span><span class="k">end</span><span class="p">)</span><span class="k">then</span><span class="w">                                  </span><span class="c">! put at end of array</span>
-<a id="ln-14663" name="ln-14663" href="#ln-14663"></a><span class="w">      </span><span class="n">list</span><span class="o">=</span><span class="p">[</span><span class="n">list</span><span class="p">,</span><span class="w"> </span><span class="k">value</span><span class="w"> </span><span class="p">]</span>
-<a id="ln-14664" name="ln-14664" href="#ln-14664"></a><span class="w">   </span><span class="k">elseif</span><span class="p">(</span><span class="n">place</span><span class="p">.</span><span class="n">ge</span><span class="p">.</span><span class="mf">2.</span><span class="nb">and</span><span class="p">.</span><span class="n">place</span><span class="p">.</span><span class="n">le</span><span class="p">.</span><span class="k">end</span><span class="p">)</span><span class="k">then</span><span class="w">                   </span><span class="c">! put in middle of array</span>
-<a id="ln-14665" name="ln-14665" href="#ln-14665"></a><span class="w">      </span><span class="n">list</span><span class="o">=</span><span class="p">[</span><span class="n">list</span><span class="p">(:</span><span class="n">place</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="k">value</span><span class="p">,</span><span class="n">list</span><span class="p">(</span><span class="n">place</span><span class="p">:)</span><span class="w"> </span><span class="p">]</span>
-<a id="ln-14666" name="ln-14666" href="#ln-14666"></a><span class="w">   </span><span class="k">else</span><span class="w">                                                      </span><span class="c">! index out of range</span>
-<a id="ln-14667" name="ln-14667" href="#ln-14667"></a><span class="w">      </span><span class="k">write</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'*keyword_insert* error: index out of range. end='</span><span class="p">,</span><span class="k">end</span><span class="p">,</span><span class="s1">' index='</span><span class="p">,</span><span class="n">place</span><span class="p">,</span><span class="s1">' value='</span><span class="p">,</span><span class="k">value</span>
-<a id="ln-14668" name="ln-14668" href="#ln-14668"></a><span class="k">   endif</span>
-<a id="ln-14669" name="ln-14669" href="#ln-14669"></a><span class="k">end subroutine </span><span class="n">keyword_insert</span>
-<a id="ln-14670" name="ln-14670" href="#ln-14670"></a><span class="c">!===================================================================================================================================</span>
-<a id="ln-14671" name="ln-14671" href="#ln-14671"></a><span class="c">!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!</span>
+<a id="ln-14467" name="ln-14467" href="#ln-14467"></a><span class="k">end subroutine </span><span class="n">keyword_update_utf8</span>
+<a id="ln-14468" name="ln-14468" href="#ln-14468"></a>
+<a id="ln-14469" name="ln-14469" href="#ln-14469"></a><span class="k">subroutine </span><span class="n">keyword_update_ut_ut</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="n">valin</span><span class="p">,</span><span class="n">plainvalin</span><span class="p">)</span>
+<a id="ln-14470" name="ln-14470" href="#ln-14470"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">key</span>
+<a id="ln-14471" name="ln-14471" href="#ln-14471"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">valin</span>
+<a id="ln-14472" name="ln-14472" href="#ln-14472"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">plainvalin</span>
+<a id="ln-14473" name="ln-14473" href="#ln-14473"></a><span class="kt">integer</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">place</span>
+<a id="ln-14474" name="ln-14474" href="#ln-14474"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">val</span>
+<a id="ln-14475" name="ln-14475" href="#ln-14475"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">plainval</span>
+<a id="ln-14476" name="ln-14476" href="#ln-14476"></a>
+<a id="ln-14477" name="ln-14477" href="#ln-14477"></a><span class="k">if</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="nb">allocated</span><span class="p">(</span><span class="n">mode</span><span class="p">))</span><span class="k">then</span><span class="w">  </span><span class="c">! set substitution mode</span>
+<a id="ln-14478" name="ln-14478" href="#ln-14478"></a><span class="w">   </span><span class="n">mode</span><span class="o">=</span><span class="s1">'alias_mode'</span>
+<a id="ln-14479" name="ln-14479" href="#ln-14479"></a><span class="w">   </span><span class="k">call </span><span class="n">keyword_load_defaults</span><span class="p">()</span>
+<a id="ln-14480" name="ln-14480" href="#ln-14480"></a><span class="k">endif</span>
+<a id="ln-14481" name="ln-14481" href="#ln-14481"></a>
+<a id="ln-14482" name="ln-14482" href="#ln-14482"></a><span class="k">   </span><span class="n">val</span><span class="o">=</span><span class="n">valin</span>
+<a id="ln-14483" name="ln-14483" href="#ln-14483"></a><span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="nb">present</span><span class="p">(</span><span class="n">plainvalin</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="k">then</span>
+<a id="ln-14484" name="ln-14484" href="#ln-14484"></a><span class="k">      </span><span class="n">plainval</span><span class="o">=</span><span class="n">plainvalin</span>
+<a id="ln-14485" name="ln-14485" href="#ln-14485"></a><span class="w">   </span><span class="k">else</span>
+<a id="ln-14486" name="ln-14486" href="#ln-14486"></a><span class="k">      </span><span class="n">plainval</span><span class="o">=</span><span class="n">val</span>
+<a id="ln-14487" name="ln-14487" href="#ln-14487"></a><span class="w">   </span><span class="k">endif</span>
+<a id="ln-14488" name="ln-14488" href="#ln-14488"></a><span class="w">   </span><span class="c">! find where string is or should be</span>
+<a id="ln-14489" name="ln-14489" href="#ln-14489"></a><span class="w">   </span><span class="k">call </span><span class="n">keyword_locate</span><span class="p">(</span><span class="n">keywords</span><span class="p">,</span><span class="n">key</span><span class="p">,</span><span class="n">place</span><span class="p">)</span>
+<a id="ln-14490" name="ln-14490" href="#ln-14490"></a><span class="w">   </span><span class="c">! if string was not found insert it</span>
+<a id="ln-14491" name="ln-14491" href="#ln-14491"></a><span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="n">place</span><span class="p">.</span><span class="n">lt</span><span class="p">.</span><span class="mi">1</span><span class="p">)</span><span class="k">then</span>
+<a id="ln-14492" name="ln-14492" href="#ln-14492"></a><span class="k">      call </span><span class="n">keyword_insert</span><span class="p">(</span><span class="n">keywords</span><span class="p">,</span><span class="n">key</span><span class="p">,</span><span class="nb">abs</span><span class="p">(</span><span class="n">place</span><span class="p">))</span>
+<a id="ln-14493" name="ln-14493" href="#ln-14493"></a><span class="w">      </span><span class="k">call </span><span class="n">keyword_insert</span><span class="p">(</span><span class="n">keyword_values</span><span class="p">,</span><span class="n">val</span><span class="p">,</span><span class="nb">abs</span><span class="p">(</span><span class="n">place</span><span class="p">))</span>
+<a id="ln-14494" name="ln-14494" href="#ln-14494"></a><span class="w">      </span><span class="k">call </span><span class="n">keyword_insert</span><span class="p">(</span><span class="n">plain_keyword_values</span><span class="p">,</span><span class="n">plainval</span><span class="p">,</span><span class="nb">abs</span><span class="p">(</span><span class="n">place</span><span class="p">))</span>
+<a id="ln-14495" name="ln-14495" href="#ln-14495"></a><span class="w">   </span><span class="k">else</span>
+<a id="ln-14496" name="ln-14496" href="#ln-14496"></a><span class="k">      call </span><span class="n">keyword_replace</span><span class="p">(</span><span class="n">keyword_values</span><span class="p">,</span><span class="n">val</span><span class="p">,</span><span class="n">place</span><span class="p">)</span>
+<a id="ln-14497" name="ln-14497" href="#ln-14497"></a><span class="w">      </span><span class="k">call </span><span class="n">keyword_replace</span><span class="p">(</span><span class="n">plain_keyword_values</span><span class="p">,</span><span class="n">plainval</span><span class="p">,</span><span class="n">place</span><span class="p">)</span>
+<a id="ln-14498" name="ln-14498" href="#ln-14498"></a><span class="w">   </span><span class="k">endif</span>
+<a id="ln-14499" name="ln-14499" href="#ln-14499"></a><span class="k">end subroutine </span><span class="n">keyword_update_ut_ut</span>
+<a id="ln-14500" name="ln-14500" href="#ln-14500"></a>
+<a id="ln-14501" name="ln-14501" href="#ln-14501"></a><span class="k">subroutine </span><span class="n">keyword_update_utf8_utf8</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="n">valin</span><span class="p">,</span><span class="n">plainvalin</span><span class="p">)</span>
+<a id="ln-14502" name="ln-14502" href="#ln-14502"></a><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">key</span>
+<a id="ln-14503" name="ln-14503" href="#ln-14503"></a><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">valin</span>
+<a id="ln-14504" name="ln-14504" href="#ln-14504"></a><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">plainvalin</span>
+<a id="ln-14505" name="ln-14505" href="#ln-14505"></a><span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="nb">present</span><span class="p">(</span><span class="n">plainvalin</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="k">then</span>
+<a id="ln-14506" name="ln-14506" href="#ln-14506"></a><span class="k">      call </span><span class="n">keyword_update_ut_ut</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">(</span><span class="n">key</span><span class="p">),</span><span class="n">unicode_type</span><span class="p">(</span><span class="n">valin</span><span class="p">),</span><span class="n">unicode_type</span><span class="p">(</span><span class="n">plainvalin</span><span class="p">))</span>
+<a id="ln-14507" name="ln-14507" href="#ln-14507"></a><span class="w">   </span><span class="k">else</span>
+<a id="ln-14508" name="ln-14508" href="#ln-14508"></a><span class="k">      call </span><span class="n">keyword_update_ut_ut</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">(</span><span class="n">key</span><span class="p">),</span><span class="n">unicode_type</span><span class="p">(</span><span class="n">valin</span><span class="p">))</span>
+<a id="ln-14509" name="ln-14509" href="#ln-14509"></a><span class="w">   </span><span class="k">endif</span>
+<a id="ln-14510" name="ln-14510" href="#ln-14510"></a><span class="k">end subroutine </span><span class="n">keyword_update_utf8_utf8</span>
+<a id="ln-14511" name="ln-14511" href="#ln-14511"></a>
+<a id="ln-14512" name="ln-14512" href="#ln-14512"></a><span class="k">subroutine </span><span class="n">keyword_update_ut_utf8</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="n">valin</span><span class="p">,</span><span class="n">plainvalin</span><span class="p">)</span>
+<a id="ln-14513" name="ln-14513" href="#ln-14513"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">key</span>
+<a id="ln-14514" name="ln-14514" href="#ln-14514"></a><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">valin</span>
+<a id="ln-14515" name="ln-14515" href="#ln-14515"></a><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">plainvalin</span>
+<a id="ln-14516" name="ln-14516" href="#ln-14516"></a><span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="nb">present</span><span class="p">(</span><span class="n">plainvalin</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="k">then</span>
+<a id="ln-14517" name="ln-14517" href="#ln-14517"></a><span class="k">      call </span><span class="n">keyword_update_ut_ut</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="n">unicode_type</span><span class="p">(</span><span class="n">valin</span><span class="p">),</span><span class="n">unicode_type</span><span class="p">(</span><span class="n">plainvalin</span><span class="p">))</span>
+<a id="ln-14518" name="ln-14518" href="#ln-14518"></a><span class="w">   </span><span class="k">else</span>
+<a id="ln-14519" name="ln-14519" href="#ln-14519"></a><span class="k">      call </span><span class="n">keyword_update_ut_ut</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="n">unicode_type</span><span class="p">(</span><span class="n">valin</span><span class="p">))</span>
+<a id="ln-14520" name="ln-14520" href="#ln-14520"></a><span class="w">   </span><span class="k">endif</span>
+<a id="ln-14521" name="ln-14521" href="#ln-14521"></a><span class="k">end subroutine </span><span class="n">keyword_update_ut_utf8</span>
+<a id="ln-14522" name="ln-14522" href="#ln-14522"></a>
+<a id="ln-14523" name="ln-14523" href="#ln-14523"></a><span class="k">subroutine </span><span class="n">keyword_update_utf8_ut</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="n">valin</span><span class="p">,</span><span class="n">plainvalin</span><span class="p">)</span>
+<a id="ln-14524" name="ln-14524" href="#ln-14524"></a><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">key</span>
+<a id="ln-14525" name="ln-14525" href="#ln-14525"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">valin</span>
+<a id="ln-14526" name="ln-14526" href="#ln-14526"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">plainvalin</span>
+<a id="ln-14527" name="ln-14527" href="#ln-14527"></a><span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="nb">present</span><span class="p">(</span><span class="n">plainvalin</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="k">then</span>
+<a id="ln-14528" name="ln-14528" href="#ln-14528"></a><span class="k">      call </span><span class="n">keyword_update_ut_ut</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">(</span><span class="n">key</span><span class="p">),</span><span class="n">valin</span><span class="p">,</span><span class="n">plainvalin</span><span class="p">)</span>
+<a id="ln-14529" name="ln-14529" href="#ln-14529"></a><span class="w">   </span><span class="k">else</span>
+<a id="ln-14530" name="ln-14530" href="#ln-14530"></a><span class="k">      call </span><span class="n">keyword_update_ut_ut</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">(</span><span class="n">key</span><span class="p">),</span><span class="n">valin</span><span class="p">)</span>
+<a id="ln-14531" name="ln-14531" href="#ln-14531"></a><span class="w">   </span><span class="k">endif</span>
+<a id="ln-14532" name="ln-14532" href="#ln-14532"></a><span class="k">end subroutine </span><span class="n">keyword_update_utf8_ut</span>
+<a id="ln-14533" name="ln-14533" href="#ln-14533"></a>
+<a id="ln-14534" name="ln-14534" href="#ln-14534"></a><span class="k">function </span><span class="n">keyword_get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">valout</span><span class="p">)</span>
+<a id="ln-14535" name="ln-14535" href="#ln-14535"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">key</span>
+<a id="ln-14536" name="ln-14536" href="#ln-14536"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">valout</span>
+<a id="ln-14537" name="ln-14537" href="#ln-14537"></a><span class="kt">integer</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">place</span>
+<a id="ln-14538" name="ln-14538" href="#ln-14538"></a><span class="w">   </span><span class="c">! find where string is or should be</span>
+<a id="ln-14539" name="ln-14539" href="#ln-14539"></a><span class="w">   </span><span class="k">call </span><span class="n">keyword_locate</span><span class="p">(</span><span class="n">keywords</span><span class="p">,</span><span class="n">key</span><span class="p">,</span><span class="n">place</span><span class="p">)</span>
+<a id="ln-14540" name="ln-14540" href="#ln-14540"></a><span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="n">place</span><span class="p">.</span><span class="n">lt</span><span class="p">.</span><span class="mi">1</span><span class="p">)</span><span class="k">then</span>
+<a id="ln-14541" name="ln-14541" href="#ln-14541"></a><span class="k">      </span><span class="n">valout</span><span class="o">=</span><span class="n">unicode_type</span><span class="p">(</span><span class="s1">''</span><span class="p">)</span>
+<a id="ln-14542" name="ln-14542" href="#ln-14542"></a><span class="w">   </span><span class="k">else</span>
+<a id="ln-14543" name="ln-14543" href="#ln-14543"></a><span class="k">      if</span><span class="p">(</span><span class="n">mode</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="s1">'plain_mode'</span><span class="p">)</span><span class="k">then</span>
+<a id="ln-14544" name="ln-14544" href="#ln-14544"></a><span class="k">         </span><span class="n">valout</span><span class="o">=</span><span class="nb">trim</span><span class="p">(</span><span class="n">plain_keyword_values</span><span class="p">(</span><span class="n">place</span><span class="p">))</span>
+<a id="ln-14545" name="ln-14545" href="#ln-14545"></a><span class="w">      </span><span class="k">else</span>
+<a id="ln-14546" name="ln-14546" href="#ln-14546"></a><span class="k">         </span><span class="n">valout</span><span class="o">=</span><span class="nb">trim</span><span class="p">(</span><span class="n">keyword_values</span><span class="p">(</span><span class="n">place</span><span class="p">))</span>
+<a id="ln-14547" name="ln-14547" href="#ln-14547"></a><span class="w">      </span><span class="k">endif</span>
+<a id="ln-14548" name="ln-14548" href="#ln-14548"></a><span class="k">      if</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">valout</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="n">valout</span><span class="o">=</span><span class="s1">' '</span>
+<a id="ln-14549" name="ln-14549" href="#ln-14549"></a><span class="w">   </span><span class="k">endif</span>
+<a id="ln-14550" name="ln-14550" href="#ln-14550"></a><span class="k">end function </span><span class="n">keyword_get</span>
+<a id="ln-14551" name="ln-14551" href="#ln-14551"></a>
+<a id="ln-14552" name="ln-14552" href="#ln-14552"></a><span class="k">subroutine </span><span class="n">keyword_locate</span><span class="p">(</span><span class="n">list</span><span class="p">,</span><span class="k">value</span><span class="p">,</span><span class="n">place</span><span class="p">,</span><span class="n">ier</span><span class="p">,</span><span class="n">errmsg</span><span class="p">)</span>
+<a id="ln-14553" name="ln-14553" href="#ln-14553"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">allocatable</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">list</span><span class="p">(:)</span>
+<a id="ln-14554" name="ln-14554" href="#ln-14554"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">         </span><span class="kd">::</span><span class="w"> </span><span class="k">value</span>
+<a id="ln-14555" name="ln-14555" href="#ln-14555"></a><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">place</span>
+<a id="ln-14556" name="ln-14556" href="#ln-14556"></a><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">),</span><span class="k">optional</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">ier</span>
+<a id="ln-14557" name="ln-14557" href="#ln-14557"></a><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">),</span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">errmsg</span>
+<a id="ln-14558" name="ln-14558" href="#ln-14558"></a><span class="kt">integer</span><span class="w">                               </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
+<a id="ln-14559" name="ln-14559" href="#ln-14559"></a><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">message</span>
+<a id="ln-14560" name="ln-14560" href="#ln-14560"></a><span class="kt">integer</span><span class="w">                               </span><span class="kd">::</span><span class="w"> </span><span class="n">arraysize</span>
+<a id="ln-14561" name="ln-14561" href="#ln-14561"></a><span class="kt">integer</span><span class="w">                               </span><span class="kd">::</span><span class="w"> </span><span class="n">maxtry</span>
+<a id="ln-14562" name="ln-14562" href="#ln-14562"></a><span class="kt">integer</span><span class="w">                               </span><span class="kd">::</span><span class="w"> </span><span class="n">imin</span><span class="p">,</span><span class="w"> </span><span class="n">imax</span>
+<a id="ln-14563" name="ln-14563" href="#ln-14563"></a><span class="kt">integer</span><span class="w">                               </span><span class="kd">::</span><span class="w"> </span><span class="n">error</span>
+<a id="ln-14564" name="ln-14564" href="#ln-14564"></a><span class="w">   </span><span class="k">if</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="nb">allocated</span><span class="p">(</span><span class="n">list</span><span class="p">))</span><span class="k">then</span>
+<a id="ln-14565" name="ln-14565" href="#ln-14565"></a><span class="k">           allocate</span><span class="p">(</span><span class="n">list</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<a id="ln-14566" name="ln-14566" href="#ln-14566"></a><span class="w">   </span><span class="k">endif</span>
+<a id="ln-14567" name="ln-14567" href="#ln-14567"></a><span class="k">   </span><span class="n">arraysize</span><span class="o">=</span><span class="n">size</span><span class="p">(</span><span class="n">list</span><span class="p">)</span>
+<a id="ln-14568" name="ln-14568" href="#ln-14568"></a>
+<a id="ln-14569" name="ln-14569" href="#ln-14569"></a><span class="w">   </span><span class="n">error</span><span class="o">=</span><span class="mi">0</span>
+<a id="ln-14570" name="ln-14570" href="#ln-14570"></a><span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="n">arraysize</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>
+<a id="ln-14571" name="ln-14571" href="#ln-14571"></a><span class="k">      </span><span class="n">maxtry</span><span class="o">=</span><span class="mi">0</span>
+<a id="ln-14572" name="ln-14572" href="#ln-14572"></a><span class="w">      </span><span class="n">place</span><span class="o">=-</span><span class="mi">1</span>
+<a id="ln-14573" name="ln-14573" href="#ln-14573"></a><span class="w">   </span><span class="k">else</span>
+<a id="ln-14574" name="ln-14574" href="#ln-14574"></a><span class="k">      </span><span class="n">maxtry</span><span class="o">=</span><span class="nb">nint</span><span class="p">(</span><span class="nb">log</span><span class="p">(</span><span class="kt">real</span><span class="p">(</span><span class="n">arraysize</span><span class="p">))</span><span class="o">/</span><span class="nb">log</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span><span class="o">+</span><span class="mf">1.0</span><span class="p">)</span>
+<a id="ln-14575" name="ln-14575" href="#ln-14575"></a><span class="w">      </span><span class="n">place</span><span class="o">=</span><span class="p">(</span><span class="n">arraysize</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+<a id="ln-14576" name="ln-14576" href="#ln-14576"></a><span class="w">   </span><span class="k">endif</span>
+<a id="ln-14577" name="ln-14577" href="#ln-14577"></a><span class="k">   </span><span class="n">imin</span><span class="o">=</span><span class="mi">1</span>
+<a id="ln-14578" name="ln-14578" href="#ln-14578"></a><span class="w">   </span><span class="n">imax</span><span class="o">=</span><span class="n">arraysize</span>
+<a id="ln-14579" name="ln-14579" href="#ln-14579"></a><span class="w">   </span><span class="n">message</span><span class="o">=</span><span class="s1">''</span>
+<a id="ln-14580" name="ln-14580" href="#ln-14580"></a>
+<a id="ln-14581" name="ln-14581" href="#ln-14581"></a><span class="w">   </span><span class="n">LOOP</span><span class="p">:</span><span class="w"> </span><span class="k">block</span>
+<a id="ln-14582" name="ln-14582" href="#ln-14582"></a><span class="k">   do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">maxtry</span>
+<a id="ln-14583" name="ln-14583" href="#ln-14583"></a><span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="k">value</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="n">list</span><span class="p">(</span><span class="n">PLACE</span><span class="p">))</span><span class="k">then</span>
+<a id="ln-14584" name="ln-14584" href="#ln-14584"></a><span class="k">         exit </span><span class="n">LOOP</span>
+<a id="ln-14585" name="ln-14585" href="#ln-14585"></a><span class="w">      </span><span class="k">else if</span><span class="p">(</span><span class="k">value</span><span class="p">.</span><span class="n">gt</span><span class="p">.</span><span class="n">list</span><span class="p">(</span><span class="n">place</span><span class="p">))</span><span class="k">then</span>
+<a id="ln-14586" name="ln-14586" href="#ln-14586"></a><span class="k">         </span><span class="n">imax</span><span class="o">=</span><span class="n">place</span><span class="o">-</span><span class="mi">1</span>
+<a id="ln-14587" name="ln-14587" href="#ln-14587"></a><span class="w">      </span><span class="k">else</span>
+<a id="ln-14588" name="ln-14588" href="#ln-14588"></a><span class="k">         </span><span class="n">imin</span><span class="o">=</span><span class="n">place</span><span class="o">+</span><span class="mi">1</span>
+<a id="ln-14589" name="ln-14589" href="#ln-14589"></a><span class="w">      </span><span class="k">endif</span>
+<a id="ln-14590" name="ln-14590" href="#ln-14590"></a><span class="k">      if</span><span class="p">(</span><span class="n">imin</span><span class="p">.</span><span class="n">gt</span><span class="p">.</span><span class="n">imax</span><span class="p">)</span><span class="k">then</span>
+<a id="ln-14591" name="ln-14591" href="#ln-14591"></a><span class="k">         </span><span class="n">place</span><span class="o">=-</span><span class="n">imin</span>
+<a id="ln-14592" name="ln-14592" href="#ln-14592"></a><span class="w">         </span><span class="k">if</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">place</span><span class="p">).</span><span class="n">gt</span><span class="p">.</span><span class="n">arraysize</span><span class="p">)</span><span class="k">then</span><span class="w"> </span><span class="c">! ran off end of list. Where new value should go or an unsorted input array'</span>
+<a id="ln-14593" name="ln-14593" href="#ln-14593"></a><span class="w">            </span><span class="k">exit </span><span class="n">LOOP</span>
+<a id="ln-14594" name="ln-14594" href="#ln-14594"></a><span class="w">         </span><span class="k">endif</span>
+<a id="ln-14595" name="ln-14595" href="#ln-14595"></a><span class="k">         exit </span><span class="n">LOOP</span>
+<a id="ln-14596" name="ln-14596" href="#ln-14596"></a><span class="w">      </span><span class="k">endif</span>
+<a id="ln-14597" name="ln-14597" href="#ln-14597"></a><span class="k">      </span><span class="n">place</span><span class="o">=</span><span class="p">(</span><span class="n">imax</span><span class="o">+</span><span class="n">imin</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+<a id="ln-14598" name="ln-14598" href="#ln-14598"></a><span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">place</span><span class="p">.</span><span class="n">gt</span><span class="p">.</span><span class="n">arraysize</span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="n">place</span><span class="p">.</span><span class="n">le</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>
+<a id="ln-14599" name="ln-14599" href="#ln-14599"></a><span class="k">         </span><span class="n">message</span><span class="o">=</span><span class="s1">'*keyword_locate* error: search is out of bounds of list. Probably an unsorted input array'</span>
+<a id="ln-14600" name="ln-14600" href="#ln-14600"></a><span class="w">         </span><span class="n">error</span><span class="o">=-</span><span class="mi">1</span>
+<a id="ln-14601" name="ln-14601" href="#ln-14601"></a><span class="w">         </span><span class="k">exit </span><span class="n">LOOP</span>
+<a id="ln-14602" name="ln-14602" href="#ln-14602"></a><span class="w">      </span><span class="k">endif</span>
+<a id="ln-14603" name="ln-14603" href="#ln-14603"></a><span class="k">   enddo</span>
+<a id="ln-14604" name="ln-14604" href="#ln-14604"></a><span class="k">   </span><span class="n">message</span><span class="o">=</span><span class="s1">'*keyword_locate* exceeded allowed tries. Probably an unsorted input array'</span>
+<a id="ln-14605" name="ln-14605" href="#ln-14605"></a><span class="w">   </span><span class="k">endblock </span><span class="n">LOOP</span>
+<a id="ln-14606" name="ln-14606" href="#ln-14606"></a><span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">ier</span><span class="p">))</span><span class="k">then</span>
+<a id="ln-14607" name="ln-14607" href="#ln-14607"></a><span class="k">      </span><span class="n">ier</span><span class="o">=</span><span class="n">error</span>
+<a id="ln-14608" name="ln-14608" href="#ln-14608"></a><span class="w">   </span><span class="k">else if</span><span class="p">(</span><span class="n">error</span><span class="p">.</span><span class="n">ne</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>
+<a id="ln-14609" name="ln-14609" href="#ln-14609"></a><span class="k">      write</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="n">message</span><span class="o">//</span><span class="s1">' VALUE='</span><span class="p">,</span><span class="nb">trim</span><span class="p">(</span><span class="k">value</span><span class="p">)</span><span class="o">//</span><span class="s1">' PLACE='</span><span class="p">,</span><span class="n">place</span>
+<a id="ln-14610" name="ln-14610" href="#ln-14610"></a><span class="w">      </span><span class="k">stop </span><span class="mi">1</span>
+<a id="ln-14611" name="ln-14611" href="#ln-14611"></a><span class="w">   </span><span class="k">endif</span>
+<a id="ln-14612" name="ln-14612" href="#ln-14612"></a><span class="k">   if</span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">errmsg</span><span class="p">))</span><span class="k">then</span>
+<a id="ln-14613" name="ln-14613" href="#ln-14613"></a><span class="k">      </span><span class="n">errmsg</span><span class="o">=</span><span class="n">message</span>
+<a id="ln-14614" name="ln-14614" href="#ln-14614"></a><span class="w">   </span><span class="k">endif</span>
+<a id="ln-14615" name="ln-14615" href="#ln-14615"></a><span class="k">end subroutine </span><span class="n">keyword_locate</span>
+<a id="ln-14616" name="ln-14616" href="#ln-14616"></a>
+<a id="ln-14617" name="ln-14617" href="#ln-14617"></a><span class="k">subroutine </span><span class="n">keyword_remove</span><span class="p">(</span><span class="n">list</span><span class="p">,</span><span class="n">place</span><span class="p">)</span>
+<a id="ln-14618" name="ln-14618" href="#ln-14618"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">list</span><span class="p">(:)</span>
+<a id="ln-14619" name="ln-14619" href="#ln-14619"></a><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">place</span>
+<a id="ln-14620" name="ln-14620" href="#ln-14620"></a><span class="kt">integer</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="k">end</span>
+<a id="ln-14621" name="ln-14621" href="#ln-14621"></a><span class="k">   if</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="nb">allocated</span><span class="p">(</span><span class="n">list</span><span class="p">))</span><span class="k">then</span>
+<a id="ln-14622" name="ln-14622" href="#ln-14622"></a><span class="k">       allocate</span><span class="p">(</span><span class="n">list</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<a id="ln-14623" name="ln-14623" href="#ln-14623"></a><span class="w">   </span><span class="k">endif</span>
+<a id="ln-14624" name="ln-14624" href="#ln-14624"></a><span class="k">   end</span><span class="o">=</span><span class="n">size</span><span class="p">(</span><span class="n">list</span><span class="p">)</span>
+<a id="ln-14625" name="ln-14625" href="#ln-14625"></a><span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="n">place</span><span class="p">.</span><span class="n">le</span><span class="p">.</span><span class="mf">0.</span><span class="nb">or</span><span class="p">.</span><span class="n">place</span><span class="p">.</span><span class="n">gt</span><span class="p">.</span><span class="k">end</span><span class="p">)</span><span class="k">then</span><span class="w">                       </span><span class="c">! index out of bounds of array</span>
+<a id="ln-14626" name="ln-14626" href="#ln-14626"></a><span class="w">   </span><span class="k">elseif</span><span class="p">(</span><span class="n">place</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="k">end</span><span class="p">)</span><span class="k">then</span><span class="w">                                 </span><span class="c">! remove from array</span>
+<a id="ln-14627" name="ln-14627" href="#ln-14627"></a><span class="w">      </span><span class="n">list</span><span class="o">=</span><span class="p">[</span><span class="n">list</span><span class="p">(:</span><span class="n">place</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">]</span>
+<a id="ln-14628" name="ln-14628" href="#ln-14628"></a><span class="w">   </span><span class="k">else</span>
+<a id="ln-14629" name="ln-14629" href="#ln-14629"></a><span class="k">      </span><span class="n">list</span><span class="o">=</span><span class="p">[</span><span class="n">list</span><span class="p">(:</span><span class="n">place</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">list</span><span class="p">(</span><span class="n">place</span><span class="o">+</span><span class="mi">1</span><span class="p">:)</span><span class="w"> </span><span class="p">]</span>
+<a id="ln-14630" name="ln-14630" href="#ln-14630"></a><span class="w">   </span><span class="k">endif</span>
+<a id="ln-14631" name="ln-14631" href="#ln-14631"></a><span class="k">end subroutine </span><span class="n">keyword_remove</span>
+<a id="ln-14632" name="ln-14632" href="#ln-14632"></a>
+<a id="ln-14633" name="ln-14633" href="#ln-14633"></a><span class="k">subroutine </span><span class="n">keyword_replace</span><span class="p">(</span><span class="n">list</span><span class="p">,</span><span class="k">value</span><span class="p">,</span><span class="n">place</span><span class="p">)</span>
+<a id="ln-14634" name="ln-14634" href="#ln-14634"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="k">value</span>
+<a id="ln-14635" name="ln-14635" href="#ln-14635"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">list</span><span class="p">(:)</span>
+<a id="ln-14636" name="ln-14636" href="#ln-14636"></a><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">place</span>
+<a id="ln-14637" name="ln-14637" href="#ln-14637"></a><span class="kt">integer</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="n">tlen</span>
+<a id="ln-14638" name="ln-14638" href="#ln-14638"></a><span class="kt">integer</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="k">end</span>
+<a id="ln-14639" name="ln-14639" href="#ln-14639"></a><span class="k">   if</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="nb">allocated</span><span class="p">(</span><span class="n">list</span><span class="p">))</span><span class="k">then</span>
+<a id="ln-14640" name="ln-14640" href="#ln-14640"></a><span class="k">      allocate</span><span class="p">(</span><span class="n">list</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<a id="ln-14641" name="ln-14641" href="#ln-14641"></a><span class="w">   </span><span class="k">endif</span>
+<a id="ln-14642" name="ln-14642" href="#ln-14642"></a><span class="k">   </span><span class="n">tlen</span><span class="o">=</span><span class="nb">len_trim</span><span class="p">(</span><span class="k">value</span><span class="p">)</span>
+<a id="ln-14643" name="ln-14643" href="#ln-14643"></a><span class="w">   </span><span class="k">end</span><span class="o">=</span><span class="n">size</span><span class="p">(</span><span class="n">list</span><span class="p">)</span>
+<a id="ln-14644" name="ln-14644" href="#ln-14644"></a><span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="n">place</span><span class="p">.</span><span class="n">lt</span><span class="p">.</span><span class="mf">0.</span><span class="nb">or</span><span class="p">.</span><span class="n">place</span><span class="p">.</span><span class="n">gt</span><span class="p">.</span><span class="k">end</span><span class="p">)</span><span class="k">then</span>
+<a id="ln-14645" name="ln-14645" href="#ln-14645"></a><span class="k">       write</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'*replace* error: index out of range. end='</span><span class="p">,</span><span class="k">end</span><span class="p">,</span><span class="s1">' index='</span><span class="p">,</span><span class="n">place</span>
+<a id="ln-14646" name="ln-14646" href="#ln-14646"></a><span class="w">   </span><span class="k">else</span>
+<a id="ln-14647" name="ln-14647" href="#ln-14647"></a><span class="k">      </span><span class="n">list</span><span class="p">(</span><span class="n">place</span><span class="p">)</span><span class="o">=</span><span class="k">value</span>
+<a id="ln-14648" name="ln-14648" href="#ln-14648"></a><span class="k">   endif</span>
+<a id="ln-14649" name="ln-14649" href="#ln-14649"></a><span class="k">end subroutine </span><span class="n">keyword_replace</span>
+<a id="ln-14650" name="ln-14650" href="#ln-14650"></a>
+<a id="ln-14651" name="ln-14651" href="#ln-14651"></a><span class="k">subroutine </span><span class="n">keyword_insert</span><span class="p">(</span><span class="n">list</span><span class="p">,</span><span class="k">value</span><span class="p">,</span><span class="n">place</span><span class="p">)</span>
+<a id="ln-14652" name="ln-14652" href="#ln-14652"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="k">value</span>
+<a id="ln-14653" name="ln-14653" href="#ln-14653"></a><span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">list</span><span class="p">(:)</span>
+<a id="ln-14654" name="ln-14654" href="#ln-14654"></a><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">place</span>
+<a id="ln-14655" name="ln-14655" href="#ln-14655"></a><span class="kt">integer</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="k">end</span>
+<a id="ln-14656" name="ln-14656" href="#ln-14656"></a><span class="k">   if</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="nb">allocated</span><span class="p">(</span><span class="n">list</span><span class="p">))</span><span class="k">then</span>
+<a id="ln-14657" name="ln-14657" href="#ln-14657"></a><span class="k">      allocate</span><span class="p">(</span><span class="n">list</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<a id="ln-14658" name="ln-14658" href="#ln-14658"></a><span class="w">   </span><span class="k">endif</span>
+<a id="ln-14659" name="ln-14659" href="#ln-14659"></a><span class="k">   end</span><span class="o">=</span><span class="n">size</span><span class="p">(</span><span class="n">list</span><span class="p">)</span>
+<a id="ln-14660" name="ln-14660" href="#ln-14660"></a><span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="k">end</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="k">then</span><span class="w">                                          </span><span class="c">! empty array</span>
+<a id="ln-14661" name="ln-14661" href="#ln-14661"></a><span class="w">      </span><span class="n">list</span><span class="o">=</span><span class="p">[</span><span class="w"> </span><span class="k">value</span><span class="w"> </span><span class="p">]</span>
+<a id="ln-14662" name="ln-14662" href="#ln-14662"></a><span class="w">   </span><span class="k">elseif</span><span class="p">(</span><span class="n">place</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">1</span><span class="p">)</span><span class="k">then</span><span class="w">                                    </span><span class="c">! put in front of array</span>
+<a id="ln-14663" name="ln-14663" href="#ln-14663"></a><span class="w">      </span><span class="n">list</span><span class="o">=</span><span class="p">[</span><span class="k">value</span><span class="p">,</span><span class="w"> </span><span class="n">list</span><span class="p">]</span>
+<a id="ln-14664" name="ln-14664" href="#ln-14664"></a><span class="w">   </span><span class="k">elseif</span><span class="p">(</span><span class="n">place</span><span class="p">.</span><span class="n">gt</span><span class="p">.</span><span class="k">end</span><span class="p">)</span><span class="k">then</span><span class="w">                                  </span><span class="c">! put at end of array</span>
+<a id="ln-14665" name="ln-14665" href="#ln-14665"></a><span class="w">      </span><span class="n">list</span><span class="o">=</span><span class="p">[</span><span class="n">list</span><span class="p">,</span><span class="w"> </span><span class="k">value</span><span class="w"> </span><span class="p">]</span>
+<a id="ln-14666" name="ln-14666" href="#ln-14666"></a><span class="w">   </span><span class="k">elseif</span><span class="p">(</span><span class="n">place</span><span class="p">.</span><span class="n">ge</span><span class="p">.</span><span class="mf">2.</span><span class="nb">and</span><span class="p">.</span><span class="n">place</span><span class="p">.</span><span class="n">le</span><span class="p">.</span><span class="k">end</span><span class="p">)</span><span class="k">then</span><span class="w">                   </span><span class="c">! put in middle of array</span>
+<a id="ln-14667" name="ln-14667" href="#ln-14667"></a><span class="w">      </span><span class="n">list</span><span class="o">=</span><span class="p">[</span><span class="n">list</span><span class="p">(:</span><span class="n">place</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="k">value</span><span class="p">,</span><span class="n">list</span><span class="p">(</span><span class="n">place</span><span class="p">:)</span><span class="w"> </span><span class="p">]</span>
+<a id="ln-14668" name="ln-14668" href="#ln-14668"></a><span class="w">   </span><span class="k">else</span><span class="w">                                                      </span><span class="c">! index out of range</span>
+<a id="ln-14669" name="ln-14669" href="#ln-14669"></a><span class="w">      </span><span class="k">write</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'*keyword_insert* error: index out of range. end='</span><span class="p">,</span><span class="k">end</span><span class="p">,</span><span class="s1">' index='</span><span class="p">,</span><span class="n">place</span><span class="p">,</span><span class="s1">' value='</span><span class="p">,</span><span class="k">value</span>
+<a id="ln-14670" name="ln-14670" href="#ln-14670"></a><span class="k">   endif</span>
+<a id="ln-14671" name="ln-14671" href="#ln-14671"></a><span class="k">end subroutine </span><span class="n">keyword_insert</span>
 <a id="ln-14672" name="ln-14672" href="#ln-14672"></a><span class="c">!===================================================================================================================================</span>
-<a id="ln-14673" name="ln-14673" href="#ln-14673"></a><span class="k">end module </span><span class="n">M_unicode</span>
+<a id="ln-14673" name="ln-14673" href="#ln-14673"></a><span class="c">!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!</span>
+<a id="ln-14674" name="ln-14674" href="#ln-14674"></a><span class="c">!===================================================================================================================================</span>
+<a id="ln-14675" name="ln-14675" href="#ln-14675"></a><span class="k">end module </span><span class="n">M_unicode</span>
 </pre></div>
 
       </section>
@@ -14864,7 +14866,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-10-16 20:38 +0000             </p>
+ on 2026-10-16 21:42 +0000             </p>
           </div>
         </div>
         <br>
