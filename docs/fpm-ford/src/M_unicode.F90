@@ -7305,22 +7305,22 @@ end function index_char_str
 !!    integer,allocatable  :: codes(:)
 !!    integer              :: i, j, ikeep
 !!    integer,parameter    :: comb=2*int(z'308'), &
-!!     &  um_lower_a  =  2*int(z'E4'),       &
-!!     &  um_lower_o  =  2*int(z'F6'),       &
-!!     &  um_lower_u  =  2*int(z'FC'),       &
-!!     &  um_upper_a  =  2*int(z'C4'),       &
-!!     &  um_upper_o  =  2*int(z'D6'),       &
-!!     &  um_upper_u  =  2*int(z'DC'),       &
-!!     &  lower_a     =  2*ichar('a')+1,     &
-!!     &  lower_o     =  2*ichar('o')+1,     &
-!!     &  lower_u     =  2*ichar('u')+1,     &
-!!     &  upper_a     =  2*ichar('A')+1,     &
-!!     &  upper_o     =  2*ichar('O')+1,     &
-!!     &  upper_u     =  2*ichar('U')+1,     &
-!!     &  lower_beta  =  2*int(z'03b2'),     &
-!!     &  upper_beta  =  2*int(z'0392'),     &
-!!     &  lower_s     =  2*int(ichar('s')),  &
-!!     &  upper_s     =  2*int(ichar('S'))
+!!     &  um_lower_a    =  2*int(z'E4'),       &
+!!     &  um_lower_o    =  2*int(z'F6'),       &
+!!     &  um_lower_u    =  2*int(z'FC'),       &
+!!     &  um_upper_a    =  2*int(z'C4'),       &
+!!     &  um_upper_o    =  2*int(z'D6'),       &
+!!     &  um_upper_u    =  2*int(z'DC'),       &
+!!     &  lower_a       =  2*ichar('a')+1,     &
+!!     &  lower_o       =  2*ichar('o')+1,     &
+!!     &  lower_u       =  2*ichar('u')+1,     &
+!!     &  upper_a       =  2*ichar('A')+1,     &
+!!     &  upper_o       =  2*ichar('O')+1,     &
+!!     &  upper_u       =  2*ichar('U')+1,     &
+!!     &  lower_eszett  =  2*int(z'DF'),       &
+!!     &  upper_eszett  =  2*int(z'1E9E'),     &
+!!     &  lower_s       =  2*int(ichar('s')),  &
+!!     &  upper_s       =  2*int(ichar('S'))
 !!
 !!       ! if every letter is a beta and first letter is COMB
 !!       ! (which should not happen) longest index required would be
@@ -7341,10 +7341,10 @@ end function index_char_str
 !!              case(um_upper_a); codes(ikeep)=upper_a
 !!              case(um_upper_o); codes(ikeep)=upper_o
 !!              case(um_upper_u); codes(ikeep)=upper_u
-!!              case(lower_beta)
+!!              case(lower_eszett)
 !!                 codes(ikeep:ikeep+1)=lower_s
 !!                 ikeep=ikeep+1
-!!              case(upper_beta)
+!!              case(upper_eszett)
 !!                 codes(ikeep:ikeep+1)=upper_s
 !!                 ikeep=ikeep+1
 !!             end select
@@ -14283,12 +14283,12 @@ integer :: i
 !   Ä A\u0308 \xC4   LATIN CAPITAL LETTER WITH A DIAERESIS
 !   Ö O\u0308 \xD6   LATIN CAPITAL LETTER WITH O DIAERESIS
 !   Ü U\u0308 \xDC   LATIN CAPITAL LETTER WITH U DIAERESIS
-!   Β \u0392         GREEK CAPITAL LETTER BETA
+!   ß         \xDF   Latin Small Letter Sharp S
 !
 !   ä a\u0308 \xE4   LATIN SMALL LETTER A WITH DIAERESIS
 !   ö o\u0308 \xF6   LATIN SMALL LETTER O WITH DIAERESIS
 !   ü u\u0308 \xFC   LATIN SMALL LETTER U WITH DIAERESIS
-!   β \u03B2         GREEK SMALL LETTER BETA
+!   ẞ         \u1E9E Latin Capital Letter Sharp S
 !
    call keyword_update('Ae', expand_backslash('\xC4'),   unicode_type('Ae') )
    call keyword_update('Oe', expand_backslash('\xD6'),   unicode_type('Oe') )
@@ -14296,11 +14296,11 @@ integer :: i
    call keyword_update('AE', expand_backslash('\xC4'),   unicode_type('AE') )
    call keyword_update('OE', expand_backslash('\xD6'),   unicode_type('OE') )
    call keyword_update('UE', expand_backslash('\xDC'),   unicode_type('UE') )
-   call keyword_update('SS', expand_backslash('\u0392'), unicode_type('SS') )
+   call keyword_update('SS', expand_backslash('\u1E9E'), unicode_type('SS') )
    call keyword_update('ae', expand_backslash('\xE4'),   unicode_type('ae') )
    call keyword_update('oe', expand_backslash('\xF6'),   unicode_type('oe') )
    call keyword_update('ue', expand_backslash('\xFC'),   unicode_type('ue') )
-   call keyword_update('ss', expand_backslash('\u03B2'), unicode_type('ss') )
+   call keyword_update('ss', expand_backslash('\xDF'),   unicode_type('ss') )
    call keyword_update('bdquo', expand_backslash('\u201E'), unicode_type('"') )
    call keyword_update('ldquo', expand_backslash('\u201C'), unicode_type('"') )
 !
@@ -14310,12 +14310,19 @@ integer :: i
 ! Ä          &Auml;  &#196;      Capital A with umlaut / diaeresis
 ! Ö          &Ouml;  &#214;      Capital O with umlaut / diaeresis
 ! Ü          &Uuml;  &#220;      Capital U with umlaut / diaeresis
-! Β          &Beta;  &#914;      Greek capital letter beta
+! ẞ          &#x1e9e &#7838;     Latin Capital Letter Sharp S
 ! ä          &auml;  &#228;      Lowercase a with umlaut / diaeresis
 ! ö          &ouml;  &#246;      Lowercase o with umlaut / diaeresis
 ! ü          &uuml;  &#252;      Lowercase u with umlaut / diaeresis
-! β          &beta;  &#946;      Greek small letter beta
+! ß          &szlig; &#223;      Latin Small Letter Sharp S
 !
+!   Lowercase Eszett (ß):
+!       Unicode Codepoint: U+00DF (Latin Small Letter Sharp S)
+!       HTML Entity: &szlig; or &#223; or &#xDF;
+!   Capital Eszett (ẞ):
+!       Unicode Codepoint: U+1E9E (Latin Capital Letter Sharp S)
+!       HTML Entity: &#7838; or &#x1E9E;
+
 ! German guillemets (also known as angle quotation marks or Guillemet)
 !
 ! (Note: In German typography, guillemets are sometimes pointed inward

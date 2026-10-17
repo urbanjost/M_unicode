@@ -147,8 +147,8 @@
             <a class="list-group-item" href="../proc/normalize.html#variable-uo">UO</a>
             <a class="list-group-item" href="../proc/normalize.html#variable-uu~2">UU</a>
             <a class="list-group-item" href="../proc/normalize.html#variable-codes~8">codes</a>
-            <a class="list-group-item" href="../proc/normalize.html#variable-i~108">i</a>
-            <a class="list-group-item" href="../proc/normalize.html#variable-j~9">j</a>
+            <a class="list-group-item" href="../proc/normalize.html#variable-i~103">i</a>
+            <a class="list-group-item" href="../proc/normalize.html#variable-j~10">j</a>
             <a class="list-group-item" href="../proc/normalize.html#variable-multi">multi</a>
             <a class="list-group-item" href="../proc/normalize.html#variable-sub~2">sub</a>
             <a class="list-group-item" href="../proc/normalize.html#variable-sz">sz</a>
@@ -206,7 +206,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-in~7"></span>
+              <span class="anchor" id="variable-in~8"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -224,7 +224,7 @@
 
       <h3>Return Value
         <small>
-          <span class="anchor" id="variable-out~20"></span>
+          <span class="anchor" id="variable-out~21"></span>
           type(<a href='../type/unicode_type.html'>unicode_type</a>)
         </small>
       </h3>
@@ -484,7 +484,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~108"></span>
+              <span class="anchor" id="variable-i~103"></span>
               integer,
             </td>
               <td>public</td>
@@ -501,7 +501,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-j~9"></span>
+              <span class="anchor" id="variable-j~10"></span>
               integer,
             </td>
               <td>public</td>
@@ -705,17 +705,17 @@ parameter
 <span class="c">!    END WHERE</span>
 <span class="c">!=================================================================</span>
 <span class="w">   </span><span class="c">! substitute in 'ss' and 'SS'</span>
-<span class="w">   </span><span class="c">!    \u0382 = β (Greek small letter beta)</span>
-<span class="w">   </span><span class="c">!    \u0392 = Β (Greek capital letter beta)</span>
+<span class="w">   </span><span class="c">!    \DF    = ß (lower_eszett)</span>
+<span class="w">   </span><span class="c">!    \1E9E  = ẞ (upper_eszett)</span>
 <span class="w">   </span><span class="c">!</span>
 <span class="w">   </span><span class="k">do </span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span>
 
 <span class="w">      </span><span class="k">select case</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
 <span class="w">       </span><span class="k">case</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="w">         </span><span class="n">multi</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'03B2'</span><span class="p">)</span>
+<span class="w">         </span><span class="n">multi</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'DF'</span><span class="p">)</span>
 <span class="w">         </span><span class="n">sub</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="nb">ichar</span><span class="p">(</span><span class="s1">'s'</span><span class="p">))</span>
 <span class="w">       </span><span class="k">case</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="w">         </span><span class="n">multi</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'0392'</span><span class="p">)</span>
+<span class="w">         </span><span class="n">multi</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'1E9E'</span><span class="p">)</span>
 <span class="w">         </span><span class="n">sub</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="nb">ichar</span><span class="p">(</span><span class="s1">'S'</span><span class="p">))</span>
 <span class="w">       </span><span class="k">case </span><span class="n">default</span>
 <span class="w">         </span><span class="k">stop</span><span class="w"> </span><span class="s1">'*normalize* internal error: j out of range'</span>
@@ -763,7 +763,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-10-17 14:20 +0000             </p>
+ on 2026-10-17 15:27 +0000             </p>
           </div>
         </div>
         <br>

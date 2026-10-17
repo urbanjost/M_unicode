@@ -180,24 +180,24 @@ type(ut)             :: out
 integer,allocatable  :: codes(:)
 integer              :: i, j, ikeep
 integer,parameter    :: comb=2*int(z'308'), &
- &  um_lower_a  =  2*int(z'E4'),       &
- &  um_lower_o  =  2*int(z'F6'),       &
- &  um_lower_u  =  2*int(z'FC'),       &
- &  um_upper_a  =  2*int(z'C4'),       &
- &  um_upper_o  =  2*int(z'D6'),       &
- &  um_upper_u  =  2*int(z'DC'),       &
- &  lower_a     =  2*ichar('a')+1,     &
- &  lower_o     =  2*ichar('o')+1,     &
- &  lower_u     =  2*ichar('u')+1,     &
- &  upper_a     =  2*ichar('A')+1,     &
- &  upper_o     =  2*ichar('O')+1,     &
- &  upper_u     =  2*ichar('U')+1,     &
- &  lower_beta  =  2*int(z'03b2'),     &
- &  upper_beta  =  2*int(z'0392'),     &
- &  lower_s     =  2*int(ichar('s')),  &
- &  upper_s     =  2*int(ichar('S'))
+ &  um_lower_a    =  2*int(z'E4'),       &
+ &  um_lower_o    =  2*int(z'F6'),       &
+ &  um_lower_u    =  2*int(z'FC'),       &
+ &  um_upper_a    =  2*int(z'C4'),       &
+ &  um_upper_o    =  2*int(z'D6'),       &
+ &  um_upper_u    =  2*int(z'DC'),       &
+ &  lower_a       =  2*ichar('a')+1,     &
+ &  lower_o       =  2*ichar('o')+1,     &
+ &  lower_u       =  2*ichar('u')+1,     &
+ &  upper_a       =  2*ichar('A')+1,     &
+ &  upper_o       =  2*ichar('O')+1,     &
+ &  upper_u       =  2*ichar('U')+1,     &
+ &  lower_eszett  =  2*int(z'DF'),       &
+ &  upper_eszett  =  2*int(z'1E9E'),     &
+ &  lower_s       =  2*int(ichar('s')),  &
+ &  upper_s       =  2*int(ichar('S'))
 
-   ! if every letter is a beta and first letter is COMB
+   ! if every letter is a eszett and first letter is COMB
    ! (which should not happen) longest index required would be
    allocate(codes(0:2*size(in%codes)))
 
@@ -216,10 +216,10 @@ integer,parameter    :: comb=2*int(z'308'), &
           case(um_upper_a); codes(ikeep)=upper_a
           case(um_upper_o); codes(ikeep)=upper_o
           case(um_upper_u); codes(ikeep)=upper_u
-          case(lower_beta)
+          case(lower_eszett)
              codes(ikeep:ikeep+1)=lower_s
              ikeep=ikeep+1
-          case(upper_beta)
+          case(upper_eszett)
              codes(ikeep:ikeep+1)=upper_s
              ikeep=ikeep+1
          end select

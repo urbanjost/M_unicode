@@ -135,11 +135,11 @@ program demo_sort
 !    \xE4   = ä (Latin small letter a with diaeresis): U+00E4
 !    \xF6   = ö (Latin small letter o with diaeresis): U+00F6
 !    \xFC   = ü (Latin small letter u with diaeresis): U+00FC
-!    \u0382 = β (Greek small letter beta): U+03B2
+!    \DF    = ß (lower_eszett)
 !    \xC4   = Ä (Latin capital letter A with diaeresis): U+00C4
 !    \xD6   = Ö (Latin capital letter O with diaeresis): U+00D6
 !    \xDC   = Ü (Latin capital letter U with diaeresis): U+00DC
-!    \u0392 = Β (Greek capital letter beta): U+0392
+!    \1E9E  = ẞ (upper_eszett)
 !
 ! or equivalently
 !
@@ -299,17 +299,17 @@ integer,parameter    :: COMB=2*int(z'308'), &
 !    END WHERE
 !=================================================================
    ! substitute in 'ss' and 'SS'
-   !    \u0382 = β (Greek small letter beta)
-   !    \u0392 = Β (Greek capital letter beta)
+   !    \DF    = ß (lower_eszett)
+   !    \1E9E  = ẞ (upper_eszett)
    !
    do j=1,2
 
       select case(j)
        case(1)
-         multi=2*int(z'03B2')
+         multi=2*int(z'DF')
          sub=2*int(ichar('s'))
        case(2)
-         multi=2*int(z'0392')
+         multi=2*int(z'1E9E')
          sub=2*int(ichar('S'))
        case default
          stop '*normalize* internal error: j out of range'
@@ -345,7 +345,7 @@ integer,parameter    :: comb=2*int(z'308'), &
  &  um_upper_a=2*int(z'C4'),    um_upper_o=2*int(z'D6'),    um_upper_u=2*int(z'DC'),  &
  &  lower_a=2*ichar('a')+1,     lower_o=2*ichar('o')+1,     lower_u=2*ichar('u')+1,   &
  &  upper_a=2*ichar('A')+1,     upper_o=2*ichar('O')+1,     upper_u=2*ichar('U')+1,   &
- &  lower_beta=2*int(z'03b2'),  upper_beta=2*int(z'0392'),                            &                         
+ &  lower_eszett=2*int(z'df'),  upper_eszett=2*int(z'1e9e'),                              &                         
  &  lower_s=2*int(ichar('s')),  upper_s=2*int(ichar('S'))                             
 
    ! if every letter is a beta and first letter is COMB (which should not happen)
@@ -367,10 +367,10 @@ integer,parameter    :: comb=2*int(z'308'), &
          case(um_upper_a); codes(ikeep)=upper_a
          case(um_upper_o); codes(ikeep)=upper_o
          case(um_upper_u); codes(ikeep)=upper_u
-         case(lower_beta)
+         case(lower_eszett)
                codes(ikeep:ikeep+1)=lower_s
                ikeep=ikeep+1
-         case(upper_beta)
+         case(upper_eszett)
                codes(ikeep:ikeep+1)=upper_s
                ikeep=ikeep+1
          end select

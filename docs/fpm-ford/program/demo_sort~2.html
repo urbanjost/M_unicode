@@ -132,9 +132,9 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../program/demo_sort~2.html#variable-answer~11">answer</a>
-            <a class="list-group-item" href="../program/demo_sort~2.html#variable-g~15">g</a>
-            <a class="list-group-item" href="../program/demo_sort~2.html#variable-g0~4">g0</a>
-            <a class="list-group-item" href="../program/demo_sort~2.html#variable-i~117">i</a>
+            <a class="list-group-item" href="../program/demo_sort~2.html#variable-g~11">g</a>
+            <a class="list-group-item" href="../program/demo_sort~2.html#variable-g0~3">g0</a>
+            <a class="list-group-item" href="../program/demo_sort~2.html#variable-i~108">i</a>
             <a class="list-group-item" href="../program/demo_sort~2.html#variable-ii~8">ii</a>
             <a class="list-group-item" href="../program/demo_sort~2.html#variable-rr~2">rr</a>
         </div>
@@ -202,8 +202,8 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_fortran_env'>iso_fortran_env</a></li>
                   <li class="list-inline-item"><a href='../module/m_unicode.html'>M_unicode</a></li>
+                  <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_fortran_env'>iso_fortran_env</a></li>
               </ul>
             </li>
         </ul>
@@ -243,7 +243,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-g~15"></span>
+              <span class="anchor" id="variable-g~11"></span>
               character(len=*),
             </td>
             <td>
@@ -259,7 +259,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-g0~4"></span>
+              <span class="anchor" id="variable-g0~3"></span>
               character(len=*),
             </td>
             <td>
@@ -275,7 +275,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~117"></span>
+              <span class="anchor" id="variable-i~108"></span>
               integer
             </td>
             <td>
@@ -705,24 +705,24 @@ parameter
 <span class="kt">integer</span><span class="p">,</span><span class="k">allocatable</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">codes</span><span class="p">(:)</span>
 <span class="kt">integer</span><span class="w">              </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">ikeep</span>
 <span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">comb</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'308'</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">um_lower_a</span><span class="w">  </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'E4'</span><span class="p">),</span><span class="w">       </span><span class="p">&amp;</span>
-<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">um_lower_o</span><span class="w">  </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'F6'</span><span class="p">),</span><span class="w">       </span><span class="p">&amp;</span>
-<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">um_lower_u</span><span class="w">  </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'FC'</span><span class="p">),</span><span class="w">       </span><span class="p">&amp;</span>
-<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">um_upper_a</span><span class="w">  </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'C4'</span><span class="p">),</span><span class="w">       </span><span class="p">&amp;</span>
-<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">um_upper_o</span><span class="w">  </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'D6'</span><span class="p">),</span><span class="w">       </span><span class="p">&amp;</span>
-<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">um_upper_u</span><span class="w">  </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'DC'</span><span class="p">),</span><span class="w">       </span><span class="p">&amp;</span>
-<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">lower_a</span><span class="w">     </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">ichar</span><span class="p">(</span><span class="s1">'a'</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="w">     </span><span class="p">&amp;</span>
-<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">lower_o</span><span class="w">     </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">ichar</span><span class="p">(</span><span class="s1">'o'</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="w">     </span><span class="p">&amp;</span>
-<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">lower_u</span><span class="w">     </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">ichar</span><span class="p">(</span><span class="s1">'u'</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="w">     </span><span class="p">&amp;</span>
-<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">upper_a</span><span class="w">     </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">ichar</span><span class="p">(</span><span class="s1">'A'</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="w">     </span><span class="p">&amp;</span>
-<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">upper_o</span><span class="w">     </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">ichar</span><span class="p">(</span><span class="s1">'O'</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="w">     </span><span class="p">&amp;</span>
-<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">upper_u</span><span class="w">     </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">ichar</span><span class="p">(</span><span class="s1">'U'</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="w">     </span><span class="p">&amp;</span>
-<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">lower_beta</span><span class="w">  </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'03b2'</span><span class="p">),</span><span class="w">     </span><span class="p">&amp;</span>
-<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">upper_beta</span><span class="w">  </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'0392'</span><span class="p">),</span><span class="w">     </span><span class="p">&amp;</span>
-<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">lower_s</span><span class="w">     </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="nb">ichar</span><span class="p">(</span><span class="s1">'s'</span><span class="p">)),</span><span class="w">  </span><span class="p">&amp;</span>
-<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">upper_s</span><span class="w">     </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="nb">ichar</span><span class="p">(</span><span class="s1">'S'</span><span class="p">))</span>
+<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">um_lower_a</span><span class="w">    </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'E4'</span><span class="p">),</span><span class="w">       </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">um_lower_o</span><span class="w">    </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'F6'</span><span class="p">),</span><span class="w">       </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">um_lower_u</span><span class="w">    </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'FC'</span><span class="p">),</span><span class="w">       </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">um_upper_a</span><span class="w">    </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'C4'</span><span class="p">),</span><span class="w">       </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">um_upper_o</span><span class="w">    </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'D6'</span><span class="p">),</span><span class="w">       </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">um_upper_u</span><span class="w">    </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'DC'</span><span class="p">),</span><span class="w">       </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">lower_a</span><span class="w">       </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">ichar</span><span class="p">(</span><span class="s1">'a'</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="w">     </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">lower_o</span><span class="w">       </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">ichar</span><span class="p">(</span><span class="s1">'o'</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="w">     </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">lower_u</span><span class="w">       </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">ichar</span><span class="p">(</span><span class="s1">'u'</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="w">     </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">upper_a</span><span class="w">       </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">ichar</span><span class="p">(</span><span class="s1">'A'</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="w">     </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">upper_o</span><span class="w">       </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">ichar</span><span class="p">(</span><span class="s1">'O'</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="w">     </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">upper_u</span><span class="w">       </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">ichar</span><span class="p">(</span><span class="s1">'U'</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="w">     </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">lower_eszett</span><span class="w">  </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'DF'</span><span class="p">),</span><span class="w">       </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">upper_eszett</span><span class="w">  </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'1E9E'</span><span class="p">),</span><span class="w">     </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">lower_s</span><span class="w">       </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="nb">ichar</span><span class="p">(</span><span class="s1">'s'</span><span class="p">)),</span><span class="w">  </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="n">upper_s</span><span class="w">       </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="nb">ichar</span><span class="p">(</span><span class="s1">'S'</span><span class="p">))</span>
 
-<span class="w">   </span><span class="c">! if every letter is a beta and first letter is COMB</span>
+<span class="w">   </span><span class="c">! if every letter is a eszett and first letter is COMB</span>
 <span class="w">   </span><span class="c">! (which should not happen) longest index required would be</span>
 <span class="w">   </span><span class="k">allocate</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="o">*</span><span class="n">size</span><span class="p">(</span><span class="n">in</span><span class="p">%</span><span class="n">codes</span><span class="p">)))</span>
 
@@ -741,10 +741,10 @@ parameter
 <span class="w">          </span><span class="k">case</span><span class="p">(</span><span class="n">um_upper_a</span><span class="p">);</span><span class="w"> </span><span class="n">codes</span><span class="p">(</span><span class="n">ikeep</span><span class="p">)</span><span class="o">=</span><span class="n">upper_a</span>
 <span class="w">          </span><span class="k">case</span><span class="p">(</span><span class="n">um_upper_o</span><span class="p">);</span><span class="w"> </span><span class="n">codes</span><span class="p">(</span><span class="n">ikeep</span><span class="p">)</span><span class="o">=</span><span class="n">upper_o</span>
 <span class="w">          </span><span class="k">case</span><span class="p">(</span><span class="n">um_upper_u</span><span class="p">);</span><span class="w"> </span><span class="n">codes</span><span class="p">(</span><span class="n">ikeep</span><span class="p">)</span><span class="o">=</span><span class="n">upper_u</span>
-<span class="w">          </span><span class="k">case</span><span class="p">(</span><span class="n">lower_beta</span><span class="p">)</span>
+<span class="w">          </span><span class="k">case</span><span class="p">(</span><span class="n">lower_eszett</span><span class="p">)</span>
 <span class="w">             </span><span class="n">codes</span><span class="p">(</span><span class="n">ikeep</span><span class="p">:</span><span class="n">ikeep</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">=</span><span class="n">lower_s</span>
 <span class="w">             </span><span class="n">ikeep</span><span class="o">=</span><span class="n">ikeep</span><span class="o">+</span><span class="mi">1</span>
-<span class="w">          </span><span class="k">case</span><span class="p">(</span><span class="n">upper_beta</span><span class="p">)</span>
+<span class="w">          </span><span class="k">case</span><span class="p">(</span><span class="n">upper_eszett</span><span class="p">)</span>
 <span class="w">             </span><span class="n">codes</span><span class="p">(</span><span class="n">ikeep</span><span class="p">:</span><span class="n">ikeep</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">=</span><span class="n">upper_s</span>
 <span class="w">             </span><span class="n">ikeep</span><span class="o">=</span><span class="n">ikeep</span><span class="o">+</span><span class="mi">1</span>
 <span class="w">         </span><span class="k">end select</span>
@@ -781,7 +781,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-10-17 14:20 +0000             </p>
+ on 2026-10-17 15:27 +0000             </p>
           </div>
         </div>
         <br>
