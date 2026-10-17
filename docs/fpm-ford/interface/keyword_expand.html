@@ -176,7 +176,140 @@
     <div class="card-header codesum"><span class="anchor" id="proc-keyword_scalar_ut"></span> <h3>private  function keyword_scalar_ut(string) result(expanded)  
 </h3></div>
     <div class="card-body">
-        
+        <h2 id="name">NAME</h2>
+<div class="codehilite"><pre><span></span><code><span class="n">keyword_expand</span><span class="p">(</span><span class="mi">3</span><span class="n">f</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">[</span><span class="n">M_unicode</span><span class="o">]</span><span class="w"> </span><span class="n">substitute</span><span class="w"> </span><span class="n">HTML</span><span class="o">-</span><span class="ow">like</span><span class="w"> </span><span class="n">keywords</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">other</span><span class="w"> </span><span class="n">strings</span>
+<span class="p">(</span><span class="nl">LICENSE</span><span class="p">:</span><span class="n">MIT</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="synopsis">SYNOPSIS</h2>
+<div class="codehilite"><pre><span></span><code><span class="w">  </span><span class="k">function</span><span class="w"> </span><span class="nf">keyword_expand</span><span class="p">(</span>string<span class="p">)</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="p">(</span><span class="n">expanded</span><span class="p">)</span>
+
+<span class="w">    </span>!<span class="w"> </span><span class="n">scalar</span>
+<span class="w">    </span><span class="n">character</span><span class="p">(</span><span class="n">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="nb">string</span>
+<span class="w">    </span>!<span class="w"> </span><span class="n">or</span>
+<span class="w">    </span><span class="nb">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="nb">string</span>
+
+<span class="w">    </span>!<span class="w"> </span><span class="n">or</span><span class="w"> </span><span class="n">array</span>
+<span class="w">    </span><span class="n">character</span><span class="p">(</span><span class="n">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
+<span class="w">    </span>!<span class="w"> </span><span class="n">or</span>
+<span class="w">    </span><span class="nb">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
+
+<span class="w">    </span>!<span class="w"> </span><span class="n">output</span>
+<span class="w">    </span><span class="nb">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">             </span><span class="p">::</span><span class="w"> </span><span class="n">expanded</span>
+<span class="w">    </span>!<span class="w"> </span><span class="n">or</span><span class="w"> </span><span class="n">array</span>
+<span class="w">    </span><span class="nb">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="n">allocatable</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">expanded</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="description">DESCRIPTION</h2>
+<div class="codehilite"><pre><span></span><code>Strings of the form &lt;name&gt; are replaced with another string.
+Use this HTML-like syntax for purposes such as:
+
++  generate UTF-8 from ASCII-7 abbreviations or keywords.
+
+       in:   c=&lt;pi&gt;&lt;times&gt;d  a=&lt;pi&gt;&lt;times&gt;r&lt;S2&gt;
+       out:  c=π×d
+
++  expand custom acronyms or abbreviations
+
+       in:   &lt;DOE&gt;
+       out:  DOE(Department of Energy)
+
+By default all HTML entity names are predefined including Greek
+letters. Custom substitutions may be defined. The list of keywords
+and their substitution string may be dumped to stdout using
+keyword_mode(3f):
+
+    call keyword_mode(action='dump')
+
+More than one keyword may be enclosed. Numeric keywords are assumed
+to be Unicode codepoints.
+</code></pre></div>
+
+<h2 id="options">OPTIONS</h2>
+<div class="codehilite"><pre><span></span><code>string        case-sensitive input string  of form
+
+                  "arbitrary text&lt;keyword&gt;arbitrary text"
+</code></pre></div>
+
+<h2 id="output">OUTPUT</h2>
+<div class="codehilite"><pre><span></span><code>              A string with all "&lt;keyword&gt;" strings expanded
+              or optionally left as-is
+</code></pre></div>
+
+<h2 id="limitations">LIMITATIONS</h2>
+<div class="codehilite"><pre><span></span><code>o you should use "&lt;gt&gt;" and "&lt;lt&gt;" instead of "&gt;" and "&lt;" in an string
+  processed by keyword_expand(3f) so that the raw mode will create correct
+  input for the keyword_expand(3f) function if read back in.
+o keywords are case-sensitive
+</code></pre></div>
+
+<h2 id="examples">EXAMPLES</h2>
+<div class="codehilite"><pre><span></span><code>Sample<span class="w"> </span>program
+
+<span class="w"> </span>program<span class="w"> </span>demo_keyword
+<span class="w"> </span>use<span class="w"> </span>M_unicode,<span class="w"> </span>only<span class="w"> </span>:<span class="w"> </span>keyword_expand,<span class="w"> </span>keyword_mode,<span class="w"> </span>keyword_update
+<span class="w"> </span>use<span class="w"> </span>M_unicode,<span class="w"> </span>only<span class="w"> </span>:<span class="w"> </span>ch=&gt;character
+
+<span class="w">    </span>call<span class="w"> </span>printstuff('raw_mode')
+<span class="w">    </span>call<span class="w"> </span>printstuff('alias_mode')
+
+<span class="w">    </span>write(*,'(a)')<span class="w"> </span>'ADDING<span class="w"> </span>A<span class="w"> </span>CUSTOM<span class="w"> </span>SEQUENCE:'
+<span class="w">    </span>call<span class="w"> </span>keyword_update('blink',char(27)//'[5m','')
+<span class="w">    </span>call<span class="w"> </span>keyword_update('/blink',char(27)//'[25m','')
+<span class="w">    </span>write(*,'(a)')<span class="w"> </span>ch(keyword_expand('<span class="nt">&lt;blink&gt;</span>Items<span class="w"> </span>for<span class="w"> </span>Friday<span class="nt">&lt;/blink&gt;</span>'))
+
+<span class="w">    </span>write(*,'(a)')<span class="w"> </span>'DECIMAL<span class="w"> </span>NUMBERS<span class="w"> </span>AS<span class="w"> </span>WELL:'
+<span class="w">    </span>write(*,'(a)')<span class="w"> </span>ch(keyword_expand(<span class="err">&amp;</span>
+<span class="w">    </span>'decimal<span class="w"> </span>keywords<span class="w"> </span><span class="nt">&lt;119</span><span class="w"> </span><span class="err">79</span><span class="w"> </span><span class="err">114</span><span class="w"> </span><span class="err">107</span><span class="nt">&gt;</span><span class="w"> </span>as<span class="w"> </span>well'))
+
+<span class="w"> </span>contains
+<span class="w"> </span>subroutine<span class="w"> </span>printstuff(action)
+<span class="w"> </span>character(len=*),intent(in)<span class="w">  </span>::<span class="w"> </span>action
+<span class="w"> </span>character(len=:),allocatable<span class="w"> </span>::<span class="w"> </span>array(:)
+
+<span class="w">   </span>call<span class="w"> </span>keyword_mode(action=action)
+
+<span class="w">   </span>array=[character(len=60)<span class="w"> </span>::<span class="w"> </span><span class="err">&amp;</span>
+<span class="w">    </span>'Test<span class="w"> </span>the<span class="w"> </span>mode<span class="w"> </span>='//action,<span class="w">    </span><span class="err">&amp;</span>
+<span class="w">    </span>'c=<span class="nt">&lt;pi&gt;&lt;times&gt;</span>d',<span class="w">          </span><span class="err">&amp;</span>
+<span class="w">    </span>'a=<span class="nt">&lt;pi&gt;&lt;times&gt;</span>r<span class="nt">&lt;S2&gt;</span>',<span class="w">      </span><span class="err">&amp;</span>
+<span class="w">    </span>'<span class="nt">&lt;Delta&gt;&lt;delta&gt;</span>',<span class="w">          </span><span class="err">&amp;</span>
+<span class="w">    </span>'Copyright<span class="nt">&lt;copy&gt;</span>']
+
+<span class="w">   </span>write(*,'(a)')<span class="w"> </span>ch(keyword_expand(array))
+
+<span class="w"> </span>end<span class="w"> </span>subroutine<span class="w"> </span>printstuff
+<span class="w"> </span>end<span class="w"> </span>program<span class="w"> </span>demo_keyword
+</code></pre></div>
+
+<p>Results:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">&gt; </span><span class="ge">TEST ACTION=raw_mode</span>
+<span class="k">&gt; </span><span class="ge">c=&lt;pi&gt;&lt;times&gt;d</span>
+<span class="k">&gt; </span><span class="ge">a=&lt;pi&gt;&lt;times&gt;r&lt;S2&gt;</span>
+<span class="k">&gt; </span><span class="ge">&lt;Delta&gt;&lt;delta&gt;</span>
+<span class="k">&gt; </span><span class="ge">Copyright&lt;copy&gt;</span>
+
+<span class="k">&gt; </span><span class="ge">TEST ACTION=alias_mode</span>
+<span class="k">&gt; </span><span class="ge">c=π×d</span>
+<span class="k">&gt; </span><span class="ge">a=π×r²</span>
+<span class="k">&gt; </span><span class="ge">Δδ</span>
+<span class="k">&gt; </span><span class="ge">Copyright©</span>
+
+<span class="k">&gt; </span><span class="ge">ADDING A CUSTOM SEQUENCE:</span>
+<span class="k">&gt; </span><span class="ge">\e[5mItems for Friday\e[25m</span>
+</code></pre></div>
+
+<h2 id="author">AUTHOR</h2>
+<div class="codehilite"><pre><span></span><code>John S. Urban, 2021
+</code></pre></div>
+
+<h2 id="license">LICENSE</h2>
+<div class="codehilite"><pre><span></span><code>MIT
+</code></pre></div>
+
+<h2 id="see-also">SEE ALSO</h2>
+<div class="codehilite"><pre><span></span><code>keyword_mode(3f), keyword_update(3f)
+</code></pre></div>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -191,7 +324,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~66"></span>
+              <span class="anchor" id="variable-string~60"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -235,7 +368,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-strings~4"></span>
+              <span class="anchor" id="variable-strings~3"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -279,7 +412,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~67"></span>
+              <span class="anchor" id="variable-string~61"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -323,7 +456,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-strings~5"></span>
+              <span class="anchor" id="variable-strings~4"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -365,7 +498,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-10-17 01:58 +0000             </p>
+ on 2026-10-17 10:59 +0000             </p>
           </div>
         </div>
         <br>
