@@ -159,7 +159,6 @@
 !     add_html                         replace other than printable ASCII-7
 !                                      characters with HTML decimal codes
 ! 
-! 
 !     codepoints_to_utf8(codepoints,utf8,nerr)  subroutine to convert
 !                                               codepoints to UTF-8 bytes
 !     utf8_to_codepoints(utf8,codepoints,nerr)  subroutine to convert
@@ -559,7 +558,6 @@ end interface transliterate
 interface glob
    module procedure :: glob_uu, glob_ua, glob_aa, glob_au
 end interface glob
-
 
 ! INTRINSIC COMPATIBILITY
 interface adjustl;   module procedure :: adjustl_str;   end interface adjustl
@@ -5404,7 +5402,6 @@ integer                        :: lensum
 integer                        :: last_local
 integer                        :: nerr
 
-
    ! get max length in bytes (not glyphs)
    mx=0
    do i=1,size(string)
@@ -7315,7 +7312,6 @@ end function index_char_str
 ! 
 !    end program demo_sort
 ! 
-! 
 !   Results:
 ! 
 !     > sort array with sort(3f)
@@ -7728,7 +7724,6 @@ end subroutine sort_quick_rx
 ! DESCRIPTION
 !    reverse(string) returns a copy of the input string with all characters
 !    in reverse position on the line.
-! 
 ! 
 ! OPTIONS
 !     str    string to reverse
@@ -8393,7 +8388,6 @@ integer,allocatable            :: line(:)
              case default
                 write(*,*)'UNEXPECTED CONFIGURATION',i,j
             end select
-
 
          case('double')
             select case(isum)
@@ -11259,7 +11253,6 @@ isize=size(uline)
 
 end function add_backslash_u_ascii_arr
 
-
 function add_backslash_ascii_ascii_arr(line) result(aout)
 ! given array of strings return array of expanded character variables
 character(len=*),intent(in)  :: line(:)
@@ -13813,7 +13806,6 @@ end subroutine write_formatted
 !     end subroutine printstuff
 !     end program demo_keyword
 ! 
-! 
 !   Results:
 ! 
 !    > TEST ACTION=raw_mode
@@ -14189,6 +14181,41 @@ integer :: i
 ! ö          &ouml;  &#246;      Lowercase o with umlaut / diaeresis
 ! ü          &uuml;  &#252;      Lowercase u with umlaut / diaeresis
 ! β          &beta;  &#946;      Greek small letter beta
+!
+! German guillemets (also known as angle quotation marks or Guillemet)
+!
+! (Note: In German typography, guillemets are sometimes pointed inward
+! like »example« or outward like «example», with &raquo; and &laquo;
+! used respectively depending on the chosen style).
+!
+   call keyword_update('laquo',  expand_backslash('\xAB'),   unicode_type('"') )
+   call keyword_update('raquo',  expand_backslash('\xBB'),   unicode_type('"') )
+   call keyword_update('lsaquo', expand_backslash('\u2039'), unicode_type('"') )
+   call keyword_update('rsaquo', expand_backslash('\u203A'), unicode_type('"') )
+!
+! Double Guillemet HTML Codes
+!     Left guillemet («):
+!        Named entity: &laquo;
+!        Decimal entity: &#171;
+!        Hexadecimal entity: &#xAB;
+!
+!    Right guillemet (»):
+!        Named entity: &raquo;
+!        Decimal entity: &#187; (or &#175; depending on context/ASCII mapping)
+!        Hexadecimal entity: &#xBB;
+!
+! Single Guillemet HTML Codes
+!
+!    Single Left guillemet (‹):
+!        Named entity: &lsaquo;
+!        Decimal entity: &#8249;
+!        Hexadecimal entity: &#x2039;
+!
+!    Single Right guillemet (›):
+!        Named entity: &rsaquo;
+!        Decimal entity: &#8250;
+!        Hexadecimal entity: &#x203A;
+!
 !========================================================================================
 
 end subroutine keyword_load_defaults

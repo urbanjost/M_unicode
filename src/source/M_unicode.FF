@@ -24,17 +24,17 @@
 !    dictionary or alphabetical sorting order for localized languages.
 !    Perhaps add calls to C to use existing Locale-specific sorting.
 !
-! Complex Unicode handling limits: The library has limited 
+! Complex Unicode handling limits: The library has limited
 !    capability when it comes to complex Unicode features, specifically surrogate pairs,
 !    text directionality, and advanced text normalization.
 !
 ! NOTE: List-directed output constraints: Because the underlying Fortran
 !    compiler treats UTF-8 strings as raw 8-bit byte streams, list-directed
 !    output (*) is not safely supported for UTF-8 data, as it can split
-!    multi-byte characters across lines inappropriately if not using 
+!    multi-byte characters across lines inappropriately if not using
 !    ENCODE='UTF-8' mode on the OPEN statement, which is not supported
 !    by all compilers.
-! 
+!
 !  Text positioning and TUI capabilities such as with ncurses, terminfo, tput, ...
 !    although rudimentary terminal attributes are available via keyword substitution
 !    "<B y>yellow text on blue background <reset>".
@@ -160,7 +160,6 @@ SYNOPSIS
     add_html                         replace other than printable ASCII-7
                                      characters with HTML decimal codes
 
-
     codepoints_to_utf8(codepoints,utf8,nerr)  subroutine to convert
                                               codepoints to UTF-8 bytes
     utf8_to_codepoints(utf8,codepoints,nerr)  subroutine to convert
@@ -226,7 +225,7 @@ SYNOPSIS
                      strings and concatenate
 
    operator(//),     concatenate strings and character variables
-   operator(+)    
+   operator(+)
 
    SYSTEM
 
@@ -585,7 +584,6 @@ end interface transliterate
 interface glob
    module procedure :: glob_uu, glob_ua, glob_aa, glob_au
 end interface glob
-
 
 ! INTRINSIC COMPATIBILITY
 interface adjustl;   module procedure :: adjustl_str;   end interface adjustl
@@ -5464,7 +5462,6 @@ integer                        :: lensum
 integer                        :: last_local
 integer                        :: nerr
 
-
    ! get max length in bytes (not glyphs)
    mx=0
    do i=1,size(string)
@@ -5789,9 +5786,9 @@ EXAMPLES
       write(*,'(*(z0,1x))')string%codepoint()
       !
       ! it is important to remember ICHAR(3f) with an ASCII argument
-      ! is not overloaded so multibyte quoted characters will not 
+      ! is not overloaded so multibyte quoted characters will not
       ! produce the correct unicode value, only unicode_type variables
-      ! will, unless the compiler has an extension (eg. currently 
+      ! will, unless the compiler has an extension (eg. currently
       ! flang(1) will return 8364 but gfortran(1) will return 226) for
       ! the first call.
       write(*,'(a)')ichar('€'),ichar(ut('€'))]
@@ -7118,7 +7115,7 @@ DESCRIPTION
 
        abstract interface
           logical function unicode_comparator(str1, str2)
-	  ! true if str1 comes before or is equal to str2 else false
+          ! true if str1 comes before or is equal to str2 else false
              import :: unicode_type
              type(unicode_type), intent(in) :: str1, str2
           end function unicode_comparator
@@ -7205,20 +7202,20 @@ EXAMPLES
       print g,'reorder original'
       rr=rr(ii)
       print g,ch(rr)
-   
+
       print g,
       print g,'input for custom sort'
       rr=[ut("Banana"), ut("apple"), ut("Cherry"), ut("orange")]
       call print_output()
-   
+
       print g,  'convert to lower and sort (likely creating temp array)'
       call sort(lower(rr), ii )
       call print_output()
-   
+
       print g,  'Sort ignoring case by using custom rule'
       call sort(rr, ii, comparison_func=case_insensitive_compare)
       call print_output()
-   
+
       print g,  'Sort in German dictionary order using custom rule'
       ! A list of German words designed to test a dictionary
       rr=[ &
@@ -7243,7 +7240,7 @@ EXAMPLES
                                 ! combining dieresis modifier U+0308.
       !
       rr=expand_backslash(rr) ! convert escape codes to UTF-8
-   
+
       if(allocated(ii))deallocate(ii)  ! create index array
       allocate(ii(size(rr)))
       !
@@ -7258,7 +7255,7 @@ EXAMPLES
       print g,  'Sort using custom German dictionary order'
       call sort(rr, ii, comparison_func=german_dictionary)
       call print_output()
-   
+
       print g,  'Correct Order'
       answer=[ &
          ut("Apfel"),     &
@@ -7282,9 +7279,9 @@ EXAMPLES
       print g, ( trim(answer(i)%ch()),i=1,size(answer) )
       print g, 'CHECK TEST WORDS:',rr(ii).eq.answer
       print g, merge('PAssED','FAILED', all(rr(ii).eq.answer))
-   
+
    contains
-   
+
       subroutine print_output()
       character(len=:),allocatable :: output(:)
       integer                      :: i
@@ -7292,7 +7289,7 @@ EXAMPLES
          print g, ( trim(output(i)),i=1,size(output) )
          print g,
       end subroutine print_output
-   
+
       function case_insensitive_compare(str1, str2) result (answer)
       ! case-insensitive comparison
       type(unicode_type), intent(in) :: str1, str2
@@ -7340,11 +7337,11 @@ EXAMPLES
    !
    type(ut), intent(in) :: lhs, rhs
    logical              :: is_lle
-   
+
       is_lle = nmi(lhs) < nmi(rhs)
-   
+
    end function german_dictionary
-   
+
    function nmi(in) result (out)
    type(ut),intent(in)  :: in
    type(ut)             :: out
@@ -7367,11 +7364,11 @@ EXAMPLES
     &  upper_beta  =  2*int(z'0392'),     &
     &  lower_s     =  2*int(ichar('s')),  &
     &  upper_s     =  2*int(ichar('S'))
-   
+
       ! if every letter is a beta and first letter is COMB
       ! (which should not happen) longest index required would be
       allocate(codes(0:2*len(in)))
-   
+
       ikeep=0
       do concurrent ( i=1:len(in) )
          if(in%codes(i).eq.comb)then
@@ -7401,47 +7398,46 @@ EXAMPLES
       ! only because needed some method of telling if an A,O,U used to
       ! have an umlaut
       out=codes(1:ikeep)
-   
-   end function nmi
-   
-   end program demo_sort
 
+   end function nmi
+
+   end program demo_sort
 
   Results:
 
     > sort array with sort(3f)
     > original order
-    > the   quick brown fox  
+    > the   quick brown fox
     > sorted order
     > 001 brown
     > 002 fox
     > 003 quick
     > 004 the
     > reorder original
-    > brown fox   quick the  
-    > 
+    > brown fox   quick the
+    >
     > input for custom sort
     > Cherry orange apple Banana
-    > 
+    >
     > convert to lower and sort (likely creating temp array)
     > apple Banana Cherry orange
-    > 
+    >
     > Sort ignoring case by using custom rule
     > apple Banana Cherry orange
-    > 
+    >
     > Sort in German dictionary order using custom rule
     > original order
     > Band Buße Öl Ufer Apfel Oase Bus Möve Bär Zebra Mutter Bussard
     > Äpfel Mond Mütter Übung Fähnlein Fähnlein
-    > 
+    >
     > Sort using default Unicode rule for comparison
     > Apfel Band Bus Bussard Buße Bär Fähnlein Fähnlein Mond Mutter
     > Möve Mütter Oase Ufer Zebra Äpfel Öl Übung
-    > 
+    >
     > Sort using custom German dictionary order
     > Apfel Äpfel Band Bär Bus Bussard Buße Fähnlein Fähnlein Mond
     > Möve Mutter Mütter Oase Öl Ufer Übung Zebra
-    > 
+    >
     > Correct Order
     > Apfel Äpfel Band Bär Bus Bussard Buße Fähnlein Fähnlein Mond
     > Möve Mutter Mütter Oase Öl Ufer Übung Zebra
@@ -7633,7 +7629,7 @@ end subroutine sort_quick_rx_custom
 $!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 subroutine sort_quick_rx(data,indx)
 
-$@(#) M_unicode::sort_quick_rx(3f): indexed hybrid quicksort of a type(unicode_type) array 
+$@(#) M_unicode::sort_quick_rx(3f): indexed hybrid quicksort of a type(unicode_type) array
 
 type(unicode_type),intent(in)   :: data(:)
 integer(kind=int32),intent(out) :: indx(:)
@@ -7823,7 +7819,6 @@ SYNOPSIS
 DESCRIPTION
    reverse(string) returns a copy of the input string with all characters
    in reverse position on the line.
-
 
 OPTIONS
     str    string to reverse
@@ -8496,7 +8491,6 @@ integer,allocatable            :: line(:)
              case default
                 write(*,*)'UNEXPECTED CONFIGURATION',i,j
             end select
-
 
          case('double')
             select case(isum)
@@ -11401,7 +11395,6 @@ isize=size(uline)
 
 end function add_backslash_u_ascii_arr
 
-
 function add_backslash_ascii_ascii_arr(line) result(aout)
 ! given array of strings return array of expanded character variables
 character(len=*),intent(in)  :: line(:)
@@ -14082,7 +14075,6 @@ EXAMPLES
     end subroutine printstuff
     end program demo_keyword
 
-
   Results:
 
    > TEST ACTION=raw_mode
@@ -14450,7 +14442,7 @@ integer :: i
    call keyword_update('ldquo', expand_backslash('\u201C'), unicode_type('"') )
 !
 ! Character  Entity  Numeric     Description / Unicode
-!            Name    (Decimal)                           
+!            Name    (Decimal)
 !
 ! Ä          &Auml;  &#196;      Capital A with umlaut / diaeresis
 ! Ö          &Ouml;  &#214;      Capital O with umlaut / diaeresis
@@ -14460,6 +14452,41 @@ integer :: i
 ! ö          &ouml;  &#246;      Lowercase o with umlaut / diaeresis
 ! ü          &uuml;  &#252;      Lowercase u with umlaut / diaeresis
 ! β          &beta;  &#946;      Greek small letter beta
+!
+! German guillemets (also known as angle quotation marks or Guillemet)
+!
+! (Note: In German typography, guillemets are sometimes pointed inward
+! like »example« or outward like «example», with &raquo; and &laquo;
+! used respectively depending on the chosen style).
+!
+   call keyword_update('laquo',  expand_backslash('\xAB'),   unicode_type('"') )
+   call keyword_update('raquo',  expand_backslash('\xBB'),   unicode_type('"') )
+   call keyword_update('lsaquo', expand_backslash('\u2039'), unicode_type('"') )
+   call keyword_update('rsaquo', expand_backslash('\u203A'), unicode_type('"') )
+!
+! Double Guillemet HTML Codes
+!     Left guillemet («):
+!        Named entity: &laquo;
+!        Decimal entity: &#171;
+!        Hexadecimal entity: &#xAB;
+!
+!    Right guillemet (»):
+!        Named entity: &raquo;
+!        Decimal entity: &#187; (or &#175; depending on context/ASCII mapping)
+!        Hexadecimal entity: &#xBB;
+!
+! Single Guillemet HTML Codes
+!
+!    Single Left guillemet (‹):
+!        Named entity: &lsaquo;
+!        Decimal entity: &#8249;
+!        Hexadecimal entity: &#x2039;
+!
+!    Single Right guillemet (›):
+!        Named entity: &rsaquo;
+!        Decimal entity: &#8250;
+!        Hexadecimal entity: &#x203A;
+!
 !========================================================================================
 
 end subroutine keyword_load_defaults
