@@ -118,7 +118,7 @@ The return value is a string variable of type(unicode_type)
 
 </A>
 <BLOCKQUOTE>
-adjustl(3) will left-justify a string by removing leading spaces. Spaces
+adjustl(3f) will left-justify a string by removing leading spaces. Spaces
 are inserted at the end of the string as needed to keep the number of
 glyphs on output the same as the number on input unless overridden by
 the GLYPHS parameter.
@@ -176,10 +176,10 @@ Sample program:
       write(*,adt) &#146;original: &#146;,usample
     !
     ! note a string stays the same length
-    ! and is not trimmed by just an adjustl(3) call.
+    ! and is not trimmed by just an adjustl(3f) call.
       write(*,adt) &#146;adjusted: &#146;,adjustl(usample)
     !
-    ! a fixed‐length string can be trimmed using trim(3)
+    ! a fixed‐length string can be trimmed using trim(3f)
       uout=trim(adjustl(usample))
       write(*,adt) &#146;trimmed:  &#146;,uout
     !

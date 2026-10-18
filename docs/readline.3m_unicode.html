@@ -174,7 +174,7 @@ Sample program:
       rewind(unit=lun)
       do
          ln=readline(lun,iostat=iostat)
-         if(iostat.ne.0)exit
+         if(iostat /= 0)exit
          ! write the glyph length, byte length, line in brackets
          write(*,&#146;(i4,1x,i4,1x,a)&#146;)len(ln),len(ch(ln)),&#146;[&#146;//ch(ln)//&#146;]&#146;
       enddo
@@ -184,7 +184,7 @@ Sample program:
       rewind(unit=lun)
       do
          ln=readline(lun,iostat=iostat)
-         if(iostat.ne.0)exit
+         if(iostat /= 0)exit
          ! assign the string to an allocatable array of integers
          ints=ln
          ! and the string to a character variable
@@ -197,8 +197,8 @@ Sample program:
       rewind(unit=lun)
       do
          ln=readline(lun,iostat=iostat)
-         if(iostat.ne.0)exit
-         if(len(ln).eq.0)then
+         if(iostat /= 0)exit
+         if(len(ln) == 0)then
             write(*,&#146;(/,10(g0,1x)," &#46;&#46;&#46;")&#146;)[0,0]
          else
             write(*,&#146;(/,10(g0,1x)," &#46;&#46;&#46;")&#146;)ln%codepoint()
@@ -210,10 +210,10 @@ Sample program:
       rewind(unit=lun)
       do
          ln=readline(lun,iostat=iostat)
-         if(iostat.ne.0)exit
+         if(iostat /= 0)exit
          ! assign the string to an allocatable array of integers
          ints=ln
-         if(size(ints).eq.0)ints=[0,0]
+         if(size(ints) == 0)ints=[0,0]
          write(*,&#146;(/,10(g0,1x)," &#46;&#46;&#46;")&#146;)ints
       enddo
       call checkit()

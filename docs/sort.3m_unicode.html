@@ -77,11 +77,12 @@ an array
 </A>
 <BLOCKQUOTE>
 <P>
-subroutine sort(data,index)
+subroutine sort(data,index,comparison_func)
 <P>
 <PRE>
-          type(unicode_type),intent(in) :: data(:)
-          integer,intent(out)           :: indx(size(data))
+        type(unicode_type),intent(in)           :: data(:)
+        integer,intent(out)                     :: indx(size(data))
+        procedure(unicode_comparator), optional :: comparison_func
 <P>
 </PRE>
 </BLOCKQUOTE>
@@ -95,10 +96,32 @@ A rank hybrid quicksort. The data is not moved. An integer array is
 generated instead with values that are indices to the sorted order
 of the data. This requires a second array the size of the input
 array, which for large arrays would require a significant amount of
-memory. One major advantage of this method is that the indices can
-be used to access an entire user-defined type in sorted order. This
-makes this seemingly simple sort procedure usable with the vast
-majority of user-defined types. or other correlated data.
+memory. One major advantage of this method is that the indices can be
+used to access an entire user-defined type in sorted order. This makes
+this seemingly simple sort procedure usable with the vast majority
+of user-defined types. or other correlated data.
+<P>
+By default data is sorted according to the Unicode codepoint values of
+the characters. A user-supplied comparison function may be supplied
+<TABLE cellpadding=3><!-- tsb: By default data is sorted according to the Unicode codepoint values of
+ -->
+<TR></TR><TR></TR>
+<TR valign=top><TD colspan=2>
+<B>if another order is required.</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+A custom collation function must take
+two values and return a logical value:
+</TD></TR>
+<TR></TR></TABLE><!-- .nf -->
+<PRE>
+       abstract interface
+          logical function unicode_comparator(str1, str2)
+          ! true if str1 comes before or is equal to str2 else false
+             import :: unicode_type
+             type(unicode_type), intent(in) :: str1, str2
+          end function unicode_comparator
+       end interface
+<P>
+</PRE>
 </BLOCKQUOTE>
 <A name=3>
 
@@ -124,7 +147,7 @@ DATA arranged in ascending order. Thus,
 The original data is not physically rearranged. The original order
 of equal input values is not necessarily preserved.
 <P>
-sort(3f) uses a hybrid QuickSort algorithm, based on several
+SORT(3f) uses a hybrid QuickSort algorithm, based on several
 suggestions in Knuth, Volume 3, Section 5.2.2. In particular, the
 "pivot key" [my term] for dividing each subsequence is chosen to be
 the median of the first, last, and middle values of the subsequence;
@@ -174,58 +197,292 @@ type(unicode_type) version JSU 2025-09-20. See M_sort for other types.
 </A>
 <BLOCKQUOTE>
 <P>
+Note that the custom German dictionary collate function found below
+is just a sample, and likely to be quite slow.
+<P>
 Sample usage:
 <P>
 <PRE>
    program demo_sort
    use iso_fortran_env, only : stdout =&gt; output_unit
-   use M_unicode,       only : sort, unicode_type, assignment(=)
+   use M_unicode,       only : unicode_type
    use M_unicode,       only : ut=&gt;unicode_type, write(formatted)
    use M_unicode,       only : ch=&gt;character
+   use M_unicode,       only : lower, sort, expand_backslash, len
+   use M_unicode,       only : operator(&lt;), assignment(=), operator(==)
    implicit none
-   character(len=*),parameter :: g=&#146;(*(g0,1x))&#146;
-   integer,parameter          :: isz=4
-   type(unicode_type)         :: rr(isz)
-   integer                    :: ii(isz)
-   integer                    :: i
+   character(len=*),parameter :: g=&#146;(*(g0,1x))&#146;, g0=&#146;(g0)&#146;
+   type(unicode_type),allocatable :: rr(:)
+   type(unicode_type),allocatable :: answer(:)
+   integer,allocatable            :: ii(:)
+   integer                        :: i
       !
-      write(stdout,g)&#146;sort array with sort(3f)&#146;
+      print g,&#146;sort array with sort(3f)&#146;
       rr=[ &
-       ut("the"),   &
-       ut("quick"), &
-       ut("brown"), &
-       ut("fox") ]
+         ut("the"),   &
+         ut("quick"), &
+         ut("brown"), &
+         ut("fox") ]
+      allocate(ii(size(rr)))
       !
-      write(stdout,g)&#146;original order&#146;
-      write(stdout,g)ch(rr)
+      print g,&#146;original order&#146;
+      print g,ch(rr)
       !
       call sort(rr,ii)
       !
-      write(stdout,g)&#146;sorted order&#146;
+      print g,&#146;sorted order&#146;
       ! convert to character
       do i=1,size(rr)
          write(stdout,&#146;(i3.3,1x,a)&#146;)i,rr(ii(i))%character()
       enddo
       !
-      write(stdout,g)&#146;reorder original&#146;
+      print g,&#146;reorder original&#146;
       rr=rr(ii)
-      write(stdout,g)ch(rr)
+      print g,ch(rr)
+<P>
+      print g
+      print g,&#146;input for custom sort&#146;
+      rr=[ut("Banana"), ut("apple"), ut("Cherry"), ut("orange")]
+      call print_output()
+<P>
+      print g,  &#146;convert to lower and sort (likely creating temp array)&#146;
+      call sort(lower(rr), ii )
+      call print_output()
+<P>
+      print g,  &#146;Sort ignoring case by using custom rule&#146;
+      call sort(rr, ii, comparison_func=case_insensitive_compare)
+      call print_output()
+<P>
+      print g,  &#146;Sort in German dictionary order using custom rule&#146;
+      ! A list of German words designed to test a dictionary
+      rr=[ &
+         ut("Band"),        & ! (Standard B)
+         ut("Buße"),        & ! (Contains ß — often sorted as &#146;ss&#146;)
+         ut("Öl"),          & ! (Umlaut Ö at the start)
+         ut("Ufer"),        & ! (Standard U)
+         ut("Apfel"),       & ! (Standard A)
+         ut("Oase"),        & ! (Standard O)
+         ut("Bus"),         & ! (Standard B)
+         ut("Möve"),        & ! (Umlaut Ö)
+         ut("Bär"),         & ! (Umlaut Ä in the middle)
+         ut("Zebra"),       & ! (Standard Z)
+         ut("Mutter"),      & ! (Standard M)
+         ut("Bussard"),     & ! (Standard double &#146;s&#146; comparison with ß)
+         ut("Äpfel"),       & ! (Umlaut Ä )
+         ut("Mond"),        & ! (Standard M)
+         ut("Mütter"),      & ! (Umlaut Ü)
+         ut("Übung"),       & ! (Umlaut Ü at the start)
+         ut("F\xE4hnlein"), &   ! (Same word using Unicode codepoint
+         ut("Fa\u0308hnlein") ] ! and Latin letter followed by
+                                ! combining dieresis modifier U+0308.
+      !
+      rr=expand_backslash(rr) ! convert escape codes to UTF-8
+<P>
+      if(allocated(ii))deallocate(ii)  ! create index array
+      allocate(ii(size(rr)))
+      !
+      print g,&#146;original order&#146;
+      print g, ( trim(rr(i)%ch()),i=1,size(rr) )
+      print g
+      !
+      print g,  &#146;Sort using default Unicode rule for comparison&#146;
+      call sort(rr, ii)
+      call print_output()
+      !
+      print g,  &#146;Sort using custom German dictionary order&#146;
+      call sort(rr, ii, comparison_func=german_dictionary)
+      call print_output()
+<P>
+      print g,  &#146;Correct Order&#146;
+      answer=[ &
+         ut("Apfel"),     &
+         ut("Äpfel"),     &
+         ut("Band"),      &
+         ut("Bär"),       &
+         ut("Bus"),       &
+         ut("Bussard"),   &
+         ut("Buße"),      &
+         ut("Fähnlein"),  &
+         ut("Fähnlein"),  &
+         ut("Mond"),      &
+         ut("Möve"),      &
+         ut("Mutter"),    &
+         ut("Mütter"),    &
+         ut("Oase"),      &
+         ut("Öl"),        &
+         ut("Ufer"),      &
+         ut("Übung"),     &
+         ut("Zebra")      ]
+      print g, ( trim(answer(i)%ch()),i=1,size(answer) )
+      print g, &#146;CHECK TEST WORDS:&#146;,rr(ii) == answer
+      print g, merge(&#146;PAssED&#146;,&#146;FAILED&#146;, all(rr(ii) == answer))
+<P>
+   contains
+<P>
+      subroutine print_output()
+      character(len=:),allocatable :: output(:)
+      integer                      :: i
+         output=rr(ii)
+         print g, ( trim(output(i)),i=1,size(output) )
+         print g
+      end subroutine print_output
+<P>
+      function case_insensitive_compare(str1, str2) result (answer)
+      ! case-insensitive comparison
+      type(unicode_type), intent(in) :: str1, str2
+      logical                        :: answer
+         answer = lower(str1) &lt; lower(str2)
+      end function case_insensitive_compare
+   !
+   ! German dictionaries follow specific guidelines
+   ! for sorting umlauts (ä, ö, ü) and the eszett (β).
+   !
+   ! Standard Dictionary Rules (DIN 5007-1, Variant 1)
+   !
+   ! In traditional German dictionaries, words with umlauts are treated as
+   ! their base vowels and the letter β is treated as ss. That is &#46;&#46;&#46;
+   !
+   !     Amlausts:
+   !         ä is sorted as a
+   !         ö is sorted as o
+   !         ü is sorted as u
+   !     Eszett:
+   !         β is sorted as ss
+   !
+   !  along with a similar exchange for their uppercase cases.
+   !
+   !  If normalized words are identical, the umlaut comes second.
+   !
+   !  The multibyte characters with an umlaut may be a single Unicode
+   !  codepoint or the associated Latin character followed by the
+   !  combining dieresis modifier U+0308.
+   !
+   ! Note for reference that depending on the context (such as phone books
+   ! or digital systems), other official standards apply:
+   !
+   !   + Phone Book Rules (DIN 5007-1, Variant 2): Umlauts are expanded by
+   !     adding an e after the vowel (ä = ae, ö = oe, ü = ue). As in Variant
+   !     1 the letter β is treated as ss.
+   !
+   !   + Strict / Character-by-Character Order: Some systems or older indexes
+   !     place umlauts right after their base letter as separate characters
+   !     (a, ä, b, c&#46;&#46;&#46;).
+   !
+   function german_dictionary(lhs, rhs) result(is_lle)
+   !
+   ! @(#) Lexically compare two strings using German dictionary order
+   !
+   type(ut), intent(in) :: lhs, rhs
+   logical              :: is_lle
+<P>
+      is_lle = nmi(lhs) &lt; nmi(rhs)
+<P>
+   end function german_dictionary
+<P>
+   function nmi(in) result (out)
+   type(ut),intent(in)  :: in
+   type(ut)             :: out
+   integer,allocatable  :: codes(:)
+   integer              :: i, j, ikeep
+   integer,parameter    :: comb=2*int(z&#146;308&#146;), &
+    &  um_lower_a    =  2*int(z&#146;E4&#146;),       &
+    &  um_lower_o    =  2*int(z&#146;F6&#146;),       &
+    &  um_lower_u    =  2*int(z&#146;FC&#146;),       &
+    &  um_upper_a    =  2*int(z&#146;C4&#146;),       &
+    &  um_upper_o    =  2*int(z&#146;D6&#146;),       &
+    &  um_upper_u    =  2*int(z&#146;DC&#146;),       &
+    &  lower_a       =  2*ichar(&#146;a&#146;)+1,     &
+    &  lower_o       =  2*ichar(&#146;o&#146;)+1,     &
+    &  lower_u       =  2*ichar(&#146;u&#146;)+1,     &
+    &  upper_a       =  2*ichar(&#146;A&#146;)+1,     &
+    &  upper_o       =  2*ichar(&#146;O&#146;)+1,     &
+    &  upper_u       =  2*ichar(&#146;U&#146;)+1,     &
+    &  lower_eszett  =  2*int(z&#146;DF&#146;),       &
+    &  upper_eszett  =  2*int(z&#146;1E9E&#146;),     &
+    &  lower_s       =  2*int(ichar(&#146;s&#146;)),  &
+    &  upper_s       =  2*int(ichar(&#146;S&#146;))
+<P>
+      ! if every letter is a beta and first letter is COMB
+      ! (which should not happen) longest index required would be
+      allocate(codes(0:2*len(in)))
+<P>
+      ikeep=0
+      do concurrent ( i=1:len(in) )
+         if(in%codes(i) == comb)then
+            codes(ikeep)=codes(ikeep)+1
+         else
+            ikeep=ikeep+1
+            codes(ikeep)=in%codes(i)*2
+            select case(codes(ikeep))
+             case(:127*2)
+             case(um_lower_a); codes(ikeep)=lower_a
+             case(um_lower_o); codes(ikeep)=lower_o
+             case(um_lower_u); codes(ikeep)=lower_u
+             case(um_upper_a); codes(ikeep)=upper_a
+             case(um_upper_o); codes(ikeep)=upper_o
+             case(um_upper_u); codes(ikeep)=upper_u
+             case(lower_eszett)
+                codes(ikeep:ikeep+1)=lower_s
+                ikeep=ikeep+1
+             case(upper_eszett)
+                codes(ikeep:ikeep+1)=upper_s
+                ikeep=ikeep+1
+            end select
+         endif
+      enddo
+      ! codes are no longer valid Unicode codepoints for the input but
+      ! can be used to compare lexically to another normalized value
+      ! only because needed some method of telling if an A,O,U used to
+      ! have an umlaut
+      out=codes(1:ikeep)
+<P>
+   end function nmi
+<P>
    end program demo_sort
 <P>
 </PRE>
 Results:
 <P>
 <PRE>
-   &gt; sort array with sort(3f)
-   &gt; original order
-   &gt; the quick brown fox
-   &gt; sorted order
-   &gt; 001 brown
-   &gt; 002 fox
-   &gt; 003 quick
-   &gt; 004 the
-   &gt; reorder original
-   &gt; brown fox quick the
+    &gt; sort array with sort(3f)
+    &gt; original order
+    &gt; the   quick brown fox
+    &gt; sorted order
+    &gt; 001 brown
+    &gt; 002 fox
+    &gt; 003 quick
+    &gt; 004 the
+    &gt; reorder original
+    &gt; brown fox   quick the
+    &gt;
+    &gt; input for custom sort
+    &gt; Cherry orange apple Banana
+    &gt;
+    &gt; convert to lower and sort (likely creating temp array)
+    &gt; apple Banana Cherry orange
+    &gt;
+    &gt; Sort ignoring case by using custom rule
+    &gt; apple Banana Cherry orange
+    &gt;
+    &gt; Sort in German dictionary order using custom rule
+    &gt; original order
+    &gt; Band Buße Öl Ufer Apfel Oase Bus Möve Bär Zebra Mutter Bussard
+    &gt; Äpfel Mond Mütter Übung Fähnlein Fähnlein
+    &gt;
+    &gt; Sort using default Unicode rule for comparison
+    &gt; Apfel Band Bus Bussard Buße Bär Fähnlein Fähnlein Mond Mutter
+    &gt; Möve Mütter Oase Ufer Zebra Äpfel Öl Übung
+    &gt;
+    &gt; Sort using custom German dictionary order
+    &gt; Apfel Äpfel Band Bär Bus Bussard Buße Fähnlein Fähnlein Mond
+    &gt; Möve Mutter Mütter Oase Öl Ufer Übung Zebra
+    &gt;
+    &gt; Correct Order
+    &gt; Apfel Äpfel Band Bär Bus Bussard Buße Fähnlein Fähnlein Mond
+    &gt; Möve Mutter Mütter Oase Öl Ufer Übung Zebra
+    &gt; CHECK TEST WORDS: T T T T T T T T T T T T T T T T T T
+    &gt; PAssED
+<P>
 </PRE>
 </BLOCKQUOTE>
 <A name=5>

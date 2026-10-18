@@ -131,22 +131,23 @@ Sample program
 <P>
 <PRE>
      program demo_keyword_update
-     use M_unicode, only : keyword, keyword_update, ch=&gt;character
-        write(*,&#146;(a)&#146;) ch(keyword(&#146;&lt;clear&gt;TEST CUSTOMIZATIONS:&#146;))
+     use M_unicode, only : keyword_expand, keyword_update, ch=&gt;character
+     character(len=*),parameter :: a=&#146;(a)&#146;
+        write(*,&#146;(a)&#146;) ch(keyword_expand(&#146;&lt;clear&gt;TEST CUSTOMIZATIONS:&#146;))
         ! add custom keywords
 <P>
         call keyword_update(&#146;blink&#146;,char(27)//&#146;[5m&#146;,&#146;&#146;)
         call keyword_update(&#146;/blink&#146;,char(27)//&#146;[25m&#146;,&#146;&#146;)
         write(*,*)
-        write(*,&#146;(a)&#146;) ch(keyword(&#146;&lt;blink&gt;Items for Friday&lt;/blink&gt;&#146;))
+        write(*,a) ch(keyword_expand(&#146;&lt;blink&gt;Items for Friday&lt;/blink&gt;&#146;))
 <P>
-        call keyword_update(&#146;ouch&#146;,keyword( &
+        call keyword_update(&#146;ouch&#146;,keyword_expand( &
         &#146; &lt;R&gt;&lt;bo&gt;&lt;w&gt;BIG mistake!&lt;/R&gt;&lt;/w&gt; &#146;))
         write(*,*)
-        write(*,&#146;(a)&#146;) ch(keyword(&#146;&lt;ouch&gt; Did not see that coming.&#146;))
+        write(*,a)ch(keyword_expand(&#146;&lt;ouch&gt; Did not see that coming.&#146;))
 <P>
         write(*,*)
-        write(*,&#146;(a)&#146;) ch(keyword( &
+        write(*,a) ch(keyword_expand( &
         &#146;ORIGINALLY: &lt;r&gt;Apple&lt;/r&gt;, &lt;b&gt;Sky&lt;/b&gt;, &lt;g&gt;Grass&lt;/g&gt;&#146;))
 <P>
         ! delete
@@ -158,13 +159,31 @@ Sample program
         call keyword_update(&#146;/b&#146;,&#146;&gt;&gt;&gt;&gt;&#146;)
 <P>
         write(*,*)
-        write(*,&#146;(a)&#146;) ch(keyword( &
+        write(*,a) ch(keyword_expand( &
         &#146;CUSTOMIZED: &lt;r&gt;Apple&lt;/r&gt;, &lt;b&gt;Sky&lt;/b&gt;, &lt;g&gt;Grass&lt;/g&gt;&#146;))
-        write(*,&#146;(a)&#146;) ch(keyword(&#146;&lt;reset&gt;&#146;))
+        write(*,a) ch(keyword_expand(&#146;&lt;reset&gt;&#146;))
      end program demo_keyword_update
 <P>
 </PRE>
+Results:
 </BLOCKQUOTE>
+<P>
+The escape sequences below change text attributes and color when
+displayed on an ANSI-compatible terminal
+<P>
+<PRE>
+   &gt; \e[H\e[2JTEST CUSTOMIZATIONS:
+   &gt;
+   &gt; \e[5mItems for Friday\e[25m
+   &gt;
+   &gt;  \e[41m\e[1m\e[37mBIG mistake!\e[49m\e[39m Did not see that coming.
+   &gt;
+   &gt; ORIGINALLY: \e[31mApple\e[39m, \e[34mSky\e[39m, \e[32mGrass\e[39m
+   &gt;
+   &gt; CUSTOMIZED: &lt;r&gt;Apple&lt;/r&gt;, &lt;&lt;&lt;&lt;Sky&gt;&gt;&gt;&gt;, \e[32mGrass\e[39m
+   &gt; \e[0m
+<P>
+</PRE>
 <A name=5>
 
      <H3>AUTHOR</H3>

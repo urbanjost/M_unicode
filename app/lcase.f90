@@ -8,7 +8,7 @@ integer  :: iostat
    open(unit=stdin,pad='yes')
    INFINITE: do
       line=lower(readline(iostat=iostat))
-      if(iostat.ne.0)exit
+      if(iostat /= 0)exit
       write(*,'(*(g0))')line%character()
    enddo INFINITE
    if(iostat /= iostat_end)then

@@ -14,10 +14,10 @@
         write(*,adt) 'original: ',usample
       !
       ! note a string stays the same length
-      ! and is not trimmed by just an adjustl(3) call.
+      ! and is not trimmed by just an adjustl(3f) call.
         write(*,adt) 'adjusted: ',adjustl(usample)
       !
-      ! a fixed‐length string can be trimmed using trim(3)
+      ! a fixed‐length string can be trimmed using trim(3f)
         uout=trim(adjustl(usample))
         write(*,adt) 'trimmed:  ',uout
       !

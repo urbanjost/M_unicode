@@ -24,7 +24,8 @@
 #endif
 !-----------------------------------------------------------------------------------------------------------------------------------
 module testsuite_M_unicode
-use iso_fortran_env, only : output_unit
+use, intrinsic :: iso_fortran_env, only : stdout=>output_unit
+use, intrinsic :: iso_fortran_env, only : stderr=>ERROR_UNIT
 ! overload intrinsics
 use M_unicode, only : adjustl, adjustr, index
 use M_unicode, only : trim, len, len_trim
@@ -81,7 +82,7 @@ character(len=*),intent(in) :: label
 character(len=*),intent(in) :: aline
 character(len=*),intent(in) :: answer
 character(len=*),intent(in) :: expected
-   write(*,g0)merge('PASSED','FAILED',answer.eq.expected),' ',label,':[',aline,'][',answer,'][',expected,']'
+   write(stdout,g0)merge('PASSED','FAILED',answer.eq.expected),' ',label,':[',aline,'][',answer,'][',expected,']'
    if(answer.ne.expected)total=total+1
 end subroutine checkit
 
@@ -91,10 +92,10 @@ character(len=*),intent(in) :: aline
 character(len=*),intent(in) :: answer(:)
 character(len=*),intent(in) :: expected(:)
    if(size(answer).eq.size(expected) )then
-      write(*,g0)merge('PASSED','FAILED',all(answer.eq.expected)),' ',label,':[',aline,'][',answer,'][',expected,']'
+      write(stdout,g0)merge('PASSED','FAILED',all(answer.eq.expected)),' ',label,':[',aline,'][',answer,'][',expected,']'
       if(all(answer.ne.expected))total=total+1
    else
-      write(*,g0)'FAILED',' ',label,':[',aline,'][',answer,'][',expected,']'
+      write(stdout,g0)'FAILED',' ',label,':[',aline,'][',answer,'][',expected,']'
       total=total+1
    endif
 end subroutine checkits
@@ -104,7 +105,7 @@ character(len=*),intent(in) :: label
 character(len=*),intent(in) :: aline
 logical,intent(in) :: answer(:)
 logical,intent(in) :: expected(:)
-   write(*,g0)merge('PASSED','FAILED',all(answer.eqv.expected)),' ',label,':[',aline,'][',answer,'][',expected,']'
+   write(stdout,g0)merge('PASSED','FAILED',all(answer.eqv.expected)),' ',label,':[',aline,'][',answer,'][',expected,']'
    if(all(answer.neqv.expected))total=total+1
 end subroutine checkits_l
 
@@ -113,9 +114,9 @@ character(len=*),intent(in)          :: label
 logical,intent(in)                   :: test
 character(len=*),intent(in),optional :: description
    if( present(description) )then
-      write(*,g0)merge('PASSED','FAILED',test),' ',label,':',description
+      write(stdout,g0)merge('PASSED','FAILED',test),' ',label,':',description
    else
-      write(*,g0)merge('PASSED','FAILED',test),' ',label
+      write(stdout,g0)merge('PASSED','FAILED',test),' ',label
    endif
    if(.not.test)total=total+1
 end subroutine check
@@ -177,7 +178,6 @@ integer                      :: i
 end function inset
 
 function fgetenv(name,default) result(value)
-use, intrinsic :: iso_fortran_env, only : stderr=>ERROR_UNIT
 ! a function that makes calling get_environment_variable(3) simple
 implicit none
 character(len=*),intent(in)          :: name
@@ -593,7 +593,7 @@ character(len=128)  :: ascii7
    call check('lower',temp == lower(temp),'expect no change')
 
    temp=upp%lower()
-   !write(*,*)ch(temp,82,82) ! known conundrum at 82 i ı
+   !write(stdout,*)ch(temp,82,82) ! known conundrum at 82 i ı
 
    letter1= int(z"0049") ! * U+0049 I LATIN CAPITAL LETTER I.
    letter2= int(z"0130") ! * U+0130 İ LATIN CAPITAL LETTER I WITH DOT ABOVE.
@@ -734,15 +734,18 @@ in='     😃    ';
 expect_t=[ut([32]),ut([32]),ut([32]),ut([32]),ut([32]),ut([128515]),ut([32]),ut([32]),ut([32]),ut([32])];
 expect_s=[' ',' ',' ',' ',' ',' ',' ',' ',' ']
 call expectations()
+call expectations()
 
 in='     😃    e  ';
 expect_t=[ut([32]),ut([32]),ut([32]),ut([32]),ut([32]),ut([128515]),ut([32]),ut([32]),ut([32]),ut([101]),ut([32]),ut([32])];
 expect_s=[' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ']
 call expectations()
+call expectations()
 
 in='😃    e';
 expect_t=[ut([128515]),ut([32]),ut([32]),ut([32]),ut([101])];
 expect_s=[' ',' ',' ',' ']
+call expectations()
 call expectations()
 
 in="α β γ"
@@ -794,6 +797,7 @@ contains
 subroutine expectations()
 type(ut),allocatable :: t(:),s(:)
 type(ut)             :: sep
+integer              :: i
  sep=' ,'
  call tokenize(in,sep,t,s)
  if(size(t).eq.size(expect_t) )then
@@ -853,7 +857,7 @@ character(len=:),allocatable :: str
 integer                      :: i
    str=''
    do i=1,size(uarr)
-      str=str//'['//uarr(i)//']'
+      str=str//uarr(i)%ch()
    enddo
 end function pra
 
@@ -959,7 +963,7 @@ integer,allocatable            :: ints(:)
    call check('sort',all(array(1:csz-1) .le. array(2:csz)),'sort array') ! verify in ascending order
    if(total.ne.temp)then
       do i=1,size(array)
-         write(*,g0)array(i)%character()
+         write(stdout,g0)array(i)%character()
       enddo
    endif
 end subroutine chk
@@ -1038,14 +1042,14 @@ character(len=*),parameter :: upagain=&
 ! "Fall seven times, stand up eight. Even if you fall down, you will get up again. Don't be discouraged, just keep walking forward."
 !
    string=upagain
-   write(*,g0)'original bytes  :', upagain
+   write(stdout,g0)'original bytes  :', upagain
    !-------------------
    ! doing this generates non-unicode byte sequences in UTF-8, which means
    ! the OS may not longer recognize the output as UTF-8
-   !write(*,g0)'bytes reversed  :', (upagain(i:i),i=len(upagain),1,-1)
+   !write(stdout,g0)'bytes reversed  :', (upagain(i:i),i=len(upagain),1,-1)
    !-------------------
-   write(*,g0)'original string :', string%character()
-   write(*,g0)'string reversed :', string%character(string%len(),1,-1)
+   write(stdout,g0)'original string :', string%character()
+   write(stdout,g0)'string reversed :', string%character(string%len(),1,-1)
 end subroutine test_other
 
 subroutine test_operators()
@@ -1054,7 +1058,7 @@ character(len=:),allocatable   :: astr
 type(ut)             :: smiley
 type(ut)             :: ut_str
    smiley='😃'
-   write(*,g0)
+   write(stdout,g0)
    astr='Hello World and Ni Hao -- 你好'
    ut_str=astr
    call checkits('convert to ASCII bytes',astr,ut_str%byte(),transfer('Hello World and Ni Hao -- 你好',['A']))
@@ -1334,14 +1338,14 @@ endif
       bool1=all(textout.eq.expected)
       call check('add_border',bool1,'compare all output text')
       if(.not.bool1)then
-         write(*,'(*(g0,/))')(trim(textout(i)%character()),trim(expected(i)%character()),i=1,int_1)
+         write(stdout,'(*(g0,/))')(trim(textout(i)%character()),trim(expected(i)%character()),i=1,int_1)
       endif
    else
       call check('add_border',int_1.eq.int_2, ch('size expected ' .cat. int_2 .cat. ' got ' .cat. int_1) )
-      write(*,'(*(g0))') 'Result:'
-      write(*,'(g0)')(trim(textout(i)%character()),i=1,int_1)
-      write(*,'(*(g0))') 'Expected:'
-      write(*,'(g0)')(trim(expected(i)%character()),i=1,int_2)
+      write(stdout,'(*(g0))') 'Result:'
+      write(stdout,'(g0)')(trim(textout(i)%character()),i=1,int_1)
+      write(stdout,'(*(g0))') 'Expected:'
+      write(stdout,'(g0)')(trim(expected(i)%character()),i=1,int_2)
    endif
 enddo
 end subroutine test_add_border
@@ -1419,7 +1423,7 @@ do istyle=1,4
       call check('pound_to_box',bool1,'compare expected to result for '//style)
       if(.not.bool1)then
          do i=1,int_1
-            write(*,'(*(g0,/))')trim(textout(i)%character()),trim(expected(i)%character())
+            write(stdout,'(*(g0,/))')trim(textout(i)%character()),trim(expected(i)%character())
          enddo
       endif
    else
@@ -1928,9 +1932,9 @@ integer :: i
    enddo
 
    if (allpassed)then
-      write(*,'(*(g0,1x))')"Passed glob tests with ",nReps,"repetitions"
+      write(stdout,'(*(g0,1x))')"Passed glob tests with ",nReps,"repetitions"
    else
-      write(*,'(a)')"Failed"
+      write(stdout,'(a)')"Failed"
    endif
 
    call oop()
@@ -1984,11 +1988,11 @@ end subroutine test_glob
 end module testsuite_M_unicode
 
 program test_M_unicode
-use testsuite_M_unicode
+use testsuite_M_unicode 
    total = 0
 
-   !write(*,g0)'encoding can be altered on an open file'
-   !open (output_unit, encoding='UTF-8')
+   !write(stdout,g0)'encoding can be altered on an open file'
+   !open (stdout, encoding='UTF-8')
 
    call platform()
    call test_add_backslash()
@@ -2029,12 +2033,12 @@ use testsuite_M_unicode
    call test_verify()
    call test_other()
 
-   write(*,g0)
+   write(stdout,g0)
    if(total.ne.0)then
-      write(*,g0)total,' failures'
+      write(stdout,g0)total,' failures'
       stop 1
    else
-      write(*,g0)'all passed'
+      write(stdout,g0)'all passed'
    endif
 
 end program test_M_unicode

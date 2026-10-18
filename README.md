@@ -13,13 +13,57 @@
 ## Overview
 
 The **M\_unicode** module provides direct support for UTF-8 encoded
-data in source files and internal I/O, not just UTF-8 encoded external data files.
-It allows UTF-8 encoded strings to be processed as easily as ASCII-7
-encoded strings, without depending on a compiler supporting the
-optional ISO_10646 Unicode extension.
+data in source files and internal I/O, not just UTF-8 encoded external
+data files.  It allows UTF-8 encoded strings to be processed as easily
+as ASCII-7 encoded strings, without depending on a compiler supporting
+the optional ISO_10646 Unicode extension.
 
 [index of procedures](https://urbanjost.github.io/M_unicode/man3.html)
 
+## The uni(1) command
+
+The **uni** utility program provides a simple interface to many of the
+encoding features of the **M\_unicode** module.
+
+"uni --help"  displays a description of all the command options.
+
+Briefly, uni(1) can ...
++ identify lines in files that contain non-ASCII characters
++ convert UTF-8 files to ASCII-7 with C-style escape sequences
+  and vice-versa
++ render HTML character entities (ie. "&NAME;" and "&#NNNN;") to UTF-8
+  and vice-versa
++ convert HTML-style ASCII-7 strings to ANSI terminal escape sequences
+  or multi-byte characters using customizable substitutions.
++ convert boxes defined with the pound character to the appropriate
+  box characters
++ display line length as number of Unicode glyphs instead of just bytes
++ change case of UTF-8 files
++ display a range of Unicode characters in multiple formats
+
+#### Sample input:
+```text
+   \u4E03\u8EE2\u3073\u516B\u8D77\u304D\u3002
+   \u8EE2\u3093\u3067\u3082\u307E\u305F\u7ACB\u3061\u4E0A\u304C\u308B\u3002
+   \u304F\u3058\u3051\u305A\u306B\u524D\u3092\u5411\u3044\u3066\u6B69\u3044\u3066\u3044\u3053\u3046\u3002
+```
+   #################################
+   # Warning: proceed with caution #
+   #################################
+```
+```text
+   uni --boxes bold --noescape --nokeys sample.uni
+```
+#### Sample output :
+```text
+   七転び八起き。
+   転んでもまた立ち上がる。
+   くじけずに前を向いて歩いていこう。
+
+   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+   ┃ Warning: proceed with caution ┃
+   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+```
 ### Not just for UTF-8
 
 ASCII-7 being a subset of UTF-8 the procedures work with standard ASCII-7
@@ -41,7 +85,7 @@ color) are all available.
 
 ### OOPs, lets do it again ..
 
-There is an OOP interface to the majority of the functions. The
+There is also an OOP interface to the majority of the functions. The
 user-defined type **unicode\_type** provides not just ragged arrays of
 strings but nearly all the string methods as type-bound procedures.
 
@@ -86,20 +130,20 @@ use M_unicode, only : &
 
 ! additional methods
 use M_unicode, only : &
-   upper,               lower,                              &               
+   upper,               lower,                              &
    isascii,             isblank,            isspace,        &
-   glob,                                                    &                                   
-   slurp,               readline,                           &               
+   glob,                                                    &
+   slurp,               readline,                           &
    sort,                expandtabs,         replace,        &
    pad,                 join,               fmt,            &
    get_arg,             get_env,            transliterate,  &
-   expand_html,         add_html,                           &               
+   expand_html,         add_html,                           &
    expand_keyword,      keyword_update,     keyword_mode,   &
-   expand_backslash,    add_backslash,                      &               
+   expand_backslash,    add_backslash,                      &
    pound_to_box,        add_border,                         &
    reverse,             sub,                character
 
-! Note operators (and overloads) and SORT(3f) use Unicode codepoint 
+! Note operators (and overloads) and SORT(3f) use Unicode codepoint
 ! order (NOT necessarily dictionary order):
 
 use M_unicode, only : assignment(=)
@@ -112,7 +156,6 @@ use M_unicode, only : operator(>=), lge
 use M_unicode, only : operator(//)
 
 ! low-level conversion between utf-8 text and integer codepoint arrays:
-
 use M_unicode, only : utf8_to_codepoints, codepoints_to_utf8
 
 ! sample usage:
@@ -174,12 +217,12 @@ encode and decode data read and written to UTF-8 files.
 __But__
  + major compilers still do not support the Unicode ISO-10646 option
  + use of UTF-8 strings in source code is treated as ASCII-8 byte streams,
-   not as UCS-4 
+   not as UCS-4
  + there are no functions provided to convert from UCS-4 to UTF-8 byte
    streams except via reading and writing to external files (__not__
    internal files!)..
  + ragged string arrays are not supported as intrinsic types
- + no OOP interface is provided for the intrinsic methods 
+ + no OOP interface is provided for the intrinsic methods
 
 The **M\_unicode** module resolves all these issues.
 
@@ -196,7 +239,7 @@ of 8-bit-bytes becomes complex and non-intuitive.  The **M_unicode**
 module provides a user-defined type named **UNICODE_TYPE** and many
 procedures that make it very easy to work with such multi-byte characters.
 
-### Limits on UTF-8 source files 
+### Limits on UTF-8 source files
 
 Note that UTF-8 characters are supported in the source files just in
 comments and values. This is sufficient, but requires you not use
@@ -337,7 +380,7 @@ examples are included in the [example/](example/) directory.
 
    make clean gfortran|ifx|ifort|nvfortran|nagfor
 
-   # or 
+   # or
    make clean
    make F90=<compiler> F90FLAGS=<flags>
 

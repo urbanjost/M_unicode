@@ -14,10 +14,10 @@ type(ut)                      :: uline
    INFINITE: do
       uline=readline(iostat=iostat)
       icount=icount+1
-      if(iostat.ne.0)exit
+      if(iostat /= 0)exit
       ulen=len(uline)
       alen=len(uline%character())
-      write(stdout,'(i5,a,i5,": ",a)')ulen,merge(' /=',' ==',maxval(uline%codepoint()).gt.127),alen,uline%character()
+      write(stdout,'(i5,a,i5,": ",a)')ulen,merge(' /=',' ==',maxval(uline%codepoint()) > 127),alen,uline%character()
    enddo INFINITE
    if(iostat /= iostat_end)then
       write(*,*)'<ERROR> failed on read of input line ',icount,':',ch(trim(uline))

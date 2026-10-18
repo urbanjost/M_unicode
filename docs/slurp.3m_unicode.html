@@ -94,7 +94,7 @@ function slurp(filename,iomsg) result(text)
 
 </A>
 <BLOCKQUOTE>
-Uses READLINE(3) to read an entire formatted UTF-8 encoded file into
+Uses READLINE(3f) to read an entire formatted UTF-8 encoded file into
 a TYPE(UNICODE_TYPE) string array, each line of the file becoming an
 element of the output array.
 </BLOCKQUOTE>
@@ -167,7 +167,7 @@ then reads it back in.
 <P>
    text=slurp(FILENAME,iomsg=iomsg)
 <P>
-   if(iomsg.ne.&#146;&#146;)then
+   if(iomsg /= &#146;&#146;)then
       write(*,*)&#146;*demo_slurp* failed to load file &#146;//FILENAME
       write(*,*) iomsg
    else

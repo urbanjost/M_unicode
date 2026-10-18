@@ -7,7 +7,7 @@ integer                      :: i
 character(len=128)           :: ascii7
 character(len=:),allocatable :: cmdline
    cmdline=getargs()
-   if(cmdline.eq.'')then
+   if(cmdline == '')then
       do i=0,127
          ascii7(i+1:i+1)=char(i)
       enddo
@@ -56,12 +56,12 @@ integer                     :: ichrs(len(string))
       case('2'); ichr=int(z'1105')
       case('3'); ichr=int(z'0190')
       case('4'); ichr=int(z'152D')
-      if(which.eq.2)ichr=int(z'3123')
-      if(which.eq.3)ichr=iachar('h')
+      if(which == 2)ichr=int(z'3123')
+      if(which == 3)ichr=iachar('h')
       case('5'); ichr=int(z'03DB')
       case('6'); ichr=iachar('9')
       case('7'); ichr=int(z'2C62')
-      if(which.eq.2)ichr=int(z'3125')
+      if(which == 2)ichr=int(z'3125')
       case('8'); ichr=iachar('8')
       case('9'); ichr=iachar('6')
       case(':'); ichr=iachar(':')
@@ -73,21 +73,21 @@ integer                     :: ichrs(len(string))
       case('@'); ichr=iachar('@')
       ! Default ∀𐐒Ↄ◖ƎℲ⅁HIſ⋊⅂WᴎOԀΌᴚS⊥∩ᴧMX⅄Z
       case('A'); ichr=int(z'2200')
-         if(which.eq.4)ichr=int(z'A4EF') ! ꓯ
+         if(which == 4)ichr=int(z'A4EF') ! ꓯ
       case('B'); ichr=int(z'00010412')
-         if(which.eq.4)ichr=int(z'A4ED') ! ꓭ
+         if(which == 4)ichr=int(z'A4ED') ! ꓭ
       case('C'); ichr=int(z'2183')
-         if(which.eq.2)ichr=int(z'0186')
+         if(which == 2)ichr=int(z'0186')
          ichr=int(z'A4DB') ! ꓛ
       case('D'); ichr=int(z'25D6')
          ichr=int(z'A4F7') ! ꓷ
       case('E'); ichr=int(z'018E')
          ichr=int(z'A4F1') ! ꓱ
       case('F'); ichr=int(z'2132')
-         if(which.eq.4)ichr=int(z'A4DE') ! ꓞ
+         if(which == 4)ichr=int(z'A4DE') ! ꓞ
       case('G'); ichr=int(z'2141')
          ichr=int(z'A4E8') ! ꓨ
-         if(which.eq.2)ichr=int(z'05E4')
+         if(which == 2)ichr=int(z'05E4')
       case('H'); ichr=iachar('H')
          ichr=int(z'A4E7') ! ꓧ
       case('I'); ichr=iachar('I')
@@ -97,8 +97,8 @@ integer                     :: ichrs(len(string))
       case('K'); ichr=int(z'22CA')
          ichr=int(z'A4D8') ! ꓘ
       case('L'); ichr=int(z'2142')
-         if(which.eq.4)ichr=int(z'A4F6') ! ꓶ
-         if(which.eq.2)ichr=int(z'02E5')
+         if(which == 4)ichr=int(z'A4F6') ! ꓶ
+         if(which == 2)ichr=int(z'02E5')
       case('M'); ichr=ichar('W')
          ichr=int(z'A4EA') ! ꓪ
       case('N'); ichr=int(z'1D0E')
@@ -114,12 +114,12 @@ integer                     :: ichrs(len(string))
          ichr=int(z'A4E2') ! ꓢ
       case('T'); ichr=int(z'22A5')
          ichr=int(z'A4D5') ! ꓕ
-         if(which.eq.2)ichr=int(z'2534')
+         if(which == 2)ichr=int(z'2534')
       case('U'); ichr=int(z'2229')
          ichr=int(z'A4F5') ! ꓵ
       case('V'); ichr=int(z'1D27')
          ichr=int(z'A4E5') ! ꓥ
-         if(which.eq.2)ichr=int(z'039B')
+         if(which == 2)ichr=int(z'039B')
       case('W'); ichr=iachar('M')
          ichr=int(z'A4DF') ! ꓟ
       case('X'); ichr=iachar('X')
@@ -142,7 +142,7 @@ integer                     :: ichrs(len(string))
       case('g'); ichr=int(z'0183')
       case('h'); ichr=int(z'0265')
       case('i'); ichr=int(z'0131')
-      if(which.eq.2)ichr=int(z'1D09')
+      if(which == 2)ichr=int(z'1D09')
       case('j'); ichr=int(z'027E')
       case('k'); ichr=int(z'029E')
       case('l'); ichr=int(z'0283')

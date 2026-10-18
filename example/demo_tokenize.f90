@@ -90,7 +90,7 @@
              call tokenize (string, set, first, last)
              write(*,a_commas)'FIRST=',first
              write(*,a_commas)'LAST=',last
-             write(*,a_commas)'HAS LENGTH=',last-first.gt.0
+             write(*,a_commas)'HAS LENGTH=',last-first > 0
 
           endblock
           contains

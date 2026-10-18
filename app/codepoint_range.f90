@@ -23,7 +23,7 @@ type(unicode_type)           :: ustr
       argument=getarg(i)
       read(argument,*)ends(i)
    enddo
-   if(i.eq.2)ends(2)=ends(1)
+   if(i == 2)ends(2)=ends(1)
    write(stdout,g)'START=',ends(1),' END=',ends(2)
 
    do i=ends(1),ends(2)

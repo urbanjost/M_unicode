@@ -145,9 +145,9 @@ coindexed object.
 
 </A>
 <BLOCKQUOTE>
-TOKENIZE(3) parses a string into tokens. There are two forms of the
-subroutine TOKENIZE(3).
-<TABLE cellpadding=3><!-- tsb: TOKENIZE(3) parses a string into tokens. There are two forms of the
+TOKENIZE(3f) parses a string into tokens. There are two forms of the
+subroutine TOKENIZE(3f).
+<TABLE cellpadding=3><!-- tsb: TOKENIZE(3f) parses a string into tokens. There are two forms of the
  -->
 <TR></TR><TR></TR>
 <TR valign=top><TD width=3%>
@@ -334,7 +334,7 @@ Sample of uses
            call tokenize (string, set, first, last)
            write(*,a_commas)&#146;FIRST=&#146;,first
            write(*,a_commas)&#146;LAST=&#146;,last
-           write(*,a_commas)&#146;HAS LENGTH=&#146;,last-first.gt.0
+           write(*,a_commas)&#146;HAS LENGTH=&#146;,last-first &gt; 0
 <P>
         endblock
         contains

@@ -57,7 +57,7 @@ a.existingWikiWord[title]{ //border: 1px dashed #BBB; }
 </A>
 <BLOCKQUOTE>
 keyword_mode(3f) - [M_unicode] select processing mode for output
-from keyword(3f)
+from keyword_expand(3f)
 (LICENSE:MIT)
 <P>
 </BLOCKQUOTE>
@@ -91,9 +91,9 @@ subroutine keyword_mode(action)
 
 </A>
 <BLOCKQUOTE>
-When using the keyword(3f) procedure turn the substitution of strings
+When using the keyword_expand(3f) procedure turn the substitution of strings
 associated with the keywords on or off. That is, turn off string
-processing so keyword(3f) just echos its input.
+processing so keyword_expand(3f) just echos its input.
 </BLOCKQUOTE>
 <A name=3>
 
@@ -108,7 +108,7 @@ The current modes and actions supported are
 </TD></TR>
 <TR valign=top><TD colspan=2>
 <B>raw_mode,raw</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
-echo the input to keyword(3f) as its output
+echo the input to keyword_expand(3f) as its output
 </TD></TR>
 <TR valign=top><TD colspan=2>
 <B>alias_mode,default</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
@@ -144,7 +144,7 @@ Sample program
 <P>
 <PRE>
     program demo_keyword_mode
-    use M_unicode, only : keyword, keyword_mode, character
+    use M_unicode, only : keyword_expand, keyword_mode, character
     implicit none
     character(len=:),allocatable :: lines(:)
     character(len=:),allocatable :: outlines(:)
@@ -155,21 +155,59 @@ Sample program
        &&#146;&lt;omega&gt;&#146;,   &
        &&#146; &#146;]
 <P>
-       outlines=character(keyword(lines))
+       outlines=character(keyword_expand(lines))
        write(*,&#146;(a)&#146;)(trim(outlines(i)),i=1,size(outlines))
 <P>
        call keyword_mode(action=&#146;raw_mode&#146;)   ! write as-is
-       write(*,&#146;(a)&#146;)character(keyword(lines))
+       write(*,&#146;(a)&#146;)character(keyword_expand(lines))
 <P>
        call keyword_mode(action=&#146;plain_mode&#146;)  ! return to default mode
-       write(*,&#146;(a)&#146;)character(keyword(lines))
+       write(*,&#146;(a)&#146;)character(keyword_expand(lines))
 <P>
        call keyword_mode(action=&#146;alias_mode&#146;)  ! return to default mode
-       write(*,&#146;(a)&#146;)character(keyword(lines))
+       write(*,&#146;(a)&#146;)character(keyword_expand(lines))
 <P>
        call keyword_mode(action=&#146;dump&#146;)
 <P>
     end program demo_keyword_mode
+<P>
+</PRE>
+Results:
+<P>
+<PRE>
+   The escape sequences below add or remove text attributes
+   like color when displayed on an ANSI-compatible terminal
+<P>
+   &gt; δ
+   &gt; \e[40m\e[32m c=π×d \e[39m\e[49m
+   &gt; ω
+   &gt;
+   &gt; &lt;delta&gt;
+   &gt; &lt;E&gt;&lt;g&gt; c=&lt;pi&gt;&lt;times&gt;d &lt;/g&gt;&lt;/E&gt;
+   &gt; &lt;omega&gt;
+   &gt;
+   &gt; δ
+   &gt;    c=π×d
+   &gt; ω
+   &gt;
+   &gt; δ
+   &gt; \e[40m\e[32m c=π×d \e[39m\e[49m
+   &gt; ω
+   &gt;
+   &gt; KEYWORD         VALUE
+   &gt; AElig            [Æ]      [Æ]
+   &gt; Abreve           [Ă]      [Ă]
+   &gt; Acirc            [Â]      [Â]
+   &gt;   :               :        :
+   &gt;   :               :        :
+   &gt;   :               :        :
+   &gt; zeetrf           [ℨ]      [ℨ]
+   &gt; zeta             [ζ]      [ζ]
+   &gt; zfr              [𝔷]      [𝔷]
+   &gt; zhcy             [ж]      [ж]
+   &gt; zigrarr          [⇝]      [⇝]
+   &gt; zopf             [𝕫]      [𝕫]
+   &gt; zscr             [𝓏]      [𝓏]
 <P>
 </PRE>
 </BLOCKQUOTE>

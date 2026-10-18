@@ -75,8 +75,8 @@ M_unicode(3f) - [M_unicode::INTRO] Unicode string module
 
 </A>
 <BLOCKQUOTE>
-The M_unicode(3f) module is a collection of Fortran string
-methods that work with UTF-8 encoded text not just ASCII-7 data.
+The M_unicode(3f) module is a collection of Fortran string methods
+that work with UTF-8 encoded text not just ASCII-7 data.
 <P>
 Strings are declared using the user-defined type "UNICODE_TYPE". The
 type supports allocatable ragged arrays where each element may be of
@@ -85,27 +85,26 @@ differing length.
 Compiler support of the optional Fortran ISO_10646 extension is
 not required.
 <P>
-The M_unicode(3) module overloads the Fortran built-in CHARACTER
+The M_unicode(3f) module overloads the Fortran built-in CHARACTER
 intrinsics and operators to allow TYPE(UNICODE_TYPE) to use the
 intrinsic procedure names in much the same manner the intrinsics are
 used with CHARACTER variables.
 <P>
-The intrinsic overloads include TOKENIZE(3) and SPLIT(3) even if the
-underlying compiler does not yet support those intrinsics.
+The intrinsic overloads include TOKENIZE(3f) and SPLIT(3f) even if
+the underlying compiler does not yet support those intrinsics.
 <P>
-Overloads of assignment, logical comparisons, and concatenation using
-the // operator with strings are included as well
-to make use of TYPE(UNICODE_TYPE) largely consistent with standard
-CHARACTER string manipulations.
+Overloads of assignment, logical comparisons, and concatenation
+using the // operator with strings are included as well to make use
+of TYPE(UNICODE_TYPE) largely consistent with standard CHARACTER
+string manipulations.
 <P>
 Nearly all the methods are available using both OOP and procedural
 syntax.
 <P>
-In addition M_unicode(3) includes routines for parsing, tokenizing,
+In addition M_unicode(3f) includes routines for parsing, tokenizing,
 changing case, substituting new strings for substrings, locating
-strings with simple wildcard expressions, removing tabs and
-line terminators and other advanced non-intrinsic string
-manipulations.
+strings with simple wildcard expressions, removing tabs and line
+terminators and other advanced non-intrinsic string manipulations.
 <P>
 The **UPPER()** and **LOWER()** functions support the concept of
 case for the Unicode Latin characters not just the ASCII subset,
@@ -119,17 +118,18 @@ glyph length with a repeating pattern.
 particularly if the compiler does not support the UCS-4 extensions
 of Fortran.
 <P>
-Until proven otherwise M_unicode(3) should work with any environment
+Until proven otherwise M_unicode(3f) should work with any environment
 where UTF-8 files are supported.
 <P>
 The type components are not public to allow for use of the same user
-code when using other modules such as M_ucs4(3) which ultimately will
+code when using other modules such as M_ucs4(3f) which ultimately will
 provide the same user interface but internally using ISO_10646 internal
 encoding instead of an array of integers containing codepoints (which
-is what M_unicode(3) uses). This has the drawback of not permitting
+is what M_unicode(3f) uses). This has the drawback of not permitting
 easy use of array syntax directly on the codepoint array. Perhaps
-this decision will change but in the meantime several methods such as
-REPLACE(3) and CHARACTER(3) and SUB(3) provide similar functionality.
+this decision will change but in the meantime several methods
+such as REPLACE(3f) and CHARACTER(3f) and SUB(3f) provide similar
+functionality.
 </BLOCKQUOTE>
 <A name=2>
 
@@ -452,13 +452,14 @@ Scan a string for the absence of a set of characters
 join elements of an array into a single string
 </TD></TR>
 <TR valign=top><TD colspan=2>
-<B>operator(.cat.)</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+<B>operator(.cat.),</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
 concatenate strings and/or convert intrinsics to
 strings and concatenate
 </TD></TR>
 <TR valign=top><TD colspan=2>
-<B>operator(//)</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+<B>operator(//),</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
 concatenate strings and character variables
+operator(+)
 </TD></TR>
 <TR></TR></TABLE></BLOCKQUOTE>
 <A name=>
@@ -551,6 +552,7 @@ Sample program:
    use,intrinsic :: iso_fortran_env, only : stdout=&gt;output_unit
    use M_unicode,only : tokenize, replace, character, upper, lower, len
    use M_unicode,only : unicode_type, assignment(=), operator(//)
+   use M_unicode,only : operator(+),operator(.cat.)
    use M_unicode,only : ut =&gt; unicode_type, ch =&gt; character
    type(unicode_type)             :: string
    type(unicode_type)             :: numeric, uppercase, lowercase

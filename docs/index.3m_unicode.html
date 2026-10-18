@@ -124,7 +124,7 @@ KIND is a scalar integer constant expression.
 
 </A>
 <BLOCKQUOTE>
-INDEX(3) returns the position of the start of the leftmost or
+INDEX(3f) returns the position of the start of the leftmost or
 rightmost occurrence of string SUBSTRING in STRING, counting from
 one. If SUBSTRING is not present in STRING, zero is returned.
 </BLOCKQUOTE>
@@ -201,26 +201,26 @@ Example program
    integer                    :: ii
       !
       str=&#146;Huli i kēia kaula no kēia ʻōlelo&#146;
-      !bug!print all, index(str,&#146;kēia&#146;).eq.8
-      ii=index(str,&#146;kēia&#146;); print all, ii.eq.8
+      !bug!print all, index(str,&#146;kēia&#146;) == 8
+      ii=index(str,&#146;kēia&#146;); print all, ii == 8
       !
       ! return value is counted from the left end even if BACK=.TRUE.
-      !bug!print all, index(str,&#146;kēia&#146;,back=.true.).eq.22
-      ii=index(str,&#146;kēia&#146;,back=.true.); print all, ii.eq.22
+      !bug!print all, index(str,&#146;kēia&#146;,back=.true.) == 22
+      ii=index(str,&#146;kēia&#146;,back=.true.); print all, ii == 22
       !
       ! INDEX is case-sensitive
-      !bug!print all, index(str,&#146;Kēia&#146;).eq.0
-      ii=index(str,&#146;Kēia&#146;); print all, ii.eq.0
+      !bug!print all, index(str,&#146;Kēia&#146;) == 0
+      ii=index(str,&#146;Kēia&#146;); print all, ii == 0
       !&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
       !ifx bug: ifx (IFX) 2024.1.0 20240308
       !
       !example/demo_index.f90(17): error #6766: A binary defined OPERATOR
       !definition is missing or incorrect.   [EQ]
-      !        print all, index(str,&#146;k  ia&#146;,back=.true.).eq.22
+      !        print all, index(str,&#146;k  ia&#146;,back=.true.) == 22
       !--------------------------------------------------^
       !Original works with gfortran and flang_new and this works with ifx
       !        ii=ndex(str,&#146;k  ia&#146;,back=.true.)
-      !    print all, ii.eq.22
+      !    print all, ii == 22
       !&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
    end program demo_index
 <P>

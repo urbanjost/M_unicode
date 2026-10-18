@@ -2,6 +2,7 @@
      use,intrinsic :: iso_fortran_env, only : stdout=>output_unit
      use M_unicode,only : tokenize, replace, character, upper, lower, len
      use M_unicode,only : unicode_type, assignment(=), operator(//)
+     use M_unicode,only : operator(+),operator(.cat.)
      use M_unicode,only : ut => unicode_type, ch => character
      type(unicode_type)             :: string
      type(unicode_type)             :: numeric, uppercase, lowercase

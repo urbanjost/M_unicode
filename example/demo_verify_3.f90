@@ -29,7 +29,7 @@
    type(ut)                   :: name
    logical                    :: lout
       name=trim(line)
-      if(len(name).ne.0)then
+      if(len(name) /= 0)then
          ! first character is alphameric
          lout = verify(name%sub(1,1), lower//upper) == 0  &
           ! other characters are allowed in a symbol name

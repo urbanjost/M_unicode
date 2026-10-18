@@ -15,6 +15,9 @@
 !    (UDDTIO) procedures meant for use with the DT edit descriptor are
 !    still undergoing development because of compiler incompatibilities
 !
+!    It needs a DT for printing. Keep hitting what looks like different compiler
+!    bugs. Maybe just map it to NAMELIST group output
+!
 ! Unicode Collation Algorithm (UCA) for sorting
 !
 ! sort with customized collation is available, but generally inefficient and requires custom coding
@@ -4580,7 +4583,7 @@ integer                           :: i
       case (2048:65535);    lensum=lensum+3 ! 3 bytes : 1110xxxx 10xxxxxx 10xxxxxx
       case (65536:1114111); lensum=lensum+4 ! 4 bytes : 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
       case default;
-         if(nerr.eq.0) nerr=-i
+         if(nerr == 0) nerr=-i
       end select
    enddo
 
@@ -4812,7 +4815,7 @@ integer,allocatable             :: temp(:)
    enddo
 
    allocate(codepoints(n_out))
-   if(n_out.ge.1)then
+   if(n_out >= 1)then
       codepoints = temp(1:n_out)
    endif
 
@@ -5400,7 +5403,7 @@ integer                        :: nerr
 integer                        :: last_local
 
    last_local=last
-   if(last_local.le.0)last_local=len(string)
+   if(last_local <= 0)last_local=len(string)
    call codepoints_to_utf8_str(string%codes(first:last_local),aline,nerr)
 
 end function str_to_char_range
@@ -5421,7 +5424,7 @@ integer                        :: nerr
    mx=0
    do i=1,size(string)
       last_local=last
-      if(last_local.le.0)last_local=len(string(i))
+      if(last_local <= 0)last_local=len(string(i))
       call byte_length_of_codepoints(string(i)%codes(first:last_local),lensum,nerr)
       mx=max( mx, lensum )
    enddo
@@ -5446,7 +5449,7 @@ integer                        :: nerr
 integer                        :: last_local
 
    last_local=last
-   if(last_local.le.0)last_local=len(string)
+   if(last_local <= 0)last_local=len(string)
    call codepoints_to_utf8_str(string%codes(first:last_local:step),aline,nerr)
 
 end function str_to_char_range_step
@@ -5468,7 +5471,7 @@ integer                        :: last_local
    mx=0
    do i=1,size(string)
       last_local=last
-      if(last_local.le.0)last_local=len(string(i))
+      if(last_local <= 0)last_local=len(string(i))
       call byte_length_of_codepoints(string(i)%codes(first:last_local:step),lensum,nerr)
       mx=max( mx, lensum )
    enddo
@@ -5478,7 +5481,7 @@ integer                        :: last_local
 
    do i=1,size(string)
       last_local=last
-      if(last_local.le.0)last_local=len(string(i))
+      if(last_local <= 0)last_local=len(string(i))
       call codepoints_to_utf8_str(string(i)%codes(first:last_local:step),aline,nerr)
       lines(i)(:)=aline
    enddo
@@ -5657,7 +5660,7 @@ integer                        :: length
 
    if(allocated(string%codes))then
       do length=size(string%codes),1,-1
-         if(any(string%codes(length).eq.unicode%SPACES))cycle
+         if(any(string%codes(length) == unicode%SPACES))cycle
          exit
       enddo
    else
@@ -5748,7 +5751,8 @@ end function len_trim_str
 !!       ! will, unless the compiler has an extension (eg. currently
 !!       ! flang(1) will return 8364 but gfortran(1) will return 226) for
 !!       ! the first call.
-!!       write(*,'(a)')ichar('€'),ichar(ut('€'))]
+!!       !write(*,'(a)')ichar('€')        !<== INCORRECT
+!!       write(*,'(a)')ichar(ut('€'))     !<== CORRECT
 !!
 !!       ! elemental
 !!       write(*,'("WRITING ISSUES:")')
@@ -6115,18 +6119,18 @@ type(unicode_type)             :: adjusted
 integer                        :: last
 integer                        :: i
    if(present(glyphs))then
-      if(glyphs.le.0)then
+      if(glyphs <= 0)then
          if(allocated(adjusted%codes))deallocate(adjusted%codes)
          allocate(adjusted%codes(0))
-      elseif(glyphs.lt.size(string%codes))then ! shorter
+      elseif(glyphs < size(string%codes))then ! shorter
          adjusted=adjustl(string)
          adjusted=trim_str(adjusted)
-         if(size(adjusted%codes).lt.glyphs)then
+         if(size(adjusted%codes) < glyphs)then
             adjusted%codes=[(32,i=1,glyphs-size(adjusted%codes)),adjusted%codes]
          else
             adjusted%codes=adjusted%codes(size(adjusted%codes)-glyphs+1:)
          endif
-      elseif(glyphs.eq.size(string%codes))then
+      elseif(glyphs == size(string%codes))then
          last=len_trim_str(string)
          adjusted%codes=cshift(string%codes,-(size(string%codes)-last))
       else ! longer than string length
@@ -6240,15 +6244,15 @@ integer                       :: first
 integer                       :: i
 
    do first=1,size(string%codes),1
-      if(any(string%codes(first).eq.unicode%SPACES))cycle
+      if(any(string%codes(first) == unicode%SPACES))cycle
       exit
    enddo
    adjusted%codes=cshift(string%codes,first-1)
    if(present(glyphs))then
-      if(glyphs.le.0)then
+      if(glyphs <= 0)then
          deallocate(adjusted%codes)
          allocate(adjusted%codes(0))
-      elseif(glyphs.le.size(adjusted%codes))then
+      elseif(glyphs <= size(adjusted%codes))then
          adjusted%codes=adjusted%codes(1:glyphs)
       else
          adjusted%codes=[adjusted%codes,(32,i=1,glyphs-size(adjusted%codes)+1)]
@@ -6338,7 +6342,7 @@ elemental function isascii_u(str) result(res)
 
 type(unicode_type),intent(in) :: str
 logical                       :: res
-   res=minval(str%codes).ge.0.and.maxval(str%codes).le.127
+   res=minval(str%codes) >= 0.and.maxval(str%codes) <= 127
 end function isascii_u
 !-----------------------------------------------------------------------------------------------------------------------------------
 elemental function isascii_a(str) result(res)
@@ -6528,9 +6532,9 @@ type(unicode_type), intent(in) :: lhs
 type(unicode_type), intent(in) :: rhs
 logical                        :: is_equal
 integer                        :: icount
-   if(lhs%len_trim().eq.rhs%len_trim())then
+   if(lhs%len_trim() == rhs%len_trim())then
       icount=lhs%len_trim()
-      is_equal = .not.all( lhs%codes(:icount) .eq. rhs%codes(:icount) )
+      is_equal = .not.all( lhs%codes(:icount)  ==  rhs%codes(:icount) )
    else
       is_equal = .true.
    endif
@@ -6559,9 +6563,9 @@ type(unicode_type), intent(in) :: lhs
 type(unicode_type), intent(in) :: rhs
 logical                        :: is_equal
 integer                        :: icount
-   if(lhs%len_trim().eq.rhs%len_trim())then
+   if(lhs%len_trim() == rhs%len_trim())then
       icount=lhs%len_trim()
-      is_equal = all( lhs%codes(:icount) .eq. rhs%codes(:icount) )
+      is_equal = all( lhs%codes(:icount)  ==  rhs%codes(:icount) )
    else
       is_equal = .false.
    endif
@@ -6853,26 +6857,26 @@ end function lgt_char_str
 !!    integer                    :: ii
 !!       !
 !!       str='Huli i kēia kaula no kēia ʻōlelo'
-!!       !bug!print all, index(str,'kēia').eq.8
-!!       ii=index(str,'kēia'); print all, ii.eq.8
+!!       !bug!print all, index(str,'kēia') == 8
+!!       ii=index(str,'kēia'); print all, ii == 8
 !!       !
 !!       ! return value is counted from the left end even if BACK=.TRUE.
-!!       !bug!print all, index(str,'kēia',back=.true.).eq.22
-!!       ii=index(str,'kēia',back=.true.); print all, ii.eq.22
+!!       !bug!print all, index(str,'kēia',back=.true.) == 22
+!!       ii=index(str,'kēia',back=.true.); print all, ii == 22
 !!       !
 !!       ! INDEX is case-sensitive
-!!       !bug!print all, index(str,'Kēia').eq.0
-!!       ii=index(str,'Kēia'); print all, ii.eq.0
+!!       !bug!print all, index(str,'Kēia') == 0
+!!       ii=index(str,'Kēia'); print all, ii == 0
 !!       !<<<<<<<<<<
 !!       !ifx bug: ifx (IFX) 2024.1.0 20240308
 !!       !
 !!       !example/demo_index.f90(17): error #6766: A binary defined OPERATOR
 !!       !definition is missing or incorrect.   [EQ]
-!!       !        print all, index(str,'k  ia',back=.true.).eq.22
+!!       !        print all, index(str,'k  ia',back=.true.) == 22
 !!       !--------------------------------------------------^
 !!       !Original works with gfortran and flang_new and this works with ifx
 !!       !        ii=ndex(str,'k  ia',back=.true.)
-!!       !    print all, ii.eq.22
+!!       !    print all, ii == 22
 !!       !>>>>>>>>>>
 !!    end program demo_index
 !!
@@ -6919,14 +6923,14 @@ logical                        :: back_local
 
    if(back_local)then
       do i=strlen - sublen + 1,1,-1
-         if ( all(string%codes(i:i+sublen-1) .eq. substring%codes) )then
+         if ( all(string%codes(i:i+sublen-1)  ==  substring%codes) )then
             foundat=i
             exit
          endif
       enddo
    else
       do i=1,strlen - sublen + 1
-         if ( all(string%codes(i:i+sublen-1) .eq. substring%codes) )then
+         if ( all(string%codes(i:i+sublen-1)  ==  substring%codes) )then
             foundat=i
             exit
          endif
@@ -7160,7 +7164,7 @@ end function index_char_str
 !!       rr=rr(ii)
 !!       print g,ch(rr)
 !!
-!!       print g,
+!!       print g
 !!       print g,'input for custom sort'
 !!       rr=[ut("Banana"), ut("apple"), ut("Cherry"), ut("orange")]
 !!       call print_output()
@@ -7203,7 +7207,7 @@ end function index_char_str
 !!       !
 !!       print g,'original order'
 !!       print g, ( trim(rr(i)%ch()),i=1,size(rr) )
-!!       print g,
+!!       print g
 !!       !
 !!       print g,  'Sort using default Unicode rule for comparison'
 !!       call sort(rr, ii)
@@ -7234,8 +7238,8 @@ end function index_char_str
 !!          ut("Übung"),     &
 !!          ut("Zebra")      ]
 !!       print g, ( trim(answer(i)%ch()),i=1,size(answer) )
-!!       print g, 'CHECK TEST WORDS:',rr(ii).eq.answer
-!!       print g, merge('PAssED','FAILED', all(rr(ii).eq.answer))
+!!       print g, 'CHECK TEST WORDS:',rr(ii) == answer
+!!       print g, merge('PAssED','FAILED', all(rr(ii) == answer))
 !!
 !!    contains
 !!
@@ -7244,7 +7248,7 @@ end function index_char_str
 !!       integer                      :: i
 !!          output=rr(ii)
 !!          print g, ( trim(output(i)),i=1,size(output) )
-!!          print g,
+!!          print g
 !!       end subroutine print_output
 !!
 !!       function case_insensitive_compare(str1, str2) result (answer)
@@ -7328,7 +7332,7 @@ end function index_char_str
 !!
 !!       ikeep=0
 !!       do concurrent ( i=1:len(in) )
-!!          if(in%codes(i).eq.comb)then
+!!          if(in%codes(i) == comb)then
 !!             codes(ikeep)=codes(ikeep)+1
 !!          else
 !!             ikeep=ikeep+1
@@ -7427,7 +7431,7 @@ integer(kind=int32)             :: l,r,i,j,p,indexp,indext
 integer,parameter :: M=9
 !===================================================================================================================================
 n=size(data)
-if(size(indx).lt.n)then  ! if index is not big enough, only sort part of the data
+if(size(indx) < n)then  ! if index is not big enough, only sort part of the data
   write(*,*)'*sort_quick_rx_custom* ERROR: insufficient space to store index data'
   n=size(indx)
 endif
@@ -7439,7 +7443,7 @@ do i=1,n
 enddo
 
 !  If array is short go directly to the straight insertion sort, else execute a QuickSort
-if (N.gt.M)then
+if (N > M)then
    !=============================================================================================================================
    !  QuickSort
    !
@@ -7471,16 +7475,16 @@ if (N.gt.M)then
       indexp=indx(p)
       datap=data(indexp)
 
-      if (comparison_func(datap,data(indx(l)))) then             !rx! if (data(indx(l)) .gt. datap) then
+      if (comparison_func(datap,data(indx(l)))) then             !rx! if (data(indx(l))  >  datap) then
          indx(p)=indx(l)
          indx(l)=indexp
          indexp=indx(p)
          datap=data(indexp)
       endif
 
-      if (comparison_func(data(indx(r)),datap) ) then             !rx! if (datap .gt. data(indx(r))) then
+      if (comparison_func(data(indx(r)),datap) ) then             !rx! if (datap  >  data(indx(r))) then
 
-         if (comparison_func( data(indx(r)), data(indx(l)) )) then  !rx! if (data(indx(l)) .gt. data(indx(r))) then
+         if (comparison_func( data(indx(r)), data(indx(l)) )) then  !rx! if (data(indx(l))  >  data(indx(r))) then
             indx(p)=indx(l)
             indx(l)=indx(r)
          else
@@ -7500,7 +7504,7 @@ if (N.gt.M)then
          !   At this point, DATA[L] <= DATAP. We can therefore start scanning up from L, looking for a value >= DATAP
          !   (this scan is guaranteed to terminate since we initially placed DATAP near the middle of the subsequence).
          I=I+1
-         if (comparison_func(data(indx(i)),datap))then !rx! if (data(indx(i)).lt.datap)then
+         if (comparison_func(data(indx(i)),datap))then !rx! if (data(indx(i)) < datap)then
             cycle Q3
          endif
          !-----------------------------------------------------------------------------------------------------------------------
@@ -7510,13 +7514,13 @@ if (N.gt.M)then
          !   (this scan is guaranteed to terminate since we initially placed DATAP near the middle of the subsequence).
          Q4: do
             j=j-1
-            if (comparison_func(data(indx(j)),datap)) then  !rx! if (data(indx(j)).le.datap) then
+            if (comparison_func(data(indx(j)),datap)) then  !rx! if (data(indx(j)) <= datap) then
                exit Q4
             endif
          enddo Q4
          !-----------------------------------------------------------------------------------------------------------------------
          ! Q5: Have the two scans collided?
-         if (i.lt.j) then
+         if (i < j) then
             ! Q6: No, interchange DATA[I] <--> DATA[J] and continue
             indext=indx(i)
             indx(i)=indx(j)
@@ -7528,23 +7532,23 @@ if (N.gt.M)then
          !   If both subsequences are more than M elements long, push the longer one on the stack
             !   and go back to QuickSort the shorter; if only one is more than M elements long, go back and QuickSort it;
          !   otherwise, pop a subsequence off the stack and QuickSort it.
-            if (r-j .ge. i-l .and. i-l .gt. m) then
+            if (r-j  >=  i-l .and. i-l  >  m) then
                istk=istk+1
                lstk(istk)=j+1
                rstk(istk)=r
                r=i-1
-            elseif (i-l .gt. r-j .and. r-j .gt. m) then
+            elseif (i-l  >  r-j .and. r-j  >  m) then
                istk=istk+1
                lstk(istk)=l
                rstk(istk)=i-1
                l=j+1
-            elseif (r-j .gt. m) then
+            elseif (r-j  >  m) then
                l=j+1
-            elseif (i-l .gt. m) then
+            elseif (i-l  >  m) then
                r=i-1
             else
                ! Q8: Pop the stack, or terminate QuickSort if empty
-               if (istk.lt.1) then
+               if (istk < 1) then
                   exit TOP
                endif
                l=lstk(istk)
@@ -7561,17 +7565,17 @@ endif
 !===================================================================================================================================
 ! Q9: Straight Insertion sort
 do i=2,n
-   if (comparison_func( data(indx(i)),data(indx(i-1))) ) then !rx! if (data(indx(i-1)) .gt. data(indx(i))) then
+   if (comparison_func( data(indx(i)),data(indx(i-1))) ) then !rx! if (data(indx(i-1))  >  data(indx(i))) then
       indexp=indx(i)
       datap=data(indexp)
       p=i-1
       INNER: do
          indx(p+1) = indx(p)
          p=p-1
-         if (p.le.0)then
+         if (p <= 0)then
             exit INNER
          endif
-         if ( comparison_func( data(indx(p)), datap) )then !rx! if (data(indx(p)).le.datap)then
+         if ( comparison_func( data(indx(p)), datap) )then !rx! if (data(indx(p)) <= datap)then
             exit INNER
          endif
       enddo INNER
@@ -7601,7 +7605,7 @@ integer(kind=int32)             :: l,r,i,j,p,indexp,indext
 integer,parameter :: M=9
 !===================================================================================================================================
 n=size(data)
-if(size(indx).lt.n)then  ! if index is not big enough, only sort part of the data
+if(size(indx) < n)then  ! if index is not big enough, only sort part of the data
   write(*,*)'*sort_quick_rx* ERROR: insufficient space to store index data'
   n=size(indx)
 endif
@@ -7613,7 +7617,7 @@ do i=1,n
 enddo
 
 !  If array is short go directly to the straight insertion sort, else execute a QuickSort
-if (N.gt.M)then
+if (N > M)then
    !=============================================================================================================================
    !  QuickSort
    !
@@ -7645,16 +7649,16 @@ if (N.gt.M)then
       indexp=indx(p)
       datap=data(indexp)
 
-      if (data(indx(l)) .gt. datap) then
+      if (data(indx(l))  >  datap) then
          indx(p)=indx(l)
          indx(l)=indexp
          indexp=indx(p)
          datap=data(indexp)
       endif
 
-      if (datap .gt. data(indx(r))) then
+      if (datap  >  data(indx(r))) then
 
-         if (data(indx(l)) .gt. data(indx(r))) then
+         if (data(indx(l))  >  data(indx(r))) then
             indx(p)=indx(l)
             indx(l)=indx(r)
          else
@@ -7674,7 +7678,7 @@ if (N.gt.M)then
          !   At this point, DATA[L] <= DATAP. We can therefore start scanning up from L, looking for a value >= DATAP
          !   (this scan is guaranteed to terminate since we initially placed DATAP near the middle of the subsequence).
          I=I+1
-         if (data(indx(i)).lt.datap)then
+         if (data(indx(i)) < datap)then
             cycle Q3
          endif
          !-----------------------------------------------------------------------------------------------------------------------
@@ -7684,13 +7688,13 @@ if (N.gt.M)then
          !   (this scan is guaranteed to terminate since we initially placed DATAP near the middle of the subsequence).
          Q4: do
             j=j-1
-            if (data(indx(j)).le.datap) then
+            if (data(indx(j)) <= datap) then
                exit Q4
             endif
          enddo Q4
          !-----------------------------------------------------------------------------------------------------------------------
          ! Q5: Have the two scans collided?
-         if (i.lt.j) then
+         if (i < j) then
             ! Q6: No, interchange DATA[I] <--> DATA[J] and continue
             indext=indx(i)
             indx(i)=indx(j)
@@ -7702,23 +7706,23 @@ if (N.gt.M)then
          !   If both subsequences are more than M elements long, push the longer one on the stack
             !   and go back to QuickSort the shorter; if only one is more than M elements long, go back and QuickSort it;
          !   otherwise, pop a subsequence off the stack and QuickSort it.
-            if (r-j .ge. i-l .and. i-l .gt. m) then
+            if (r-j  >=  i-l .and. i-l  >  m) then
                istk=istk+1
                lstk(istk)=j+1
                rstk(istk)=r
                r=i-1
-            elseif (i-l .gt. r-j .and. r-j .gt. m) then
+            elseif (i-l  >  r-j .and. r-j  >  m) then
                istk=istk+1
                lstk(istk)=l
                rstk(istk)=i-1
                l=j+1
-            elseif (r-j .gt. m) then
+            elseif (r-j  >  m) then
                l=j+1
-            elseif (i-l .gt. m) then
+            elseif (i-l  >  m) then
                r=i-1
             else
                ! Q8: Pop the stack, or terminate QuickSort if empty
-               if (istk.lt.1) then
+               if (istk < 1) then
                   exit TOP
                endif
                l=lstk(istk)
@@ -7735,17 +7739,17 @@ endif
 !===================================================================================================================================
 ! Q9: Straight Insertion sort
 do i=2,n
-   if (data(indx(i-1)) .gt. data(indx(i))) then
+   if (data(indx(i-1))  >  data(indx(i))) then
       indexp=indx(i)
       datap=data(indexp)
       p=i-1
       INNER: do
          indx(p+1) = indx(p)
          p=p-1
-         if (p.le.0)then
+         if (p <= 0)then
             exit INNER
          endif
-         if (data(indx(p)).le.datap)then
+         if (data(indx(p)) <= datap)then
             exit INNER
          endif
       enddo INNER
@@ -8388,25 +8392,25 @@ integer,allocatable            :: line(:)
       width=len(win(i))
       do j=1,width
          ! if not first column look to left for adjacent line-drawing characters
-         if(win(i)%codes(j).ne.pound)then
+         if(win(i)%codes(j) /= pound)then
             winout(i)%codes(j)=win(i)%codes(j)
             cycle
          endif
          isum=ibset(0,4)
-         if(j.ge.2) then
-            if(win(i)%codes(j-1).eq.pound) isum=ibset(isum,3) !   8
+         if(j >= 2) then
+            if(win(i)%codes(j-1) == pound) isum=ibset(isum,3) !   8
          endif
-         if(j.le.width-1)then
-            if(win(i)%codes(j+1).eq.pound) isum=ibset(isum,5) !  32
+         if(j <= width-1)then
+            if(win(i)%codes(j+1) == pound) isum=ibset(isum,5) !  32
          endif
-         if(i.ge.2) then
-            if(j.le.len(win(i-1)))then
-               if(win(i-1)%codes(j).eq.pound) isum=ibset(isum,1) !   2
+         if(i >= 2) then
+            if(j <= len(win(i-1)))then
+               if(win(i-1)%codes(j) == pound) isum=ibset(isum,1) !   2
             endif
          endif
-         if(i.le.height-1)then
-            if(j.le.len(win(i+1)))then
-               if(win(i+1)%codes(j).eq.pound) isum=ibset(isum,7) ! 128
+         if(i <= height-1)then
+            if(j <= len(win(i+1)))then
+               if(win(i+1)%codes(j) == pound) isum=ibset(isum,7) ! 128
             endif
          endif
          select case(style_)
@@ -8933,7 +8937,7 @@ integer,parameter             :: diff = iachar('A') - iachar('a')
       end select
    enddo
 
-   if(len(str).eq.0)string = str
+   if(len(str) == 0)string = str
 
 end function upper_u
 !-----------------------------------------------------------------------------------------------------------------------------------
@@ -9073,7 +9077,7 @@ integer, parameter             :: diff = iachar('A') - iachar('a')
       end select
    enddo
 
-   if(len(str).eq.0)string = str
+   if(len(str) == 0)string = str
 
 end function lower_u
 !-----------------------------------------------------------------------------------------------------------------------------------
@@ -9438,7 +9442,7 @@ end function lower_a
 !!            call tokenize (string, set, first, last)
 !!            write(*,a_commas)'FIRST=',first
 !!            write(*,a_commas)'LAST=',last
-!!            write(*,a_commas)'HAS LENGTH=',last-first.gt.0
+!!            write(*,a_commas)'HAS LENGTH=',last-first > 0
 !!
 !!         endblock
 !!         contains
@@ -9549,7 +9553,7 @@ integer                                                :: isep
 
     call split_first_last(string, set, first, last)
     ! maxval() of a zero-size array is set to a flag value not zero or length of character string
-    if(size(first).eq.0)then
+    if(size(first) == 0)then
        imax=0
     else
        imax=maxval(last-first)+1
@@ -9567,7 +9571,7 @@ integer                                                :: isep
       allocate(separator(max(0,size(tokens) - 1)))
       isep=0
       do n = 1, len(string)
-        if(scan_uu(string%sub(n,n),set).ne.0)then
+        if(scan_uu(string%sub(n,n),set) /= 0)then
            isep=isep+1
            separator(isep)%codes=string%codes(n:n)
         endif
@@ -9643,7 +9647,7 @@ integer                                    :: slen
       endif
     enddo
 
-    if(slen.ne.0.and.is_separator(slen))then
+    if(slen /= 0.and.is_separator(slen))then
        first = pack([(n, n = 1, slen),slen], is_first(1:slen+1))
        last = pack([(n, n = 1, slen),slen], is_last(1:slen+1))
     else
@@ -9652,8 +9656,8 @@ integer                                    :: slen
     endif
 
     do i=1,size(last)
-       if(last(i)-first(i).eq.0)then
-          if(scan(string%sub(first(i),last(i)),set).ne.0)then
+       if(last(i)-first(i) == 0)then
+          if(scan(string%sub(first(i),last(i)),set) /= 0)then
              last(i)=last(i)-1
           endif
        endif
@@ -10047,8 +10051,8 @@ integer                       :: i
 
    ! once find one only have to look at values to left or right of that, but looking for everyone
    finds=[ (findloc(string%codes, set%codes(i), dim=1, back=back_local), i=1,size(set%codes) )]
-   finds=pack(finds,finds.ne.0)
-   if(size(finds).ne.0) then
+   finds=pack(finds,finds /= 0)
+   if(size(finds) /= 0) then
       if(back_local)then
          pos=maxval(finds)
       else
@@ -10361,7 +10365,7 @@ end function scan_ua
 !!    type(ut)                   :: name
 !!    logical                    :: lout
 !!       name=trim(line)
-!!       if(len(name).ne.0)then
+!!       if(len(name) /= 0)then
 !!          ! first character is alphameric
 !!          lout = verify(name%sub(1,1), lower//upper) == 0  &
 !!           ! other characters are allowed in a symbol name
@@ -10509,7 +10513,7 @@ integer                       :: i
    do i=1,len(string)
       str=string%sub(i,i)
       pos=index(set,str,back)
-      if(pos.eq.0)then
+      if(pos == 0)then
          result=i
          exit
       endif
@@ -10636,7 +10640,7 @@ integer                       :: tab_size_local
    SCAN_LINE: do istep=1,len_trim(instr)   ! look through input string one character at a time
       EXPAND_TABS : select case (instr%codes(istep)) ! take actions based on character found
       case(9)        ! character is a horizontal tab so move pointer out to appropriate column
-         if(tab_size_local.gt.0)then
+         if(tab_size_local > 0)then
             ipos = ipos + (tab_size_local - (mod(ipos-1,tab_size_local)))
          endif
       case default   ! character is anything else other than a tab
@@ -10779,13 +10783,13 @@ character(len=80)                      :: line
       if( str%codes(i)==ichar("&") )then
          begin=i+1
          finish=findloc(str%codes(min(begin,lngth):),ichar(";"),dim=1)
-         if(finish.eq.0)then ! end not found so treat & as regular character
+         if(finish == 0)then ! end not found so treat & as regular character
             j=j+1
             string%codes(j)=str%codes(i)
          else
             finish=begin+finish-2
             call codepoints_to_utf8_str(str%codes(begin:finish),token,nerr)
-            if(index(token,'#').eq.1)then
+            if(index(token,'#') == 1)then
                token=token//' '
                token=token(2:)
                read(token,*,iostat=nerr)icode
@@ -11013,7 +11017,7 @@ integer,parameter  :: x=ichar('x'),XX=ichar('X'),h=ichar('h'),HH=ichar('H')
    if(lgth == 0)return
 
    if( present(protect) )then
-      if(size(protect%codes).lt.1)then
+      if(size(protect%codes) < 1)then
          esc=0
       else
          esc=ichar(protect%sub(1,1))
@@ -11069,14 +11073,14 @@ integer,parameter  :: x=ichar('x'),XX=ichar('X'),h=ichar('h'),HH=ichar('H')
                call assign_char_str(buffer, line%sub(min(i+1,lgth),step=1) )
                ! trim to just next value
                icount=verify(buffer,'0123456789abcdefABCDEF')
-               if(icount.eq.0)icount=len(buffer)+1
+               if(icount == 0)icount=len(buffer)+1
                icount=icount-1
                buffer=buffer(:icount)
                ! build custom format to read the value
                format='(z'//fmt(icount)//')'
                read(buffer,format,iostat=iostat)nnn
                ! build custom format to read the value
-               if(iostat.eq.0)then
+               if(iostat == 0)then
                   out%codes=[out%codes,nnn]
                else
                   write(stderr,*)'<ERROR>reading hexadecimal value from ',buffer
@@ -11095,7 +11099,7 @@ integer,parameter  :: x=ichar('x'),XX=ichar('X'),h=ichar('h'),HH=ichar('H')
             case(ichar('0'):ichar('7'));
                call assign_char_str(buffer, line%sub(i,step=1) )
                icount=verify(buffer,'01234567')
-               if(icount.eq.0)icount=len(buffer)+1
+               if(icount == 0)icount=len(buffer)+1
                icount=icount-1
                buffer=character(line%sub(i,i+icount-1))
                call assign_char_str( temp, fmt(icount) )
@@ -11637,7 +11641,7 @@ integer                       :: sgn
       write(0,*)'*sub* unknown case ',which,'sign',sgn
       stop 1
    end select
-   if(step_.gt.0)then
+   if(step_ > 0)then
       end_=min(size(str%codes),end_)
       start_=max(1,start_)
    else
@@ -12002,7 +12006,7 @@ integer                              :: stat
 integer                              :: length
    length=0
    value=""
-   if(name.ne."")then
+   if(name /= "")then
       call get_environment_variable( name, &
       & length=howbig,status=stat,trim_name=.true.)
       select case (stat)
@@ -12023,10 +12027,10 @@ integer                              :: length
        ! get value
        call get_environment_variable( &
        & name,value,status=stat,trim_name=.true.)
-       if(stat.ne.0)value=""
+       if(stat /= 0)value=""
       end select
    endif
-   if(value.eq."".and.present(default))value=default
+   if(value == "".and.present(default))value=default
    call assign_str_char ( uvalue, value )
 end function get_env_aa
 
@@ -12160,7 +12164,7 @@ integer                              :: argument_length, istat
    temp(:)=''
    call get_command_argument(position, temp, status=istat)
    if(present(default))then
-      if(temp.eq.'')temp=default
+      if(temp == '')temp=default
    endif
    call assign_str_char ( value, temp )
 end function get_arg_ia
@@ -12479,7 +12483,7 @@ integer                         :: which
    case(int(b'110')) ; start=first ; end=last      ; inc=1
    case(int(b'111')) ; start=first ; end=last      ; inc=step
    end select
-   if(end.lt.start.and.inc.gt.0)then
+   if(end < start.and.inc > 0)then
       temp%codes=[integer :: ]
    else
       temp%codes=self%codes(start:end:inc)
@@ -12522,7 +12526,7 @@ integer                         :: which
    case(int(b'110')) ; start=first ; end=last      ; inc=1
    case(int(b'111')) ; start=first ; end=last      ; inc=step
    end select
-   if(end.lt.start.and.inc.gt.0)then
+   if(end < start.and.inc > 0)then
       codes_out=[integer :: ]
    else
       codes_out=self%codes(start:end:inc)
@@ -12684,7 +12688,7 @@ end function oop_eq
 !!       rewind(unit=lun)
 !!       do
 !!          ln=readline(lun,iostat=iostat)
-!!          if(iostat.ne.0)exit
+!!          if(iostat /= 0)exit
 !!          ! write the glyph length, byte length, line in brackets
 !!          write(*,'(i4,1x,i4,1x,a)')len(ln),len(ch(ln)),'['//ch(ln)//']'
 !!       enddo
@@ -12694,7 +12698,7 @@ end function oop_eq
 !!       rewind(unit=lun)
 !!       do
 !!          ln=readline(lun,iostat=iostat)
-!!          if(iostat.ne.0)exit
+!!          if(iostat /= 0)exit
 !!          ! assign the string to an allocatable array of integers
 !!          ints=ln
 !!          ! and the string to a character variable
@@ -12707,8 +12711,8 @@ end function oop_eq
 !!       rewind(unit=lun)
 !!       do
 !!          ln=readline(lun,iostat=iostat)
-!!          if(iostat.ne.0)exit
-!!          if(len(ln).eq.0)then
+!!          if(iostat /= 0)exit
+!!          if(len(ln) == 0)then
 !!             write(*,'(/,10(g0,1x)," ...")')[0,0]
 !!          else
 !!             write(*,'(/,10(g0,1x)," ...")')ln%codepoint()
@@ -12720,10 +12724,10 @@ end function oop_eq
 !!       rewind(unit=lun)
 !!       do
 !!          ln=readline(lun,iostat=iostat)
-!!          if(iostat.ne.0)exit
+!!          if(iostat /= 0)exit
 !!          ! assign the string to an allocatable array of integers
 !!          ints=ln
-!!          if(size(ints).eq.0)ints=[0,0]
+!!          if(size(ints) == 0)ints=[0,0]
 !!          write(*,'(/,10(g0,1x)," ...")')ints
 !!       enddo
 !!       call checkit()
@@ -12841,7 +12845,7 @@ end function readline
 !!
 !!    text=slurp(FILENAME,iomsg=iomsg)
 !!
-!!    if(iomsg.ne.'')then
+!!    if(iomsg /= '')then
 !!       write(*,*)'*demo_slurp* failed to load file '//FILENAME
 !!       write(*,*) iomsg
 !!    else
@@ -12938,12 +12942,12 @@ integer                               :: icount
       lun=stdin
    endif
    if(iostat == 0)then  ! if file was successfully opened
-      if(lun.eq.stdin)then
+      if(lun == stdin)then
         open(newunit=scratch, iomsg=iomsg,&
         &form="formatted", access="sequential",status='scratch',iostat=iostat)
         do
            line=readline(lun,iostat=iostat)
-           if(iostat.ne.0)exit
+           if(iostat /= 0)exit
            write(scratch,'(a)')line%character()
         enddo
         rewind(scratch)
@@ -12962,7 +12966,7 @@ integer                               :: icount
         if(iostat==iostat_end)then
            iostat=0
            exit
-        elseif(iostat.ne.0)then
+        elseif(iostat /= 0)then
            exit
         endif
         icount=icount+1
@@ -12975,7 +12979,7 @@ integer                               :: icount
    else
       allocate (text(0) )
    endif
-   if(lun.ne.stdin)then
+   if(lun /= stdin)then
       close(iostat=iostat,unit=lun)   ! close if opened successfully or not
    endif
 end function slurp
@@ -14000,7 +14004,7 @@ character(len=1)               :: letter
          expanded=expanded .cat. '>'
       case('<')  ! assuming not nested for now
          ii=index(padded%character(i+1,padded_end),'>')
-         if(ii.eq.0)then
+         if(ii == 0)then
             expanded=expanded//'<'
             i=i+1
          else
@@ -14009,12 +14013,12 @@ character(len=1)               :: letter
             call tokenize(name,set=unicode_type(' ,'),tokens=names)
 
             do j=1,size(names)
-               if( names(j) .eq. ' ' )cycle
-               if( names(j)%codes(1) .gt.ichar('0') .and. names(j)%codes(1) .le. ichar('9') ) then
+               if( names(j)  ==  ' ' )cycle
+               if( names(j)%codes(1)  > ichar('0') .and. names(j)%codes(1)  <=  ichar('9') ) then
                   expanded%codes = [ expanded%codes, atoi(names(j)%character()) ]
                else
                   call keyword_locate(keywords,names(j),place)
-                  if(place.le.0)then     ! unknown name; print what you found
+                  if(place <= 0)then     ! unknown name; print what you found
                      expanded=expanded .cat. names(j)
                   else
                      expanded=expanded .cat. keyword_get(names(j))
@@ -14106,7 +14110,7 @@ end subroutine kludge_bug
 !          call keyword_locate(entities,names(j),place)
 !         place=binary_search_int(entities%codes,letter)
 !
-!         if(place.le.0)then
+!         if(place <= 0)then
 !            iout=iout+1
 !            ints(iout)=letter
 !         else
@@ -14474,7 +14478,7 @@ character(len=*),parameter  :: fmts(*)=[character(len=80) :: '(*(a,t30,"[",a,"]"
       call keyword_load_defaults()
    endif
    select case(action)
-   case('alias_mode','alias','default','keyword','default_mode')
+   case('alias_mode','alias','default','keyword','key','default_mode')
       mode='alias_mode'
    case('plain_mode','plain')
       mode='plain_mode'
@@ -14489,7 +14493,7 @@ character(len=*),parameter  :: fmts(*)=[character(len=80) :: '(*(a,t30,"[",a,"]"
       if(allocated(keywords))then
          write(stdout,'(*(a,t30,a))')'KEYWORD','VALUE'
          do i=size(keywords),1,-1 ! if keyword is less than 30 characters use 30, else whatever length is needed so no truncation
-            write(stdout,fmts(merge(1,2,len_trim(keywords(i)).lt.30))) &
+            write(stdout,fmts(merge(1,2,len_trim(keywords(i)) < 30))) &
             & character(trim(keywords(i))), &
             & character(keyword_values(i)), &
             & character(plain_keyword_values(i))
@@ -14550,7 +14554,7 @@ end subroutine keyword_wipe_dictionary
 !!    Sample program
 !!
 !!      program demo_keyword_update
-!!      use M_unicode, only : keyword, keyword_update, ch=>character
+!!      use M_unicode, only : keyword_expand, keyword_update, ch=>character
 !!      character(len=*),parameter :: a='(a)'
 !!         write(*,'(a)') ch(keyword_expand('<clear>TEST CUSTOMIZATIONS:'))
 !!         ! add custom keywords
@@ -14614,7 +14618,7 @@ if(.not.allocated(mode))then  ! set substitution mode
 endif
 
    call keyword_locate(keywords,key,place)
-   if(place.gt.0)then
+   if(place > 0)then
       call keyword_remove(keywords,place)
       call keyword_remove(keyword_values,place)
       call keyword_remove(plain_keyword_values,place)
@@ -14632,7 +14636,7 @@ if(.not.allocated(mode))then  ! set substitution mode
 endif
 
    call keyword_locate(keywords,unicode_type(key),place)
-   if(place.gt.0)then
+   if(place > 0)then
       call keyword_remove(keywords,place)
       call keyword_remove(keyword_values,place)
       call keyword_remove(plain_keyword_values,place)
@@ -14662,7 +14666,7 @@ endif
    ! find where string is or should be
    call keyword_locate(keywords,key,place)
    ! if string was not found insert it
-   if(place.lt.1)then
+   if(place < 1)then
       call keyword_insert(keywords,key,abs(place))
       call keyword_insert(keyword_values,val,abs(place))
       call keyword_insert(plain_keyword_values,plainval,abs(place))
@@ -14711,15 +14715,15 @@ type(unicode_type)            :: valout
 integer                       :: place
    ! find where string is or should be
    call keyword_locate(keywords,key,place)
-   if(place.lt.1)then
+   if(place < 1)then
       valout=unicode_type('')
    else
-      if(mode.eq.'plain_mode')then
+      if(mode == 'plain_mode')then
          valout=trim(plain_keyword_values(place))
       else
          valout=trim(keyword_values(place))
       endif
-      if(len(valout).eq.0)valout=' '
+      if(len(valout) == 0)valout=' '
    endif
 end function keyword_get
 
@@ -14741,7 +14745,7 @@ integer                               :: error
    arraysize=size(list)
 
    error=0
-   if(arraysize.eq.0)then
+   if(arraysize == 0)then
       maxtry=0
       place=-1
    else
@@ -14754,22 +14758,22 @@ integer                               :: error
 
    LOOP: block
    do i=1,maxtry
-      if(value.eq.list(PLACE))then
+      if(value == list(PLACE))then
          exit LOOP
-      else if(value.gt.list(place))then
+      else if(value > list(place))then
          imax=place-1
       else
          imin=place+1
       endif
-      if(imin.gt.imax)then
+      if(imin > imax)then
          place=-imin
-         if(abs(place).gt.arraysize)then ! ran off end of list. Where new value should go or an unsorted input array'
+         if(abs(place) > arraysize)then ! ran off end of list. Where new value should go or an unsorted input array'
             exit LOOP
          endif
          exit LOOP
       endif
       place=(imax+imin)/2
-      if(place.gt.arraysize.or.place.le.0)then
+      if(place > arraysize.or.place <= 0)then
          message='*keyword_locate* error: search is out of bounds of list. Probably an unsorted input array'
          error=-1
          exit LOOP
@@ -14779,7 +14783,7 @@ integer                               :: error
    endblock LOOP
    if(present(ier))then
       ier=error
-   else if(error.ne.0)then
+   else if(error /= 0)then
       write(stderr,*)message//' VALUE=',trim(value)//' PLACE=',place
       stop 1
    endif
@@ -14796,8 +14800,8 @@ integer                        :: end
        allocate(list(0))
    endif
    end=size(list)
-   if(place.le.0.or.place.gt.end)then                       ! index out of bounds of array
-   elseif(place.eq.end)then                                 ! remove from array
+   if(place <= 0.or.place > end)then                       ! index out of bounds of array
+   elseif(place == end)then                                 ! remove from array
       list=[list(:place-1) ]
    else
       list=[list(:place-1), list(place+1:) ]
@@ -14815,7 +14819,7 @@ integer                        :: end
    endif
    tlen=len_trim(value)
    end=size(list)
-   if(place.lt.0.or.place.gt.end)then
+   if(place < 0.or.place > end)then
        write(stderr,*)'*replace* error: index out of range. end=',end,' index=',place
    else
       list(place)=value
@@ -14831,13 +14835,13 @@ integer                        :: end
       allocate(list(0))
    endif
    end=size(list)
-   if(end.eq.0)then                                          ! empty array
+   if(end == 0)then                                          ! empty array
       list=[ value ]
-   elseif(place.eq.1)then                                    ! put in front of array
+   elseif(place == 1)then                                    ! put in front of array
       list=[value, list]
-   elseif(place.gt.end)then                                  ! put at end of array
+   elseif(place > end)then                                  ! put at end of array
       list=[list, value ]
-   elseif(place.ge.2.and.place.le.end)then                   ! put in middle of array
+   elseif(place >= 2.and.place <= end)then                   ! put in middle of array
       list=[list(:place-1), value,list(place:) ]
    else                                                      ! index out of range
       write(stderr,*)'*keyword_insert* error: index out of range. end=',end,' index=',place,' value=',value

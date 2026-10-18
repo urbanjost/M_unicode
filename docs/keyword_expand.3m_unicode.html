@@ -48,7 +48,7 @@ a.existingWikiWord[title]{ //border: 1px dashed #BBB; }
 <div id="Container">
 <div id="Content">
 <CENTER>
-<H1><HR><I>Manual Reference Pages &nbsp;-&nbsp;</I><NOBR>keyword (3m_unicode)</NOBR><HR></H1>
+<H1><HR><I>Manual Reference Pages &nbsp;-&nbsp;</I><NOBR>keyword_expand (3m_unicode)</NOBR><HR></H1>
 </CENTER>
 <A name=0>
 
@@ -56,7 +56,7 @@ a.existingWikiWord[title]{ //border: 1px dashed #BBB; }
 
 </A>
 <BLOCKQUOTE>
-keyword(3f) - [M_unicode] substitute HTML-like keywords with other strings
+keyword_expand(3f) - [M_unicode] substitute HTML-like keywords with other strings
 (LICENSE:MIT)
 <P>
 </BLOCKQUOTE>
@@ -78,7 +78,7 @@ keyword(3f) - [M_unicode] substitute HTML-like keywords with other strings
 
 </A>
 <BLOCKQUOTE>
-function keyword(string) result (expanded)
+function keyword_expand(string) result (expanded)
 <P>
 <PRE>
        ! scalar
@@ -134,7 +134,15 @@ expand custom acronyms or abbreviations
 </PRE>
 By default all HTML entity names are predefined including Greek
 letters. Custom substitutions may be defined. The list of keywords
-and their substitution string may be dumped to stdout.
+and their substitution string may be dumped to stdout using
+keyword_mode(3f):
+<P>
+<PRE>
+       call keyword_mode(action=&#146;dump&#146;)
+<P>
+</PRE>
+More than one keyword may be enclosed. Numeric keywords are assumed
+to be Unicode codepoints.
 </BLOCKQUOTE>
 <A name=3>
 
@@ -172,8 +180,8 @@ or optionally left as-is
 o
 </TD><TD>
 you should use "&lt;gt&gt;" and "&lt;lt&gt;" instead of "&gt;" and "&lt;" in an string
-processed by keyword(3f) so that the raw mode will create correct
-input for the keyword(3f) function if read back in.
+processed by keyword_expand(3f) so that the raw mode will create correct
+input for the keyword_expand(3f) function if read back in.
 </TD></TR>
 <TR valign=top><TD width=3%>
 o
@@ -191,16 +199,20 @@ Sample program
 <P>
 <PRE>
     program demo_keyword
-    use M_unicode, only : keyword, keyword_mode, keyword_update
+    use M_unicode, only : keyword_expand, keyword_mode, keyword_update
     use M_unicode, only : ch=&gt;character
 <P>
        call printstuff(&#146;raw_mode&#146;)
        call printstuff(&#146;alias_mode&#146;)
 <P>
        write(*,&#146;(a)&#146;) &#146;ADDING A CUSTOM SEQUENCE:&#146;
-       call keyword_update(&#146;blink&#146;,char(27)//&#146;[5m&#146;)
-       call keyword_update(&#146;/blink&#146;,char(27)//&#146;[25m&#146;)
-       write(*,&#146;(a)&#146;) ch(keyword(&#146;&lt;blink&gt;Items for Friday&lt;/blink&gt;&#146;))
+       call keyword_update(&#146;blink&#146;,char(27)//&#146;[5m&#146;,&#146;&#146;)
+       call keyword_update(&#146;/blink&#146;,char(27)//&#146;[25m&#146;,&#146;&#146;)
+       write(*,&#146;(a)&#146;) ch(keyword_expand(&#146;&lt;blink&gt;Items for Friday&lt;/blink&gt;&#146;))
+<P>
+       write(*,&#146;(a)&#146;) &#146;DECIMAL NUMBERS AS WELL:&#146;
+       write(*,&#146;(a)&#146;) ch(keyword_expand(&
+       &#146;decimal keywords &lt;119 79 114 107&gt; as well&#146;))
 <P>
     contains
     subroutine printstuff(action)
@@ -210,16 +222,35 @@ Sample program
       call keyword_mode(action=action)
 <P>
       array=[character(len=60) :: &
-       &#146;TEST ACTION=&#146;//action,    &
+       &#146;Test the mode =&#146;//action,    &
        &#146;c=&lt;pi&gt;&lt;times&gt;d&#146;,          &
        &#146;a=&lt;pi&gt;&lt;times&gt;r&lt;S2&gt;&#146;,      &
        &#146;&lt;Delta&gt;&lt;delta&gt;&#146;,          &
        &#146;Copyright&lt;copy&gt;&#146;]
 <P>
-      write(*,&#146;(a)&#146;) ch(keyword(array))
+      write(*,&#146;(a)&#146;) ch(keyword_expand(array))
 <P>
     end subroutine printstuff
     end program demo_keyword
+<P>
+</PRE>
+Results:
+<P>
+<PRE>
+   &gt; TEST ACTION=raw_mode
+   &gt; c=&lt;pi&gt;&lt;times&gt;d
+   &gt; a=&lt;pi&gt;&lt;times&gt;r&lt;S2&gt;
+   &gt; &lt;Delta&gt;&lt;delta&gt;
+   &gt; Copyright&lt;copy&gt;
+<P>
+   &gt; TEST ACTION=alias_mode
+   &gt; c=π×d
+   &gt; a=π×r²
+   &gt; Δδ
+   &gt; Copyright©
+<P>
+   &gt; ADDING A CUSTOM SEQUENCE:
+   &gt; \e[5mItems for Friday\e[25m
 <P>
 </PRE>
 </BLOCKQUOTE>
@@ -254,7 +285,7 @@ John S. Urban, 2021
 keyword_mode(3f), keyword_update(3f)
 </BLOCKQUOTE>
 <P><HR>
-<br><br><center><img src="images/keyword.gif"></center>
+<br><br><center><img src="images/keyword_expand.gif"></center>
 </div>
 </div>
 </body>

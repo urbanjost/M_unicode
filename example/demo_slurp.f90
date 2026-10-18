@@ -12,7 +12,7 @@
 
      text=slurp(FILENAME,iomsg=iomsg)
 
-     if(iomsg.ne.'')then
+     if(iomsg /= '')then
         write(*,*)'*demo_slurp* failed to load file '//FILENAME
         write(*,*) iomsg
      else

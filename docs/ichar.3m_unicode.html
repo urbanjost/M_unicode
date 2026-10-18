@@ -56,7 +56,7 @@ a.existingWikiWord[title]{ //border: 1px dashed #BBB; }
 
 </A>
 <BLOCKQUOTE>
-ICHAR(3f) - [M_unicode:CONVERSION] character-to-integer code conversion
+ICHAR(3f) - [M_unicode:CONVERSION] character-to-integer Unicode codepoint conversion
 function
 (LICENSE:MIT)
 <P>
@@ -110,13 +110,19 @@ the return value is of default integer kind.
 
 </A>
 <BLOCKQUOTE>
-ichar(3) returns the code for the character in the system&#146;s native
-character set. the correspondence between characters and their codes is
-not necessarily the same across different Fortran implementations. For
-example, a platform using EBCDIC would return different values than
-an ASCII platform.
-<P>
-See IACHAR(3) for specifically working with the ASCII character set.
+This overload of ichar(3f) only returns values from input type
+<TABLE cellpadding=3><!-- tsb: This overload of ichar(3f) only returns values from input type
+ -->
+<TR></TR><TR></TR>
+<TR valign=top><TD colspan=2>
+<B>unicode_type.</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+This is because the intrinsic ichar(3f) returns the
+code for the character in the system&#146;s native character set. the
+correspondence between characters and their codes is not necessarily the
+same across different Fortran implementations. For example, a platform
+using EBCDIC would return different values than an ASCII platform.
+</TD></TR>
+<TR></TR></TABLE>See IACHAR(3f) for specifically working with the ASCII character set.
 </BLOCKQUOTE>
 <A name=4>
 
@@ -128,7 +134,7 @@ See IACHAR(3) for specifically working with the ASCII character set.
 <TR valign=top><TD width=3%>
 o
 </TD><TD>
-C : The input character to determine the decimal code of.
+C : The input character to determine the Unicode codepoint of.
 </TD></TR>
 <TR></TR></TABLE></BLOCKQUOTE>
 <A name=5>
@@ -143,8 +149,8 @@ queried is returned.
 The result is the position of C in the Unicode collating sequence,
 which is generally not the dictionary order in a particular language.
 <P>
-It is nonnegative and less than n, where n is the number of characters
-in the collating sequence.
+It is nonnegative and less than n, where n is the largest value in
+the Unicode collating sequence (ie. 1 114 111,).
 <P>
 For any characters C and D capable of representation in the processor,
 C &lt;= D is true if and only if ICHAR(C) &lt;= ICHAR(D) is true and C ==
@@ -163,6 +169,7 @@ sample program:
    use M_unicode, only : assignment(=),ch=&gt;character
    use M_unicode, only : ut=&gt;unicode_type, write(formatted)
    use M_unicode, only : ichar, expand_backslash, len
+   use M_unicode, only : ord=&gt;ichar ! a common alias
    implicit none
    type(ut)             :: string
    type(ut),allocatable :: lets(:)
@@ -173,7 +180,7 @@ sample program:
       string=[949, 8021, 961, 951, 954, 945, 33] ! eureka
       write(*,&#146;(*(DT,1x,"(AKA. eureka!)"))&#146;)string
       !
-      ! call ichar(3) on each glyph of the string to convert
+      ! call ichar(3f) on each glyph of the string to convert
       ! the string to an array of integer codepoints
       ilets=[(ichar(string%sub(i,i)),i=1,len(string))]
       write(*,&#146;(*(z0,1x))&#146;)ilets
@@ -181,6 +188,15 @@ sample program:
       ! note that the %codepoint method is commonly used to
       ! convert a string to an integer array of codepoints
       write(*,&#146;(*(z0,1x))&#146;)string%codepoint()
+      !
+      ! it is important to remember ICHAR(3f) with an ASCII argument
+      ! is not overloaded so multibyte quoted characters will not
+      ! produce the correct unicode value, only unicode_type variables
+      ! will, unless the compiler has an extension (eg. currently
+      ! flang(1) will return 8364 but gfortran(1) will return 226) for
+      ! the first call.
+      !write(*,&#146;(a)&#146;)ichar(&#146;€&#146;)        !&lt;== INCORRECT
+      write(*,&#146;(a)&#146;)ichar(ut(&#146;€&#146;))     !&lt;== CORRECT
 <P>
       ! elemental
       write(*,&#146;("WRITING ISSUES:")&#146;)
@@ -199,6 +215,7 @@ sample program:
       ! can take various numbers of bytes
       write(*,&#146;(*(g0,":"))&#146;)&#146;CHARACTER array elements have same length&#146;,&
          & len(ch(lets))
+      !
       ! this will not appear correctly because all elements are padded to
       ! the same length in bytes
       write(*,&#146;(*(a,":"))&#146;)ch(lets)
@@ -211,24 +228,24 @@ sample program:
       write(*,&#146;("ELEMENTAL:",*(z0,1x))&#146;)ichar(lets)
 <P>
       ! OOPS
-      write(*,&#146;("OOPS:",*(z0,1x))&#146;)lets%ichar()
+      write(*,&#146;("OOPS:     ",*(z0,1x))&#146;)lets%ichar()
    end program demo_ichar
 <P>
 </PRE>
 results:
 <P>
 <PRE>
-   &gt; Project is up to date
    &gt; εὕρηκα! (AKA. eureka!)
    &gt; 3B5 1F55 3C1 3B7 3BA 3B1 21
    &gt; 3B5 1F55 3C1 3B7 3BA 3B1 21
+   &gt; 226  8364
    &gt; WRITING ISSUES:
    &gt; each element is a single glyph 1 1 1 1 1 1 1
    &gt; CHARACTER array elements have same length:3:
    &gt; ε :ὕ:ρ :η :κ :α :!  :
    &gt; ε:ὕ:ρ:η:κ:α:!:
    &gt; ELEMENTAL:3B5 1F55 3C1 3B7 3BA 3B1 21
-   &gt; OOPS:3B5 1F55 3C1 3B7 3BA 3B1 21
+   &gt; OOPS:     3B5 1F55 3C1 3B7 3BA 3B1 21
 <P>
 </PRE>
 </BLOCKQUOTE>
@@ -238,7 +255,9 @@ results:
 
 </A>
 <BLOCKQUOTE>
-achar(3), char(3), iachar(3)
+achar(3), char(3), iachar(3),
+utf8_to_codepoints(3f),
+STRING%codepoint(start,end,inc)
 <P>
 functions that perform operations on character strings, return
 lengths of arguments, and search for certain arguments:
