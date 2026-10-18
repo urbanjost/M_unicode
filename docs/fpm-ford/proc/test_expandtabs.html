@@ -133,10 +133,10 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../proc/test_expandtabs.html#variable-expected~4">expected</a>
-            <a class="list-group-item" href="../proc/test_expandtabs.html#variable-i~16">i</a>
-            <a class="list-group-item" href="../proc/test_expandtabs.html#variable-in~4">in</a>
-            <a class="list-group-item" href="../proc/test_expandtabs.html#variable-str~2">str</a>
+            <a class="list-group-item" href="../proc/test_expandtabs.html#variable-expected~8">expected</a>
+            <a class="list-group-item" href="../proc/test_expandtabs.html#variable-i~105">i</a>
+            <a class="list-group-item" href="../proc/test_expandtabs.html#variable-in~7">in</a>
+            <a class="list-group-item" href="../proc/test_expandtabs.html#variable-str~22">str</a>
         </div>
       </div>
     </div>
@@ -198,7 +198,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-expected~4"></span>
+              <span class="anchor" id="variable-expected~8"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
               <td>public</td>
@@ -215,7 +215,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~16"></span>
+              <span class="anchor" id="variable-i~105"></span>
               integer,
             </td>
               <td>public</td>
@@ -232,7 +232,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-in~4"></span>
+              <span class="anchor" id="variable-in~7"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
               <td>public</td>
@@ -249,7 +249,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~2"></span>
+              <span class="anchor" id="variable-str~22"></span>
               character(len=:),
             </td>
               <td>public,</td>
@@ -292,10 +292,10 @@
 <span class="w">   </span><span class="k">enddo</span>
 <span class="k">   </span><span class="n">in</span><span class="o">=</span><span class="n">str</span>
 <span class="w">   </span><span class="n">expected</span><span class="o">=</span><span class="s2">"                this    is      my      string"</span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'expandtabs'</span><span class="p">,</span><span class="n">expandtabs</span><span class="p">(</span><span class="n">in</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">expected</span><span class="p">,</span><span class="n">ch</span><span class="p">(</span><span class="n">expandtabs</span><span class="p">(</span><span class="n">in</span><span class="p">)))</span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'expandtabs'</span><span class="p">,</span><span class="n">in</span><span class="p">%</span><span class="n">expandtabs</span><span class="p">().</span><span class="n">eq</span><span class="p">.</span><span class="n">expected</span><span class="p">,</span><span class="n">ch</span><span class="p">(</span><span class="n">expandtabs</span><span class="p">(</span><span class="n">in</span><span class="p">)))</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'expandtabs'</span><span class="p">,</span><span class="n">expandtabs</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">expected</span><span class="p">,</span><span class="n">ch</span><span class="p">(</span><span class="n">expandtabs</span><span class="p">(</span><span class="n">in</span><span class="p">)))</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'expandtabs'</span><span class="p">,</span><span class="n">in</span><span class="p">%</span><span class="n">expandtabs</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">expected</span><span class="p">,</span><span class="n">ch</span><span class="p">(</span><span class="n">expandtabs</span><span class="p">(</span><span class="n">in</span><span class="p">)))</span>
 <span class="w">   </span><span class="n">expected</span><span class="o">=</span><span class="s2">"thisismystring"</span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'expandtabs'</span><span class="p">,</span><span class="n">in</span><span class="p">%</span><span class="n">expandtabs</span><span class="p">(</span><span class="n">tab_size</span><span class="o">=</span><span class="mi">0</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">expected</span><span class="p">,</span><span class="n">ch</span><span class="p">(</span><span class="n">in</span><span class="p">%</span><span class="n">expandtabs</span><span class="p">(</span><span class="n">tab_size</span><span class="o">=</span><span class="mi">0</span><span class="p">)))</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'expandtabs'</span><span class="p">,</span><span class="n">in</span><span class="p">%</span><span class="n">expandtabs</span><span class="p">(</span><span class="n">tab_size</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">expected</span><span class="p">,</span><span class="n">ch</span><span class="p">(</span><span class="n">in</span><span class="p">%</span><span class="n">expandtabs</span><span class="p">(</span><span class="n">tab_size</span><span class="o">=</span><span class="mi">0</span><span class="p">)))</span>
 <span class="k">end subroutine </span><span class="n">test_expandtabs</span>
 </pre></div>
 
@@ -320,7 +320,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-10-18 03:09 +0000             </p>
+ on 2026-10-18 18:23 +0000             </p>
           </div>
         </div>
         <br>

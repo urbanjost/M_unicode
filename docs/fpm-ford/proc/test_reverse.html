@@ -133,8 +133,8 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../proc/test_reverse.html#variable-expected~5">expected</a>
-            <a class="list-group-item" href="../proc/test_reverse.html#variable-in~5">in</a>
+            <a class="list-group-item" href="../proc/test_reverse.html#variable-expected~9">expected</a>
+            <a class="list-group-item" href="../proc/test_reverse.html#variable-in~8">in</a>
         </div>
       </div>
     </div>
@@ -196,7 +196,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-expected~5"></span>
+              <span class="anchor" id="variable-expected~9"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
               <td>public</td>
@@ -213,7 +213,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-in~5"></span>
+              <span class="anchor" id="variable-in~8"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
               <td>public</td>
@@ -250,21 +250,21 @@
 
 <span class="w">   </span><span class="n">in</span><span class="o">=</span><span class="s1">'abcde'</span>
 <span class="w">   </span><span class="n">expected</span><span class="o">=</span><span class="s1">'edcba'</span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'reverse'</span><span class="p">,</span><span class="n">reverse</span><span class="p">(</span><span class="n">in</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">expected</span><span class="p">,</span><span class="n">ch</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="n">in</span><span class="p">)))</span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'reverse'</span><span class="p">,</span><span class="n">in</span><span class="p">%</span><span class="n">reverse</span><span class="p">().</span><span class="n">eq</span><span class="p">.</span><span class="n">expected</span><span class="p">,</span><span class="n">ch</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="n">in</span><span class="p">)))</span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'reverse'</span><span class="p">,</span><span class="n">reverse</span><span class="p">(</span><span class="s1">'abcde'</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="s1">'edcba'</span><span class="p">,</span><span class="n">ch</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">'abcde'</span><span class="p">)))</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'reverse'</span><span class="p">,</span><span class="n">reverse</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">expected</span><span class="p">,</span><span class="n">ch</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="n">in</span><span class="p">)))</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'reverse'</span><span class="p">,</span><span class="n">in</span><span class="p">%</span><span class="n">reverse</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">expected</span><span class="p">,</span><span class="n">ch</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="n">in</span><span class="p">)))</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'reverse'</span><span class="p">,</span><span class="n">reverse</span><span class="p">(</span><span class="s1">'abcde'</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'edcba'</span><span class="p">,</span><span class="n">ch</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">'abcde'</span><span class="p">)))</span>
 
 <span class="w">   </span><span class="n">in</span><span class="o">=</span><span class="s1">'한국말'</span>
 <span class="w">   </span><span class="n">expected</span><span class="o">=</span><span class="s1">'말국한'</span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'reverse'</span><span class="p">,</span><span class="n">reverse</span><span class="p">(</span><span class="n">in</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">expected</span><span class="p">,</span><span class="n">ch</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="n">in</span><span class="p">)))</span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'reverse'</span><span class="p">,</span><span class="n">in</span><span class="p">%</span><span class="n">reverse</span><span class="p">().</span><span class="n">eq</span><span class="p">.</span><span class="n">expected</span><span class="p">,</span><span class="n">ch</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="n">in</span><span class="p">)))</span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'reverse'</span><span class="p">,</span><span class="n">reverse</span><span class="p">(</span><span class="s1">'한국말'</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="s1">'말국한'</span><span class="p">,</span><span class="n">ch</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">'한국말'</span><span class="p">)))</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'reverse'</span><span class="p">,</span><span class="n">reverse</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">expected</span><span class="p">,</span><span class="n">ch</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="n">in</span><span class="p">)))</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'reverse'</span><span class="p">,</span><span class="n">in</span><span class="p">%</span><span class="n">reverse</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">expected</span><span class="p">,</span><span class="n">ch</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="n">in</span><span class="p">)))</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'reverse'</span><span class="p">,</span><span class="n">reverse</span><span class="p">(</span><span class="s1">'한국말'</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'말국한'</span><span class="p">,</span><span class="n">ch</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">'한국말'</span><span class="p">)))</span>
 
 <span class="w">   </span><span class="n">in</span><span class="o">=</span><span class="s1">'五十七'</span>
 <span class="w">   </span><span class="n">expected</span><span class="o">=</span><span class="s1">'七十五'</span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'reverse'</span><span class="p">,</span><span class="n">reverse</span><span class="p">(</span><span class="n">in</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">expected</span><span class="p">,</span><span class="n">ch</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="n">in</span><span class="p">)))</span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'reverse'</span><span class="p">,</span><span class="n">in</span><span class="p">%</span><span class="n">reverse</span><span class="p">().</span><span class="n">eq</span><span class="p">.</span><span class="n">expected</span><span class="p">,</span><span class="n">ch</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="n">in</span><span class="p">)))</span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'reverse'</span><span class="p">,</span><span class="n">reverse</span><span class="p">(</span><span class="s1">'五十七'</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="s1">'七十五'</span><span class="p">,</span><span class="n">ch</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">'五十七'</span><span class="p">)))</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'reverse'</span><span class="p">,</span><span class="n">reverse</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">expected</span><span class="p">,</span><span class="n">ch</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="n">in</span><span class="p">)))</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'reverse'</span><span class="p">,</span><span class="n">in</span><span class="p">%</span><span class="n">reverse</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">expected</span><span class="p">,</span><span class="n">ch</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="n">in</span><span class="p">)))</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'reverse'</span><span class="p">,</span><span class="n">reverse</span><span class="p">(</span><span class="s1">'五十七'</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'七十五'</span><span class="p">,</span><span class="n">ch</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">'五十七'</span><span class="p">)))</span>
 
 <span class="k">end subroutine </span><span class="n">test_reverse</span>
 </pre></div>
@@ -290,7 +290,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-10-18 03:09 +0000             </p>
+ on 2026-10-18 18:23 +0000             </p>
           </div>
         </div>
         <br>

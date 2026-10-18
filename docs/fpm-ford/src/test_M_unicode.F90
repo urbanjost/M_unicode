@@ -82,8 +82,8 @@ character(len=*),intent(in) :: label
 character(len=*),intent(in) :: aline
 character(len=*),intent(in) :: answer
 character(len=*),intent(in) :: expected
-   write(stdout,g0)merge('PASSED','FAILED',answer.eq.expected),' ',label,':[',aline,'][',answer,'][',expected,']'
-   if(answer.ne.expected)total=total+1
+   write(stdout,g0)merge('PASSED','FAILED',answer == expected),' ',label,':[',aline,'][',answer,'][',expected,']'
+   if(answer /= expected)total=total+1
 end subroutine checkit
 
 subroutine checkits(label,aline,answer,expected)
@@ -91,9 +91,9 @@ character(len=*),intent(in) :: label
 character(len=*),intent(in) :: aline
 character(len=*),intent(in) :: answer(:)
 character(len=*),intent(in) :: expected(:)
-   if(size(answer).eq.size(expected) )then
-      write(stdout,g0)merge('PASSED','FAILED',all(answer.eq.expected)),' ',label,':[',aline,'][',answer,'][',expected,']'
-      if(all(answer.ne.expected))total=total+1
+   if(size(answer) == size(expected) )then
+      write(stdout,g0)merge('PASSED','FAILED',all(answer == expected)),' ',label,':[',aline,'][',answer,'][',expected,']'
+      if(all(answer /= expected))total=total+1
    else
       write(stdout,g0)'FAILED',' ',label,':[',aline,'][',answer,'][',expected,']'
       total=total+1
@@ -133,15 +133,15 @@ integer                      :: where, start, break, i, last, col
    start=1
    do
       where=index(options(start:),' -')
-      if(where.eq.0)exit
+      if(where == 0)exit
       break=where+start-1
       options(break:break)=nl
       start=where
    enddo
-   if(start.eq.1)then
+   if(start == 1)then
       do
          where=index(options(start:),' /')
-         if(where.eq.0)exit
+         if(where == 0)exit
          break=where+start-1
          options(break:break)=nl
          start=where
@@ -151,14 +151,14 @@ integer                      :: where, start, break, i, last, col
    col=0
    do i=1,len_trim(version)
     col=col+1
-    if(version(i:i).eq.' ')last=i
-    if(col.gt.76)then
+    if(version(i:i) == ' ')last=i
+    if(col > 76)then
        version(last:last)=nl
        col=0
     endif
    enddo
    print '(a,/,3x,*(a))', 'This file was compiled by :', inset(version)
-   if(options.ne.'')then
+   if(options /= '')then
       print '(*(a))', 'using the options :', inset(options)
    endif
 end subroutine platform
@@ -171,7 +171,7 @@ integer                      :: i
    longer=''
    do i=1,len(string)
       longer=longer//string(i:i)
-      if(string(i:i).eq.nl)then
+      if(string(i:i) == nl)then
          longer=longer//'   '
       endif
    enddo
@@ -188,7 +188,7 @@ integer                              :: stat
 integer                              :: length
    length=0
    value=''
-   if(name.ne.'')then
+   if(name /= '')then
       call get_environment_variable( name, &
       & length=howbig,status=stat,trim_name=.true.)
       select case (stat)
@@ -207,10 +207,10 @@ integer                              :: length
          ! get value
          call get_environment_variable( &
          & name,value,status=stat,trim_name=.true.)
-         if(stat.ne.0)value=''
+         if(stat /= 0)value=''
       end select
    endif
-   if(value.eq.''.and.present(default))value=default
+   if(value == ''.and.present(default))value=default
 end function fgetenv
 
 subroutine test_index()
@@ -219,20 +219,20 @@ character(len=:),allocatable   :: astr
    string=" can you find me here? "
    substring="find me"
    astr=ch(substring)
-   call check('index '//string%character()//':'//substring%character(),index(string,substring).eq.10)
-   call check('index '//string%character()//':'//astr,index(string,astr).eq.10)
+   call check('index '//string%character()//':'//substring%character(),index(string,substring) == 10)
+   call check('index '//string%character()//':'//astr,index(string,astr) == 10)
 
    string=" can you find me here? "
    substring="not there"
    astr=ch(substring)
-   call check('index '//string%character()//':'//substring%character(),index(string,substring).eq.0)
-   call check('index '//string%character()//':'//astr,index(string,astr).eq.0)
+   call check('index '//string%character()//':'//substring%character(),index(string,substring) == 0)
+   call check('index '//string%character()//':'//astr,index(string,astr) == 0)
 
    string="short"
    substring="shortnot"
    astr=ch(substring)
-   call check('index '//string%character()//':'//substring%character(),index(string,substring).eq.0)
-   call check('index '//string%character()//':'//astr,index(string,astr).eq.0)
+   call check('index '//string%character()//':'//substring%character(),index(string,substring) == 0)
+   call check('index '//string%character()//':'//astr,index(string,astr) == 0)
 end subroutine test_index
 
 subroutine test_repeat()
@@ -313,24 +313,24 @@ character(len=:),allocatable   :: astr
 type(ut)             :: ut_str
    astr="  this is a string    "
    ut_str=astr
-   call check('len',ut_str%len().eq.22)
-   call check('len',len(ut_str).eq.22)
+   call check('len',ut_str%len() == 22)
+   call check('len',len(ut_str) == 22)
 
    astr="  "
    ut_str=astr
-   call check('len',ut_str%len().eq.2)
+   call check('len',ut_str%len() == 2)
 
    astr=""
    ut_str=astr
-   call check('len',ut_str%len().eq.0)
+   call check('len',ut_str%len() == 0)
 
    astr="ALLFULL"
    ut_str=astr
-   call check('len',ut_str%len().eq.7)
+   call check('len',ut_str%len() == 7)
 
    ut_str=[32,32,int(z'1F603'),32,32,32]
    astr=ch(ut_str)
-   call check('len',ut_str%len().eq.6)
+   call check('len',ut_str%len() == 6)
 
 end subroutine test_len
 
@@ -339,24 +339,24 @@ character(len=:),allocatable   :: astr
 type(ut)             :: ut_str
    astr="  this is a string    "
    ut_str=astr
-   call check('len_trim',ut_str%len_trim().eq.18)
-   call check('len_trim',len_trim(ut_str).eq.18)
+   call check('len_trim',ut_str%len_trim() == 18)
+   call check('len_trim',len_trim(ut_str) == 18)
 
    astr="  "
    ut_str=astr
-   call check('len_trim',ut_str%len_trim().eq.0)
+   call check('len_trim',ut_str%len_trim() == 0)
 
    astr=""
    ut_str=astr
-   call check('len_trim',ut_str%len_trim().eq.0)
+   call check('len_trim',ut_str%len_trim() == 0)
 
    astr="ALLFULL"
    ut_str=astr
-   call check('len_trim',ut_str%len_trim().eq.7)
+   call check('len_trim',ut_str%len_trim() == 7)
 
    ut_str=[32,32,int(z'1F603'),32,32,32]
    astr=ch(ut_str)
-   call check('len_trim',ut_str%len_trim().eq.3)
+   call check('len_trim',ut_str%len_trim() == 3)
 
 end subroutine test_len_trim
 
@@ -409,10 +409,10 @@ integer                      :: i
    enddo
    in=str
    expected="                this    is      my      string"
-   call check('expandtabs',expandtabs(in).eq.expected,ch(expandtabs(in)))
-   call check('expandtabs',in%expandtabs().eq.expected,ch(expandtabs(in)))
+   call check('expandtabs',expandtabs(in) == expected,ch(expandtabs(in)))
+   call check('expandtabs',in%expandtabs() == expected,ch(expandtabs(in)))
    expected="thisismystring"
-   call check('expandtabs',in%expandtabs(tab_size=0).eq.expected,ch(in%expandtabs(tab_size=0)))
+   call check('expandtabs',in%expandtabs(tab_size=0) == expected,ch(in%expandtabs(tab_size=0)))
 end subroutine test_expandtabs
 
 subroutine test_reverse()
@@ -421,21 +421,21 @@ type(ut)           :: expected
 
    in='abcde'
    expected='edcba'
-   call check('reverse',reverse(in).eq.expected,ch(reverse(in)))
-   call check('reverse',in%reverse().eq.expected,ch(reverse(in)))
-   call check('reverse',reverse('abcde').eq.'edcba',ch(reverse('abcde')))
+   call check('reverse',reverse(in) == expected,ch(reverse(in)))
+   call check('reverse',in%reverse() == expected,ch(reverse(in)))
+   call check('reverse',reverse('abcde') == 'edcba',ch(reverse('abcde')))
 
    in='한국말'
    expected='말국한'
-   call check('reverse',reverse(in).eq.expected,ch(reverse(in)))
-   call check('reverse',in%reverse().eq.expected,ch(reverse(in)))
-   call check('reverse',reverse('한국말').eq.'말국한',ch(reverse('한국말')))
+   call check('reverse',reverse(in) == expected,ch(reverse(in)))
+   call check('reverse',in%reverse() == expected,ch(reverse(in)))
+   call check('reverse',reverse('한국말') == '말국한',ch(reverse('한국말')))
 
    in='五十七'
    expected='七十五'
-   call check('reverse',reverse(in).eq.expected,ch(reverse(in)))
-   call check('reverse',in%reverse().eq.expected,ch(reverse(in)))
-   call check('reverse',reverse('五十七').eq.'七十五',ch(reverse('五十七')))
+   call check('reverse',reverse(in) == expected,ch(reverse(in)))
+   call check('reverse',in%reverse() == expected,ch(reverse(in)))
+   call check('reverse',reverse('五十七') == '七十五',ch(reverse('五十七')))
 
 end subroutine test_reverse
 
@@ -454,7 +454,7 @@ subroutine add(message,question,answer)
 character(len=*),intent(in)   :: message
 type(ut),intent(in)           :: question
 character(len=*),intent(in)   :: answer
-  call check('fmt',question.eq.answer,'testing '//message//' expected '//answer//' got '//ch(question))
+  call check('fmt',question == answer,'testing '//message//' expected '//answer//' got '//ch(question))
 end subroutine add
 
 end subroutine test_fmt
@@ -611,7 +611,7 @@ character(len=128)  :: ascii7
       letter1=temp%character(i)
       letter2=low%character(i,i)
       if ( letter1 /= letter2 )then
-         if(i.eq.82)then
+         if(i == 82)then
             call check('lower',i==82,'expected difference'//letter1%character()//letter2%character())
          else
             call check('lower',letter1 == letter2,'failed'//letter1%character()//letter2%character())
@@ -734,18 +734,15 @@ in='     😃    ';
 expect_t=[ut([32]),ut([32]),ut([32]),ut([32]),ut([32]),ut([128515]),ut([32]),ut([32]),ut([32]),ut([32])];
 expect_s=[' ',' ',' ',' ',' ',' ',' ',' ',' ']
 call expectations()
-call expectations()
 
 in='     😃    e  ';
 expect_t=[ut([32]),ut([32]),ut([32]),ut([32]),ut([32]),ut([128515]),ut([32]),ut([32]),ut([32]),ut([101]),ut([32]),ut([32])];
 expect_s=[' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ']
 call expectations()
-call expectations()
 
 in='😃    e';
 expect_t=[ut([128515]),ut([32]),ut([32]),ut([32]),ut([101])];
 expect_s=[' ',' ',' ',' ']
-call expectations()
 call expectations()
 
 in="α β γ"
@@ -774,7 +771,7 @@ call expectations()
    CALL TOKENIZE (herbs, delims, begins, ends)
    call check('tokenize',size(begins) == 4 ,'size of begins')
    call check('tokenize',size(ends) == 4 ,'size of ends')
-   if(size(begins).eq.4 .and. size(ends).eq.4 )then
+   if(size(begins) == 4 .and. size(ends) == 4 )then
       call check('tokenize',all(begins == [1,9,14,23]) ,'begins')
       call check('tokenize',all(ends == [7,12,21,27]) ,'ends')
    endif
@@ -800,13 +797,13 @@ type(ut)             :: sep
 integer              :: i
  sep=' ,'
  call tokenize(in,sep,t,s)
- if(size(t).eq.size(expect_t) )then
-   call check('tokenize',all(t.eq.expect_t),'for "'//ch(in)//'" expected tokens '//pra( expect_t)//' got '//pra(t))
+ if(size(t) == size(expect_t) )then
+   call check('tokenize',all(t == expect_t),'for "'//ch(in)//'" expected tokens '//pra( expect_t)//' got '//pra(t))
  else
    call check('tokenize',.false.,'for "'//ch(in)//'" expected token size '//afmt(size( expect_t))//' got '//pra(t))
  endif
- if(size(s).eq.size(expect_s) )then
-   call check('tokenize',all(s.eq.expect_s),'for "'//ch(in)//'" expected separator '//pra( expect_s)//' got '//pra(s))
+ if(size(s) == size(expect_s) )then
+   call check('tokenize',all(s == expect_s),'for "'//ch(in)//'" expected separator '//pra( expect_s)//' got '//pra(s))
  else
    call check('tokenize',.false.,'for "'//ch(in)//'" expected separator size '//afmt(size( expect_s))//' got '//pra(s))
  endif
@@ -826,9 +823,9 @@ quotedurdu=expand_backslash('\u0627\u0686\u06BE\u06D2 \u0644\u0648\u06AF\u0648\u
 romanized='ache logon ka milna hi ache mustaqbil ki zamanat hai.'
 
 english='Meeting good people is the guarantee of a good future.'
- 
+
 expect_t =[ &
-expand_backslash('\u0627\u0686\u06BE\u06D2'), & 
+expand_backslash('\u0627\u0686\u06BE\u06D2'), &
 expand_backslash('\u0644\u0648\u06AF\u0648\u06BA'), &
 expand_backslash('\u06A9\u0627'), &
 expand_backslash('\u0645\u0644\u0646\u0627'), &
@@ -841,8 +838,8 @@ expand_backslash('\u06C1\u06D2\u06D4') ]
 
 call tokenize(quotedurdu,sep,t)
 
- if(size(t).eq.size(expect_t) )then
-   call check('tokenize',all(t.eq.expect_t),'for "'//ch(quotedurdu)//'" expected tokens '//pra( expect_t)//' got '//pra(t))
+ if(size(t) == size(expect_t) )then
+   call check('tokenize',all(t == expect_t),'for "'//ch(quotedurdu)//'" expected tokens '//pra( expect_t)//' got '//pra(t))
  else
    call check('tokenize',.false.,'for "'//ch(quotedurdu)//'" expected token size '//afmt(size( expect_t))//' got '//pra(t))
  endif
@@ -857,7 +854,7 @@ character(len=:),allocatable :: str
 integer                      :: i
    str=''
    do i=1,size(uarr)
-      str=str//uarr(i)%ch()
+      str=str//'['//uarr(i)%ch()//']'
    enddo
 end function pra
 
@@ -896,32 +893,32 @@ if(allocated(ii))deallocate(ii)
 allocate(ii(size(array)))
 ! convert to lower and sort (likely creating temp array)
 call sort(lower(array), ii )
-call check('sort',all(array(ii).eq.answer),'case insensitive')
+call check('sort',all(array(ii) == answer),'case insensitive')
 ! Sort ignoring case by using custom rule
 call sort(array, ii, comparison_func=case_insensitive_compare)
-call check('sort',all(array(ii).eq.answer),'custom case insensitive')
+call check('sort',all(array(ii) == answer),'custom case insensitive')
 ! Sort in German dictionary order using custom rule
 array=[ &
- ut("Band"),        & 
- ut("Buße"),        & 
- ut("Öl"),          & 
- ut("Ufer"),        & 
- ut("Apfel"),       & 
- ut("Oase"),        & 
- ut("Bus"),         & 
- ut("Möve"),        & 
- ut("Bär"),         & 
- ut("Zebra"),       & 
- ut("Mutter"),      & 
- ut("Bussard"),     & 
- ut("Äpfel"),       & 
- ut("Mond"),        & 
- ut("Mütter"),      & 
- ut("Übung"),       & 
- ut("F\xE4hnlein"), &   
- ut("Fa\u0308hnlein") ] 
-array=expand_backslash(array) 
-if(allocated(ii))deallocate(ii)  
+ ut("Band"),        &
+ ut("Buße"),        &
+ ut("Öl"),          &
+ ut("Ufer"),        &
+ ut("Apfel"),       &
+ ut("Oase"),        &
+ ut("Bus"),         &
+ ut("Möve"),        &
+ ut("Bär"),         &
+ ut("Zebra"),       &
+ ut("Mutter"),      &
+ ut("Bussard"),     &
+ ut("Äpfel"),       &
+ ut("Mond"),        &
+ ut("Mütter"),      &
+ ut("Übung"),       &
+ ut("F\xE4hnlein"), &
+ ut("Fa\u0308hnlein") ]
+array=expand_backslash(array)
+if(allocated(ii))deallocate(ii)
 allocate(ii(size(array)))
 ! Sort using custom German dictionary order
 call sort(array, ii, comparison_func=german_dictionary)
@@ -945,7 +942,7 @@ answer=[ &
  ut("Ufer"),      &
  ut("Übung"),     &
  ut("Zebra")      ]
-call check('sort',all(array(ii).eq.answer),'custom German dictionary')
+call check('sort',all(array(ii) == answer),'custom German dictionary')
 
 contains
 subroutine chk()
@@ -960,8 +957,8 @@ integer,allocatable            :: ints(:)
    array=array(ints)
 
    temp=total
-   call check('sort',all(array(1:csz-1) .le. array(2:csz)),'sort array') ! verify in ascending order
-   if(total.ne.temp)then
+   call check('sort',all(array(1:csz-1)  <=  array(2:csz)),'sort array') ! verify in ascending order
+   if(total /= temp)then
       do i=1,size(array)
          write(stdout,g0)array(i)%character()
       enddo
@@ -1005,7 +1002,7 @@ integer,parameter    :: comb=2*int(z'308'), &
    allocate(codes(0:2*size(in%codes)))
    ikeep=0
    do concurrent ( i=1:size(in%codes) )
-      if(in%codes(i).eq.comb)then
+      if(in%codes(i) == comb)then
          codes(ikeep)=codes(ikeep)+1
       else
          ikeep=ikeep+1
@@ -1099,7 +1096,7 @@ integer                      :: which
 integer                      :: i
    ilength=len(chars)
    out=''
-   if(ilength.gt.0)then
+   if(ilength > 0)then
       do i=1,length
          call random_number(x)
          which=nint(real(ilength-1)*x)+1
@@ -1187,9 +1184,9 @@ end subroutine test_verify
 subroutine test_ichar()
 type(ut)           :: ut_str
    ut_str='ABC'
-   call check('ichar',ut_str%ichar().eq.ichar('A'),'string%ichar()')
-   call check('ichar',ichar(ut('A')).eq.ichar('A'),'ichar(ut("A")')
-   call check('ichar',ichar(ut_str%sub(2,3)).eq.ichar('B'),'ichar(ut_str%sub(2,3))')
+   call check('ichar',ut_str%ichar() == ichar('A'),'string%ichar()')
+   call check('ichar',ichar(ut('A')) == ichar('A'),'ichar(ut("A")')
+   call check('ichar',ichar(ut_str%sub(2,3)) == ichar('B'),'ichar(ut_str%sub(2,3))')
 end subroutine test_ichar
 
 subroutine test_expand_backslash()
@@ -1220,36 +1217,36 @@ integer,allocatable          :: ints(:)
    ut_str='\\\a\b\e\f\n\r\t\v\c'
    ints=[92,7,8,27,12,10,13,9,11]
    ut_str=expand_backslash(ut_str)
-   call check('expand_backslash',len(ut_str).eq.9,'len')
-   if( len(ut_str).eq.9 )then
-      call check('expand_backslash',all(ut_str%codepoint().eq.ints),'codes')
+   call check('expand_backslash',len(ut_str) == 9,'len')
+   if( len(ut_str) == 9 )then
+      call check('expand_backslash',all(ut_str%codepoint() == ints),'codes')
    endif
-   call check('expand_backslash',expand_backslash(ut('\')).eq.'\','backslash at end of line')
-   call check('expand_backslash',expand_backslash(ut('text\0')).eq.'text'//char(0),'null at end')
-   call check('expand_backslash',expand_backslash(ut('\122\123A')).eq.'RSA','two')
+   call check('expand_backslash',expand_backslash(ut('\')) == '\','backslash at end of line')
+   call check('expand_backslash',expand_backslash(ut('text\0')) == 'text'//char(0),'null at end')
+   call check('expand_backslash',expand_backslash(ut('\122\123A')) == 'RSA','two')
 
    !\oN\oNN\oNNN
-   call check('expand_backslash',expand_backslash(ut('\o0Z')).eq.char(0)//'Z','null')
-   call check('expand_backslash',expand_backslash(ut('\o75Z')).eq.'=Z','oNN '//ch(expand_backslash('\o75z')))
-   call check('expand_backslash',expand_backslash(ut('\o075Z')).eq.'=Z','oNNN '//ch(expand_backslash('\o075z')))
-   call check('expand_backslash',expand_backslash(ut('\o75\o75\o076')).eq.'==>','oNNoNNoNN '//ch(expand_backslash('\o75\o75\o76')))
-   call check('expand_backslash',expand_backslash(ut('\oZ')).eq.'oZ','reasonable '//ch(expand_backslash('\oZ')))
+   call check('expand_backslash',expand_backslash(ut('\o0Z')) == char(0)//'Z','null')
+   call check('expand_backslash',expand_backslash(ut('\o75Z')) == '=Z','oNN '//ch(expand_backslash('\o75z')))
+   call check('expand_backslash',expand_backslash(ut('\o075Z')) == '=Z','oNNN '//ch(expand_backslash('\o075z')))
+   call check('expand_backslash',expand_backslash(ut('\o75\o75\o076')) == '==>','oNNoNNoNN '//ch(expand_backslash('\o75\o75\o76')))
+   call check('expand_backslash',expand_backslash(ut('\oZ')) == 'oZ','reasonable '//ch(expand_backslash('\oZ')))
 
    ! (kaufii hai?) [Literal Meaning: “Is there coffee?”] “Do you have coffee?” (Informal)
 
    ut_str='\u0915\u0949\u092B\U0000093C\U00000940\x20\u0939\u0948\x3F'
    call check('expand_backslash',&
-   & expand_backslash(ut_str).eq.'कॉफ़ी है?',&
+   & expand_backslash(ut_str) == 'कॉफ़ी है?',&
    & 'hexadecimal and unicode ' // &
    & ch(expand_backslash(ut_str)) )
    call check('expand_backslash',&
-   & ch(expand_backslash(ut_str)).eq.'कॉफ़ी है?',&
+   & ch(expand_backslash(ut_str)) == 'कॉफ़ी है?',&
    & 'hexadecimal and unicode' // &
    & ch(expand_backslash(ut_str)) )
 
    ut_str='\x9\x09\x008\xA4\x3B1\x3B2\x221A\x221E'
    line=char(9)//char(9)//char(8)//'¤αβ√∞'
-   call check('expand_backslash',expand_backslash(ut_str).eq.line,'hexadecimal')
+   call check('expand_backslash',expand_backslash(ut_str) == line,'hexadecimal')
 
 end subroutine test_expand_backslash
 
@@ -1276,23 +1273,23 @@ character(len=:),allocatable :: avarvalue
 end subroutine test_get_env
 
 subroutine test_expand_html()
-type(ut)           :: u_line
+type(ut)                     :: u_expected
+type(ut)                     :: u_line
 character(len=:),allocatable :: a_line
 
-   call check('expand_html',expand_html(ut('&')).eq.'&','backslash at end of line')
+   call check('expand_html',expand_html(ut('&')) == '&','backslash at end of line')
 
-   u_line='< > & © ® ™ € £ Before After'
+   u_expected='< > & © ® ™ € £ Before After'
    ! UNICODE_TYPE input
-   a_line='&lt; &gt; &amp; &copy; &reg; &trade; &euro; &pound; Before&nbsp;After'
-   call check('expand_html',expand_html(ut(a_line)).eq.u_line,'&NAME;')
-   a_line='&#60; &#62; &#38; &#169; &#174; &#8482; &#8364; &#163; Before&#160;After'
-   call check('expand_html',expand_html(ut(a_line)).eq.u_line,'&#NUMBER;')
+   u_line='&lt; &gt; &amp; &copy; &reg; &trade; &euro; &pound; Before&nbsp;After'
+   call check('expand_html',expand_html(u_line) == u_expected,'&NAME; unicode_type input ' // ch(expand_html(u_line)))
+   u_line='&#60; &#62; &#38; &#169; &#174; &#8482; &#8364; &#163; Before&#160;After'
+   call check('expand_html',expand_html(u_line) == u_expected,'&#NUMBER; unicode_type input ' // ch(expand_html(u_line)))
 
    ! CHARACTER input
    a_line='&lt; &gt; &amp; &copy; &reg; &trade; &euro; &pound; Before&nbsp;After'
-   call check('expand_html',expand_html(a_line).eq.u_line,'&NAME;')
+   call check('expand_html',expand_html(a_line) == u_expected,'&NAME; character input ' // ch(expand_html(a_line) ))
    a_line='&#60; &#62; &#38; &#169; &#174; &#8482; &#8364; &#163; Before&#160;After'
-   call check('expand_html',expand_html(a_line).eq.u_line,'&#NUMBER;')
 
 end subroutine test_expand_html
 
@@ -1305,7 +1302,7 @@ character(len=*),parameter :: text(*)=[character(len=15) :: &
 '    WARNING, ', &
 ' Will Robinson ']
 do j=1,2
-if (j.eq.1)then
+if (j == 1)then
    expected=[character(len=21*4) :: &
 '┌───────────────────┐', &
 '│┏━━━━━━━━━━━━━━━━━┓│', &
@@ -1331,17 +1328,17 @@ endif
    expected=trim(expected)
    length1=maxval(len(textout))
    length2=maxval(len(expected))
-   call check('add_border',length1.eq.length2,ch('length=' .cat. length1 .cat. ', expected ' .cat. length2))
+   call check('add_border',length1 == length2,ch('length=' .cat. length1 .cat. ', expected ' .cat. length2))
    int_1=size(textout)
    int_2=size(expected)
-   if( int_1.eq.int_2 )then
-      bool1=all(textout.eq.expected)
+   if( int_1 == int_2 )then
+      bool1=all(textout == expected)
       call check('add_border',bool1,'compare all output text')
       if(.not.bool1)then
          write(stdout,'(*(g0,/))')(trim(textout(i)%character()),trim(expected(i)%character()),i=1,int_1)
       endif
    else
-      call check('add_border',int_1.eq.int_2, ch('size expected ' .cat. int_2 .cat. ' got ' .cat. int_1) )
+      call check('add_border',int_1 == int_2, ch('size expected ' .cat. int_2 .cat. ' got ' .cat. int_1) )
       write(stdout,'(*(g0))') 'Result:'
       write(stdout,'(g0)')(trim(textout(i)%character()),i=1,int_1)
       write(stdout,'(*(g0))') 'Expected:'
@@ -1415,11 +1412,11 @@ do istyle=1,4
    end select
    length1=maxval(len(textout))
    length2=maxval(len(expected))
-   call check('pound_to_box',length1.eq.length2,ch('length=' .cat. length1 .cat. ', expected ' .cat. length2))
+   call check('pound_to_box',length1 == length2,ch('length=' .cat. length1 .cat. ', expected ' .cat. length2))
    int_1=size(textout)
    int_2=size(expected)
-   if( int_1.eq.int_2 )then
-      bool1=all(textout.eq.expected)
+   if( int_1 == int_2 )then
+      bool1=all(textout == expected)
       call check('pound_to_box',bool1,'compare expected to result for '//style)
       if(.not.bool1)then
          do i=1,int_1
@@ -1427,7 +1424,7 @@ do istyle=1,4
          enddo
       endif
    else
-      call check('pound_to_box',int_1.eq.int_2, ch('size expected ' .cat. int_2 .cat. ' got ' .cat. int_1) )
+      call check('pound_to_box',int_1 == int_2, ch('size expected ' .cat. int_2 .cat. ' got ' .cat. int_1) )
    endif
 enddo
 end subroutine test_pound_to_box
@@ -1439,16 +1436,16 @@ integer            :: i
    UA=[(i,i=0,255)]
    uline=add_html(UA)
 
-   call check('add_html',len(uline).eq.1019,ch('len ' .cat. len(uline)))
-   if( len(uline).eq.772 )then
-      call check('add_html',expand_html(uline).eq.UA,'round trip')
+   call check('add_html',len(uline) == 1019,ch('len ' .cat. len(uline)))
+   if( len(uline) == 772 )then
+      call check('add_html',expand_html(uline) == UA,'round trip')
    endif
-   call check('add_html',add_html(ut('text'//char(0))).eq.'text&#0;','null at end')
+   call check('add_html',add_html(ut('text'//char(0))) == 'text&#0;','null at end')
 
    ! (kaufii hai?) [Literal Meaning: “Is there coffee?”] “Do you have coffee?” (Informal)
    uline='कॉफ़ी है?'
    UA = '&#2325;&#2377;&#2347;&#2364;&#2368; &#2361;&#2376;?'
-   call check('add_html',add_html(uline).eq.UA,'decimal:'//ch(add_html(uline)//'=='//UA))
+   call check('add_html',add_html(uline) == UA,'decimal:'//ch(add_html(uline)//'=='//UA))
 
 end subroutine test_add_html
 
@@ -1459,17 +1456,17 @@ integer            :: i
    UA=[(i,i=0,255)]
    uline=add_backslash(UA)
 
-   call check('add_backslash',len(uline).eq.722,ch('len ' .cat. len(uline)))
-   if( len(uline).eq.772 )then
-      call check('add_backslash',expand_backslash(uline).eq.UA,'round trip')
+   call check('add_backslash',len(uline) == 722,ch('len ' .cat. len(uline)))
+   if( len(uline) == 772 )then
+      call check('add_backslash',expand_backslash(uline) == UA,'round trip')
    endif
-   call check('add_backslash',add_backslash(ut('\')).eq.'\\','backslash at end of line')
-   call check('add_backslash',add_backslash(ut('text'//char(0))).eq.'text\0','null at end')
+   call check('add_backslash',add_backslash(ut('\')) == '\\','backslash at end of line')
+   call check('add_backslash',add_backslash(ut('text'//char(0))) == 'text\0','null at end')
 
    ! (kaufii hai?) [Literal Meaning: “Is there coffee?”] “Do you have coffee?” (Informal)
    uline='कॉफ़ी है?'
    UA='\u0915\u0949\u092B\u093C\u0940 \u0939\u0948?'
-   call check('add_backslash',add_backslash(uline).eq.UA,'hexadecimal'//ch(add_backslash(uline)//'=='//UA))
+   call check('add_backslash',add_backslash(uline) == UA,'hexadecimal'//ch(add_backslash(uline)//'=='//UA))
 
 end subroutine test_add_backslash
 
@@ -1988,7 +1985,7 @@ end subroutine test_glob
 end module testsuite_M_unicode
 
 program test_M_unicode
-use testsuite_M_unicode 
+use testsuite_M_unicode
    total = 0
 
    !write(stdout,g0)'encoding can be altered on an open file'
@@ -2034,7 +2031,7 @@ use testsuite_M_unicode
    call test_other()
 
    write(stdout,g0)
-   if(total.ne.0)then
+   if(total /= 0)then
       write(stdout,g0)total,' failures'
       stop 1
    else

@@ -133,9 +133,9 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../proc/test_sort.html#variable-answer~6">answer</a>
-            <a class="list-group-item" href="../proc/test_sort.html#variable-array~3">array</a>
-            <a class="list-group-item" href="../proc/test_sort.html#variable-ii~2">ii</a>
+            <a class="list-group-item" href="../proc/test_sort.html#variable-answer~7">answer</a>
+            <a class="list-group-item" href="../proc/test_sort.html#variable-array~7">array</a>
+            <a class="list-group-item" href="../proc/test_sort.html#variable-ii~7">ii</a>
         </div>
       </div>
     </div>
@@ -221,7 +221,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-answer~6"></span>
+              <span class="anchor" id="variable-answer~7"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
               <td>public,</td>
@@ -238,7 +238,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~3"></span>
+              <span class="anchor" id="variable-array~7"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
               <td>public,</td>
@@ -255,7 +255,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ii~2"></span>
+              <span class="anchor" id="variable-ii~7"></span>
               integer,
             </td>
               <td>public,</td>
@@ -303,7 +303,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str1"></span>
+              <span class="anchor" id="variable-str1~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -318,7 +318,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-str2"></span>
+              <span class="anchor" id="variable-str2~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -363,7 +363,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~2"></span>
+              <span class="anchor" id="variable-lhs~32"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -378,7 +378,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~2"></span>
+              <span class="anchor" id="variable-rhs~32"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -423,7 +423,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-in~7"></span>
+              <span class="anchor" id="variable-in~10"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -507,32 +507,32 @@
 <span class="k">allocate</span><span class="p">(</span><span class="n">ii</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="k">array</span><span class="p">)))</span>
 <span class="c">! convert to lower and sort (likely creating temp array)</span>
 <span class="k">call </span><span class="n">sort</span><span class="p">(</span><span class="n">lower</span><span class="p">(</span><span class="k">array</span><span class="p">),</span><span class="w"> </span><span class="n">ii</span><span class="w"> </span><span class="p">)</span>
-<span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'sort'</span><span class="p">,</span><span class="k">all</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="n">ii</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">answer</span><span class="p">),</span><span class="s1">'case insensitive'</span><span class="p">)</span>
+<span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'sort'</span><span class="p">,</span><span class="k">all</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">answer</span><span class="p">),</span><span class="s1">'case insensitive'</span><span class="p">)</span>
 <span class="c">! Sort ignoring case by using custom rule</span>
 <span class="k">call </span><span class="n">sort</span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="n">ii</span><span class="p">,</span><span class="w"> </span><span class="n">comparison_func</span><span class="o">=</span><span class="n">case_insensitive_compare</span><span class="p">)</span>
-<span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'sort'</span><span class="p">,</span><span class="k">all</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="n">ii</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">answer</span><span class="p">),</span><span class="s1">'custom case insensitive'</span><span class="p">)</span>
+<span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'sort'</span><span class="p">,</span><span class="k">all</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">answer</span><span class="p">),</span><span class="s1">'custom case insensitive'</span><span class="p">)</span>
 <span class="c">! Sort in German dictionary order using custom rule</span>
 <span class="k">array</span><span class="o">=</span><span class="p">[</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Band"</span><span class="p">),</span><span class="w">        </span><span class="p">&amp;</span><span class="w"> </span>
-<span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Buße"</span><span class="p">),</span><span class="w">        </span><span class="p">&amp;</span><span class="w"> </span>
-<span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Öl"</span><span class="p">),</span><span class="w">          </span><span class="p">&amp;</span><span class="w"> </span>
-<span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Ufer"</span><span class="p">),</span><span class="w">        </span><span class="p">&amp;</span><span class="w"> </span>
-<span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Apfel"</span><span class="p">),</span><span class="w">       </span><span class="p">&amp;</span><span class="w"> </span>
-<span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Oase"</span><span class="p">),</span><span class="w">        </span><span class="p">&amp;</span><span class="w"> </span>
-<span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Bus"</span><span class="p">),</span><span class="w">         </span><span class="p">&amp;</span><span class="w"> </span>
-<span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Möve"</span><span class="p">),</span><span class="w">        </span><span class="p">&amp;</span><span class="w"> </span>
-<span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Bär"</span><span class="p">),</span><span class="w">         </span><span class="p">&amp;</span><span class="w"> </span>
-<span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Zebra"</span><span class="p">),</span><span class="w">       </span><span class="p">&amp;</span><span class="w"> </span>
-<span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Mutter"</span><span class="p">),</span><span class="w">      </span><span class="p">&amp;</span><span class="w"> </span>
-<span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Bussard"</span><span class="p">),</span><span class="w">     </span><span class="p">&amp;</span><span class="w"> </span>
-<span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Äpfel"</span><span class="p">),</span><span class="w">       </span><span class="p">&amp;</span><span class="w"> </span>
-<span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Mond"</span><span class="p">),</span><span class="w">        </span><span class="p">&amp;</span><span class="w"> </span>
-<span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Mütter"</span><span class="p">),</span><span class="w">      </span><span class="p">&amp;</span><span class="w"> </span>
-<span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Übung"</span><span class="p">),</span><span class="w">       </span><span class="p">&amp;</span><span class="w"> </span>
-<span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"F\xE4hnlein"</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w">   </span>
-<span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Fa\u0308hnlein"</span><span class="p">)</span><span class="w"> </span><span class="p">]</span><span class="w"> </span>
-<span class="k">array</span><span class="o">=</span><span class="n">expand_backslash</span><span class="p">(</span><span class="k">array</span><span class="p">)</span><span class="w"> </span>
-<span class="k">if</span><span class="p">(</span><span class="nb">allocated</span><span class="p">(</span><span class="n">ii</span><span class="p">))</span><span class="k">deallocate</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="w">  </span>
+<span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Band"</span><span class="p">),</span><span class="w">        </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Buße"</span><span class="p">),</span><span class="w">        </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Öl"</span><span class="p">),</span><span class="w">          </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Ufer"</span><span class="p">),</span><span class="w">        </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Apfel"</span><span class="p">),</span><span class="w">       </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Oase"</span><span class="p">),</span><span class="w">        </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Bus"</span><span class="p">),</span><span class="w">         </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Möve"</span><span class="p">),</span><span class="w">        </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Bär"</span><span class="p">),</span><span class="w">         </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Zebra"</span><span class="p">),</span><span class="w">       </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Mutter"</span><span class="p">),</span><span class="w">      </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Bussard"</span><span class="p">),</span><span class="w">     </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Äpfel"</span><span class="p">),</span><span class="w">       </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Mond"</span><span class="p">),</span><span class="w">        </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Mütter"</span><span class="p">),</span><span class="w">      </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Übung"</span><span class="p">),</span><span class="w">       </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"F\xE4hnlein"</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Fa\u0308hnlein"</span><span class="p">)</span><span class="w"> </span><span class="p">]</span>
+<span class="k">array</span><span class="o">=</span><span class="n">expand_backslash</span><span class="p">(</span><span class="k">array</span><span class="p">)</span>
+<span class="k">if</span><span class="p">(</span><span class="nb">allocated</span><span class="p">(</span><span class="n">ii</span><span class="p">))</span><span class="k">deallocate</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span>
 <span class="k">allocate</span><span class="p">(</span><span class="n">ii</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="k">array</span><span class="p">)))</span>
 <span class="c">! Sort using custom German dictionary order</span>
 <span class="k">call </span><span class="n">sort</span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="n">ii</span><span class="p">,</span><span class="w"> </span><span class="n">comparison_func</span><span class="o">=</span><span class="n">german_dictionary</span><span class="p">)</span>
@@ -556,7 +556,7 @@
 <span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Ufer"</span><span class="p">),</span><span class="w">      </span><span class="p">&amp;</span>
 <span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Übung"</span><span class="p">),</span><span class="w">     </span><span class="p">&amp;</span>
 <span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s2">"Zebra"</span><span class="p">)</span><span class="w">      </span><span class="p">]</span>
-<span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'sort'</span><span class="p">,</span><span class="k">all</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="n">ii</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">answer</span><span class="p">),</span><span class="s1">'custom German dictionary'</span><span class="p">)</span>
+<span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'sort'</span><span class="p">,</span><span class="k">all</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">answer</span><span class="p">),</span><span class="s1">'custom German dictionary'</span><span class="p">)</span>
 
 <span class="k">contains</span>
 <span class="k">subroutine </span><span class="n">chk</span><span class="p">()</span>
@@ -571,8 +571,8 @@
 <span class="w">   </span><span class="k">array</span><span class="o">=</span><span class="k">array</span><span class="p">(</span><span class="n">ints</span><span class="p">)</span>
 
 <span class="w">   </span><span class="n">temp</span><span class="o">=</span><span class="n">total</span>
-<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'sort'</span><span class="p">,</span><span class="k">all</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">csz</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">le</span><span class="p">.</span><span class="w"> </span><span class="k">array</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="n">csz</span><span class="p">)),</span><span class="s1">'sort array'</span><span class="p">)</span><span class="w"> </span><span class="c">! verify in ascending order</span>
-<span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="n">total</span><span class="p">.</span><span class="n">ne</span><span class="p">.</span><span class="n">temp</span><span class="p">)</span><span class="k">then</span>
+<span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'sort'</span><span class="p">,</span><span class="k">all</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">csz</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w">  </span><span class="o">&lt;=</span><span class="w">  </span><span class="k">array</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="n">csz</span><span class="p">)),</span><span class="s1">'sort array'</span><span class="p">)</span><span class="w"> </span><span class="c">! verify in ascending order</span>
+<span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="n">total</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">temp</span><span class="p">)</span><span class="k">then</span>
 <span class="k">      do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="k">array</span><span class="p">)</span>
 <span class="w">         </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g0</span><span class="p">)</span><span class="k">array</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="kt">character</span><span class="p">()</span>
 <span class="w">      </span><span class="k">enddo</span>
@@ -616,7 +616,7 @@
 <span class="w">   </span><span class="k">allocate</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="o">*</span><span class="n">size</span><span class="p">(</span><span class="n">in</span><span class="p">%</span><span class="n">codes</span><span class="p">)))</span>
 <span class="w">   </span><span class="n">ikeep</span><span class="o">=</span><span class="mi">0</span>
 <span class="w">   </span><span class="k">do</span><span class="w"> </span><span class="k">concurrent</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">size</span><span class="p">(</span><span class="n">in</span><span class="p">%</span><span class="n">codes</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
-<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">in</span><span class="p">%</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">comb</span><span class="p">)</span><span class="k">then</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">in</span><span class="p">%</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">comb</span><span class="p">)</span><span class="k">then</span>
 <span class="k">         </span><span class="n">codes</span><span class="p">(</span><span class="n">ikeep</span><span class="p">)</span><span class="o">=</span><span class="n">codes</span><span class="p">(</span><span class="n">ikeep</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span>
 <span class="w">      </span><span class="k">else</span>
 <span class="k">         </span><span class="n">ikeep</span><span class="o">=</span><span class="n">ikeep</span><span class="o">+</span><span class="mi">1</span>
@@ -665,7 +665,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-10-18 03:09 +0000             </p>
+ on 2026-10-18 18:23 +0000             </p>
           </div>
         </div>
         <br>
