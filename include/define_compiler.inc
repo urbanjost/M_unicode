@@ -20,17 +20,18 @@
 #elif __FLANG
 #   undef FLOAT128
 #   warning  NOTE: FLOAT128 not supported
-#   undef HAS_DT
+#   define HAS_DT
 #   define __COMPILER__ __FLANG_COMP
 #elif __flang__
 #   undef FLOAT128
-#   warning  NOTE: FLOAT128 not supported
+#   warning  NOTE: FLANG: FLOAT128 not supported
 #   undef HAS_DT
+#   define HAS_DT
 #   define __COMPILER__ __LLVM_FLANG_COMP
 #elif __NVCOMPILER
 #   undef HAS_DT
 #   undef FLOAT128
-#   warning  NOTE: FLOAT128 not supported
+#   warning  NOTE: NVCOMPILER: FLOAT128 not supported
 #   define __COMPILER__ __NVIDIA_COMP
 #elif __NVCOMPILER_LLVM__
 #   undef FLOAT128
@@ -40,7 +41,7 @@
 #   define __COMPILER__ __LFORTRAN_COMP
 #elif __NVCOMPILER
 #   undef FLOAT128
-#   warning  NOTE: FLOAT128 not supported
+#   warning  NOTE: LFORTRAN: FLOAT128 not supported
 #   define __COMPILER__ __NVIDIA_COMP
 #else
 #   undef FLOAT128
