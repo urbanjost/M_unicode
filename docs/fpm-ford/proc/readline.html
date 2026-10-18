@@ -233,7 +233,7 @@
 <span class="w">   </span><span class="nx">rewind</span><span class="p">(</span><span class="nx">unit</span><span class="p">=</span><span class="nx">lun</span><span class="p">)</span>
 <span class="w">   </span><span class="nx">do</span>
 <span class="w">      </span><span class="nx">ln</span><span class="p">=</span><span class="nx">readline</span><span class="p">(</span><span class="nx">lun</span><span class="p">,</span><span class="nx">iostat</span><span class="p">=</span><span class="nx">iostat</span><span class="p">)</span>
-<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="nx">iostat</span><span class="p">.</span><span class="nx">ne</span><span class="m m-Double">.0</span><span class="p">)</span><span class="nx">exit</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="nx">iostat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="nx">exit</span>
 <span class="w">      </span><span class="p">!</span><span class="w"> </span><span class="nx">write</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">glyph</span><span class="w"> </span><span class="nx">length</span><span class="p">,</span><span class="w"> </span><span class="nx">byte</span><span class="w"> </span><span class="nx">length</span><span class="p">,</span><span class="w"> </span><span class="nx">line</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nx">brackets</span>
 <span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="err">'</span><span class="p">(</span><span class="nx">i4</span><span class="p">,</span><span class="mi">1</span><span class="nx">x</span><span class="p">,</span><span class="nx">i4</span><span class="p">,</span><span class="mi">1</span><span class="nx">x</span><span class="p">,</span><span class="nx">a</span><span class="p">)</span><span class="err">'</span><span class="p">)</span><span class="nx">len</span><span class="p">(</span><span class="nx">ln</span><span class="p">),</span><span class="nx">len</span><span class="p">(</span><span class="nx">ch</span><span class="p">(</span><span class="nx">ln</span><span class="p">)),</span><span class="sc">'['</span><span class="c1">//ch(ln)//']'</span>
 <span class="w">   </span><span class="nx">enddo</span>
@@ -243,7 +243,7 @@
 <span class="w">   </span><span class="nx">rewind</span><span class="p">(</span><span class="nx">unit</span><span class="p">=</span><span class="nx">lun</span><span class="p">)</span>
 <span class="w">   </span><span class="nx">do</span>
 <span class="w">      </span><span class="nx">ln</span><span class="p">=</span><span class="nx">readline</span><span class="p">(</span><span class="nx">lun</span><span class="p">,</span><span class="nx">iostat</span><span class="p">=</span><span class="nx">iostat</span><span class="p">)</span>
-<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="nx">iostat</span><span class="p">.</span><span class="nx">ne</span><span class="m m-Double">.0</span><span class="p">)</span><span class="nx">exit</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="nx">iostat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="nx">exit</span>
 <span class="w">      </span><span class="p">!</span><span class="w"> </span><span class="nx">assign</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">an</span><span class="w"> </span><span class="nx">allocatable</span><span class="w"> </span><span class="nx">array</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">integers</span>
 <span class="w">      </span><span class="nx">ints</span><span class="p">=</span><span class="nx">ln</span>
 <span class="w">      </span><span class="p">!</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">character</span><span class="w"> </span><span class="nx">variable</span>
@@ -256,8 +256,8 @@
 <span class="w">   </span><span class="nx">rewind</span><span class="p">(</span><span class="nx">unit</span><span class="p">=</span><span class="nx">lun</span><span class="p">)</span>
 <span class="w">   </span><span class="nx">do</span>
 <span class="w">      </span><span class="nx">ln</span><span class="p">=</span><span class="nx">readline</span><span class="p">(</span><span class="nx">lun</span><span class="p">,</span><span class="nx">iostat</span><span class="p">=</span><span class="nx">iostat</span><span class="p">)</span>
-<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="nx">iostat</span><span class="p">.</span><span class="nx">ne</span><span class="m m-Double">.0</span><span class="p">)</span><span class="nx">exit</span>
-<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="nx">len</span><span class="p">(</span><span class="nx">ln</span><span class="p">).</span><span class="nx">eq</span><span class="m m-Double">.0</span><span class="p">)</span><span class="k">then</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="nx">iostat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="nx">exit</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="nx">len</span><span class="p">(</span><span class="nx">ln</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>
 <span class="w">         </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="err">'</span><span class="p">(</span><span class="o">/</span><span class="p">,</span><span class="mi">10</span><span class="p">(</span><span class="nx">g0</span><span class="p">,</span><span class="mi">1</span><span class="nx">x</span><span class="p">),</span><span class="s">" ..."</span><span class="p">)</span><span class="err">'</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
 <span class="w">      </span><span class="k">else</span>
 <span class="w">         </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="err">'</span><span class="p">(</span><span class="o">/</span><span class="p">,</span><span class="mi">10</span><span class="p">(</span><span class="nx">g0</span><span class="p">,</span><span class="mi">1</span><span class="nx">x</span><span class="p">),</span><span class="s">" ..."</span><span class="p">)</span><span class="err">'</span><span class="p">)</span><span class="nx">ln</span><span class="o">%</span><span class="nx">codepoint</span><span class="p">()</span>
@@ -269,10 +269,10 @@
 <span class="w">   </span><span class="nx">rewind</span><span class="p">(</span><span class="nx">unit</span><span class="p">=</span><span class="nx">lun</span><span class="p">)</span>
 <span class="w">   </span><span class="nx">do</span>
 <span class="w">      </span><span class="nx">ln</span><span class="p">=</span><span class="nx">readline</span><span class="p">(</span><span class="nx">lun</span><span class="p">,</span><span class="nx">iostat</span><span class="p">=</span><span class="nx">iostat</span><span class="p">)</span>
-<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="nx">iostat</span><span class="p">.</span><span class="nx">ne</span><span class="m m-Double">.0</span><span class="p">)</span><span class="nx">exit</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="nx">iostat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="nx">exit</span>
 <span class="w">      </span><span class="p">!</span><span class="w"> </span><span class="nx">assign</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">an</span><span class="w"> </span><span class="nx">allocatable</span><span class="w"> </span><span class="nx">array</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">integers</span>
 <span class="w">      </span><span class="nx">ints</span><span class="p">=</span><span class="nx">ln</span>
-<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="nx">size</span><span class="p">(</span><span class="nx">ints</span><span class="p">).</span><span class="nx">eq</span><span class="m m-Double">.0</span><span class="p">)</span><span class="nx">ints</span><span class="p">=[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="nx">size</span><span class="p">(</span><span class="nx">ints</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="nx">ints</span><span class="p">=[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
 <span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="err">'</span><span class="p">(</span><span class="o">/</span><span class="p">,</span><span class="mi">10</span><span class="p">(</span><span class="nx">g0</span><span class="p">,</span><span class="mi">1</span><span class="nx">x</span><span class="p">),</span><span class="s">" ..."</span><span class="p">)</span><span class="err">'</span><span class="p">)</span><span class="nx">ints</span>
 <span class="w">   </span><span class="nx">enddo</span>
 <span class="w">   </span><span class="nx">call</span><span class="w"> </span><span class="nx">checkit</span><span class="p">()</span>
@@ -309,7 +309,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lun"></span>
+              <span class="anchor" id="variable-lun~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -324,7 +324,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iostat~3"></span>
+              <span class="anchor" id="variable-iostat~10"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -342,7 +342,7 @@
 
       <h3>Return Value
         <small>
-          <span class="anchor" id="variable-line~17"></span>
+          <span class="anchor" id="variable-line~36"></span>
           type(<a href='../type/unicode_type.html'>unicode_type</a>)
         </small>
       </h3>
@@ -424,7 +424,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-10-17 15:27 +0000             </p>
+ on 2026-10-18 03:09 +0000             </p>
           </div>
         </div>
         <br>

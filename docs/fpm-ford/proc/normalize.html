@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 2.0% of total for procedures.">52 statements</a>
+                 title=" 1.9% of total for procedures.">52 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -137,7 +137,7 @@
             <a class="list-group-item" href="../proc/normalize.html#variable-la">LA</a>
             <a class="list-group-item" href="../proc/normalize.html#variable-lo">LO</a>
             <a class="list-group-item" href="../proc/normalize.html#variable-lu">LU</a>
-            <a class="list-group-item" href="../proc/normalize.html#variable-ua~3">UA</a>
+            <a class="list-group-item" href="../proc/normalize.html#variable-ua">UA</a>
             <a class="list-group-item" href="../proc/normalize.html#variable-umla">UMLA</a>
             <a class="list-group-item" href="../proc/normalize.html#variable-umlo">UMLO</a>
             <a class="list-group-item" href="../proc/normalize.html#variable-umlu">UMLU</a>
@@ -145,12 +145,12 @@
             <a class="list-group-item" href="../proc/normalize.html#variable-umuo">UMUO</a>
             <a class="list-group-item" href="../proc/normalize.html#variable-umuu">UMUU</a>
             <a class="list-group-item" href="../proc/normalize.html#variable-uo">UO</a>
-            <a class="list-group-item" href="../proc/normalize.html#variable-uu~2">UU</a>
-            <a class="list-group-item" href="../proc/normalize.html#variable-codes~8">codes</a>
-            <a class="list-group-item" href="../proc/normalize.html#variable-i~103">i</a>
-            <a class="list-group-item" href="../proc/normalize.html#variable-j~10">j</a>
+            <a class="list-group-item" href="../proc/normalize.html#variable-uu">UU</a>
+            <a class="list-group-item" href="../proc/normalize.html#variable-codes">codes</a>
+            <a class="list-group-item" href="../proc/normalize.html#variable-i~7">i</a>
+            <a class="list-group-item" href="../proc/normalize.html#variable-j">j</a>
             <a class="list-group-item" href="../proc/normalize.html#variable-multi">multi</a>
-            <a class="list-group-item" href="../proc/normalize.html#variable-sub~2">sub</a>
+            <a class="list-group-item" href="../proc/normalize.html#variable-sub">sub</a>
             <a class="list-group-item" href="../proc/normalize.html#variable-sz">sz</a>
         </div>
       </div>
@@ -206,7 +206,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-in~8"></span>
+              <span class="anchor" id="variable-in~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -224,7 +224,7 @@
 
       <h3>Return Value
         <small>
-          <span class="anchor" id="variable-out~21"></span>
+          <span class="anchor" id="variable-out"></span>
           type(<a href='../type/unicode_type.html'>unicode_type</a>)
         </small>
       </h3>
@@ -314,7 +314,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ua~3"></span>
+              <span class="anchor" id="variable-ua"></span>
               integer,
             </td>
               <td>public,</td>
@@ -450,7 +450,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uu~2"></span>
+              <span class="anchor" id="variable-uu"></span>
               integer,
             </td>
               <td>public,</td>
@@ -467,7 +467,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-codes~8"></span>
+              <span class="anchor" id="variable-codes"></span>
               integer,
             </td>
               <td>public,</td>
@@ -484,7 +484,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~103"></span>
+              <span class="anchor" id="variable-i~7"></span>
               integer,
             </td>
               <td>public</td>
@@ -501,7 +501,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-j~10"></span>
+              <span class="anchor" id="variable-j"></span>
               integer,
             </td>
               <td>public</td>
@@ -535,7 +535,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sub~2"></span>
+              <span class="anchor" id="variable-sub"></span>
               integer,
             </td>
               <td>public</td>
@@ -608,7 +608,7 @@ parameter
 <span class="w">   </span><span class="c">! RETURN codepoint 86.98user 1.55system 1:31.00elapsed 97%CPU (0avgtext+0avgdata 240096maxresident)k</span>
 <span class="w">   </span><span class="c">! now if followed by the combining dieresis add one so can tell between a Latin letter and Latin letter that was umlauted</span>
 <span class="w">   </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">codes</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span>
-<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">COMB</span><span class="p">)</span><span class="k">then</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">COMB</span><span class="p">)</span><span class="k">then</span>
 <span class="k">         </span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span>
 <span class="w">      </span><span class="k">endif</span>
 <span class="k">   enddo</span>
@@ -616,7 +616,7 @@ parameter
 
 <span class="w">   </span><span class="c">! Now remove the combining dieresis modifier U+0308. Note that assuming it only occurs following a,o,u so possible</span>
 <span class="w">   </span><span class="c">! issue if not pure German</span>
-<span class="w">   </span><span class="n">codes</span><span class="o">=</span><span class="nb">pack</span><span class="p">(</span><span class="w"> </span><span class="n">codes</span><span class="p">,</span><span class="w"> </span><span class="n">codes</span><span class="p">.</span><span class="n">ne</span><span class="p">.</span><span class="n">COMB</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="n">codes</span><span class="o">=</span><span class="nb">pack</span><span class="p">(</span><span class="w"> </span><span class="n">codes</span><span class="p">,</span><span class="w"> </span><span class="n">codes</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">COMB</span><span class="w"> </span><span class="p">)</span>
 <span class="w">   </span><span class="c">! RETURN 144.46user 2.52system 2:33.78elapsed 95%CPU (0avgtext+0avgdata 129356maxresident)k</span>
 <span class="c">!=================================================================</span>
 <span class="w">   </span><span class="c">! replace umlauted characters with associated Latin letters doubled and add one to mark as previously umlauted</span>
@@ -624,57 +624,57 @@ parameter
 <span class="c">!=================================================================</span>
 <span class="c">! 208.31user 1.75system 3:35.43elapsed 97%CPU (0avgtext+0avgdata 240860maxresident)k</span>
 <span class="c">!   DO I=1,size(codes)</span>
-<span class="c">!      if(codes(i).le.2*127)then</span>
-<span class="c">!      elseif(codes(i).eq.UMLA)then</span>
+<span class="c">!      if(codes(i) &lt;= 2*127)then</span>
+<span class="c">!      elseif(codes(i) == UMLA)then</span>
 <span class="c">!         codes(i)=LA</span>
-<span class="c">!      elseif(codes(i).eq.UMLO)then</span>
+<span class="c">!      elseif(codes(i) == UMLO)then</span>
 <span class="c">!         codes(i)=LO</span>
-<span class="c">!      elseif(codes(i).eq.UMLU)then</span>
+<span class="c">!      elseif(codes(i) == UMLU)then</span>
 <span class="c">!         codes(i)=LU</span>
-<span class="c">!      elseif(codes(i).eq.UMUA)then</span>
+<span class="c">!      elseif(codes(i) == UMUA)then</span>
 <span class="c">!         codes(i)=UA</span>
-<span class="c">!      elseif(codes(i).eq.UMUO)then</span>
+<span class="c">!      elseif(codes(i) == UMUO)then</span>
 <span class="c">!         codes(i)=UO</span>
-<span class="c">!      elseif(codes(i).eq.UMUU)then</span>
+<span class="c">!      elseif(codes(i) == UMUU)then</span>
 <span class="c">!         codes(i)=UU</span>
 <span class="c">!      endif</span>
 <span class="c">!   ENDDO</span>
 <span class="c">!=================================================================</span>
 <span class="c">! 205.77user 2.11system 3:34.21elapsed 97%CPU</span>
 <span class="c">!   DO CONCURRENT ( I=1:size(codes) )</span>
-<span class="c">!      if(codes(i).le.2*127)then</span>
-<span class="c">!      elseif(codes(i).eq.UMLA)then</span>
+<span class="c">!      if(codes(i) &lt;= 2*127)then</span>
+<span class="c">!      elseif(codes(i) == UMLA)then</span>
 <span class="c">!         codes(i)=LA</span>
-<span class="c">!      elseif(codes(i).eq.UMLO)then</span>
+<span class="c">!      elseif(codes(i) == UMLO)then</span>
 <span class="c">!         codes(i)=LO</span>
-<span class="c">!      elseif(codes(i).eq.UMLU)then</span>
+<span class="c">!      elseif(codes(i) == UMLU)then</span>
 <span class="c">!         codes(i)=LU</span>
-<span class="c">!      elseif(codes(i).eq.UMUA)then</span>
+<span class="c">!      elseif(codes(i) == UMUA)then</span>
 <span class="c">!         codes(i)=UA</span>
-<span class="c">!      elseif(codes(i).eq.UMUO)then</span>
+<span class="c">!      elseif(codes(i) == UMUO)then</span>
 <span class="c">!         codes(i)=UO</span>
-<span class="c">!      elseif(codes(i).eq.UMUU)then</span>
+<span class="c">!      elseif(codes(i) == UMUU)then</span>
 <span class="c">!         codes(i)=UU</span>
 <span class="c">!      endif</span>
 <span class="c">!   ENDDO</span>
 <span class="c">!=================================================================</span>
 <span class="c">! 182.90user 2.11system 3:11.02elapsed 96%CPU</span>
 <span class="w">   </span><span class="k">DO</span><span class="w"> </span><span class="k">CONCURRENT</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">I</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">size</span><span class="p">(</span><span class="n">codes</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
-<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">UMLA</span><span class="p">)</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">LA</span>
-<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">UMLO</span><span class="p">)</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">LO</span>
-<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">UMLU</span><span class="p">)</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">LU</span>
-<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">UMUA</span><span class="p">)</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">UA</span>
-<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">UMUO</span><span class="p">)</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">UO</span>
-<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">UMUU</span><span class="p">)</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">UU</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">UMLA</span><span class="p">)</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">LA</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">UMLO</span><span class="p">)</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">LO</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">UMLU</span><span class="p">)</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">LU</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">UMUA</span><span class="p">)</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">UA</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">UMUO</span><span class="p">)</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">UO</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">UMUU</span><span class="p">)</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">UU</span>
 <span class="w">   </span><span class="k">ENDDO</span>
 <span class="c">!=================================================================</span>
 <span class="c">! 216.14user 1.54system 3:44.74elapsed 96%CPU</span>
-<span class="c">!    codes= merge( LA,codes, codes.eq.UMLA )</span>
-<span class="c">!    codes= merge( LO,codes, codes.eq.UMLO )</span>
-<span class="c">!    codes= merge( LU,codes, codes.eq.UMLU )</span>
-<span class="c">!    codes= merge( UA,codes, codes.eq.UMUA )</span>
-<span class="c">!    codes= merge( UO,codes, codes.eq.UMUO )</span>
-<span class="c">!    codes= merge( UU,codes, codes.eq.UMUU )</span>
+<span class="c">!    codes= merge( LA,codes, codes == UMLA )</span>
+<span class="c">!    codes= merge( LO,codes, codes == UMLO )</span>
+<span class="c">!    codes= merge( LU,codes, codes == UMLU )</span>
+<span class="c">!    codes= merge( UA,codes, codes == UMUA )</span>
+<span class="c">!    codes= merge( UO,codes, codes == UMUO )</span>
+<span class="c">!    codes= merge( UU,codes, codes == UMUU )</span>
 <span class="c">!=================================================================</span>
 <span class="c">! 212.39user 2.33system 3:53.28elapsed 92%CPU</span>
 <span class="c">!   do i=1,size(codes)</span>
@@ -690,17 +690,17 @@ parameter
 <span class="c">!   enddo</span>
 <span class="c">!=================================================================</span>
 <span class="c">! 276.06user 2.76system 4:54.66elapsed 94%CPU</span>
-<span class="c">!    WHERE ( codes.eq.UMLA )</span>
+<span class="c">!    WHERE ( codes == UMLA )</span>
 <span class="c">!       codes=LA</span>
-<span class="c">!    ELSEWHERE ( codes.eq.UMLO )</span>
+<span class="c">!    ELSEWHERE ( codes == UMLO )</span>
 <span class="c">!       codes=LO</span>
-<span class="c">!    ELSEWHERE ( codes.eq.UMLU )</span>
+<span class="c">!    ELSEWHERE ( codes == UMLU )</span>
 <span class="c">!       codes=LU</span>
-<span class="c">!    ELSEWHERE ( codes.eq.UMUA )</span>
+<span class="c">!    ELSEWHERE ( codes == UMUA )</span>
 <span class="c">!       codes=UA</span>
-<span class="c">!    ELSEWHERE ( codes.eq.UMUO )</span>
+<span class="c">!    ELSEWHERE ( codes == UMUO )</span>
 <span class="c">!       codes=UO</span>
-<span class="c">!    ELSEWHERE ( codes.eq.UMUU )</span>
+<span class="c">!    ELSEWHERE ( codes == UMUU )</span>
 <span class="c">!       codes=UU</span>
 <span class="c">!    END WHERE</span>
 <span class="c">!=================================================================</span>
@@ -723,12 +723,12 @@ parameter
 
 <span class="k">      </span><span class="n">sz</span><span class="o">=</span><span class="n">size</span><span class="p">(</span><span class="n">codes</span><span class="p">)</span>
 <span class="w">      </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="n">sz</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span>
-<span class="w">         </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">multi</span><span class="p">)</span><span class="k">then</span>
-<span class="k">            if</span><span class="p">(</span><span class="n">sz</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">1</span><span class="p">)</span><span class="k">then</span>
+<span class="w">         </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">multi</span><span class="p">)</span><span class="k">then</span>
+<span class="k">            if</span><span class="p">(</span><span class="n">sz</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="k">then</span>
 <span class="k">               </span><span class="n">codes</span><span class="o">=</span><span class="p">[</span><span class="n">sub</span><span class="p">,</span><span class="n">sub</span><span class="p">]</span>
-<span class="w">            </span><span class="k">elseif</span><span class="p">(</span><span class="n">i</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="n">sz</span><span class="p">)</span><span class="k">then</span>
+<span class="w">            </span><span class="k">elseif</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">sz</span><span class="p">)</span><span class="k">then</span>
 <span class="k">               </span><span class="n">codes</span><span class="o">=</span><span class="p">[</span><span class="n">codes</span><span class="p">(:</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="n">sub</span><span class="p">,</span><span class="n">sub</span><span class="p">]</span>
-<span class="w">            </span><span class="k">elseif</span><span class="p">(</span><span class="n">i</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">1</span><span class="p">)</span><span class="k">then</span>
+<span class="w">            </span><span class="k">elseif</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="k">then</span>
 <span class="k">               </span><span class="n">codes</span><span class="o">=</span><span class="p">[</span><span class="n">sub</span><span class="p">,</span><span class="n">sub</span><span class="p">,</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:)]</span>
 <span class="w">            </span><span class="k">else</span>
 <span class="k">               </span><span class="n">codes</span><span class="o">=</span><span class="p">[</span><span class="n">codes</span><span class="p">(:</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="n">sub</span><span class="p">,</span><span class="n">sub</span><span class="p">,</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:)]</span>
@@ -763,7 +763,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-10-17 15:27 +0000             </p>
+ on 2026-10-18 03:09 +0000             </p>
           </div>
         </div>
         <br>

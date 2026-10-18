@@ -1,4 +1,4 @@
-      program demo_keyword_expand
+      program demo_keyword
       use M_unicode, only : keyword_expand, keyword_mode, keyword_update
       use M_unicode, only : ch=>character
 
@@ -6,9 +6,13 @@
          call printstuff('alias_mode')
 
          write(*,'(a)') 'ADDING A CUSTOM SEQUENCE:'
-         call keyword_update('blink',char(27)//'[5m')
-         call keyword_update('/blink',char(27)//'[25m')
+         call keyword_update('blink',char(27)//'[5m','')
+         call keyword_update('/blink',char(27)//'[25m','')
          write(*,'(a)') ch(keyword_expand('<blink>Items for Friday</blink>'))
+
+         write(*,'(a)') 'DECIMAL NUMBERS AS WELL:'
+         write(*,'(a)') ch(keyword_expand(&
+         'decimal keywords <119 79 114 107> as well'))
 
       contains
       subroutine printstuff(action)
@@ -18,7 +22,7 @@
         call keyword_mode(action=action)
 
         array=[character(len=60) :: &
-         'TEST ACTION='//action,    &
+         'Test the mode ='//action,    &
          'c=<pi><times>d',          &
          'a=<pi><times>r<S2>',      &
          '<Delta><delta>',          &
@@ -27,4 +31,4 @@
         write(*,'(a)') ch(keyword_expand(array))
 
       end subroutine printstuff
-      end program demo_keyword_expand
+      end program demo_keyword

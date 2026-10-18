@@ -21,7 +21,7 @@ integer                      :: icount
    INFINITE: do
       line=readline(iostat=iostat)
       icount=icount+1
-      if(iostat.ne.0)exit
+      if(iostat /= 0)exit
       call printline()
    enddo INFINITE
    !
@@ -32,7 +32,7 @@ integer                      :: icount
 contains
 subroutine printline()
    ! write the line out as a Fortran variable expression using the CHAR() function
-   if(line.eq.'')then
+   if(line == '')then
       write(stdout,g) '! ISO-10646 ENCODING:',ch(line)
       write(stdout,g) 'character(len=*,kind=ucs4),parameter :: line',icount,'= ucs4_""'
       write(stdout,g)

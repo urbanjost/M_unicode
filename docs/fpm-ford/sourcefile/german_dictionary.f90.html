@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 1.4% of total for source files.">142 statements</a>
+                 title=" 1.3% of total for source files.">142 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -184,7 +184,7 @@
 <a id="ln-12" name="ln-12" href="#ln-12"></a><span class="w">   </span><span class="kt">integer</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
 <a id="ln-13" name="ln-13" href="#ln-13"></a><span class="w">      </span><span class="c">!</span>
 <a id="ln-14" name="ln-14" href="#ln-14"></a><span class="w">      </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="s1">'sort array with sort(3f)'</span>
-<a id="ln-15" name="ln-15" href="#ln-15"></a><span class="w">      </span><span class="k">print </span><span class="n">g</span><span class="p">,</span>
+<a id="ln-15" name="ln-15" href="#ln-15"></a><span class="w">      </span><span class="k">print </span><span class="n">g</span>
 <a id="ln-16" name="ln-16" href="#ln-16"></a><span class="w">    </span><span class="c">! Word List for German Sort Test:</span>
 <a id="ln-17" name="ln-17" href="#ln-17"></a><span class="w">    </span><span class="c">!</span>
 <a id="ln-18" name="ln-18" href="#ln-18"></a><span class="w">    </span><span class="c">! A list of German words designed to test a dictionary</span>
@@ -218,7 +218,7 @@
 <a id="ln-46" name="ln-46" href="#ln-46"></a><span class="w">      </span><span class="c">!</span>
 <a id="ln-47" name="ln-47" href="#ln-47"></a><span class="w">      </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="s1">'original order'</span>
 <a id="ln-48" name="ln-48" href="#ln-48"></a><span class="w">      </span><span class="k">print </span><span class="n">g</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="nb">trim</span><span class="p">(</span><span class="n">rr</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">ch</span><span class="p">()),</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">rr</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
-<a id="ln-49" name="ln-49" href="#ln-49"></a><span class="w">      </span><span class="k">print </span><span class="n">g</span><span class="p">,</span>
+<a id="ln-49" name="ln-49" href="#ln-49"></a><span class="w">      </span><span class="k">print </span><span class="n">g</span>
 <a id="ln-50" name="ln-50" href="#ln-50"></a><span class="w">      </span><span class="c">!</span>
 <a id="ln-51" name="ln-51" href="#ln-51"></a><span class="w">      </span><span class="k">print </span><span class="n">g</span><span class="p">,</span><span class="w">  </span><span class="s1">'Sort using default Unicode rule for comparison'</span>
 <a id="ln-52" name="ln-52" href="#ln-52"></a><span class="w">      </span><span class="c">!1 000 000, : 12.43user 0.63system 0:13.57elapsed 96%CPU</span>
@@ -262,8 +262,8 @@
 <a id="ln-90" name="ln-90" href="#ln-90"></a><span class="w">      </span><span class="c">! Mond → Möve → Mutter →</span>
 <a id="ln-91" name="ln-91" href="#ln-91"></a><span class="w">      </span><span class="c">! Mütter → Oase → Öl → Ufer → Übung → Zebra</span>
 <a id="ln-92" name="ln-92" href="#ln-92"></a><span class="w">      </span><span class="c">!</span>
-<a id="ln-93" name="ln-93" href="#ln-93"></a><span class="w">      </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="s1">'TEST WORDS:'</span><span class="p">,</span><span class="n">rr</span><span class="p">(</span><span class="n">ii</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">answer</span>
-<a id="ln-94" name="ln-94" href="#ln-94"></a><span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="k">all</span><span class="p">(</span><span class="n">rr</span><span class="p">(</span><span class="n">ii</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">answer</span><span class="p">))</span><span class="k">then</span>
+<a id="ln-93" name="ln-93" href="#ln-93"></a><span class="w">      </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="s1">'TEST WORDS:'</span><span class="p">,</span><span class="n">rr</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">answer</span>
+<a id="ln-94" name="ln-94" href="#ln-94"></a><span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="k">all</span><span class="p">(</span><span class="n">rr</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">answer</span><span class="p">))</span><span class="k">then</span>
 <a id="ln-95" name="ln-95" href="#ln-95"></a><span class="k">         write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="s1">'PASSED'</span>
 <a id="ln-96" name="ln-96" href="#ln-96"></a><span class="w">      </span><span class="k">else</span>
 <a id="ln-97" name="ln-97" href="#ln-97"></a><span class="k">         write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="s1">'FAILED'</span>
@@ -277,7 +277,7 @@
 <a id="ln-105" name="ln-105" href="#ln-105"></a><span class="w">   </span><span class="kt">integer</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
 <a id="ln-106" name="ln-106" href="#ln-106"></a><span class="w">      </span><span class="n">output</span><span class="o">=</span><span class="n">rr</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span>
 <a id="ln-107" name="ln-107" href="#ln-107"></a><span class="w">      </span><span class="k">print </span><span class="n">g</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="nb">trim</span><span class="p">(</span><span class="n">output</span><span class="p">(</span><span class="n">i</span><span class="p">)),</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">output</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
-<a id="ln-108" name="ln-108" href="#ln-108"></a><span class="w">      </span><span class="k">print </span><span class="n">g</span><span class="p">,</span>
+<a id="ln-108" name="ln-108" href="#ln-108"></a><span class="w">      </span><span class="k">print </span><span class="n">g</span>
 <a id="ln-109" name="ln-109" href="#ln-109"></a><span class="w">   </span><span class="k">end subroutine </span><span class="n">print_output</span>
 <a id="ln-110" name="ln-110" href="#ln-110"></a>
 <a id="ln-111" name="ln-111" href="#ln-111"></a><span class="c">!</span>
@@ -374,7 +374,7 @@
 <a id="ln-202" name="ln-202" href="#ln-202"></a><span class="w">   </span><span class="c">! RETURN codepoint 86.98user 1.55system 1:31.00elapsed 97%CPU (0avgtext+0avgdata 240096maxresident)k</span>
 <a id="ln-203" name="ln-203" href="#ln-203"></a><span class="w">   </span><span class="c">! now if followed by the combining dieresis add one so can tell between a Latin letter and Latin letter that was umlauted</span>
 <a id="ln-204" name="ln-204" href="#ln-204"></a><span class="w">   </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">codes</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span>
-<a id="ln-205" name="ln-205" href="#ln-205"></a><span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">COMB</span><span class="p">)</span><span class="k">then</span>
+<a id="ln-205" name="ln-205" href="#ln-205"></a><span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">COMB</span><span class="p">)</span><span class="k">then</span>
 <a id="ln-206" name="ln-206" href="#ln-206"></a><span class="k">         </span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span>
 <a id="ln-207" name="ln-207" href="#ln-207"></a><span class="w">      </span><span class="k">endif</span>
 <a id="ln-208" name="ln-208" href="#ln-208"></a><span class="k">   enddo</span>
@@ -382,7 +382,7 @@
 <a id="ln-210" name="ln-210" href="#ln-210"></a>
 <a id="ln-211" name="ln-211" href="#ln-211"></a><span class="w">   </span><span class="c">! Now remove the combining dieresis modifier U+0308. Note that assuming it only occurs following a,o,u so possible</span>
 <a id="ln-212" name="ln-212" href="#ln-212"></a><span class="w">   </span><span class="c">! issue if not pure German</span>
-<a id="ln-213" name="ln-213" href="#ln-213"></a><span class="w">   </span><span class="n">codes</span><span class="o">=</span><span class="nb">pack</span><span class="p">(</span><span class="w"> </span><span class="n">codes</span><span class="p">,</span><span class="w"> </span><span class="n">codes</span><span class="p">.</span><span class="n">ne</span><span class="p">.</span><span class="n">COMB</span><span class="w"> </span><span class="p">)</span>
+<a id="ln-213" name="ln-213" href="#ln-213"></a><span class="w">   </span><span class="n">codes</span><span class="o">=</span><span class="nb">pack</span><span class="p">(</span><span class="w"> </span><span class="n">codes</span><span class="p">,</span><span class="w"> </span><span class="n">codes</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">COMB</span><span class="w"> </span><span class="p">)</span>
 <a id="ln-214" name="ln-214" href="#ln-214"></a><span class="w">   </span><span class="c">! RETURN 144.46user 2.52system 2:33.78elapsed 95%CPU (0avgtext+0avgdata 129356maxresident)k</span>
 <a id="ln-215" name="ln-215" href="#ln-215"></a><span class="c">!=================================================================</span>
 <a id="ln-216" name="ln-216" href="#ln-216"></a><span class="w">   </span><span class="c">! replace umlauted characters with associated Latin letters doubled and add one to mark as previously umlauted</span>
@@ -390,57 +390,57 @@
 <a id="ln-218" name="ln-218" href="#ln-218"></a><span class="c">!=================================================================</span>
 <a id="ln-219" name="ln-219" href="#ln-219"></a><span class="c">! 208.31user 1.75system 3:35.43elapsed 97%CPU (0avgtext+0avgdata 240860maxresident)k</span>
 <a id="ln-220" name="ln-220" href="#ln-220"></a><span class="c">!   DO I=1,size(codes)</span>
-<a id="ln-221" name="ln-221" href="#ln-221"></a><span class="c">!      if(codes(i).le.2*127)then</span>
-<a id="ln-222" name="ln-222" href="#ln-222"></a><span class="c">!      elseif(codes(i).eq.UMLA)then</span>
+<a id="ln-221" name="ln-221" href="#ln-221"></a><span class="c">!      if(codes(i) &lt;= 2*127)then</span>
+<a id="ln-222" name="ln-222" href="#ln-222"></a><span class="c">!      elseif(codes(i) == UMLA)then</span>
 <a id="ln-223" name="ln-223" href="#ln-223"></a><span class="c">!         codes(i)=LA</span>
-<a id="ln-224" name="ln-224" href="#ln-224"></a><span class="c">!      elseif(codes(i).eq.UMLO)then</span>
+<a id="ln-224" name="ln-224" href="#ln-224"></a><span class="c">!      elseif(codes(i) == UMLO)then</span>
 <a id="ln-225" name="ln-225" href="#ln-225"></a><span class="c">!         codes(i)=LO</span>
-<a id="ln-226" name="ln-226" href="#ln-226"></a><span class="c">!      elseif(codes(i).eq.UMLU)then</span>
+<a id="ln-226" name="ln-226" href="#ln-226"></a><span class="c">!      elseif(codes(i) == UMLU)then</span>
 <a id="ln-227" name="ln-227" href="#ln-227"></a><span class="c">!         codes(i)=LU</span>
-<a id="ln-228" name="ln-228" href="#ln-228"></a><span class="c">!      elseif(codes(i).eq.UMUA)then</span>
+<a id="ln-228" name="ln-228" href="#ln-228"></a><span class="c">!      elseif(codes(i) == UMUA)then</span>
 <a id="ln-229" name="ln-229" href="#ln-229"></a><span class="c">!         codes(i)=UA</span>
-<a id="ln-230" name="ln-230" href="#ln-230"></a><span class="c">!      elseif(codes(i).eq.UMUO)then</span>
+<a id="ln-230" name="ln-230" href="#ln-230"></a><span class="c">!      elseif(codes(i) == UMUO)then</span>
 <a id="ln-231" name="ln-231" href="#ln-231"></a><span class="c">!         codes(i)=UO</span>
-<a id="ln-232" name="ln-232" href="#ln-232"></a><span class="c">!      elseif(codes(i).eq.UMUU)then</span>
+<a id="ln-232" name="ln-232" href="#ln-232"></a><span class="c">!      elseif(codes(i) == UMUU)then</span>
 <a id="ln-233" name="ln-233" href="#ln-233"></a><span class="c">!         codes(i)=UU</span>
 <a id="ln-234" name="ln-234" href="#ln-234"></a><span class="c">!      endif</span>
 <a id="ln-235" name="ln-235" href="#ln-235"></a><span class="c">!   ENDDO</span>
 <a id="ln-236" name="ln-236" href="#ln-236"></a><span class="c">!=================================================================</span>
 <a id="ln-237" name="ln-237" href="#ln-237"></a><span class="c">! 205.77user 2.11system 3:34.21elapsed 97%CPU</span>
 <a id="ln-238" name="ln-238" href="#ln-238"></a><span class="c">!   DO CONCURRENT ( I=1:size(codes) )</span>
-<a id="ln-239" name="ln-239" href="#ln-239"></a><span class="c">!      if(codes(i).le.2*127)then</span>
-<a id="ln-240" name="ln-240" href="#ln-240"></a><span class="c">!      elseif(codes(i).eq.UMLA)then</span>
+<a id="ln-239" name="ln-239" href="#ln-239"></a><span class="c">!      if(codes(i) &lt;= 2*127)then</span>
+<a id="ln-240" name="ln-240" href="#ln-240"></a><span class="c">!      elseif(codes(i) == UMLA)then</span>
 <a id="ln-241" name="ln-241" href="#ln-241"></a><span class="c">!         codes(i)=LA</span>
-<a id="ln-242" name="ln-242" href="#ln-242"></a><span class="c">!      elseif(codes(i).eq.UMLO)then</span>
+<a id="ln-242" name="ln-242" href="#ln-242"></a><span class="c">!      elseif(codes(i) == UMLO)then</span>
 <a id="ln-243" name="ln-243" href="#ln-243"></a><span class="c">!         codes(i)=LO</span>
-<a id="ln-244" name="ln-244" href="#ln-244"></a><span class="c">!      elseif(codes(i).eq.UMLU)then</span>
+<a id="ln-244" name="ln-244" href="#ln-244"></a><span class="c">!      elseif(codes(i) == UMLU)then</span>
 <a id="ln-245" name="ln-245" href="#ln-245"></a><span class="c">!         codes(i)=LU</span>
-<a id="ln-246" name="ln-246" href="#ln-246"></a><span class="c">!      elseif(codes(i).eq.UMUA)then</span>
+<a id="ln-246" name="ln-246" href="#ln-246"></a><span class="c">!      elseif(codes(i) == UMUA)then</span>
 <a id="ln-247" name="ln-247" href="#ln-247"></a><span class="c">!         codes(i)=UA</span>
-<a id="ln-248" name="ln-248" href="#ln-248"></a><span class="c">!      elseif(codes(i).eq.UMUO)then</span>
+<a id="ln-248" name="ln-248" href="#ln-248"></a><span class="c">!      elseif(codes(i) == UMUO)then</span>
 <a id="ln-249" name="ln-249" href="#ln-249"></a><span class="c">!         codes(i)=UO</span>
-<a id="ln-250" name="ln-250" href="#ln-250"></a><span class="c">!      elseif(codes(i).eq.UMUU)then</span>
+<a id="ln-250" name="ln-250" href="#ln-250"></a><span class="c">!      elseif(codes(i) == UMUU)then</span>
 <a id="ln-251" name="ln-251" href="#ln-251"></a><span class="c">!         codes(i)=UU</span>
 <a id="ln-252" name="ln-252" href="#ln-252"></a><span class="c">!      endif</span>
 <a id="ln-253" name="ln-253" href="#ln-253"></a><span class="c">!   ENDDO</span>
 <a id="ln-254" name="ln-254" href="#ln-254"></a><span class="c">!=================================================================</span>
 <a id="ln-255" name="ln-255" href="#ln-255"></a><span class="c">! 182.90user 2.11system 3:11.02elapsed 96%CPU</span>
 <a id="ln-256" name="ln-256" href="#ln-256"></a><span class="w">   </span><span class="k">DO</span><span class="w"> </span><span class="k">CONCURRENT</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">I</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">size</span><span class="p">(</span><span class="n">codes</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
-<a id="ln-257" name="ln-257" href="#ln-257"></a><span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">UMLA</span><span class="p">)</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">LA</span>
-<a id="ln-258" name="ln-258" href="#ln-258"></a><span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">UMLO</span><span class="p">)</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">LO</span>
-<a id="ln-259" name="ln-259" href="#ln-259"></a><span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">UMLU</span><span class="p">)</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">LU</span>
-<a id="ln-260" name="ln-260" href="#ln-260"></a><span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">UMUA</span><span class="p">)</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">UA</span>
-<a id="ln-261" name="ln-261" href="#ln-261"></a><span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">UMUO</span><span class="p">)</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">UO</span>
-<a id="ln-262" name="ln-262" href="#ln-262"></a><span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">UMUU</span><span class="p">)</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">UU</span>
+<a id="ln-257" name="ln-257" href="#ln-257"></a><span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">UMLA</span><span class="p">)</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">LA</span>
+<a id="ln-258" name="ln-258" href="#ln-258"></a><span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">UMLO</span><span class="p">)</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">LO</span>
+<a id="ln-259" name="ln-259" href="#ln-259"></a><span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">UMLU</span><span class="p">)</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">LU</span>
+<a id="ln-260" name="ln-260" href="#ln-260"></a><span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">UMUA</span><span class="p">)</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">UA</span>
+<a id="ln-261" name="ln-261" href="#ln-261"></a><span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">UMUO</span><span class="p">)</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">UO</span>
+<a id="ln-262" name="ln-262" href="#ln-262"></a><span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">UMUU</span><span class="p">)</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">UU</span>
 <a id="ln-263" name="ln-263" href="#ln-263"></a><span class="w">   </span><span class="k">ENDDO</span>
 <a id="ln-264" name="ln-264" href="#ln-264"></a><span class="c">!=================================================================</span>
 <a id="ln-265" name="ln-265" href="#ln-265"></a><span class="c">! 216.14user 1.54system 3:44.74elapsed 96%CPU</span>
-<a id="ln-266" name="ln-266" href="#ln-266"></a><span class="c">!    codes= merge( LA,codes, codes.eq.UMLA )</span>
-<a id="ln-267" name="ln-267" href="#ln-267"></a><span class="c">!    codes= merge( LO,codes, codes.eq.UMLO )</span>
-<a id="ln-268" name="ln-268" href="#ln-268"></a><span class="c">!    codes= merge( LU,codes, codes.eq.UMLU )</span>
-<a id="ln-269" name="ln-269" href="#ln-269"></a><span class="c">!    codes= merge( UA,codes, codes.eq.UMUA )</span>
-<a id="ln-270" name="ln-270" href="#ln-270"></a><span class="c">!    codes= merge( UO,codes, codes.eq.UMUO )</span>
-<a id="ln-271" name="ln-271" href="#ln-271"></a><span class="c">!    codes= merge( UU,codes, codes.eq.UMUU )</span>
+<a id="ln-266" name="ln-266" href="#ln-266"></a><span class="c">!    codes= merge( LA,codes, codes == UMLA )</span>
+<a id="ln-267" name="ln-267" href="#ln-267"></a><span class="c">!    codes= merge( LO,codes, codes == UMLO )</span>
+<a id="ln-268" name="ln-268" href="#ln-268"></a><span class="c">!    codes= merge( LU,codes, codes == UMLU )</span>
+<a id="ln-269" name="ln-269" href="#ln-269"></a><span class="c">!    codes= merge( UA,codes, codes == UMUA )</span>
+<a id="ln-270" name="ln-270" href="#ln-270"></a><span class="c">!    codes= merge( UO,codes, codes == UMUO )</span>
+<a id="ln-271" name="ln-271" href="#ln-271"></a><span class="c">!    codes= merge( UU,codes, codes == UMUU )</span>
 <a id="ln-272" name="ln-272" href="#ln-272"></a><span class="c">!=================================================================</span>
 <a id="ln-273" name="ln-273" href="#ln-273"></a><span class="c">! 212.39user 2.33system 3:53.28elapsed 92%CPU</span>
 <a id="ln-274" name="ln-274" href="#ln-274"></a><span class="c">!   do i=1,size(codes)</span>
@@ -456,17 +456,17 @@
 <a id="ln-284" name="ln-284" href="#ln-284"></a><span class="c">!   enddo</span>
 <a id="ln-285" name="ln-285" href="#ln-285"></a><span class="c">!=================================================================</span>
 <a id="ln-286" name="ln-286" href="#ln-286"></a><span class="c">! 276.06user 2.76system 4:54.66elapsed 94%CPU</span>
-<a id="ln-287" name="ln-287" href="#ln-287"></a><span class="c">!    WHERE ( codes.eq.UMLA )</span>
+<a id="ln-287" name="ln-287" href="#ln-287"></a><span class="c">!    WHERE ( codes == UMLA )</span>
 <a id="ln-288" name="ln-288" href="#ln-288"></a><span class="c">!       codes=LA</span>
-<a id="ln-289" name="ln-289" href="#ln-289"></a><span class="c">!    ELSEWHERE ( codes.eq.UMLO )</span>
+<a id="ln-289" name="ln-289" href="#ln-289"></a><span class="c">!    ELSEWHERE ( codes == UMLO )</span>
 <a id="ln-290" name="ln-290" href="#ln-290"></a><span class="c">!       codes=LO</span>
-<a id="ln-291" name="ln-291" href="#ln-291"></a><span class="c">!    ELSEWHERE ( codes.eq.UMLU )</span>
+<a id="ln-291" name="ln-291" href="#ln-291"></a><span class="c">!    ELSEWHERE ( codes == UMLU )</span>
 <a id="ln-292" name="ln-292" href="#ln-292"></a><span class="c">!       codes=LU</span>
-<a id="ln-293" name="ln-293" href="#ln-293"></a><span class="c">!    ELSEWHERE ( codes.eq.UMUA )</span>
+<a id="ln-293" name="ln-293" href="#ln-293"></a><span class="c">!    ELSEWHERE ( codes == UMUA )</span>
 <a id="ln-294" name="ln-294" href="#ln-294"></a><span class="c">!       codes=UA</span>
-<a id="ln-295" name="ln-295" href="#ln-295"></a><span class="c">!    ELSEWHERE ( codes.eq.UMUO )</span>
+<a id="ln-295" name="ln-295" href="#ln-295"></a><span class="c">!    ELSEWHERE ( codes == UMUO )</span>
 <a id="ln-296" name="ln-296" href="#ln-296"></a><span class="c">!       codes=UO</span>
-<a id="ln-297" name="ln-297" href="#ln-297"></a><span class="c">!    ELSEWHERE ( codes.eq.UMUU )</span>
+<a id="ln-297" name="ln-297" href="#ln-297"></a><span class="c">!    ELSEWHERE ( codes == UMUU )</span>
 <a id="ln-298" name="ln-298" href="#ln-298"></a><span class="c">!       codes=UU</span>
 <a id="ln-299" name="ln-299" href="#ln-299"></a><span class="c">!    END WHERE</span>
 <a id="ln-300" name="ln-300" href="#ln-300"></a><span class="c">!=================================================================</span>
@@ -489,12 +489,12 @@
 <a id="ln-317" name="ln-317" href="#ln-317"></a>
 <a id="ln-318" name="ln-318" href="#ln-318"></a><span class="k">      </span><span class="n">sz</span><span class="o">=</span><span class="n">size</span><span class="p">(</span><span class="n">codes</span><span class="p">)</span>
 <a id="ln-319" name="ln-319" href="#ln-319"></a><span class="w">      </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="n">sz</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span>
-<a id="ln-320" name="ln-320" href="#ln-320"></a><span class="w">         </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">multi</span><span class="p">)</span><span class="k">then</span>
-<a id="ln-321" name="ln-321" href="#ln-321"></a><span class="k">            if</span><span class="p">(</span><span class="n">sz</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">1</span><span class="p">)</span><span class="k">then</span>
+<a id="ln-320" name="ln-320" href="#ln-320"></a><span class="w">         </span><span class="k">if</span><span class="p">(</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">multi</span><span class="p">)</span><span class="k">then</span>
+<a id="ln-321" name="ln-321" href="#ln-321"></a><span class="k">            if</span><span class="p">(</span><span class="n">sz</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="k">then</span>
 <a id="ln-322" name="ln-322" href="#ln-322"></a><span class="k">               </span><span class="n">codes</span><span class="o">=</span><span class="p">[</span><span class="n">sub</span><span class="p">,</span><span class="n">sub</span><span class="p">]</span>
-<a id="ln-323" name="ln-323" href="#ln-323"></a><span class="w">            </span><span class="k">elseif</span><span class="p">(</span><span class="n">i</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="n">sz</span><span class="p">)</span><span class="k">then</span>
+<a id="ln-323" name="ln-323" href="#ln-323"></a><span class="w">            </span><span class="k">elseif</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">sz</span><span class="p">)</span><span class="k">then</span>
 <a id="ln-324" name="ln-324" href="#ln-324"></a><span class="k">               </span><span class="n">codes</span><span class="o">=</span><span class="p">[</span><span class="n">codes</span><span class="p">(:</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="n">sub</span><span class="p">,</span><span class="n">sub</span><span class="p">]</span>
-<a id="ln-325" name="ln-325" href="#ln-325"></a><span class="w">            </span><span class="k">elseif</span><span class="p">(</span><span class="n">i</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">1</span><span class="p">)</span><span class="k">then</span>
+<a id="ln-325" name="ln-325" href="#ln-325"></a><span class="w">            </span><span class="k">elseif</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="k">then</span>
 <a id="ln-326" name="ln-326" href="#ln-326"></a><span class="k">               </span><span class="n">codes</span><span class="o">=</span><span class="p">[</span><span class="n">sub</span><span class="p">,</span><span class="n">sub</span><span class="p">,</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:)]</span>
 <a id="ln-327" name="ln-327" href="#ln-327"></a><span class="w">            </span><span class="k">else</span>
 <a id="ln-328" name="ln-328" href="#ln-328"></a><span class="k">               </span><span class="n">codes</span><span class="o">=</span><span class="p">[</span><span class="n">codes</span><span class="p">(:</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="n">sub</span><span class="p">,</span><span class="n">sub</span><span class="p">,</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:)]</span>
@@ -526,7 +526,7 @@
 <a id="ln-354" name="ln-354" href="#ln-354"></a>
 <a id="ln-355" name="ln-355" href="#ln-355"></a><span class="w">   </span><span class="n">ikeep</span><span class="o">=</span><span class="mi">0</span>
 <a id="ln-356" name="ln-356" href="#ln-356"></a><span class="w">   </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>
-<a id="ln-357" name="ln-357" href="#ln-357"></a><span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">in</span><span class="p">%</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="n">comb</span><span class="p">)</span><span class="k">then</span>
+<a id="ln-357" name="ln-357" href="#ln-357"></a><span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">in</span><span class="p">%</span><span class="n">codes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">comb</span><span class="p">)</span><span class="k">then</span>
 <a id="ln-358" name="ln-358" href="#ln-358"></a><span class="k">         </span><span class="n">codes</span><span class="p">(</span><span class="n">ikeep</span><span class="p">)</span><span class="o">=</span><span class="n">codes</span><span class="p">(</span><span class="n">ikeep</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span>
 <a id="ln-359" name="ln-359" href="#ln-359"></a><span class="w">      </span><span class="k">else</span>
 <a id="ln-360" name="ln-360" href="#ln-360"></a><span class="k">         </span><span class="n">ikeep</span><span class="o">=</span><span class="n">ikeep</span><span class="o">+</span><span class="mi">1</span>
@@ -577,7 +577,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-10-17 15:27 +0000             </p>
+ on 2026-10-18 03:09 +0000             </p>
           </div>
         </div>
         <br>

@@ -1,5 +1,5 @@
-program backslash_to_utf8
-! @(#) convert backslash expand_html sequences to UTF-8
+program html_to_utf8
+! @(#) convert html entities to UTF-8
 use,intrinsic :: iso_fortran_env, only : stdin=>input_unit
 use,intrinsic :: iso_fortran_env, only : iostat_end
 use M_unicode, only : readline, expand_html
@@ -12,7 +12,7 @@ logical  :: triggered
     triggered=.false.
     INFINITE: do
       line=readline(iostat=iostat)
-      if(iostat.ne.0)exit
+      if(iostat /= 0)exit
       line=expand_html(line)
       write(*,'(*(g0))')ch(line)
       triggered=.true.
@@ -25,4 +25,4 @@ logical  :: triggered
    elseif(iostat /= iostat_end)then
       write(*,*)'error reading input:',ch(line)
    endif
-end program backslash_to_utf8
+end program html_to_utf8

@@ -114,11 +114,51 @@ website:
 <p><a href="https://urbanjost.github.io/M_unicode/man3.html"><img alt="M_unicode module" src="docs/images/Phaistos_Disk_sideA.jpg"></a></p>
 <h2 id="overview">Overview</h2>
 <p>The <strong>M_unicode</strong> module provides direct support for UTF-8 encoded
-data in source files and internal I/O, not just UTF-8 encoded external data files.
-It allows UTF-8 encoded strings to be processed as easily as ASCII-7
-encoded strings, without depending on a compiler supporting the
-optional ISO_10646 Unicode extension.</p>
+data in source files and internal I/O, not just UTF-8 encoded external
+data files.  It allows UTF-8 encoded strings to be processed as easily
+as ASCII-7 encoded strings, without depending on a compiler supporting
+the optional ISO_10646 Unicode extension.</p>
 <p><a href="https://urbanjost.github.io/M_unicode/man3.html">index of procedures</a></p>
+<h2 id="the-uni1-command">The uni(1) command</h2>
+<p>The <strong>uni</strong> utility program provides a simple interface to many of the
+encoding features of the <strong>M_unicode</strong> module.</p>
+<p>&ldquo;uni &ndash;help&rdquo;  displays a description of all the command options.</p>
+<p>Briefly, uni(1) can &hellip;
++ identify lines in files that contain non-ASCII characters
++ convert UTF-8 files to ASCII-7 with C-style escape sequences
+  and vice-versa
++ render HTML character entities (ie. &ldquo;&NAME;&rdquo; and &ldquo;&amp;#NNNN;&rdquo;) to UTF-8
+  and vice-versa
++ convert HTML-style ASCII-7 strings to ANSI terminal escape sequences
+  or multi-byte characters using customizable substitutions.
++ convert boxes defined with the pound character to the appropriate
+  box characters
++ display line length as number of Unicode glyphs instead of just bytes
++ change case of UTF-8 files
++ display a range of Unicode characters in multiple formats</p>
+<h4 id="sample-input">Sample input:</h4>
+<div class="codehilite"><pre><span></span><code>   \u4E03\u8EE2\u3073\u516B\u8D77\u304D\u3002
+   \u8EE2\u3093\u3067\u3082\u307E\u305F\u7ACB\u3061\u4E0A\u304C\u308B\u3002
+   \u304F\u3058\u3051\u305A\u306B\u524D\u3092\u5411\u3044\u3066\u6B69\u3044\u3066\u3044\u3053\u3046\u3002
+</code></pre></div>
+
+<p>#################################
+   # Warning: proceed with caution #
+   #################################</p>
+<div class="codehilite"><pre><span></span><code>```text
+   uni --boxes bold --noescape --nokeys sample.uni
+</code></pre></div>
+
+<h4 id="sample-output">Sample output :</h4>
+<div class="codehilite"><pre><span></span><code>   七転び八起き。
+   転んでもまた立ち上がる。
+   くじけずに前を向いて歩いていこう。
+
+   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+   ┃ Warning: proceed with caution ┃
+   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+</code></pre></div>
+
 <h3 id="not-just-for-utf-8">Not just for UTF-8</h3>
 <p>ASCII-7 being a subset of UTF-8 the procedures work with standard ASCII-7
 text as well.</p>
@@ -134,7 +174,7 @@ to designated aliases (predefined with keywords for all the standard
 HTML entities and text attributes such as bold, italics, underline, and
 color) are all available.</p>
 <h3 id="oops-lets-do-it-again">OOPs, lets do it again ..</h3>
-<p>There is an OOP interface to the majority of the functions. The
+<p>There is also an OOP interface to the majority of the functions. The
 user-defined type <strong>unicode_type</strong> provides not just ragged arrays of
 strings but nearly all the string methods as type-bound procedures.</p>
 <h3 id="the-where-and-the-why">The Where and the Why &hellip;</h3>
@@ -170,20 +210,20 @@ name:</p>
 
 <span class="c">! additional methods</span>
 <span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">   </span><span class="n">upper</span><span class="p">,</span><span class="w">               </span><span class="n">lower</span><span class="p">,</span><span class="w">                              </span><span class="p">&amp;</span><span class="w">               </span>
+<span class="w">   </span><span class="n">upper</span><span class="p">,</span><span class="w">               </span><span class="n">lower</span><span class="p">,</span><span class="w">                              </span><span class="p">&amp;</span>
 <span class="w">   </span><span class="n">isascii</span><span class="p">,</span><span class="w">             </span><span class="n">isblank</span><span class="p">,</span><span class="w">            </span><span class="n">isspace</span><span class="p">,</span><span class="w">        </span><span class="p">&amp;</span>
-<span class="w">   </span><span class="n">glob</span><span class="p">,</span><span class="w">                                                    </span><span class="p">&amp;</span><span class="w">                                   </span>
-<span class="w">   </span><span class="n">slurp</span><span class="p">,</span><span class="w">               </span><span class="n">readline</span><span class="p">,</span><span class="w">                           </span><span class="p">&amp;</span><span class="w">               </span>
+<span class="w">   </span><span class="n">glob</span><span class="p">,</span><span class="w">                                                    </span><span class="p">&amp;</span>
+<span class="w">   </span><span class="n">slurp</span><span class="p">,</span><span class="w">               </span><span class="n">readline</span><span class="p">,</span><span class="w">                           </span><span class="p">&amp;</span>
 <span class="w">   </span><span class="n">sort</span><span class="p">,</span><span class="w">                </span><span class="n">expandtabs</span><span class="p">,</span><span class="w">         </span><span class="n">replace</span><span class="p">,</span><span class="w">        </span><span class="p">&amp;</span>
 <span class="w">   </span><span class="n">pad</span><span class="p">,</span><span class="w">                 </span><span class="n">join</span><span class="p">,</span><span class="w">               </span><span class="n">fmt</span><span class="p">,</span><span class="w">            </span><span class="p">&amp;</span>
 <span class="w">   </span><span class="n">get_arg</span><span class="p">,</span><span class="w">             </span><span class="n">get_env</span><span class="p">,</span><span class="w">            </span><span class="n">transliterate</span><span class="p">,</span><span class="w">  </span><span class="p">&amp;</span>
-<span class="w">   </span><span class="n">expand_html</span><span class="p">,</span><span class="w">         </span><span class="n">add_html</span><span class="p">,</span><span class="w">                           </span><span class="p">&amp;</span><span class="w">               </span>
+<span class="w">   </span><span class="n">expand_html</span><span class="p">,</span><span class="w">         </span><span class="n">add_html</span><span class="p">,</span><span class="w">                           </span><span class="p">&amp;</span>
 <span class="w">   </span><span class="n">expand_keyword</span><span class="p">,</span><span class="w">      </span><span class="n">keyword_update</span><span class="p">,</span><span class="w">     </span><span class="n">keyword_mode</span><span class="p">,</span><span class="w">   </span><span class="p">&amp;</span>
-<span class="w">   </span><span class="n">expand_backslash</span><span class="p">,</span><span class="w">    </span><span class="n">add_backslash</span><span class="p">,</span><span class="w">                      </span><span class="p">&amp;</span><span class="w">               </span>
+<span class="w">   </span><span class="n">expand_backslash</span><span class="p">,</span><span class="w">    </span><span class="n">add_backslash</span><span class="p">,</span><span class="w">                      </span><span class="p">&amp;</span>
 <span class="w">   </span><span class="n">pound_to_box</span><span class="p">,</span><span class="w">        </span><span class="n">add_border</span><span class="p">,</span><span class="w">                         </span><span class="p">&amp;</span>
 <span class="w">   </span><span class="n">reverse</span><span class="p">,</span><span class="w">             </span><span class="n">sub</span><span class="p">,</span><span class="w">                </span><span class="kt">character</span>
 
-<span class="c">! Note operators (and overloads) and SORT(3f) use Unicode codepoint </span>
+<span class="c">! Note operators (and overloads) and SORT(3f) use Unicode codepoint</span>
 <span class="c">! order (NOT necessarily dictionary order):</span>
 
 <span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">)</span>
@@ -196,7 +236,6 @@ name:</p>
 <span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">//</span><span class="p">)</span>
 
 <span class="c">! low-level conversion between utf-8 text and integer codepoint arrays:</span>
-
 <span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">utf8_to_codepoints</span><span class="p">,</span><span class="w"> </span><span class="n">codepoints_to_utf8</span>
 
 <span class="c">! sample usage:</span>
@@ -256,12 +295,12 @@ encode and decode data read and written to UTF-8 files.</p>
 <p><strong>But</strong>
  + major compilers still do not support the Unicode ISO-10646 option
  + use of UTF-8 strings in source code is treated as ASCII-8 byte streams,
-   not as UCS-4 
+   not as UCS-4
  + there are no functions provided to convert from UCS-4 to UTF-8 byte
    streams except via reading and writing to external files (<strong>not</strong>
    internal files!)..
  + ragged string arrays are not supported as intrinsic types
- + no OOP interface is provided for the intrinsic methods </p>
+ + no OOP interface is provided for the intrinsic methods</p>
 <p>The <strong>M_unicode</strong> module resolves all these issues.</p>
 <p>However, if interested in using CHARACTER(KIND=&rdquo;ISO_10646&rdquo;) the
 <a href="https://github.com/urbanjost/M_ucs4">M_ucs4</a> repository supplements
@@ -399,7 +438,7 @@ examples are included in the <a href="example/">example/</a> directory.</p>
 
 <span class="w">   </span>make<span class="w"> </span>clean<span class="w"> </span>gfortran<span class="p">|</span>ifx<span class="p">|</span>ifort<span class="p">|</span>nvfortran<span class="p">|</span>nagfor
 
-<span class="w">   </span><span class="c1"># or </span>
+<span class="w">   </span><span class="c1"># or</span>
 <span class="w">   </span>make<span class="w"> </span>clean
 <span class="w">   </span>make<span class="w"> </span><span class="nv">F90</span><span class="o">=</span>&lt;compiler&gt;<span class="w"> </span><span class="nv">F90FLAGS</span><span class="o">=</span>&lt;flags&gt;
 
@@ -643,7 +682,7 @@ with the DT edit descriptor are still undergoing development.</p>
           <div class="col-xs-6 col-sm-3">
             <div>
               <h3>Source Files</h3>
-              <ul><li><a href='sourcefile/assignment.f90.html'>assignment.f90</a></li><li><a href='sourcefile/bom_start.f90.html'>bom_start.f90</a></li><li><a href='sourcefile/codepoint.f90.html'>codepoint.f90</a></li><li><a href='sourcefile/codepoint_range.f90.html'>codepoint_range.f90</a></li><li><a href='sourcefile/concatenate.f90.html'>concatenate.f90</a></li><li><a href='sourcefile/construct.f90.html'>construct.f90</a></li><li><a href='sourcefile/demo_add_backslash.f90.html'>demo_add_backslash.f90</a></li><li><a href='sourcefile/demo_add_border.f90.html'>demo_add_border.f90</a></li><li><a href='sourcefile/demo_add_html.f90.html'>demo_add_html.f90</a></li><li><a href='sourcefile/demo_adjustl.f90.html'>demo_adjustl.f90</a></li></ul>
+              <ul><li><a href='sourcefile/assignment.f90.html'>assignment.f90</a></li><li><a href='sourcefile/backslash_to_utf8.f90.html'>backslash_to_utf8.f90</a></li><li><a href='sourcefile/bom_start.f90.html'>bom_start.f90</a></li><li><a href='sourcefile/codepoint.f90.html'>codepoint.f90</a></li><li><a href='sourcefile/codepoint_range.f90.html'>codepoint_range.f90</a></li><li><a href='sourcefile/concatenate.f90.html'>concatenate.f90</a></li><li><a href='sourcefile/construct.f90.html'>construct.f90</a></li><li><a href='sourcefile/demo_add_backslash.f90.html'>demo_add_backslash.f90</a></li><li><a href='sourcefile/demo_add_border.f90.html'>demo_add_border.f90</a></li><li><a href='sourcefile/demo_add_html.f90.html'>demo_add_html.f90</a></li></ul>
             </div>
             <div>
               <ul>
@@ -700,7 +739,7 @@ with the DT edit descriptor are still undergoing development.</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-10-17 15:27 +0000             </p>
+ on 2026-10-18 03:09 +0000             </p>
           </div>
         </div>
         <br>

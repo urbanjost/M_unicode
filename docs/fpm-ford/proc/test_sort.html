@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 3.6% of total for procedures.">92 statements</a>
+                 title=" 3.4% of total for procedures.">92 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -134,8 +134,8 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../proc/test_sort.html#variable-answer~6">answer</a>
-            <a class="list-group-item" href="../proc/test_sort.html#variable-array~6">array</a>
-            <a class="list-group-item" href="../proc/test_sort.html#variable-ii~6">ii</a>
+            <a class="list-group-item" href="../proc/test_sort.html#variable-array~3">array</a>
+            <a class="list-group-item" href="../proc/test_sort.html#variable-ii~2">ii</a>
         </div>
       </div>
     </div>
@@ -238,7 +238,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~6"></span>
+              <span class="anchor" id="variable-array~3"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
               <td>public,</td>
@@ -255,7 +255,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ii~6"></span>
+              <span class="anchor" id="variable-ii~2"></span>
               integer,
             </td>
               <td>public,</td>
@@ -303,7 +303,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str1~2"></span>
+              <span class="anchor" id="variable-str1"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -318,7 +318,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-str2~2"></span>
+              <span class="anchor" id="variable-str2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -363,7 +363,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~31"></span>
+              <span class="anchor" id="variable-lhs~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -378,7 +378,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~31"></span>
+              <span class="anchor" id="variable-rhs~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -423,7 +423,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-in~6"></span>
+              <span class="anchor" id="variable-in~7"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -574,7 +574,7 @@
 <span class="w">   </span><span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="s1">'sort'</span><span class="p">,</span><span class="k">all</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">csz</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">le</span><span class="p">.</span><span class="w"> </span><span class="k">array</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="n">csz</span><span class="p">)),</span><span class="s1">'sort array'</span><span class="p">)</span><span class="w"> </span><span class="c">! verify in ascending order</span>
 <span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="n">total</span><span class="p">.</span><span class="n">ne</span><span class="p">.</span><span class="n">temp</span><span class="p">)</span><span class="k">then</span>
 <span class="k">      do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="k">array</span><span class="p">)</span>
-<span class="w">         </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g0</span><span class="p">)</span><span class="k">array</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="kt">character</span><span class="p">()</span>
+<span class="w">         </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g0</span><span class="p">)</span><span class="k">array</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="kt">character</span><span class="p">()</span>
 <span class="w">      </span><span class="k">enddo</span>
 <span class="k">   endif</span>
 <span class="k">end subroutine </span><span class="n">chk</span>
@@ -665,7 +665,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-10-17 15:27 +0000             </p>
+ on 2026-10-18 03:09 +0000             </p>
           </div>
         </div>
         <br>

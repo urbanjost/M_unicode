@@ -47,8 +47,8 @@
         stru=replace(stru,10,10,ut(char(11)))
         write(*,*)"isprint?",verify(stru,prnt) == 0
         !
-        print *,"VERIFY(3) is very powerful using expressions as masks"
-        ! verify(3) is often used in a logical expression
+        print *,"VERIFY(3f) is very powerful using expressions as masks"
+        ! verify(3f) is often used in a logical expression
         stru=" This is NOT all UPPERCASE "
         write(*,*)"all uppercase/spaces?",verify(stru, blank//upp) == 0
         stru=" This IS all uppercase "
@@ -68,7 +68,7 @@
         write(*,*)"last non‐blank character",verify(stru, blank,back=.true.)
         write(*,*)"first non‐letter non‐blank",verify(stru,low//upp//blank)
         !
-       !VERIFY(3) is elemental (can check an array of strings in one call)
+       !VERIFY(3f) is elemental (can check an array of strings in one call)
         print *, "elemental"
         ! are strings all letters (or blanks)?
         write(*,*) "array of strings",verify( &

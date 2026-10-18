@@ -90,7 +90,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="10.3% of total for programs.">272 statements</a>
+                 title=" 8.7% of total for programs.">272 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -133,8 +133,8 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../program/upside_down.html#variable-ascii7~3">ascii7</a>
             <a class="list-group-item" href="../program/upside_down.html#variable-cmdline">cmdline</a>
-            <a class="list-group-item" href="../program/upside_down.html#variable-i~120">i</a>
-            <a class="list-group-item" href="../program/upside_down.html#variable-uline~16">uline</a>
+            <a class="list-group-item" href="../program/upside_down.html#variable-i~44">i</a>
+            <a class="list-group-item" href="../program/upside_down.html#variable-uline~6">uline</a>
         </div>
       </div>
     </div>
@@ -156,7 +156,7 @@
       <div id="funcs-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../program/upside_down.html#proc-downside_up">downside_up</a>
-            <a class="list-group-item" href="../program/upside_down.html#proc-getargs~3">getargs</a>
+            <a class="list-group-item" href="../program/upside_down.html#proc-getargs">getargs</a>
         </div>
       </div>
     </div>
@@ -244,7 +244,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~120"></span>
+              <span class="anchor" id="variable-i~44"></span>
               integer
             </td>
             <td>
@@ -260,7 +260,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uline~16"></span>
+              <span class="anchor" id="variable-uline~6"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>)
             </td>
             <td>
@@ -307,7 +307,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~73"></span>
+              <span class="anchor" id="variable-string~7"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -333,7 +333,7 @@
   </div>
 
       <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-getargs~3"></span> <h3> function <a href='../proc/getargs~3.html'>getargs</a>() result(command_line)  
+    <div class="card-header codesum"><span class="anchor" id="proc-getargs"></span> <h3> function <a href='../proc/getargs.html'>getargs</a>() result(command_line)  
 </h3></div>
     <div class="card-body">
           
@@ -367,7 +367,7 @@
 <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">ascii7</span>
 <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">cmdline</span>
 <span class="w">   </span><span class="n">cmdline</span><span class="o">=</span><span class="n">getargs</span><span class="p">()</span>
-<span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="n">cmdline</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="s1">''</span><span class="p">)</span><span class="k">then</span>
+<span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="n">cmdline</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">''</span><span class="p">)</span><span class="k">then</span>
 <span class="k">      do </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="mi">127</span>
 <span class="w">         </span><span class="n">ascii7</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">=</span><span class="nb">char</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
 <span class="w">      </span><span class="k">enddo</span>
@@ -416,12 +416,12 @@
 <span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">'2'</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'1105'</span><span class="p">)</span>
 <span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">'3'</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'0190'</span><span class="p">)</span>
 <span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">'4'</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'152D'</span><span class="p">)</span>
-<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">which</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">2</span><span class="p">)</span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'3123'</span><span class="p">)</span>
-<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">which</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">3</span><span class="p">)</span><span class="n">ichr</span><span class="o">=</span><span class="nb">iachar</span><span class="p">(</span><span class="s1">'h'</span><span class="p">)</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">which</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'3123'</span><span class="p">)</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">which</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="n">ichr</span><span class="o">=</span><span class="nb">iachar</span><span class="p">(</span><span class="s1">'h'</span><span class="p">)</span>
 <span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">'5'</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'03DB'</span><span class="p">)</span>
 <span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">'6'</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">iachar</span><span class="p">(</span><span class="s1">'9'</span><span class="p">)</span>
 <span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">'7'</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'2C62'</span><span class="p">)</span>
-<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">which</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">2</span><span class="p">)</span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'3125'</span><span class="p">)</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">which</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'3125'</span><span class="p">)</span>
 <span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">'8'</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">iachar</span><span class="p">(</span><span class="s1">'8'</span><span class="p">)</span>
 <span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">'9'</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">iachar</span><span class="p">(</span><span class="s1">'6'</span><span class="p">)</span>
 <span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">':'</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">iachar</span><span class="p">(</span><span class="s1">':'</span><span class="p">)</span>
@@ -433,21 +433,21 @@
 <span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">'@'</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">iachar</span><span class="p">(</span><span class="s1">'@'</span><span class="p">)</span>
 <span class="w">      </span><span class="c">! Default ∀𐐒Ↄ◖ƎℲ⅁HIſ⋊⅂WᴎOԀΌᴚS⊥∩ᴧMX⅄Z</span>
 <span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">'A'</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'2200'</span><span class="p">)</span>
-<span class="w">         </span><span class="k">if</span><span class="p">(</span><span class="n">which</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">4</span><span class="p">)</span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'A4EF'</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓯ</span>
+<span class="w">         </span><span class="k">if</span><span class="p">(</span><span class="n">which</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'A4EF'</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓯ</span>
 <span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">'B'</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'00010412'</span><span class="p">)</span>
-<span class="w">         </span><span class="k">if</span><span class="p">(</span><span class="n">which</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">4</span><span class="p">)</span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'A4ED'</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓭ</span>
+<span class="w">         </span><span class="k">if</span><span class="p">(</span><span class="n">which</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'A4ED'</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓭ</span>
 <span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">'C'</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'2183'</span><span class="p">)</span>
-<span class="w">         </span><span class="k">if</span><span class="p">(</span><span class="n">which</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">2</span><span class="p">)</span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'0186'</span><span class="p">)</span>
+<span class="w">         </span><span class="k">if</span><span class="p">(</span><span class="n">which</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'0186'</span><span class="p">)</span>
 <span class="w">         </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'A4DB'</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓛ</span>
 <span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">'D'</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'25D6'</span><span class="p">)</span>
 <span class="w">         </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'A4F7'</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓷ</span>
 <span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">'E'</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'018E'</span><span class="p">)</span>
 <span class="w">         </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'A4F1'</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓱ</span>
 <span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">'F'</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'2132'</span><span class="p">)</span>
-<span class="w">         </span><span class="k">if</span><span class="p">(</span><span class="n">which</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">4</span><span class="p">)</span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'A4DE'</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓞ</span>
+<span class="w">         </span><span class="k">if</span><span class="p">(</span><span class="n">which</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'A4DE'</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓞ</span>
 <span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">'G'</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'2141'</span><span class="p">)</span>
 <span class="w">         </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'A4E8'</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓨ</span>
-<span class="w">         </span><span class="k">if</span><span class="p">(</span><span class="n">which</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">2</span><span class="p">)</span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'05E4'</span><span class="p">)</span>
+<span class="w">         </span><span class="k">if</span><span class="p">(</span><span class="n">which</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'05E4'</span><span class="p">)</span>
 <span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">'H'</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">iachar</span><span class="p">(</span><span class="s1">'H'</span><span class="p">)</span>
 <span class="w">         </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'A4E7'</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓧ</span>
 <span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">'I'</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">iachar</span><span class="p">(</span><span class="s1">'I'</span><span class="p">)</span>
@@ -457,8 +457,8 @@
 <span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">'K'</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'22CA'</span><span class="p">)</span>
 <span class="w">         </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'A4D8'</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓘ</span>
 <span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">'L'</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'2142'</span><span class="p">)</span>
-<span class="w">         </span><span class="k">if</span><span class="p">(</span><span class="n">which</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">4</span><span class="p">)</span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'A4F6'</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓶ</span>
-<span class="w">         </span><span class="k">if</span><span class="p">(</span><span class="n">which</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">2</span><span class="p">)</span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'02E5'</span><span class="p">)</span>
+<span class="w">         </span><span class="k">if</span><span class="p">(</span><span class="n">which</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'A4F6'</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓶ</span>
+<span class="w">         </span><span class="k">if</span><span class="p">(</span><span class="n">which</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'02E5'</span><span class="p">)</span>
 <span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">'M'</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">ichar</span><span class="p">(</span><span class="s1">'W'</span><span class="p">)</span>
 <span class="w">         </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'A4EA'</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓪ</span>
 <span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">'N'</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'1D0E'</span><span class="p">)</span>
@@ -474,12 +474,12 @@
 <span class="w">         </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'A4E2'</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓢ</span>
 <span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">'T'</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'22A5'</span><span class="p">)</span>
 <span class="w">         </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'A4D5'</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓕ</span>
-<span class="w">         </span><span class="k">if</span><span class="p">(</span><span class="n">which</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">2</span><span class="p">)</span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'2534'</span><span class="p">)</span>
+<span class="w">         </span><span class="k">if</span><span class="p">(</span><span class="n">which</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'2534'</span><span class="p">)</span>
 <span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">'U'</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'2229'</span><span class="p">)</span>
 <span class="w">         </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'A4F5'</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓵ</span>
 <span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">'V'</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'1D27'</span><span class="p">)</span>
 <span class="w">         </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'A4E5'</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓥ</span>
-<span class="w">         </span><span class="k">if</span><span class="p">(</span><span class="n">which</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">2</span><span class="p">)</span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'039B'</span><span class="p">)</span>
+<span class="w">         </span><span class="k">if</span><span class="p">(</span><span class="n">which</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'039B'</span><span class="p">)</span>
 <span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">'W'</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">iachar</span><span class="p">(</span><span class="s1">'M'</span><span class="p">)</span>
 <span class="w">         </span><span class="n">ichr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'A4DF'</span><span class="p">)</span><span class="w"> </span><span class="c">! ꓟ</span>
 <span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">'X'</span><span class="p">);</span><span class="w"> </span><span class="n">ichr</span><span class="o">=</span><span class="nb">iachar</span><span class="p">(</span><span class="s1">'X'</span><span class="p">)</span>
@@ -502,7 +502,7 @@
 <span class="s1">      case('</span><span class="n">g</span><span class="s1">'); ichr=int(z'</span><span class="mi">0183</span><span class="s1">')</span>
 <span class="s1">      case('</span><span class="n">h</span><span class="s1">'); ichr=int(z'</span><span class="mi">0265</span><span class="s1">')</span>
 <span class="s1">      case('</span><span class="n">i</span><span class="s1">'); ichr=int(z'</span><span class="mi">0131</span><span class="s1">')</span>
-<span class="s1">      if(which.eq.2)ichr=int(z'</span><span class="mi">1</span><span class="n">D09</span><span class="s1">')</span>
+<span class="s1">      if(which == 2)ichr=int(z'</span><span class="mi">1</span><span class="n">D09</span><span class="s1">')</span>
 <span class="s1">      case('</span><span class="n">j</span><span class="s1">'); ichr=int(z'</span><span class="mi">02</span><span class="err">7</span><span class="n">E</span><span class="s1">')</span>
 <span class="s1">      case('</span><span class="n">k</span><span class="s1">'); ichr=int(z'</span><span class="mi">02</span><span class="err">9</span><span class="n">E</span><span class="s1">')</span>
 <span class="s1">      case('</span><span class="n">l</span><span class="s1">'); ichr=int(z'</span><span class="mi">0283</span><span class="s1">')</span>
@@ -563,7 +563,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-10-17 15:27 +0000             </p>
+ on 2026-10-18 03:09 +0000             </p>
           </div>
         </div>
         <br>

@@ -12,7 +12,7 @@ program demo_sort
    integer                    :: i
       !
       write(stdout,g)'sort array with sort(3f)'
-      print g,
+      print g
     ! Word List for German Sort Test:
     !
     ! A list of German words designed to test a dictionary
@@ -46,7 +46,7 @@ program demo_sort
       !
       write(stdout,g)'original order'
       print g, ( trim(rr(i)%ch()),i=1,size(rr) )
-      print g,
+      print g
       !
       print g,  'Sort using default Unicode rule for comparison'
       !1 000 000, : 12.43user 0.63system 0:13.57elapsed 96%CPU
@@ -90,8 +90,8 @@ program demo_sort
       ! Mond → Möve → Mutter →
       ! Mütter → Oase → Öl → Ufer → Übung → Zebra
       !
-      write(*,g) 'TEST WORDS:',rr(ii).eq.answer
-      if(all(rr(ii).eq.answer))then
+      write(*,g) 'TEST WORDS:',rr(ii) == answer
+      if(all(rr(ii) == answer))then
          write(*,g)'PASSED'
       else
          write(*,g)'FAILED'
@@ -105,7 +105,7 @@ program demo_sort
    integer                      :: i
       output=rr(ii)
       print g, ( trim(output(i)),i=1,size(output) )
-      print g,
+      print g
    end subroutine print_output
 
 !
@@ -202,7 +202,7 @@ integer,parameter    :: COMB=2*int(z'308'), &
    ! RETURN codepoint 86.98user 1.55system 1:31.00elapsed 97%CPU (0avgtext+0avgdata 240096maxresident)k
    ! now if followed by the combining dieresis add one so can tell between a Latin letter and Latin letter that was umlauted
    do i=1,size(codes)-1
-      if(codes(i+1).eq.COMB)then
+      if(codes(i+1) == COMB)then
          codes(i)=codes(i)+1
       endif
    enddo
@@ -210,7 +210,7 @@ integer,parameter    :: COMB=2*int(z'308'), &
 
    ! Now remove the combining dieresis modifier U+0308. Note that assuming it only occurs following a,o,u so possible
    ! issue if not pure German
-   codes=pack( codes, codes.ne.COMB )
+   codes=pack( codes, codes /= COMB )
    ! RETURN 144.46user 2.52system 2:33.78elapsed 95%CPU (0avgtext+0avgdata 129356maxresident)k
 !=================================================================
    ! replace umlauted characters with associated Latin letters doubled and add one to mark as previously umlauted
@@ -218,57 +218,57 @@ integer,parameter    :: COMB=2*int(z'308'), &
 !=================================================================
 ! 208.31user 1.75system 3:35.43elapsed 97%CPU (0avgtext+0avgdata 240860maxresident)k
 !   DO I=1,size(codes)
-!      if(codes(i).le.2*127)then
-!      elseif(codes(i).eq.UMLA)then
+!      if(codes(i) <= 2*127)then
+!      elseif(codes(i) == UMLA)then
 !         codes(i)=LA
-!      elseif(codes(i).eq.UMLO)then
+!      elseif(codes(i) == UMLO)then
 !         codes(i)=LO
-!      elseif(codes(i).eq.UMLU)then
+!      elseif(codes(i) == UMLU)then
 !         codes(i)=LU
-!      elseif(codes(i).eq.UMUA)then
+!      elseif(codes(i) == UMUA)then
 !         codes(i)=UA
-!      elseif(codes(i).eq.UMUO)then
+!      elseif(codes(i) == UMUO)then
 !         codes(i)=UO
-!      elseif(codes(i).eq.UMUU)then
+!      elseif(codes(i) == UMUU)then
 !         codes(i)=UU
 !      endif
 !   ENDDO
 !=================================================================
 ! 205.77user 2.11system 3:34.21elapsed 97%CPU
 !   DO CONCURRENT ( I=1:size(codes) )
-!      if(codes(i).le.2*127)then
-!      elseif(codes(i).eq.UMLA)then
+!      if(codes(i) <= 2*127)then
+!      elseif(codes(i) == UMLA)then
 !         codes(i)=LA
-!      elseif(codes(i).eq.UMLO)then
+!      elseif(codes(i) == UMLO)then
 !         codes(i)=LO
-!      elseif(codes(i).eq.UMLU)then
+!      elseif(codes(i) == UMLU)then
 !         codes(i)=LU
-!      elseif(codes(i).eq.UMUA)then
+!      elseif(codes(i) == UMUA)then
 !         codes(i)=UA
-!      elseif(codes(i).eq.UMUO)then
+!      elseif(codes(i) == UMUO)then
 !         codes(i)=UO
-!      elseif(codes(i).eq.UMUU)then
+!      elseif(codes(i) == UMUU)then
 !         codes(i)=UU
 !      endif
 !   ENDDO
 !=================================================================
 ! 182.90user 2.11system 3:11.02elapsed 96%CPU
    DO CONCURRENT ( I=1:size(codes) )
-      if(codes(i).eq.UMLA)codes(i)=LA
-      if(codes(i).eq.UMLO)codes(i)=LO
-      if(codes(i).eq.UMLU)codes(i)=LU
-      if(codes(i).eq.UMUA)codes(i)=UA
-      if(codes(i).eq.UMUO)codes(i)=UO
-      if(codes(i).eq.UMUU)codes(i)=UU
+      if(codes(i) == UMLA)codes(i)=LA
+      if(codes(i) == UMLO)codes(i)=LO
+      if(codes(i) == UMLU)codes(i)=LU
+      if(codes(i) == UMUA)codes(i)=UA
+      if(codes(i) == UMUO)codes(i)=UO
+      if(codes(i) == UMUU)codes(i)=UU
    ENDDO
 !=================================================================
 ! 216.14user 1.54system 3:44.74elapsed 96%CPU
-!    codes= merge( LA,codes, codes.eq.UMLA )
-!    codes= merge( LO,codes, codes.eq.UMLO )
-!    codes= merge( LU,codes, codes.eq.UMLU )
-!    codes= merge( UA,codes, codes.eq.UMUA )
-!    codes= merge( UO,codes, codes.eq.UMUO )
-!    codes= merge( UU,codes, codes.eq.UMUU )
+!    codes= merge( LA,codes, codes == UMLA )
+!    codes= merge( LO,codes, codes == UMLO )
+!    codes= merge( LU,codes, codes == UMLU )
+!    codes= merge( UA,codes, codes == UMUA )
+!    codes= merge( UO,codes, codes == UMUO )
+!    codes= merge( UU,codes, codes == UMUU )
 !=================================================================
 ! 212.39user 2.33system 3:53.28elapsed 92%CPU
 !   do i=1,size(codes)
@@ -284,17 +284,17 @@ integer,parameter    :: COMB=2*int(z'308'), &
 !   enddo
 !=================================================================
 ! 276.06user 2.76system 4:54.66elapsed 94%CPU
-!    WHERE ( codes.eq.UMLA )
+!    WHERE ( codes == UMLA )
 !       codes=LA
-!    ELSEWHERE ( codes.eq.UMLO )
+!    ELSEWHERE ( codes == UMLO )
 !       codes=LO
-!    ELSEWHERE ( codes.eq.UMLU )
+!    ELSEWHERE ( codes == UMLU )
 !       codes=LU
-!    ELSEWHERE ( codes.eq.UMUA )
+!    ELSEWHERE ( codes == UMUA )
 !       codes=UA
-!    ELSEWHERE ( codes.eq.UMUO )
+!    ELSEWHERE ( codes == UMUO )
 !       codes=UO
-!    ELSEWHERE ( codes.eq.UMUU )
+!    ELSEWHERE ( codes == UMUU )
 !       codes=UU
 !    END WHERE
 !=================================================================
@@ -317,12 +317,12 @@ integer,parameter    :: COMB=2*int(z'308'), &
 
       sz=size(codes)
       do i=sz,1,-1
-         if(codes(i).eq.multi)then
-            if(sz.eq.1)then
+         if(codes(i) == multi)then
+            if(sz == 1)then
                codes=[sub,sub]
-            elseif(i.eq.sz)then
+            elseif(i == sz)then
                codes=[codes(:i-1),sub,sub]
-            elseif(i.eq.1)then
+            elseif(i == 1)then
                codes=[sub,sub,codes(i+1:)]
             else
                codes=[codes(:i-1),sub,sub,codes(i+1:)]
@@ -354,7 +354,7 @@ integer,parameter    :: comb=2*int(z'308'), &
 
    ikeep=0
    do i=1,len(in)
-      if(in%codes(i).eq.comb)then
+      if(in%codes(i) == comb)then
          codes(ikeep)=codes(ikeep)+1
       else
          ikeep=ikeep+1

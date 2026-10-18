@@ -1,0 +1,886 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="Fortran Unicode when ISO_10646 is not supported">
+    <meta name="author" content="John S. Urban" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>setup &ndash; M_unicode</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">M_unicode </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>setup
+      <small>Subroutine</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 4.2% of total for procedures.">115 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/uni.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/uni.f90.html'>uni.f90</a></li>
+                <li class="breadcrumb-item"><a href='../program/uni.html'>uni</a></li>
+            <li class="breadcrumb-item active" aria-current="page">setup</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#vars-0"
+         aria-expanded="false" aria-controls="vars-0">
+         <h4 class="card-header bg-primary text-white">Variables</h4>
+      </a>
+      <div id="vars-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../proc/setup.html#variable-endrange">endrange</a>
+            <a class="list-group-item" href="../proc/setup.html#variable-form~2">form</a>
+            <a class="list-group-item" href="../proc/setup.html#variable-form_m~2">form_M</a>
+            <a class="list-group-item" href="../proc/setup.html#variable-form_html~2">form_html</a>
+            <a class="list-group-item" href="../proc/setup.html#variable-form_zhtml~2">form_zhtml</a>
+            <a class="list-group-item" href="../proc/setup.html#variable-help_text">help_text</a>
+            <a class="list-group-item" href="../proc/setup.html#variable-i~47">i</a>
+            <a class="list-group-item" href="../proc/setup.html#variable-startrange">startrange</a>
+            <a class="list-group-item" href="../proc/setup.html#variable-ustr~3">ustr</a>
+            <a class="list-group-item" href="../proc/setup.html#variable-version_text">version_text</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/setup.html#src">setup</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2> subroutine setup()  
+</h2>
+    
+
+    <p>Put everything to do with command parsing here</p>
+
+
+    <h3>Arguments</h3>
+    <em>None</em>
+    <br>
+    <br>
+
+
+    <section>    
+      <h2>Variables</h2>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-endrange"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>endrange</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-form~2"></span>
+              character(len=*),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>form</strong></td>
+<td> =</td>
+                <td>&#39;(1x,&#34;char(int(z&#39;&#39;&#34;,z0,&#34;&#39;&#39;),kind=ucs4)&#34;:,&#34;// &amp;&#34;)&#39;</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-form_m~2"></span>
+              character(len=*),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>form_M</strong></td>
+<td> =</td>
+                <td>&#39;(1x,&#34;int(z&#39;&#39;&#34;,z0,&#34;&#39;&#39;)&#34;:,&#34;, &amp;&#34;)&#39;</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-form_html~2"></span>
+              character(len=*),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>form_html</strong></td>
+<td> =</td>
+                <td>&#39;(1x,*(:&#34;&amp;#&#34;,i0,&#34;;&#34;))&#39;</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-form_zhtml~2"></span>
+              character(len=*),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>form_zhtml</strong></td>
+<td> =</td>
+                <td>&#39;(1x,*(:&#34;&amp;#x&#34;,z0,&#34;;&#34;))&#39;</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-help_text"></span>
+              character(len=:),
+            </td>
+              <td>public,</td>
+            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>help_text</strong>(:)</td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-i~47"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>i</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-startrange"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>startrange</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ustr~3"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ustr</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-version_text"></span>
+              character(len=:),
+            </td>
+              <td>public,</td>
+            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>version_text</strong>(:)</td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    </section>
+    <br>
+    
+    
+
+    
+    
+
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl codehilite"><pre><span></span><span class="k">subroutine </span><span class="n">setup</span><span class="p">()</span>
+<span class="c">!! Put everything to do with command parsing here</span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">help_text</span><span class="p">(:),</span><span class="w"> </span><span class="n">version_text</span><span class="p">(:)</span>
+<span class="kt">integer</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">startrange</span><span class="p">,</span><span class="w"> </span><span class="n">endrange</span>
+<span class="kt">integer</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="p">&amp;</span>
+
+<span class="w">   </span><span class="p">&amp;</span><span class="w"> </span><span class="n">form</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'(1x,"char(int(z''",z0,"''),kind=ucs4)":,"// &amp;")'</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">   </span><span class="p">&amp;</span><span class="w"> </span><span class="n">form_M</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'(1x,"int(z''",z0,"'')":,", &amp;")'</span><span class="w">               </span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">   </span><span class="p">&amp;</span><span class="w"> </span><span class="n">form_zhtml</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'(1x,*(:"&amp;#x",z0,";"))'</span><span class="w">                    </span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">   </span><span class="p">&amp;</span><span class="w"> </span><span class="n">form_html</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'(1x,*(:"&amp;#",i0,";"))'</span>
+
+<span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">ustr</span>
+<span class="n">help_text</span><span class="o">=</span><span class="p">[</span><span class="w"> </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="s1">'NAME                                                                            '</span><span class="p">,&amp;</span>
+<span class="s1">'   uni(1f) - [CONVERSION] identify and convert and format Unicode-related text  '</span><span class="p">,&amp;</span>
+<span class="s1">'   (LICENSE:PD)                                                                 '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'SYNOPSIS                                                                        '</span><span class="p">,&amp;</span>
+<span class="s1">'    uni [--toescape|--noescape] | [--tohtml|--nohtml] | --code | --nokeys       '</span><span class="p">,&amp;</span>
+<span class="s1">'    [--lcase|--ucase] [--reverse] [--box STYLE --border STYLE] |                '</span><span class="p">,&amp;</span>
+<span class="s1">'    [--text "STRING" | infile(s)] |                                             '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'    uni --findwide | --nowide [--text "STRING" | infile(s)]                     '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'    uni --length  [--text | infile(s)]                                          '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'    uni [--start STARTCODE] [--finish ENDCODE] [--style STYLE_NAMES]            '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'    uni --entities                                                              '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'    uni --show_keys                                                             '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'    uni --sample                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'   To see short names and defaults enter "uni --usage"                          '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'DESCRIPTION                                                                     '</span><span class="p">,&amp;</span>
+<span class="s1">'   uni performs operations such as                                              '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'   + locating multi-byte characters in what is primarily an ASCII file          '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'   + convert between UTF-8 and C-style escape sequences                         '</span><span class="p">,&amp;</span>
+<span class="s1">'   + converting between HTML entity names and UTF-8                             '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'   + changing case of multi-byte characters                                     '</span><span class="p">,&amp;</span>
+<span class="s1">'   + drawing box characters using "#" characters                                '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'   + displaying ranges of Unicode characters in common formats                  '</span><span class="p">,&amp;</span>
+<span class="s1">'     for use in generating code or text or HTML                                 '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'   + describing or identifying sundry UTF-8 encoded text.                       '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'   uni(1) defaults to displaying only lines containing a wide                   '</span><span class="p">,&amp;</span>
+<span class="s1">'   (ie. multi-byte) character along with the line number; with each line        '</span><span class="p">,&amp;</span>
+<span class="s1">'   as-is and then with wide characters converted to C++-style escape            '</span><span class="p">,&amp;</span>
+<span class="s1">'   sequences. That is, the default is "uni --findwide".                         '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'   uni(1) can display a range of characters. For example, The primary           '</span><span class="p">,&amp;</span>
+<span class="s1">'   Unicode block for the Greek alphabet is the Greek and Coptic section         '</span><span class="p">,&amp;</span>
+<span class="s1">'   (U+0370-U+03FF; standard letters, numbers, and symbols) which contains       '</span><span class="p">,&amp;</span>
+<span class="s1">'   most modern monotonic Greek letters while the Greek Extended block           '</span><span class="p">,&amp;</span>
+<span class="s1">'   (U+1F00-U+1FFF; additional characters with diacritics). is used for          '</span><span class="p">,&amp;</span>
+<span class="s1">'   polytonic Greek. So to see the basic Greek alphabet enter                    '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'       uni --start U+0370 --finish U+03FF                                       '</span><span class="p">,&amp;</span>
+<span class="s1">'       # or                                                                     '</span><span class="p">,&amp;</span>
+<span class="s1">'       uni --start 880    --finish 1023                                         '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'   Key details about the Unicode codespace:                                     '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'   While the UTF-8 encoding scheme is theoretically capable of                  '</span><span class="p">,&amp;</span>
+<span class="s1">'   representing much larger codepoints (up to 0x7FFFFFFF), it was               '</span><span class="p">,&amp;</span>
+<span class="s1">'   restricted by RFC 3629 to stop at U+10FFFF (1 114 111, in decimal)           '</span><span class="p">,&amp;</span>
+<span class="s1">'   to match the Unicode standard''s UTF-16 constraint.                          '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'   **Valid vs. Assigned**: Not all code points within the supported             '</span><span class="p">,&amp;</span>
+<span class="s1">'   range are assigned to characters or are valid for use. Some ranges           '</span><span class="p">,&amp;</span>
+<span class="s1">'   are reserved for private use and non-characters. As of January 2024,         '</span><span class="p">,&amp;</span>
+<span class="s1">'   only a small fraction (fewer than 4%) of the possible code points            '</span><span class="p">,&amp;</span>
+<span class="s1">'   had assigned meanings.                                                       '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'   This limit ensures compatibility with the UTF-16 encoding, which uses        '</span><span class="p">,&amp;</span>
+<span class="s1">'   surrogate pairs to represent characters beyond the Basic Multilingual        '</span><span class="p">,&amp;</span>
+<span class="s1">'   Plane (BMP).                                                                 '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'OPTIONS                                                                         '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'   ENCODE UTF-8                                                                 '</span><span class="p">,&amp;</span>
+<span class="s1">'   --toescape,E  convert non-ASCII-7 characters to C-style escape sequences     '</span><span class="p">,&amp;</span>
+<span class="s1">'   --tohtml,h    convert non-printable and non-ASCII-7 characters to the        '</span><span class="p">,&amp;</span>
+<span class="s1">'                 HTML format &amp;#NNNNN;.                                          '</span><span class="p">,&amp;</span>
+<span class="s1">'   --code,C STYLE  write as Fortran code using KIND=ISO_10646                   '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'   DECODE ENCODINGS TO UTF-8                                                    '</span><span class="p">,&amp;</span>
+<span class="s1">'   --noescape,N  convert C-style escape sequences to UTF8 encoded data          '</span><span class="p">,&amp;</span>
+<span class="s1">'   --nohtml,H    expand text containing HTML character entities of the          '</span><span class="p">,&amp;</span>
+<span class="s1">'                 form &amp;NAME; and &amp;#NNNNN; to UTF-8                              '</span><span class="p">,&amp;</span>
+<span class="s1">'   --nokeys,K    expand text containing text between "&lt;" and "&gt;" using the      '</span><span class="p">,&amp;</span>
+<span class="s1">'                 keyword dictionary                                             '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'   CONVERSIONS                                                                  '</span><span class="p">,&amp;</span>
+<span class="s1">'   --lcase,L     convert uppercase to lowercase                                 '</span><span class="p">,&amp;</span>
+<span class="s1">'   --ucase,U     convert lowercase to uppercase                                 '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'   --reverse,R   reverse the glyphs on a line                                   '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'   IDENTIFY AND QUANTIFY INPUT                                                  '</span><span class="p">,&amp;</span>
+<span class="s1">'   --findwide,W  identify and write lines not composed entirely of ASCII-7.     '</span><span class="p">,&amp;</span>
+<span class="s1">'                 Only lines containing non-ASCII-7 characters are printed;      '</span><span class="p">,&amp;</span>
+<span class="s1">'                 once as-is and once with non-ASCII-7 characters expanded       '</span><span class="p">,&amp;</span>
+<span class="s1">'                 to C-like escape sequences with a line number.                 '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'                 If no parameters are specified this is the default.            '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'   --nowide,w    make reasonable conversions from UTF-8 to ASCII-7 in an        '</span><span class="p">,&amp;</span>
+<span class="s1">'                 attempt to make the file ASCII-7. Characters not               '</span><span class="p">,&amp;</span>
+<span class="s1">'                 substituted are converted to HTML decimal syntax               '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'   --length,L    prefix lines with line number, glyph and byte count            '</span><span class="p">,&amp;</span>
+<span class="s1">'                 of input line.                                                 '</span><span class="p">,&amp;</span>
+<span class="s1">'   FORMATTING                                                                   '</span><span class="p">,&amp;</span>
+<span class="s1">'   --box,B STYLE box style choice from set {"light","bold","double"}.           '</span><span class="p">,&amp;</span>
+<span class="s1">'                 Causes pound character to be used to construct boxes           '</span><span class="p">,&amp;</span>
+<span class="s1">'                 using box characters.                                          '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'                 Input characters are assumed to be monospaced.                 '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'   --border,b STYLE  place box around text, choosing box style from set         '</span><span class="p">,&amp;</span>
+<span class="s1">'                     {"light","bold","double"}.  Input characters are           '</span><span class="p">,&amp;</span>
+<span class="s1">'                     assumed to be monospaced.                                  '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'   Note when --box and/or --border are present only basic and input             '</span><span class="p">,&amp;</span>
+<span class="s1">'   source options are applied. Other options are ignored.                       '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'   INPUT                                                                        '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'   FILENAMES     name(s) of files to read input from. Defaults to stdin         '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'   --text,t "STRING"  strings on the command that would be treated as           '</span><span class="p">,&amp;</span>
+<span class="s1">'                      filenames are treated as text instead.                    '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'   INFORMATION                                                                  '</span><span class="p">,&amp;</span>
+<span class="s1">'   --start,S    starting codepoint to generate a list of glyphs from.           '</span><span class="p">,&amp;</span>
+<span class="s1">'                If specified other options are ignored except --finish          '</span><span class="p">,&amp;</span>
+<span class="s1">'                and --style.                                                    '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'                Integer values may be of the form NNNN, bNNNN, oNNNN,           '</span><span class="p">,&amp;</span>
+<span class="s1">'                zFFFF, u+FFFF for decimal, binary, octal, hexadecimal           '</span><span class="p">,&amp;</span>
+<span class="s1">'                and an alternate hexadecimal form, as well as NN#MMMMM          '</span><span class="p">,&amp;</span>
+<span class="s1">'                where NN is a base from 2 to 36 in decimal and MMMMM is         '</span><span class="p">,&amp;</span>
+<span class="s1">'                a value in the specified base.                                  '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'   --finish,F   ending codepoint to generate a list of glyphs from.             '</span><span class="p">,&amp;</span>
+<span class="s1">'                1 114 111, is the highest value that can be represented         '</span><span class="p">,&amp;</span>
+<span class="s1">'                using a single or a pair of 16-bit code units in the            '</span><span class="p">,&amp;</span>
+<span class="s1">'                UTF-16 encoding.                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'                If specified other options are ignored except --start           '</span><span class="p">,&amp;</span>
+<span class="s1">'                and --style.                                                    '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'   --style,s    Styles to print range specified by --start and --finish         '</span><span class="p">,&amp;</span>
+<span class="s1">'                with. Default is "decimal,utf8,b,o,z".                          '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'                See the following section "STYLES" for descriptions of          '</span><span class="p">,&amp;</span>
+<span class="s1">'                the various styles.                                             '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'                Multiple names separated by commas are allowed.                 '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'                If "test" is specified the glyphs of the specified values       '</span><span class="p">,&amp;</span>
+<span class="s1">'                are streamed to output separated by a space.                    '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'                The --style option also applies when --nokeys is                '</span><span class="p">,&amp;</span>
+<span class="s1">'                specified.  In this case the allowed value is either            '</span><span class="p">,&amp;</span>
+<span class="s1">'                "plain" or "raw",                                               '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'   --entities,e  display table of HTML character entities and stop.             '</span><span class="p">,&amp;</span>
+<span class="s1">'                 Other parameters are ignored.                                  '</span><span class="p">,&amp;</span>
+<span class="s1">'   --show_keys   Dump the current dictionary of keys for the --nokeys           '</span><span class="p">,&amp;</span>
+<span class="s1">'                 mode.                                                          '</span><span class="p">,&amp;</span>
+<span class="s1">'   --sample,x    display sample input file and stop.                            '</span><span class="p">,&amp;</span>
+<span class="s1">'                 Other parameters are ignored.                                  '</span><span class="p">,&amp;</span>
+<span class="s1">'   STANDARD                                                                     '</span><span class="p">,&amp;</span>
+<span class="s1">'   --verbose,V   display additional output                                      '</span><span class="p">,&amp;</span>
+<span class="s1">'   --help,h      display this help and exit                                     '</span><span class="p">,&amp;</span>
+<span class="s1">'   --usage,u     display state of command options and exit                      '</span><span class="p">,&amp;</span>
+<span class="s1">'   --version,v   output version information and exit                            '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'STYLES                                                                          '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'Unicode codepoints are primarily written in hexadecimal, often prefixed         '</span><span class="p">,&amp;</span>
+<span class="s1">'with "U+" followed by four to six digits (e.g., U+0041, U+1F600). They          '</span><span class="p">,&amp;</span>
+<span class="s1">'represent abstract characters (not glyphs!) across 17 planes, with              '</span><span class="p">,&amp;</span>
+<span class="s1">'the Basic Multilingual Plane (BMP) covering most modern text. They are          '</span><span class="p">,&amp;</span>
+<span class="s1">'encoded in storage as UTF-8, UTF-16, or UTF-32.                                 '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'The available style names for the --style switch, based on common               '</span><span class="p">,&amp;</span>
+<span class="s1">'ways to represent Unicode Codepoints:                                           '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'+ DECIMAL                                                                       '</span><span class="p">,&amp;</span>
+<span class="s1">'    + the codepoint value in decimal                                            '</span><span class="p">,&amp;</span>
+<span class="s1">'+ BINARY,B                                                                      '</span><span class="p">,&amp;</span>
+<span class="s1">'    + binary value with a "b" prefix                                            '</span><span class="p">,&amp;</span>
+<span class="s1">'+ OCTAL,O                                                                       '</span><span class="p">,&amp;</span>
+<span class="s1">'    + octal value with a "o" prefix                                             '</span><span class="p">,&amp;</span>
+<span class="s1">'+ HEXADECIMAL,Z                                                                 '</span><span class="p">,&amp;</span>
+<span class="s1">'    + hexadecimal value with a "z" prefix                                       '</span><span class="p">,&amp;</span>
+<span class="s1">'+ HEX                                                                           '</span><span class="p">,&amp;</span>
+<span class="s1">'    + hexadecimal value of codepoint                                            '</span><span class="p">,&amp;</span>
+<span class="s1">'+ UTF8                                                                          '</span><span class="p">,&amp;</span>
+<span class="s1">'    + The Unicode codepoint value encoded as UTF-8 data                         '</span><span class="p">,&amp;</span>
+<span class="s1">'+ STANDARD,U                                                                    '</span><span class="p">,&amp;</span>
+<span class="s1">'    + The standard format is U+ followed by the hexadecimal value.              '</span><span class="p">,&amp;</span>
+<span class="s1">'          Examples: U+0041 (letter ''A''), U+1F600 (😀 emoji).                '</span><span class="p">,&amp;</span>
+<span class="s1">'+ C,J,HTMLD,HTMLX,UCS4,CODEX                                                    '</span><span class="p">,&amp;</span>
+<span class="s1">'    + Programming Escapes:                                                      '</span><span class="p">,&amp;</span>
+<span class="s1">'       + C: Python/C++/Java: \u0041 (4-digit format) or \U0001F600 (8-digit     '</span><span class="p">,&amp;</span>
+<span class="s1">'          format).                                                              '</span><span class="p">,&amp;</span>
+<span class="s1">'       + J: JavaScript: \u{1F600} (ES6+).                                       '</span><span class="p">,&amp;</span>
+<span class="s1">'       + HTMLD,HTMLD: CSS/HTML forms \0041 or &amp;#x1F600;.                        '</span><span class="p">,&amp;</span>
+<span class="s1">'       + UCS4: Fortran UCS4 Hex: char(int(''z1f600'',kind=ucs4)                 '</span><span class="p">,&amp;</span>
+<span class="s1">'       + CODEX: int(''z1f600'')                                                 '</span><span class="p">,&amp;</span>
+<span class="s1">'+ Other (not supported)                                                         '</span><span class="p">,&amp;</span>
+<span class="s1">'    + Normalization Forms:                                                      '</span><span class="p">,&amp;</span>
+<span class="s1">'      The same character might be represented as a single code point            '</span><span class="p">,&amp;</span>
+<span class="s1">'      (e.g., ñ U+00F1) or via normalization forms (NFC, NFD) which             '</span><span class="p">,&amp;</span>
+<span class="s1">'      break it into a base letter (n) and a combining mark (~).                 '</span><span class="p">,&amp;</span>
+<span class="s1">'    + UTF-16: 2-byte or 4-byte (surrogate pair) sequences.                      '</span><span class="p">,&amp;</span>
+<span class="s1">'    + UTF-32: Fixed 4-byte representation.                                      '</span><span class="p">,&amp;</span>
+<span class="s1">'    + UTF-8: 1–4 byte sequences, often seen as 0x byte values                 '</span><span class="p">,&amp;</span>
+<span class="s1">'      (e.g., 0xD0A4).                                                           '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'EXAMPLE                                                                         '</span><span class="p">,&amp;</span>
+<span class="s1">'  Sample runs:                                                                  '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'   # find any lines with non-ASCII-7 characters                                 '</span><span class="p">,&amp;</span>
+<span class="s1">'   uni -W The_Crow_and_the_Fox.utf8                                             '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'       1 [“The Crow and the Fox” by Jean de la Fontaine]                    '</span><span class="p">,&amp;</span>
+<span class="s1">'         [\u201CThe Crow and the Fox\u201D by Jean de la Fontaine]              '</span><span class="p">,&amp;</span>
+<span class="s1">'       5 [   Maître Corbeau, sur un arbre perché,]                            '</span><span class="p">,&amp;</span>
+<span class="s1">'         [   Ma\xEEtre Corbeau, sur un arbre perch\xE9,]                        '</span><span class="p">,&amp;</span>
+<span class="s1">'       7 [   Maître Renard, par l’odeur alléché,]                          '</span><span class="p">,&amp;</span>
+<span class="s1">'         [   Ma\xEEtre Renard, par l\u2019odeur all\xE9ch\xE9,]                 '</span><span class="p">,&amp;</span>
+<span class="s1">'       8 [   Lui tint à peu près ce langage :]                                '</span><span class="p">,&amp;</span>
+<span class="s1">'         [   Lui tint \xE0 peu pr\xE8s ce langage :]                            '</span><span class="p">,&amp;</span>
+<span class="s1">'       9 [   «Hé ! bonjour, Monsieur du Corbeau.]                             '</span><span class="p">,&amp;</span>
+<span class="s1">'         [   \xABH\xE9 ! bonjour, Monsieur du Corbeau.]                         '</span><span class="p">,&amp;</span>
+<span class="s1">'      10 [   Que vous êtes joli ! que vous me semblez beau !]                  '</span><span class="p">,&amp;</span>
+<span class="s1">'         [   Que vous \xEAtes joli ! que vous me semblez beau !]                '</span><span class="p">,&amp;</span>
+<span class="s1">'      12 [   Se rapporte à votre plumage,]                                     '</span><span class="p">,&amp;</span>
+<span class="s1">'         [   Se rapporte \xE0 votre plumage,]                                   '</span><span class="p">,&amp;</span>
+<span class="s1">'      13 [   Vous êtes le Phénix des hôtes de ces bois.»]                   '</span><span class="p">,&amp;</span>
+<span class="s1">'         [   Vous \xEAtes le Ph\xE9nix des h\xF4tes de ces bois.\xBB]           '</span><span class="p">,&amp;</span>
+<span class="s1">'      17 [   Le Renard s’en saisit, et dit : «Mon bon Monsieur,]             '</span><span class="p">,&amp;</span>
+<span class="s1">'         [   Le Renard s\u2019en saisit, et dit : \xABMon bon Monsieur,]        '</span><span class="p">,&amp;</span>
+<span class="s1">'      19 [   Vit aux dépens de celui qui l’écoute :]                        '</span><span class="p">,&amp;</span>
+<span class="s1">'         [   Vit aux d\xE9pens de celui qui l\u2019\xE9coute :]                 '</span><span class="p">,&amp;</span>
+<span class="s1">'      20 [   Cette leçon vaut bien un fromage, sans doute.»]                  '</span><span class="p">,&amp;</span>
+<span class="s1">'         [   Cette le\xE7on vaut bien un fromage, sans doute.\xBB]              '</span><span class="p">,&amp;</span>
+<span class="s1">'      22 [   Jura, mais un peu tard, qu’on ne l’y prendrait plus.]          '</span><span class="p">,&amp;</span>
+<span class="s1">'         [   Jura, mais un peu tard, qu\u2019on ne l\u2019y prendrait plus.]    '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'   # convert text containing HTML entities                                      '</span><span class="p">,&amp;</span>
+<span class="s1">'   uni -t ''c=&amp;pi;&amp;times;d'' --nohtml                                           '</span><span class="p">,&amp;</span>
+<span class="s1">'   c=π×d                                                                      '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'   # list all alphanumeric HTML entities                                        '</span><span class="p">,&amp;</span>
+<span class="s1">'   uni --entitites                                                              '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'   # convert a file with wide characters to C-style escape codes                '</span><span class="p">,&amp;</span>
+<span class="s1">'   # (that can be used with M_unicode module and Fortran or C code).            '</span><span class="p">,&amp;</span>
+<span class="s1">'   uni --toescape proverb.txt &gt;proverb.esc                                      '</span><span class="p">,&amp;</span>
+<span class="s1">'   cat proverb.esc                                                              '</span><span class="p">,&amp;</span>
+<span class="s1">'   &gt;\u4E03\u8EE2\u3073\u516B\u8D77\u304D\u3002                                  '</span><span class="p">,&amp;</span>
+<span class="s1">'   &gt;\u8EE2\u3093\u3067\u3082\u307E\u305F\u7ACB\u3061\u4E0A\u304C                '</span><span class="p">,&amp;</span>
+<span class="s1">'   \u308B\u3002                                                                 '</span><span class="p">,&amp;</span>
+<span class="s1">'   &gt;\u304F\u3058\u3051\u305A\u306B\u524D\u3092\u5411\u3044\u3066                '</span><span class="p">,&amp;</span>
+<span class="s1">'   \u6B69\u3044\u3066\u3044\u3053\u3046\u3002                                   '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'   and back again:                                                              '</span><span class="p">,&amp;</span>
+<span class="s1">'   uni --noescape proverb.esc                                                   '</span><span class="p">,&amp;</span>
+<span class="s1">'   七転び八起き。                                                        '</span><span class="p">,&amp;</span>
+<span class="s1">'   転んでもまた立ち上がる。                                         '</span><span class="p">,&amp;</span>
+<span class="s1">'   くじけずに前を向いて歩いていこう。                          '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'   uni --box bold &lt;&lt;\end_of_data                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'   #################################                                            '</span><span class="p">,&amp;</span>
+<span class="s1">'   # Warning: proceed with caution #                                            '</span><span class="p">,&amp;</span>
+<span class="s1">'   #################################                                            '</span><span class="p">,&amp;</span>
+<span class="s1">'   end_of_data                                                                  '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'  Sample output:                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓'</span><span class="p">,&amp;</span>
+<span class="s1">'   ┃ Warning: proceed with caution ┃                                                              '</span><span class="p">,&amp;</span>
+<span class="s1">'   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛'</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                                      '</span><span class="p">,&amp;</span>
+<span class="s1">'   uni -t "Warning. Warning Will Robinson!" --border double                                           '</span><span class="p">,&amp;</span>
+<span class="s1">'   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓'</span><span class="p">,&amp;</span>
+<span class="s1">'   ┃Warning. Warning Will Robinson!┃                                                              '</span><span class="p">,&amp;</span>
+<span class="s1">'   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛'</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                                      '</span><span class="p">,&amp;</span>
+<span class="s1">'   # listing a section of Unicode : box characters                                                    '</span><span class="p">,&amp;</span>
+<span class="s1">'   # The majority of Unicode box-drawing characters are in the Box                                    '</span><span class="p">,&amp;</span>
+<span class="s1">'   # Drawing block, which runs from decimal code points 9472 to 9599,                                 '</span><span class="p">,&amp;</span>
+<span class="s1">'   # corresponding to hexadecimal U+2500 to U+257F.                                                   '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                                      '</span><span class="p">,&amp;</span>
+<span class="s1">'   uni -S 9472 -F 9599                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                                      '</span><span class="p">,&amp;</span>
+<span class="s1">'   uni -t ''&amp;#128512; &amp;#128516; &amp;#128525; &amp;#128151;'' -H                                              '</span><span class="p">,&amp;</span>
+<span class="s1">'   😀 😄 😍 💗                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                                      '</span><span class="p">,&amp;</span>
+<span class="s1">'   # basic Greek alphabet                                                                             '</span><span class="p">,&amp;</span>
+<span class="s1">'   uni --start 880 --finish 1023                                                                      '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                                      '</span><span class="p">,&amp;</span>
+<span class="s1">'   # test current font                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'   uni --start 32 --finish 1114111 --style utf8                                                       '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                                      '</span><span class="p">,&amp;</span>
+<span class="s1">'   # German mneumonics                                                                                '</span><span class="p">,&amp;</span>
+<span class="s1">'   uni -t ''&lt;raquo&gt;&lt;ae oe ue ss Ae Oe Ue Ss&gt;&lt;laquo&gt;'' --nokeys                                        '</span><span class="p">,&amp;</span>
+<span class="s1">'   uni -t ''&lt;raquo&gt;&lt;ae oe ue ss Ae Oe Ue Ss&gt;&lt;laquo&gt;'' --nokeys --style plain                          '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                                      '</span><span class="p">,&amp;</span>
+<span class="s1">'   # Show information about a codepoint                                                               '</span><span class="p">,&amp;</span>
+<span class="s1">'   uni -S U+A5                                                                                        '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                                      '</span><span class="p">,&amp;</span>
+<span class="s1">'SEE ALSO                                                                                              '</span><span class="p">,&amp;</span>
+<span class="s1">'   dos2unix(1)/unix2dos(1), iconv(1)                                                                  '</span><span class="p">,&amp;</span>
+<span class="s1">'                                                                                                      '</span><span class="p">,&amp;</span>
+<span class="s1">''</span><span class="p">]</span>
+<span class="n">version_text</span><span class="o">=</span><span class="p">[</span><span class="w"> </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="s1">'@(#)PROGRAM:     uni(1)            &gt;'</span><span class="p">,&amp;</span>
+<span class="s1">'@(#)DESCRIPTION: convert UTF-8 encoded text to and from ASCII-7 and C-style escape sequences &gt;'</span><span class="p">,&amp;</span>
+<span class="s1">'@(#)VERSION:     1.0 2026-02-24       &gt;                                                       '</span><span class="p">,&amp;</span>
+<span class="s1">'@(#)AUTHOR:      John S. Urban        &gt;                                                       '</span><span class="p">,&amp;</span>
+<span class="s1">'@(#)LICENSE:     Public Domain        &gt;                                                       '</span><span class="p">,&amp;</span>
+<span class="s1">''</span><span class="p">]</span>
+<span class="w">   </span><span class="k">call </span><span class="n">set_mode</span><span class="p">([</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="s1">'strict'</span><span class="p">,</span><span class="s1">'ignorecase'</span><span class="p">])</span>
+<span class="w">   </span><span class="c">! a single call to set_args can define the options and their defaults, set help</span>
+<span class="w">   </span><span class="c">! text and version information, and crack command line.</span>
+<span class="w">   </span><span class="n">border</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<span class="w">   </span><span class="k">call </span><span class="n">set_args</span><span class="p">(</span><span class="w"> </span><span class="s1">'&amp;</span>
+<span class="s1">    &amp; --border:b " " &amp;</span>
+<span class="s1">    &amp; --box:B " " &amp;</span>
+<span class="s1">    &amp; --code:C F &amp;</span>
+<span class="s1">    &amp; --entities:e F &amp;</span>
+<span class="s1">    &amp; --show_keys:d F &amp;</span>
+<span class="s1">    &amp; --toescape:E F &amp;</span>
+<span class="s1">    &amp; --noescape:N F &amp;</span>
+<span class="s1">    &amp; --sample:x F &amp;</span>
+<span class="s1">    &amp; --nohtml:H F &amp;</span>
+<span class="s1">    &amp; --tohtml:h F &amp;</span>
+<span class="s1">    &amp; --nokeys:k F &amp;</span>
+<span class="s1">    &amp; --kind:K 1 &amp;</span>
+<span class="s1">    &amp; --lcase:L F &amp;</span>
+<span class="s1">    &amp; --ucase:U F &amp;</span>
+<span class="s1">    &amp; --length:l F &amp;</span>
+<span class="s1">    &amp; --text:t F &amp;</span>
+<span class="s1">    &amp; --reverse:R F &amp;</span>
+<span class="s1">    &amp; --start:S 0 &amp;</span>
+<span class="s1">    &amp; --finish:F 1114111 &amp;</span>
+<span class="s1">    &amp; --style:s "decimal,utf8,b,o,z" &amp;</span>
+<span class="s1">    &amp; --findwide:W F &amp;</span>
+<span class="s1">    &amp; --nowide:w F &amp;</span>
+<span class="s1">    &amp; --debug:D F'</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">    </span><span class="p">&amp;</span><span class="w"> </span><span class="n">help_text</span><span class="p">,</span><span class="w"> </span><span class="n">version_text</span><span class="p">)</span>
+
+<span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="n">specified</span><span class="p">(</span><span class="s1">'border'</span><span class="p">))</span><span class="w"> </span><span class="k">call </span><span class="n">get_args</span><span class="p">(</span><span class="s1">'border'</span><span class="p">,</span><span class="w"> </span><span class="n">style_border</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="n">specified</span><span class="p">(</span><span class="s1">'box'</span><span class="p">))</span><span class="w">    </span><span class="k">call </span><span class="n">get_args</span><span class="p">(</span><span class="s1">'box'</span><span class="p">,</span><span class="w">    </span><span class="n">style_box</span><span class="w"> </span><span class="p">)</span>
+
+<span class="w">   </span><span class="k">call </span><span class="n">get_args</span><span class="p">(</span><span class="s1">'code'</span><span class="p">,</span><span class="w">     </span><span class="n">code</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">get_args</span><span class="p">(</span><span class="s1">'debug'</span><span class="p">,</span><span class="w">    </span><span class="n">debug</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">get_args</span><span class="p">(</span><span class="s1">'entities'</span><span class="p">,</span><span class="w"> </span><span class="n">entities</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">get_args</span><span class="p">(</span><span class="s1">'show_keys'</span><span class="p">,</span><span class="w"> </span><span class="n">show_keys</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">get_args</span><span class="p">(</span><span class="s1">'toescape'</span><span class="p">,</span><span class="w"> </span><span class="n">toescape</span><span class="p">,</span><span class="w">     </span><span class="s1">'noescape'</span><span class="p">,</span><span class="w"> </span><span class="n">noescape</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">get_args</span><span class="p">(</span><span class="s1">'sample'</span><span class="p">,</span><span class="w">   </span><span class="n">sample</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">get_args</span><span class="p">(</span><span class="s1">'nohtml'</span><span class="p">,</span><span class="w">   </span><span class="n">nohtml</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">get_args</span><span class="p">(</span><span class="s1">'tohtml'</span><span class="p">,</span><span class="w">   </span><span class="n">tohtml</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">get_args</span><span class="p">(</span><span class="s1">'nokeys'</span><span class="p">,</span><span class="w">   </span><span class="n">nokeys</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">get_args</span><span class="p">(</span><span class="s1">'kind'</span><span class="p">,</span><span class="w">     </span><span class="n">knd</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">get_args</span><span class="p">(</span><span class="s1">'lcase'</span><span class="p">,</span><span class="w">    </span><span class="n">lcase</span><span class="p">,</span><span class="w">      </span><span class="s1">'ucase'</span><span class="p">,</span><span class="w">    </span><span class="n">ucase</span><span class="w">    </span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">get_args</span><span class="p">(</span><span class="s1">'length'</span><span class="p">,</span><span class="w">   </span><span class="n">length</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">get_args</span><span class="p">(</span><span class="s1">'reverse'</span><span class="p">,</span><span class="w">  </span><span class="n">reverse</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">get_args</span><span class="p">(</span><span class="s1">'start'</span><span class="p">,</span><span class="w">    </span><span class="n">startrange</span><span class="p">,</span><span class="w"> </span><span class="s1">'finish'</span><span class="p">,</span><span class="w">   </span><span class="n">endrange</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">get_args</span><span class="p">(</span><span class="s1">'verbose'</span><span class="p">,</span><span class="w">  </span><span class="n">verbose</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">get_args</span><span class="p">(</span><span class="s1">'findwide'</span><span class="p">,</span><span class="w"> </span><span class="n">findwide</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">get_args</span><span class="p">(</span><span class="s1">'nowide'</span><span class="p">,</span><span class="w">   </span><span class="n">nowide</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">get_args</span><span class="p">(</span><span class="s1">'text'</span><span class="p">,</span><span class="w">     </span><span class="n">nofile</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="n">styles</span><span class="o">=</span><span class="n">sgets</span><span class="p">(</span><span class="s1">'style'</span><span class="p">)</span>
+<span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">styles</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">styles</span><span class="o">=</span><span class="p">[</span><span class="s1">'all'</span><span class="p">]</span>
+<span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="n">specified</span><span class="p">(</span><span class="s1">'nokeys'</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">specified</span><span class="p">(</span><span class="s1">'style'</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="k">then</span>
+<span class="k">      call </span><span class="n">keyword_mode</span><span class="p">(</span><span class="n">styles</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="w">   </span><span class="k">endif</span>
+<span class="k">   if</span><span class="p">(</span><span class="w"> </span><span class="n">specified</span><span class="p">(</span><span class="s1">'border'</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="n">border</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+<span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="n">specified</span><span class="p">(</span><span class="s1">'box'</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">style_box</span><span class="o">==</span><span class="s1">' '</span><span class="p">)</span><span class="w"> </span><span class="n">style_box</span><span class="o">=</span><span class="s1">'bold'</span>
+<span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="n">specified</span><span class="p">(</span><span class="s1">'border'</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">style_border</span><span class="o">==</span><span class="s1">' '</span><span class="p">)</span><span class="w"> </span><span class="n">style_border</span><span class="o">=</span><span class="s1">'bold'</span>
+<span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="n">entities</span><span class="p">)</span><span class="k">then</span>
+<span class="k">      </span><span class="n">line</span><span class="o">=</span><span class="n">expand_html</span><span class="p">()</span>
+<span class="w">      </span><span class="k">stop</span>
+<span class="k">   endif</span>
+<span class="k">   if</span><span class="p">(</span><span class="n">show_keys</span><span class="p">)</span><span class="k">then</span>
+<span class="k">      call </span><span class="n">keyword_mode</span><span class="p">(</span><span class="s1">'dump'</span><span class="p">)</span>
+<span class="w">      </span><span class="k">stop</span>
+<span class="k">   endif</span>
+<span class="k">   if</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">files</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>
+<span class="k">      </span><span class="n">filenames</span><span class="o">=</span><span class="p">[</span><span class="s2">" "</span><span class="p">]</span>
+<span class="w">   </span><span class="k">else</span>
+<span class="k">      </span><span class="n">filenames</span><span class="o">=</span><span class="n">files</span>
+<span class="w">   </span><span class="k">endif</span>
+<span class="k">   if</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span><span class="k">then</span>
+<span class="k">      call </span><span class="n">sample_file</span><span class="p">()</span>
+<span class="w">   </span><span class="k">endif</span>
+<span class="w">   </span><span class="c">! process --start and --finish</span>
+<span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="n">specified</span><span class="p">(</span><span class="s1">'start'</span><span class="p">)</span><span class="w">  </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="n">specified</span><span class="p">(</span><span class="s1">'finish'</span><span class="p">))</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="n">endrange</span><span class="o">=</span><span class="n">startrange</span>
+<span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="n">specified</span><span class="p">(</span><span class="s1">'start'</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">specified</span><span class="p">(</span><span class="s1">'finish'</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="k">then</span>
+<span class="k">      </span><span class="n">styles</span><span class="o">=</span><span class="n">to_lower</span><span class="p">(</span><span class="n">styles</span><span class="p">)</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">styles</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'all'</span><span class="p">)</span><span class="k">then</span>
+<span class="k">         </span><span class="n">styles</span><span class="o">=</span><span class="p">[</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="s1">'d'</span><span class="p">,</span><span class="s1">'utf8'</span><span class="p">,</span><span class="s1">'b'</span><span class="p">,</span><span class="s1">'o'</span><span class="p">,</span><span class="s1">'z'</span><span class="p">,</span><span class="s1">'c'</span><span class="p">,</span><span class="s1">'hex'</span><span class="p">,</span><span class="s1">'u'</span><span class="p">,</span><span class="s1">'htmlx'</span><span class="p">,</span><span class="s1">'htmld'</span><span class="p">,</span><span class="s1">'ucs4'</span><span class="p">,</span><span class="s1">'codex'</span><span class="p">]</span>
+<span class="w">      </span><span class="k">endif</span>
+<span class="k">      if</span><span class="p">(</span><span class="nb">any</span><span class="p">(</span><span class="n">styles</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'test'</span><span class="p">))</span><span class="k">then</span>
+<span class="k">         do </span><span class="n">i</span><span class="o">=</span><span class="n">startrange</span><span class="p">,</span><span class="nb">max</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">endrange</span><span class="p">,</span><span class="mi">1114111</span><span class="p">),</span><span class="mi">0</span><span class="p">)</span>
+<span class="w">            </span><span class="n">ustr</span><span class="o">=</span><span class="n">i</span>
+<span class="w">            </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">'(1x,a)'</span><span class="p">,</span><span class="n">advance</span><span class="o">=</span><span class="s1">'no'</span><span class="p">)</span><span class="n">ch</span><span class="p">(</span><span class="n">ustr</span><span class="p">)</span><span class="w"> </span><span class="c">! character</span>
+<span class="w">         </span><span class="k">enddo</span>
+<span class="k">         write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
+<span class="w">      </span><span class="k">else</span>
+<span class="k">         do </span><span class="n">i</span><span class="o">=</span><span class="n">startrange</span><span class="p">,</span><span class="nb">max</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">endrange</span><span class="p">,</span><span class="mi">1114111</span><span class="p">),</span><span class="mi">0</span><span class="p">)</span>
+<span class="w">            </span><span class="n">ustr</span><span class="o">=</span><span class="n">i</span>
+<span class="w">            </span><span class="k">do </span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">styles</span><span class="p">)</span>
+<span class="w">             </span><span class="k">select case</span><span class="p">(</span><span class="n">styles</span><span class="p">(</span><span class="n">j</span><span class="p">))</span>
+<span class="w">              </span><span class="k">case</span><span class="p">(</span><span class="s1">'d'</span><span class="p">,</span><span class="s1">'decimal'</span><span class="p">);</span><span class="w"> </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">'(1x,i0)'</span><span class="p">,</span><span class="n">advance</span><span class="o">=</span><span class="s1">'no'</span><span class="p">)</span><span class="w"> </span><span class="n">i</span><span class="w">    </span><span class="c">! codepoint</span>
+<span class="w">              </span><span class="k">case</span><span class="p">(</span><span class="s1">'utf8'</span><span class="p">);</span><span class="w"> </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">'(1x,a)'</span><span class="p">,</span><span class="n">advance</span><span class="o">=</span><span class="s1">'no'</span><span class="p">)</span><span class="n">ch</span><span class="p">(</span><span class="n">ustr</span><span class="p">)</span><span class="w">  </span><span class="c">! character</span>
+<span class="w">              </span><span class="k">case</span><span class="p">(</span><span class="s1">'c'</span><span class="p">)</span><span class="w"> </span><span class="p">;</span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">'(1x,''\U'',z8.8)'</span><span class="p">,</span><span class="n">advance</span><span class="o">=</span><span class="s1">'no'</span><span class="p">)</span><span class="n">i</span><span class="w">  </span><span class="c">! \U00000064</span>
+<span class="w">              </span><span class="k">case</span><span class="p">(</span><span class="s1">'b'</span><span class="p">,</span><span class="s1">'binary'</span><span class="p">)</span><span class="w"> </span><span class="p">;</span><span class="w">                 </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">'(1x,"b",b0)'</span><span class="p">,</span><span class="n">advance</span><span class="o">=</span><span class="s1">'no'</span><span class="p">)</span><span class="n">i</span><span class="w">       </span><span class="c">! bNNNNN</span>
+<span class="w">              </span><span class="k">case</span><span class="p">(</span><span class="s1">'o'</span><span class="p">,</span><span class="s1">'octal'</span><span class="p">)</span><span class="w"> </span><span class="p">;</span><span class="w">                  </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">'(1x,"o",o0)'</span><span class="p">,</span><span class="n">advance</span><span class="o">=</span><span class="s1">'no'</span><span class="p">)</span><span class="n">i</span><span class="w">       </span><span class="c">! oNNNNN</span>
+<span class="w">              </span><span class="k">case</span><span class="p">(</span><span class="s1">'z'</span><span class="p">,</span><span class="s1">'h'</span><span class="p">,</span><span class="s1">'hexidecimal'</span><span class="p">)</span><span class="w"> </span><span class="p">;</span><span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">'(1x,"z",z0)'</span><span class="p">,</span><span class="n">advance</span><span class="o">=</span><span class="s1">'no'</span><span class="p">)</span><span class="n">i</span><span class="w">       </span><span class="c">! zNNNNN</span>
+<span class="w">              </span><span class="k">case</span><span class="p">(</span><span class="s1">'hex'</span><span class="p">)</span><span class="w"> </span><span class="p">;</span><span class="w">                        </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">'(1x,z0)'</span><span class="p">,</span><span class="n">advance</span><span class="o">=</span><span class="s1">'no'</span><span class="p">)</span><span class="n">i</span><span class="w">           </span><span class="c">! FFFFF</span>
+<span class="w">              </span><span class="k">case</span><span class="p">(</span><span class="s1">'u'</span><span class="p">,</span><span class="s1">'standard'</span><span class="p">)</span><span class="w"> </span><span class="p">;</span><span class="w">               </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">'(1x,''U+'',z0.8)'</span><span class="p">,</span><span class="n">advance</span><span class="o">=</span><span class="s1">'no'</span><span class="p">)</span><span class="n">i</span><span class="w">  </span><span class="c">! U+64</span>
+<span class="w">              </span><span class="k">case</span><span class="p">(</span><span class="s1">'htmlx'</span><span class="p">)</span><span class="w">  </span><span class="p">;</span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">form_zhtml</span><span class="p">,</span><span class="n">advance</span><span class="o">=</span><span class="s1">'no'</span><span class="p">)</span><span class="n">i</span><span class="w">     </span><span class="c">! &amp;#x4EBA;</span>
+<span class="w">              </span><span class="k">case</span><span class="p">(</span><span class="s1">'htmld'</span><span class="p">)</span><span class="w">  </span><span class="p">;</span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">form_html</span><span class="p">,</span><span class="n">advance</span><span class="o">=</span><span class="s1">'no'</span><span class="p">)</span><span class="n">i</span><span class="w">      </span><span class="c">! &amp;#20154;</span>
+<span class="w">              </span><span class="k">case</span><span class="p">(</span><span class="s1">'ucs4'</span><span class="p">)</span><span class="w">   </span><span class="p">;</span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">form</span><span class="p">,</span><span class="n">advance</span><span class="o">=</span><span class="s1">'no'</span><span class="p">)</span><span class="n">i</span><span class="w">           </span><span class="c">! char(int(z'nnn',kind=ucs4))</span>
+<span class="w">              </span><span class="k">case</span><span class="p">(</span><span class="s1">'codex'</span><span class="p">)</span><span class="w">  </span><span class="p">;</span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">form_M</span><span class="p">,</span><span class="n">advance</span><span class="o">=</span><span class="s1">'no'</span><span class="p">)</span><span class="n">i</span><span class="w">         </span><span class="c">! int(z'nnn')</span>
+<span class="w">             </span><span class="k">end select</span>
+<span class="k">             write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s1">'(a)'</span><span class="p">,</span><span class="n">advance</span><span class="o">=</span><span class="s1">'no'</span><span class="p">)</span><span class="w"> </span><span class="s1">' '</span>
+<span class="w">            </span><span class="k">enddo</span>
+<span class="k">            write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
+<span class="w">         </span><span class="k">enddo</span>
+<span class="k">      endif</span>
+<span class="k">      stop</span>
+<span class="k">   endif</span>
+<span class="w">   </span><span class="c">! if no actions specified default to --findwide</span>
+<span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="p">.</span><span class="nb">not</span><span class="p">.</span><span class="nb">any</span><span class="p">(</span><span class="n">specified</span><span class="p">([</span><span class="w"> </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="s1">'border'</span><span class="p">,</span><span class="w"> </span><span class="s1">'box'</span><span class="p">,</span><span class="w"> </span><span class="s1">'code'</span><span class="p">,</span><span class="w"> </span><span class="s1">'entities'</span><span class="p">,</span><span class="w"> </span><span class="s1">'nokeys'</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">   </span><span class="p">&amp;</span><span class="w"> </span><span class="s1">'toescape'</span><span class="p">,</span><span class="w"> </span><span class="s1">'noescape'</span><span class="p">,</span><span class="w"> </span><span class="s1">'sample'</span><span class="p">,</span><span class="w"> </span><span class="s1">'tohtml'</span><span class="p">,</span><span class="w"> </span><span class="s1">'nohtml'</span><span class="p">,</span><span class="w"> </span><span class="s1">'kind'</span><span class="p">,</span><span class="w"> </span><span class="s1">'lcase'</span><span class="p">,</span><span class="w"> </span><span class="s1">'ucase'</span><span class="p">,</span><span class="w"> </span><span class="s1">'length'</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">   </span><span class="p">&amp;</span><span class="w"> </span><span class="s1">'reverse'</span><span class="p">,</span><span class="w"> </span><span class="s1">'start'</span><span class="p">,</span><span class="w"> </span><span class="s1">'finish'</span><span class="p">,</span><span class="w"> </span><span class="s1">'style'</span><span class="p">,</span><span class="w"> </span><span class="s1">'findwide'</span><span class="p">,</span><span class="w"> </span><span class="s1">'nowide'</span><span class="w"> </span><span class="p">])))</span><span class="k">then</span>
+<span class="k">      </span><span class="n">findwide</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.</span>
+<span class="w">   </span><span class="k">endif</span>
+<span class="k">   if</span><span class="p">(</span><span class="n">debug</span><span class="p">)</span><span class="k">then</span>
+<span class="k">      write</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span><span class="s1">'(*(g0))'</span><span class="p">)</span><span class="s1">'nofile='</span><span class="p">,</span><span class="n">nofile</span>
+<span class="w">      </span><span class="k">write</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span><span class="s1">'(*(g0))'</span><span class="p">)</span><span class="s1">'size(filenames)='</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">filenames</span><span class="p">)</span>
+<span class="w">      </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">filenames</span><span class="p">)</span>
+<span class="w">         </span><span class="k">write</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span><span class="s1">'(*(g0))'</span><span class="p">)</span><span class="s1">'['</span><span class="p">,</span><span class="n">filenames</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="s1">']'</span>
+<span class="w">      </span><span class="k">enddo</span>
+<span class="k">   endif</span>
+<span class="k">end subroutine </span><span class="n">setup</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              M_unicode
+ was developed by John S. Urban<br>              &copy; 2026 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2026-10-18 03:09 +0000             </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>
