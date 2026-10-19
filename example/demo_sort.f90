@@ -110,7 +110,7 @@ program demo_sort
       ut("Zebra")      ]
    print g, ( trim(answer(i)%ch()),i=1,size(answer) )
    print g, 'CHECK TEST WORDS:',rr(ii) == answer
-   print g, merge('PAssED','FAILED', all(rr(ii) == answer))
+   print g, merge('PASSED','FAILED', all(rr(ii) == answer))
 
 contains
 
