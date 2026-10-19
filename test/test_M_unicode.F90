@@ -1,27 +1,5 @@
 !-----------------------------------------------------------------------------------------------------------------------------------
-#define  __INTEL_COMP        1
-#define  __GFORTRAN_COMP     2
-#define  __NVIDIA_COMP       3
-#define  __NAG_COMP          4
-#define  __LLVM_FLANG_COMP   5
-#define  __UNKNOWN_COMP   9999
-
-#define FLOAT128
-
-#ifdef __INTEL_COMPILER
-#   define __COMPILER__ __INTEL_COMP
-#elif __GFORTRAN__ == 1
-#   define __COMPILER__ __GFORTRAN_COMP
-#elif __flang__
-#   undef FLOAT128
-#   define __COMPILER__ __LLVM_FLANG_COMP
-#elif __NVCOMPILER
-#   undef FLOAT128
-#   define __COMPILER__ __NVIDIA_COMP
-#else
-#   define __COMPILER__ __UNKNOWN_COMP
-#   warning  NOTE: UNKNOWN COMPILER
-#endif
+#include "../include/define_compiler.inc"
 !-----------------------------------------------------------------------------------------------------------------------------------
 module testsuite_M_unicode
 use, intrinsic :: iso_fortran_env, only : stdout=>output_unit
@@ -1283,6 +1261,7 @@ character(len=:),allocatable :: a_line
 
    u_line='&lt; &gt; &amp; &copy; &reg; &trade; &euro; &pound; Before&nbsp;After'
    u_expected=expand_html(u_line)
+   u_expected='< > & © ® ™ € £ Before After'
 
    ! UNICODE_TYPE input
    call check('expand_html',u_expected == u_expected,'&NAME; u_expected ' // ch(u_expected))
@@ -1299,7 +1278,7 @@ character(len=:),allocatable :: a_line
    call check('expand_html',expand_html(a_line) == u_expected,'&NAME; character input ' // ch(expand_html(a_line) ))
 
    a_line='&#60; &#62; &#38; &#169; &#174; &#8482; &#8364; &#163; Before&#160;After'
-   call check('expand_html',expand_html(a_line) == u_expected,'&NUMBER; character input ' // ch(expand_html(a_line) ))
+   call check('expand_html',expand_html(a_line) == u_expected,'&#NUMBER; character input ' // ch(expand_html(a_line) ))
 
 end subroutine test_expand_html
 
