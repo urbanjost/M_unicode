@@ -45,11 +45,11 @@ character(len=256)           :: iomsg
 
       if(nofile)then
          lun=-1
-      elseif(filenames(i).eq.'-'.or.filenames(i).eq.'')then
+      elseif(filenames(i) == '-'.or.filenames(i) == '')then
          lun=stdin
       else
          open(newunit=lun,file=filenames(i),action='read',pad='yes',iostat=iostat,iomsg=iomsg)
-         if(iostat.ne.0)then
+         if(iostat /= 0)then
             write(stderr,g0)'<ERROR>*uni*:',trim(iomsg)
             iomsg=''
             cycle
@@ -57,11 +57,11 @@ character(len=256)           :: iomsg
       endif
       INFINITE: do linenum=1,huge(0)-1
          if(nofile)then
-            if(linenum.gt.size(filenames))exit DATUM
+            if(linenum > size(filenames))exit DATUM
             line=filenames(linenum)
          else
             line=readline(lun,iostat=iostat)
-            if(iostat.ne.0)exit
+            if(iostat /= 0)exit
          endif
          if(nokeys)   line=keyword_expand(line)
          if(nohtml)   line=expand_html(line)
@@ -73,7 +73,7 @@ character(len=256)           :: iomsg
          if(tohtml)   line=add_html(line)
          if(code.and.knd==2) then
             ! @(#) generate Fortran statements using KIND='iso_10464' that represents the lines
-            if(line.eq.'')then
+            if(line == '')then
                write(stdout,g0)'! ISO-10646 ENCODING:',ch(line)
                write(stdout,g0)'character(len=*,kind=ucs4),parameter :: line',linenum,'= ucs4_""'
                write(stdout,g0)
@@ -89,7 +89,7 @@ character(len=256)           :: iomsg
             endif
          elseif(code) then
             ! @(#) generate Fortran statements using KIND='iso_10464' that represents the lines
-            if(line.eq.'')then
+            if(line == '')then
                write(stdout,g0) '! ISO-10646 ENCODING:',ch(line)
                write(stdout,g0) 'character(len=*,kind=ucs4),parameter :: line',linenum,'= ucs4_""'
                write(stdout,g0)
@@ -111,7 +111,7 @@ character(len=256)           :: iomsg
          elseif(findwide)then
             ! write and identify lines not composed entirely of ASCII-7
             ints=line
-            if(maxval(ints).gt.127)then
+            if(maxval(ints) > 127)then
                ! write the line number line in brackets
                write(stdout,'(i8,1x,a)')linenum,'['//ch(line)//']'
                ! write the line with all but ASCII-7 replaced with escape codes
@@ -2152,7 +2152,7 @@ $!==============================================================================
    call get_args('nowide',   nowide )
    call get_args('text',     nofile )
    styles=sgets('style')
-   if(size(styles).eq.0) styles=['all']
+   if(size(styles) == 0) styles=['all']
    if( specified('nokeys') .and. specified('style') )then
       call keyword_mode(styles(1))
    endif
@@ -2167,7 +2167,7 @@ $!==============================================================================
       call keyword_mode('dump')
       stop
    endif
-   if(size(files).eq.0)then
+   if(size(files) == 0)then
       filenames=[" "]
    else
       filenames=files
@@ -2179,10 +2179,10 @@ $!==============================================================================
    if( specified('start')  .and. (.not.specified('finish')) ) endrange=startrange
    if( specified('start') .or. specified('finish') )then
       styles=to_lower(styles)
-      if(styles(1).eq.'all')then
+      if(styles(1) == 'all')then
          styles=[character(len=10) :: 'd','utf8','b','o','z','c','hex','u','htmlx','htmld','ucs4','codex']
       endif
-      if(any(styles.eq.'test'))then
+      if(any(styles == 'test'))then
          do i=startrange,max(min(endrange,1114111),0)
             ustr=i
             write(stdout,'(1x,a)',advance='no')ch(ustr) ! character
@@ -2277,7 +2277,7 @@ integer                      :: i
    else
       text_out=slurp(trim(fname),iomsg=iomsg)
 
-      if(iomsg.ne.'')then
+      if(iomsg /= '')then
          write(stderr,*)'*uni* failed to load file '//fname
          write(stderr,*) iomsg
       endif
