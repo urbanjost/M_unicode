@@ -964,11 +964,15 @@ integer,allocatable            :: ints(:)
       enddo
    endif
 end subroutine chk
-function case_insensitive_compare(str1, str2) result (answer)
 
+
+end subroutine test_sort
+
+function case_insensitive_compare(str1, str2) result (answer)
 type(ut), intent(in) :: str1, str2
-logical                        :: answer
+logical              :: answer
    answer = lower(str1) < lower(str2)
+   !answer = llt(lower(str1) , lower(str2))
 end function case_insensitive_compare
 
 function german_dictionary(lhs, rhs) result(is_lle)
@@ -1026,8 +1030,6 @@ integer,parameter    :: comb=2*int(z'308'), &
    enddo
    out=codes(1:ikeep)
 end function nmi
-
-end subroutine test_sort
 
 subroutine test_other()
 type(ut)         :: string
@@ -1191,7 +1193,7 @@ end subroutine test_ichar
 
 subroutine test_expand_backslash()
 type(ut)           :: ut_str
-character(len=:),allocatable :: line
+character(len=:),allocatable :: a_line
 integer,allocatable          :: ints(:)
 !    \      backslash
 !    a      alert (BEL) -- g is an alias for a
@@ -1239,14 +1241,14 @@ integer,allocatable          :: ints(:)
    & expand_backslash(ut_str) == 'कॉफ़ी है?',&
    & 'hexadecimal and unicode ' // &
    & ch(expand_backslash(ut_str)) )
-   call check('expand_backslash',&
+   call check('expand_backslash ',&
    & ch(expand_backslash(ut_str)) == 'कॉफ़ी है?',&
-   & 'hexadecimal and unicode' // &
+   & 'hexadecimal and unicode ' // &
    & ch(expand_backslash(ut_str)) )
 
-   ut_str='\x9\x09\x008\xA4\x3B1\x3B2\x221A\x221E'
-   line=char(9)//char(9)//char(8)//'¤αβ√∞'
-   call check('expand_backslash',expand_backslash(ut_str) == line,'hexadecimal')
+   ut_str='\x9\x09\x08\xA4\u3B1\u3B2\u221A\u221E'
+   a_line=char(9)//char(9)//char(8)//'¤αβ√∞'
+   call check('expand_backslash',expand_backslash(ut_str) == a_line,'hexadecimal '//ch(expand_backslash(ut_str)) )
 
 end subroutine test_expand_backslash
 
@@ -1279,17 +1281,25 @@ character(len=:),allocatable :: a_line
 
    call check('expand_html',expand_html(ut('&')) == '&','backslash at end of line')
 
-   u_expected='< > & © ® ™ € £ Before After'
+   u_line='&lt; &gt; &amp; &copy; &reg; &trade; &euro; &pound; Before&nbsp;After'
+   u_expected=expand_html(u_line)
+
    ! UNICODE_TYPE input
+   call check('expand_html',u_expected == u_expected,'&NAME; u_expected ' // ch(u_expected))
+
    u_line='&lt; &gt; &amp; &copy; &reg; &trade; &euro; &pound; Before&nbsp;After'
    call check('expand_html',expand_html(u_line) == u_expected,'&NAME; unicode_type input ' // ch(expand_html(u_line)))
+
    u_line='&#60; &#62; &#38; &#169; &#174; &#8482; &#8364; &#163; Before&#160;After'
    call check('expand_html',expand_html(u_line) == u_expected,'&#NUMBER; unicode_type input ' // ch(expand_html(u_line)))
 
    ! CHARACTER input
+
    a_line='&lt; &gt; &amp; &copy; &reg; &trade; &euro; &pound; Before&nbsp;After'
    call check('expand_html',expand_html(a_line) == u_expected,'&NAME; character input ' // ch(expand_html(a_line) ))
+
    a_line='&#60; &#62; &#38; &#169; &#174; &#8482; &#8364; &#163; Before&#160;After'
+   call check('expand_html',expand_html(a_line) == u_expected,'&NUMBER; character input ' // ch(expand_html(a_line) ))
 
 end subroutine test_expand_html
 
