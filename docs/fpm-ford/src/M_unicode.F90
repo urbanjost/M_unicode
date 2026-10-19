@@ -796,7 +796,7 @@ type(html_entities),save :: entities(2125)
 ! for example, in tai tou.
 integer,parameter :: G_SPACE = 32
 
-integer,private,parameter :: spacescodes(*)= [32,160,8192,8193,8194,8195,8196,8197,8198,8199,8200,8201,8202,8239,8287,12288]
+integer,private,parameter :: spacescodes(*)= [32,160,8192,8193,8194,8195,8196,8197,8198,8199,8200,8201,8202,8239,8287,8288,12288]
 
 ! Unicode lowercase to uppercase conversion mapping table
 ! The standard English lowercase "i" (U+0069) has a dot, which is called a "tittle".
@@ -6431,7 +6431,7 @@ end function isascii_a
 !!    > ISBLANK PASSED TYPE(UNICODE_TYPE):  T
 !!    > BLANKS:                　
 !!    > BLANKS:  32 160 8192 8193 8194 8195 8196 8197 8198 8199 8200 8201
-!!    > 8202 8239 8287 12288
+!!    > 8202 8239 8287 8288 12288
 !!
 !!##AUTHOR
 !!     John S. Urban
@@ -6451,7 +6451,7 @@ integer                       :: i
       STEPTHROUGH: do i=1,size(string%codes)
          select case(string%codes(i))
          case(9)
-         case(32,160,8192,8193,8194,8195,8196,8197,8198,8199,8200,8201,8202,8239,8287,12288)
+         case(32,160,8192,8193,8194,8195,8196,8197,8198,8199,8200,8201,8202,8239,8287,8288,12288)
          case default
            res=.false.
            exit STEPTHROUGH
@@ -6531,7 +6531,7 @@ integer                       :: i
       select case(string%codes(i))
       case(0)       ! null(0)
       case(9:13)    ! tab(9), new line(10), vertical tab(11), formfeed(12), carriage return(13),
-      case(32,160,8192,8193,8194,8195,8196,8197,8198,8199,8200,8201,8202,8239,8287,12288) ! Unicode spaces
+      case(32,160,8192,8193,8194,8195,8196,8197,8198,8199,8200,8201,8202,8239,8287,8288,12288) ! Unicode spaces
       case default
         res=.false.
         exit STEPTHRU
