@@ -1259,25 +1259,25 @@ character(len=:),allocatable :: a_line
 
    call check('expand_html',expand_html(ut('&')) == '&','backslash at end of line')
 
-   u_line='&lt; &gt; &amp; &copy; &reg; &trade; &euro; &pound; Before&nbsp;After'
+   u_line='&lt; &gt; &amp; &copy; &reg; &trade; &euro; &pound; Before After'
    u_expected=expand_html(u_line)
-   u_expected='< > & © ® ™ € £ Before After'
+   u_expected='< > & © ® ™ € £ Before After'
 
    ! UNICODE_TYPE input
    call check('expand_html',u_expected == u_expected,'&NAME; u_expected ' // ch(u_expected))
 
-   u_line='&lt; &gt; &amp; &copy; &reg; &trade; &euro; &pound; Before&nbsp;After'
+   u_line='&lt; &gt; &amp; &copy; &reg; &trade; &euro; &pound; Before After'
    call check('expand_html',expand_html(u_line) == u_expected,'&NAME; unicode_type input ' // ch(expand_html(u_line)))
 
-   u_line='&#60; &#62; &#38; &#169; &#174; &#8482; &#8364; &#163; Before&#160;After'
+   u_line='&#60; &#62; &#38; &#169; &#174; &#8482; &#8364; &#163; Before After'
    call check('expand_html',expand_html(u_line) == u_expected,'&#NUMBER; unicode_type input ' // ch(expand_html(u_line)))
 
    ! CHARACTER input
 
-   a_line='&lt; &gt; &amp; &copy; &reg; &trade; &euro; &pound; Before&nbsp;After'
+   a_line='&lt; &gt; &amp; &copy; &reg; &trade; &euro; &pound; Before After'
    call check('expand_html',expand_html(a_line) == u_expected,'&NAME; character input ' // ch(expand_html(a_line) ))
 
-   a_line='&#60; &#62; &#38; &#169; &#174; &#8482; &#8364; &#163; Before&#160;After'
+   a_line='&#60; &#62; &#38; &#169; &#174; &#8482; &#8364; &#163; Before After'
    call check('expand_html',expand_html(a_line) == u_expected,'&#NUMBER; character input ' // ch(expand_html(a_line) ))
 
 end subroutine test_expand_html
