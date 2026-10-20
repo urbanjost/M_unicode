@@ -133,17 +133,17 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../proc/test_tokenize.html#variable-begins">begins</a>
-            <a class="list-group-item" href="../proc/test_tokenize.html#variable-delims">delims</a>
-            <a class="list-group-item" href="../proc/test_tokenize.html#variable-ends">ends</a>
+            <a class="list-group-item" href="../proc/test_tokenize.html#variable-begins~2">begins</a>
+            <a class="list-group-item" href="../proc/test_tokenize.html#variable-delims~3">delims</a>
+            <a class="list-group-item" href="../proc/test_tokenize.html#variable-ends~2">ends</a>
             <a class="list-group-item" href="../proc/test_tokenize.html#variable-expect_s">expect_s</a>
             <a class="list-group-item" href="../proc/test_tokenize.html#variable-expect_t">expect_t</a>
             <a class="list-group-item" href="../proc/test_tokenize.html#variable-expected~8">expected</a>
-            <a class="list-group-item" href="../proc/test_tokenize.html#variable-herbs">herbs</a>
-            <a class="list-group-item" href="../proc/test_tokenize.html#variable-i~20">i</a>
-            <a class="list-group-item" href="../proc/test_tokenize.html#variable-in~6">in</a>
-            <a class="list-group-item" href="../proc/test_tokenize.html#variable-line~4">line</a>
-            <a class="list-group-item" href="../proc/test_tokenize.html#variable-separators">separators</a>
+            <a class="list-group-item" href="../proc/test_tokenize.html#variable-herbs~2">herbs</a>
+            <a class="list-group-item" href="../proc/test_tokenize.html#variable-i~59">i</a>
+            <a class="list-group-item" href="../proc/test_tokenize.html#variable-in~9">in</a>
+            <a class="list-group-item" href="../proc/test_tokenize.html#variable-line~14">line</a>
+            <a class="list-group-item" href="../proc/test_tokenize.html#variable-separators~2">separators</a>
             <a class="list-group-item" href="../proc/test_tokenize.html#variable-tokens~2">tokens</a>
         </div>
       </div>
@@ -218,7 +218,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-begins"></span>
+              <span class="anchor" id="variable-begins~2"></span>
               integer,
             </td>
               <td>public,</td>
@@ -235,7 +235,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-delims"></span>
+              <span class="anchor" id="variable-delims~3"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
               <td>public</td>
@@ -252,7 +252,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ends"></span>
+              <span class="anchor" id="variable-ends~2"></span>
               integer,
             </td>
               <td>public,</td>
@@ -320,7 +320,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-herbs"></span>
+              <span class="anchor" id="variable-herbs~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
               <td>public</td>
@@ -337,7 +337,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~20"></span>
+              <span class="anchor" id="variable-i~59"></span>
               integer,
             </td>
               <td>public</td>
@@ -354,7 +354,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-in~6"></span>
+              <span class="anchor" id="variable-in~9"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
               <td>public</td>
@@ -371,7 +371,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-line~4"></span>
+              <span class="anchor" id="variable-line~14"></span>
               character(len=:),
             </td>
               <td>public,</td>
@@ -388,7 +388,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-separators"></span>
+              <span class="anchor" id="variable-separators~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
               <td>public,</td>
@@ -477,114 +477,114 @@
 <span class="kt">integer</span><span class="p">,</span><span class="k">allocatable</span><span class="p">,</span><span class="k">dimension</span><span class="p">(:)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ends</span>
 <span class="kt">integer</span><span class="w">                          </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
 
-<span class="n">in</span><span class="o">=</span><span class="s1">''</span><span class="p">;</span>
+<span class="n">in</span><span class="o">=</span><span class="s1">''</span>
 <span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="p">]</span>
 <span class="n">expect_s</span><span class="o">=</span><span class="p">[</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="p">]</span>
 <span class="k">call </span><span class="n">expectations</span><span class="p">()</span>
 
-<span class="n">in</span><span class="o">=</span><span class="s1">','</span><span class="p">;</span>
-<span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="s1">''</span><span class="p">,</span><span class="s1">''</span><span class="p">];</span>
+<span class="n">in</span><span class="o">=</span><span class="s1">','</span>
+<span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="s1">''</span><span class="p">,</span><span class="s1">''</span><span class="p">]</span>
 <span class="n">expect_s</span><span class="o">=</span><span class="p">[</span><span class="s1">','</span><span class="p">]</span>
 <span class="k">call </span><span class="n">expectations</span><span class="p">()</span>
 
-<span class="n">in</span><span class="o">=</span><span class="s1">',,'</span><span class="p">;</span>
-<span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="s1">''</span><span class="p">,</span><span class="s1">''</span><span class="p">,</span><span class="s1">''</span><span class="p">];</span>
+<span class="n">in</span><span class="o">=</span><span class="s1">',,'</span>
+<span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="s1">''</span><span class="p">,</span><span class="s1">''</span><span class="p">,</span><span class="s1">''</span><span class="p">]</span>
 <span class="n">expect_s</span><span class="o">=</span><span class="p">[</span><span class="s1">','</span><span class="p">,</span><span class="s1">','</span><span class="p">]</span>
 <span class="k">call </span><span class="n">expectations</span><span class="p">()</span>
 
-<span class="n">in</span><span class="o">=</span><span class="s1">',G'</span><span class="p">;</span>
-<span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="s1">' '</span><span class="p">,</span><span class="s1">'G'</span><span class="p">];</span>
+<span class="n">in</span><span class="o">=</span><span class="s1">',G'</span>
+<span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="s1">' '</span><span class="p">,</span><span class="s1">'G'</span><span class="p">]</span>
 <span class="n">expect_s</span><span class="o">=</span><span class="p">[</span><span class="s1">','</span><span class="p">]</span>
 <span class="k">call </span><span class="n">expectations</span><span class="p">()</span>
 
-<span class="n">in</span><span class="o">=</span><span class="s1">'G,'</span><span class="p">;</span>
-<span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="s1">'G'</span><span class="p">,</span><span class="s1">' '</span><span class="p">];</span>
+<span class="n">in</span><span class="o">=</span><span class="s1">'G,'</span>
+<span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="s1">'G'</span><span class="p">,</span><span class="s1">' '</span><span class="p">]</span>
 <span class="n">expect_s</span><span class="o">=</span><span class="p">[</span><span class="s1">','</span><span class="p">]</span>
 <span class="k">call </span><span class="n">expectations</span><span class="p">()</span>
 
-<span class="n">in</span><span class="o">=</span><span class="s1">',,G'</span><span class="p">;</span>
-<span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">'G'</span><span class="p">];</span>
+<span class="n">in</span><span class="o">=</span><span class="s1">',,G'</span>
+<span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">'G'</span><span class="p">]</span>
 <span class="n">expect_s</span><span class="o">=</span><span class="p">[</span><span class="s1">','</span><span class="p">,</span><span class="s1">','</span><span class="p">]</span>
 <span class="k">call </span><span class="n">expectations</span><span class="p">()</span>
 
-<span class="n">in</span><span class="o">=</span><span class="s1">'G'</span><span class="p">;</span>
-<span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="s1">'G'</span><span class="p">];</span>
+<span class="n">in</span><span class="o">=</span><span class="s1">'G'</span>
+<span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="s1">'G'</span><span class="p">]</span>
 <span class="n">expect_s</span><span class="o">=</span><span class="p">[</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="kd">::</span><span class="p">]</span>
 <span class="k">call </span><span class="n">expectations</span><span class="p">()</span>
 
-<span class="n">in</span><span class="o">=</span><span class="s1">',,,,,G'</span><span class="p">;</span>
-<span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">'G'</span><span class="p">];</span>
+<span class="n">in</span><span class="o">=</span><span class="s1">',,,,,G'</span>
+<span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">'G'</span><span class="p">]</span>
 <span class="n">expect_s</span><span class="o">=</span><span class="p">[</span><span class="s1">','</span><span class="p">,</span><span class="s1">','</span><span class="p">,</span><span class="s1">','</span><span class="p">,</span><span class="s1">','</span><span class="p">,</span><span class="s1">','</span><span class="p">]</span>
 <span class="k">call </span><span class="n">expectations</span><span class="p">()</span>
 
-<span class="n">in</span><span class="o">=</span><span class="s1">',   ,G,,,,'</span><span class="p">;</span>
-<span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">'G'</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">];</span>
+<span class="n">in</span><span class="o">=</span><span class="s1">',   ,G,,,,'</span>
+<span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">'G'</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">]</span>
 <span class="n">expect_s</span><span class="o">=</span><span class="p">[</span><span class="s1">','</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">','</span><span class="p">,</span><span class="s1">','</span><span class="p">,</span><span class="s1">','</span><span class="p">,</span><span class="s1">','</span><span class="p">,</span><span class="s1">','</span><span class="p">]</span>
 <span class="k">call </span><span class="n">expectations</span><span class="p">()</span>
 
-<span class="n">in</span><span class="o">=</span><span class="s1">',, ,,G,  ,e,,'</span><span class="p">;</span>
-<span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">'G'</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">'e'</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">];</span>
+<span class="n">in</span><span class="o">=</span><span class="s1">',, ,,G,  ,e,,'</span>
+<span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">'G'</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">'e'</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">]</span>
 <span class="n">expect_s</span><span class="o">=</span><span class="p">[</span><span class="s1">','</span><span class="p">,</span><span class="s1">','</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">','</span><span class="p">,</span><span class="s1">','</span><span class="p">,</span><span class="s1">','</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">','</span><span class="p">,</span><span class="s1">','</span><span class="p">,</span><span class="s1">','</span><span class="p">]</span>
 <span class="k">call </span><span class="n">expectations</span><span class="p">()</span>
 
-<span class="n">in</span><span class="o">=</span><span class="s1">'G,,,,e'</span><span class="p">;</span>
-<span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="s1">'G'</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">'e'</span><span class="p">];</span>
+<span class="n">in</span><span class="o">=</span><span class="s1">'G,,,,e'</span>
+<span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="s1">'G'</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">'e'</span><span class="p">]</span>
 <span class="n">expect_s</span><span class="o">=</span><span class="p">[</span><span class="s1">','</span><span class="p">,</span><span class="s1">','</span><span class="p">,</span><span class="s1">','</span><span class="p">,</span><span class="s1">','</span><span class="p">]</span>
 <span class="k">call </span><span class="n">expectations</span><span class="p">()</span>
 
 <span class="c">! wide</span>
-<span class="n">in</span><span class="o">=</span><span class="s1">''</span><span class="p">;</span>
+<span class="n">in</span><span class="o">=</span><span class="s1">''</span>
 <span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="p">]</span>
 <span class="n">expect_s</span><span class="o">=</span><span class="p">[</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="p">]</span>
 <span class="k">call </span><span class="n">expectations</span><span class="p">()</span>
 
-<span class="n">in</span><span class="o">=</span><span class="s1">' '</span><span class="p">;</span>
-<span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="s1">''</span><span class="p">,</span><span class="s1">''</span><span class="p">];</span>
+<span class="n">in</span><span class="o">=</span><span class="s1">' '</span>
+<span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="s1">''</span><span class="p">,</span><span class="s1">''</span><span class="p">]</span>
 <span class="n">expect_s</span><span class="o">=</span><span class="p">[</span><span class="s1">' '</span><span class="p">]</span>
 <span class="k">call </span><span class="n">expectations</span><span class="p">()</span>
 
-<span class="n">in</span><span class="o">=</span><span class="s1">'  '</span><span class="p">;</span>
-<span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="s1">''</span><span class="p">,</span><span class="s1">''</span><span class="p">,</span><span class="s1">''</span><span class="p">];</span>
+<span class="n">in</span><span class="o">=</span><span class="s1">'  '</span>
+<span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="s1">''</span><span class="p">,</span><span class="s1">''</span><span class="p">,</span><span class="s1">''</span><span class="p">]</span>
 <span class="n">expect_s</span><span class="o">=</span><span class="p">[</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">]</span>
 <span class="k">call </span><span class="n">expectations</span><span class="p">()</span>
 
-<span class="n">in</span><span class="o">=</span><span class="s1">' 😃'</span><span class="p">;</span>
-<span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="n">ut</span><span class="p">([</span><span class="mi">32</span><span class="p">]),</span><span class="n">ut</span><span class="p">([</span><span class="mi">128515</span><span class="p">])];</span>
+<span class="n">in</span><span class="o">=</span><span class="s1">' 😃'</span>
+<span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="mi">32</span><span class="p">,</span><span class="mi">128515</span><span class="p">]</span>
 <span class="n">expect_s</span><span class="o">=</span><span class="p">[</span><span class="s1">' '</span><span class="p">]</span>
 <span class="k">call </span><span class="n">expectations</span><span class="p">()</span>
 
-<span class="n">in</span><span class="o">=</span><span class="s1">'😃 '</span><span class="p">;</span>
-<span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="n">ut</span><span class="p">([</span><span class="mi">128515</span><span class="p">]),</span><span class="n">ut</span><span class="p">([</span><span class="mi">32</span><span class="p">])];</span>
+<span class="n">in</span><span class="o">=</span><span class="s1">'😃 '</span>
+<span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="mi">128515</span><span class="p">,</span><span class="mi">32</span><span class="p">]</span>
 <span class="n">expect_s</span><span class="o">=</span><span class="p">[</span><span class="s1">' '</span><span class="p">]</span>
 <span class="k">call </span><span class="n">expectations</span><span class="p">()</span>
 
-<span class="n">in</span><span class="o">=</span><span class="s1">'  😃'</span><span class="p">;</span>
-<span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="n">ut</span><span class="p">([</span><span class="mi">32</span><span class="p">]),</span><span class="n">ut</span><span class="p">([</span><span class="mi">32</span><span class="p">]),</span><span class="n">ut</span><span class="p">([</span><span class="mi">128515</span><span class="p">])];</span>
+<span class="n">in</span><span class="o">=</span><span class="s1">'  😃'</span>
+<span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="mi">32</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">128515</span><span class="p">]</span>
 <span class="n">expect_s</span><span class="o">=</span><span class="p">[</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">]</span>
 <span class="k">call </span><span class="n">expectations</span><span class="p">()</span>
 
-<span class="n">in</span><span class="o">=</span><span class="s1">'😃'</span><span class="p">;</span>
-<span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="n">ut</span><span class="p">([</span><span class="mi">128515</span><span class="p">])];</span>
-<span class="n">expect_s</span><span class="o">=</span><span class="p">[</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="p">];</span>
+<span class="n">in</span><span class="o">=</span><span class="s1">'😃'</span>
+<span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="mi">128515</span><span class="p">]</span>
+<span class="n">expect_s</span><span class="o">=</span><span class="p">[</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="p">]</span>
 <span class="k">call </span><span class="n">expectations</span><span class="p">()</span>
 
-<span class="n">in</span><span class="o">=</span><span class="s1">'     😃'</span><span class="p">;</span>
-<span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="n">ut</span><span class="p">([</span><span class="mi">32</span><span class="p">]),</span><span class="n">ut</span><span class="p">([</span><span class="mi">32</span><span class="p">]),</span><span class="n">ut</span><span class="p">([</span><span class="mi">32</span><span class="p">]),</span><span class="n">ut</span><span class="p">([</span><span class="mi">32</span><span class="p">]),</span><span class="n">ut</span><span class="p">([</span><span class="mi">32</span><span class="p">]),</span><span class="n">ut</span><span class="p">([</span><span class="mi">128515</span><span class="p">])];</span>
+<span class="n">in</span><span class="o">=</span><span class="s1">'     😃'</span>
+<span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="mi">32</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">128515</span><span class="p">]</span>
 <span class="n">expect_s</span><span class="o">=</span><span class="p">[</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">]</span>
 <span class="k">call </span><span class="n">expectations</span><span class="p">()</span>
 
-<span class="n">in</span><span class="o">=</span><span class="s1">'     😃    '</span><span class="p">;</span>
-<span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="n">ut</span><span class="p">([</span><span class="mi">32</span><span class="p">]),</span><span class="n">ut</span><span class="p">([</span><span class="mi">32</span><span class="p">]),</span><span class="n">ut</span><span class="p">([</span><span class="mi">32</span><span class="p">]),</span><span class="n">ut</span><span class="p">([</span><span class="mi">32</span><span class="p">]),</span><span class="n">ut</span><span class="p">([</span><span class="mi">32</span><span class="p">]),</span><span class="n">ut</span><span class="p">([</span><span class="mi">128515</span><span class="p">]),</span><span class="n">ut</span><span class="p">([</span><span class="mi">32</span><span class="p">]),</span><span class="n">ut</span><span class="p">([</span><span class="mi">32</span><span class="p">]),</span><span class="n">ut</span><span class="p">([</span><span class="mi">32</span><span class="p">]),</span><span class="n">ut</span><span class="p">([</span><span class="mi">32</span><span class="p">])];</span>
+<span class="n">in</span><span class="o">=</span><span class="s1">'     😃    '</span>
+<span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="mi">32</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">128515</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">32</span><span class="p">]</span>
 <span class="n">expect_s</span><span class="o">=</span><span class="p">[</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">]</span>
 <span class="k">call </span><span class="n">expectations</span><span class="p">()</span>
 
-<span class="n">in</span><span class="o">=</span><span class="s1">'     😃    e  '</span><span class="p">;</span>
-<span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="n">ut</span><span class="p">([</span><span class="mi">32</span><span class="p">]),</span><span class="n">ut</span><span class="p">([</span><span class="mi">32</span><span class="p">]),</span><span class="n">ut</span><span class="p">([</span><span class="mi">32</span><span class="p">]),</span><span class="n">ut</span><span class="p">([</span><span class="mi">32</span><span class="p">]),</span><span class="n">ut</span><span class="p">([</span><span class="mi">32</span><span class="p">]),</span><span class="n">ut</span><span class="p">([</span><span class="mi">128515</span><span class="p">]),</span><span class="n">ut</span><span class="p">([</span><span class="mi">32</span><span class="p">]),</span><span class="n">ut</span><span class="p">([</span><span class="mi">32</span><span class="p">]),</span><span class="n">ut</span><span class="p">([</span><span class="mi">32</span><span class="p">]),</span><span class="n">ut</span><span class="p">([</span><span class="mi">101</span><span class="p">]),</span><span class="n">ut</span><span class="p">([</span><span class="mi">32</span><span class="p">]),</span><span class="n">ut</span><span class="p">([</span><span class="mi">32</span><span class="p">])];</span>
+<span class="n">in</span><span class="o">=</span><span class="s1">'     😃    e  '</span>
+<span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="mi">32</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">128515</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">101</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">32</span><span class="p">]</span>
 <span class="n">expect_s</span><span class="o">=</span><span class="p">[</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">]</span>
 <span class="k">call </span><span class="n">expectations</span><span class="p">()</span>
 
-<span class="n">in</span><span class="o">=</span><span class="s1">'😃    e'</span><span class="p">;</span>
-<span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="n">ut</span><span class="p">([</span><span class="mi">128515</span><span class="p">]),</span><span class="n">ut</span><span class="p">([</span><span class="mi">32</span><span class="p">]),</span><span class="n">ut</span><span class="p">([</span><span class="mi">32</span><span class="p">]),</span><span class="n">ut</span><span class="p">([</span><span class="mi">32</span><span class="p">]),</span><span class="n">ut</span><span class="p">([</span><span class="mi">101</span><span class="p">])];</span>
+<span class="n">in</span><span class="o">=</span><span class="s1">'😃    e'</span>
+<span class="n">expect_t</span><span class="o">=</span><span class="p">[</span><span class="mi">128515</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">101</span><span class="p">]</span>
 <span class="n">expect_s</span><span class="o">=</span><span class="p">[</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="s1">' '</span><span class="p">]</span>
 <span class="k">call </span><span class="n">expectations</span><span class="p">()</span>
 
@@ -713,7 +713,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-10-19 04:38 +0000             </p>
+ on 2026-10-20 11:18 +0000             </p>
           </div>
         </div>
         <br>

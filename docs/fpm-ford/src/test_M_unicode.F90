@@ -612,114 +612,114 @@ integer,allocatable,dimension(:) :: begins
 integer,allocatable,dimension(:) :: ends
 integer                          :: i
 
-in='';
+in=''
 expect_t=[character(len=0) ::]
 expect_s=[character(len=0) ::]
 call expectations()
 
-in=',';
-expect_t=['',''];
+in=','
+expect_t=['','']
 expect_s=[',']
 call expectations()
 
-in=',,';
-expect_t=['','',''];
+in=',,'
+expect_t=['','','']
 expect_s=[',',',']
 call expectations()
 
-in=',G';
-expect_t=[' ','G'];
+in=',G'
+expect_t=[' ','G']
 expect_s=[',']
 call expectations()
 
-in='G,';
-expect_t=['G',' '];
+in='G,'
+expect_t=['G',' ']
 expect_s=[',']
 call expectations()
 
-in=',,G';
-expect_t=[' ',' ','G'];
+in=',,G'
+expect_t=[' ',' ','G']
 expect_s=[',',',']
 call expectations()
 
-in='G';
-expect_t=['G'];
+in='G'
+expect_t=['G']
 expect_s=[character(len=0)::]
 call expectations()
 
-in=',,,,,G';
-expect_t=[' ',' ',' ',' ',' ','G'];
+in=',,,,,G'
+expect_t=[' ',' ',' ',' ',' ','G']
 expect_s=[',',',',',',',',',']
 call expectations()
 
-in=',   ,G,,,,';
-expect_t=[' ',' ',' ',' ',' ','G',' ',' ',' ',' '];
+in=',   ,G,,,,'
+expect_t=[' ',' ',' ',' ',' ','G',' ',' ',' ',' ']
 expect_s=[',',' ',' ',' ',',',',',',',',',',']
 call expectations()
 
-in=',, ,,G,  ,e,,';
-expect_t=[' ',' ',' ',' ',' ','G',' ',' ',' ','e',' ',' '];
+in=',, ,,G,  ,e,,'
+expect_t=[' ',' ',' ',' ',' ','G',' ',' ',' ','e',' ',' ']
 expect_s=[',',',',' ',',',',',',',' ',' ',',',',',',']
 call expectations()
 
-in='G,,,,e';
-expect_t=['G',' ',' ',' ','e'];
+in='G,,,,e'
+expect_t=['G',' ',' ',' ','e']
 expect_s=[',',',',',',',']
 call expectations()
 
 ! wide
-in='';
+in=''
 expect_t=[character(len=0) ::]
 expect_s=[character(len=0) :: ]
 call expectations()
 
-in=' ';
-expect_t=['',''];
+in=' '
+expect_t=['','']
 expect_s=[' ']
 call expectations()
 
-in='  ';
-expect_t=['','',''];
+in='  '
+expect_t=['','','']
 expect_s=[' ',' ']
 call expectations()
 
-in=' 😃';
-expect_t=[ut([32]),ut([128515])];
+in=' 😃'
+expect_t=[32,128515]
 expect_s=[' ']
 call expectations()
 
-in='😃 ';
-expect_t=[ut([128515]),ut([32])];
+in='😃 '
+expect_t=[128515,32]
 expect_s=[' ']
 call expectations()
 
-in='  😃';
-expect_t=[ut([32]),ut([32]),ut([128515])];
+in='  😃'
+expect_t=[32,32,128515]
 expect_s=[' ',' ']
 call expectations()
 
-in='😃';
-expect_t=[ut([128515])];
-expect_s=[character(len=0) :: ];
+in='😃'
+expect_t=[128515]
+expect_s=[character(len=0) :: ]
 call expectations()
 
-in='     😃';
-expect_t=[ut([32]),ut([32]),ut([32]),ut([32]),ut([32]),ut([128515])];
+in='     😃'
+expect_t=[32,32,32,32,32,128515]
 expect_s=[' ',' ',' ',' ',' ']
 call expectations()
 
-in='     😃    ';
-expect_t=[ut([32]),ut([32]),ut([32]),ut([32]),ut([32]),ut([128515]),ut([32]),ut([32]),ut([32]),ut([32])];
+in='     😃    '
+expect_t=[32,32,32,32,32,128515,32,32,32,32]
 expect_s=[' ',' ',' ',' ',' ',' ',' ',' ',' ']
 call expectations()
 
-in='     😃    e  ';
-expect_t=[ut([32]),ut([32]),ut([32]),ut([32]),ut([32]),ut([128515]),ut([32]),ut([32]),ut([32]),ut([101]),ut([32]),ut([32])];
+in='     😃    e  '
+expect_t=[32,32,32,32,32,128515,32,32,32,101,32,32]
 expect_s=[' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ']
 call expectations()
 
-in='😃    e';
-expect_t=[ut([128515]),ut([32]),ut([32]),ut([32]),ut([101])];
+in='😃    e'
+expect_t=[128515,32,32,32,101]
 expect_s=[' ',' ',' ',' ']
 call expectations()
 

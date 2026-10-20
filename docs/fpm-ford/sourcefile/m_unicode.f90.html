@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="59.5% of total for source files.">6506 statements</a>
+                 title="59.5% of total for source files.">6516 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -7331,7 +7331,7 @@
 <a id="ln-7159" name="ln-7159" href="#ln-7159"></a><span class="c">!!    use M_unicode,       only : lower, sort, expand_backslash, len</span>
 <a id="ln-7160" name="ln-7160" href="#ln-7160"></a><span class="c">!!    use M_unicode,       only : operator(&lt;), assignment(=), operator(==)</span>
 <a id="ln-7161" name="ln-7161" href="#ln-7161"></a><span class="c">!!    implicit none</span>
-<a id="ln-7162" name="ln-7162" href="#ln-7162"></a><span class="c">!!    character(len=*),parameter :: g='(*(g0,1x))', g0='(g0)'</span>
+<a id="ln-7162" name="ln-7162" href="#ln-7162"></a><span class="c">!!    character(len=*),parameter :: g='(*(g0,1x))'</span>
 <a id="ln-7163" name="ln-7163" href="#ln-7163"></a><span class="c">!!    type(unicode_type),allocatable :: rr(:)</span>
 <a id="ln-7164" name="ln-7164" href="#ln-7164"></a><span class="c">!!    type(unicode_type),allocatable :: answer(:)</span>
 <a id="ln-7165" name="ln-7165" href="#ln-7165"></a><span class="c">!!    integer,allocatable            :: ii(:)</span>
@@ -7503,7 +7503,7 @@
 <a id="ln-7331" name="ln-7331" href="#ln-7331"></a><span class="c">!!    type(ut),intent(in)  :: in</span>
 <a id="ln-7332" name="ln-7332" href="#ln-7332"></a><span class="c">!!    type(ut)             :: out</span>
 <a id="ln-7333" name="ln-7333" href="#ln-7333"></a><span class="c">!!    integer,allocatable  :: codes(:)</span>
-<a id="ln-7334" name="ln-7334" href="#ln-7334"></a><span class="c">!!    integer              :: i, j, ikeep</span>
+<a id="ln-7334" name="ln-7334" href="#ln-7334"></a><span class="c">!!    integer              :: i, ikeep</span>
 <a id="ln-7335" name="ln-7335" href="#ln-7335"></a><span class="c">!!    integer,parameter    :: comb=2*int(z'308'), &amp;</span>
 <a id="ln-7336" name="ln-7336" href="#ln-7336"></a><span class="c">!!     &amp;  um_lower_a    =  2*int(z'E4'),       &amp;</span>
 <a id="ln-7337" name="ln-7337" href="#ln-7337"></a><span class="c">!!     &amp;  um_lower_o    =  2*int(z'F6'),       &amp;</span>
@@ -11288,16 +11288,16 @@
 <a id="ln-11116" name="ln-11116" href="#ln-11116"></a><span class="k">                  write</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'&lt;ERROR&gt;reading hexadecimal value from '</span><span class="p">,</span><span class="n">buffer</span>
 <a id="ln-11117" name="ln-11117" href="#ln-11117"></a><span class="w">               </span><span class="k">endif</span>
 <a id="ln-11118" name="ln-11118" href="#ln-11118"></a><span class="k">               </span><span class="n">i</span><span class="o">=</span><span class="n">i</span><span class="o">+</span><span class="n">icount</span><span class="w">           </span><span class="c">! OK because all consumed characters are one byte</span>
-<a id="ln-11119" name="ln-11119" href="#ln-11119"></a><span class="w">            </span><span class="c">!case(u) ! %uZZZZ  translate Unicode codepoint to bytes</span>
-<a id="ln-11120" name="ln-11120" href="#ln-11120"></a><span class="w">            </span><span class="c">!   four=character(line%sub(i+1,i+4))</span>
-<a id="ln-11121" name="ln-11121" href="#ln-11121"></a><span class="w">            </span><span class="c">!   read(four,'(z4)',iostat=iostat)nnn</span>
-<a id="ln-11122" name="ln-11122" href="#ln-11122"></a><span class="w">            </span><span class="c">!   out%codes=[out%codes,nnn]</span>
-<a id="ln-11123" name="ln-11123" href="#ln-11123"></a><span class="w">            </span><span class="c">!   i=i+4</span>
-<a id="ln-11124" name="ln-11124" href="#ln-11124"></a><span class="w">            </span><span class="c">!case(UU) ! %UZZZZZZZZ  translate Unicode codepoint to bytes</span>
-<a id="ln-11125" name="ln-11125" href="#ln-11125"></a><span class="w">            </span><span class="c">!   eight=character(line%sub(i+1,i+8))</span>
-<a id="ln-11126" name="ln-11126" href="#ln-11126"></a><span class="w">            </span><span class="c">!   read(eight,'(z8)',iostat=iostat)nnn</span>
-<a id="ln-11127" name="ln-11127" href="#ln-11127"></a><span class="w">            </span><span class="c">!   out%codes=[out%codes,nnn]</span>
-<a id="ln-11128" name="ln-11128" href="#ln-11128"></a><span class="w">            </span><span class="c">!   i=i+8</span>
+<a id="ln-11119" name="ln-11119" href="#ln-11119"></a><span class="w">            </span><span class="k">case</span><span class="p">(</span><span class="o">-</span><span class="n">u</span><span class="p">)</span><span class="w"> </span><span class="c">! %uZZZZ  translate Unicode codepoint to bytes</span>
+<a id="ln-11120" name="ln-11120" href="#ln-11120"></a><span class="w">               </span><span class="n">four</span><span class="o">=</span><span class="kt">character</span><span class="p">(</span><span class="n">line</span><span class="p">%</span><span class="n">sub</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">i</span><span class="o">+</span><span class="mi">4</span><span class="p">))</span>
+<a id="ln-11121" name="ln-11121" href="#ln-11121"></a><span class="w">               </span><span class="k">read</span><span class="p">(</span><span class="n">four</span><span class="p">,</span><span class="s1">'(z4)'</span><span class="p">,</span><span class="n">iostat</span><span class="o">=</span><span class="n">iostat</span><span class="p">)</span><span class="n">nnn</span>
+<a id="ln-11122" name="ln-11122" href="#ln-11122"></a><span class="w">               </span><span class="n">out</span><span class="p">%</span><span class="n">codes</span><span class="o">=</span><span class="p">[</span><span class="n">out</span><span class="p">%</span><span class="n">codes</span><span class="p">,</span><span class="n">nnn</span><span class="p">]</span>
+<a id="ln-11123" name="ln-11123" href="#ln-11123"></a><span class="w">               </span><span class="n">i</span><span class="o">=</span><span class="n">i</span><span class="o">+</span><span class="mi">4</span>
+<a id="ln-11124" name="ln-11124" href="#ln-11124"></a><span class="w">            </span><span class="k">case</span><span class="p">(</span><span class="o">-</span><span class="n">UU</span><span class="p">)</span><span class="w"> </span><span class="c">! %UZZZZZZZZ  translate Unicode codepoint to bytes</span>
+<a id="ln-11125" name="ln-11125" href="#ln-11125"></a><span class="w">               </span><span class="n">eight</span><span class="o">=</span><span class="kt">character</span><span class="p">(</span><span class="n">line</span><span class="p">%</span><span class="n">sub</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">i</span><span class="o">+</span><span class="mi">8</span><span class="p">))</span>
+<a id="ln-11126" name="ln-11126" href="#ln-11126"></a><span class="w">               </span><span class="k">read</span><span class="p">(</span><span class="n">eight</span><span class="p">,</span><span class="s1">'(z8)'</span><span class="p">,</span><span class="n">iostat</span><span class="o">=</span><span class="n">iostat</span><span class="p">)</span><span class="n">nnn</span>
+<a id="ln-11127" name="ln-11127" href="#ln-11127"></a><span class="w">               </span><span class="n">out</span><span class="p">%</span><span class="n">codes</span><span class="o">=</span><span class="p">[</span><span class="n">out</span><span class="p">%</span><span class="n">codes</span><span class="p">,</span><span class="n">nnn</span><span class="p">]</span>
+<a id="ln-11128" name="ln-11128" href="#ln-11128"></a><span class="w">               </span><span class="n">i</span><span class="o">=</span><span class="n">i</span><span class="o">+</span><span class="mi">8</span>
 <a id="ln-11129" name="ln-11129" href="#ln-11129"></a><span class="w">            </span><span class="k">case</span><span class="p">(</span><span class="nb">ichar</span><span class="p">(</span><span class="s1">'0'</span><span class="p">):</span><span class="nb">ichar</span><span class="p">(</span><span class="s1">'7'</span><span class="p">));</span>
 <a id="ln-11130" name="ln-11130" href="#ln-11130"></a><span class="w">               </span><span class="k">call </span><span class="n">assign_char_str</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span><span class="w"> </span><span class="n">line</span><span class="p">%</span><span class="n">sub</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
 <a id="ln-11131" name="ln-11131" href="#ln-11131"></a><span class="w">               </span><span class="n">icount</span><span class="o">=</span><span class="nb">verify</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span><span class="s1">'01234567'</span><span class="p">)</span>
@@ -14540,7 +14540,7 @@
 <a id="ln-14368" name="ln-14368" href="#ln-14368"></a><span class="w">   </span><span class="c">! HTML entities</span>
 <a id="ln-14369" name="ln-14369" href="#ln-14369"></a><span class="w">   </span><span class="k">call </span><span class="n">init_entities</span><span class="p">()</span>
 <a id="ln-14370" name="ln-14370" href="#ln-14370"></a><span class="w">   </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">entities</span><span class="p">%</span><span class="n">name</span><span class="p">)</span>
-<a id="ln-14371" name="ln-14371" href="#ln-14371"></a><span class="w">      </span><span class="k">call </span><span class="n">keyword_update</span><span class="p">(</span><span class="w"> </span><span class="nb">trim</span><span class="p">(</span><span class="n">entities</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">name</span><span class="p">),</span><span class="w"> </span><span class="n">unicode_type</span><span class="p">(</span><span class="n">entities</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">codes</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
+<a id="ln-14371" name="ln-14371" href="#ln-14371"></a><span class="w">      </span><span class="k">call </span><span class="n">keyword_update</span><span class="p">(</span><span class="w"> </span><span class="nb">trim</span><span class="p">(</span><span class="n">entities</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">name</span><span class="p">),</span><span class="w"> </span><span class="n">new_codes</span><span class="p">(</span><span class="n">entities</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">codes</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
 <a id="ln-14372" name="ln-14372" href="#ln-14372"></a><span class="w">   </span><span class="k">enddo</span>
 <a id="ln-14373" name="ln-14373" href="#ln-14373"></a>
 <a id="ln-14374" name="ln-14374" href="#ln-14374"></a><span class="w">   </span><span class="c">! terminal control sequences</span>
@@ -15233,7 +15233,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-10-19 04:38 +0000             </p>
+ on 2026-10-20 11:18 +0000             </p>
           </div>
         </div>
         <br>
