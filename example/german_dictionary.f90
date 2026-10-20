@@ -5,7 +5,7 @@ program demo_sort
    use M_unicode,       only : lower, expand_backslash, sort, trim, len
    use M_unicode,       only : operator(<), assignment(=), operator(==)
    implicit none
-   character(len=*),parameter :: g='(*(g0,1x))', g0='(g0)'
+   character(len=*),parameter :: g='(*(g0,1x))'
    type(ut),allocatable       :: rr(:)
    type(ut),allocatable       :: answer(:)
    integer,allocatable        :: ii(:)
@@ -339,7 +339,7 @@ function nmi(in) result (out)
 type(ut),intent(in)  :: in
 type(ut)             :: out
 integer,allocatable  :: codes(:)
-integer              :: i, j, ikeep
+integer              :: i, ikeep
 integer,parameter    :: comb=2*int(z'308'), &
  &  um_lower_a=2*int(z'E4'),    um_lower_o=2*int(z'F6'),    um_lower_u=2*int(z'FC'),  &
  &  um_upper_a=2*int(z'C4'),    um_upper_o=2*int(z'D6'),    um_upper_u=2*int(z'DC'),  &

@@ -7159,7 +7159,7 @@ end function index_char_str
 !!    use M_unicode,       only : lower, sort, expand_backslash, len
 !!    use M_unicode,       only : operator(<), assignment(=), operator(==)
 !!    implicit none
-!!    character(len=*),parameter :: g='(*(g0,1x))', g0='(g0)'
+!!    character(len=*),parameter :: g='(*(g0,1x))'
 !!    type(unicode_type),allocatable :: rr(:)
 !!    type(unicode_type),allocatable :: answer(:)
 !!    integer,allocatable            :: ii(:)
@@ -7331,7 +7331,7 @@ end function index_char_str
 !!    type(ut),intent(in)  :: in
 !!    type(ut)             :: out
 !!    integer,allocatable  :: codes(:)
-!!    integer              :: i, j, ikeep
+!!    integer              :: i, ikeep
 !!    integer,parameter    :: comb=2*int(z'308'), &
 !!     &  um_lower_a    =  2*int(z'E4'),       &
 !!     &  um_lower_o    =  2*int(z'F6'),       &
@@ -11116,16 +11116,16 @@ integer,parameter  :: x=ichar('x'),XX=ichar('X'),h=ichar('h'),HH=ichar('H')
                   write(stderr,*)'<ERROR>reading hexadecimal value from ',buffer
                endif
                i=i+icount           ! OK because all consumed characters are one byte
-            !case(u) ! %uZZZZ  translate Unicode codepoint to bytes
-            !   four=character(line%sub(i+1,i+4))
-            !   read(four,'(z4)',iostat=iostat)nnn
-            !   out%codes=[out%codes,nnn]
-            !   i=i+4
-            !case(UU) ! %UZZZZZZZZ  translate Unicode codepoint to bytes
-            !   eight=character(line%sub(i+1,i+8))
-            !   read(eight,'(z8)',iostat=iostat)nnn
-            !   out%codes=[out%codes,nnn]
-            !   i=i+8
+            case(-u) ! %uZZZZ  translate Unicode codepoint to bytes
+               four=character(line%sub(i+1,i+4))
+               read(four,'(z4)',iostat=iostat)nnn
+               out%codes=[out%codes,nnn]
+               i=i+4
+            case(-UU) ! %UZZZZZZZZ  translate Unicode codepoint to bytes
+               eight=character(line%sub(i+1,i+8))
+               read(eight,'(z8)',iostat=iostat)nnn
+               out%codes=[out%codes,nnn]
+               i=i+8
             case(ichar('0'):ichar('7'));
                call assign_char_str(buffer, line%sub(i,step=1) )
                icount=verify(buffer,'01234567')

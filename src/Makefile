@@ -33,27 +33,32 @@ F90FLAGS :=
 # warnings with -Wno-maybe-uninitialized or compile with optimizations
 # (-O1 and more).
 gfortran: F90=gfortran
-gfortran: F90FLAGS := -g -O -Wall -std=f2018 -Wextra -Wno-maybe-uninitialized -Wno-uninitialized -finit-local-zero
+gfortran: F90FLAGS := -g -O -Wall -Wextra -Wno-maybe-uninitialized -Wno-uninitialized -finit-local-zero -I../include
 gfortran: all
 	@echo built with $(F90)
 
 nvfortran: F90=nvfortran
-nvfortran: F90FLAGS := -Minform=inform -Mbackslash -traceback
+nvfortran: F90FLAGS := -Minform=inform -Mbackslash -traceback -I../include
 nvfortran: all
 	@echo built with $(F90)
 
 ifx: F90=ifx
-ifx: F90FLAGS := -warn all -traceback
+ifx: F90FLAGS := -warn all -traceback -I../include
 ifx: all
 	@echo built with $(F90)
 
 ifort: F90=ifort
-ifort: F90FLAGS := -warn all -traceback
+ifort: F90FLAGS := -warn all -traceback -I../include
 ifort: all
 	@echo built with $(F90)
 
+flang: F90=flang
+flang: F90FLAGS := -g  -fdo-concurrent-to-openmp=host -I../include -fopenmp
+flang: all
+	@echo built with $(F90)
+
 nagfor: F90=nagfor
-nagfor: F90FLAGS := -C all
+nagfor: F90FLAGS := -C all -I../include
 nagfor: all
 	@echo built with $(F90)
 
@@ -63,11 +68,11 @@ all: show $(PROG) $(CPROG) $(TPROG)
 
 $(PROG): $(OBJS)
 
-	-$(F90) $(F90FLAGS) $(LDFLAGS) $@.[fF]90 -o $@ $(OBJS) $(LIBS) # && ./$@ </dev/null
+	-$(F90) -I../include $(F90FLAGS) $(LDFLAGS) $@.[fF]90 -o $@ $(OBJS) $(LIBS) # && ./$@ </dev/null
 
 $(TPROG): $(OBJS)
 
-	-$(F90) $(LDFLAGS) $@.[fF]90 -o $@ $(OBJS) $(LIBS) # && ./$@ </dev/null
+	-$(F90) -I../include $(LDFLAGS) $@.[fF]90 -o $@ $(OBJS) $(LIBS) # && ./$@ </dev/null
 
 .PHONY: clean
 clean:
