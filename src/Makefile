@@ -27,7 +27,7 @@ CFLAGS := -O
 F90:= gfortran
 FFLAGS := 
 LDFLAGS :=
-F90FLAGS := 
+F90FLAGS := -I../include
 #
 # You can either ignore it, or disable the "may be used uninitialized"
 # warnings with -Wno-maybe-uninitialized or compile with optimizations
@@ -53,7 +53,8 @@ ifort: all
 	@echo built with $(F90)
 
 flang: F90=flang
-flang: F90FLAGS := -g  -fdo-concurrent-to-openmp=host -I../include -fopenmp
+#flang: F90FLAGS := -g  -fdo-concurrent-to-openmp=host -I../include -fopenmp
+flang: F90FLAGS := -g  -I../include -pedantic
 flang: all
 	@echo built with $(F90)
 
@@ -81,15 +82,15 @@ clean:
 .PHONY: help
 help:
 	- # make [compiler]   -- build M_unicode module                         
-	- # run  [compiler]   -- run manpage demo programs and test program     
-	- # test [compiler]   -- run test program (requires additional modules) 
+	- # run  [compiler]   -- run manpage demo programs 
+	- # test [compiler]   -- run test program
 	- # man               -- show all manpages as text                      
 	- # ship              -- rebuild archive files of manpages              
 	- # clean             -- clean directory of object files and executables
 	- # doxygen           -- run doxygen(1) if you have it                  
 	- # help              -- display this text                              
 	- #                                                                    
-	- #   where compiler is  gfortran|ifx|nvfortran|ifort|nagfor, and you
+	- #   where compiler is  gfortran|flang|ifx|nvfortran|ifort|nagfor. You
 	- #   must build with "make [COMPILER]" before "make run|test [COMPILER]"
 
 .PHONY: ship

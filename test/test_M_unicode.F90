@@ -684,42 +684,42 @@ expect_s=[' ',' ']
 call expectations()
 
 in=' 😃'
-expect_t=[ut([32]),ut([128515])]
+expect_t=[32,128515]
 expect_s=[' ']
 call expectations()
 
 in='😃 '
-expect_t=[ut([128515]),ut([32])]
+expect_t=[128515,32]
 expect_s=[' ']
 call expectations()
 
 in='  😃'
-expect_t=[ut([32]),ut([32]),ut([128515])]
+expect_t=[32,32,128515]
 expect_s=[' ',' ']
 call expectations()
 
 in='😃'
-expect_t=[ut([128515])]
+expect_t=[128515]
 expect_s=[character(len=0) :: ]
 call expectations()
 
 in='     😃'
-expect_t=[ut([32]),ut([32]),ut([32]),ut([32]),ut([32]),ut([128515])]
+expect_t=[32,32,32,32,32,128515]
 expect_s=[' ',' ',' ',' ',' ']
 call expectations()
 
 in='     😃    '
-expect_t=[ut([32]),ut([32]),ut([32]),ut([32]),ut([32]),ut([128515]),ut([32]),ut([32]),ut([32]),ut([32])]
+expect_t=[32,32,32,32,32,128515,32,32,32,32]
 expect_s=[' ',' ',' ',' ',' ',' ',' ',' ',' ']
 call expectations()
 
 in='     😃    e  '
-expect_t=[ut([32]),ut([32]),ut([32]),ut([32]),ut([32]),ut([128515]),ut([32]),ut([32]),ut([32]),ut([101]),ut([32]),ut([32])]
+expect_t=[32,32,32,32,32,128515,32,32,32,101,32,32]
 expect_s=[' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ']
 call expectations()
 
 in='😃    e'
-expect_t=[ut([128515]),ut([32]),ut([32]),ut([32]),ut([101])]
+expect_t=[128515,32,32,32,101]
 expect_s=[' ',' ',' ',' ']
 call expectations()
 

@@ -14368,7 +14368,7 @@ integer :: i
    ! HTML entities
    call init_entities()
    do i=1,size(entities%name)
-      call keyword_update( trim(entities(i)%name), unicode_type(entities(i)%codes) )
+      call keyword_update( trim(entities(i)%name), new_codes(entities(i)%codes) )
    enddo
 
    ! terminal control sequences
