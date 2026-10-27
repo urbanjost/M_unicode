@@ -607,6 +607,9 @@ type(ut),allocatable   :: separators(:)
 type(ut)               :: in
 type(ut)               :: delims
 type(ut)               :: herbs
+type(ut)               :: u_space
+type(ut)               :: u_smiley
+type(ut)               :: u_e
 character(len=:),allocatable     :: line
 integer,allocatable,dimension(:) :: begins
 integer,allocatable,dimension(:) :: ends
@@ -683,43 +686,45 @@ expect_t=['','','']
 expect_s=[' ',' ']
 call expectations()
 
+u_space=' '
+u_smiley='😃'
+u_e='e'
 in=' 😃'
-expect_t=[32,128515]
+expect_t=[u_space,u_smiley]
 expect_s=[' ']
 call expectations()
 
 in='😃 '
-expect_t=[128515,32]
+expect_t=[u_smiley,u_space]
 expect_s=[' ']
 call expectations()
 
 in='  😃'
-expect_t=[32,32,128515]
+expect_t=[u_space,u_space,u_smiley]
 expect_s=[' ',' ']
 call expectations()
 
 in='😃'
-expect_t=[128515]
+expect_t=[u_smiley]
 expect_s=[character(len=0) :: ]
 call expectations()
 
 in='     😃'
-expect_t=[32,32,32,32,32,128515]
+expect_t=[u_space,u_space,u_space,u_space,u_space,u_smiley]
 expect_s=[' ',' ',' ',' ',' ']
 call expectations()
 
 in='     😃    '
-expect_t=[32,32,32,32,32,128515,32,32,32,32]
+expect_t=[u_space,u_space,u_space,u_space,u_space,u_smiley,u_space,u_space,u_space,u_space]
 expect_s=[' ',' ',' ',' ',' ',' ',' ',' ',' ']
 call expectations()
-
-in='     😃    e  '
-expect_t=[32,32,32,32,32,128515,32,32,32,101,32,32]
-expect_s=[' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ']
+in='     😃   e  '
+expect_t=[u_space,u_space,u_space,u_space,u_space,u_smiley,u_space,u_space,u_e,u_space,u_space]
+expect_s=[' ',' ',' ',' ',' ',' ',' ',' ',' ',' ']
 call expectations()
 
 in='😃    e'
-expect_t=[128515,32,32,32,101]
+expect_t=[u_smiley,u_space,u_space,u_space,u_e]
 expect_s=[' ',' ',' ',' ']
 call expectations()
 
@@ -772,7 +777,6 @@ contains
 subroutine expectations()
 type(ut),allocatable :: t(:),s(:)
 type(ut)             :: sep
-integer              :: i
  sep=' ,'
  call tokenize(in,sep,t,s)
  if(size(t) == size(expect_t) )then
@@ -790,13 +794,13 @@ end subroutine expectations
 
 subroutine urdu()
 type(ut)             :: quotedurdu, romanized, english
-type(ut),allocatable :: t(:), expect_t(:), expect_s(:)
+type(ut),allocatable :: t(:), expect_t(:)
 type(ut)             :: sep
  sep=' ,'
 
-quotedurdu=expand_backslash('\u0627\u0686\u06BE\u06D2 \u0644\u0648\u06AF\u0648\u06BA \u06A9\u0627 &
- \u0645\u0644\u0646\u0627 \u06C1\u06CC \u0627\u0686\u06BE\u06D2 \u0645\u0633\u062A\u0642\u0628\u0644 &
- \u06A9\u06CC \u0636\u0645\u0627\u0646\u062A \u06C1\u06D2\u06D4')
+quotedurdu=expand_backslash('\u0627\u0686\u06BE\u06D2 \u0644\u0648\u06AF\u0648\u06BA \u06A9\u0627&
+& \u0645\u0644\u0646\u0627 \u06C1\u06CC \u0627\u0686\u06BE\u06D2 \u0645\u0633\u062A\u0642\u0628\u0644&
+& \u06A9\u06CC \u0636\u0645\u0627\u0646\u062A \u06C1\u06D2\u06D4')
 
 romanized='ache logon ka milna hi ache mustaqbil ki zamanat hai.'
 
@@ -963,7 +967,7 @@ function nmi(in) result (out)
 type(ut),intent(in)  :: in
 type(ut)             :: out
 integer,allocatable  :: codes(:)
-integer              :: i, j, ikeep
+integer              :: i, ikeep
 integer,parameter    :: comb=2*int(z'308'), &
  &  um_lower_a  =  2*int(z'E4'),       &
  &  um_lower_o  =  2*int(z'F6'),       &
@@ -1034,11 +1038,12 @@ type(ut)             :: lhs, rhs
 character(len=:),allocatable   :: astr
 type(ut)             :: smiley
 type(ut)             :: ut_str
+character(len=1),parameter :: a_bytes(*)=transfer('Hello World and Ni Hao -- 你好',['A'])
    smiley='😃'
    write(stdout,g0)
    astr='Hello World and Ni Hao -- 你好'
    ut_str=astr
-   call checkits('convert to ASCII bytes',astr,ut_str%byte(),transfer('Hello World and Ni Hao -- 你好',['A']))
+   call checkits('convert to ASCII bytes',astr,ut_str%byte(),a_bytes)
 
    ut_str=smiley .cat. ' and ' .cat. smiley .cat. 'and' .cat. smiley .cat. smiley .cat. 'is it'
    astr='😃 and 😃and😃😃is it'
@@ -1233,12 +1238,11 @@ end subroutine test_expand_backslash
 subroutine test_get_env()
 type(ut) :: uname
 type(ut) :: udefault
-type(ut) :: usmiley
-integer  :: i
+type(ut) :: u_smiley
 character(len=:),allocatable :: avarvalue
 
-   usmiley=128515 ! set with Unicode code point
-   udefault='Have a nice day '//usmiley//'!' ! set with unicode_type
+   u_smiley=128515 ! set with Unicode code point
+   udefault='Have a nice day '//u_smiley//'!' ! set with unicode_type
 
    avarvalue=fgetenv('HOME') ! get a value using standard method
    uname='HOME'
@@ -1953,7 +1957,6 @@ end function test
 
 subroutine oop()
 !use M_unicode, only : write(formatted)
-character(len=*),parameter :: u='(DT)'
 type(ut)  :: USTRING
    !print *,'OOP! Remember to match entire string'
    ! ignoring ς for simplicity
