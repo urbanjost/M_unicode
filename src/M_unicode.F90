@@ -10766,6 +10766,7 @@ type(unicode_type),intent(in),optional :: str
 type(unicode_type)                     :: string
 character(len=:),allocatable           :: token
 character(len=:),allocatable           :: temp
+character(len=:),allocatable           :: scratch(:)
 integer                                :: i
 integer                                :: j
 integer                                :: pos
@@ -10801,6 +10802,7 @@ character(len=80)                      :: line
    i=0
    j=0
    lngth=size(str%codes)
+   scratch=entities%name
    do
       i=i+1
       if(i > lngth ) exit
@@ -10822,7 +10824,7 @@ character(len=80)                      :: line
                string%codes(j)=icode
                i=i+len(token)+1
             else
-               pos=binary_search_chr(entities%name,token)
+               pos=binary_search_chr(scratch,token)
                if(pos > 0)then
                j=j+1
                isz=size(entities(pos)%codes)
