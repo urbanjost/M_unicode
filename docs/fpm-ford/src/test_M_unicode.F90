@@ -30,6 +30,7 @@ use M_unicode, only : transliterate
 use M_unicode, only : glob
 use M_unicode, only : expand_html, add_html
 use M_unicode, only : get_env
+use M_unicode, only : expand_env
 
 use M_unicode, only : assignment(=)
 use M_unicode, only : operator(.cat.)
@@ -1256,6 +1257,18 @@ character(len=:),allocatable :: avarvalue
 
 end subroutine test_get_env
 
+subroutine test_expand_env()
+type(ut) :: uname
+character(len=:),allocatable :: avarvalue
+
+   avarvalue=fgetenv('HOME') ! get a value using standard method
+   uname='$HOME'
+
+   call check('expand_env', expand_env(uname) == avarvalue,'unicode_type')
+   call check('expand_env', uname%expand_env() == avarvalue,'OOP unicode_type')
+
+end subroutine test_expand_env
+
 subroutine test_expand_html()
 type(ut)                     :: u_expected
 type(ut)                     :: u_line
@@ -1991,6 +2004,7 @@ use testsuite_M_unicode
    call test_adjustr()
    call test_concatenate()
    call test_expand_backslash()
+   call test_expand_env()
    call test_expand_html()
    call test_expandtabs()
    call test_fmt()

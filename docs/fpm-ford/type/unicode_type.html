@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p>100.0% of total for derived types.</p>Including implementation: 515 statements, 100.0% of total for derived types.">65 statements</a>
+                 title="<p>100.0% of total for derived types.</p>Including implementation: 522 statements, 100.0% of total for derived types.">67 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -181,6 +181,7 @@
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-codepoint">codepoint</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-escape">escape</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-expand_backslash">expand_backslash</a>
+            <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-expand_env">expand_env</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-expand_html">expand_html</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-expandtabs">expandtabs</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-fmt">fmt</a>
@@ -195,7 +196,7 @@
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-join">join</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-len">len</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-len_trim">len_trim</a>
-            <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-lower~2">lower</a>
+            <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-lower">lower</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-pad">pad</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-replace">replace</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-reverse">reverse</a>
@@ -205,7 +206,7 @@
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-tokenize">tokenize</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-transliterate">transliterate</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-trim">trim</a>
-            <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-upper~2">upper</a>
+            <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-upper">upper</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-verify">verify</a>
         </div>
       </div>
@@ -338,7 +339,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~5"></span>
+              <span class="anchor" id="variable-string~3"></span>
               character(len=*),
             </td>
 <td>intent(in),</td>
@@ -1215,6 +1216,64 @@
             </td>
             <td>::</td>
             <td><strong>protect</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='unicode_type.html'>unicode_type</a>)</small>
+    </h4>
+    
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-expand_env"></span>
+      <h3>
+          generic, public ::
+  <strong>expand_env</strong> => oop_expand_env_uu
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                    <h3>
+    private  function oop_expand_env_uu(self) result(value)  
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
             <td>
                 
             </td>
@@ -2284,7 +2343,7 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-lower~2"></span>
+      <span class="anchor" id="boundprocedure-lower"></span>
       <h3>
           procedure, public ::
   <strong>lower</strong> => oop_lower
@@ -4003,7 +4062,7 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-upper~2"></span>
+      <span class="anchor" id="boundprocedure-upper"></span>
       <h3>
           procedure, public ::
   <strong>upper</strong> => oop_upper
@@ -4200,6 +4259,8 @@
 <span class="w">   </span><span class="k">generic</span><span class="p">,</span><span class="k">public</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">get_env</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_get_env_uu</span><span class="p">,</span><span class="w"> </span><span class="n">oop_get_env_ua</span>
 <span class="w">   </span><span class="k">procedure</span><span class="p">,</span><span class="k">private</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">oop_glob_u</span><span class="p">,</span><span class="w"> </span><span class="n">oop_glob_a</span>
 <span class="w">   </span><span class="k">generic</span><span class="p">,</span><span class="k">public</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">glob</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_glob_u</span><span class="p">,</span><span class="w"> </span><span class="n">oop_glob_a</span>
+<span class="w">   </span><span class="k">procedure</span><span class="p">,</span><span class="k">private</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">oop_expand_env_uu</span>
+<span class="w">   </span><span class="k">generic</span><span class="p">,</span><span class="w"> </span><span class="k">public</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">expand_env</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_expand_env_uu</span>
 
 <span class="w">   </span><span class="k">procedure</span><span class="p">,</span><span class="k">private</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">oop_transliterate_uu</span><span class="p">,</span><span class="w"> </span><span class="n">oop_transliterate_aa</span><span class="p">,</span><span class="w"> </span><span class="n">oop_transliterate_au</span><span class="p">,</span><span class="w"> </span><span class="n">oop_transliterate_ua</span>
 <span class="w">   </span><span class="k">generic</span><span class="p">,</span><span class="w"> </span><span class="k">public</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">transliterate</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">oop_transliterate_uu</span><span class="p">,</span><span class="w"> </span><span class="n">oop_transliterate_aa</span><span class="p">,</span><span class="w"> </span><span class="n">oop_transliterate_au</span><span class="p">,</span><span class="w"> </span><span class="n">oop_transliterate_ua</span>
@@ -4252,7 +4313,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-10-27 09:02 +0000             </p>
+ on 2026-10-31 10:54 +0000             </p>
           </div>
         </div>
         <br>
