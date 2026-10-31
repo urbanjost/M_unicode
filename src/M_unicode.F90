@@ -187,7 +187,7 @@
 !!
 !!    CHARACTER TESTS
 !!
-!!      glob     compares given string for match to pattern which may
+!!     glob      compares given string for match to pattern which may
 !!               contain wildcard characters
 !!
 !!     ! the following are based on Unicode codepoint, not dictionary order
@@ -233,8 +233,9 @@
 !!
 !!    SYSTEM
 !!
-!!     get_env    Get environment variable
-!!     get_arg    Get command line argument
+!!     get_env     Get environment variable
+!!     get_arg     Get command line argument
+!!     expand_env  Shell-like string expansion of the syntax $VAR and ${VAR}
 !!
 !!    SORT
 !!
@@ -406,6 +407,7 @@ public :: verify
 public :: ichar
 public :: get_env
 public :: get_arg
+public :: expand_env
 PUBLIC :: LLE, LLT, LNE, LEQ, LGT, LGE
 PUBLIC :: OPERATOR(<=), OPERATOR(<), OPERATOR(/=), OPERATOR(==), OPERATOR(>), OPERATOR(>=)
 public :: assignment(=)
@@ -472,6 +474,11 @@ interface get_arg
    module procedure :: get_arg_ia
    module procedure :: get_arg_iu
 end interface get_arg
+
+interface expand_env
+   module procedure :: expand_env_aa
+   module procedure :: expand_env_uu
+end interface expand_env
 
 interface get_env
    module procedure :: get_env_uu
@@ -673,6 +680,8 @@ contains
    generic,public    :: get_env => oop_get_env_uu, oop_get_env_ua
    procedure,private :: oop_glob_u, oop_glob_a
    generic,public    :: glob => oop_glob_u, oop_glob_a
+   procedure,private :: oop_expand_env_uu
+   generic, public   :: expand_env => oop_expand_env_uu
 
    procedure,private :: oop_transliterate_uu, oop_transliterate_aa, oop_transliterate_au, oop_transliterate_ua
    generic, public   :: transliterate => oop_transliterate_uu, oop_transliterate_aa, oop_transliterate_au, oop_transliterate_ua
@@ -12079,39 +12088,64 @@ end function transliterate_auu
 !!
 !!  Sample program:
 !!
-!!     program demo_get_env
-!!     use M_unicode, only : get_env, ut=> unicode_type
-!!     use M_unicode, only : assignment(=), operator(//)
-!!     implicit none
-!!     type(ut) :: name
-!!     type(ut) :: default
-!!     type(ut) :: value
-!!     type(ut) :: smiley
-!!     integer  :: i
-!!     character(len=*),parameter :: bracket= '(1x,*("[",a,"]",:))'
-!!        !
-!!        smiley=128515 ! set with Unicode code point
-!!        name='UTF8'   ! set with ASCII
-!!        default='Have a nice day '//smiley//'!' ! set with unicode_type
-!!        !
-!!        ! arguments can be type(unicode_type) or character
-!!        ! but type(unicode_type) is always returned
-!!        value=get_env(name,             default             )
-!!        value=get_env(name%character(), default%character() )
-!!        value=get_env(name,             default%character() )
-!!        value=get_env(name%character(), default             )
-!!        !
-!!        write(*,*)value%character()
-!!        !
-!!        ! print each glyph surrounded by brackets
-!!        write(*,bracket)(value%character(i,i),i=1,value%len())
-!!        !
-!!     end program demo_get_env
+!!    program demo_get_env
+!!    use M_unicode, only : get_env, ut => unicode_type
+!!    use M_unicode, only : assignment(=), operator(//)
+!!    implicit none
+!!    type(ut) :: name
+!!    type(ut) :: default
+!!    type(ut) :: value
+!!    type(ut) :: smiley
+!!    integer  :: i
+!!    character(len=*),parameter :: bracket = '(1x,*("[",a,"]",:))'
+!!
+!!       smiley = 128515 ! set with Unicode code point
+!!       default = 'Have a nice day '//smiley//'!' ! set with unicode_type
+!!
+!!       do i = 1,2
+!!          select case (i)
+!!          case (1); name = 'HOME'
+!!          case (2); name = 'UNKNOWN'
+!!          end select
+!!          ! arguments can be type(unicode_type) or character
+!!          ! but type(unicode_type) is always returned
+!!
+!!          value = get_env(name,             default             )
+!!          write(*,*)value%character()
+!!
+!!          value = get_env(name%character(), default%character() )
+!!          write(*,*)value%character()
+!!
+!!          value = get_env(name,             default%character() )
+!!          write(*,*)value%character()
+!!
+!!          value = get_env(name%character(), default             )
+!!          write(*,*)value%character()
+!!
+!!          value = get_env(name)
+!!          write(*,*)value%character()
+!!
+!!          value = get_env(name%character())
+!!          write(*,*)value%character()
+!!
+!!       enddo
+!!
+!!    end program demo_get_env
 !!
 !!   Results:
 !!
-!!     > Have a nice day 😃!
-!!     > [H][a][v][e][ ][a][ ][n][i][c][e][ ][d][a][y][ ][😃][!]
+!!    > /home/johns
+!!    > /home/johns
+!!    > /home/johns
+!!    > /home/johns
+!!    > /home/johns
+!!    > /home/johns
+!!    > Have a nice day 😃!
+!!    > Have a nice day 😃!
+!!    > Have a nice day 😃!
+!!    > Have a nice day 😃!
+!!    > UNKNOWN is not defined in the environment
+!!    > UNKNOWN is not defined in the environment
 !!
 !!##AUTHOR
 !!      John S. Urban
@@ -12301,6 +12335,237 @@ integer                       :: nerr
    call codepoints_to_utf8_str(default%codes,temp,nerr)
    value=get_arg_ia(position,temp)
 end function get_arg_iu
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
+!>
+!!##NAME
+!!    expand_env(3f) - [M_unicode:QUERY] implements basic shell-style variable expansion
+!!    (LICENSE:PD)
+!!
+!!##SYNOPSIS
+!!
+!!    function expand_env(in) result(out)
+!!
+!!     character(len=1),intent(in)  :: in
+!!     character(len=:),allocatable :: out
+!!
+!!     !  or
+!!
+!!     type(unicode_type),intent(in)  :: in
+!!     type(unicode_type),allocatable :: out
+!!
+!!##DESCRIPTION
+!!
+!! expand_env(3f) implements basic shell-style variable expansion for
+!! environment variables and some pre-defined names.  That is, it scans for
+!! '$' and replaces '$VAR' or '${VAR}' with values from environment variables
+!! or pre-defined substitutions.
+!!
+!! Given a string containing "$VAR" and "${VAR}" strings it replaces it
+!! with the value of the environment variable "VAR".  If the environment
+!! variable name returns a null string or the variable is not defined,
+!! the following predefined names will be expanded:
+!!
+!!  o FILE:  same as value returned by GET_COMMAND_ARGUMENT(0,string)
+!!  o 0,1,2,....: same as value returned by GET_COMMAND_ARGUMENT(N,string)
+!!  o *: all command line arguments from 1 to N joined with a space separator
+!!
+!!  o COMPILER: same as value returned by COMPILER_VERSION() intrinsic
+!!  o COMPILER_OPTIONS: same as value returned by COMPILER__OPTIONS() intrinsic
+!!
+!!  o DATE: returns a string of the form CCYY-MM-DD
+!!  o TIME: returns a string of the form HH:MM:SS
+!!  o ZONE: returns a string of the form (+-)HHMM, representing the
+!!          difference with respect to Coordinated Universal Time (UTC)
+!!  o TIMESTAMP:  CCYY-MM-DDTHH:MM:SS
+!!
+!!##OPTIONS
+!!    A string containing names of the syntax $VAR or ${VAR} in addition to
+!!    plain text not to be expanded.
+!!
+!!##RETURNS
+!!    A string where $VAR and ${VAR} are replaced with the value of the
+!!    environment variable. If the returned value is null several predefined
+!!    variable names will be expanded per the table above.
+!!
+!!##EXAMPLES
+!!
+!!    Sample program
+!!
+!!     program demo_expand_env
+!!     use M_unicode, only : expand_env, ut=>unicode_type
+!!     use M_unicode, only : assignment(=), trim, ch=>character
+!!     use M_unicode, only : operator(//)
+!!     implicit none
+!!     integer                       :: i
+!!     character(len=:), allocatable :: expanded
+!!     character(len=:), allocatable :: testsa(:)
+!!     type(ut),allocatable :: tests(:)
+!!
+!!     testsa = [ character(len=80) :: &
+!!     "-------------- Testing Pure Fortran Word Expansion --------------",&
+!!     " scratch space is $TMP for $USER with home directory  ${HOME}",    &
+!!     " DATE is $DATE TIME is 06:46:47 ZONE is $ZONE TIMESTAMP $TIMESTAMP",&
+!!     " FILE is $FILE ARGS: 0: $0 1: $1 2: $2 3: $3",                     &
+!!     " COMPILER is $COMPILER COMPILER_OPTIONS are ${COMPILER_OPTIONS}",  &
+!!     " ${0} versus M_unicode.FF  $0 versus $FILE",                            &
+!!     " All arguments is ${0} ${*}",                                      &
+!!     " unknown $UNKNOWN incorrect ${ A B C} but syntax OK",              &
+!!     " Bad $  ${  and stuff $UNKNOWN ${ A B C}",                         &
+!!     ""]
+!!
+!!        tests=testsa
+!!        tests=trim(tests)
+!!
+!!        do i = 1,size(tests)
+!!           expanded=expand_env(tests(i))
+!!           print '(A)', "Input:  "//tests(i)%ch()
+!!           print '(A)', "Result: "//expanded
+!!           print '(A)', ch( "Result: "//tests(i)%expand_env() )
+!!           print '(A)', ""
+!!        enddo
+!!
+!!     end program demo_expand_env
+!!
+!!##SEE ALSO
+!!    wordexp(3c) and POSIX shell string expansion
+!!##AUTHOR
+!!    John S. Urban
+!!##LICENSE
+!!    Public Domain
+function expand_env_aa(input_str) result(output_str)
+!
+! implements basic shell-style variable expansion ($VAR) for environment variables and some pre-defined names
+! That is, it scans for '$' and replaces '$VAR' or '${VAR}' with values from environment variables or pre-defined substitutions
+!
+use,intrinsic :: iso_fortran_env, only : compiler_version, compiler_options
+character(len=*), intent(in)  :: input_str
+character(len=:), allocatable :: in
+character(len=:), allocatable :: output_str
+integer                       :: i, j, k
+integer                       :: iarg
+integer                       :: input_len
+integer                       :: var_start, var_end
+character(len=:), allocatable :: var_name, var_val, temp
+character,parameter           :: &
+& int*(*)  = '1234567890',                 &
+& low*(*)  = 'abcdefghijklmnopqrstuvwxyz', &
+& upp*(*)  = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', &
+& punc*(*) = "!""#$%&’()*+,‐./:;<=>?@[\]ˆ_‘{|}˜"
+
+output_str = ""
+input_len = len(input_str)
+in = input_str//'  '
+i = 1
+var_name = ''
+var_val = ''
+temp = ''
+
+do while (i <= input_len)
+   if ( in(i:i) == '$' ) then
+      if ( i >= input_len )exit ! syntax error with line ending in $
+      var_start = i + 1
+         ! Handle bracketed syntax ${VAR}
+      if (in(var_start:var_start) == '{') then
+         var_start = var_start + 1
+         var_end = var_start + 1
+         do while (var_end <= input_len )
+            if (in(var_end:var_end) == '}') exit
+            var_end = var_end + 1
+         enddo
+         var_name = in(var_start:var_end-1)
+         i = var_end + 1
+      else
+            ! Handle unbracketed syntax $VAR (stops if not [A-Za-z0-9_]
+         var_end = var_start
+         do while (var_end <= input_len)
+            if (index(int//low//upp//'_',in(var_end:var_end)).eq.0)exit
+            var_end = var_end + 1
+         enddo
+         var_name = in(var_start:var_end-1)
+         i = var_end
+      endif
+         ! Fetch the environment variable value natively in Fortran
+      if(var_name.ne.'')then
+         var_val = get_env_aa(var_name,'')
+      else
+         var_val = ''
+      endif
+      if (var_val=='') then
+         select case (var_name)
+         case ('DATE')
+            var_val = repeat(' ',8)
+            call date_and_time(date=var_val)
+            var_val = var_val(1:4)//'-'//var_val(5:6)//'-'//var_val(7:8)
+         case ('TIME')
+            var_val = repeat(' ',10)
+            call date_and_time(time=var_val)
+            var_val = var_val(1:2)//':'//var_val(3:4)//':'//var_val(5:6)
+         case ('ZONE')
+            var_val = repeat(' ',5)
+            call date_and_time(zone=var_val)
+         case ('TIMESTAMP')
+            var_val = repeat(' ',8)
+            call date_and_time(date=var_val)
+            temp = var_val(1:4)//'-'//var_val(5:6)//'-'//var_val(7:8)
+            var_val = repeat(' ',10)
+            call date_and_time(time=var_val)
+            temp = temp//'T'//var_val(1:2)//':'//var_val(3:4)//':'//var_val(5:6)
+            var_val = repeat(' ',5)
+            call date_and_time(zone=var_val)
+            var_val = temp//var_val
+         case ('FILE')
+            var_val = get_arg(0)
+         case ('COMPILER')
+            var_val = compiler_version()
+         case ('COMPILER_OPTIONS')
+            var_val = compiler_options()
+         case ('*')
+            var_val = ''
+            do j = 1,command_argument_count()
+               var_val = var_val//get_arg(j)//' '
+            enddo
+            var_val = trim(var_val)
+         case default  ! $NNN is command argument
+            if(var_name.eq.'')then ! syntax error
+               var_val=''
+            elseif (verify(trim(var_name), '0123456789') == 0 ) then ! determine if string is a valid integer
+               var_name = var_name//repeat(' ',9)
+               read(var_name,'(i9)')iarg
+               var_val = get_arg(iarg)
+            else  ! variable with blank value, unknown variable, or syntax error
+               var_val = ''
+            endif
+         end select
+      endif
+      output_str = output_str//var_val
+      var_val = ''
+   else
+      ! regular character, not part of variable name
+      output_str = output_str//in(i:i)
+      i = i + 1
+   endif
+enddo
+end function expand_env_aa
+
+function expand_env_uu(input_str) result(output_str)
+type(unicode_type),intent(in) :: input_str
+type(unicode_type)            :: output_str
+character(len=:),allocatable  :: in
+character(len=:),allocatable  :: out
+   in=input_str
+   out=expand_env_aa(in)
+   output_str=out
+end function expand_env_uu
+
+function expand_env_au(input_str) result(output_str)
+character(len=*),intent(in) :: input_str
+type(unicode_type)          :: output_str
+type(unicode_type)          :: temp
+   temp = input_str
+   output_str=expand_env_uu(temp)
+end function expand_env_au
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
@@ -12554,6 +12819,12 @@ type(unicode_type),intent(in)  :: default
 type(unicode_type)             :: value
    value=get_env_uu(self,default)
 end function oop_get_env_uu
+!===================================================================================================================================
+function oop_expand_env_uu(self) result (value)
+class(unicode_type),intent(in) :: self
+type(unicode_type)             :: value
+   value=expand_env_uu(self)
+end function oop_expand_env_uu
 !===================================================================================================================================
 function oop_join(self,array,clip) result (out)
 
@@ -12982,7 +13253,7 @@ end function readline
 !===================================================================================================================================
 !>
 !!##NAME
-!!    slurp(3f) - [M_unicode:READ] read formatted UTF-8 file into a
+!!    slurp(3f) - [M_unicode:IO] read formatted UTF-8 file into a
 !!    TYPE(UNICODE_TYPE) string array
 !!    (LICENSE:MIT)
 !!##SYNOPSIS
