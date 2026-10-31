@@ -5,6 +5,7 @@
      use M_unicode, only : write(formatted)
      implicit none
      type(unicode_type) :: line
+     character(len=1),parameter :: nl=new_line('a')
      !
      write(*,'(DT)') &
      & replace(ut('Xis is Xe string'),ut('X'),ut('th') )
@@ -42,5 +43,13 @@
      & ut('f90'),ut('for'),occurrence=-1,repeat=1)
      write(*,'(DT)')replace(ut('myf90stuff.f90.f90'),&
      & ut('f90'),ut('for'),occurrence=-2,repeat=2)
+     !
+     write(*,'(*(a))')character(replace(ut('word -a value -b -c "and more stuff" -d'), ut(' -'),ut(nl//' -')))
+     write(*,'(DT)')replace(ut('word -a value -b -c "and more stuff" -d'), ut(' -'),ut(nl//' -'))
+     write(*,'(DT)')replace( ut('[32mCOMPILER_OPTIONS[39m : -cpp -I ././include -I build/gfortran_DD609D2CDA6636FC&
+     &-idirafter /usr/lib/gcc/x86_64-pc-cygwin/16/../../../../include/w32api -idirafter &
+     &/usr/lib/gcc/x86_64-pc-cygwin/16/../../../../x86_64-pc-cygwin/lib/../../include/w32api -mtune=generic &
+     &-march=x86-64 -Werror=implicit-interface -fimplicit-none -ffree-form -J build/gfortran_DD609D2CDA6636FC') ,&
+     & ut(' -'),ut(nl//' -'))
      !
      end program demo_replace
