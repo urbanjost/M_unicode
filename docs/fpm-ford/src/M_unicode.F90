@@ -478,6 +478,7 @@ end interface get_arg
 interface expand_env
    module procedure :: expand_env_aa
    module procedure :: expand_env_uu
+   module procedure :: expand_env_uu_arr
 end interface expand_env
 
 interface get_env
@@ -8122,7 +8123,7 @@ type(unicode_type) :: target_local   ! input line to be changed
                                                       ! try finding start of OLD in remaining part of input in change window
       ilen_temp=len(target_for_comparison)
       ind=index(target_for_comparison%sub(ic,ilen_temp),old_local_for_comparison%sub(1,len_old))+ic-1
-      if(ind == ic-1.or.ind > right_margin)then       ! did not find old string or found old string past edit window
+      if(ind == ic-1 .or. ind > right_margin)then     ! did not find old string or found old string past edit window
          exit loop                                    ! no more changes left to make
       endif
       icount=icount+1                                 ! found an old string to change, so increment count of change candidates
@@ -12406,7 +12407,7 @@ end function get_arg_iu
 !!     testsa = [ character(len=80) :: &
 !!     "-------------- Testing Pure Fortran Word Expansion --------------",&
 !!     " scratch space is $TMP for $USER with home directory  ${HOME}",    &
-!!     " DATE is $DATE TIME is 06:46:47 ZONE is $ZONE TIMESTAMP $TIMESTAMP",&
+!!     " DATE is $DATE TIME is 16:44:07 ZONE is $ZONE TIMESTAMP $TIMESTAMP",&
 !!     " FILE is $FILE ARGS: 0: $0 1: $1 2: $2 3: $3",                     &
 !!     " COMPILER is $COMPILER COMPILER_OPTIONS are ${COMPILER_OPTIONS}",  &
 !!     " ${0} versus M_unicode.FF  $0 versus $FILE",                            &
@@ -12454,99 +12455,99 @@ character,parameter           :: &
 & upp*(*)  = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', &
 & punc*(*) = "!""#$%&’()*+,‐./:;<=>?@[\]ˆ_‘{|}˜"
 
-output_str = ""
-input_len = len(input_str)
-in = input_str//'  '
-i = 1
-var_name = ''
-var_val = ''
-temp = ''
+   output_str = ""
+   input_len = len(input_str)
+   in = input_str//'  '
+   i = 1
+   var_name = ''
+   var_val = ''
+   temp = ''
 
-do while (i <= input_len)
-   if ( in(i:i) == '$' ) then
-      if ( i >= input_len )exit ! syntax error with line ending in $
-      var_start = i + 1
+   do while (i <= input_len)
+      if ( in(i:i) == '$' ) then
+         if ( i >= input_len )exit ! syntax error with line ending in $
+         var_start = i + 1
          ! Handle bracketed syntax ${VAR}
-      if (in(var_start:var_start) == '{') then
-         var_start = var_start + 1
-         var_end = var_start + 1
-         do while (var_end <= input_len )
-            if (in(var_end:var_end) == '}') exit
-            var_end = var_end + 1
-         enddo
-         var_name = in(var_start:var_end-1)
-         i = var_end + 1
-      else
-            ! Handle unbracketed syntax $VAR (stops if not [A-Za-z0-9_]
-         var_end = var_start
-         do while (var_end <= input_len)
-            if (index(int//low//upp//'_',in(var_end:var_end)).eq.0)exit
-            var_end = var_end + 1
-         enddo
-         var_name = in(var_start:var_end-1)
-         i = var_end
-      endif
-         ! Fetch the environment variable value natively in Fortran
-      if(var_name.ne.'')then
-         var_val = get_env_aa(var_name,'')
-      else
-         var_val = ''
-      endif
-      if (var_val=='') then
-         select case (var_name)
-         case ('DATE')
-            var_val = repeat(' ',8)
-            call date_and_time(date=var_val)
-            var_val = var_val(1:4)//'-'//var_val(5:6)//'-'//var_val(7:8)
-         case ('TIME')
-            var_val = repeat(' ',10)
-            call date_and_time(time=var_val)
-            var_val = var_val(1:2)//':'//var_val(3:4)//':'//var_val(5:6)
-         case ('ZONE')
-            var_val = repeat(' ',5)
-            call date_and_time(zone=var_val)
-         case ('TIMESTAMP')
-            var_val = repeat(' ',8)
-            call date_and_time(date=var_val)
-            temp = var_val(1:4)//'-'//var_val(5:6)//'-'//var_val(7:8)
-            var_val = repeat(' ',10)
-            call date_and_time(time=var_val)
-            temp = temp//'T'//var_val(1:2)//':'//var_val(3:4)//':'//var_val(5:6)
-            var_val = repeat(' ',5)
-            call date_and_time(zone=var_val)
-            var_val = temp//var_val
-         case ('FILE')
-            var_val = get_arg(0)
-         case ('COMPILER')
-            var_val = compiler_version()
-         case ('COMPILER_OPTIONS')
-            var_val = compiler_options()
-         case ('*')
-            var_val = ''
-            do j = 1,command_argument_count()
-               var_val = var_val//get_arg(j)//' '
+         if (in(var_start:var_start) == '{') then
+            var_start = var_start + 1
+            var_end = var_start + 1
+            do while (var_end <= input_len )
+               if (in(var_end:var_end) == '}') exit
+               var_end = var_end + 1
             enddo
-            var_val = trim(var_val)
-         case default  ! $NNN is command argument
-            if(var_name.eq.'')then ! syntax error
-               var_val=''
-            elseif (verify(trim(var_name), '0123456789') == 0 ) then ! determine if string is a valid integer
-               var_name = var_name//repeat(' ',9)
-               read(var_name,'(i9)')iarg
-               var_val = get_arg(iarg)
-            else  ! variable with blank value, unknown variable, or syntax error
+            var_name = in(var_start:var_end-1)
+            i = var_end + 1
+         else
+            ! Handle unbracketed syntax $VAR (stops if not [A-Za-z0-9_]
+            var_end = var_start
+            do while (var_end <= input_len)
+               if (index(int//low//upp//'_',in(var_end:var_end))==0)exit
+               var_end = var_end + 1
+            enddo
+            var_name = in(var_start:var_end-1)
+            i = var_end
+         endif
+         ! Fetch the environment variable value natively in Fortran
+         if (var_name/='') then
+            var_val = get_env_aa(var_name,'')
+         else
+            var_val = ''
+         endif
+         if (var_val=='') then
+            select case (var_name)
+             case ('DATE')
+               var_val = repeat(' ',8)
+               call date_and_time(date=var_val)
+               var_val = var_val(1:4)//'-'//var_val(5:6)//'-'//var_val(7:8)
+             case ('TIME')
+               var_val = repeat(' ',10)
+               call date_and_time(time=var_val)
+               var_val = var_val(1:2)//':'//var_val(3:4)//':'//var_val(5:6)
+             case ('ZONE')
+               var_val = repeat(' ',5)
+               call date_and_time(zone=var_val)
+             case ('TIMESTAMP')
+               var_val = repeat(' ',8)
+               call date_and_time(date=var_val)
+               temp = var_val(1:4)//'-'//var_val(5:6)//'-'//var_val(7:8)
+               var_val = repeat(' ',10)
+               call date_and_time(time=var_val)
+               temp = temp//'T'//var_val(1:2)//':'//var_val(3:4)//':'//var_val(5:6)
+               var_val = repeat(' ',5)
+               call date_and_time(zone=var_val)
+               var_val = temp//var_val
+             case ('FILE')
+               var_val = get_arg(0)
+             case ('COMPILER')
+               var_val = compiler_version()
+             case ('COMPILER_OPTIONS')
+               var_val = compiler_options()
+             case ('*')
                var_val = ''
-            endif
-         end select
+               do j = 1,command_argument_count()
+                  var_val = var_val//get_arg(j)//' '
+               enddo
+               var_val = trim(var_val)
+             case default  ! $NNN is command argument
+               if (var_name=='') then ! syntax error
+                  var_val = ''
+               elseif (verify(trim(var_name), '0123456789') == 0 ) then ! determine if string is a valid integer
+                  var_name = var_name//repeat(' ',9)
+                  read(var_name,'(i9)')iarg
+                  var_val = get_arg(iarg)
+               else  ! variable with blank value, unknown variable, or syntax error
+                  var_val = ''
+               endif
+            end select
+         endif
+         output_str = output_str//var_val
+         var_val = ''
+      else
+         ! regular character, not part of variable name
+         output_str = output_str//in(i:i)
+         i = i + 1
       endif
-      output_str = output_str//var_val
-      var_val = ''
-   else
-      ! regular character, not part of variable name
-      output_str = output_str//in(i:i)
-      i = i + 1
-   endif
-enddo
+   enddo
 end function expand_env_aa
 
 function expand_env_uu(input_str) result(output_str)
@@ -12566,6 +12567,19 @@ type(unicode_type)          :: temp
    temp = input_str
    output_str=expand_env_uu(temp)
 end function expand_env_au
+
+function expand_env_uu_arr(input_str) result(output_str)
+type(unicode_type),intent(in) :: input_str(:)
+type(unicode_type)            :: output_str(size(input_str))
+character(len=:),allocatable  :: in_a
+character(len=:),allocatable  :: out_a
+integer                       :: i
+   do i=1,size(input_str)
+      in_a=input_str(i)
+      out_a=expand_env_aa(in_a)
+      output_str(i)=out_a
+   enddo
+end function expand_env_uu_arr
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
@@ -13570,7 +13584,7 @@ logical                              :: trimit
       endif
    endif
    if(allocated(line))deallocate(line)
-   allocate(character(len=256) :: line) ! cannot currently write into allocatable variable
+   allocate(character(len=256) :: line) ! cannot currently write into allocatable variable. This could potentially be too short
    iostat=0
    select type(general)
      type is (integer(kind=int8));  write(line,fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
@@ -13583,8 +13597,12 @@ logical                              :: trimit
      type is (real(kind=real128));  write(line,fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
 #endif
      type is (logical);             write(line,fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
-     type is (character(len=*));    write(line,fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
-     type is (unicode_type);        write(line,fmt_local,iostat=iostat,iomsg=iomsg) character(general),null_ch
+     type is (character(len=*))
+        line=repeat(' ',256+4*len(general)+1) ! kludge because required length is unknown
+        write(line,fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
+     type is (unicode_type)
+        line=repeat(' ',256+4*len(character(general))+1) ! kludge because required length is unknown
+        write(line,fmt_local,iostat=iostat,iomsg=iomsg) character(general),null_ch
      type is (complex);
         if(trimit)then
            re=afmt(real(general))
@@ -13613,7 +13631,7 @@ logical                              :: trimit
         stop '<ERROR>*afmt* unknown type'
    end select
    if(iostat /= 0)then
-      line='<ERROR>'//trim(iomsg)
+      write(stderr,'(*(g0))')'<ERROR>[',trim(line),']',trim(iomsg)
    else
       iilen=index(line,null_ch,back=.true.)
       if(iilen == 0)iilen=len(line)
@@ -15262,7 +15280,7 @@ integer                        :: end
        allocate(list(0))
    endif
    end=size(list)
-   if(place <= 0.or.place > end)then                       ! index out of bounds of array
+   if(place <= 0 .or. place > end)then                      ! index out of bounds of array
    elseif(place == end)then                                 ! remove from array
       list=[list(:place-1) ]
    else
@@ -15281,7 +15299,7 @@ integer                        :: end
    endif
    tlen=len_trim(value)
    end=size(list)
-   if(place < 0.or.place > end)then
+   if(place < 0 .or. place > end)then
        write(stderr,*)'*replace* error: index out of range. end=',end,' index=',place
    else
       list(place)=value
