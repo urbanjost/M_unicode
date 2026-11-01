@@ -24,6 +24,6 @@ homepage     = "https://github.com/urbanjost/M_unicode.git"
    source-dir="app"
    main="uni.f90"
    [executable.dependencies]
-       M_CLI2 = { git = "https://github.com/urbanjost/M_CLI2.git" }
-      #M_CLI2 = { path = "GLINKS/M_CLI2" }
+      #M_CLI2 = { git = "https://github.com/urbanjost/M_CLI2.git" }
+       M_CLI2 = { path = "GLINKS/M_CLI2" }
       #M_CLI2 = { namespace = "GPF" }

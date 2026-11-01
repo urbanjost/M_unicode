@@ -12398,6 +12398,7 @@ end function get_arg_iu
 !!     use M_unicode, only : expand_env, ut=>unicode_type
 !!     use M_unicode, only : assignment(=), trim, ch=>character
 !!     use M_unicode, only : operator(//)
+!!     use M_unicode, only : keyword_expand
 !!     implicit none
 !!     integer                       :: i
 !!     character(len=:), allocatable :: expanded
@@ -12407,7 +12408,7 @@ end function get_arg_iu
 !!     testsa = [ character(len=80) :: &
 !!     "-------------- Testing Pure Fortran Word Expansion --------------",&
 !!     " scratch space is $TMP for $USER with home directory  ${HOME}",    &
-!!     " DATE is $DATE TIME is 16:44:07 ZONE is $ZONE TIMESTAMP $TIMESTAMP",&
+!!     " DATE is $DATE TIME is 20:56:36 ZONE is $ZONE TIMESTAMP $TIMESTAMP",&
 !!     " FILE is $FILE ARGS: 0: $0 1: $1 2: $2 3: $3",                     &
 !!     " COMPILER is $COMPILER COMPILER_OPTIONS are ${COMPILER_OPTIONS}",  &
 !!     " ${0} versus M_unicode.FF  $0 versus $FILE",                            &
@@ -12418,7 +12419,6 @@ end function get_arg_iu
 !!
 !!        tests=testsa
 !!        tests=trim(tests)
-!!
 !!        do i = 1,size(tests)
 !!           expanded=expand_env(tests(i))
 !!           print '(A)', "Input:  "//tests(i)%ch()
@@ -12427,8 +12427,75 @@ end function get_arg_iu
 !!           print '(A)', ""
 !!        enddo
 !!
+!!     call version()
+!!
+!!     contains
+!!     subroutine version()
+!!     ! expand environment and predefined variables add some
+!!     ! terminal text attributes and multi-byte characters using
+!!     ! <keyword> syntax in an example of a plausible version
+!!     ! display procedure
+!!     use M_unicode, only : expand_env, ut=>unicode_type
+!!     use M_unicode, only : assignment(=), trim, ch=>character
+!!     use M_unicode, only : operator(//)
+!!     use M_unicode, only : keyword_expand, replace
+!!     implicit none
+!!     character(len=1),parameter    :: nl=new_line('a')
+!!     character(len=:), allocatable :: testsa(:)
+!!     integer                       :: i
+!!     integer                       :: ilast
+!!     type(ut),allocatable          :: tests(:)
+!!
+!!     testsa = [ character(len=80) :: &
+!!     " <g>PROGRAM</g>         : pretender(1)", &
+!!     " <g>VERSION</g>         : 1.0.0", &
+!!     " <g>DESCRIPTION</g>     : <ul>pretend to be a program</ul>", &
+!!     " <g>COPYRIGHT</g>       : <copy> Mouse and Company, 1957", &
+!!     " <g>LICENSE</g>         : Public Domain", &
+!!     " <g>AUTHOR</g>          : Micky Mouse", &
+!!     " <g>COMPILED</g>        : 2023-02-17T19:30:55-0300", &
+!!     " <g>TIMESTAMP</g>       : $TIMESTAMP", &
+!!     " <g>COMMAND</g>         : ${0} ${*}", &
+!!     " <g>USER</g>            : $USER",    &
+!!     " <g>PWD</g>             : $PWD",    &
+!!     " <g>COMPILER</g>        : $COMPILER",  &
+!!     " <g>COMPILER_OPTIONS</g>: ${COMPILER_OPTIONS}" ]
+!!
+!!        tests=keyword_expand(testsa)
+!!        tests=trim(expand_env(tests))
+!!        ilast=size(tests)
+!!        tests(ilast)=replace(tests(ilast),' -',nl//'                   -')
+!!        tests(ilast)=replace(tests(ilast),' /',nl//'                   /')
+!!        print '(A)', (tests(i)%ch(),i=1,size(tests))
+!!     end subroutine version
+!!
 !!     end program demo_expand_env
 !!
+!!  Results of version(3f) procedure
+!!     PROGRAM         : pretender(1)
+!!     VERSION         : 1.0.0
+!!     DESCRIPTION     : pretend to be a program
+!!     COPYRIGHT       : © Mouse and Company, 1957
+!!     LICENSE         : Public Domain
+!!     AUTHOR          : Micky Mouse
+!!     COMPILED        : 2023-02-17T19:30:55-0300
+!!     TIMESTAMP       : 2026-10-31T17:42:37-0400
+!!     COMMAND         : build/gfortran_F560B/example/demo_expand_env
+!!     USER            : johns
+!!     PWD             : /cygdrive/c/users/johns/github/GPF/M_unicode
+!!     COMPILER        : GCC version 16.1.1 20260613
+!!     COMPILER_OPTIONS:
+!!                       -cpp
+!!                       -I ././include
+!!                       -I build/gfortran_DD609D2CDA6636FC
+!!                       -idirafter /usr/include/w32api
+!!                       -idirafter /usr/include/w32api
+!!                       -mtune=generic
+!!                       -march=x86-64
+!!                       -Werror=implicit-interface
+!!                       -fimplicit-none
+!!                       -ffree-form
+!!                       -J build/gfortran_DD609D2CDA6636FC
 !!##SEE ALSO
 !!    wordexp(3c) and POSIX shell string expansion
 !!##AUTHOR
