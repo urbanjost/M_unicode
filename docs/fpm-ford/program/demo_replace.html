@@ -90,7 +90,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.8% of total for programs.">27 statements</a>
+                 title=" 0.7% of total for programs.">23 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -131,8 +131,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../program/demo_replace.html#variable-line~5">line</a>
-            <a class="list-group-item" href="../program/demo_replace.html#variable-nl~3">nl</a>
+            <a class="list-group-item" href="../program/demo_replace.html#variable-line~42">line</a>
         </div>
       </div>
     </div>
@@ -198,7 +197,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-line~5"></span>
+              <span class="anchor" id="variable-line~42"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>)
             </td>
             <td>
@@ -208,22 +207,6 @@
             <td><strong>line</strong></td>
                 <td></td>
                 <td></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-nl~3"></span>
-              character(len=1),
-            </td>
-            <td>
-parameter               
-            </td>
-            <td>::</td>
-            <td><strong>nl</strong></td>
-<td> =</td>
-                <td>new_line(&#39;a&#39;)</td>
             <td>
                 
             </td>
@@ -251,7 +234,6 @@ parameter
 <span class="w">     </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="k">write</span><span class="p">(</span><span class="n">formatted</span><span class="p">)</span>
 <span class="w">     </span><span class="k">implicit none</span>
 <span class="k">     type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">line</span>
-<span class="w">     </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">nl</span><span class="o">=</span><span class="nb">new_line</span><span class="p">(</span><span class="s1">'a'</span><span class="p">)</span>
 <span class="w">     </span><span class="c">!</span>
 <span class="w">     </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(DT)'</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">     </span><span class="p">&amp;</span><span class="w"> </span><span class="n">replace</span><span class="p">(</span><span class="n">ut</span><span class="p">(</span><span class="s1">'Xis is Xe string'</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">'X'</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">'th'</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
@@ -290,14 +272,6 @@ parameter
 <span class="w">     </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(DT)'</span><span class="p">)</span><span class="n">replace</span><span class="p">(</span><span class="n">ut</span><span class="p">(</span><span class="s1">'myf90stuff.f90.f90'</span><span class="p">),&amp;</span>
 <span class="w">     </span><span class="p">&amp;</span><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s1">'f90'</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="s1">'for'</span><span class="p">),</span><span class="n">occurrence</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span><span class="nb">repeat</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="w">     </span><span class="c">!</span>
-<span class="w">     </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(*(a))'</span><span class="p">)</span><span class="kt">character</span><span class="p">(</span><span class="n">replace</span><span class="p">(</span><span class="n">ut</span><span class="p">(</span><span class="s1">'word -a value -b -c "and more stuff" -d'</span><span class="p">),</span><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s1">' -'</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="n">nl</span><span class="o">//</span><span class="s1">' -'</span><span class="p">)))</span>
-<span class="w">     </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(DT)'</span><span class="p">)</span><span class="n">replace</span><span class="p">(</span><span class="n">ut</span><span class="p">(</span><span class="s1">'word -a value -b -c "and more stuff" -d'</span><span class="p">),</span><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s1">' -'</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="n">nl</span><span class="o">//</span><span class="s1">' -'</span><span class="p">))</span>
-<span class="w">     </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(DT)'</span><span class="p">)</span><span class="n">replace</span><span class="p">(</span><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s1">'[32mCOMPILER_OPTIONS[39m : -cpp -I ././include -I build/gfortran_DD609D2CDA6636FC&amp;</span>
-<span class="s1">     &amp;-idirafter /usr/lib/gcc/x86_64-pc-cygwin/16/../../../../include/w32api -idirafter &amp;</span>
-<span class="s1">     &amp;/usr/lib/gcc/x86_64-pc-cygwin/16/../../../../x86_64-pc-cygwin/lib/../../include/w32api -mtune=generic &amp;</span>
-<span class="s1">     &amp;-march=x86-64 -Werror=implicit-interface -fimplicit-none -ffree-form -J build/gfortran_DD609D2CDA6636FC'</span><span class="p">)</span><span class="w"> </span><span class="p">,&amp;</span>
-<span class="w">     </span><span class="p">&amp;</span><span class="w"> </span><span class="n">ut</span><span class="p">(</span><span class="s1">' -'</span><span class="p">),</span><span class="n">ut</span><span class="p">(</span><span class="n">nl</span><span class="o">//</span><span class="s1">' -'</span><span class="p">))</span>
-<span class="w">     </span><span class="c">!</span>
 <span class="w">     </span><span class="k">end program </span><span class="n">demo_replace</span>
 </pre></div>
 
@@ -321,7 +295,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-10-31 22:32 +0000             </p>
+ on 2026-11-01 04:05 +0000             </p>
           </div>
         </div>
         <br>
