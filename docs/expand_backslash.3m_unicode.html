@@ -117,14 +117,15 @@ Escape sequences
     &#146;      single quote for compatibility with C strings
     ?      used to avoid trigraphs
 <P>
-    oNNN   byte with octal value NNN (1 to 3 digits)
-    [0-7][0-7]*    digits will be assumed an octal value till a
-                   non-octal value character is encountered
+    oNNN   byte with octal value NNN (1 to 3 digits). If not
+           three digits the next character must not be a valid
+           octal character [0-7].
     dNNN   byte with decimal value NNN (3 digits)
-<P>
-    xHHHHH&#46;&#46;&#46;  byte with hexadecimal value that proceeds to the
-               first non-hexidecimal character or end of line.
-    hHHHHH&#46;&#46;&#46;  "h" is an alias for "x"
+    xHH    byte with hexadecimal value that proceeds to the
+           first non-hexidecimal character up to two characters.
+    HZZZ   "H" is an alias for "x" except digits will be assumed
+           part of the value until a non-hexidecimal character is
+           encountered, so it must be used with caution.
     uZZZZ      translate Unicode codepoint value to bytes
     UZZZZZZZZ  translate Unicode codepoint value to bytes
 <P>

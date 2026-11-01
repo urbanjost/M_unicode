@@ -211,7 +211,7 @@ Sample usage:
    use M_unicode,       only : lower, sort, expand_backslash, len
    use M_unicode,       only : operator(&lt;), assignment(=), operator(==)
    implicit none
-   character(len=*),parameter :: g=&#146;(*(g0,1x))&#146;, g0=&#146;(g0)&#146;
+   character(len=*),parameter :: g=&#146;(*(g0,1x))&#146;
    type(unicode_type),allocatable :: rr(:)
    type(unicode_type),allocatable :: answer(:)
    integer,allocatable            :: ii(:)
@@ -315,7 +315,7 @@ Sample usage:
          ut("Zebra")      ]
       print g, ( trim(answer(i)%ch()),i=1,size(answer) )
       print g, &#146;CHECK TEST WORDS:&#146;,rr(ii) == answer
-      print g, merge(&#146;PAssED&#146;,&#146;FAILED&#146;, all(rr(ii) == answer))
+      print g, merge(&#146;PASSED&#146;,&#146;FAILED&#146;, all(rr(ii) == answer))
 <P>
    contains
 <P>
@@ -383,7 +383,7 @@ Sample usage:
    type(ut),intent(in)  :: in
    type(ut)             :: out
    integer,allocatable  :: codes(:)
-   integer              :: i, j, ikeep
+   integer              :: i, ikeep
    integer,parameter    :: comb=2*int(z&#146;308&#146;), &
     &  um_lower_a    =  2*int(z&#146;E4&#146;),       &
     &  um_lower_o    =  2*int(z&#146;F6&#146;),       &
@@ -481,7 +481,7 @@ Results:
     &gt; Apfel Äpfel Band Bär Bus Bussard Buße Fähnlein Fähnlein Mond
     &gt; Möve Mutter Mütter Oase Öl Ufer Übung Zebra
     &gt; CHECK TEST WORDS: T T T T T T T T T T T T T T T T T T
-    &gt; PAssED
+    &gt; PASSED
 <P>
 </PRE>
 </BLOCKQUOTE>
