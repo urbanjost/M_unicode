@@ -1937,7 +1937,7 @@ help_text=[ CHARACTER(LEN=128) :: &
 '   --entities,e  display table of HTML character entities and stop.             ',&
 '                 Other parameters are ignored.                                  ',&
 '   --show_keys   Dump the current dictionary of keys for the --nokeys           ',&
-'                 mode.                                                          ',&
+'                 mode. All ASCII-7 characters and HTML entities are defined.    ',&
 '   --sample,x    display sample input file and stop.                            ',&
 '                 Other parameters are ignored.                                  ',&
 '   STANDARD                                                                     ',&
@@ -2093,7 +2093,7 @@ version_text=[ CHARACTER(LEN=128) :: &
 '@(#)DESCRIPTION: convert UTF-8 encoded text to and from ASCII-7 and C-style escape sequences >',&
 '@(#)VERSION:     1.0 2026-02-24       >                                                       ',&
 '@(#)AUTHOR:      John S. Urban        >                                                       ',&
-'@(#)LICENSE:     Public Domain        >                                                       ',&
+'@(#)LICENSE:     MIT                  >                                                       ',&
 '']
    call set_mode([character(len=20) :: 'strict','ignorecase'])
    ! a single call to set_args can define the options and their defaults, set help

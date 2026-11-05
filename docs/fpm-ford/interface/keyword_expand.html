@@ -262,6 +262,10 @@ o keywords are case-sensitive
 <span class="w">    </span>write(*,'(a)')<span class="w"> </span>ch(keyword_expand(<span class="err">&amp;</span>
 <span class="w">    </span>'decimal<span class="w"> </span>keywords<span class="w"> </span><span class="nt">&lt;119</span><span class="w"> </span><span class="err">79</span><span class="w"> </span><span class="err">114</span><span class="w"> </span><span class="err">107</span><span class="nt">&gt;</span><span class="w"> </span>as<span class="w"> </span>well'))
 
+<span class="w">    </span>write(*,'(a)')<span class="w"> </span>ch(keyword_expand('ASCII-7<span class="w"> </span><span class="err">&amp;</span>
+<span class="w">    </span><span class="err">&amp;</span><span class="nt">&lt;eight</span><span class="w"> </span><span class="err">six</span><span class="w"> </span><span class="err">seven</span><span class="w"> </span><span class="err">dash</span><span class="w"> </span><span class="err">five</span><span class="w"> </span><span class="err">three</span><span class="w"> </span><span class="err">oh</span><span class="w"> </span><span class="err">nine</span><span class="w"> </span><span class="err">slash</span><span class="nt">&gt;</span>Jenny&gt;<span class="err">&amp;</span>
+<span class="w">    </span><span class="err">&amp;</span><span class="w"> </span>as<span class="w"> </span>well')
+
 <span class="w"> </span>contains
 <span class="w"> </span>subroutine<span class="w"> </span>printstuff(action)
 <span class="w"> </span>character(len=*),intent(in)<span class="w">  </span>::<span class="w"> </span>action
@@ -283,20 +287,20 @@ o keywords are case-sensitive
 </code></pre></div>
 
 <p>Results:</p>
-<div class="codehilite"><pre><span></span><code><span class="k">&gt; </span><span class="ge">TEST ACTION=raw_mode</span>
-<span class="k">&gt; </span><span class="ge">c=&lt;pi&gt;&lt;times&gt;d</span>
-<span class="k">&gt; </span><span class="ge">a=&lt;pi&gt;&lt;times&gt;r&lt;S2&gt;</span>
-<span class="k">&gt; </span><span class="ge">&lt;Delta&gt;&lt;delta&gt;</span>
-<span class="k">&gt; </span><span class="ge">Copyright&lt;copy&gt;</span>
+<div class="codehilite"><pre><span></span><code><span class="k">  &gt; </span><span class="ge">TEST ACTION=raw_mode</span>
+<span class="k">  &gt; </span><span class="ge">c=&lt;pi&gt;&lt;times&gt;d</span>
+<span class="k">  &gt; </span><span class="ge">a=&lt;pi&gt;&lt;times&gt;r&lt;S2&gt;</span>
+<span class="k">  &gt; </span><span class="ge">&lt;Delta&gt;&lt;delta&gt;</span>
+<span class="k">  &gt; </span><span class="ge">Copyright&lt;copy&gt;</span>
 
-<span class="k">&gt; </span><span class="ge">TEST ACTION=alias_mode</span>
-<span class="k">&gt; </span><span class="ge">c=π×d</span>
-<span class="k">&gt; </span><span class="ge">a=π×r²</span>
-<span class="k">&gt; </span><span class="ge">Δδ</span>
-<span class="k">&gt; </span><span class="ge">Copyright©</span>
+<span class="k">  &gt; </span><span class="ge">TEST ACTION=alias_mode</span>
+<span class="k">  &gt; </span><span class="ge">c=π×d</span>
+<span class="k">  &gt; </span><span class="ge">a=π×r²</span>
+<span class="k">  &gt; </span><span class="ge">Δδ</span>
+<span class="k">  &gt; </span><span class="ge">Copyright©</span>
 
-<span class="k">&gt; </span><span class="ge">ADDING A CUSTOM SEQUENCE:</span>
-<span class="k">&gt; </span><span class="ge">\e[5mItems for Friday\e[25m</span>
+<span class="k">  &gt; </span><span class="ge">ADDING A CUSTOM SEQUENCE:</span>
+<span class="k">  &gt; </span><span class="ge">\e[5mItems for Friday\e[25m</span>
 </code></pre></div>
 
 <h2 id="author">AUTHOR</h2>
@@ -324,7 +328,7 @@ o keywords are case-sensitive
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~60"></span>
+              <span class="anchor" id="variable-string~54"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -368,7 +372,7 @@ o keywords are case-sensitive
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-strings~3"></span>
+              <span class="anchor" id="variable-strings~4"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -412,7 +416,7 @@ o keywords are case-sensitive
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~61"></span>
+              <span class="anchor" id="variable-string~55"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -456,7 +460,7 @@ o keywords are case-sensitive
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-strings~4"></span>
+              <span class="anchor" id="variable-strings~5"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -498,7 +502,7 @@ o keywords are case-sensitive
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-01 04:05 +0000             </p>
+ on 2026-11-05 13:37 +0000             </p>
           </div>
         </div>
         <br>

@@ -134,14 +134,14 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../proc/setup.html#variable-endrange">endrange</a>
-            <a class="list-group-item" href="../proc/setup.html#variable-form">form</a>
-            <a class="list-group-item" href="../proc/setup.html#variable-form_m">form_M</a>
-            <a class="list-group-item" href="../proc/setup.html#variable-form_html">form_html</a>
-            <a class="list-group-item" href="../proc/setup.html#variable-form_zhtml">form_zhtml</a>
+            <a class="list-group-item" href="../proc/setup.html#variable-form~5">form</a>
+            <a class="list-group-item" href="../proc/setup.html#variable-form_m~3">form_M</a>
+            <a class="list-group-item" href="../proc/setup.html#variable-form_html~3">form_html</a>
+            <a class="list-group-item" href="../proc/setup.html#variable-form_zhtml~3">form_zhtml</a>
             <a class="list-group-item" href="../proc/setup.html#variable-help_text">help_text</a>
-            <a class="list-group-item" href="../proc/setup.html#variable-i~78">i</a>
+            <a class="list-group-item" href="../proc/setup.html#variable-i~127">i</a>
             <a class="list-group-item" href="../proc/setup.html#variable-startrange">startrange</a>
-            <a class="list-group-item" href="../proc/setup.html#variable-ustr~4">ustr</a>
+            <a class="list-group-item" href="../proc/setup.html#variable-ustr~7">ustr</a>
             <a class="list-group-item" href="../proc/setup.html#variable-version_text">version_text</a>
         </div>
       </div>
@@ -222,7 +222,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-form"></span>
+              <span class="anchor" id="variable-form~5"></span>
               character(len=*),
             </td>
               <td>public,</td>
@@ -239,7 +239,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-form_m"></span>
+              <span class="anchor" id="variable-form_m~3"></span>
               character(len=*),
             </td>
               <td>public,</td>
@@ -256,7 +256,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-form_html"></span>
+              <span class="anchor" id="variable-form_html~3"></span>
               character(len=*),
             </td>
               <td>public,</td>
@@ -273,7 +273,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-form_zhtml"></span>
+              <span class="anchor" id="variable-form_zhtml~3"></span>
               character(len=*),
             </td>
               <td>public,</td>
@@ -307,7 +307,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~78"></span>
+              <span class="anchor" id="variable-i~127"></span>
               integer,
             </td>
               <td>public</td>
@@ -341,7 +341,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ustr~4"></span>
+              <span class="anchor" id="variable-ustr~7"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
               <td>public</td>
@@ -568,7 +568,7 @@ parameter
 <span class="s1">'   --entities,e  display table of HTML character entities and stop.             '</span><span class="p">,&amp;</span>
 <span class="s1">'                 Other parameters are ignored.                                  '</span><span class="p">,&amp;</span>
 <span class="s1">'   --show_keys   Dump the current dictionary of keys for the --nokeys           '</span><span class="p">,&amp;</span>
-<span class="s1">'                 mode.                                                          '</span><span class="p">,&amp;</span>
+<span class="s1">'                 mode. All ASCII-7 characters and HTML entities are defined.    '</span><span class="p">,&amp;</span>
 <span class="s1">'   --sample,x    display sample input file and stop.                            '</span><span class="p">,&amp;</span>
 <span class="s1">'                 Other parameters are ignored.                                  '</span><span class="p">,&amp;</span>
 <span class="s1">'   STANDARD                                                                     '</span><span class="p">,&amp;</span>
@@ -724,7 +724,7 @@ parameter
 <span class="s1">'@(#)DESCRIPTION: convert UTF-8 encoded text to and from ASCII-7 and C-style escape sequences &gt;'</span><span class="p">,&amp;</span>
 <span class="s1">'@(#)VERSION:     1.0 2026-02-24       &gt;                                                       '</span><span class="p">,&amp;</span>
 <span class="s1">'@(#)AUTHOR:      John S. Urban        &gt;                                                       '</span><span class="p">,&amp;</span>
-<span class="s1">'@(#)LICENSE:     Public Domain        &gt;                                                       '</span><span class="p">,&amp;</span>
+<span class="s1">'@(#)LICENSE:     MIT                  &gt;                                                       '</span><span class="p">,&amp;</span>
 <span class="s1">''</span><span class="p">]</span>
 <span class="w">   </span><span class="k">call </span><span class="n">set_mode</span><span class="p">([</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="s1">'strict'</span><span class="p">,</span><span class="s1">'ignorecase'</span><span class="p">])</span>
 <span class="w">   </span><span class="c">! a single call to set_args can define the options and their defaults, set help</span>
@@ -876,7 +876,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-01 04:05 +0000             </p>
+ on 2026-11-05 13:37 +0000             </p>
           </div>
         </div>
         <br>
