@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>pad &ndash; M_unicode</title>
+<meta name="author" content="John S. Urban">
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" href="../css/fdoc.css">
+<script src="../js/fdoc.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="brand" href="../index.html">M_unicode</a>
+<nav><a href="../lists/files.html">Source Files</a><a href="../lists/modules.html">Modules</a><a class="here" href="../lists/procedures.html">Procedures</a><a href="../lists/types.html">Derived Types</a><a href="../lists/programs.html">Programs</a></nav>
+<div class="search"><input type="search" placeholder="Search (/)" aria-label="Search"><div class="results"></div></div>
+<button class="theme" title="Change theme" aria-label="Change theme">&#9680;</button>
+</header>
+<div class="layout">
+<aside class="side">
+<h4>On this page</h4><ul><li><a href="#arguments">Arguments</a></li><li><a href="#result">Result</a></li><li><a href="#calls">Calls</a></li><li><a href="#source">Source</a></li></ul>
+<h4><a href="../lists/files.html">Source Files</a></h4><h4><a href="../lists/modules.html">Modules</a></h4><h4><a href="../lists/procedures.html">Procedures</a></h4><ul><li><a href="../interface/add_backslash.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_backslash</a></li><li><a href="../interface/add_border.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_border</a></li><li><a href="../interface/add_html.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_html</a></li><li><a href="../interface/adjustl.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>adjustl</a></li><li><a href="../interface/adjustr.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>adjustr</a></li><li><a href="../proc/afmt.html"><span class="ico ico-f" title="function" aria-hidden="true">F</span>afmt</a></li><li><a href="../interface/assignment(=).html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>assignment(=)</a></li><li><a href="../proc/basics.html"><span class="ico ico-s" title="subroutine" aria-hidden="true">S</span>basics</a></li><li><a href="../proc/callit.html"><span class="ico ico-s" title="subroutine" aria-hidden="true">S</span>callit</a></li><li><a href="../proc/case_insensitive_compare.html"><span class="ico ico-f" title="function" aria-hidden="true">F</span>case_insensitive_compare</a></li><li><a class="more" href="../lists/procedures.html">All 158&hellip;</a></li></ul>
+<h4><a href="../lists/types.html">Derived Types</a></h4><h4><a href="../lists/programs.html">Programs</a></h4></aside>
+<main><div class="inner">
+<div class="crumbs"><a href="../sourcefile/m_unicode.f90.html">M_unicode.F90</a> <span class="sep">&rsaquo;</span> <a href="../module/m_unicode.html">M_unicode</a></div>
+<h1><span class="kind">function</span>pad<span class="attr attr-impure" title="May have side effects">impure</span><span class="attr attr-elemental" title="Works on each element of arrays of any rank">elemental</span></h1>
+<div class="sig"><span class="k">impure</span> <span class="k">elemental</span> type(<a href="../type/unicode_type.html">unicode_type</a>) <span class="k">function</span> pad(<span class="intent attr-in" title="intent(in)">line</span>, <span class="intent attr-in" title="intent(in)">length</span>, <span class="intent attr-in" title="intent(in)">pattern</span>, <span class="intent attr-in" title="intent(in)">right</span>, <span class="intent attr-in" title="intent(in)">clip</span>) <span class="k">result</span>(out)</div>
+<div class="doc">
+<h2 id="name">NAME</h2>
+<div class="codehilite"><pre><code>PAD(3f) - [M_unicode:PAD] return string padded to at least
+specified length
+(LICENSE:MIT)
+</code></pre></div>
+<h2 id="synopsis">SYNOPSIS</h2>
+<div class="codehilite"><pre><code>function pad(str,length,pattern,right,clip) result(out)
+
+ type(unicode_type)                         :: str
+ integer,intent(in)                         :: length
+ type(unicode_type)                         :: out
+ type(unicode_type),intent(in),optional     :: pattern
+ logical,intent(in),optional                :: right
+ logical,intent(in),optional                :: clip
+</code></pre></div>
+<h2 id="description">DESCRIPTION</h2>
+<div class="codehilite"><pre><code>pad(3f) pads a string with a pattern to at least the specified
+length. If the trimmed input string is longer than the requested
+length the trimmed string is returned.
+</code></pre></div>
+<h2 id="options">OPTIONS</h2>
+<div class="codehilite"><pre><code>str      the input string to return trimmed, but then padded to
+         the specified length if shorter than length
+length   The minimum string length to return
+pattern  optional string to use as padding. Defaults to a space.
+right    if true pads string on the right, else on the left. Defaults
+         to true.
+clip     trim spaces from input string ends. Defaults to .true.
+</code></pre></div>
+<h2 id="returns">RETURNS</h2>
+<div class="codehilite"><pre><code>out  The input string padded to the requested length or
+     the trimmed input string if the input string is
+     longer than the requested length.
+</code></pre></div>
+<h2 id="examples">EXAMPLES</h2>
+<p>Sample Program:</p>
+<p>program demo_pad
+   use M_unicode, only  : pad, assignment(=)
+   !use M_unicode, only : write(formatted)
+   use M_unicode, only  : len
+   use M_unicode, only  : ch=&gt; character
+   use M_unicode, only  : ut=&gt; unicode_type
+   implicit none
+   type(ut)                   :: string
+   type(ut)                   :: answer
+   integer                    :: i
+   !character(len=<em>),parameter :: u=&rsquo;(</em>(DT))&rsquo;
+   character(len=<em>),parameter :: u=&rsquo;(</em>(g0))&rsquo;
+     !
+     string=&rsquo;abcdefghij&rsquo;
+     !
+     write(<em>,</em>)&rsquo;pad on right till 20 characters long&rsquo;
+     answer=pad(string,20)
+     write(<em>,&rsquo;(&ldquo;[&ldquo;,g0,&rdquo;]&rdquo;,/)&rsquo;) answer%character()
+     !
+     write(</em>,<em>)&rsquo;original is not trimmed for short length requests&rsquo;
+     answer=pad(string,5)
+     write(</em>,&rsquo;(&ldquo;[&ldquo;,g0,&rdquo;]&rdquo;,/)&rsquo;) answer%character()
+     !
+     i=30
+     write(<em>,</em>)&rsquo;pad with specified string and left-justified integers&rsquo;
+     write(<em>,&rsquo;(1x,g0,1x,i0)&rsquo;) &amp;
+      &amp; ch(pad(ut(&lsquo;CHAPTER 1 : The beginning &lsquo;),i,ut(&lsquo;.&rsquo;) )), 1   , &amp;
+      &amp; ch(pad(ut(&lsquo;CHAPTER 2 : The end &lsquo;),i,ut(&lsquo;.&rsquo;) )),       1234, &amp;
+      &amp; ch(pad(ut(&lsquo;APPENDIX &lsquo;),i,ut(&lsquo;.&rsquo;) )),                  1235
+     !
+     write(</em>,<em>)&rsquo;pad with specified string and right-justified integers&rsquo;
+     write(</em>,&rsquo;(1x,g0,i7)&rsquo;) &amp;
+      &amp; ch(pad(ut(&lsquo;CHAPTER 1 : The beginning &lsquo;),i,ut(&lsquo;.&rsquo;) )), 1   , &amp;
+      &amp; ch(pad(ut(&lsquo;CHAPTER 2 : The end &lsquo;),i,ut(&lsquo;.&rsquo;) )),       1234, &amp;
+      &amp; ch(pad(ut(&lsquo;APPENDIX &lsquo;),i,ut(&lsquo;.&rsquo;) )),                  1235
+     !
+     write(<em>,</em>)&rsquo;pad on left with zeros&rsquo;
+     write(<em>,u)ch(pad(ut(&lsquo;12&rsquo;),5,ut(&lsquo;0&rsquo;),right=.false.))
+     !
+     write(</em>,<em>)&rsquo;various lengths with clip .true. and .false.&rsquo;
+     write(</em>,u)ch(pad(ut(&lsquo;12345 &lsquo;),30,ut(&lsquo;<em>&lsquo;),right=.false.))
+     write(*,u)ch(pad(ut(&lsquo;12345 &lsquo;),30,ut(&lsquo;</em>&rsquo;),right=.false.,clip=.true.))
+     write(<em>,u)ch(pad(ut(&lsquo;12345 &lsquo;), 7,ut(&lsquo;_&rsquo;),right=.false.))
+     write(</em>,u)ch(pad(ut(&lsquo;12345 &lsquo;), 7,ut(&lsquo;<em>&lsquo;),right=.false.,clip=.true.))
+     write(*,u)ch(pad(ut(&lsquo;12345 &lsquo;), 6,ut(&lsquo;</em>&rsquo;),right=.false.))
+     write(<em>,u)ch(pad(ut(&lsquo;12345 &lsquo;), 6,ut(&lsquo;_&rsquo;),right=.false.,clip=.true.))
+     write(</em>,u)ch(pad(ut(&lsquo;12345 &lsquo;), 5,ut(&lsquo;<em>&lsquo;),right=.false.))
+     write(*,u)ch(pad(ut(&lsquo;12345 &lsquo;), 5,ut(&lsquo;</em>&rsquo;),right=.false.,clip=.true.))
+     write(<em>,u)ch(pad(ut(&lsquo;12345 &lsquo;), 4,ut(&lsquo;_&rsquo;),right=.false.))
+     write(</em>,u)ch(pad(ut(&lsquo;12345 &lsquo;), 4,ut(&lsquo;_&rsquo;),right=.false.,clip=.true.))
+  end program demo_pad</p>
+<p>Results:</p>
+<div class="codehilite"><pre><code>  &gt;  pad on right till 20 characters long
+  &gt; [abcdefghij          ]
+  &gt;
+  &gt;  original is not trimmed for short length requests
+  &gt; [abcdefghij]
+  &gt;
+  &gt;  pad with specified string and left-justified integers
+  &gt;  CHAPTER 1 : The beginning .... 1
+  &gt;  CHAPTER 2 : The end .......... 1234
+  &gt;  APPENDIX ..................... 1235
+  &gt;  pad with specified string and right-justified integers
+  &gt;  CHAPTER 1 : The beginning ....      1
+  &gt;  CHAPTER 2 : The end ..........   1234
+  &gt;  APPENDIX .....................   1235
+  &gt;  pad on left with zeros
+  &gt; 00012
+  &gt;  various lengths with clip .true. and .false.
+  &gt; ________________________12345
+  &gt; _________________________12345
+  &gt; _12345
+  &gt; __12345
+  &gt; 12345
+  &gt; _12345
+  &gt; 12345
+  &gt; 12345
+  &gt; 12345
+  &gt; 2345
+</code></pre></div>
+<h2 id="see-also">SEE ALSO</h2>
+<div class="codehilite"><pre><code>  adjustl(3f), adjustr(3f), repeat(3f), trim(3f), len_trim(3f), len(3f)
+</code></pre></div>
+<h2 id="author">AUTHOR</h2>
+<div class="codehilite"><pre><code> John S. Urban
+</code></pre></div>
+<h2 id="license">LICENSE</h2>
+<div class="codehilite"><pre><code> MIT
+</code></pre></div>
+</div>
+<h2 id="arguments">Arguments</h2>
+<table class="arguments">
+<thead><tr><th>Name</th><th>Type</th><th>Intent</th><th>Attributes</th><th>Description</th></tr></thead>
+<tbody>
+<tr id="variable-line"><td class="name">line</td><td class="type">type(<a href="../type/unicode_type.html">unicode_type</a>)</td><td><span class="attr attr-in">in</span></td><td class="attributes"></td><td></td></tr>
+<tr id="variable-length"><td class="name">length</td><td class="type">integer</td><td><span class="attr attr-in">in</span></td><td class="attributes"></td><td></td></tr>
+<tr id="variable-pattern"><td class="name">pattern</td><td class="type">type(<a href="../type/unicode_type.html">unicode_type</a>)</td><td><span class="attr attr-in">in</span></td><td class="attributes"><span class="attr attr-optional">optional</span></td><td></td></tr>
+<tr id="variable-right"><td class="name">right</td><td class="type">logical</td><td><span class="attr attr-in">in</span></td><td class="attributes"><span class="attr attr-optional">optional</span></td><td></td></tr>
+<tr id="variable-clip"><td class="name">clip</td><td class="type">logical</td><td><span class="attr attr-in">in</span></td><td class="attributes"><span class="attr attr-optional">optional</span></td><td></td></tr>
+</tbody>
+</table>
+<h2 id="result">Result</h2>
+<table class="arguments">
+<thead><tr><th>Name</th><th>Type</th><th>Attributes</th><th>Description</th></tr></thead>
+<tbody>
+<tr id="variable-out"><td class="name">out</td><td class="type">type(<a href="../type/unicode_type.html">unicode_type</a>)</td><td class="attributes"><span class="attr attr-private">private</span></td><td></td></tr>
+</tbody>
+</table>
+<h2 id="calls">Calls</h2>
+<ul class="chips"><li>assign_str_char</li><li><a href="../type/unicode_type.html#boundprocedure-sub">sub</a></li></ul>
+<h2 id="source">Source</h2>
+<details class="source"><summary>Show the code</summary><pre><code>impure <span class="k">elemental</span> <span class="k">function</span> pad(line,length,pattern,right,clip) <span class="k">result</span>(out)
+
+<span class="c">! ident_6="@(#) M_unicode pad(3f) return string padded to at least specified length"</span>
+
+<span class="k">type</span>(unicode_type),<span class="k">intent</span>(in)          :: line
+<span class="k">integer</span>,<span class="k">intent</span>(in)                     :: length
+<span class="k">type</span>(unicode_type),<span class="k">intent</span>(in),<span class="k">optional</span> :: pattern
+<span class="k">logical</span>,<span class="k">optional</span>,<span class="k">intent</span>(in)            :: right
+<span class="k">logical</span>,<span class="k">optional</span>,<span class="k">intent</span>(in)            :: clip
+<span class="k">type</span>(unicode_type)                     :: out
+<span class="k">type</span>(unicode_type)                     :: temp
+<span class="k">logical</span>                                :: local_right
+<span class="k">logical</span>                                :: local_clip
+<span class="k">type</span>(unicode_type)                     :: local_pattern
+<span class="k">type</span>(unicode_type)                     :: local_line
+<span class="k">integer</span>                                :: newlen
+
+<span class="k">if</span>(  <span class="k">present</span>(right)    )<span class="k">then</span>;  local_right=right;      <span class="k">else</span>;  local_right=<span class="k">.true.</span>;  <span class="k">endif</span>
+<span class="k">if</span>(  <span class="k">present</span>(clip)     )<span class="k">then</span>;  local_clip=clip;        <span class="k">else</span>;  local_clip=<span class="k">.true.</span> ;  <span class="k">endif</span>
+<span class="k">if</span>(  <span class="k">present</span>(pattern)  )<span class="k">then</span>;  local_pattern=pattern;  <span class="k">else</span>;  <span class="k">call</span> assign_str_char(local_pattern, <span class="s">' '</span> ) ;  <span class="k">endif</span>
+
+<span class="k">if</span>(<span class="k">len</span>(local_pattern) == <span class="n">0</span>)<span class="k">then</span>
+   out=line
+<span class="k">else</span>
+
+   <span class="k">if</span>(local_clip)<span class="k">then</span>
+      local_line=<span class="k">trim</span>(<span class="k">adjustl</span>(line))
+      newlen=<span class="k">max</span>(length,<span class="k">len</span>(local_line))
+   <span class="k">else</span>
+      local_line=line
+      newlen=<span class="k">max</span>( length,<span class="k">len</span>(line) )
+   <span class="k">endif</span>
+
+   <span class="k">if</span>(local_right)<span class="k">then</span>
+      temp=<span class="k">repeat</span>(local_pattern,newlen/<span class="k">len</span>(local_pattern)+<span class="n">1</span>)
+      out%codes=[local_line%codes,temp%codes]
+   <span class="k">else</span>
+      <span class="c">! make a line of pattern</span>
+      out=<span class="k">repeat</span>(local_pattern, <span class="k">ceiling</span>(<span class="k">real</span>(newlen)/<span class="k">len</span>(local_pattern)))
+
+      out=out%sub(<span class="n">1</span>,newlen-<span class="k">len</span>(local_line))
+      out%codes=[out%codes,local_line%codes]
+   <span class="k">endif</span>
+
+   out=out%sub(<span class="n">1</span>,newlen)
+
+<span class="k">endif</span>
+<span class="k">end</span> <span class="k">function</span> pad</code></pre></details>
+<h2 id="graphs">Graphs</h2>
+<h3>Calls</h3>
+<div class="graph"><svg width="312pt" height="30pt"
+ viewBox="0 0 312 30" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="scale(1 1) rotate(0) translate(4 25.6)" fill="none" stroke="#8a93a5" font-family="Helvetica,sans-Serif" font-size="13" text-anchor="middle"><a href="../proc/pad.html" fill="white" stroke="none"><rect fill="#0b7285" stroke="#f0a868" stroke-width="2" rx="7.2" x="0" y="-21.6" width="54" height="21.6"/><text x="27" y="-6.1">pad</text></a><a href="../type/unicode_type.html#boundprocedure-sub" fill="white" stroke="none"><rect fill="#7a6a2d" rx="7.2" x="90" y="-21.6" width="124.3" height="21.6"/><text x="152.1" y="-6.1">unicode_type%sub</text></a><path d="M54.7,-10.8C62.7,-10.8 71.9,-10.8 81.3,-10.8"/><polygon fill="#8a93a5" points="81.1,-13.3 88.1,-10.8 81.1,-8.4"/><a href="../proc/sub.html" fill="white" stroke="none"><rect fill="#0b7285" rx="7.2" x="250.3" y="-21.6" width="54" height="21.6"/><text x="277.3" y="-6.1">sub</text></a><path d="M214.7,-10.8C223.9,-10.8 233.1,-10.8 241.5,-10.8"/><polygon fill="#8a93a5" points="241.3,-13.3 248.3,-10.8 241.3,-8.4"/></g>
+</svg>
+</div>
+<h3>Called by</h3>
+<div class="graph"><svg width="349pt" height="110pt"
+ viewBox="0 0 349 110" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="scale(1 1) rotate(0) translate(4 105.6)" fill="none" stroke="#8a93a5" font-family="Helvetica,sans-Serif" font-size="13" text-anchor="middle"><a href="../proc/pad.html" fill="white" stroke="none"><rect fill="#0b7285" stroke="#f0a868" stroke-width="2" rx="7.2" x="0" y="-61.6" width="54" height="21.6"/><text x="27" y="-46.1">pad</text></a><a href="../program/demo_character.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="90" y="-101.6" width="108.3" height="21.6"/><text x="144.2" y="-86.1">demo_character</text></a><path d="M110.8,-79.6C95.7,-74.3 77.8,-68.1 62.5,-62.8"/><polygon fill="#8a93a5" points="63.6,-60.6 56.1,-60.6 61.9,-65.2"/><a href="../program/demo_pad.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="106.2" y="-61.6" width="75.8" height="21.6"/><text x="144.2" y="-46.1">demo_pad</text></a><path d="M105.8,-50.8C92.2,-50.8 76.9,-50.8 63.5,-50.8"/><polygon fill="#8a93a5" points="63.5,-48.4 56.5,-50.8 63.5,-53.3"/><a href="../proc/test_pad.html" fill="white" stroke="none"><rect fill="#1d7a55" rx="7.2" x="112" y="-21.6" width="64.3" height="21.6"/><text x="144.2" y="-6.1">test_pad</text></a><path d="M111.7,-21.7C96.5,-27 78.2,-33.4 62.6,-38.8"/><polygon fill="#8a93a5" points="62,-36.4 56.2,-41 63.6,-41"/><a href="../program/test_m_unicode.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="234.3" y="-21.6" width="106.2" height="21.6"/><text x="287.4" y="-6.1">test_M_unicode</text></a><path d="M234.2,-10.8C217.9,-10.8 200.2,-10.8 184.9,-10.8"/><polygon fill="#8a93a5" points="185.2,-8.4 178.2,-10.8 185.2,-13.3"/></g>
+</svg>
+</div>
+<footer>M_unicode was developed by John S. Urban. Generated on 2026-11-05 08:34 -0500. Documentation generated by <a href="https://github.com/jacobwilliams/fdoc">fdoc</a>.</footer>
+</div>
+</main>
+</div>
+</body>
+</html>

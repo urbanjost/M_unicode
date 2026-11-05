@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>demo_glob.f90 &ndash; M_unicode</title>
+<meta name="author" content="John S. Urban">
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" href="../css/fdoc.css">
+<script src="../js/fdoc.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="brand" href="../index.html">M_unicode</a>
+<nav><a class="here" href="../lists/files.html">Source Files</a><a href="../lists/modules.html">Modules</a><a href="../lists/procedures.html">Procedures</a><a href="../lists/types.html">Derived Types</a><a href="../lists/programs.html">Programs</a></nav>
+<div class="search"><input type="search" placeholder="Search (/)" aria-label="Search"><div class="results"></div></div>
+<button class="theme" title="Change theme" aria-label="Change theme">&#9680;</button>
+</header>
+<div class="layout">
+<aside class="side">
+<h4><a href="../lists/files.html">Source Files</a></h4><ul><li><a href="../sourcefile/backslash_to_utf8.f90.html"><span class="ico ico-_" title="source file" aria-hidden="true">&equiv;</span>backslash_to_utf8.f90</a></li><li><a href="../sourcefile/codepoint_range.f90.html"><span class="ico ico-_" title="source file" aria-hidden="true">&equiv;</span>codepoint_range.f90</a></li><li><a href="../sourcefile/find_non_ascii.f90.html"><span class="ico ico-_" title="source file" aria-hidden="true">&equiv;</span>find_non_ascii.f90</a></li><li><a href="../sourcefile/generate_code_from_utf8_arg.f90.html"><span class="ico ico-_" title="source file" aria-hidden="true">&equiv;</span>generate_code_from_utf8_arg.f90</a></li><li><a href="../sourcefile/html_to_utf8.f90.html"><span class="ico ico-_" title="source file" aria-hidden="true">&equiv;</span>html_to_utf8.f90</a></li><li><a href="../sourcefile/lcase.f90.html"><span class="ico ico-_" title="source file" aria-hidden="true">&equiv;</span>lcase.f90</a></li><li><a href="../sourcefile/ucase.f90.html"><span class="ico ico-_" title="source file" aria-hidden="true">&equiv;</span>ucase.f90</a></li><li><a href="../sourcefile/uni.f90.html"><span class="ico ico-_" title="source file" aria-hidden="true">&equiv;</span>uni.f90</a></li><li><a href="../sourcefile/upside_down.f90.html"><span class="ico ico-_" title="source file" aria-hidden="true">&equiv;</span>upside_down.f90</a></li><li><a href="../sourcefile/utf8_len.f90.html"><span class="ico ico-_" title="source file" aria-hidden="true">&equiv;</span>utf8_len.f90</a></li><li><a class="more" href="../lists/files.html">All 82&hellip;</a></li></ul>
+<h4><a href="../lists/modules.html">Modules</a></h4><h4><a href="../lists/procedures.html">Procedures</a></h4><h4><a href="../lists/types.html">Derived Types</a></h4><h4><a href="../lists/programs.html">Programs</a></h4></aside>
+<main><div class="inner">
+<h1><span class="kind">file</span>demo_glob.f90</h1>
+<h2 id="contents">Contents</h2>
+<div class="item" id="program-demo_glob"><h3><a href="../program/demo_glob.html">demo_glob</a></h3>
+
+</div>
+<h2 id="source">Source</h2>
+<pre class="source"><code><a class="ln" id="ln-1" href="#ln-1"></a>      <span class="k">program</span> demo_glob
+<a class="ln" id="ln-2" href="#ln-2"></a>      <span class="k">use</span> M_unicode, <span class="k">only</span> : glob, <span class="k">trim</span>, unicode_type, <span class="k">len</span>
+<a class="ln" id="ln-3" href="#ln-3"></a>      <span class="k">use</span> M_unicode, <span class="k">only</span> : expand_backslash
+<a class="ln" id="ln-4" href="#ln-4"></a>      <span class="k">use</span> M_unicode, <span class="k">only</span> : assignment(=)
+<a class="ln" id="ln-5" href="#ln-5"></a>      <span class="k">implicit</span> <span class="k">none</span>
+<a class="ln" id="ln-6" href="#ln-6"></a>      <span class="k">integer</span> :: i
+<a class="ln" id="ln-7" href="#ln-7"></a>      <span class="k">type</span>(unicode_type),<span class="k">allocatable</span> :: ufiles(:)
+<a class="ln" id="ln-8" href="#ln-8"></a>      <span class="k">type</span>(unicode_type),<span class="k">allocatable</span> :: matched(:)
+<a class="ln" id="ln-9" href="#ln-9"></a>      <span class="k">character</span>(<span class="k">len</span>=*),<span class="k">parameter</span> :: &amp;
+<a class="ln" id="ln-10" href="#ln-10"></a>       filenames(*)= [<span class="k">character</span>(<span class="k">len</span>=<span class="n">256</span>) :: &amp;
+<a class="ln" id="ln-11" href="#ln-11"></a>       &amp; <span class="s">'My_favorite_file.F90'</span>,    &amp; <span class="c">! English</span>
+<a class="ln" id="ln-12" href="#ln-12"></a>       &amp; <span class="s">'我最喜欢的文档.c'</span>,          &amp; <span class="c">! Mandarin_Chinese</span>
+<a class="ln" id="ln-13" href="#ln-13"></a>       &amp; <span class="s">'मरी_पसदीदा_फाइल.f90'</span>,       &amp; <span class="c">! Hindu</span>
+<a class="ln" id="ln-14" href="#ln-14"></a>       &amp; <span class="s">'Mi_archivo_favorito.c'</span>,   &amp; <span class="c">! Spanish</span>
+<a class="ln" id="ln-15" href="#ln-15"></a>       &amp; <span class="s">'ملفي_المفضل.h'</span>,       &amp; <span class="c">! Modern_Standard_Arabic</span>
+<a class="ln" id="ln-16" href="#ln-16"></a>       &amp; <span class="s">'Mon_fichier_préféré.f90'</span>, &amp; <span class="c">! French</span>
+<a class="ln" id="ln-17" href="#ln-17"></a>       &amp; <span class="s">'আমার_পরিয_ফাইল'</span>,          &amp; <span class="c">! Bengali</span>
+<a class="ln" id="ln-18" href="#ln-18"></a>       &amp; <span class="s">'Meu_arquivo_favorito'</span>,    &amp; <span class="c">! Portuguese</span>
+<a class="ln" id="ln-19" href="#ln-19"></a>       &amp; <span class="s">'Мой_любимый_файл'</span>,            &amp; <span class="c">! Russian</span>
+<a class="ln" id="ln-20" href="#ln-20"></a>       &amp; <span class="s">'میری_پسندیدہ_فائل.pdf'</span>,   &amp; <span class="c">! Urdu</span>
+<a class="ln" id="ln-21" href="#ln-21"></a>       &amp; <span class="s">'src/M_modules.F90'</span>,       &amp;
+<a class="ln" id="ln-22" href="#ln-22"></a>       &amp; <span class="s">'src/subset.inc'</span>,          &amp;
+<a class="ln" id="ln-23" href="#ln-23"></a>       &amp; <span class="s">'test/check.f90 '</span>,         &amp;
+<a class="ln" id="ln-24" href="#ln-24"></a>       &amp; <span class="s">'app/main.f90 '</span>]
+<a class="ln" id="ln-25" href="#ln-25"></a>      <span class="k">character</span>(<span class="k">len</span>=*),<span class="k">parameter</span> :: &amp;
+<a class="ln" id="ln-26" href="#ln-26"></a>       encoded(*)= [<span class="k">character</span>(<span class="k">len</span>=<span class="n">256</span>) :: &amp;
+<a class="ln" id="ln-27" href="#ln-27"></a>       &amp; <span class="s">'My_favorite_file.F90'</span>,                    &amp; <span class="c">! English</span>
+<a class="ln" id="ln-28" href="#ln-28"></a>       &amp; <span class="s">'\u6211\u6700\u559C\u6B22\u7684\u6587\u6863.c'</span>, &amp; <span class="c">! Mandarin_Chinese</span>
+<a class="ln" id="ln-29" href="#ln-29"></a>       &amp; <span class="s">'\u092E\u0947\u0930\u0940_&amp;
+<a class="ln" id="ln-30" href="#ln-30"></a>       &amp;\u092A\u0938\u0902\u0926\u0940\u0926\u093E_&amp;
+<a class="ln" id="ln-31" href="#ln-31"></a>       &amp;\u092B\u093C\u093E\u0907\u0932.f90'</span>,        &amp; <span class="c">! Hindu</span>
+<a class="ln" id="ln-32" href="#ln-32"></a>       &amp; <span class="s">'Mi_archivo_favorito.c'</span>,                   &amp; <span class="c">! Spanish</span>
+<a class="ln" id="ln-33" href="#ln-33"></a>       &amp; <span class="s">'\u0645\u0644\u0641\u064A_&amp;
+<a class="ln" id="ln-34" href="#ln-34"></a>       &amp;\u0627\u0644\u0645\u0641\u0636\u0644.h '</span>,   &amp; <span class="c">! Modern_Standard_Arabic</span>
+<a class="ln" id="ln-35" href="#ln-35"></a>       &amp; <span class="s">'Mon_fichier_pr\xE9f\xE9r\xE9.f90'</span>,        &amp; <span class="c">! French</span>
+<a class="ln" id="ln-36" href="#ln-36"></a>       &amp; <span class="s">'\u0986\u09AE\u09BE\u09B0_\u09AA\u09CD\u09B0\u09BF\u09AF\u09BC_&amp;
+<a class="ln" id="ln-37" href="#ln-37"></a>       &amp;\u09AB\u09BE\u0987\u09B2'</span>,                  &amp; <span class="c">! Bengali</span>
+<a class="ln" id="ln-38" href="#ln-38"></a>       &amp; <span class="s">'Meu_arquivo_favorito'</span>,                    &amp; <span class="c">! Portuguese</span>
+<a class="ln" id="ln-39" href="#ln-39"></a>       &amp; <span class="s">'\u041C\u043E\u0439_\u043B\u044E\u0431\u0438\u043C\u044B\u0439_&amp;
+<a class="ln" id="ln-40" href="#ln-40"></a>       &amp;\u0444\u0430\u0439\u043B'</span>,                  &amp; <span class="c">! Russian</span>
+<a class="ln" id="ln-41" href="#ln-41"></a>       &amp; <span class="s">'\u0645\u06CC\u0631\u06CC_&amp;
+<a class="ln" id="ln-42" href="#ln-42"></a>       &amp;\u067E\u0633\u0646\u062F\u06CC\u062F\u06C1_&amp;
+<a class="ln" id="ln-43" href="#ln-43"></a>       &amp;\u0641\u0627\u0626\u0644.pdf'</span>,              &amp; <span class="c">! Urdu</span>
+<a class="ln" id="ln-44" href="#ln-44"></a>       &amp; <span class="s">'src/M_modules.F90'</span>, &amp;
+<a class="ln" id="ln-45" href="#ln-45"></a>       &amp; <span class="s">'src/subset.inc'</span>, &amp;
+<a class="ln" id="ln-46" href="#ln-46"></a>       &amp; <span class="s">'test/check.f90 '</span>, &amp;
+<a class="ln" id="ln-47" href="#ln-47"></a>       &amp; <span class="s">'app/main.f90 '</span>]
+<a class="ln" id="ln-48" href="#ln-48"></a>      <span class="k">character</span>(<span class="k">len</span>=*),<span class="k">parameter</span> :: &amp;
+<a class="ln" id="ln-49" href="#ln-49"></a>          g=<span class="s">'(*(g0))'</span>, g1=<span class="s">'(*(g0,1x))'</span>, comma=<span class="s">'(*(g0:,", ",/))'</span>
+<a class="ln" id="ln-50" href="#ln-50"></a>
+<a class="ln" id="ln-51" href="#ln-51"></a>         <span class="c">! some basic usage</span>
+<a class="ln" id="ln-52" href="#ln-52"></a>         <span class="k">write</span>(*,g)<span class="k">merge</span>(<span class="s">'PASSED'</span>,<span class="s">'FAILED'</span>,glob(<span class="s">"mississipPI"</span>, <span class="s">"*issip*PI"</span>))
+<a class="ln" id="ln-53" href="#ln-53"></a>         <span class="k">write</span>(*,g)<span class="k">merge</span>(<span class="s">'PASSED'</span>,<span class="s">'FAILED'</span>,glob(<span class="s">"bLah"</span>, <span class="s">"bL?h"</span>))
+<a class="ln" id="ln-54" href="#ln-54"></a>         <span class="k">write</span>(*,g)<span class="k">merge</span>(<span class="s">'PASSED'</span>,<span class="s">'FAILED'</span>,glob(<span class="s">"bLaH"</span>, <span class="s">"?LaH"</span>))
+<a class="ln" id="ln-55" href="#ln-55"></a>
+<a class="ln" id="ln-56" href="#ln-56"></a>         <span class="c">! create a list of trimmed filenames</span>
+<a class="ln" id="ln-57" href="#ln-57"></a>         ufiles=unicode_type(filenames)
+<a class="ln" id="ln-58" href="#ln-58"></a>         ufiles=<span class="k">trim</span>(ufiles)
+<a class="ln" id="ln-59" href="#ln-59"></a>         <span class="k">write</span>(*,g)<span class="s">'FILENAMES:'</span>
+<a class="ln" id="ln-60" href="#ln-60"></a>         <span class="k">call</span> show_filenames(ufiles)
+<a class="ln" id="ln-61" href="#ln-61"></a>
+<a class="ln" id="ln-62" href="#ln-62"></a>         <span class="c">! create a list of trimmed filenames from encoded names</span>
+<a class="ln" id="ln-63" href="#ln-63"></a>         ufiles=expand_backslash(encoded)
+<a class="ln" id="ln-64" href="#ln-64"></a>         ufiles=<span class="k">trim</span>(ufiles)
+<a class="ln" id="ln-65" href="#ln-65"></a>         <span class="k">write</span>(*,g)<span class="s">'ENCODED FILENAMES:'</span>
+<a class="ln" id="ln-66" href="#ln-66"></a>         <span class="k">call</span> show_filenames(ufiles)
+<a class="ln" id="ln-67" href="#ln-67"></a>
+<a class="ln" id="ln-68" href="#ln-68"></a>         <span class="c">! get filenames ending in ".f90"</span>
+<a class="ln" id="ln-69" href="#ln-69"></a>         matched=<span class="k">pack</span>(ufiles,glob(ufiles,<span class="s">'*.f90'</span>))
+<a class="ln" id="ln-70" href="#ln-70"></a>         <span class="k">write</span>(*,g)<span class="s">'MATCHED *.f90:'</span>
+<a class="ln" id="ln-71" href="#ln-71"></a>         <span class="k">call</span> show_filenames(matched)
+<a class="ln" id="ln-72" href="#ln-72"></a>
+<a class="ln" id="ln-73" href="#ln-73"></a>         <span class="c">! get filenames ending in ".c"</span>
+<a class="ln" id="ln-74" href="#ln-74"></a>         matched=<span class="k">pack</span>(ufiles,glob(ufiles,<span class="s">'*.c'</span>))
+<a class="ln" id="ln-75" href="#ln-75"></a>         <span class="k">write</span>(*,g)<span class="s">'MATCHED *.c:'</span>
+<a class="ln" id="ln-76" href="#ln-76"></a>         <span class="k">call</span> show_filenames(matched)
+<a class="ln" id="ln-77" href="#ln-77"></a>
+<a class="ln" id="ln-78" href="#ln-78"></a>         <span class="k">call</span> oop()
+<a class="ln" id="ln-79" href="#ln-79"></a>
+<a class="ln" id="ln-80" href="#ln-80"></a>      <span class="k">contains</span>
+<a class="ln" id="ln-81" href="#ln-81"></a>      <span class="k">subroutine</span> show_filenames(names)
+<a class="ln" id="ln-82" href="#ln-82"></a>         <span class="k">type</span>(unicode_type),<span class="k">allocatable</span> :: names(:)
+<a class="ln" id="ln-83" href="#ln-83"></a>         <span class="k">write</span>(*,g1)<span class="s">':SIZE:'</span>,<span class="k">size</span>(names),<span class="s">':LEN:'</span>,<span class="k">len</span>(names)
+<a class="ln" id="ln-84" href="#ln-84"></a>         <span class="k">write</span>(*,comma)(names(i)%<span class="k">character</span>(),i=<span class="n">1</span>,<span class="k">size</span>(names))
+<a class="ln" id="ln-85" href="#ln-85"></a>      <span class="k">end</span> <span class="k">subroutine</span> show_filenames
+<a class="ln" id="ln-86" href="#ln-86"></a>
+<a class="ln" id="ln-87" href="#ln-87"></a>      <span class="k">subroutine</span> oop()
+<a class="ln" id="ln-88" href="#ln-88"></a>      <span class="k">use</span> M_unicode, <span class="k">only</span> : glob,ut=&gt;unicode_type
+<a class="ln" id="ln-89" href="#ln-89"></a>      <span class="k">use</span> M_unicode, <span class="k">only</span> : <span class="k">write</span>(formatted),ch=&gt;<span class="k">character</span>
+<a class="ln" id="ln-90" href="#ln-90"></a>      <span class="k">use</span> M_unicode, <span class="k">only</span> : assignment(=)
+<a class="ln" id="ln-91" href="#ln-91"></a>      <span class="k">use</span> M_unicode, <span class="k">only</span> : <span class="k">operator</span>(//)
+<a class="ln" id="ln-92" href="#ln-92"></a>      <span class="k">implicit</span> <span class="k">none</span>
+<a class="ln" id="ln-93" href="#ln-93"></a>      <span class="k">character</span>(<span class="k">len</span>=*),<span class="k">parameter</span> :: u=<span class="s">'(DT)'</span>
+<a class="ln" id="ln-94" href="#ln-94"></a>      <span class="k">type</span>(ut)  :: USTRING
+<a class="ln" id="ln-95" href="#ln-95"></a>      <span class="c">!</span>
+<a class="ln" id="ln-96" href="#ln-96"></a>      <span class="c">! ignoring ς for simplicity</span>
+<a class="ln" id="ln-97" href="#ln-97"></a>      USTRING=<span class="s">'ΑαΒβΓγΔδΕεΖζΗηΘθΙιΚκΛλΜμΝνΞξΟοΠπΡρΣσςΤτΥυΦφΧχΨψΩω'</span>
+<a class="ln" id="ln-98" href="#ln-98"></a>
+<a class="ln" id="ln-99" href="#ln-99"></a>      <span class="k">print</span> *,<span class="s">'OOP! Remember to match entire string'</span>
+<a class="ln" id="ln-100" href="#ln-100"></a>      <span class="k">print</span> u,<span class="s">' string is : '</span> // USTRING
+<a class="ln" id="ln-101" href="#ln-101"></a>      <span class="c">! pattern may be UTF-8 or ASCII</span>
+<a class="ln" id="ln-102" href="#ln-102"></a>      <span class="k">print</span> *,<span class="k">merge</span>(<span class="s">'PASSED'</span>,<span class="s">'FAILED'</span>,USTRING%glob(<span class="s">'*Α*Ζ*Ω*'</span>))
+<a class="ln" id="ln-103" href="#ln-103"></a>      <span class="k">print</span> *,<span class="k">merge</span>(<span class="s">'PASSED'</span>,<span class="s">'FAILED'</span>,<span class="k">.not.</span>USTRING%glob(<span class="s">'*Ω*Α*Ζ*'</span>))
+<a class="ln" id="ln-104" href="#ln-104"></a>      <span class="c">! pattern may be unicode_type</span>
+<a class="ln" id="ln-105" href="#ln-105"></a>      <span class="k">print</span> *,<span class="k">merge</span>(<span class="s">'PASSED'</span>,<span class="s">'FAILED'</span>,USTRING%glob(ut(<span class="s">'*Α*Ζ*Ω*'</span>)))
+<a class="ln" id="ln-106" href="#ln-106"></a>      <span class="k">print</span> *,<span class="k">merge</span>(<span class="s">'PASSED'</span>,<span class="s">'FAILED'</span>,<span class="k">.not.</span>USTRING%glob(ut(<span class="s">'*Ω*Α*Ζ*'</span>)))
+<a class="ln" id="ln-107" href="#ln-107"></a>
+<a class="ln" id="ln-108" href="#ln-108"></a>      <span class="k">end</span> <span class="k">subroutine</span> oop
+<a class="ln" id="ln-109" href="#ln-109"></a>      <span class="k">end</span> <span class="k">program</span> demo_glob
+<a class="ln" id="ln-110" href="#ln-110"></a></code></pre>
+<h2 id="graphs">Graphs</h2>
+<h3>Files this one depends on</h3>
+<div class="graph"><svg width="248pt" height="30pt"
+ viewBox="0 0 248 30" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="scale(1 1) rotate(0) translate(4 25.6)" fill="none" stroke="#8a93a5" font-family="Helvetica,sans-Serif" font-size="13" text-anchor="middle"><a href="../sourcefile/demo_glob.f90.html" fill="white" stroke="none"><rect fill="#5c6f2d" stroke="#f0a868" stroke-width="2" rx="7.2" x="140" y="-21.6" width="100.4" height="21.6"/><text x="190.2" y="-6.1">demo_glob.f90</text></a><a href="../sourcefile/m_unicode.f90.html" fill="white" stroke="none"><rect fill="#5c6f2d" rx="7.2" x="0" y="-21.6" width="104" height="21.6"/><text x="52" y="-6.1">M_unicode.F90</text></a><path d="M139.3,-10.8C130.6,-10.8 121.6,-10.8 112.7,-10.8"/><polygon fill="#8a93a5" points="112.8,-8.4 105.8,-10.8 112.8,-13.3"/></g>
+</svg>
+</div>
+<footer>M_unicode was developed by John S. Urban. Generated on 2026-11-05 08:34 -0500. Documentation generated by <a href="https://github.com/jacobwilliams/fdoc">fdoc</a>.</footer>
+</div>
+</main>
+</div>
+</body>
+</html>

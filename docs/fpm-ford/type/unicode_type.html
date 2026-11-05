@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>unicode_type &ndash; M_unicode</title>
+<meta name="author" content="John S. Urban">
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" href="../css/fdoc.css">
+<script src="../js/fdoc.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="brand" href="../index.html">M_unicode</a>
+<nav><a href="../lists/files.html">Source Files</a><a href="../lists/modules.html">Modules</a><a href="../lists/procedures.html">Procedures</a><a class="here" href="../lists/types.html">Derived Types</a><a href="../lists/programs.html">Programs</a></nav>
+<div class="search"><input type="search" placeholder="Search (/)" aria-label="Search"><div class="results"></div></div>
+<button class="theme" title="Change theme" aria-label="Change theme">&#9680;</button>
+</header>
+<div class="layout">
+<aside class="side">
+<h4>Components</h4><ul><li><a href="#variable-codes"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>codes</a></li></ul>
+<h4>Bindings</h4><ul><li><a href="#boundprocedure-add_backslash"><span class="ico ico-b" title="type-bound procedure" aria-hidden="true">B</span>add_backslash</a></li><li><a href="#boundprocedure-add_html"><span class="ico ico-b" title="type-bound procedure" aria-hidden="true">B</span>add_html</a></li><li><a href="#boundprocedure-adjustl"><span class="ico ico-b" title="type-bound procedure" aria-hidden="true">B</span>adjustl</a></li><li><a href="#boundprocedure-adjustr"><span class="ico ico-b" title="type-bound procedure" aria-hidden="true">B</span>adjustr</a></li><li><a href="#boundprocedure-byte"><span class="ico ico-b" title="type-bound procedure" aria-hidden="true">B</span>byte</a></li><li><a href="#boundprocedure-ch"><span class="ico ico-b" title="type-bound procedure" aria-hidden="true">B</span>ch</a></li><li><a href="#boundprocedure-character"><span class="ico ico-b" title="type-bound procedure" aria-hidden="true">B</span>character</a></li><li><a href="#boundprocedure-codepoint"><span class="ico ico-b" title="type-bound procedure" aria-hidden="true">B</span>codepoint</a></li><li><a href="#boundprocedure-escape"><span class="ico ico-b" title="type-bound procedure" aria-hidden="true">B</span>escape</a></li><li><a href="#boundprocedure-expand_backslash"><span class="ico ico-b" title="type-bound procedure" aria-hidden="true">B</span>expand_backslash</a></li><li><a href="#boundprocedure-expand_env"><span class="ico ico-b" title="type-bound procedure" aria-hidden="true">B</span>expand_env</a></li><li><a href="#boundprocedure-expand_html"><span class="ico ico-b" title="type-bound procedure" aria-hidden="true">B</span>expand_html</a></li><li><a href="#boundprocedure-expandtabs"><span class="ico ico-b" title="type-bound procedure" aria-hidden="true">B</span>expandtabs</a></li><li><a href="#boundprocedure-fmt"><span class="ico ico-b" title="type-bound procedure" aria-hidden="true">B</span>fmt</a></li><li><a href="#boundprocedure-get_arg"><span class="ico ico-b" title="type-bound procedure" aria-hidden="true">B</span>get_arg</a></li><li><a href="#boundprocedure-get_env"><span class="ico ico-b" title="type-bound procedure" aria-hidden="true">B</span>get_env</a></li><li><a href="#boundprocedure-glob"><span class="ico ico-b" title="type-bound procedure" aria-hidden="true">B</span>glob</a></li><li><a href="#boundprocedure-ichar"><span class="ico ico-b" title="type-bound procedure" aria-hidden="true">B</span>ichar</a></li><li><a href="#boundprocedure-index"><span class="ico ico-b" title="type-bound procedure" aria-hidden="true">B</span>index</a></li><li><a href="#boundprocedure-isascii"><span class="ico ico-b" title="type-bound procedure" aria-hidden="true">B</span>isascii</a></li><li><a href="#boundprocedure-isblank"><span class="ico ico-b" title="type-bound procedure" aria-hidden="true">B</span>isblank</a></li><li><a href="#boundprocedure-isspace"><span class="ico ico-b" title="type-bound procedure" aria-hidden="true">B</span>isspace</a></li><li><a href="#boundprocedure-join"><span class="ico ico-b" title="type-bound procedure" aria-hidden="true">B</span>join</a></li><li><a href="#boundprocedure-len"><span class="ico ico-b" title="type-bound procedure" aria-hidden="true">B</span>len</a></li><li><a href="#boundprocedure-len_trim"><span class="ico ico-b" title="type-bound procedure" aria-hidden="true">B</span>len_trim</a></li><li><a href="#boundprocedure-lower"><span class="ico ico-b" title="type-bound procedure" aria-hidden="true">B</span>lower</a></li><li><a href="#boundprocedure-pad"><span class="ico ico-b" title="type-bound procedure" aria-hidden="true">B</span>pad</a></li><li><a href="#boundprocedure-replace"><span class="ico ico-b" title="type-bound procedure" aria-hidden="true">B</span>replace</a></li><li><a href="#boundprocedure-reverse"><span class="ico ico-b" title="type-bound procedure" aria-hidden="true">B</span>reverse</a></li><li><a href="#boundprocedure-scan"><span class="ico ico-b" title="type-bound procedure" aria-hidden="true">B</span>scan</a></li><li><a href="#boundprocedure-split"><span class="ico ico-b" title="type-bound procedure" aria-hidden="true">B</span>split</a></li><li><a href="#boundprocedure-sub"><span class="ico ico-b" title="type-bound procedure" aria-hidden="true">B</span>sub</a></li><li><a href="#boundprocedure-tokenize"><span class="ico ico-b" title="type-bound procedure" aria-hidden="true">B</span>tokenize</a></li><li><a href="#boundprocedure-transliterate"><span class="ico ico-b" title="type-bound procedure" aria-hidden="true">B</span>transliterate</a></li><li><a href="#boundprocedure-trim"><span class="ico ico-b" title="type-bound procedure" aria-hidden="true">B</span>trim</a></li><li><a href="#boundprocedure-upper"><span class="ico ico-b" title="type-bound procedure" aria-hidden="true">B</span>upper</a></li><li><a href="#boundprocedure-verify"><span class="ico ico-b" title="type-bound procedure" aria-hidden="true">B</span>verify</a></li></ul>
+<h4><a href="../lists/files.html">Source Files</a></h4><h4><a href="../lists/modules.html">Modules</a></h4><h4><a href="../lists/procedures.html">Procedures</a></h4><h4><a href="../lists/types.html">Derived Types</a></h4><ul><li><a href="../type/unicode_type.html"><span class="ico ico-t" title="derived type" aria-hidden="true">T</span>unicode_type</a></li></ul>
+<h4><a href="../lists/programs.html">Programs</a></h4></aside>
+<main><div class="inner">
+<div class="crumbs"><a href="../sourcefile/m_unicode.f90.html">M_unicode.F90</a> <span class="sep">&rsaquo;</span> <a href="../module/m_unicode.html">M_unicode</a></div>
+<h1><span class="kind">type</span>unicode_type</h1>
+<h2 id="components">Components</h2>
+<table class="arguments">
+<thead><tr><th>Name</th><th>Type</th><th>Attributes</th><th>Description</th></tr></thead>
+<tbody>
+<tr id="variable-codes"><td class="name">codes</td><td class="type">integer</td><td class="attributes"><span class="attr attr-allocatable">allocatable</span><span class="attr attr-dimension">dimension(:)</span></td><td></td></tr>
+</tbody>
+</table>
+<h2 id="constructor">Constructor</h2>
+<div class="item" id="interface-unicode_type"><h3><a href="../interface/unicode_type.html">unicode_type</a></h3>
+
+</div>
+<h2 id="bindings">Type-bound procedures</h2>
+<table class="arguments">
+<thead><tr><th>Name</th><th>Binds to</th><th>Attributes</th><th>Description</th></tr></thead>
+<tbody>
+<tr id="boundprocedure-add_backslash"><td class="name">add_backslash</td><td class="binds">oop_add_backslash</td><td class="attributes"></td><td></td></tr>
+<tr id="boundprocedure-add_html"><td class="name">add_html</td><td class="binds">oop_add_html</td><td class="attributes"></td><td></td></tr>
+<tr id="boundprocedure-adjustl"><td class="name">adjustl</td><td class="binds">oop_adjustl</td><td class="attributes"></td><td></td></tr>
+<tr id="boundprocedure-adjustr"><td class="name">adjustr</td><td class="binds">oop_adjustr</td><td class="attributes"></td><td></td></tr>
+<tr id="boundprocedure-byte"><td class="name">byte</td><td class="binds">oop_byte</td><td class="attributes"></td><td></td></tr>
+<tr id="boundprocedure-ch"><td class="name">ch</td><td class="binds">oop_character</td><td class="attributes"></td><td></td></tr>
+<tr id="boundprocedure-character"><td class="name">character</td><td class="binds">oop_character</td><td class="attributes"></td><td></td></tr>
+<tr id="boundprocedure-codepoint"><td class="name">codepoint</td><td class="binds">oop_codepoint</td><td class="attributes"></td><td></td></tr>
+<tr id="boundprocedure-escape"><td class="name">escape</td><td class="binds">oop_expand_backslash</td><td class="attributes"></td><td></td></tr>
+<tr id="boundprocedure-expand_backslash"><td class="name">expand_backslash</td><td class="binds">oop_expand_backslash</td><td class="attributes"></td><td></td></tr>
+<tr id="boundprocedure-expand_env"><td class="name">expand_env</td><td class="binds">oop_expand_env_uu</td><td class="attributes"><span class="attr attr-generic">generic</span></td><td></td></tr>
+<tr id="boundprocedure-expand_html"><td class="name">expand_html</td><td class="binds">oop_expand_html</td><td class="attributes"></td><td></td></tr>
+<tr id="boundprocedure-expandtabs"><td class="name">expandtabs</td><td class="binds">oop_expandtabs</td><td class="attributes"></td><td></td></tr>
+<tr id="boundprocedure-fmt"><td class="name">fmt</td><td class="binds">oop_fmt</td><td class="attributes"></td><td></td></tr>
+<tr id="boundprocedure-get_arg"><td class="name">get_arg</td><td class="binds">oop_get_arg_iu</td><td class="attributes"></td><td></td></tr>
+<tr id="boundprocedure-get_env"><td class="name">get_env</td><td class="binds">oop_get_env_uu, oop_get_env_ua</td><td class="attributes"><span class="attr attr-generic">generic</span></td><td></td></tr>
+<tr id="boundprocedure-glob"><td class="name">glob</td><td class="binds">oop_glob_u, oop_glob_a</td><td class="attributes"><span class="attr attr-generic">generic</span></td><td></td></tr>
+<tr id="boundprocedure-ichar"><td class="name">ichar</td><td class="binds">oop_ichar</td><td class="attributes"></td><td></td></tr>
+<tr id="boundprocedure-index"><td class="name">index</td><td class="binds">oop_index</td><td class="attributes"></td><td></td></tr>
+<tr id="boundprocedure-isascii"><td class="name">isascii</td><td class="binds">oop_isascii</td><td class="attributes"></td><td></td></tr>
+<tr id="boundprocedure-isblank"><td class="name">isblank</td><td class="binds">oop_isblank</td><td class="attributes"></td><td></td></tr>
+<tr id="boundprocedure-isspace"><td class="name">isspace</td><td class="binds">oop_isspace</td><td class="attributes"></td><td></td></tr>
+<tr id="boundprocedure-join"><td class="name">join</td><td class="binds">oop_join</td><td class="attributes"></td><td></td></tr>
+<tr id="boundprocedure-len"><td class="name">len</td><td class="binds">oop_len</td><td class="attributes"></td><td></td></tr>
+<tr id="boundprocedure-len_trim"><td class="name">len_trim</td><td class="binds">oop_len_trim</td><td class="attributes"></td><td></td></tr>
+<tr id="boundprocedure-lower"><td class="name">lower</td><td class="binds">oop_lower</td><td class="attributes"></td><td></td></tr>
+<tr id="boundprocedure-pad"><td class="name">pad</td><td class="binds">oop_pad</td><td class="attributes"></td><td></td></tr>
+<tr id="boundprocedure-replace"><td class="name">replace</td><td class="binds">oop_replace_uuu, oop_replace_uaa, oop_replace_uau, oop_replace_uua, oop_section_uu, oop_section_ua</td><td class="attributes"><span class="attr attr-generic">generic</span></td><td></td></tr>
+<tr id="boundprocedure-reverse"><td class="name">reverse</td><td class="binds">oop_reverse</td><td class="attributes"></td><td></td></tr>
+<tr id="boundprocedure-scan"><td class="name">scan</td><td class="binds">oop_scan</td><td class="attributes"></td><td></td></tr>
+<tr id="boundprocedure-split"><td class="name">split</td><td class="binds">oop_split</td><td class="attributes"></td><td></td></tr>
+<tr id="boundprocedure-sub"><td class="name">sub</td><td class="binds">oop_sub</td><td class="attributes"></td><td></td></tr>
+<tr id="boundprocedure-tokenize"><td class="name">tokenize</td><td class="binds">oop_tokenize</td><td class="attributes"></td><td></td></tr>
+<tr id="boundprocedure-transliterate"><td class="name">transliterate</td><td class="binds">oop_transliterate_uu, oop_transliterate_aa, oop_transliterate_au, oop_transliterate_ua</td><td class="attributes"><span class="attr attr-generic">generic</span></td><td></td></tr>
+<tr id="boundprocedure-trim"><td class="name">trim</td><td class="binds">oop_trim</td><td class="attributes"></td><td></td></tr>
+<tr id="boundprocedure-upper"><td class="name">upper</td><td class="binds">oop_upper</td><td class="attributes"></td><td></td></tr>
+<tr id="boundprocedure-verify"><td class="name">verify</td><td class="binds">oop_verify</td><td class="attributes"></td><td></td></tr>
+</tbody>
+</table>
+<h2 id="source">Source</h2>
+<details class="source"><summary>Show the code</summary><pre><code><span class="k">type</span> :: unicode_type <span class="c">! Unicode string type holding an arbitrary sequence of integer codes.</span>
+   <span class="c">!sequence ! not used for storage association; a kludge to prevent extending this type.</span>
+   <span class="k">private</span>
+   <span class="k">integer</span>, <span class="k">allocatable</span>,<span class="k">public</span> :: codes(:)
+<span class="k">contains</span>
+   <span class="c">! METHODS (type-bound procedures) :</span>
+   <span class="c">! conversion</span>
+   <span class="k">procedure</span> :: <span class="k">character</span>  =&gt; oop_character <span class="c">! a single variable in UTF-8 encoding</span>
+   <span class="k">procedure</span> :: ch         =&gt; oop_character <span class="c">! a single variable in UTF-8 encoding</span>
+
+   <span class="k">procedure</span> :: codepoint  =&gt; oop_codepoint <span class="c">! codes of each glyph</span>
+   <span class="k">procedure</span> :: byte       =&gt; oop_byte      <span class="c">! stream of bytes in UTF-8 encoding</span>
+   <span class="k">procedure</span> :: <span class="k">ichar</span>      =&gt; oop_ichar     <span class="c">! code of a single character</span>
+   <span class="c">! intrinsics</span>
+   <span class="k">procedure</span> :: <span class="k">adjustl</span>    =&gt; oop_adjustl
+   <span class="k">procedure</span> :: <span class="k">adjustr</span>    =&gt; oop_adjustr
+   <span class="k">procedure</span> :: <span class="k">index</span>      =&gt; oop_index
+   <span class="k">procedure</span> :: <span class="k">len</span>        =&gt; oop_len
+   <span class="k">procedure</span> :: <span class="k">len_trim</span>   =&gt; oop_len_trim
+   <span class="k">procedure</span> :: <span class="k">trim</span>       =&gt; oop_trim
+   <span class="k">procedure</span> :: split      =&gt; oop_split
+   <span class="k">procedure</span> :: tokenize   =&gt; oop_tokenize
+   <span class="k">procedure</span> :: <span class="k">scan</span>       =&gt; oop_scan
+   <span class="k">procedure</span> :: <span class="k">verify</span>     =&gt; oop_verify
+
+   <span class="c">! transform</span>
+   <span class="k">procedure</span> :: upper      =&gt; oop_upper
+   <span class="k">procedure</span> :: lower      =&gt; oop_lower
+   <span class="k">procedure</span> :: reverse    =&gt; oop_reverse
+   <span class="k">procedure</span> :: expandtabs =&gt; oop_expandtabs
+   <span class="k">procedure</span> :: expand_backslash  =&gt; oop_expand_backslash
+   <span class="k">procedure</span> :: escape            =&gt; oop_expand_backslash  <span class="c">! for backward compatibility</span>
+   <span class="k">procedure</span> :: add_backslash     =&gt; oop_add_backslash
+   <span class="k">procedure</span> :: expand_html       =&gt; oop_expand_html
+   <span class="k">procedure</span> :: add_html          =&gt; oop_add_html
+   <span class="k">procedure</span> :: fmt        =&gt; oop_fmt
+
+   <span class="k">procedure</span> :: sub        =&gt; oop_sub
+   <span class="k">procedure</span> :: pad        =&gt; oop_pad
+   <span class="k">procedure</span> :: join       =&gt; oop_join
+   <span class="c">! query</span>
+   <span class="k">procedure</span> :: isascii    =&gt; oop_isascii
+   <span class="k">procedure</span> :: isblank    =&gt; oop_isblank
+   <span class="k">procedure</span> :: isspace    =&gt; oop_isspace
+   <span class="k">procedure</span> :: get_arg    =&gt; oop_get_arg_iu
+   <span class="c">! system</span>
+   <span class="k">procedure</span>,<span class="k">private</span> :: oop_get_env_uu, oop_get_env_ua
+   <span class="k">generic</span>,<span class="k">public</span>    :: get_env =&gt; oop_get_env_uu, oop_get_env_ua
+   <span class="k">procedure</span>,<span class="k">private</span> :: oop_glob_u, oop_glob_a
+   <span class="k">generic</span>,<span class="k">public</span>    :: glob =&gt; oop_glob_u, oop_glob_a
+   <span class="k">procedure</span>,<span class="k">private</span> :: oop_expand_env_uu
+   <span class="k">generic</span>, <span class="k">public</span>   :: expand_env =&gt; oop_expand_env_uu
+
+   <span class="k">procedure</span>,<span class="k">private</span> :: oop_transliterate_uu, oop_transliterate_aa, oop_transliterate_au, oop_transliterate_ua
+   <span class="k">generic</span>, <span class="k">public</span>   :: transliterate =&gt; oop_transliterate_uu, oop_transliterate_aa, oop_transliterate_au, oop_transliterate_ua
+
+   <span class="k">procedure</span>,<span class="k">private</span> :: oop_replace_uuu
+   <span class="k">procedure</span>,<span class="k">private</span> :: oop_replace_uaa
+   <span class="k">procedure</span>,<span class="k">private</span> :: oop_replace_uau
+   <span class="k">procedure</span>,<span class="k">private</span> :: oop_replace_uua
+   <span class="k">procedure</span>,<span class="k">private</span> :: oop_section_uu
+   <span class="k">procedure</span>,<span class="k">private</span> :: oop_section_ua
+   <span class="k">generic</span>,<span class="k">public</span>    :: replace =&gt; oop_replace_uuu, oop_replace_uaa, oop_replace_uau, oop_replace_uua, &amp;
+                      &amp; oop_section_uu, oop_section_ua
+
+   <span class="c">!DECLARATION OF OVERLOADED OPERATORS FOR TYPE(UNICODE_TYPE)</span>
+   <span class="k">procedure</span>,<span class="k">private</span> :: eq =&gt; oop_eq
+<span class="c">!   generic           :: operator(==) =&gt; oop_eq</span>
+<span class="c">!   procedure,private :: ge =&gt; oop_ge</span>
+<span class="c">!   generic           :: operator(&gt;=) =&gt; oop_ge</span>
+<span class="c">!   procedure,private :: lt =&gt; oop_lt</span>
+<span class="c">!   generic           :: operator(&lt;)  =&gt; oop_lt</span>
+<span class="c">!   procedure,private :: gt =&gt; oop_gt</span>
+<span class="c">!   generic           :: operator(&gt;)  =&gt; oop_gt</span>
+<span class="c">!   procedure,private :: le =&gt; oop_le</span>
+<span class="c">!   generic           :: operator(&lt;=) =&gt; oop_le</span>
+<span class="c">!   procedure,private :: ne =&gt; oop_ne</span>
+<span class="c">!   generic           :: operator(/=) =&gt; oop_ne</span>
+<span class="c">!   procedure,private :: oop_g_g</span>
+<span class="c">!   generic           :: operator(//) =&gt; oop_g_g</span>
+
+<span class="k">end</span> <span class="k">type</span> unicode_type</code></pre></details>
+<footer>M_unicode was developed by John S. Urban. Generated on 2026-11-05 08:34 -0500. Documentation generated by <a href="https://github.com/jacobwilliams/fdoc">fdoc</a>.</footer>
+</div>
+</main>
+</div>
+</body>
+</html>

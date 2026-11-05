@@ -5467,8 +5467,8 @@ SYNOPSIS
       logical		   :: isblank
 
 DESCRIPTION
-  isblank(3f) returns .true. if all characters are a blank character (ASCII-7
-  space or Unicode blank character) or horizontal tab.
+  isblank(3f) returns .true. if all characters are a blank character
+  (ASCII-7 space or Unicode blank character) or horizontal tab.
 
 OPTIONS
   str
@@ -5476,27 +5476,29 @@ OPTIONS
 
 RETURNS
   isblank
-    logical value returns true if character is a "blank" ( an ASCII space or
-    Unicode blank) or horizontal tab character.
+    logical value returns true if character is a "blank" ( an ASCII
+    space or Unicode blank) or horizontal tab character.
 
 EXAMPLES
   Sample program:
 
-      program demo_isblank
-      use M_unicode, only : isblank, unicode, ch=>character, unicode_type
-      use M_unicode, only : assignment(=)
-      implicit none
-      integer			 :: i
-      type(unicode_type)	 :: string_u
-      character(len=1),parameter :: string_a(*)=[(char(i),i=0,127)]
+   program demo_isblank
+   use M_unicode, only : isblank, unicode, ch=>character, unicode_type
+   use M_unicode, only : assignment(=)
+   implicit none
+   integer			 :: i
+   type(unicode_type)	 :: string_u
+   character(len=1),parameter :: string_a(*)=[(char(i),i=0,127)]
 
-	 write(*,'(*(g0,1x))')'ISBLANK PASSED TYPE(CHARACTER) : ',isblank(string_a)
+      write(*,'(*(g0,1x))')&
+      & 'ISBLANK PASSED TYPE(CHARACTER) : ',isblank(string_a)
 
-	 string_u=unicode%SPACES
-	 write(*,'(*(g0,1x))')'ISBLANK PASSED TYPE(UNICODE_TYPE): ',isblank(string_u)
-	 write(*,'(*(g0))')'BLANKS: ',ch(string_u)
-	 write(*,'(*(g0,1x))')'BLANKS: ',string_u%codepoint()
-      end program demo_isblank
+      string_u=unicode%SPACES
+      write(*,'(*(g0,1x))')&
+      & 'ISBLANK PASSED TYPE(UNICODE_TYPE): ',isblank(string_u)
+      write(*,'(*(g0))')'BLANKS: ',ch(string_u)
+      write(*,'(*(g0,1x))')'BLANKS: ',string_u%codepoint()
+   end program demo_isblank
 
   Results:
 
@@ -5588,7 +5590,8 @@ EXAMPLES
 	!enddo
 	! note 50 bytes is not necessarily 50 glyphs
 	write(*,'(*(g0,1x))')'length in glyphs=',len(array)
-	write(*,'(*(g0,1x))')'length in bytes=',(len(array(i)%character()),i=1,size(array))
+	write(*,'(*(g0,1x))')&
+	&'length in bytes=',(len(array(i)%character()),i=1,size(array))
 	!
 	call numberline(5)
 	!

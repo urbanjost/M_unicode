@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>demo_readline.f90 &ndash; M_unicode</title>
+<meta name="author" content="John S. Urban">
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" href="../css/fdoc.css">
+<script src="../js/fdoc.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="brand" href="../index.html">M_unicode</a>
+<nav><a class="here" href="../lists/files.html">Source Files</a><a href="../lists/modules.html">Modules</a><a href="../lists/procedures.html">Procedures</a><a href="../lists/types.html">Derived Types</a><a href="../lists/programs.html">Programs</a></nav>
+<div class="search"><input type="search" placeholder="Search (/)" aria-label="Search"><div class="results"></div></div>
+<button class="theme" title="Change theme" aria-label="Change theme">&#9680;</button>
+</header>
+<div class="layout">
+<aside class="side">
+<h4><a href="../lists/files.html">Source Files</a></h4><ul><li><a href="../sourcefile/backslash_to_utf8.f90.html"><span class="ico ico-_" title="source file" aria-hidden="true">&equiv;</span>backslash_to_utf8.f90</a></li><li><a href="../sourcefile/codepoint_range.f90.html"><span class="ico ico-_" title="source file" aria-hidden="true">&equiv;</span>codepoint_range.f90</a></li><li><a href="../sourcefile/find_non_ascii.f90.html"><span class="ico ico-_" title="source file" aria-hidden="true">&equiv;</span>find_non_ascii.f90</a></li><li><a href="../sourcefile/generate_code_from_utf8_arg.f90.html"><span class="ico ico-_" title="source file" aria-hidden="true">&equiv;</span>generate_code_from_utf8_arg.f90</a></li><li><a href="../sourcefile/html_to_utf8.f90.html"><span class="ico ico-_" title="source file" aria-hidden="true">&equiv;</span>html_to_utf8.f90</a></li><li><a href="../sourcefile/lcase.f90.html"><span class="ico ico-_" title="source file" aria-hidden="true">&equiv;</span>lcase.f90</a></li><li><a href="../sourcefile/ucase.f90.html"><span class="ico ico-_" title="source file" aria-hidden="true">&equiv;</span>ucase.f90</a></li><li><a href="../sourcefile/uni.f90.html"><span class="ico ico-_" title="source file" aria-hidden="true">&equiv;</span>uni.f90</a></li><li><a href="../sourcefile/upside_down.f90.html"><span class="ico ico-_" title="source file" aria-hidden="true">&equiv;</span>upside_down.f90</a></li><li><a href="../sourcefile/utf8_len.f90.html"><span class="ico ico-_" title="source file" aria-hidden="true">&equiv;</span>utf8_len.f90</a></li><li><a class="more" href="../lists/files.html">All 82&hellip;</a></li></ul>
+<h4><a href="../lists/modules.html">Modules</a></h4><h4><a href="../lists/procedures.html">Procedures</a></h4><h4><a href="../lists/types.html">Derived Types</a></h4><h4><a href="../lists/programs.html">Programs</a></h4></aside>
+<main><div class="inner">
+<h1><span class="kind">file</span>demo_readline.f90</h1>
+<h2 id="contents">Contents</h2>
+<div class="item" id="program-demo_readline"><h3><a href="../program/demo_readline.html">demo_readline</a></h3>
+
+</div>
+<h2 id="source">Source</h2>
+<pre class="source"><code><a class="ln" id="ln-1" href="#ln-1"></a>     <span class="k">program</span> demo_readline
+<a class="ln" id="ln-2" href="#ln-2"></a>     <span class="k">use</span>,<span class="k">intrinsic</span> :: iso_fortran_env, <span class="k">only</span> : stdin=&gt;input_unit
+<a class="ln" id="ln-3" href="#ln-3"></a>     <span class="k">use</span>,<span class="k">intrinsic</span> :: iso_fortran_env, <span class="k">only</span> : iostat_end
+<a class="ln" id="ln-4" href="#ln-4"></a>     <span class="k">use</span> M_unicode, <span class="k">only</span> : readline, <span class="k">len</span>, <span class="k">trim</span>
+<a class="ln" id="ln-5" href="#ln-5"></a>     <span class="k">use</span> M_unicode, <span class="k">only</span> : assignment(=), ch=&gt;<span class="k">character</span>, ut=&gt;unicode_type
+<a class="ln" id="ln-6" href="#ln-6"></a>     <span class="k">implicit</span> <span class="k">none</span>
+<a class="ln" id="ln-7" href="#ln-7"></a>     <span class="k">type</span>(ut)                     :: ln
+<a class="ln" id="ln-8" href="#ln-8"></a>     <span class="k">character</span>(<span class="k">len</span>=:),<span class="k">allocatable</span> :: aline
+<a class="ln" id="ln-9" href="#ln-9"></a>     <span class="k">integer</span>,<span class="k">allocatable</span>          :: ints(:)
+<a class="ln" id="ln-10" href="#ln-10"></a>     <span class="k">integer</span>                      :: iostat, lun, i
+<a class="ln" id="ln-11" href="#ln-11"></a>     <span class="k">character</span>(<span class="k">len</span>=*),<span class="k">parameter</span> :: filedata(*)=[<span class="k">character</span>(<span class="k">len</span>=<span class="n">80</span>) :: &amp;
+<a class="ln" id="ln-12" href="#ln-12"></a>        <span class="s">'The famous Confucian expression:'</span>, &amp;
+<a class="ln" id="ln-13" href="#ln-13"></a>        <span class="s">''</span>, &amp;
+<a class="ln" id="ln-14" href="#ln-14"></a>        <span class="s">' "己所不欲，勿施於人"'</span>, &amp;
+<a class="ln" id="ln-15" href="#ln-15"></a>        <span class="s">' (jǐ suǒ bù yù, wù shī yú rén)'</span>, &amp;
+<a class="ln" id="ln-16" href="#ln-16"></a>        <span class="s">'or'</span>, &amp;
+<a class="ln" id="ln-17" href="#ln-17"></a>        <span class="s">' "What you do not want done to yourself,'</span>, &amp;
+<a class="ln" id="ln-18" href="#ln-18"></a>        <span class="s">' do not do to others":'</span>]
+<a class="ln" id="ln-19" href="#ln-19"></a>        <span class="c">! create a scratch file to read</span>
+<a class="ln" id="ln-20" href="#ln-20"></a>        <span class="k">open</span>(newunit=lun,status=<span class="s">'scratch'</span>,pad=<span class="s">'yes'</span>)
+<a class="ln" id="ln-21" href="#ln-21"></a>        <span class="k">write</span>(lun,<span class="s">'(a)'</span>)(<span class="k">trim</span>(filedata(i)),i=<span class="n">1</span>,<span class="k">size</span>(filedata))
+<a class="ln" id="ln-22" href="#ln-22"></a>        <span class="c">!----------------------------------------------------------------</span>
+<a class="ln" id="ln-23" href="#ln-23"></a>        <span class="c">! read back UTF-8 byte stream and show the lines read</span>
+<a class="ln" id="ln-24" href="#ln-24"></a>        <span class="k">rewind</span>(unit=lun)
+<a class="ln" id="ln-25" href="#ln-25"></a>        <span class="k">do</span>
+<a class="ln" id="ln-26" href="#ln-26"></a>           ln=readline(lun,iostat=iostat)
+<a class="ln" id="ln-27" href="#ln-27"></a>           <span class="k">if</span>(iostat /= <span class="n">0</span>)<span class="k">exit</span>
+<a class="ln" id="ln-28" href="#ln-28"></a>           <span class="c">! write the glyph length, byte length, line in brackets</span>
+<a class="ln" id="ln-29" href="#ln-29"></a>           <span class="k">write</span>(*,<span class="s">'(i4,1x,i4,1x,a)'</span>)<span class="k">len</span>(ln),<span class="k">len</span>(ch(ln)),<span class="s">'['</span>//ch(ln)//<span class="s">']'</span>
+<a class="ln" id="ln-30" href="#ln-30"></a>        enddo
+<a class="ln" id="ln-31" href="#ln-31"></a>        <span class="k">call</span> checkit()
+<a class="ln" id="ln-32" href="#ln-32"></a>        <span class="c">!----------------------------------------------------------------</span>
+<a class="ln" id="ln-33" href="#ln-33"></a>        <span class="c">! the same thing except convert to default intrinsic types</span>
+<a class="ln" id="ln-34" href="#ln-34"></a>        <span class="k">rewind</span>(unit=lun)
+<a class="ln" id="ln-35" href="#ln-35"></a>        <span class="k">do</span>
+<a class="ln" id="ln-36" href="#ln-36"></a>           ln=readline(lun,iostat=iostat)
+<a class="ln" id="ln-37" href="#ln-37"></a>           <span class="k">if</span>(iostat /= <span class="n">0</span>)<span class="k">exit</span>
+<a class="ln" id="ln-38" href="#ln-38"></a>           <span class="c">! assign the string to an allocatable array of integers</span>
+<a class="ln" id="ln-39" href="#ln-39"></a>           ints=ln
+<a class="ln" id="ln-40" href="#ln-40"></a>           <span class="c">! and the string to a character variable</span>
+<a class="ln" id="ln-41" href="#ln-41"></a>           aline=ln
+<a class="ln" id="ln-42" href="#ln-42"></a>           <span class="k">write</span>(*,<span class="s">'(i4,1x,i4,1x,a)'</span>)<span class="k">len</span>(ln),<span class="k">len</span>(aline),<span class="s">'['</span>//ch(ln)//<span class="s">']'</span>
+<a class="ln" id="ln-43" href="#ln-43"></a>        enddo
+<a class="ln" id="ln-44" href="#ln-44"></a>        <span class="k">call</span> checkit()
+<a class="ln" id="ln-45" href="#ln-45"></a>        <span class="c">!----------------------------------------------------------------</span>
+<a class="ln" id="ln-46" href="#ln-46"></a>        <span class="c">! again but this time show the lines as Unicode codepoints</span>
+<a class="ln" id="ln-47" href="#ln-47"></a>        <span class="k">rewind</span>(unit=lun)
+<a class="ln" id="ln-48" href="#ln-48"></a>        <span class="k">do</span>
+<a class="ln" id="ln-49" href="#ln-49"></a>           ln=readline(lun,iostat=iostat)
+<a class="ln" id="ln-50" href="#ln-50"></a>           <span class="k">if</span>(iostat /= <span class="n">0</span>)<span class="k">exit</span>
+<a class="ln" id="ln-51" href="#ln-51"></a>           <span class="k">if</span>(<span class="k">len</span>(ln) == <span class="n">0</span>)<span class="k">then</span>
+<a class="ln" id="ln-52" href="#ln-52"></a>              <span class="k">write</span>(*,<span class="s">'(/,10(g0,1x)," ...")'</span>)[<span class="n">0</span>,<span class="n">0</span>]
+<a class="ln" id="ln-53" href="#ln-53"></a>           <span class="k">else</span>
+<a class="ln" id="ln-54" href="#ln-54"></a>              <span class="k">write</span>(*,<span class="s">'(/,10(g0,1x)," ...")'</span>)ln%codepoint()
+<a class="ln" id="ln-55" href="#ln-55"></a>           <span class="k">endif</span>
+<a class="ln" id="ln-56" href="#ln-56"></a>        enddo
+<a class="ln" id="ln-57" href="#ln-57"></a>        <span class="k">call</span> checkit()
+<a class="ln" id="ln-58" href="#ln-58"></a>        <span class="c">!----------------------------------------------------------------</span>
+<a class="ln" id="ln-59" href="#ln-59"></a>        <span class="c">! show the line as Unicode codepoints using default integer array</span>
+<a class="ln" id="ln-60" href="#ln-60"></a>        <span class="k">rewind</span>(unit=lun)
+<a class="ln" id="ln-61" href="#ln-61"></a>        <span class="k">do</span>
+<a class="ln" id="ln-62" href="#ln-62"></a>           ln=readline(lun,iostat=iostat)
+<a class="ln" id="ln-63" href="#ln-63"></a>           <span class="k">if</span>(iostat /= <span class="n">0</span>)<span class="k">exit</span>
+<a class="ln" id="ln-64" href="#ln-64"></a>           <span class="c">! assign the string to an allocatable array of integers</span>
+<a class="ln" id="ln-65" href="#ln-65"></a>           ints=ln
+<a class="ln" id="ln-66" href="#ln-66"></a>           <span class="k">if</span>(<span class="k">size</span>(ints) == <span class="n">0</span>)ints=[<span class="n">0</span>,<span class="n">0</span>]
+<a class="ln" id="ln-67" href="#ln-67"></a>           <span class="k">write</span>(*,<span class="s">'(/,10(g0,1x)," ...")'</span>)ints
+<a class="ln" id="ln-68" href="#ln-68"></a>        enddo
+<a class="ln" id="ln-69" href="#ln-69"></a>        <span class="k">call</span> checkit()
+<a class="ln" id="ln-70" href="#ln-70"></a>        <span class="c">!----------------------------------------------------------------</span>
+<a class="ln" id="ln-71" href="#ln-71"></a>     <span class="k">contains</span>
+<a class="ln" id="ln-72" href="#ln-72"></a>     <span class="k">subroutine</span> checkit()
+<a class="ln" id="ln-73" href="#ln-73"></a>        <span class="k">if</span>(iostat /= iostat_end)<span class="k">then</span>
+<a class="ln" id="ln-74" href="#ln-74"></a>           <span class="k">write</span>(*,*)<span class="s">'error reading input:'</span>,ch(<span class="k">trim</span>(ln))
+<a class="ln" id="ln-75" href="#ln-75"></a>        <span class="k">endif</span>
+<a class="ln" id="ln-76" href="#ln-76"></a>        <span class="k">write</span>(*,*)
+<a class="ln" id="ln-77" href="#ln-77"></a>     <span class="k">end</span> <span class="k">subroutine</span> checkit
+<a class="ln" id="ln-78" href="#ln-78"></a>     <span class="k">end</span> <span class="k">program</span> demo_readline
+<a class="ln" id="ln-79" href="#ln-79"></a></code></pre>
+<h2 id="graphs">Graphs</h2>
+<h3>Files this one depends on</h3>
+<div class="graph"><svg width="270pt" height="30pt"
+ viewBox="0 0 270 30" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="scale(1 1) rotate(0) translate(4 25.6)" fill="none" stroke="#8a93a5" font-family="Helvetica,sans-Serif" font-size="13" text-anchor="middle"><a href="../sourcefile/demo_readline.f90.html" fill="white" stroke="none"><rect fill="#5c6f2d" stroke="#f0a868" stroke-width="2" rx="7.2" x="140" y="-21.6" width="122.1" height="21.6"/><text x="201.1" y="-6.1">demo_readline.f90</text></a><a href="../sourcefile/m_unicode.f90.html" fill="white" stroke="none"><rect fill="#5c6f2d" rx="7.2" x="0" y="-21.6" width="104" height="21.6"/><text x="52" y="-6.1">M_unicode.F90</text></a><path d="M139.4,-10.8C130.5,-10.8 121.4,-10.8 112.5,-10.8"/><polygon fill="#8a93a5" points="112.7,-8.4 105.7,-10.8 112.7,-13.3"/></g>
+</svg>
+</div>
+<footer>M_unicode was developed by John S. Urban. Generated on 2026-11-05 08:34 -0500. Documentation generated by <a href="https://github.com/jacobwilliams/fdoc">fdoc</a>.</footer>
+</div>
+</main>
+</div>
+</body>
+</html>

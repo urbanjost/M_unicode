@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>test_replace &ndash; M_unicode</title>
+<meta name="author" content="John S. Urban">
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" href="../css/fdoc.css">
+<script src="../js/fdoc.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="brand" href="../index.html">M_unicode</a>
+<nav><a href="../lists/files.html">Source Files</a><a href="../lists/modules.html">Modules</a><a class="here" href="../lists/procedures.html">Procedures</a><a href="../lists/types.html">Derived Types</a><a href="../lists/programs.html">Programs</a></nav>
+<div class="search"><input type="search" placeholder="Search (/)" aria-label="Search"><div class="results"></div></div>
+<button class="theme" title="Change theme" aria-label="Change theme">&#9680;</button>
+</header>
+<div class="layout">
+<aside class="side">
+<h4>Variables</h4><ul><li><a href="#variable-aline"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>aline</a></li><li><a href="#variable-line"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>line</a></li></ul>
+<h4>On this page</h4><ul><li><a href="#calls">Calls</a></li><li><a href="#source">Source</a></li></ul>
+<h4><a href="../lists/files.html">Source Files</a></h4><h4><a href="../lists/modules.html">Modules</a></h4><h4><a href="../lists/procedures.html">Procedures</a></h4><ul><li><a href="../interface/add_backslash.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_backslash</a></li><li><a href="../interface/add_border.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_border</a></li><li><a href="../interface/add_html.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_html</a></li><li><a href="../interface/adjustl.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>adjustl</a></li><li><a href="../interface/adjustr.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>adjustr</a></li><li><a href="../proc/afmt.html"><span class="ico ico-f" title="function" aria-hidden="true">F</span>afmt</a></li><li><a href="../interface/assignment(=).html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>assignment(=)</a></li><li><a href="../proc/basics.html"><span class="ico ico-s" title="subroutine" aria-hidden="true">S</span>basics</a></li><li><a href="../proc/callit.html"><span class="ico ico-s" title="subroutine" aria-hidden="true">S</span>callit</a></li><li><a href="../proc/case_insensitive_compare.html"><span class="ico ico-f" title="function" aria-hidden="true">F</span>case_insensitive_compare</a></li><li><a class="more" href="../lists/procedures.html">All 158&hellip;</a></li></ul>
+<h4><a href="../lists/types.html">Derived Types</a></h4><h4><a href="../lists/programs.html">Programs</a></h4></aside>
+<main><div class="inner">
+<div class="crumbs"><a href="../sourcefile/test_m_unicode.f90.html">test_M_unicode.F90</a> <span class="sep">&rsaquo;</span> <a href="../module/testsuite_m_unicode.html">testsuite_M_unicode</a></div>
+<h1><span class="kind">subroutine</span>test_replace</h1>
+<div class="sig"><span class="k">subroutine</span> test_replace()</div>
+<h2 id="calls">Calls</h2>
+<ul class="chips"><li><a href="../proc/check.html">check</a></li><li><a href="../interface/character.html">character</a></li><li><a href="../interface/replace.html">replace</a></li></ul>
+<h2 id="source">Source</h2>
+<details class="source"><summary>Show the code</summary><pre><code><span class="k">subroutine</span> test_replace()
+<span class="k">type</span>(ut)           :: line
+<span class="k">character</span>(<span class="k">len</span>=:),<span class="k">allocatable</span> :: aline
+<span class="c">!</span>
+<span class="k">call</span> check(<span class="s">'replace'</span>,&amp;
+ <span class="s">'this is the string'</span> == ch( replace(ut(<span class="s">'Xis is Xe string'</span>),ut(<span class="s">'X'</span>),ut(<span class="s">'th'</span>) ) ) )
+<span class="k">call</span> check(<span class="s">'replace'</span>,&amp;
+ <span class="s">'this is the string'</span> == ch( replace(ut(<span class="s">'Xis is xe string'</span>),ut(<span class="s">'x'</span>),ut(<span class="s">'th'</span>),ignorecase=<span class="k">.true.</span>) ) )
+<span class="k">call</span> check(<span class="s">'replace'</span>,&amp;
+ <span class="s">'this is xe string'</span> == ch( replace(ut(<span class="s">'Xis is xe string'</span>),ut(<span class="s">'X'</span>),ut(<span class="s">'th'</span>),ignorecase=<span class="k">.false.</span>) ) )
+
+<span class="k">call</span> check(<span class="s">'replace'</span>,&amp;
+ <span class="s">'BEFORE:my line of text'</span> == ch(replace(ut(<span class="s">'my line of text'</span>),ut(<span class="s">''</span>),ut(<span class="s">'BEFORE:'</span>))),&amp;
+ <span class="s">'a null new substring means "at beginning of line"'</span> )
+<span class="c">!</span>
+<span class="k">call</span> check(<span class="s">'replace'</span>,&amp;
+ <span class="s">'I wonder'</span>== ch(replace(ut(<span class="s">'I wonder i ii iii'</span>),ut(<span class="s">'i'</span>),ut(<span class="s">''</span>)) ),&amp;
+ <span class="s">'a null new string deletes occurrences of the old substring'</span> )
+<span class="c">!</span>
+<span class="c">! Examples of the use of RANGE</span>
+<span class="c">!</span>
+line=replace(ut(<span class="s">'aaaaaaaaa'</span>),ut(<span class="s">'a'</span>),ut(<span class="s">'A'</span>),occurrence=<span class="n">1</span>,<span class="k">repeat</span>=<span class="n">1</span>)
+<span class="k">call</span> check(<span class="s">'replace'</span>, line == ut(<span class="s">'Aaaaaaaaa'</span>), <span class="s">'replace first a with A ['</span>//line%<span class="k">character</span>()//<span class="s">']'</span> )
+<span class="c">!</span>
+line=replace(ut(<span class="s">'aaaaaaaaa'</span>),ut(<span class="s">'a'</span>),ut(<span class="s">'A'</span>),occurrence=<span class="n">3</span>,<span class="k">repeat</span>=<span class="n">3</span>)
+<span class="k">call</span> check(<span class="s">'replace'</span>, line == ut(<span class="s">'aaAAAaaaa'</span>),<span class="s">'replace a with A for 3rd to 5th occurrence ['</span>//line%<span class="k">character</span>()//<span class="s">']'</span>)
+<span class="c">!</span>
+line=replace(ut(<span class="s">'ababababa'</span>),ut(<span class="s">'a'</span>),ut(<span class="s">''</span>),occurrence=<span class="n">3</span>,<span class="k">repeat</span>=<span class="n">3</span>)
+<span class="k">call</span> check(<span class="s">'replace'</span>,line == ut(<span class="s">'ababbb'</span>),<span class="s">'replace a with null instances 3 to 5 ['</span>//line%<span class="k">character</span>()//<span class="s">']'</span> )
+<span class="c">!</span>
+line=replace( &amp;
+ &amp; ut(<span class="s">'a b ab baaa aaaa aa aa a a a aa aaaaaa'</span>),&amp;
+ &amp; ut(<span class="s">'aa'</span>),ut(<span class="s">'CCCC'</span>),occurrence=-<span class="n">1</span>,<span class="k">repeat</span>=<span class="n">1</span>)
+<span class="k">call</span> check(<span class="s">'replace'</span>, line == ut(<span class="s">'a b ab baaa aaaa aa aa a a a aa aaaaCCCC'</span>),<span class="s">'replace last aa with CCCC ['</span>//line%<span class="k">character</span>()//<span class="s">']'</span>)
+<span class="c">!</span>
+line=replace(ut(<span class="s">'myf90stuff.f90.f90'</span>),ut(<span class="s">'f90'</span>),ut(<span class="s">'for'</span>),occurrence=-<span class="n">1</span>,<span class="k">repeat</span>=<span class="n">1</span>)
+<span class="k">call</span> check(<span class="s">'replace'</span>,line== <span class="s">'myf90stuff.f90.for'</span>)
+
+line=replace(ut(<span class="s">'myf90stuff.f90.f90'</span>),ut(<span class="s">'f90'</span>),ut(<span class="s">'for'</span>),occurrence=-<span class="n">2</span>,<span class="k">repeat</span>=<span class="n">2</span>)
+<span class="k">call</span> check(<span class="s">'replace'</span>,line==<span class="s">'myforstuff.for.f90'</span>)
+<span class="c">!</span>
+line=<span class="s">'ABCDEFGHIJ'</span>
+<span class="k">call</span> check(<span class="s">'replace'</span>,ut(<span class="s">'ABCdEFGHIJ'</span>)   == replace(line,<span class="n">4</span>,<span class="n">4</span>,<span class="s">'d'</span>),    <span class="s">'replace a column '</span>)
+<span class="k">call</span> check(<span class="s">'replace'</span>,ut(<span class="s">'ABCGHIJ'</span>)      == replace(line,<span class="n">4</span>,<span class="n">6</span>,<span class="s">''</span>),     <span class="s">'remove columns in middle'</span>)
+<span class="k">call</span> check(<span class="s">'replace'</span>,ut(<span class="s">'ABCDE'</span>)        == replace(line,<span class="n">6</span>,<span class="n">10</span>,<span class="s">''</span>),    <span class="s">'remove columns at end'</span>)
+<span class="k">call</span> check(<span class="s">'replace'</span>,ut(<span class="s">'ABCDEend'</span>)     == replace(line,<span class="n">6</span>,<span class="n">10</span>,<span class="s">'end'</span>), <span class="s">'replace end'</span>)
+<span class="k">call</span> check(<span class="s">'replace'</span>,ut(<span class="s">'startDEFGHIJ'</span>) == replace(line,<span class="n">1</span>,<span class="n">3</span>,<span class="s">'start'</span>),<span class="s">'replace start'</span>)
+<span class="k">call</span> check(<span class="s">'replace'</span>,ut(<span class="s">'FGHIJ'</span>)        == replace(line,<span class="n">1</span>,<span class="n">5</span>,<span class="s">''</span>),     <span class="s">'remove start '</span>//ch(replace(line,<span class="n">1</span>,<span class="n">5</span>,<span class="s">''</span>)))
+<span class="c">!</span>
+<span class="c">! combinations of character and string parameters</span>
+<span class="k">call</span> check(<span class="s">'replace'</span>,ut(<span class="s">'ABC[def]GHIJ'</span>) == replace( line,   <span class="s">'DEF'</span>,    <span class="s">'[def]'</span>), <span class="s">'replace string'</span>)
+<span class="k">call</span> check(<span class="s">'replace'</span>,ut(<span class="s">'ABC[def]GHIJ'</span>) == replace( line,ut(<span class="s">'DEF'</span>),ut(<span class="s">'[def]'</span>)),<span class="s">'replace string'</span>)
+<span class="k">call</span> check(<span class="s">'replace'</span>,ut(<span class="s">'ABC[def]GHIJ'</span>) == replace( line,   <span class="s">'DEF'</span>, ut(<span class="s">'[def]'</span>)),<span class="s">'replace string'</span>)
+<span class="k">call</span> check(<span class="s">'replace'</span>,ut(<span class="s">'ABC[def]GHIJ'</span>) == replace( line,ut(<span class="s">'DEF'</span>),   <span class="s">'[def]'</span>), <span class="s">'replace string'</span>)
+     aline=line
+<span class="k">call</span> check(<span class="s">'replace'</span>,ut(<span class="s">'ABC[def]GHIJ'</span>) == replace(aline,   <span class="s">'DEF'</span>,    <span class="s">'[def]'</span>), <span class="s">'replace string'</span>)
+<span class="k">call</span> check(<span class="s">'replace'</span>,ut(<span class="s">'ABC[def]GHIJ'</span>) == replace(aline,ut(<span class="s">'DEF'</span>),ut(<span class="s">'[def]'</span>)),<span class="s">'replace string'</span>)
+<span class="k">call</span> check(<span class="s">'replace'</span>,ut(<span class="s">'ABC[def]GHIJ'</span>) == replace(aline,   <span class="s">'DEF'</span>, ut(<span class="s">'[def]'</span>)),<span class="s">'replace string'</span>)
+<span class="k">call</span> check(<span class="s">'replace'</span>,ut(<span class="s">'ABC[def]GHIJ'</span>) == replace(aline,ut(<span class="s">'DEF'</span>),   <span class="s">'[def]'</span>), <span class="s">'replace string'</span>)
+
+<span class="c">!ifx bug!call check('replace',ut('ABC[def]GHIJ') == line%replace(   'DEF',    '[def]'), 'replace string')</span>
+<span class="c">!ifx bug!call check('replace',ut('ABC[def]GHIJ') == line%replace(ut('DEF'),ut('[def]')),'replace string')</span>
+<span class="c">!ifx bug!call check('replace',ut('ABC[def]GHIJ') == line%replace(   'DEF', ut('[def]')),'replace string')</span>
+<span class="c">!ifx bug!call check('replace',ut('ABC[def]GHIJ') == line%replace(ut('DEF'),   '[def]'), 'replace string')</span>
+
+<span class="c">!ifx bug!call check('replace',ut('ABCdEFGHIJ')  == line%replace(4,4,'d'),     'oop replace a column')</span>
+<span class="c">!ifx bug!call check('replace',ut('ABCDE')       == line%replace(6,10,''),     'oop remove columns')</span>
+<span class="c">!ifx bug!call check('replace',ut('ABCDEend')    == line%replace(6,10,'end'),  'oop replace end')</span>
+<span class="c">!ifx bug!call check('replace',ut('startDEFGHIJ')== line%replace(1,3,'start'), 'oop replace start')</span>
+
+<span class="k">end</span> <span class="k">subroutine</span> test_replace</code></pre></details>
+<h2 id="graphs">Graphs</h2>
+<h3>Calls</h3>
+<div class="graph"><svg width="198pt" height="110pt"
+ viewBox="0 0 198 110" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="scale(1 1) rotate(0) translate(4 105.6)" fill="none" stroke="#8a93a5" font-family="Helvetica,sans-Serif" font-size="13" text-anchor="middle"><a href="../proc/test_replace.html" fill="white" stroke="none"><rect fill="#1d7a55" stroke="#f0a868" stroke-width="2" rx="7.2" x="0" y="-61.6" width="85.2" height="21.6"/><text x="42.6" y="-46.1">test_replace</text></a><a href="../proc/check.html" fill="white" stroke="none"><rect fill="#1d7a55" rx="7.2" x="128.5" y="-101.6" width="54" height="21.6"/><text x="155.5" y="-86.1">check</text></a><path d="M76.3,-62.6C90.1,-67.6 106.1,-73.3 120.1,-78.4"/><polygon fill="#8a93a5" points="119.2,-80.7 126.6,-80.7 120.9,-76.1"/><a href="../interface/character.html" fill="white" stroke="none"><rect fill="#6a4fb3" rx="7.2" x="121.2" y="-61.6" width="68.6" height="21.6"/><text x="155.5" y="-46.1">character</text></a><path d="M86.2,-50.8C94.8,-50.8 103.8,-50.8 112.4,-50.8"/><polygon fill="#8a93a5" points="112.3,-53.3 119.3,-50.8 112.3,-48.4"/><a href="../interface/replace.html" fill="white" stroke="none"><rect fill="#6a4fb3" rx="7.2" x="127" y="-21.6" width="57" height="21.6"/><text x="155.5" y="-6.1">replace</text></a><path d="M76.3,-39C89.6,-34.2 105.1,-28.6 118.8,-23.7"/><polygon fill="#8a93a5" points="119.4,-26.1 125.2,-21.4 117.7,-21.5"/></g>
+</svg>
+</div>
+<h3>Called by</h3>
+<div class="graph"><svg width="235pt" height="30pt"
+ viewBox="0 0 235 30" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="scale(1 1) rotate(0) translate(4 25.6)" fill="none" stroke="#8a93a5" font-family="Helvetica,sans-Serif" font-size="13" text-anchor="middle"><a href="../proc/test_replace.html" fill="white" stroke="none"><rect fill="#1d7a55" stroke="#f0a868" stroke-width="2" rx="7.2" x="0" y="-21.6" width="85.2" height="21.6"/><text x="42.6" y="-6.1">test_replace</text></a><a href="../program/test_m_unicode.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="121.2" y="-21.6" width="106.2" height="21.6"/><text x="174.3" y="-6.1">test_M_unicode</text></a><path d="M120.9,-10.8C112.1,-10.8 102.9,-10.8 94.1,-10.8"/><polygon fill="#8a93a5" points="94.3,-8.4 87.3,-10.8 94.3,-13.3"/></g>
+</svg>
+</div>
+<h2 id="variables">Variables</h2>
+<table class="arguments">
+<thead><tr><th>Name</th><th>Type</th><th>Attributes</th><th>Description</th></tr></thead>
+<tbody>
+<tr id="variable-aline"><td class="name">aline</td><td class="type">character(len=:)</td><td class="attributes"><span class="attr attr-allocatable">allocatable</span></td><td></td></tr>
+<tr id="variable-line"><td class="name">line</td><td class="type">type(<a href="../type/unicode_type.html">ut</a>)</td><td class="attributes"></td><td></td></tr>
+</tbody>
+</table>
+<footer>M_unicode was developed by John S. Urban. Generated on 2026-11-05 08:34 -0500. Documentation generated by <a href="https://github.com/jacobwilliams/fdoc">fdoc</a>.</footer>
+</div>
+</main>
+</div>
+</body>
+</html>

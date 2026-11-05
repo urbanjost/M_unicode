@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>test_tokenize &ndash; M_unicode</title>
+<meta name="author" content="John S. Urban">
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" href="../css/fdoc.css">
+<script src="../js/fdoc.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="brand" href="../index.html">M_unicode</a>
+<nav><a href="../lists/files.html">Source Files</a><a href="../lists/modules.html">Modules</a><a class="here" href="../lists/procedures.html">Procedures</a><a href="../lists/types.html">Derived Types</a><a href="../lists/programs.html">Programs</a></nav>
+<div class="search"><input type="search" placeholder="Search (/)" aria-label="Search"><div class="results"></div></div>
+<button class="theme" title="Change theme" aria-label="Change theme">&#9680;</button>
+</header>
+<div class="layout">
+<aside class="side">
+<h4>Variables</h4><ul><li><a href="#variable-begins"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>begins</a></li><li><a href="#variable-delims"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>delims</a></li><li><a href="#variable-ends"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>ends</a></li><li><a href="#variable-expect_s"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>expect_s</a></li><li><a href="#variable-expect_t"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>expect_t</a></li><li><a href="#variable-expected"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>expected</a></li><li><a href="#variable-herbs"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>herbs</a></li><li><a href="#variable-i"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>i</a></li><li><a href="#variable-in"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>in</a></li><li><a href="#variable-line"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>line</a></li><li><a href="#variable-separators"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>separators</a></li><li><a href="#variable-tokens"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>tokens</a></li><li><a href="#variable-u_e"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>u_e</a></li><li><a href="#variable-u_smiley"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>u_smiley</a></li><li><a href="#variable-u_space"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>u_space</a></li></ul>
+<h4>Subroutines</h4><ul><li><a href="#proc-expectations"><span class="ico ico-s" title="subroutine" aria-hidden="true">S</span>expectations</a></li><li><a href="#proc-urdu"><span class="ico ico-s" title="subroutine" aria-hidden="true">S</span>urdu</a></li></ul>
+<h4>On this page</h4><ul><li><a href="#calls">Calls</a></li><li><a href="#source">Source</a></li></ul>
+<h4><a href="../lists/files.html">Source Files</a></h4><h4><a href="../lists/modules.html">Modules</a></h4><h4><a href="../lists/procedures.html">Procedures</a></h4><ul><li><a href="../interface/add_backslash.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_backslash</a></li><li><a href="../interface/add_border.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_border</a></li><li><a href="../interface/add_html.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_html</a></li><li><a href="../interface/adjustl.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>adjustl</a></li><li><a href="../interface/adjustr.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>adjustr</a></li><li><a href="../proc/afmt.html"><span class="ico ico-f" title="function" aria-hidden="true">F</span>afmt</a></li><li><a href="../interface/assignment(=).html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>assignment(=)</a></li><li><a href="../proc/basics.html"><span class="ico ico-s" title="subroutine" aria-hidden="true">S</span>basics</a></li><li><a href="../proc/callit.html"><span class="ico ico-s" title="subroutine" aria-hidden="true">S</span>callit</a></li><li><a href="../proc/case_insensitive_compare.html"><span class="ico ico-f" title="function" aria-hidden="true">F</span>case_insensitive_compare</a></li><li><a class="more" href="../lists/procedures.html">All 158&hellip;</a></li></ul>
+<h4><a href="../lists/types.html">Derived Types</a></h4><h4><a href="../lists/programs.html">Programs</a></h4></aside>
+<main><div class="inner">
+<div class="crumbs"><a href="../sourcefile/test_m_unicode.f90.html">test_M_unicode.F90</a> <span class="sep">&rsaquo;</span> <a href="../module/testsuite_m_unicode.html">testsuite_M_unicode</a></div>
+<h1><span class="kind">subroutine</span>test_tokenize</h1>
+<div class="sig"><span class="k">subroutine</span> test_tokenize()</div>
+<h2 id="calls">Calls</h2>
+<ul class="chips"><li><a href="../proc/test_tokenize.html#proc-expectations">expectations</a></li><li><a href="../interface/tokenize.html">tokenize</a></li><li><a href="../proc/check.html">check</a></li><li><a href="../proc/test_tokenize.html#proc-urdu">urdu</a></li></ul>
+<h2 id="source">Source</h2>
+<details class="source"><summary>Show the code</summary><pre><code><span class="k">subroutine</span> test_tokenize()
+<span class="k">type</span>(ut),<span class="k">allocatable</span>   :: tokens(:), expected(:)
+<span class="k">type</span>(ut),<span class="k">allocatable</span>   :: expect_t(:), expect_s(:)
+<span class="k">type</span>(ut),<span class="k">allocatable</span>   :: separators(:)
+<span class="k">type</span>(ut)               :: in
+<span class="k">type</span>(ut)               :: delims
+<span class="k">type</span>(ut)               :: herbs
+<span class="k">type</span>(ut)               :: u_space
+<span class="k">type</span>(ut)               :: u_smiley
+<span class="k">type</span>(ut)               :: u_e
+<span class="k">character</span>(<span class="k">len</span>=:),<span class="k">allocatable</span>     :: line
+<span class="k">integer</span>,<span class="k">allocatable</span>,<span class="k">dimension</span>(:) :: begins
+<span class="k">integer</span>,<span class="k">allocatable</span>,<span class="k">dimension</span>(:) :: ends
+<span class="k">integer</span>                          :: i
+
+in=<span class="s">''</span>
+expect_t=[<span class="k">character</span>(<span class="k">len</span>=<span class="n">0</span>) ::]
+expect_s=[<span class="k">character</span>(<span class="k">len</span>=<span class="n">0</span>) ::]
+<span class="k">call</span> expectations()
+
+in=<span class="s">','</span>
+expect_t=[<span class="s">''</span>,<span class="s">''</span>]
+expect_s=[<span class="s">','</span>]
+<span class="k">call</span> expectations()
+
+in=<span class="s">',,'</span>
+expect_t=[<span class="s">''</span>,<span class="s">''</span>,<span class="s">''</span>]
+expect_s=[<span class="s">','</span>,<span class="s">','</span>]
+<span class="k">call</span> expectations()
+
+in=<span class="s">',G'</span>
+expect_t=[<span class="s">' '</span>,<span class="s">'G'</span>]
+expect_s=[<span class="s">','</span>]
+<span class="k">call</span> expectations()
+
+in=<span class="s">'G,'</span>
+expect_t=[<span class="s">'G'</span>,<span class="s">' '</span>]
+expect_s=[<span class="s">','</span>]
+<span class="k">call</span> expectations()
+
+in=<span class="s">',,G'</span>
+expect_t=[<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">'G'</span>]
+expect_s=[<span class="s">','</span>,<span class="s">','</span>]
+<span class="k">call</span> expectations()
+
+in=<span class="s">'G'</span>
+expect_t=[<span class="s">'G'</span>]
+expect_s=[<span class="k">character</span>(<span class="k">len</span>=<span class="n">0</span>)::]
+<span class="k">call</span> expectations()
+
+in=<span class="s">',,,,,G'</span>
+expect_t=[<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">'G'</span>]
+expect_s=[<span class="s">','</span>,<span class="s">','</span>,<span class="s">','</span>,<span class="s">','</span>,<span class="s">','</span>]
+<span class="k">call</span> expectations()
+
+in=<span class="s">',   ,G,,,,'</span>
+expect_t=[<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">'G'</span>,<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">' '</span>]
+expect_s=[<span class="s">','</span>,<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">','</span>,<span class="s">','</span>,<span class="s">','</span>,<span class="s">','</span>,<span class="s">','</span>]
+<span class="k">call</span> expectations()
+
+in=<span class="s">',, ,,G,  ,e,,'</span>
+expect_t=[<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">'G'</span>,<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">'e'</span>,<span class="s">' '</span>,<span class="s">' '</span>]
+expect_s=[<span class="s">','</span>,<span class="s">','</span>,<span class="s">' '</span>,<span class="s">','</span>,<span class="s">','</span>,<span class="s">','</span>,<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">','</span>,<span class="s">','</span>,<span class="s">','</span>]
+<span class="k">call</span> expectations()
+
+in=<span class="s">'G,,,,e'</span>
+expect_t=[<span class="s">'G'</span>,<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">'e'</span>]
+expect_s=[<span class="s">','</span>,<span class="s">','</span>,<span class="s">','</span>,<span class="s">','</span>]
+<span class="k">call</span> expectations()
+
+<span class="c">! wide</span>
+in=<span class="s">''</span>
+expect_t=[<span class="k">character</span>(<span class="k">len</span>=<span class="n">0</span>) ::]
+expect_s=[<span class="k">character</span>(<span class="k">len</span>=<span class="n">0</span>) :: ]
+<span class="k">call</span> expectations()
+
+in=<span class="s">' '</span>
+expect_t=[<span class="s">''</span>,<span class="s">''</span>]
+expect_s=[<span class="s">' '</span>]
+<span class="k">call</span> expectations()
+
+in=<span class="s">'  '</span>
+expect_t=[<span class="s">''</span>,<span class="s">''</span>,<span class="s">''</span>]
+expect_s=[<span class="s">' '</span>,<span class="s">' '</span>]
+<span class="k">call</span> expectations()
+
+u_space=<span class="s">' '</span>
+u_smiley=<span class="s">'😃'</span>
+u_e=<span class="s">'e'</span>
+in=<span class="s">' 😃'</span>
+expect_t=[u_space,u_smiley]
+expect_s=[<span class="s">' '</span>]
+<span class="k">call</span> expectations()
+
+in=<span class="s">'😃 '</span>
+expect_t=[u_smiley,u_space]
+expect_s=[<span class="s">' '</span>]
+<span class="k">call</span> expectations()
+
+in=<span class="s">'  😃'</span>
+expect_t=[u_space,u_space,u_smiley]
+expect_s=[<span class="s">' '</span>,<span class="s">' '</span>]
+<span class="k">call</span> expectations()
+
+in=<span class="s">'😃'</span>
+expect_t=[u_smiley]
+expect_s=[<span class="k">character</span>(<span class="k">len</span>=<span class="n">0</span>) :: ]
+<span class="k">call</span> expectations()
+
+in=<span class="s">'     😃'</span>
+expect_t=[u_space,u_space,u_space,u_space,u_space,u_smiley]
+expect_s=[<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">' '</span>]
+<span class="k">call</span> expectations()
+
+in=<span class="s">'     😃    '</span>
+expect_t=[u_space,u_space,u_space,u_space,u_space,u_smiley,u_space,u_space,u_space,u_space]
+expect_s=[<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">' '</span>]
+<span class="k">call</span> expectations()
+in=<span class="s">'     😃   e  '</span>
+expect_t=[u_space,u_space,u_space,u_space,u_space,u_smiley,u_space,u_space,u_e,u_space,u_space]
+expect_s=[<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">' '</span>]
+<span class="k">call</span> expectations()
+
+in=<span class="s">'😃    e'</span>
+expect_t=[u_smiley,u_space,u_space,u_space,u_e]
+expect_s=[<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">' '</span>,<span class="s">' '</span>]
+<span class="k">call</span> expectations()
+
+in=<span class="s">"α β γ"</span>
+expect_t=[ ut(<span class="s">"α"</span>), ut(<span class="s">"β"</span>), ut(<span class="s">"γ"</span>)]
+expect_s=[ <span class="s">' '</span>,<span class="s">' '</span>]
+<span class="k">call</span> expectations()
+
+   delims = <span class="s">' ,&amp;'</span>
+   herbs  = <span class="s">'parsley,sage,rosemary&amp;thyme'</span>
+   expected=[ut(<span class="s">'parsley'</span>),ut(<span class="s">'sage'</span>),ut(<span class="s">'rosemary'</span>),ut(<span class="s">'thyme'</span>) ]
+
+   <span class="k">CALL</span> TOKENIZE (herbs, delims, tokens, separators)
+   line=<span class="s">'tokens:'</span>
+   <span class="k">do</span> i=<span class="n">1</span>,<span class="k">size</span>(tokens)
+      line=line//<span class="s">'['</span>//tokens(i)%<span class="k">character</span>()//<span class="s">']'</span>
+   enddo
+   <span class="k">call</span> check(<span class="s">'tokenize'</span>, <span class="k">all</span>(tokens == expected), line )
+
+   expected=[ut(<span class="s">','</span>),ut(<span class="s">','</span>),ut(<span class="s">'&amp;'</span>) ]
+   line=<span class="s">'separators:'</span>
+   <span class="k">do</span> i=<span class="n">1</span>,<span class="k">size</span>(separators)
+      line=line//<span class="s">'['</span>//separators(i)%<span class="k">character</span>()//<span class="s">']'</span>
+   enddo
+   <span class="k">call</span> check(<span class="s">'tokenize'</span>, <span class="k">all</span>(separators == expected), line )
+
+   <span class="k">CALL</span> TOKENIZE (herbs, delims, begins, ends)
+   <span class="k">call</span> check(<span class="s">'tokenize'</span>,<span class="k">size</span>(begins) == <span class="n">4</span> ,<span class="s">'size of begins'</span>)
+   <span class="k">call</span> check(<span class="s">'tokenize'</span>,<span class="k">size</span>(ends) == <span class="n">4</span> ,<span class="s">'size of ends'</span>)
+   <span class="k">if</span>(<span class="k">size</span>(begins) == <span class="n">4</span> <span class="k">.and.</span> <span class="k">size</span>(ends) == <span class="n">4</span> )<span class="k">then</span>
+      <span class="k">call</span> check(<span class="s">'tokenize'</span>,<span class="k">all</span>(begins == [<span class="n">1</span>,<span class="n">9</span>,<span class="n">14</span>,<span class="n">23</span>]) ,<span class="s">'begins'</span>)
+      <span class="k">call</span> check(<span class="s">'tokenize'</span>,<span class="k">all</span>(ends == [<span class="n">7</span>,<span class="n">12</span>,<span class="n">21</span>,<span class="n">27</span>]) ,<span class="s">'ends'</span>)
+   <span class="k">endif</span>
+
+   <span class="c">! OOP</span>
+
+   herbs=<span class="s">'parsley😃sage😃rosemary😃😃thyme'</span>
+   delims=<span class="s">'😃'</span>
+   expected=[ut(<span class="s">'parsley'</span>),ut(<span class="s">'sage'</span>),ut(<span class="s">'rosemary'</span>),ut(<span class="s">''</span>),ut(<span class="s">'thyme'</span>) ]
+   tokens=herbs%tokenize(delims)
+   line=<span class="s">'tokens:'</span>
+   <span class="k">do</span> i=<span class="n">1</span>,<span class="k">size</span>(tokens)
+      line=line//<span class="s">'['</span>//tokens(i)%<span class="k">character</span>()//<span class="s">']'</span>
+   enddo
+   <span class="k">call</span> check(<span class="s">'tokenize'</span>, <span class="k">all</span>(tokens == expected), line )
+
+   <span class="k">call</span> urdu()
+<span class="k">contains</span>
+
+<span class="k">subroutine</span> expectations()
+<span class="k">type</span>(ut),<span class="k">allocatable</span> :: t(:),s(:)
+<span class="k">type</span>(ut)             :: sep
+ sep=<span class="s">' ,'</span>
+ <span class="k">call</span> tokenize(in,sep,t,s)
+ <span class="k">if</span>(<span class="k">size</span>(t) == <span class="k">size</span>(expect_t) )<span class="k">then</span>
+   <span class="k">call</span> check(<span class="s">'tokenize'</span>,<span class="k">all</span>(t == expect_t),<span class="s">'for "'</span>//ch(in)//<span class="s">'" expected tokens '</span>//pra( expect_t)//<span class="s">' got '</span>//pra(t))
+ <span class="k">else</span>
+   <span class="k">call</span> check(<span class="s">'tokenize'</span>,<span class="k">.false.</span>,<span class="s">'for "'</span>//ch(in)//<span class="s">'" expected token size '</span>//afmt(<span class="k">size</span>( expect_t))//<span class="s">' got '</span>//pra(t))
+ <span class="k">endif</span>
+ <span class="k">if</span>(<span class="k">size</span>(s) == <span class="k">size</span>(expect_s) )<span class="k">then</span>
+   <span class="k">call</span> check(<span class="s">'tokenize'</span>,<span class="k">all</span>(s == expect_s),<span class="s">'for "'</span>//ch(in)//<span class="s">'" expected separator '</span>//pra( expect_s)//<span class="s">' got '</span>//pra(s))
+ <span class="k">else</span>
+   <span class="k">call</span> check(<span class="s">'tokenize'</span>,<span class="k">.false.</span>,<span class="s">'for "'</span>//ch(in)//<span class="s">'" expected separator size '</span>//afmt(<span class="k">size</span>( expect_s))//<span class="s">' got '</span>//pra(s))
+ <span class="k">endif</span>
+
+<span class="k">end</span> <span class="k">subroutine</span> expectations
+
+<span class="k">subroutine</span> urdu()
+<span class="k">type</span>(ut)             :: quotedurdu, romanized, english
+<span class="k">type</span>(ut),<span class="k">allocatable</span> :: t(:), expect_t(:)
+<span class="k">type</span>(ut)             :: sep
+ sep=<span class="s">' ,'</span>
+
+quotedurdu=expand_backslash(<span class="s">'\u0627\u0686\u06BE\u06D2 \u0644\u0648\u06AF\u0648\u06BA \u06A9\u0627&amp;
+&amp; \u0645\u0644\u0646\u0627 \u06C1\u06CC \u0627\u0686\u06BE\u06D2 \u0645\u0633\u062A\u0642\u0628\u0644&amp;
+&amp; \u06A9\u06CC \u0636\u0645\u0627\u0646\u062A \u06C1\u06D2\u06D4'</span>)
+
+romanized=<span class="s">'ache logon ka milna hi ache mustaqbil ki zamanat hai.'</span>
+
+english=<span class="s">'Meeting good people is the guarantee of a good future.'</span>
+
+expect_t =[ &amp;
+expand_backslash(<span class="s">'\u0627\u0686\u06BE\u06D2'</span>), &amp;
+expand_backslash(<span class="s">'\u0644\u0648\u06AF\u0648\u06BA'</span>), &amp;
+expand_backslash(<span class="s">'\u06A9\u0627'</span>), &amp;
+expand_backslash(<span class="s">'\u0645\u0644\u0646\u0627'</span>), &amp;
+expand_backslash(<span class="s">'\u06C1\u06CC'</span>), &amp;
+expand_backslash(<span class="s">'\u0627\u0686\u06BE\u06D2'</span>), &amp;
+expand_backslash(<span class="s">'\u0645\u0633\u062A\u0642\u0628\u0644'</span>), &amp;
+expand_backslash(<span class="s">'\u06A9\u06CC'</span>), &amp;
+expand_backslash(<span class="s">'\u0636\u0645\u0627\u0646\u062A'</span>), &amp;
+expand_backslash(<span class="s">'\u06C1\u06D2\u06D4'</span>) ]
+
+<span class="k">call</span> tokenize(quotedurdu,sep,t)
+
+ <span class="k">if</span>(<span class="k">size</span>(t) == <span class="k">size</span>(expect_t) )<span class="k">then</span>
+   <span class="k">call</span> check(<span class="s">'tokenize'</span>,<span class="k">all</span>(t == expect_t),<span class="s">'for "'</span>//ch(quotedurdu)//<span class="s">'" expected tokens '</span>//pra( expect_t)//<span class="s">' got '</span>//pra(t))
+ <span class="k">else</span>
+   <span class="k">call</span> check(<span class="s">'tokenize'</span>,<span class="k">.false.</span>,<span class="s">'for "'</span>//ch(quotedurdu)//<span class="s">'" expected token size '</span>//afmt(<span class="k">size</span>( expect_t))//<span class="s">' got '</span>//pra(t))
+ <span class="k">endif</span>
+
+<span class="k">end</span> <span class="k">subroutine</span> urdu
+
+<span class="k">end</span> <span class="k">subroutine</span> test_tokenize</code></pre></details>
+<h2 id="graphs">Graphs</h2>
+<h3>Calls</h3>
+<div class="graph"><svg width="534pt" height="230pt"
+ viewBox="0 0 534 230" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="scale(1 1) rotate(0) translate(4 225.6)" fill="none" stroke="#8a93a5" font-family="Helvetica,sans-Serif" font-size="13" text-anchor="middle"><a href="../proc/test_tokenize.html" fill="white" stroke="none"><rect fill="#1d7a55" stroke="#f0a868" stroke-width="2" rx="7.2" x="0" y="-141.6" width="91" height="21.6"/><text x="45.5" y="-126.1">test_tokenize</text></a><a href="../proc/test_tokenize.html#proc-expectations" fill="white" stroke="none"><rect fill="#1d7a55" rx="7.2" x="127" y="-141.6" width="87.4" height="21.6"/><text x="170.7" y="-126.1">expectations</text></a><path d="M91.7,-130.8C100.3,-130.8 109.4,-130.8 118.2,-130.8"/><polygon fill="#8a93a5" points="118.1,-133.3 125.1,-130.8 118.1,-128.4"/><a href="../interface/tokenize.html" fill="white" stroke="none"><rect fill="#6a4fb3" rx="7.2" x="280" y="-221.6" width="62.8" height="21.6"/><text x="311.4" y="-206.1">tokenize</text></a><path d="M171.7,-190.8C204.9,-198.4 243.3,-203.6 271.3,-206.9"/><polygon fill="#8a93a5" points="270.9,-209.3 278.1,-207.6 271.4,-204.4"/><a href="../proc/check.html" fill="white" stroke="none"><rect fill="#1d7a55" rx="7.2" x="284.4" y="-181.6" width="54" height="21.6"/><text x="311.4" y="-166.1">check</text></a><path d="M63.9,-142.5C86.9,-157.2 129.3,-181.6 169.7,-190.8"/><path d="M171.7,-190.8C206.9,-198.8 247.9,-190.8 276.2,-182.7"/><polygon fill="#8a93a5" points="276.7,-185.1 282.7,-180.7 275.3,-180.4"/><a href="../proc/test_tokenize.html#proc-urdu" fill="white" stroke="none"><rect fill="#1d7a55" rx="7.2" x="143.7" y="-101.6" width="54" height="21.6"/><text x="170.7" y="-86.1">urdu</text></a><path d="M82.8,-119C99.5,-113.6 119.2,-107.2 135.7,-101.9"/><polygon fill="#8a93a5" points="136.1,-104.3 142,-99.8 134.6,-99.6"/><path d="M183.6,-141.9C198.3,-155.2 224.6,-177.1 250.4,-190.8 257.1,-194.3 264.6,-197.4 271.9,-200.1"/><polygon fill="#8a93a5" points="270.9,-202.3 278.3,-202.2 272.4,-197.7"/><path d="M210.7,-142C231.2,-148 256.1,-155.1 275.8,-160.8"/><polygon fill="#8a93a5" points="275.1,-163.2 282.5,-162.8 276.5,-158.5"/><a href="../interface/character.html" fill="white" stroke="none"><rect fill="#6a4fb3" rx="7.2" x="277.1" y="-141.6" width="68.6" height="21.6"/><text x="311.4" y="-126.1">character</text></a><path d="M214.8,-130.8C232.1,-130.8 251.8,-130.8 268.9,-130.8"/><polygon fill="#8a93a5" points="268.5,-133.3 275.5,-130.8 268.5,-128.4"/><a href="../proc/pra.html" fill="white" stroke="none"><rect fill="#0b7285" rx="7.2" x="284.4" y="-101.6" width="54" height="21.6"/><text x="311.4" y="-86.1">pra</text></a><path d="M210.7,-119.6C231.2,-113.6 256.1,-106.5 275.8,-100.8"/><polygon fill="#8a93a5" points="276.5,-103.1 282.5,-98.8 275.1,-98.4"/><a href="../proc/afmt.html" fill="white" stroke="none"><rect fill="#0b7285" rx="7.2" x="284.4" y="-61.6" width="54" height="21.6"/><text x="311.4" y="-46.1">afmt</text></a><path d="M199.7,-119.6C204.8,-117.1 209.9,-114.1 214.4,-110.8 233.6,-96.6 230.4,-83.9 250.4,-70.8 258.1,-65.7 267.3,-61.8 276.1,-58.9"/><polygon fill="#8a93a5" points="276.6,-61.3 282.5,-56.9 275.1,-56.6"/><path d="M198,-99.5C203.9,-102.4 209.8,-106.1 214.4,-110.8 241.8,-138.6 221.5,-164.7 250.4,-190.8 256.5,-196.3 264.2,-200.3 272,-203.2"/><polygon fill="#8a93a5" points="271,-205.5 278.4,-205.3 272.5,-200.8"/><path d="M197.9,-101.1C203.6,-103.8 209.4,-107.1 214.4,-110.8 233.6,-125 230.4,-137.7 250.4,-150.8 258.1,-155.9 267.3,-159.8 276.1,-162.7"/><polygon fill="#8a93a5" points="275.1,-165 282.5,-164.7 276.6,-160.3"/><path d="M198.1,-98.4C218.1,-104.2 245.9,-112.2 268.8,-118.8"/><polygon fill="#8a93a5" points="267.9,-121.1 275.3,-120.7 269.2,-116.4"/><path d="M198.1,-90.8C220.1,-90.8 251.6,-90.8 275.6,-90.8"/><polygon fill="#8a93a5" points="275.6,-93.3 282.6,-90.8 275.6,-88.4"/><path d="M198.1,-83.2C220.2,-76.8 251.9,-67.7 275.9,-60.7"/><polygon fill="#8a93a5" points="276.6,-63.1 282.7,-58.8 275.3,-58.4"/><a href="../interface/expand_backslash.html" fill="white" stroke="none"><rect fill="#6a4fb3" rx="7.2" x="250.4" y="-21.6" width="122.1" height="21.6"/><text x="311.4" y="-6.1">expand_backslash</text></a><path d="M183.6,-79.7C198.3,-66.4 224.6,-44.5 250.4,-30.8 254.3,-28.7 258.5,-26.8 262.8,-25"/><polygon fill="#8a93a5" points="263.5,-27.4 269.2,-22.6 261.8,-22.8"/><a href="../type/unicode_type.html#boundprocedure-ch" fill="white" stroke="none"><rect fill="#7a6a2d" rx="7.2" x="408.5" y="-101.6" width="117" height="21.6"/><text x="467" y="-86.1">unicode_type%ch</text></a><path d="M338.8,-90.8C355.6,-90.8 378.2,-90.8 399.7,-90.8"/><polygon fill="#8a93a5" points="399.6,-93.3 406.6,-90.8 399.6,-88.4"/></g>
+</svg>
+</div>
+<h3>Called by</h3>
+<div class="graph"><svg width="241pt" height="30pt"
+ viewBox="0 0 241 30" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="scale(1 1) rotate(0) translate(4 25.6)" fill="none" stroke="#8a93a5" font-family="Helvetica,sans-Serif" font-size="13" text-anchor="middle"><a href="../proc/test_tokenize.html" fill="white" stroke="none"><rect fill="#1d7a55" stroke="#f0a868" stroke-width="2" rx="7.2" x="0" y="-21.6" width="91" height="21.6"/><text x="45.5" y="-6.1">test_tokenize</text></a><a href="../program/test_m_unicode.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="127" y="-21.6" width="106.2" height="21.6"/><text x="180.1" y="-6.1">test_M_unicode</text></a><path d="M126.7,-10.8C117.9,-10.8 108.8,-10.8 100,-10.8"/><polygon fill="#8a93a5" points="100.2,-8.4 93.2,-10.8 100.2,-13.3"/></g>
+</svg>
+</div>
+<h2 id="variables">Variables</h2>
+<table class="arguments">
+<thead><tr><th>Name</th><th>Type</th><th>Attributes</th><th>Description</th></tr></thead>
+<tbody>
+<tr id="variable-begins"><td class="name">begins</td><td class="type">integer</td><td class="attributes"><span class="attr attr-allocatable">allocatable</span><span class="attr attr-dimension">dimension(:)</span></td><td></td></tr>
+<tr id="variable-delims"><td class="name">delims</td><td class="type">type(<a href="../type/unicode_type.html">ut</a>)</td><td class="attributes"></td><td></td></tr>
+<tr id="variable-ends"><td class="name">ends</td><td class="type">integer</td><td class="attributes"><span class="attr attr-allocatable">allocatable</span><span class="attr attr-dimension">dimension(:)</span></td><td></td></tr>
+<tr id="variable-expect_s"><td class="name">expect_s</td><td class="type">type(<a href="../type/unicode_type.html">ut</a>)</td><td class="attributes"><span class="attr attr-allocatable">allocatable</span><span class="attr attr-dimension">dimension(:)</span></td><td></td></tr>
+<tr id="variable-expect_t"><td class="name">expect_t</td><td class="type">type(<a href="../type/unicode_type.html">ut</a>)</td><td class="attributes"><span class="attr attr-allocatable">allocatable</span><span class="attr attr-dimension">dimension(:)</span></td><td></td></tr>
+<tr id="variable-expected"><td class="name">expected</td><td class="type">type(<a href="../type/unicode_type.html">ut</a>)</td><td class="attributes"><span class="attr attr-allocatable">allocatable</span><span class="attr attr-dimension">dimension(:)</span></td><td></td></tr>
+<tr id="variable-herbs"><td class="name">herbs</td><td class="type">type(<a href="../type/unicode_type.html">ut</a>)</td><td class="attributes"></td><td></td></tr>
+<tr id="variable-i"><td class="name">i</td><td class="type">integer</td><td class="attributes"></td><td></td></tr>
+<tr id="variable-in"><td class="name">in</td><td class="type">type(<a href="../type/unicode_type.html">ut</a>)</td><td class="attributes"></td><td></td></tr>
+<tr id="variable-line"><td class="name">line</td><td class="type">character(len=:)</td><td class="attributes"><span class="attr attr-allocatable">allocatable</span></td><td></td></tr>
+<tr id="variable-separators"><td class="name">separators</td><td class="type">type(<a href="../type/unicode_type.html">ut</a>)</td><td class="attributes"><span class="attr attr-allocatable">allocatable</span><span class="attr attr-dimension">dimension(:)</span></td><td></td></tr>
+<tr id="variable-tokens"><td class="name">tokens</td><td class="type">type(<a href="../type/unicode_type.html">ut</a>)</td><td class="attributes"><span class="attr attr-allocatable">allocatable</span><span class="attr attr-dimension">dimension(:)</span></td><td></td></tr>
+<tr id="variable-u_e"><td class="name">u_e</td><td class="type">type(<a href="../type/unicode_type.html">ut</a>)</td><td class="attributes"></td><td></td></tr>
+<tr id="variable-u_smiley"><td class="name">u_smiley</td><td class="type">type(<a href="../type/unicode_type.html">ut</a>)</td><td class="attributes"></td><td></td></tr>
+<tr id="variable-u_space"><td class="name">u_space</td><td class="type">type(<a href="../type/unicode_type.html">ut</a>)</td><td class="attributes"></td><td></td></tr>
+</tbody>
+</table>
+<h2 id="subroutines">Subroutines</h2>
+<div class="item" id="proc-expectations"><h3><a href="../proc/test_tokenize.html#proc-expectations">expectations</a></h3>
+<div class="sig"><span class="k">subroutine</span> expectations()</div>
+
+</div>
+<div class="item" id="proc-urdu"><h3><a href="../proc/test_tokenize.html#proc-urdu">urdu</a></h3>
+<div class="sig"><span class="k">subroutine</span> urdu()</div>
+
+</div>
+<footer>M_unicode was developed by John S. Urban. Generated on 2026-11-05 08:34 -0500. Documentation generated by <a href="https://github.com/jacobwilliams/fdoc">fdoc</a>.</footer>
+</div>
+</main>
+</div>
+</body>
+</html>

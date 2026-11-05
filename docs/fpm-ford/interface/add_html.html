@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>add_html &ndash; M_unicode</title>
+<meta name="author" content="John S. Urban">
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" href="../css/fdoc.css">
+<script src="../js/fdoc.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="brand" href="../index.html">M_unicode</a>
+<nav><a href="../lists/files.html">Source Files</a><a href="../lists/modules.html">Modules</a><a class="here" href="../lists/procedures.html">Procedures</a><a href="../lists/types.html">Derived Types</a><a href="../lists/programs.html">Programs</a></nav>
+<div class="search"><input type="search" placeholder="Search (/)" aria-label="Search"><div class="results"></div></div>
+<button class="theme" title="Change theme" aria-label="Change theme">&#9680;</button>
+</header>
+<div class="layout">
+<aside class="side">
+<h4><a href="../lists/files.html">Source Files</a></h4><h4><a href="../lists/modules.html">Modules</a></h4><h4><a href="../lists/procedures.html">Procedures</a></h4><ul><li><a href="../interface/add_backslash.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_backslash</a></li><li><a href="../interface/add_border.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_border</a></li><li><a href="../interface/add_html.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_html</a></li><li><a href="../interface/adjustl.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>adjustl</a></li><li><a href="../interface/adjustr.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>adjustr</a></li><li><a href="../proc/afmt.html"><span class="ico ico-f" title="function" aria-hidden="true">F</span>afmt</a></li><li><a href="../interface/assignment(=).html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>assignment(=)</a></li><li><a href="../proc/basics.html"><span class="ico ico-s" title="subroutine" aria-hidden="true">S</span>basics</a></li><li><a href="../proc/callit.html"><span class="ico ico-s" title="subroutine" aria-hidden="true">S</span>callit</a></li><li><a href="../proc/case_insensitive_compare.html"><span class="ico ico-f" title="function" aria-hidden="true">F</span>case_insensitive_compare</a></li><li><a class="more" href="../lists/procedures.html">All 158&hellip;</a></li></ul>
+<h4><a href="../lists/types.html">Derived Types</a></h4><h4><a href="../lists/programs.html">Programs</a></h4></aside>
+<main><div class="inner">
+<div class="crumbs"><a href="../sourcefile/m_unicode.f90.html">M_unicode.F90</a> <span class="sep">&rsaquo;</span> <a href="../module/m_unicode.html">M_unicode</a></div>
+<h1><span class="kind">interface</span>add_html</h1>
+<h2 id="call-forms">Call forms</h2>
+<div class="form">
+<div class="sig">result = add_html(line)</div>
+<table class="forms">
+<thead><tr><th>line</th><th class="rank">rank(line) = 0</th><th class="rank">rank(line) = 1</th><th>Result</th></tr></thead>
+<tbody>
+<tr><td class="type">type(unicode_type)</td><td class="rank"><a href="#proc-add_html_u_ascii" title="add_html_u_ascii">&#10003;</a></td><td class="rank"><a href="#proc-add_html_u_ascii_arr" title="add_html_u_ascii_arr">&#10003;</a></td><td class="type">character(len=:), rank(line)</td></tr>
+<tr><td class="type">character(len=*)</td><td class="rank"><a href="#proc-add_html_ascii_ascii" title="add_html_ascii_ascii">&#10003;</a></td><td class="rank"><a href="#proc-add_html_ascii_ascii_arr" title="add_html_ascii_ascii_arr">&#10003;</a></td><td class="type">character(len=:), rank(line)</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="procedures">Procedures</h2>
+<details class="specifics"><summary>All 4 procedures</summary>
+<div class="item" id="proc-add_html_u_ascii"><h3>add_html_u_ascii<span class="attr attr-private">private</span></h3>
+<div class="sig">character(len=:) <span class="k">function</span> add_html_u_ascii(<span class="intent attr-in" title="intent(in)">line</span>) <span class="k">result</span>(out)</div>
+
+</div>
+<div class="item" id="proc-add_html_ascii_ascii"><h3>add_html_ascii_ascii<span class="attr attr-private">private</span></h3>
+<div class="sig">character(len=:) <span class="k">function</span> add_html_ascii_ascii(<span class="intent attr-in" title="intent(in)">line</span>) <span class="k">result</span>(out)</div>
+<p>Sample Program:</p>
+</div>
+<div class="item" id="proc-add_html_u_ascii_arr"><h3>add_html_u_ascii_arr<span class="attr attr-private">private</span></h3>
+<div class="sig">character(len=:) <span class="k">function</span> add_html_u_ascii_arr(line) <span class="k">result</span>(aout)</div>
+
+</div>
+<div class="item" id="proc-add_html_ascii_ascii_arr"><h3>add_html_ascii_ascii_arr<span class="attr attr-private">private</span></h3>
+<div class="sig">character(len=:) <span class="k">function</span> add_html_ascii_ascii_arr(<span class="intent attr-in" title="intent(in)">line</span>) <span class="k">result</span>(out)</div>
+
+</div>
+</details>
+<h2 id="graphs">Graphs</h2>
+<h3>Called by</h3>
+<div class="graph"><svg width="395pt" height="175pt"
+ viewBox="0 0 395 175" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="scale(1 1) rotate(0) translate(4 170.7)" fill="none" stroke="#8a93a5" font-family="Helvetica,sans-Serif" font-size="13" text-anchor="middle"><a href="../interface/add_html.html" fill="white" stroke="none"><rect fill="#6a4fb3" stroke="#f0a868" stroke-width="2" rx="7.2" x="0" y="-101.6" width="67.9" height="21.6"/><text x="33.9" y="-86.1">add_html</text></a><a href="../program/uni.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="306.8" y="-160.6" width="54" height="21.6"/><text x="333.8" y="-145.1">uni</text></a><path d="M306.4,-155.8C262.6,-164.4 173.1,-176.7 103.9,-150.8 81.6,-142.5 61.7,-123.3 49.1,-108.8"/><polygon fill="#8a93a5" points="51.2,-107.5 44.8,-103.8 47.5,-110.7"/><a href="../proc/get_text.html" fill="white" stroke="none"><rect fill="#0b7285" rx="7.2" x="144" y="-141.6" width="60.7" height="21.6"/><text x="174.3" y="-126.1">get_text</text></a><path d="M306.5,-146.6C281,-143.5 242,-138.8 213.2,-135.4"/><polygon fill="#8a93a5" points="213.7,-133 206.5,-134.6 213.2,-137.8"/><path d="M143.6,-122.2C131.3,-118.7 116.9,-114.6 103.9,-110.8 95.1,-108.3 85.7,-105.5 76.7,-102.9"/><polygon fill="#8a93a5" points="77.5,-100.6 70.1,-101 76.1,-105.3"/><a href="../program/demo_add_html.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="120.5" y="-101.6" width="107.6" height="21.6"/><text x="174.3" y="-86.1">demo_add_html</text></a><path d="M120.2,-90.8C105.8,-90.8 90.4,-90.8 76.8,-90.8"/><polygon fill="#8a93a5" points="77,-88.4 70,-90.8 77,-93.3"/><a href="../program/demo_add_backslash~2.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="103.9" y="-61.6" width="140.9" height="21.6"/><text x="174.3" y="-46.1">demo_add_backslash</text></a><path d="M134.4,-62C124.4,-64.9 113.8,-67.9 103.9,-70.8 95.1,-73.3 85.7,-76.1 76.7,-78.7"/><polygon fill="#8a93a5" points="76.1,-76.3 70.1,-80.6 77.5,-81"/><a href="../proc/test_add_html.html" fill="white" stroke="none"><rect fill="#1d7a55" rx="7.2" x="126.3" y="-21.6" width="96.1" height="21.6"/><text x="174.3" y="-6.1">test_add_html</text></a><path d="M125.9,-21.4C118.3,-24 110.7,-27.1 103.9,-30.8 83.5,-41.9 63.9,-59.9 50.9,-73.2"/><polygon fill="#8a93a5" points="49.1,-71.5 46.1,-78.3 52.7,-74.9"/><a href="../program/test_m_unicode.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="280.8" y="-21.6" width="106.2" height="21.6"/><text x="333.8" y="-6.1">test_M_unicode</text></a><path d="M280.4,-10.8C264.5,-10.8 247.1,-10.8 231,-10.8"/><polygon fill="#8a93a5" points="231.3,-8.4 224.3,-10.8 231.3,-13.3"/></g>
+</svg>
+</div>
+<footer>M_unicode was developed by John S. Urban. Generated on 2026-11-05 08:34 -0500. Documentation generated by <a href="https://github.com/jacobwilliams/fdoc">fdoc</a>.</footer>
+</div>
+</main>
+</div>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>lower &ndash; M_unicode</title>
+<meta name="author" content="John S. Urban">
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" href="../css/fdoc.css">
+<script src="../js/fdoc.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="brand" href="../index.html">M_unicode</a>
+<nav><a href="../lists/files.html">Source Files</a><a href="../lists/modules.html">Modules</a><a class="here" href="../lists/procedures.html">Procedures</a><a href="../lists/types.html">Derived Types</a><a href="../lists/programs.html">Programs</a></nav>
+<div class="search"><input type="search" placeholder="Search (/)" aria-label="Search"><div class="results"></div></div>
+<button class="theme" title="Change theme" aria-label="Change theme">&#9680;</button>
+</header>
+<div class="layout">
+<aside class="side">
+<h4><a href="../lists/files.html">Source Files</a></h4><h4><a href="../lists/modules.html">Modules</a></h4><h4><a href="../lists/procedures.html">Procedures</a></h4><ul><li><a href="../interface/add_backslash.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_backslash</a></li><li><a href="../interface/add_border.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_border</a></li><li><a href="../interface/add_html.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_html</a></li><li><a href="../interface/adjustl.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>adjustl</a></li><li><a href="../interface/adjustr.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>adjustr</a></li><li><a href="../proc/afmt.html"><span class="ico ico-f" title="function" aria-hidden="true">F</span>afmt</a></li><li><a href="../interface/assignment(=).html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>assignment(=)</a></li><li><a href="../proc/basics.html"><span class="ico ico-s" title="subroutine" aria-hidden="true">S</span>basics</a></li><li><a href="../proc/callit.html"><span class="ico ico-s" title="subroutine" aria-hidden="true">S</span>callit</a></li><li><a href="../proc/case_insensitive_compare.html"><span class="ico ico-f" title="function" aria-hidden="true">F</span>case_insensitive_compare</a></li><li><a class="more" href="../lists/procedures.html">All 158&hellip;</a></li></ul>
+<h4><a href="../lists/types.html">Derived Types</a></h4><h4><a href="../lists/programs.html">Programs</a></h4></aside>
+<main><div class="inner">
+<div class="crumbs"><a href="../sourcefile/m_unicode.f90.html">M_unicode.F90</a> <span class="sep">&rsaquo;</span> <a href="../module/m_unicode.html">M_unicode</a></div>
+<h1><span class="kind">interface</span>lower</h1>
+<div class="doc">
+<h2 id="name">NAME</h2>
+<div class="codehilite"><pre><code> LOWER(3f) - [M_unicode:CASE] changes a string to lowercase over
+ specified range
+ (LICENSE:MIT)
+</code></pre></div>
+<h2 id="synopsis">SYNOPSIS</h2>
+<div class="codehilite"><pre><code> pure elemental function lower(str) result (string)
+
+  type(unicode_type),intent(in) :: str
+  type(unicode_type)            :: string
+</code></pre></div>
+<h2 id="description">DESCRIPTION</h2>
+<div class="codehilite"><pre><code>   lower(str) returns a copy of the input string with all
+   characters converted to miniscule (ie. "lowercase").
+</code></pre></div>
+<h2 id="options">OPTIONS</h2>
+<div class="codehilite"><pre><code> str    string to convert to miniscule
+</code></pre></div>
+<h2 id="returns">RETURNS</h2>
+<div class="codehilite"><pre><code> lower  copy of the entire input string with all characters converted
+        to miniscule.
+</code></pre></div>
+<h2 id="trivia">TRIVIA</h2>
+<div class="codehilite"><pre><code>The terms "uppercase" and "lowercase" date back to the early days
+of the mechanical printing press. Individual metal alloy casts of
+each needed letter or punctuation symbol were meticulously added to a
+press block, by hand, before rolling out copies of a page. These metal
+casts were stored and organized in wooden cases. The more-often-needed
+miniscule letters were placed closer to hand, in the lower cases of
+the work bench. The less often needed, capitalized, majuscule letters,
+ended up in the harder to reach upper cases.
+</code></pre></div>
+<h2 id="examples">EXAMPLES</h2>
+<p>Sample program:</p>
+<div class="codehilite"><pre><code>program demo_lower
+use iso_fortran_env, only : stdout =&gt; output_unit
+use M_unicode,       only : lower, unicode_type, assignment(=), trim
+use M_unicode,       only : ut =&gt; unicode_type, operator(==)
+implicit none
+character(len=*),parameter :: g='(*(g0))'
+type(unicode_type) :: pangram
+type(unicode_type) :: diacritics
+type(unicode_type) :: expected
+  !
+  ! a sentence containing every letter of the English alphabet
+  pangram="THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG"
+  expected="the quick brown fox jumps over the lazy dog"
+  call test(pangram,expected)
+  !
+  ! Slovak pangram
+  PANGRAM    = 'VYPÄTÁ DCÉRA GRÓFA MAXWELLA S IQ NIŽŠÍM AKO &amp;
+  &amp;KÔŇ NÚTI ČEĽAĎ HRÝZŤ HŔBU JABĹK.'
+  expected   = 'vypätá dcéra grófa maxwella s iq nižším ako &amp;
+  &amp;kôň núti čeľaď hrýzť hŕbu jabĺk.'
+  call test(pangram,expected)
+  !
+  ! contains each special Czech letter with diacritics exactly once
+  DIACRITICS='PŘÍLIŠ ŽLUŤOUČKÝ KŮŇ ÚPĚL ĎÁBELSKÉ ÓDY.'
+  expected ='příliš žluťoučký kůň úpěl ďábelské ódy.'
+  print g,'("A horse that was too yellow-ish moaned devilish odes")'
+  call test(diacritics,expected)
+contains
+subroutine test(in,expected)
+type(unicode_type),intent(in) :: in
+type(unicode_type),intent(in) :: expected
+type(unicode_type)            :: lowercase
+character(len=*),parameter    :: nl=new_line('A')
+    write(stdout,g)in%character()
+    lowercase=lower(in)
+    write(stdout,g)lowercase%character()
+    write(stdout,g)merge('PASSED','FAILED',lowercase == expected ),nl
+end subroutine test
+end program demo_lower
+</code></pre></div>
+<p>Expected output</p>
+<div class="codehilite"><pre><code>  &gt; THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG
+  &gt; the quick brown fox jumps over the lazy dog
+  &gt; PASSED
+  &gt;
+  &gt; VYPÄTÁ DCÉRA GRÓFA MAXWELLA S IQ NIŽŠÍM AKO KÔŇ NÚTI ...
+  &gt; ČEĽAĎ HRÝZŤ HŔBU JABĹK.
+  &gt; vypätá dcéra grófa maxwella s iq nižším ako kôň núti ...
+  &gt; čeľaď hrýzť hŕbu jabĺk.
+  &gt; PASSED
+  &gt;
+  &gt; ("A horse that was too yellow-ish moaned devilish odes")
+  &gt; PŘÍLIŠ ŽLUŤOUČKÝ KŮŇ ÚPĚL ĎÁBELSKÉ ÓDY.
+  &gt; příliš žluťoučký kůň úpěl ďábelské ódy.
+  &gt; PASSED
+</code></pre></div>
+<h2 id="author">AUTHOR</h2>
+<div class="codehilite"><pre><code> John S. Urban
+</code></pre></div>
+<h2 id="license">LICENSE</h2>
+<div class="codehilite"><pre><code> MIT
+</code></pre></div>
+</div>
+<h2 id="call-forms">Call forms</h2>
+<div class="form">
+<div class="sig">result = lower(string) <span class="attr attr-elemental">elemental</span></div>
+
+<table class="forms">
+<thead><tr><th>Procedure</th><th>Result</th></tr></thead>
+<tbody>
+<tr><td class="name"><a href="#proc-lower_a" title="lower_a">lower_a</a></td><td class="type">type(unicode_type)</td></tr>
+</tbody>
+</table>
+<p class="fixed"><code>string</code> is character(len=*)</p>
+</div>
+<div class="form">
+<div class="sig">result = lower(str) <span class="attr attr-elemental">elemental</span></div>
+
+<table class="forms">
+<thead><tr><th>Procedure</th><th>Result</th></tr></thead>
+<tbody>
+<tr><td class="name"><a href="#proc-lower_u" title="lower_u">lower_u</a></td><td class="type">type(unicode_type)</td></tr>
+</tbody>
+</table>
+<p class="fixed"><code>str</code> is type(unicode_type)</p>
+</div>
+<h2 id="procedures">Procedures</h2>
+<details class="specifics"><summary>All 2 procedures</summary>
+<div class="item" id="proc-lower_a"><h3>lower_a<span class="attr attr-elemental" title="Works on each element of arrays of any rank">elemental</span><span class="attr attr-private">private</span></h3>
+<div class="sig"><span class="k">elemental</span> type(<a href="../type/unicode_type.html">unicode_type</a>) <span class="k">function</span> lower_a(<span class="intent attr-in" title="intent(in)">string</span>) <span class="k">result</span>(res)</div>
+
+</div>
+<div class="item" id="proc-lower_u"><h3>lower_u<span class="attr attr-pure" title="Has no side effects">pure</span><span class="attr attr-elemental" title="Works on each element of arrays of any rank">elemental</span><span class="attr attr-private">private</span></h3>
+<div class="sig"><span class="k">pure</span> <span class="k">elemental</span> type(<a href="../type/unicode_type.html">unicode_type</a>) <span class="k">function</span> lower_u(<span class="intent attr-in" title="intent(in)">str</span>) <span class="k">result</span>(string)</div>
+
+</div>
+</details>
+<h2 id="graphs">Graphs</h2>
+<h3>Called by</h3>
+<div class="graph"><svg width="419pt" height="488pt"
+ viewBox="0 0 419 488" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="scale(1 1) rotate(0) translate(4 483.6)" fill="none" stroke="#8a93a5" font-family="Helvetica,sans-Serif" font-size="13" text-anchor="middle"><a href="../interface/lower.html" fill="white" stroke="none"><rect fill="#6a4fb3" stroke="#f0a868" stroke-width="2" rx="7.2" x="0" y="-261.6" width="54" height="21.6"/><text x="27" y="-246.1">lower</text></a><a href="../program/utf8_lower.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="136.6" y="-479.6" width="74.4" height="21.6"/><text x="173.8" y="-464.1">utf8_lower</text></a><path d="M136.3,-465.4C120.3,-462.2 102.3,-455.9 90,-443.8 41.2,-395.8 30.8,-309.4 28.6,-270.6"/><polygon fill="#8a93a5" points="31,-270.6 28.2,-263.7 26.1,-270.9"/><a href="../program/uni.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="325.5" y="-420.6" width="54" height="21.6"/><text x="352.5" y="-405.1">uni</text></a><path d="M325.3,-418.8C274.8,-434.5 162.5,-460.4 90,-410.8 43.1,-378.7 31.7,-305.5 28.9,-270.4"/><polygon fill="#8a93a5" points="31.4,-270.6 28.5,-263.8 26.5,-271"/><a href="../proc/get_text.html" fill="white" stroke="none"><rect fill="#0b7285" rx="7.2" x="143.5" y="-401.6" width="60.7" height="21.6"/><text x="173.8" y="-386.1">get_text</text></a><path d="M325,-407C295.2,-403.7 246.5,-398.5 212.6,-394.9"/><polygon fill="#8a93a5" points="213.1,-392.5 205.9,-394.1 212.6,-397.3"/><path d="M143.4,-389.7C126.2,-387.6 105.1,-382.7 90,-370.8 57.2,-345.1 40.1,-297.2 32.6,-270.4"/><polygon fill="#8a93a5" points="35.1,-270.1 31,-263.9 30.4,-271.3"/><a href="../proc/test.html" fill="white" stroke="none"><rect fill="#1d7a55" rx="7.2" x="146.8" y="-361.6" width="54" height="21.6"/><text x="173.8" y="-346.1">test</text></a><path d="M146.4,-348.9C129.2,-346.7 106.9,-341.7 90,-330.8 66.4,-315.5 48,-288.1 37.6,-269.6"/><polygon fill="#8a93a5" points="39.9,-268.6 34.4,-263.7 35.6,-271"/><a href="../program/demo_sort.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="135.9" y="-321.6" width="75.8" height="21.6"/><text x="173.8" y="-306.1">demo_sort</text></a><path d="M135.7,-304.6C121.1,-301.5 104.4,-297 90,-290.8 75.8,-284.7 61.1,-275.4 49.7,-267.4"/><polygon fill="#8a93a5" points="51.3,-265.5 44.2,-263.4 48.5,-269.5"/><a href="../proc/case_insensitive_compare.html" fill="white" stroke="none"><rect fill="#0b7285" rx="7.2" x="90" y="-281.6" width="167.6" height="21.6"/><text x="173.8" y="-266.1">case_insensitive_compare</text></a><path d="M91.1,-259.5C81.3,-258.2 71.7,-256.8 63.1,-255.6"/><polygon fill="#8a93a5" points="63.6,-253.2 56.3,-254.7 62.9,-258.1"/><a href="../program/demo_add_backslash~2.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="103.4" y="-241.6" width="140.9" height="21.6"/><text x="173.8" y="-226.1">demo_add_backslash</text></a><path d="M102.9,-240.4C89.2,-242.3 75.4,-244.3 63.4,-245.9"/><polygon fill="#8a93a5" points="63.1,-243.5 56.5,-246.9 63.7,-248.3"/><a href="../proc/test_upper.html" fill="white" stroke="none"><rect fill="#1d7a55" rx="7.2" x="135.9" y="-201.6" width="75.8" height="21.6"/><text x="173.8" y="-186.1">test_upper</text></a><path d="M135.7,-197C121.1,-200.1 104.4,-204.6 90,-210.8 75.8,-216.9 61.1,-226.2 49.7,-234.2"/><polygon fill="#8a93a5" points="48.5,-232.1 44.2,-238.2 51.3,-236.1"/><a href="../proc/test_lower.html" fill="white" stroke="none"><rect fill="#1d7a55" rx="7.2" x="137" y="-161.6" width="73.6" height="21.6"/><text x="173.8" y="-146.1">test_lower</text></a><path d="M136.9,-154.1C121.5,-156.9 103.9,-161.8 90,-170.8 66.4,-186.1 48,-213.5 37.6,-232"/><polygon fill="#8a93a5" points="35.6,-230.6 34.4,-237.9 39.9,-233"/><a href="../proc/test_sort.html" fill="white" stroke="none"><rect fill="#1d7a55" rx="7.2" x="141.7" y="-121.6" width="64.3" height="21.6"/><text x="173.8" y="-106.1">test_sort</text></a><path d="M141.4,-112.2C124.6,-114.4 104.5,-119.4 90,-130.8 57.2,-156.5 40.1,-204.4 32.6,-231.2"/><polygon fill="#8a93a5" points="30.4,-230.3 31,-237.7 35.1,-231.5"/><a href="../proc/case_insensitive_compare~2.html" fill="white" stroke="none"><rect fill="#0b7285" rx="7.2" x="90" y="-81.6" width="167.6" height="21.6"/><text x="173.8" y="-66.1">case_insensitive_compare</text></a><path d="M103.3,-82C98.5,-84.4 94,-87.3 90,-90.8 47.8,-127.7 34.1,-196.8 29.9,-230.8"/><polygon fill="#8a93a5" points="27.5,-230.3 29.1,-237.6 32.3,-230.9"/><a href="../type/unicode_type.html#boundprocedure-lower" fill="white" stroke="none"><rect fill="#7a6a2d" rx="7.2" x="106.6" y="-41.6" width="134.4" height="21.6"/><text x="173.8" y="-26.1">unicode_type%lower</text></a><path d="M106.3,-40.1C100.3,-42.8 94.7,-46.3 90,-50.8 38.1,-99.5 29.3,-190.7 28.1,-230.9"/><polygon fill="#8a93a5" points="25.6,-230.7 27.9,-237.8 30.5,-230.8"/><a href="../program/demo_lower.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="309.9" y="-361.6" width="85.2" height="21.6"/><text x="352.5" y="-346.1">demo_lower</text></a><path d="M309.6,-350.8C279.2,-350.8 238.5,-350.8 209.8,-350.8"/><polygon fill="#8a93a5" points="209.8,-348.4 202.8,-350.8 209.8,-353.3"/><a href="../program/test_m_unicode.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="299.4" y="-161.6" width="106.2" height="21.6"/><text x="352.5" y="-146.1">test_M_unicode</text></a><path d="M301.8,-162C276.2,-167.8 245.2,-174.9 220.3,-180.5"/><polygon fill="#8a93a5" points="219.8,-178.1 213.5,-182 220.9,-182.9"/><path d="M298.9,-150.8C273.6,-150.8 243.4,-150.8 219.2,-150.8"/><polygon fill="#8a93a5" points="219.4,-148.4 212.4,-150.8 219.4,-153.3"/><path d="M301.8,-139.6C274.2,-133.3 240.2,-125.6 214.4,-119.8"/><polygon fill="#8a93a5" points="215.2,-117.4 207.8,-118.3 214.1,-122.2"/><a href="../program/demo_m_unicode.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="293.6" y="-61.6" width="117.7" height="21.6"/><text x="352.5" y="-46.1">demo_M_unicode</text></a><path d="M293.1,-44.2C279.1,-42.6 264,-40.9 249.4,-39.2"/><polygon fill="#8a93a5" points="250.1,-36.9 242.8,-38.5 249.5,-41.7"/><a href="../program/testit~2.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="325.5" y="-21.6" width="54" height="21.6"/><text x="352.5" y="-6.1">testit</text></a><path d="M325,-13.8C305,-16.1 276.3,-19.3 249.4,-22.4"/><polygon fill="#8a93a5" points="249.3,-19.9 242.7,-23.1 249.9,-24.8"/></g>
+</svg>
+</div>
+<footer>M_unicode was developed by John S. Urban. Generated on 2026-11-05 08:34 -0500. Documentation generated by <a href="https://github.com/jacobwilliams/fdoc">fdoc</a>.</footer>
+</div>
+</main>
+</div>
+</body>
+</html>

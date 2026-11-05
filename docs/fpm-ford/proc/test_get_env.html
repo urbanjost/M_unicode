@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>test_get_env &ndash; M_unicode</title>
+<meta name="author" content="John S. Urban">
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" href="../css/fdoc.css">
+<script src="../js/fdoc.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="brand" href="../index.html">M_unicode</a>
+<nav><a href="../lists/files.html">Source Files</a><a href="../lists/modules.html">Modules</a><a class="here" href="../lists/procedures.html">Procedures</a><a href="../lists/types.html">Derived Types</a><a href="../lists/programs.html">Programs</a></nav>
+<div class="search"><input type="search" placeholder="Search (/)" aria-label="Search"><div class="results"></div></div>
+<button class="theme" title="Change theme" aria-label="Change theme">&#9680;</button>
+</header>
+<div class="layout">
+<aside class="side">
+<h4>Variables</h4><ul><li><a href="#variable-avarvalue"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>avarvalue</a></li><li><a href="#variable-u_smiley"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>u_smiley</a></li><li><a href="#variable-udefault"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>udefault</a></li><li><a href="#variable-uname"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>uname</a></li></ul>
+<h4>On this page</h4><ul><li><a href="#calls">Calls</a></li><li><a href="#source">Source</a></li></ul>
+<h4><a href="../lists/files.html">Source Files</a></h4><h4><a href="../lists/modules.html">Modules</a></h4><h4><a href="../lists/procedures.html">Procedures</a></h4><ul><li><a href="../interface/add_backslash.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_backslash</a></li><li><a href="../interface/add_border.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_border</a></li><li><a href="../interface/add_html.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_html</a></li><li><a href="../interface/adjustl.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>adjustl</a></li><li><a href="../interface/adjustr.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>adjustr</a></li><li><a href="../proc/afmt.html"><span class="ico ico-f" title="function" aria-hidden="true">F</span>afmt</a></li><li><a href="../interface/assignment(=).html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>assignment(=)</a></li><li><a href="../proc/basics.html"><span class="ico ico-s" title="subroutine" aria-hidden="true">S</span>basics</a></li><li><a href="../proc/callit.html"><span class="ico ico-s" title="subroutine" aria-hidden="true">S</span>callit</a></li><li><a href="../proc/case_insensitive_compare.html"><span class="ico ico-f" title="function" aria-hidden="true">F</span>case_insensitive_compare</a></li><li><a class="more" href="../lists/procedures.html">All 158&hellip;</a></li></ul>
+<h4><a href="../lists/types.html">Derived Types</a></h4><h4><a href="../lists/programs.html">Programs</a></h4></aside>
+<main><div class="inner">
+<div class="crumbs"><a href="../sourcefile/test_m_unicode.f90.html">test_M_unicode.F90</a> <span class="sep">&rsaquo;</span> <a href="../module/testsuite_m_unicode.html">testsuite_M_unicode</a></div>
+<h1><span class="kind">subroutine</span>test_get_env</h1>
+<div class="sig"><span class="k">subroutine</span> test_get_env()</div>
+<h2 id="calls">Calls</h2>
+<ul class="chips"><li><a href="../proc/fgetenv.html">fgetenv</a></li><li><a href="../proc/check.html">check</a></li><li><a href="../interface/get_env.html">get_env</a></li></ul>
+<h2 id="source">Source</h2>
+<details class="source"><summary>Show the code</summary><pre><code><span class="k">subroutine</span> test_get_env()
+<span class="k">type</span>(ut) :: uname
+<span class="k">type</span>(ut) :: udefault
+<span class="k">type</span>(ut) :: u_smiley
+<span class="k">character</span>(<span class="k">len</span>=:),<span class="k">allocatable</span> :: avarvalue
+
+   u_smiley=<span class="n">128515</span> <span class="c">! set with Unicode code point</span>
+   udefault=<span class="s">'Have a nice day '</span>//u_smiley//<span class="s">'!'</span> <span class="c">! set with unicode_type</span>
+
+   avarvalue=fgetenv(<span class="s">'HOME'</span>) <span class="c">! get a value using standard method</span>
+   uname=<span class="s">'HOME'</span>
+
+   <span class="c">! arguments can be type(unicode_type) or character</span>
+   <span class="c">! but type(unicode_type) is always returned</span>
+   <span class="k">call</span> check(<span class="s">'get_env'</span>, get_env(uname,             udefault             ) == avarvalue,<span class="s">'unicode_type and unicode_type'</span>)
+   <span class="k">call</span> check(<span class="s">'get_env'</span>, get_env(uname%<span class="k">character</span>(), udefault%<span class="k">character</span>() ) == avarvalue,<span class="s">'ASCII        and ASCII'</span>)
+   <span class="k">call</span> check(<span class="s">'get_env'</span>, get_env(uname,             udefault%<span class="k">character</span>() ) == avarvalue,<span class="s">'unicode_type and ASCII'</span>)
+   <span class="k">call</span> check(<span class="s">'get_env'</span>, get_env(uname%<span class="k">character</span>(), udefault             ) == avarvalue,<span class="s">'ASCII        and unicode_type'</span>)
+
+<span class="k">end</span> <span class="k">subroutine</span> test_get_env</code></pre></details>
+<h2 id="graphs">Graphs</h2>
+<h3>Calls</h3>
+<div class="graph"><svg width="194pt" height="110pt"
+ viewBox="0 0 194 110" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="scale(1 1) rotate(0) translate(4 105.6)" fill="none" stroke="#8a93a5" font-family="Helvetica,sans-Serif" font-size="13" text-anchor="middle"><a href="../proc/test_get_env.html" fill="white" stroke="none"><rect fill="#1d7a55" stroke="#f0a868" stroke-width="2" rx="7.2" x="0" y="-61.6" width="88.8" height="21.6"/><text x="44.4" y="-46.1">test_get_env</text></a><a href="../proc/fgetenv.html" fill="white" stroke="none"><rect fill="#0b7285" rx="7.2" x="126.7" y="-101.6" width="57" height="21.6"/><text x="155.2" y="-86.1">fgetenv</text></a><path d="M77.5,-62.6C90.3,-67.3 105.2,-72.8 118.4,-77.7"/><polygon fill="#8a93a5" points="117.6,-80 125,-80.1 119.3,-75.4"/><a href="../proc/check.html" fill="white" stroke="none"><rect fill="#1d7a55" rx="7.2" x="128.2" y="-61.6" width="54" height="21.6"/><text x="155.2" y="-46.1">check</text></a><path d="M89.7,-50.8C99.6,-50.8 109.9,-50.8 119.4,-50.8"/><polygon fill="#8a93a5" points="119.3,-53.3 126.3,-50.8 119.3,-48.4"/><a href="../interface/get_env.html" fill="white" stroke="none"><rect fill="#6a4fb3" rx="7.2" x="124.8" y="-21.6" width="60.7" height="21.6"/><text x="155.2" y="-6.1">get_env</text></a><path d="M77.5,-39C89.8,-34.5 104,-29.2 116.8,-24.5"/><polygon fill="#8a93a5" points="117.4,-26.9 123.2,-22.2 115.8,-22.3"/></g>
+</svg>
+</div>
+<h3>Called by</h3>
+<div class="graph"><svg width="239pt" height="30pt"
+ viewBox="0 0 239 30" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="scale(1 1) rotate(0) translate(4 25.6)" fill="none" stroke="#8a93a5" font-family="Helvetica,sans-Serif" font-size="13" text-anchor="middle"><a href="../proc/test_get_env.html" fill="white" stroke="none"><rect fill="#1d7a55" stroke="#f0a868" stroke-width="2" rx="7.2" x="0" y="-21.6" width="88.8" height="21.6"/><text x="44.4" y="-6.1">test_get_env</text></a><a href="../program/test_m_unicode.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="124.8" y="-21.6" width="106.2" height="21.6"/><text x="177.9" y="-6.1">test_M_unicode</text></a><path d="M124.6,-10.8C115.8,-10.8 106.7,-10.8 97.9,-10.8"/><polygon fill="#8a93a5" points="98.1,-8.4 91.1,-10.8 98.1,-13.3"/></g>
+</svg>
+</div>
+<h2 id="variables">Variables</h2>
+<table class="arguments">
+<thead><tr><th>Name</th><th>Type</th><th>Attributes</th><th>Description</th></tr></thead>
+<tbody>
+<tr id="variable-avarvalue"><td class="name">avarvalue</td><td class="type">character(len=:)</td><td class="attributes"><span class="attr attr-allocatable">allocatable</span></td><td></td></tr>
+<tr id="variable-u_smiley"><td class="name">u_smiley</td><td class="type">type(<a href="../type/unicode_type.html">ut</a>)</td><td class="attributes"></td><td></td></tr>
+<tr id="variable-udefault"><td class="name">udefault</td><td class="type">type(<a href="../type/unicode_type.html">ut</a>)</td><td class="attributes"></td><td></td></tr>
+<tr id="variable-uname"><td class="name">uname</td><td class="type">type(<a href="../type/unicode_type.html">ut</a>)</td><td class="attributes"></td><td></td></tr>
+</tbody>
+</table>
+<footer>M_unicode was developed by John S. Urban. Generated on 2026-11-05 08:34 -0500. Documentation generated by <a href="https://github.com/jacobwilliams/fdoc">fdoc</a>.</footer>
+</div>
+</main>
+</div>
+</body>
+</html>

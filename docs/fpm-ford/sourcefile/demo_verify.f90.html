@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>demo_verify.f90 &ndash; M_unicode</title>
+<meta name="author" content="John S. Urban">
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" href="../css/fdoc.css">
+<script src="../js/fdoc.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="brand" href="../index.html">M_unicode</a>
+<nav><a class="here" href="../lists/files.html">Source Files</a><a href="../lists/modules.html">Modules</a><a href="../lists/procedures.html">Procedures</a><a href="../lists/types.html">Derived Types</a><a href="../lists/programs.html">Programs</a></nav>
+<div class="search"><input type="search" placeholder="Search (/)" aria-label="Search"><div class="results"></div></div>
+<button class="theme" title="Change theme" aria-label="Change theme">&#9680;</button>
+</header>
+<div class="layout">
+<aside class="side">
+<h4><a href="../lists/files.html">Source Files</a></h4><ul><li><a href="../sourcefile/backslash_to_utf8.f90.html"><span class="ico ico-_" title="source file" aria-hidden="true">&equiv;</span>backslash_to_utf8.f90</a></li><li><a href="../sourcefile/codepoint_range.f90.html"><span class="ico ico-_" title="source file" aria-hidden="true">&equiv;</span>codepoint_range.f90</a></li><li><a href="../sourcefile/find_non_ascii.f90.html"><span class="ico ico-_" title="source file" aria-hidden="true">&equiv;</span>find_non_ascii.f90</a></li><li><a href="../sourcefile/generate_code_from_utf8_arg.f90.html"><span class="ico ico-_" title="source file" aria-hidden="true">&equiv;</span>generate_code_from_utf8_arg.f90</a></li><li><a href="../sourcefile/html_to_utf8.f90.html"><span class="ico ico-_" title="source file" aria-hidden="true">&equiv;</span>html_to_utf8.f90</a></li><li><a href="../sourcefile/lcase.f90.html"><span class="ico ico-_" title="source file" aria-hidden="true">&equiv;</span>lcase.f90</a></li><li><a href="../sourcefile/ucase.f90.html"><span class="ico ico-_" title="source file" aria-hidden="true">&equiv;</span>ucase.f90</a></li><li><a href="../sourcefile/uni.f90.html"><span class="ico ico-_" title="source file" aria-hidden="true">&equiv;</span>uni.f90</a></li><li><a href="../sourcefile/upside_down.f90.html"><span class="ico ico-_" title="source file" aria-hidden="true">&equiv;</span>upside_down.f90</a></li><li><a href="../sourcefile/utf8_len.f90.html"><span class="ico ico-_" title="source file" aria-hidden="true">&equiv;</span>utf8_len.f90</a></li><li><a class="more" href="../lists/files.html">All 82&hellip;</a></li></ul>
+<h4><a href="../lists/modules.html">Modules</a></h4><h4><a href="../lists/procedures.html">Procedures</a></h4><h4><a href="../lists/types.html">Derived Types</a></h4><h4><a href="../lists/programs.html">Programs</a></h4></aside>
+<main><div class="inner">
+<h1><span class="kind">file</span>demo_verify.f90</h1>
+<h2 id="contents">Contents</h2>
+<div class="item" id="program-demo_verify"><h3><a href="../program/demo_verify.html">demo_verify</a></h3>
+
+</div>
+<h2 id="source">Source</h2>
+<pre class="source"><code><a class="ln" id="ln-1" href="#ln-1"></a>     <span class="k">program</span> demo_verify
+<a class="ln" id="ln-2" href="#ln-2"></a>     <span class="c">! general examples</span>
+<a class="ln" id="ln-3" href="#ln-3"></a>     <span class="k">use</span> M_unicode, <span class="k">only</span> : assignment(=)
+<a class="ln" id="ln-4" href="#ln-4"></a>     <span class="k">use</span> M_unicode, <span class="k">only</span> : ut=&gt;unicode_type, ch=&gt;<span class="k">character</span>
+<a class="ln" id="ln-5" href="#ln-5"></a>     <span class="k">use</span> M_unicode, <span class="k">only</span> : <span class="k">write</span>(formatted)
+<a class="ln" id="ln-6" href="#ln-6"></a>     <span class="k">use</span> M_unicode, <span class="k">only</span> : <span class="k">operator</span>(==)
+<a class="ln" id="ln-7" href="#ln-7"></a>     <span class="k">use</span> M_unicode, <span class="k">only</span> : <span class="k">verify</span>, replace
+<a class="ln" id="ln-8" href="#ln-8"></a>     <span class="k">use</span> M_unicode, <span class="k">only</span> : <span class="k">operator</span>(//)
+<a class="ln" id="ln-9" href="#ln-9"></a>     <span class="k">implicit</span> <span class="k">none</span>
+<a class="ln" id="ln-10" href="#ln-10"></a>     <span class="c">! some useful character sets</span>
+<a class="ln" id="ln-11" href="#ln-11"></a>     <span class="k">character</span>,<span class="k">parameter</span>          :: &amp;
+<a class="ln" id="ln-12" href="#ln-12"></a>      &amp; <span class="k">int</span>*(*)   = <span class="s">"1234567890"</span>, &amp;
+<a class="ln" id="ln-13" href="#ln-13"></a>      &amp; low*(*)   = <span class="s">"abcdefghijklmnopqrstuvwxyz"</span>, &amp;
+<a class="ln" id="ln-14" href="#ln-14"></a>      &amp; upp*(*)   = <span class="s">"ABCDEFGHIJKLMNOPQRSTUVWXYZ"</span>, &amp;
+<a class="ln" id="ln-15" href="#ln-15"></a>      &amp; punc*(*)  = <span class="s">"!""#$%&amp;'()*+,‐./:;&lt;=&gt;?@[\]'_‘{|}˜"</span>, &amp;
+<a class="ln" id="ln-16" href="#ln-16"></a>      &amp; blank*(*) = <span class="s">" "</span>, &amp;
+<a class="ln" id="ln-17" href="#ln-17"></a>      &amp; tab       = <span class="k">char</span>(<span class="n">11</span>), &amp;
+<a class="ln" id="ln-18" href="#ln-18"></a>      &amp; prnt*(*) = <span class="k">int</span>//low//upp//blank//punc
+<a class="ln" id="ln-19" href="#ln-19"></a>     <span class="c">!</span>
+<a class="ln" id="ln-20" href="#ln-20"></a>     <span class="k">type</span>(ut)                     :: stru
+<a class="ln" id="ln-21" href="#ln-21"></a>     <span class="k">integer</span>                      :: i
+<a class="ln" id="ln-22" href="#ln-22"></a>         <span class="k">print</span> *, <span class="s">"basics:"</span>
+<a class="ln" id="ln-23" href="#ln-23"></a>         <span class="k">print</span> *, <span class="k">VERIFY</span> (<span class="s">"ABBA"</span>, <span class="s">"A"</span>)                <span class="c">! has the value 2.</span>
+<a class="ln" id="ln-24" href="#ln-24"></a>         <span class="k">print</span> *, <span class="k">VERIFY</span> (<span class="s">"ABBA"</span>, <span class="s">"A"</span>, BACK = <span class="k">.TRUE.</span>) <span class="c">! has the value 3.</span>
+<a class="ln" id="ln-25" href="#ln-25"></a>         <span class="k">print</span> *, <span class="k">VERIFY</span> (<span class="s">"ABBA"</span>, <span class="s">"AB"</span>)               <span class="c">! has the value 0.</span>
+<a class="ln" id="ln-26" href="#ln-26"></a>        <span class="c">!</span>
+<a class="ln" id="ln-27" href="#ln-27"></a>        <span class="k">print</span> *,<span class="s">"find first non‐uppercase letter"</span>
+<a class="ln" id="ln-28" href="#ln-28"></a>        <span class="c">! will produce the location of "d", because there is no match in UPP</span>
+<a class="ln" id="ln-29" href="#ln-29"></a>        <span class="k">write</span>(*,*) <span class="s">"something unmatched"</span>,<span class="k">verify</span>(ut(<span class="s">"ABCdEFG"</span>), upp)
+<a class="ln" id="ln-30" href="#ln-30"></a>        <span class="c">!</span>
+<a class="ln" id="ln-31" href="#ln-31"></a>        <span class="k">print</span> *,<span class="s">"if everything is matched return zero"</span>
+<a class="ln" id="ln-32" href="#ln-32"></a>        <span class="c">! will produce 0 as all letters have a match</span>
+<a class="ln" id="ln-33" href="#ln-33"></a>        <span class="k">write</span>(*,*) &amp;
+<a class="ln" id="ln-34" href="#ln-34"></a>        &amp; <span class="s">"everything matched"</span>,<span class="k">verify</span>(ut(<span class="s">"ffoorrttrraann"</span>), <span class="s">"nartrof"</span>)
+<a class="ln" id="ln-35" href="#ln-35"></a>        <span class="c">!</span>
+<a class="ln" id="ln-36" href="#ln-36"></a>        <span class="k">print</span> *,<span class="s">"easily categorize strings as uppercase, lowercase, ..."</span>
+<a class="ln" id="ln-37" href="#ln-37"></a>        <span class="c">! C-like functionality but does entire strings not just characters</span>
+<a class="ln" id="ln-38" href="#ln-38"></a>        <span class="k">write</span>(*,*)<span class="s">"isdigit 123?"</span>,<span class="k">verify</span>(ut(<span class="s">"123"</span>), <span class="k">int</span>) == <span class="n">0</span>
+<a class="ln" id="ln-39" href="#ln-39"></a>        <span class="k">write</span>(*,*)<span class="s">"islower abc?"</span>,<span class="k">verify</span>(ut(<span class="s">"abc"</span>), low) == <span class="n">0</span>
+<a class="ln" id="ln-40" href="#ln-40"></a>        <span class="k">write</span>(*,*)<span class="s">"isalpha aBc?"</span>,<span class="k">verify</span>(ut(<span class="s">"aBc"</span>), low//upp) == <span class="n">0</span>
+<a class="ln" id="ln-41" href="#ln-41"></a>        <span class="k">write</span>(*,*)<span class="s">"isblank aBc dEf?"</span>,<span class="k">verify</span>(ut(<span class="s">"aBc dEf"</span>), blank//tab ) /= <span class="n">0</span>
+<a class="ln" id="ln-42" href="#ln-42"></a>        <span class="c">! check if all printable characters</span>
+<a class="ln" id="ln-43" href="#ln-43"></a>        stru=<span class="s">"aB;cde,fgHI!Jklmno PQRSTU vwxyz"</span>
+<a class="ln" id="ln-44" href="#ln-44"></a>        <span class="k">write</span>(*,*)<span class="s">"isprint?"</span>,<span class="k">verify</span>(stru,prnt) == <span class="n">0</span>
+<a class="ln" id="ln-45" href="#ln-45"></a>        <span class="c">!</span>
+<a class="ln" id="ln-46" href="#ln-46"></a>        <span class="c">! this now has a nonprintable tab character in it</span>
+<a class="ln" id="ln-47" href="#ln-47"></a>        stru=replace(stru,<span class="n">10</span>,<span class="n">10</span>,ut(<span class="k">char</span>(<span class="n">11</span>)))
+<a class="ln" id="ln-48" href="#ln-48"></a>        <span class="k">write</span>(*,*)<span class="s">"isprint?"</span>,<span class="k">verify</span>(stru,prnt) == <span class="n">0</span>
+<a class="ln" id="ln-49" href="#ln-49"></a>        <span class="c">!</span>
+<a class="ln" id="ln-50" href="#ln-50"></a>        <span class="k">print</span> *,<span class="s">"VERIFY(3f) is very powerful using expressions as masks"</span>
+<a class="ln" id="ln-51" href="#ln-51"></a>        <span class="c">! verify(3f) is often used in a logical expression</span>
+<a class="ln" id="ln-52" href="#ln-52"></a>        stru=<span class="s">" This is NOT all UPPERCASE "</span>
+<a class="ln" id="ln-53" href="#ln-53"></a>        <span class="k">write</span>(*,*)<span class="s">"all uppercase/spaces?"</span>,<span class="k">verify</span>(stru, blank//upp) == <span class="n">0</span>
+<a class="ln" id="ln-54" href="#ln-54"></a>        stru=<span class="s">" This IS all uppercase "</span>
+<a class="ln" id="ln-55" href="#ln-55"></a>        <span class="k">write</span>(*,*) <span class="s">"stru=["</span>//stru//<span class="s">"]"</span>
+<a class="ln" id="ln-56" href="#ln-56"></a>        <span class="k">write</span>(*,*)<span class="s">"all uppercase/spaces?"</span>,<span class="k">verify</span>(stru, blank//upp) == <span class="n">0</span>
+<a class="ln" id="ln-57" href="#ln-57"></a>        <span class="c">!</span>
+<a class="ln" id="ln-58" href="#ln-58"></a>        <span class="c">! set and show complex stru to be tested</span>
+<a class="ln" id="ln-59" href="#ln-59"></a>        stru=<span class="s">"  Check this out. Let me know  "</span>
+<a class="ln" id="ln-60" href="#ln-60"></a>        <span class="c">! show the stru being examined</span>
+<a class="ln" id="ln-61" href="#ln-61"></a>        <span class="k">write</span>(*,*) <span class="s">"stru=["</span>//stru//<span class="s">"]"</span>
+<a class="ln" id="ln-62" href="#ln-62"></a>        <span class="k">write</span>(*,*) <span class="s">"        "</span>//<span class="k">repeat</span>(<span class="k">int</span>,<span class="n">4</span>) <span class="c">! number line</span>
+<a class="ln" id="ln-63" href="#ln-63"></a>        <span class="c">!</span>
+<a class="ln" id="ln-64" href="#ln-64"></a>        <span class="c">! function returns a position just not a logical like C</span>
+<a class="ln" id="ln-65" href="#ln-65"></a>        <span class="k">print</span> *, <span class="s">"returning a position not just a logical is useful"</span>
+<a class="ln" id="ln-66" href="#ln-66"></a>        <span class="c">! which can be very useful for parsing strings</span>
+<a class="ln" id="ln-67" href="#ln-67"></a>        <span class="k">write</span>(*,*)<span class="s">"first non‐blank character"</span>,<span class="k">verify</span>(stru, blank)
+<a class="ln" id="ln-68" href="#ln-68"></a>        <span class="k">write</span>(*,*)<span class="s">"last non‐blank character"</span>,<span class="k">verify</span>(stru, blank,back=<span class="k">.true.</span>)
+<a class="ln" id="ln-69" href="#ln-69"></a>        <span class="k">write</span>(*,*)<span class="s">"first non‐letter non‐blank"</span>,<span class="k">verify</span>(stru,low//upp//blank)
+<a class="ln" id="ln-70" href="#ln-70"></a>        <span class="c">!</span>
+<a class="ln" id="ln-71" href="#ln-71"></a>       <span class="c">!VERIFY(3f) is elemental (can check an array of strings in one call)</span>
+<a class="ln" id="ln-72" href="#ln-72"></a>        <span class="k">print</span> *, <span class="s">"elemental"</span>
+<a class="ln" id="ln-73" href="#ln-73"></a>        <span class="c">! are strings all letters (or blanks)?</span>
+<a class="ln" id="ln-74" href="#ln-74"></a>        <span class="k">write</span>(*,*) <span class="s">"array of strings"</span>,<span class="k">verify</span>( &amp;
+<a class="ln" id="ln-75" href="#ln-75"></a>        <span class="c">! strings must all be same length, so force to length 10</span>
+<a class="ln" id="ln-76" href="#ln-76"></a>        &amp; [<span class="k">character</span>(<span class="k">len</span>=<span class="n">10</span>) :: <span class="s">"YES"</span>,<span class="s">"ok"</span>,<span class="s">"000"</span>,<span class="s">"good one"</span>,<span class="s">"Nope!"</span>], &amp;
+<a class="ln" id="ln-77" href="#ln-77"></a>        &amp; low//upp//blank) == <span class="n">0</span>
+<a class="ln" id="ln-78" href="#ln-78"></a>        <span class="c">!</span>
+<a class="ln" id="ln-79" href="#ln-79"></a>        <span class="c">! rarer, but the set can be an array, not just the strings to test</span>
+<a class="ln" id="ln-80" href="#ln-80"></a>        <span class="c">! you could do ISPRINT() this (harder) way :&gt;</span>
+<a class="ln" id="ln-81" href="#ln-81"></a>        <span class="k">write</span>(*,*)<span class="s">"isprint?"</span>, &amp;
+<a class="ln" id="ln-82" href="#ln-82"></a>        &amp; <span class="k">.not.</span><span class="k">all</span>(<span class="k">verify</span>(ut(<span class="s">"aBc"</span>), [(<span class="k">char</span>(i),i=<span class="n">32</span>,<span class="n">126</span>)])==<span class="n">1</span>)
+<a class="ln" id="ln-83" href="#ln-83"></a>        <span class="c">! instead of this way</span>
+<a class="ln" id="ln-84" href="#ln-84"></a>        <span class="k">write</span>(*,*)<span class="s">"isprint?"</span>,<span class="k">verify</span>(ut(<span class="s">"aBc"</span>),prnt) == <span class="n">0</span>
+<a class="ln" id="ln-85" href="#ln-85"></a>        <span class="c">!</span>
+<a class="ln" id="ln-86" href="#ln-86"></a>     <span class="k">end</span> <span class="k">program</span> demo_verify
+<a class="ln" id="ln-87" href="#ln-87"></a></code></pre>
+<h2 id="graphs">Graphs</h2>
+<h3>Files this one depends on</h3>
+<div class="graph"><svg width="255pt" height="30pt"
+ viewBox="0 0 255 30" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="scale(1 1) rotate(0) translate(4 25.6)" fill="none" stroke="#8a93a5" font-family="Helvetica,sans-Serif" font-size="13" text-anchor="middle"><a href="../sourcefile/demo_verify.f90.html" fill="white" stroke="none"><rect fill="#5c6f2d" stroke="#f0a868" stroke-width="2" rx="7.2" x="140" y="-21.6" width="106.9" height="21.6"/><text x="193.5" y="-6.1">demo_verify.f90</text></a><a href="../sourcefile/m_unicode.f90.html" fill="white" stroke="none"><rect fill="#5c6f2d" rx="7.2" x="0" y="-21.6" width="104" height="21.6"/><text x="52" y="-6.1">M_unicode.F90</text></a><path d="M139.3,-10.8C130.6,-10.8 121.5,-10.8 112.6,-10.8"/><polygon fill="#8a93a5" points="112.6,-8.4 105.6,-10.8 112.6,-13.3"/></g>
+</svg>
+</div>
+<footer>M_unicode was developed by John S. Urban. Generated on 2026-11-05 08:34 -0500. Documentation generated by <a href="https://github.com/jacobwilliams/fdoc">fdoc</a>.</footer>
+</div>
+</main>
+</div>
+</body>
+</html>

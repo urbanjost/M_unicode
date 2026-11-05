@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>sort &ndash; M_unicode</title>
+<meta name="author" content="John S. Urban">
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" href="../css/fdoc.css">
+<script src="../js/fdoc.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="brand" href="../index.html">M_unicode</a>
+<nav><a href="../lists/files.html">Source Files</a><a href="../lists/modules.html">Modules</a><a class="here" href="../lists/procedures.html">Procedures</a><a href="../lists/types.html">Derived Types</a><a href="../lists/programs.html">Programs</a></nav>
+<div class="search"><input type="search" placeholder="Search (/)" aria-label="Search"><div class="results"></div></div>
+<button class="theme" title="Change theme" aria-label="Change theme">&#9680;</button>
+</header>
+<div class="layout">
+<aside class="side">
+<h4><a href="../lists/files.html">Source Files</a></h4><h4><a href="../lists/modules.html">Modules</a></h4><h4><a href="../lists/procedures.html">Procedures</a></h4><ul><li><a href="../interface/add_backslash.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_backslash</a></li><li><a href="../interface/add_border.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_border</a></li><li><a href="../interface/add_html.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_html</a></li><li><a href="../interface/adjustl.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>adjustl</a></li><li><a href="../interface/adjustr.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>adjustr</a></li><li><a href="../proc/afmt.html"><span class="ico ico-f" title="function" aria-hidden="true">F</span>afmt</a></li><li><a href="../interface/assignment(=).html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>assignment(=)</a></li><li><a href="../proc/basics.html"><span class="ico ico-s" title="subroutine" aria-hidden="true">S</span>basics</a></li><li><a href="../proc/callit.html"><span class="ico ico-s" title="subroutine" aria-hidden="true">S</span>callit</a></li><li><a href="../proc/case_insensitive_compare.html"><span class="ico ico-f" title="function" aria-hidden="true">F</span>case_insensitive_compare</a></li><li><a class="more" href="../lists/procedures.html">All 158&hellip;</a></li></ul>
+<h4><a href="../lists/types.html">Derived Types</a></h4><h4><a href="../lists/programs.html">Programs</a></h4></aside>
+<main><div class="inner">
+<div class="crumbs"><a href="../sourcefile/m_unicode.f90.html">M_unicode.F90</a> <span class="sep">&rsaquo;</span> <a href="../module/m_unicode.html">M_unicode</a></div>
+<h1><span class="kind">interface</span>sort</h1>
+<div class="doc">
+<h2 id="name">NAME</h2>
+<div class="codehilite"><pre><code> SORT(3f) - [M_unicode:SORT] indexed hybrid quicksort of
+ an array
+ (LICENSE:MIT)
+</code></pre></div>
+<h2 id="synopsis">SYNOPSIS</h2>
+<div class="codehilite"><pre><code> subroutine sort(data,index,comparison_func)
+
+     type(unicode_type),intent(in)           :: data(:)
+     integer,intent(out)                     :: indx(size(data))
+     procedure(unicode_comparator), optional :: comparison_func
+</code></pre></div>
+<h2 id="description">DESCRIPTION</h2>
+<div class="codehilite"><pre><code>A rank hybrid quicksort. The data is not moved. An integer array is
+generated instead with values that are indices to the sorted order
+of the data. This requires a second array the size of the input
+array, which for large arrays would require a significant amount of
+memory. One major advantage of this method is that the indices can be
+used to access an entire user-defined type in sorted order. This makes
+this seemingly simple sort procedure usable with the vast majority
+of user-defined types. or other correlated data.
+
+By default data is sorted according to the Unicode codepoint values of
+the characters. A user-supplied comparison function may be supplied
+if another order is required.  A custom collation function must take
+two values and return a logical value:
+
+    abstract interface
+       logical function unicode_comparator(str1, str2)
+       ! true if str1 comes before or is equal to str2 else false
+          import :: unicode_type
+          type(unicode_type), intent(in) :: str1, str2
+       end function unicode_comparator
+    end interface
+</code></pre></div>
+<h2 id="background">BACKGROUND</h2>
+<div class="codehilite"><pre><code> From Leonard J. Moss of SLAC:
+
+ Here's a hybrid QuickSort I wrote a number of years ago. It's based
+ on suggestions in Knuth, Volume 3, and performs much better than a
+ pure QuickSort on short or partially ordered input arrays.
+
+ This routine performs an in-memory sort of the first N elements of
+ array DATA, returning into array INDEX the indices of elements of
+ DATA arranged in ascending order. Thus,
+
+    DATA(INDX(1)) will be the smallest number in array DATA;
+    DATA(INDX(N)) will be the largest number in DATA.
+
+ The original data is not physically rearranged. The original order
+ of equal input values is not necessarily preserved.
+
+ SORT(3f) uses a hybrid QuickSort algorithm, based on several
+ suggestions in Knuth, Volume 3, Section 5.2.2. In particular, the
+ "pivot key" [my term] for dividing each subsequence is chosen to be
+ the median of the first, last, and middle values of the subsequence;
+ and the QuickSort is cut off when a subsequence has 9 or fewer
+ elements, and a straight insertion sort of the entire array is done
+ at the end. The result is comparable to a pure insertion sort for
+ very short arrays, and very fast for very large arrays (of order 12
+ micro-sec/element on the 3081K for arrays of 10K elements). It is
+ also not subject to the poor performance of the pure QuickSort on
+ partially ordered data.
+
+ Complex values are sorted by the magnitude of sqrt(r**2+i**2).
+
+ o Created: sortrx(3f): 15 Jul 1986, Len Moss
+ o saved from url=(0044)http://www.fortran.com/fortran/quick_sort2.f
+ o changed to update syntax from F77 style; John S. Urban 20161021
+ o generalized from only real values to include other intrinsic types;
+   John S. Urban 20210110
+ o type(unicode_type) version JSU 2025-09-20. See M_sort for other types.
+</code></pre></div>
+<h2 id="examples">EXAMPLES</h2>
+<p>Note that the custom German dictionary collate function found below
+   is just a sample, and likely to be quite slow.</p>
+<p>Sample usage:</p>
+<div class="codehilite"><pre><code>program demo_sort
+use iso_fortran_env, only : stdout =&gt; output_unit
+use M_unicode,       only : unicode_type
+use M_unicode,       only : ut=&gt;unicode_type, write(formatted)
+use M_unicode,       only : ch=&gt;character
+use M_unicode,       only : lower, sort, expand_backslash, len
+use M_unicode,       only : operator(&lt;), assignment(=), operator(==)
+implicit none
+character(len=*),parameter :: g='(*(g0,1x))'
+type(unicode_type),allocatable :: rr(:)
+type(unicode_type),allocatable :: answer(:)
+integer,allocatable            :: ii(:)
+integer                        :: i
+   !
+   print g,'sort array with sort(3f)'
+   rr=[ &amp;
+      ut("the"),   &amp;
+      ut("quick"), &amp;
+      ut("brown"), &amp;
+      ut("fox") ]
+   allocate(ii(size(rr)))
+   !
+   print g,'original order'
+   print g,ch(rr)
+   !
+   call sort(rr,ii)
+   !
+   print g,'sorted order'
+   ! convert to character
+   do i=1,size(rr)
+      write(stdout,'(i3.3,1x,a)')i,rr(ii(i))%character()
+   enddo
+   !
+   print g,'reorder original'
+   rr=rr(ii)
+   print g,ch(rr)
+
+   print g
+   print g,'input for custom sort'
+   rr=[ut("Banana"), ut("apple"), ut("Cherry"), ut("orange")]
+   call print_output()
+
+   print g,  'convert to lower and sort (likely creating temp array)'
+   call sort(lower(rr), ii )
+   call print_output()
+
+   print g,  'Sort ignoring case by using custom rule'
+   call sort(rr, ii, comparison_func=case_insensitive_compare)
+   call print_output()
+
+   print g,  'Sort in German dictionary order using custom rule'
+   ! A list of German words designed to test a dictionary
+   rr=[ &amp;
+      ut("Band"),        &amp; ! (Standard B)
+      ut("Buße"),        &amp; ! (Contains ß — often sorted as 'ss')
+      ut("Öl"),          &amp; ! (Umlaut Ö at the start)
+      ut("Ufer"),        &amp; ! (Standard U)
+      ut("Apfel"),       &amp; ! (Standard A)
+      ut("Oase"),        &amp; ! (Standard O)
+      ut("Bus"),         &amp; ! (Standard B)
+      ut("Möve"),        &amp; ! (Umlaut Ö)
+      ut("Bär"),         &amp; ! (Umlaut Ä in the middle)
+      ut("Zebra"),       &amp; ! (Standard Z)
+      ut("Mutter"),      &amp; ! (Standard M)
+      ut("Bussard"),     &amp; ! (Standard double 's' comparison with ß)
+      ut("Äpfel"),       &amp; ! (Umlaut Ä )
+      ut("Mond"),        &amp; ! (Standard M)
+      ut("Mütter"),      &amp; ! (Umlaut Ü)
+      ut("Übung"),       &amp; ! (Umlaut Ü at the start)
+      ut("F\xE4hnlein"), &amp;   ! (Same word using Unicode codepoint
+      ut("Fa\u0308hnlein") ] ! and Latin letter followed by
+                             ! combining dieresis modifier U+0308.
+   !
+   rr=expand_backslash(rr) ! convert escape codes to UTF-8
+
+   if(allocated(ii))deallocate(ii)  ! create index array
+   allocate(ii(size(rr)))
+   !
+   print g,'original order'
+   print g, ( trim(rr(i)%ch()),i=1,size(rr) )
+   print g
+   !
+   print g,  'Sort using default Unicode rule for comparison'
+   call sort(rr, ii)
+   call print_output()
+   !
+   print g,  'Sort using custom German dictionary order'
+   call sort(rr, ii, comparison_func=german_dictionary)
+   call print_output()
+
+   print g,  'Correct Order'
+   answer=[ &amp;
+      ut("Apfel"),     &amp;
+      ut("Äpfel"),     &amp;
+      ut("Band"),      &amp;
+      ut("Bär"),       &amp;
+      ut("Bus"),       &amp;
+      ut("Bussard"),   &amp;
+      ut("Buße"),      &amp;
+      ut("Fähnlein"),  &amp;
+      ut("Fähnlein"),  &amp;
+      ut("Mond"),      &amp;
+      ut("Möve"),      &amp;
+      ut("Mutter"),    &amp;
+      ut("Mütter"),    &amp;
+      ut("Oase"),      &amp;
+      ut("Öl"),        &amp;
+      ut("Ufer"),      &amp;
+      ut("Übung"),     &amp;
+      ut("Zebra")      ]
+   print g, ( trim(answer(i)%ch()),i=1,size(answer) )
+   print g, 'CHECK TEST WORDS:',rr(ii) == answer
+   print g, merge('PASSED','FAILED', all(rr(ii) == answer))
+
+contains
+
+   subroutine print_output()
+   character(len=:),allocatable :: output(:)
+   integer                      :: i
+      output=rr(ii)
+      print g, ( trim(output(i)),i=1,size(output) )
+      print g
+   end subroutine print_output
+
+   function case_insensitive_compare(str1, str2) result (answer)
+   ! case-insensitive comparison
+   type(unicode_type), intent(in) :: str1, str2
+   logical                        :: answer
+      answer = lower(str1) &lt; lower(str2)
+   end function case_insensitive_compare
+!
+! German dictionaries follow specific guidelines
+! for sorting umlauts (ä, ö, ü) and the eszett (β).
+!
+! Standard Dictionary Rules (DIN 5007-1, Variant 1)
+!
+! In traditional German dictionaries, words with umlauts are treated as
+! their base vowels and the letter β is treated as ss. That is ...
+!
+!     Amlausts:
+!         ä is sorted as a
+!         ö is sorted as o
+!         ü is sorted as u
+!     Eszett:
+!         β is sorted as ss
+!
+!  along with a similar exchange for their uppercase cases.
+!
+!  If normalized words are identical, the umlaut comes second.
+!
+!  The multibyte characters with an umlaut may be a single Unicode
+!  codepoint or the associated Latin character followed by the
+!  combining dieresis modifier U+0308.
+!
+! Note for reference that depending on the context (such as phone books
+! or digital systems), other official standards apply:
+!
+!   + Phone Book Rules (DIN 5007-1, Variant 2): Umlauts are expanded by
+!     adding an e after the vowel (ä = ae, ö = oe, ü = ue). As in Variant
+!     1 the letter β is treated as ss.
+!
+!   + Strict / Character-by-Character Order: Some systems or older indexes
+!     place umlauts right after their base letter as separate characters
+!     (a, ä, b, c...).
+!
+function german_dictionary(lhs, rhs) result(is_lle)
+!
+! @(#) Lexically compare two strings using German dictionary order
+!
+type(ut), intent(in) :: lhs, rhs
+logical              :: is_lle
+
+   is_lle = nmi(lhs) &lt; nmi(rhs)
+
+end function german_dictionary
+
+function nmi(in) result (out)
+type(ut),intent(in)  :: in
+type(ut)             :: out
+integer,allocatable  :: codes(:)
+integer              :: i, ikeep
+integer,parameter    :: comb=2*int(z'308'), &amp;
+ &amp;  um_lower_a    =  2*int(z'E4'),       &amp;
+ &amp;  um_lower_o    =  2*int(z'F6'),       &amp;
+ &amp;  um_lower_u    =  2*int(z'FC'),       &amp;
+ &amp;  um_upper_a    =  2*int(z'C4'),       &amp;
+ &amp;  um_upper_o    =  2*int(z'D6'),       &amp;
+ &amp;  um_upper_u    =  2*int(z'DC'),       &amp;
+ &amp;  lower_a       =  2*ichar('a')+1,     &amp;
+ &amp;  lower_o       =  2*ichar('o')+1,     &amp;
+ &amp;  lower_u       =  2*ichar('u')+1,     &amp;
+ &amp;  upper_a       =  2*ichar('A')+1,     &amp;
+ &amp;  upper_o       =  2*ichar('O')+1,     &amp;
+ &amp;  upper_u       =  2*ichar('U')+1,     &amp;
+ &amp;  lower_eszett  =  2*int(z'DF'),       &amp;
+ &amp;  upper_eszett  =  2*int(z'1E9E'),     &amp;
+ &amp;  lower_s       =  2*int(ichar('s')),  &amp;
+ &amp;  upper_s       =  2*int(ichar('S'))
+
+   ! if every letter is a beta and first letter is COMB
+   ! (which should not happen) longest index required would be
+   allocate(codes(0:2*len(in)))
+
+   ikeep=0
+   do concurrent ( i=1:len(in) )
+      if(in%codes(i) == comb)then
+         codes(ikeep)=codes(ikeep)+1
+      else
+         ikeep=ikeep+1
+         codes(ikeep)=in%codes(i)*2
+         select case(codes(ikeep))
+          case(:127*2)
+          case(um_lower_a); codes(ikeep)=lower_a
+          case(um_lower_o); codes(ikeep)=lower_o
+          case(um_lower_u); codes(ikeep)=lower_u
+          case(um_upper_a); codes(ikeep)=upper_a
+          case(um_upper_o); codes(ikeep)=upper_o
+          case(um_upper_u); codes(ikeep)=upper_u
+          case(lower_eszett)
+             codes(ikeep:ikeep+1)=lower_s
+             ikeep=ikeep+1
+          case(upper_eszett)
+             codes(ikeep:ikeep+1)=upper_s
+             ikeep=ikeep+1
+         end select
+      endif
+   enddo
+   ! codes are no longer valid Unicode codepoints for the input but
+   ! can be used to compare lexically to another normalized value
+   ! only because needed some method of telling if an A,O,U used to
+   ! have an umlaut
+   out=codes(1:ikeep)
+
+end function nmi
+
+end program demo_sort
+</code></pre></div>
+<p>Results:</p>
+<div class="codehilite"><pre><code> &gt; sort array with sort(3f)
+ &gt; original order
+ &gt; the   quick brown fox
+ &gt; sorted order
+ &gt; 001 brown
+ &gt; 002 fox
+ &gt; 003 quick
+ &gt; 004 the
+ &gt; reorder original
+ &gt; brown fox   quick the
+ &gt;
+ &gt; input for custom sort
+ &gt; Cherry orange apple Banana
+ &gt;
+ &gt; convert to lower and sort (likely creating temp array)
+ &gt; apple Banana Cherry orange
+ &gt;
+ &gt; Sort ignoring case by using custom rule
+ &gt; apple Banana Cherry orange
+ &gt;
+ &gt; Sort in German dictionary order using custom rule
+ &gt; original order
+ &gt; Band Buße Öl Ufer Apfel Oase Bus Möve Bär Zebra Mutter Bussard
+ &gt; Äpfel Mond Mütter Übung Fähnlein Fähnlein
+ &gt;
+ &gt; Sort using default Unicode rule for comparison
+ &gt; Apfel Band Bus Bussard Buße Bär Fähnlein Fähnlein Mond Mutter
+ &gt; Möve Mütter Oase Ufer Zebra Äpfel Öl Übung
+ &gt;
+ &gt; Sort using custom German dictionary order
+ &gt; Apfel Äpfel Band Bär Bus Bussard Buße Fähnlein Fähnlein Mond
+ &gt; Möve Mutter Mütter Oase Öl Ufer Übung Zebra
+ &gt;
+ &gt; Correct Order
+ &gt; Apfel Äpfel Band Bär Bus Bussard Buße Fähnlein Fähnlein Mond
+ &gt; Möve Mutter Mütter Oase Öl Ufer Übung Zebra
+ &gt; CHECK TEST WORDS: T T T T T T T T T T T T T T T T T T
+ &gt; PASSED
+</code></pre></div>
+<h2 id="author">AUTHOR</h2>
+<div class="codehilite"><pre><code> John S. Urban
+</code></pre></div>
+<h2 id="license">LICENSE</h2>
+<div class="codehilite"><pre><code> MIT
+</code></pre></div>
+</div>
+<h2 id="call-forms">Call forms</h2>
+<div class="form">
+<div class="sig">call sort(data, indx)</div>
+
+<table class="forms">
+<thead><tr><th>Procedure</th></tr></thead>
+<tbody>
+<tr><td class="name"><a href="#proc-sort_quick_rx" title="sort_quick_rx">sort_quick_rx</a></td></tr>
+</tbody>
+</table>
+<p class="fixed"><code>data</code> is type(unicode_type), rank 1, <code>indx</code> is integer(int32), rank 1</p>
+</div>
+<div class="form">
+<div class="sig">call sort(data, indx, comparison_func)</div>
+
+<table class="forms">
+<thead><tr><th>Procedure</th></tr></thead>
+<tbody>
+<tr><td class="name"><a href="#proc-sort_quick_rx_custom" title="sort_quick_rx_custom">sort_quick_rx_custom</a></td></tr>
+</tbody>
+</table>
+<p class="fixed"><code>data</code> is type(unicode_type), rank 1, <code>indx</code> is integer(int32), rank 1, <code>comparison_func</code> is procedure(unicode_comparator)</p>
+</div>
+<h2 id="procedures">Procedures</h2>
+<details class="specifics"><summary>All 2 procedures</summary>
+<div class="item" id="proc-sort_quick_rx"><h3>sort_quick_rx<span class="attr attr-private">private</span></h3>
+<div class="sig"><span class="k">subroutine</span> sort_quick_rx(<span class="intent attr-in" title="intent(in)">data</span>, <span class="intent attr-out" title="intent(out)">indx</span>)</div>
+
+</div>
+<div class="item" id="proc-sort_quick_rx_custom"><h3>sort_quick_rx_custom<span class="attr attr-private">private</span></h3>
+<div class="sig"><span class="k">subroutine</span> sort_quick_rx_custom(<span class="intent attr-in" title="intent(in)">data</span>, <span class="intent attr-out" title="intent(out)">indx</span>, comparison_func)</div>
+
+</div>
+</details>
+<h2 id="graphs">Graphs</h2>
+<h3>Called by</h3>
+<div class="graph"><svg width="416pt" height="148pt"
+ viewBox="0 0 416 148" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="scale(1 1) rotate(0) translate(4 143.6)" fill="none" stroke="#8a93a5" font-family="Helvetica,sans-Serif" font-size="13" text-anchor="middle"><a href="../interface/sort.html" fill="white" stroke="none"><rect fill="#6a4fb3" stroke="#f0a868" stroke-width="2" rx="7.2" x="0" y="-79.6" width="54" height="21.6"/><text x="27" y="-64.1">sort</text></a><a href="../program/demo_sort.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="90" y="-139.6" width="75.8" height="21.6"/><text x="127.9" y="-124.1">demo_sort</text></a><path d="M105.7,-117.7C100.5,-114.8 95,-111.8 90,-108.8 77.4,-101.4 63.8,-92.6 52.5,-85.2"/><polygon fill="#8a93a5" points="53.9,-83.2 46.7,-81.4 51.2,-87.3"/><a href="../program/demo_sort~2.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="90" y="-99.6" width="75.8" height="21.6"/><text x="127.9" y="-84.1">demo_sort</text></a><path d="M89.5,-81.2C80.9,-79.5 71.8,-77.6 63.2,-75.9"/><polygon fill="#8a93a5" points="63.8,-73.5 56.5,-74.6 62.8,-78.3"/><a href="../proc/test_sort.html" fill="white" stroke="none"><rect fill="#1d7a55" rx="7.2" x="201.8" y="-40.6" width="64.3" height="21.6"/><text x="233.9" y="-25.1">test_sort</text></a><path d="M201.4,-35.8C163.8,-42.9 101.4,-54.8 62.6,-62.2"/><polygon fill="#8a93a5" points="62.6,-59.7 56.2,-63.4 63.5,-64.5"/><a href="../proc/test_sort.html#proc-chk" fill="white" stroke="none"><rect fill="#1d7a55" rx="7.2" x="100.9" y="-21.6" width="54" height="21.6"/><text x="127.9" y="-6.1">chk</text></a><path d="M201.5,-24C189.5,-21.9 175.8,-19.4 163.6,-17.1"/><polygon fill="#8a93a5" points="164.2,-14.8 156.9,-15.9 163.3,-19.6"/><path d="M107.8,-22C92.9,-30.7 72,-43 55.4,-52.8"/><polygon fill="#8a93a5" points="54.1,-50.6 49.3,-56.3 56.6,-54.9"/><a href="../program/test_m_unicode.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="302.1" y="-40.6" width="106.2" height="21.6"/><text x="355.2" y="-25.1">test_M_unicode</text></a><path d="M301.9,-29.8C292.8,-29.8 283.4,-29.8 274.7,-29.8"/><polygon fill="#8a93a5" points="274.8,-27.4 267.8,-29.8 274.8,-32.3"/></g>
+</svg>
+</div>
+<footer>M_unicode was developed by John S. Urban. Generated on 2026-11-05 08:34 -0500. Documentation generated by <a href="https://github.com/jacobwilliams/fdoc">fdoc</a>.</footer>
+</div>
+</main>
+</div>
+</body>
+</html>

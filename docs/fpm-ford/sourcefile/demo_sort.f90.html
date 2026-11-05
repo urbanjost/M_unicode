@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>demo_sort.f90 &ndash; M_unicode</title>
+<meta name="author" content="John S. Urban">
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" href="../css/fdoc.css">
+<script src="../js/fdoc.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="brand" href="../index.html">M_unicode</a>
+<nav><a class="here" href="../lists/files.html">Source Files</a><a href="../lists/modules.html">Modules</a><a href="../lists/procedures.html">Procedures</a><a href="../lists/types.html">Derived Types</a><a href="../lists/programs.html">Programs</a></nav>
+<div class="search"><input type="search" placeholder="Search (/)" aria-label="Search"><div class="results"></div></div>
+<button class="theme" title="Change theme" aria-label="Change theme">&#9680;</button>
+</header>
+<div class="layout">
+<aside class="side">
+<h4><a href="../lists/files.html">Source Files</a></h4><ul><li><a href="../sourcefile/backslash_to_utf8.f90.html"><span class="ico ico-_" title="source file" aria-hidden="true">&equiv;</span>backslash_to_utf8.f90</a></li><li><a href="../sourcefile/codepoint_range.f90.html"><span class="ico ico-_" title="source file" aria-hidden="true">&equiv;</span>codepoint_range.f90</a></li><li><a href="../sourcefile/find_non_ascii.f90.html"><span class="ico ico-_" title="source file" aria-hidden="true">&equiv;</span>find_non_ascii.f90</a></li><li><a href="../sourcefile/generate_code_from_utf8_arg.f90.html"><span class="ico ico-_" title="source file" aria-hidden="true">&equiv;</span>generate_code_from_utf8_arg.f90</a></li><li><a href="../sourcefile/html_to_utf8.f90.html"><span class="ico ico-_" title="source file" aria-hidden="true">&equiv;</span>html_to_utf8.f90</a></li><li><a href="../sourcefile/lcase.f90.html"><span class="ico ico-_" title="source file" aria-hidden="true">&equiv;</span>lcase.f90</a></li><li><a href="../sourcefile/ucase.f90.html"><span class="ico ico-_" title="source file" aria-hidden="true">&equiv;</span>ucase.f90</a></li><li><a href="../sourcefile/uni.f90.html"><span class="ico ico-_" title="source file" aria-hidden="true">&equiv;</span>uni.f90</a></li><li><a href="../sourcefile/upside_down.f90.html"><span class="ico ico-_" title="source file" aria-hidden="true">&equiv;</span>upside_down.f90</a></li><li><a href="../sourcefile/utf8_len.f90.html"><span class="ico ico-_" title="source file" aria-hidden="true">&equiv;</span>utf8_len.f90</a></li><li><a class="more" href="../lists/files.html">All 82&hellip;</a></li></ul>
+<h4><a href="../lists/modules.html">Modules</a></h4><h4><a href="../lists/procedures.html">Procedures</a></h4><h4><a href="../lists/types.html">Derived Types</a></h4><h4><a href="../lists/programs.html">Programs</a></h4></aside>
+<main><div class="inner">
+<h1><span class="kind">file</span>demo_sort.f90</h1>
+<h2 id="contents">Contents</h2>
+<div class="item" id="program-demo_sort"><h3><a href="../program/demo_sort.html">demo_sort</a></h3>
+
+</div>
+<h2 id="source">Source</h2>
+<pre class="source"><code><a class="ln" id="ln-1" href="#ln-1"></a>     <span class="k">program</span> demo_sort
+<a class="ln" id="ln-2" href="#ln-2"></a>     <span class="k">use</span> iso_fortran_env, <span class="k">only</span> : stdout =&gt; output_unit
+<a class="ln" id="ln-3" href="#ln-3"></a>     <span class="k">use</span> M_unicode,       <span class="k">only</span> : unicode_type
+<a class="ln" id="ln-4" href="#ln-4"></a>     <span class="k">use</span> M_unicode,       <span class="k">only</span> : ut=&gt;unicode_type, <span class="k">write</span>(formatted)
+<a class="ln" id="ln-5" href="#ln-5"></a>     <span class="k">use</span> M_unicode,       <span class="k">only</span> : ch=&gt;<span class="k">character</span>
+<a class="ln" id="ln-6" href="#ln-6"></a>     <span class="k">use</span> M_unicode,       <span class="k">only</span> : lower, sort, expand_backslash, <span class="k">len</span>
+<a class="ln" id="ln-7" href="#ln-7"></a>     <span class="k">use</span> M_unicode,       <span class="k">only</span> : <span class="k">operator</span>(&lt;), assignment(=), <span class="k">operator</span>(==)
+<a class="ln" id="ln-8" href="#ln-8"></a>     <span class="k">implicit</span> <span class="k">none</span>
+<a class="ln" id="ln-9" href="#ln-9"></a>     <span class="k">character</span>(<span class="k">len</span>=*),<span class="k">parameter</span> :: g=<span class="s">'(*(g0,1x))'</span>
+<a class="ln" id="ln-10" href="#ln-10"></a>     <span class="k">type</span>(unicode_type),<span class="k">allocatable</span> :: rr(:)
+<a class="ln" id="ln-11" href="#ln-11"></a>     <span class="k">type</span>(unicode_type),<span class="k">allocatable</span> :: answer(:)
+<a class="ln" id="ln-12" href="#ln-12"></a>     <span class="k">integer</span>,<span class="k">allocatable</span>            :: ii(:)
+<a class="ln" id="ln-13" href="#ln-13"></a>     <span class="k">integer</span>                        :: i
+<a class="ln" id="ln-14" href="#ln-14"></a>        <span class="c">!</span>
+<a class="ln" id="ln-15" href="#ln-15"></a>        <span class="k">print</span> g,<span class="s">'sort array with sort(3f)'</span>
+<a class="ln" id="ln-16" href="#ln-16"></a>        rr=[ &amp;
+<a class="ln" id="ln-17" href="#ln-17"></a>           ut(<span class="s">"the"</span>),   &amp;
+<a class="ln" id="ln-18" href="#ln-18"></a>           ut(<span class="s">"quick"</span>), &amp;
+<a class="ln" id="ln-19" href="#ln-19"></a>           ut(<span class="s">"brown"</span>), &amp;
+<a class="ln" id="ln-20" href="#ln-20"></a>           ut(<span class="s">"fox"</span>) ]
+<a class="ln" id="ln-21" href="#ln-21"></a>        <span class="k">allocate</span>(ii(<span class="k">size</span>(rr)))
+<a class="ln" id="ln-22" href="#ln-22"></a>        <span class="c">!</span>
+<a class="ln" id="ln-23" href="#ln-23"></a>        <span class="k">print</span> g,<span class="s">'original order'</span>
+<a class="ln" id="ln-24" href="#ln-24"></a>        <span class="k">print</span> g,ch(rr)
+<a class="ln" id="ln-25" href="#ln-25"></a>        <span class="c">!</span>
+<a class="ln" id="ln-26" href="#ln-26"></a>        <span class="k">call</span> sort(rr,ii)
+<a class="ln" id="ln-27" href="#ln-27"></a>        <span class="c">!</span>
+<a class="ln" id="ln-28" href="#ln-28"></a>        <span class="k">print</span> g,<span class="s">'sorted order'</span>
+<a class="ln" id="ln-29" href="#ln-29"></a>        <span class="c">! convert to character</span>
+<a class="ln" id="ln-30" href="#ln-30"></a>        <span class="k">do</span> i=<span class="n">1</span>,<span class="k">size</span>(rr)
+<a class="ln" id="ln-31" href="#ln-31"></a>           <span class="k">write</span>(stdout,<span class="s">'(i3.3,1x,a)'</span>)i,rr(ii(i))%<span class="k">character</span>()
+<a class="ln" id="ln-32" href="#ln-32"></a>        enddo
+<a class="ln" id="ln-33" href="#ln-33"></a>        <span class="c">!</span>
+<a class="ln" id="ln-34" href="#ln-34"></a>        <span class="k">print</span> g,<span class="s">'reorder original'</span>
+<a class="ln" id="ln-35" href="#ln-35"></a>        rr=rr(ii)
+<a class="ln" id="ln-36" href="#ln-36"></a>        <span class="k">print</span> g,ch(rr)
+<a class="ln" id="ln-37" href="#ln-37"></a>
+<a class="ln" id="ln-38" href="#ln-38"></a>        <span class="k">print</span> g
+<a class="ln" id="ln-39" href="#ln-39"></a>        <span class="k">print</span> g,<span class="s">'input for custom sort'</span>
+<a class="ln" id="ln-40" href="#ln-40"></a>        rr=[ut(<span class="s">"Banana"</span>), ut(<span class="s">"apple"</span>), ut(<span class="s">"Cherry"</span>), ut(<span class="s">"orange"</span>)]
+<a class="ln" id="ln-41" href="#ln-41"></a>        <span class="k">call</span> print_output()
+<a class="ln" id="ln-42" href="#ln-42"></a>
+<a class="ln" id="ln-43" href="#ln-43"></a>        <span class="k">print</span> g,  <span class="s">'convert to lower and sort (likely creating temp array)'</span>
+<a class="ln" id="ln-44" href="#ln-44"></a>        <span class="k">call</span> sort(lower(rr), ii )
+<a class="ln" id="ln-45" href="#ln-45"></a>        <span class="k">call</span> print_output()
+<a class="ln" id="ln-46" href="#ln-46"></a>
+<a class="ln" id="ln-47" href="#ln-47"></a>        <span class="k">print</span> g,  <span class="s">'Sort ignoring case by using custom rule'</span>
+<a class="ln" id="ln-48" href="#ln-48"></a>        <span class="k">call</span> sort(rr, ii, comparison_func=case_insensitive_compare)
+<a class="ln" id="ln-49" href="#ln-49"></a>        <span class="k">call</span> print_output()
+<a class="ln" id="ln-50" href="#ln-50"></a>
+<a class="ln" id="ln-51" href="#ln-51"></a>        <span class="k">print</span> g,  <span class="s">'Sort in German dictionary order using custom rule'</span>
+<a class="ln" id="ln-52" href="#ln-52"></a>        <span class="c">! A list of German words designed to test a dictionary</span>
+<a class="ln" id="ln-53" href="#ln-53"></a>        rr=[ &amp;
+<a class="ln" id="ln-54" href="#ln-54"></a>           ut(<span class="s">"Band"</span>),        &amp; <span class="c">! (Standard B)</span>
+<a class="ln" id="ln-55" href="#ln-55"></a>           ut(<span class="s">"Buße"</span>),       &amp; <span class="c">! (Contains ß — often sorted as 'ss')</span>
+<a class="ln" id="ln-56" href="#ln-56"></a>           ut(<span class="s">"Öl"</span>),         &amp; <span class="c">! (Umlaut Ö at the start)</span>
+<a class="ln" id="ln-57" href="#ln-57"></a>           ut(<span class="s">"Ufer"</span>),        &amp; <span class="c">! (Standard U)</span>
+<a class="ln" id="ln-58" href="#ln-58"></a>           ut(<span class="s">"Apfel"</span>),       &amp; <span class="c">! (Standard A)</span>
+<a class="ln" id="ln-59" href="#ln-59"></a>           ut(<span class="s">"Oase"</span>),        &amp; <span class="c">! (Standard O)</span>
+<a class="ln" id="ln-60" href="#ln-60"></a>           ut(<span class="s">"Bus"</span>),         &amp; <span class="c">! (Standard B)</span>
+<a class="ln" id="ln-61" href="#ln-61"></a>           ut(<span class="s">"Möve"</span>),       &amp; <span class="c">! (Umlaut Ö)</span>
+<a class="ln" id="ln-62" href="#ln-62"></a>           ut(<span class="s">"Bär"</span>),        &amp; <span class="c">! (Umlaut Ä in the middle)</span>
+<a class="ln" id="ln-63" href="#ln-63"></a>           ut(<span class="s">"Zebra"</span>),       &amp; <span class="c">! (Standard Z)</span>
+<a class="ln" id="ln-64" href="#ln-64"></a>           ut(<span class="s">"Mutter"</span>),      &amp; <span class="c">! (Standard M)</span>
+<a class="ln" id="ln-65" href="#ln-65"></a>           ut(<span class="s">"Bussard"</span>),     &amp; <span class="c">! (Standard double 's' comparison with ß)</span>
+<a class="ln" id="ln-66" href="#ln-66"></a>           ut(<span class="s">"Äpfel"</span>),       &amp; <span class="c">! (Umlaut Ä )</span>
+<a class="ln" id="ln-67" href="#ln-67"></a>           ut(<span class="s">"Mond"</span>),        &amp; <span class="c">! (Standard M)</span>
+<a class="ln" id="ln-68" href="#ln-68"></a>           ut(<span class="s">"Mütter"</span>),      &amp; <span class="c">! (Umlaut Ü)</span>
+<a class="ln" id="ln-69" href="#ln-69"></a>           ut(<span class="s">"Übung"</span>),       &amp; <span class="c">! (Umlaut Ü at the start)</span>
+<a class="ln" id="ln-70" href="#ln-70"></a>           ut(<span class="s">"F\xE4hnlein"</span>), &amp;   <span class="c">! (Same word using Unicode codepoint</span>
+<a class="ln" id="ln-71" href="#ln-71"></a>           ut(<span class="s">"Fa\u0308hnlein"</span>) ] <span class="c">! and Latin letter followed by</span>
+<a class="ln" id="ln-72" href="#ln-72"></a>                                  <span class="c">! combining dieresis modifier U+0308.</span>
+<a class="ln" id="ln-73" href="#ln-73"></a>        <span class="c">!</span>
+<a class="ln" id="ln-74" href="#ln-74"></a>        rr=expand_backslash(rr) <span class="c">! convert escape codes to UTF-8</span>
+<a class="ln" id="ln-75" href="#ln-75"></a>
+<a class="ln" id="ln-76" href="#ln-76"></a>        <span class="k">if</span>(<span class="k">allocated</span>(ii))<span class="k">deallocate</span>(ii)  <span class="c">! create index array</span>
+<a class="ln" id="ln-77" href="#ln-77"></a>        <span class="k">allocate</span>(ii(<span class="k">size</span>(rr)))
+<a class="ln" id="ln-78" href="#ln-78"></a>        <span class="c">!</span>
+<a class="ln" id="ln-79" href="#ln-79"></a>        <span class="k">print</span> g,<span class="s">'original order'</span>
+<a class="ln" id="ln-80" href="#ln-80"></a>        <span class="k">print</span> g, ( <span class="k">trim</span>(rr(i)%ch()),i=<span class="n">1</span>,<span class="k">size</span>(rr) )
+<a class="ln" id="ln-81" href="#ln-81"></a>        <span class="k">print</span> g
+<a class="ln" id="ln-82" href="#ln-82"></a>        <span class="c">!</span>
+<a class="ln" id="ln-83" href="#ln-83"></a>        <span class="k">print</span> g,  <span class="s">'Sort using default Unicode rule for comparison'</span>
+<a class="ln" id="ln-84" href="#ln-84"></a>        <span class="k">call</span> sort(rr, ii)
+<a class="ln" id="ln-85" href="#ln-85"></a>        <span class="k">call</span> print_output()
+<a class="ln" id="ln-86" href="#ln-86"></a>        <span class="c">!</span>
+<a class="ln" id="ln-87" href="#ln-87"></a>        <span class="k">print</span> g,  <span class="s">'Sort using custom German dictionary order'</span>
+<a class="ln" id="ln-88" href="#ln-88"></a>        <span class="k">call</span> sort(rr, ii, comparison_func=german_dictionary)
+<a class="ln" id="ln-89" href="#ln-89"></a>        <span class="k">call</span> print_output()
+<a class="ln" id="ln-90" href="#ln-90"></a>
+<a class="ln" id="ln-91" href="#ln-91"></a>        <span class="k">print</span> g,  <span class="s">'Correct Order'</span>
+<a class="ln" id="ln-92" href="#ln-92"></a>        answer=[ &amp;
+<a class="ln" id="ln-93" href="#ln-93"></a>           ut(<span class="s">"Apfel"</span>),     &amp;
+<a class="ln" id="ln-94" href="#ln-94"></a>           ut(<span class="s">"Äpfel"</span>),     &amp;
+<a class="ln" id="ln-95" href="#ln-95"></a>           ut(<span class="s">"Band"</span>),      &amp;
+<a class="ln" id="ln-96" href="#ln-96"></a>           ut(<span class="s">"Bär"</span>),      &amp;
+<a class="ln" id="ln-97" href="#ln-97"></a>           ut(<span class="s">"Bus"</span>),       &amp;
+<a class="ln" id="ln-98" href="#ln-98"></a>           ut(<span class="s">"Bussard"</span>),   &amp;
+<a class="ln" id="ln-99" href="#ln-99"></a>           ut(<span class="s">"Buße"</span>),     &amp;
+<a class="ln" id="ln-100" href="#ln-100"></a>           ut(<span class="s">"Fahnlein"</span>),  &amp;
+<a class="ln" id="ln-101" href="#ln-101"></a>           ut(<span class="s">"Fähnlein"</span>),  &amp;
+<a class="ln" id="ln-102" href="#ln-102"></a>           ut(<span class="s">"Mond"</span>),      &amp;
+<a class="ln" id="ln-103" href="#ln-103"></a>           ut(<span class="s">"Möve"</span>),     &amp;
+<a class="ln" id="ln-104" href="#ln-104"></a>           ut(<span class="s">"Mutter"</span>),    &amp;
+<a class="ln" id="ln-105" href="#ln-105"></a>           ut(<span class="s">"Mütter"</span>),    &amp;
+<a class="ln" id="ln-106" href="#ln-106"></a>           ut(<span class="s">"Oase"</span>),      &amp;
+<a class="ln" id="ln-107" href="#ln-107"></a>           ut(<span class="s">"Öl"</span>),       &amp;
+<a class="ln" id="ln-108" href="#ln-108"></a>           ut(<span class="s">"Ufer"</span>),      &amp;
+<a class="ln" id="ln-109" href="#ln-109"></a>           ut(<span class="s">"Übung"</span>),     &amp;
+<a class="ln" id="ln-110" href="#ln-110"></a>           ut(<span class="s">"Zebra"</span>)      ]
+<a class="ln" id="ln-111" href="#ln-111"></a>        <span class="k">print</span> g, ( <span class="k">trim</span>(answer(i)%ch()),i=<span class="n">1</span>,<span class="k">size</span>(answer) )
+<a class="ln" id="ln-112" href="#ln-112"></a>        <span class="k">print</span> g, <span class="s">'CHECK TEST WORDS:'</span>,rr(ii) == answer
+<a class="ln" id="ln-113" href="#ln-113"></a>        <span class="k">print</span> g, <span class="k">merge</span>(<span class="s">'PASSED'</span>,<span class="s">'FAILED'</span>, <span class="k">all</span>(rr(ii) == answer))
+<a class="ln" id="ln-114" href="#ln-114"></a>
+<a class="ln" id="ln-115" href="#ln-115"></a>     <span class="k">contains</span>
+<a class="ln" id="ln-116" href="#ln-116"></a>
+<a class="ln" id="ln-117" href="#ln-117"></a>        <span class="k">subroutine</span> print_output()
+<a class="ln" id="ln-118" href="#ln-118"></a>        <span class="k">character</span>(<span class="k">len</span>=:),<span class="k">allocatable</span> :: output(:)
+<a class="ln" id="ln-119" href="#ln-119"></a>        <span class="k">integer</span>                      :: i
+<a class="ln" id="ln-120" href="#ln-120"></a>           output=rr(ii)
+<a class="ln" id="ln-121" href="#ln-121"></a>           <span class="k">print</span> g, ( <span class="k">trim</span>(output(i)),i=<span class="n">1</span>,<span class="k">size</span>(output) )
+<a class="ln" id="ln-122" href="#ln-122"></a>           <span class="k">print</span> g
+<a class="ln" id="ln-123" href="#ln-123"></a>        <span class="k">end</span> <span class="k">subroutine</span> print_output
+<a class="ln" id="ln-124" href="#ln-124"></a>
+<a class="ln" id="ln-125" href="#ln-125"></a>        <span class="k">function</span> case_insensitive_compare(str1, str2) <span class="k">result</span> (answer)
+<a class="ln" id="ln-126" href="#ln-126"></a>        <span class="c">! case-insensitive comparison</span>
+<a class="ln" id="ln-127" href="#ln-127"></a>        <span class="k">type</span>(unicode_type), <span class="k">intent</span>(in) :: str1, str2
+<a class="ln" id="ln-128" href="#ln-128"></a>        <span class="k">logical</span>                        :: answer
+<a class="ln" id="ln-129" href="#ln-129"></a>           answer = lower(str1) &lt; lower(str2)
+<a class="ln" id="ln-130" href="#ln-130"></a>        <span class="k">end</span> <span class="k">function</span> case_insensitive_compare
+<a class="ln" id="ln-131" href="#ln-131"></a>     <span class="c">!</span>
+<a class="ln" id="ln-132" href="#ln-132"></a>     <span class="c">! German dictionaries follow specific guidelines</span>
+<a class="ln" id="ln-133" href="#ln-133"></a>     <span class="c">! for sorting umlauts (a, o, u) and the eszett (β).</span>
+<a class="ln" id="ln-134" href="#ln-134"></a>     <span class="c">!</span>
+<a class="ln" id="ln-135" href="#ln-135"></a>     <span class="c">! Standard Dictionary Rules (DIN 5007-1, Variant 1)</span>
+<a class="ln" id="ln-136" href="#ln-136"></a>     <span class="c">!</span>
+<a class="ln" id="ln-137" href="#ln-137"></a>     <span class="c">! In traditional German dictionaries, words with umlauts are treated as</span>
+<a class="ln" id="ln-138" href="#ln-138"></a>     <span class="c">! their base vowels and the letter β is treated as ss. That is ...</span>
+<a class="ln" id="ln-139" href="#ln-139"></a>     <span class="c">!</span>
+<a class="ln" id="ln-140" href="#ln-140"></a>     <span class="c">!     Amlausts:</span>
+<a class="ln" id="ln-141" href="#ln-141"></a>     <span class="c">!         ä is sorted as a</span>
+<a class="ln" id="ln-142" href="#ln-142"></a>     <span class="c">!         ö is sorted as o</span>
+<a class="ln" id="ln-143" href="#ln-143"></a>     <span class="c">!         ü is sorted as u</span>
+<a class="ln" id="ln-144" href="#ln-144"></a>     <span class="c">!     Eszett:</span>
+<a class="ln" id="ln-145" href="#ln-145"></a>     <span class="c">!         β is sorted as ss</span>
+<a class="ln" id="ln-146" href="#ln-146"></a>     <span class="c">!</span>
+<a class="ln" id="ln-147" href="#ln-147"></a>     <span class="c">!  along with a similar exchange for their uppercase cases.</span>
+<a class="ln" id="ln-148" href="#ln-148"></a>     <span class="c">!</span>
+<a class="ln" id="ln-149" href="#ln-149"></a>     <span class="c">!  If normalized words are identical, the umlaut comes second.</span>
+<a class="ln" id="ln-150" href="#ln-150"></a>     <span class="c">!</span>
+<a class="ln" id="ln-151" href="#ln-151"></a>     <span class="c">!  The multibyte characters with an umlaut may be a single Unicode</span>
+<a class="ln" id="ln-152" href="#ln-152"></a>     <span class="c">!  codepoint or the associated Latin character followed by the</span>
+<a class="ln" id="ln-153" href="#ln-153"></a>     <span class="c">!  combining dieresis modifier U+0308.</span>
+<a class="ln" id="ln-154" href="#ln-154"></a>     <span class="c">!</span>
+<a class="ln" id="ln-155" href="#ln-155"></a>     <span class="c">! Note for reference that depending on the context (such as phone books</span>
+<a class="ln" id="ln-156" href="#ln-156"></a>     <span class="c">! or digital systems), other official standards apply:</span>
+<a class="ln" id="ln-157" href="#ln-157"></a>     <span class="c">!</span>
+<a class="ln" id="ln-158" href="#ln-158"></a>     <span class="c">!   + Phone Book Rules (DIN 5007-1, Variant 2): Umlauts are expanded by</span>
+<a class="ln" id="ln-159" href="#ln-159"></a>     <span class="c">!     adding an e after the vowel (ä = ae, ö = oe, ü = ue). As in Variant</span>
+<a class="ln" id="ln-160" href="#ln-160"></a>     <span class="c">!     1 the letter β is treated as ss.</span>
+<a class="ln" id="ln-161" href="#ln-161"></a>     <span class="c">!</span>
+<a class="ln" id="ln-162" href="#ln-162"></a>     <span class="c">!   + Strict / Character-by-Character Order: Some systems or older indexes</span>
+<a class="ln" id="ln-163" href="#ln-163"></a>     <span class="c">!     place umlauts right after their base letter as separate characters</span>
+<a class="ln" id="ln-164" href="#ln-164"></a>     <span class="c">!     (a, a, b, c...).</span>
+<a class="ln" id="ln-165" href="#ln-165"></a>     <span class="c">!</span>
+<a class="ln" id="ln-166" href="#ln-166"></a>     <span class="k">function</span> german_dictionary(lhs, rhs) <span class="k">result</span>(is_lle)
+<a class="ln" id="ln-167" href="#ln-167"></a>     <span class="c">!</span>
+<a class="ln" id="ln-168" href="#ln-168"></a>     <span class="c">! @(#) Lexically compare two strings using German dictionary order</span>
+<a class="ln" id="ln-169" href="#ln-169"></a>     <span class="c">!</span>
+<a class="ln" id="ln-170" href="#ln-170"></a>     <span class="k">type</span>(ut), <span class="k">intent</span>(in) :: lhs, rhs
+<a class="ln" id="ln-171" href="#ln-171"></a>     <span class="k">logical</span>              :: is_lle
+<a class="ln" id="ln-172" href="#ln-172"></a>
+<a class="ln" id="ln-173" href="#ln-173"></a>        is_lle = nmi(lhs) &lt; nmi(rhs)
+<a class="ln" id="ln-174" href="#ln-174"></a>
+<a class="ln" id="ln-175" href="#ln-175"></a>     <span class="k">end</span> <span class="k">function</span> german_dictionary
+<a class="ln" id="ln-176" href="#ln-176"></a>
+<a class="ln" id="ln-177" href="#ln-177"></a>     <span class="k">function</span> nmi(in) <span class="k">result</span> (out)
+<a class="ln" id="ln-178" href="#ln-178"></a>     <span class="k">type</span>(ut),<span class="k">intent</span>(in)  :: in
+<a class="ln" id="ln-179" href="#ln-179"></a>     <span class="k">type</span>(ut)             :: out
+<a class="ln" id="ln-180" href="#ln-180"></a>     <span class="k">integer</span>,<span class="k">allocatable</span>  :: codes(:)
+<a class="ln" id="ln-181" href="#ln-181"></a>     <span class="k">integer</span>              :: i, ikeep
+<a class="ln" id="ln-182" href="#ln-182"></a>     <span class="k">integer</span>,<span class="k">parameter</span>    :: comb=<span class="n">2</span>*<span class="k">int</span>(<span class="n">z'308'</span>), &amp;
+<a class="ln" id="ln-183" href="#ln-183"></a>      &amp;  um_lower_a    =  <span class="n">2</span>*<span class="k">int</span>(<span class="n">z'E4'</span>),       &amp;
+<a class="ln" id="ln-184" href="#ln-184"></a>      &amp;  um_lower_o    =  <span class="n">2</span>*<span class="k">int</span>(<span class="n">z'F6'</span>),       &amp;
+<a class="ln" id="ln-185" href="#ln-185"></a>      &amp;  um_lower_u    =  <span class="n">2</span>*<span class="k">int</span>(<span class="n">z'FC'</span>),       &amp;
+<a class="ln" id="ln-186" href="#ln-186"></a>      &amp;  um_upper_a    =  <span class="n">2</span>*<span class="k">int</span>(<span class="n">z'C4'</span>),       &amp;
+<a class="ln" id="ln-187" href="#ln-187"></a>      &amp;  um_upper_o    =  <span class="n">2</span>*<span class="k">int</span>(<span class="n">z'D6'</span>),       &amp;
+<a class="ln" id="ln-188" href="#ln-188"></a>      &amp;  um_upper_u    =  <span class="n">2</span>*<span class="k">int</span>(<span class="n">z'DC'</span>),       &amp;
+<a class="ln" id="ln-189" href="#ln-189"></a>      &amp;  lower_a       =  <span class="n">2</span>*<span class="k">ichar</span>(<span class="s">'a'</span>)+<span class="n">1</span>,     &amp;
+<a class="ln" id="ln-190" href="#ln-190"></a>      &amp;  lower_o       =  <span class="n">2</span>*<span class="k">ichar</span>(<span class="s">'o'</span>)+<span class="n">1</span>,     &amp;
+<a class="ln" id="ln-191" href="#ln-191"></a>      &amp;  lower_u       =  <span class="n">2</span>*<span class="k">ichar</span>(<span class="s">'u'</span>)+<span class="n">1</span>,     &amp;
+<a class="ln" id="ln-192" href="#ln-192"></a>      &amp;  upper_a       =  <span class="n">2</span>*<span class="k">ichar</span>(<span class="s">'A'</span>)+<span class="n">1</span>,     &amp;
+<a class="ln" id="ln-193" href="#ln-193"></a>      &amp;  upper_o       =  <span class="n">2</span>*<span class="k">ichar</span>(<span class="s">'O'</span>)+<span class="n">1</span>,     &amp;
+<a class="ln" id="ln-194" href="#ln-194"></a>      &amp;  upper_u       =  <span class="n">2</span>*<span class="k">ichar</span>(<span class="s">'U'</span>)+<span class="n">1</span>,     &amp;
+<a class="ln" id="ln-195" href="#ln-195"></a>      &amp;  lower_eszett  =  <span class="n">2</span>*<span class="k">int</span>(<span class="n">z'DF'</span>),       &amp;
+<a class="ln" id="ln-196" href="#ln-196"></a>      &amp;  upper_eszett  =  <span class="n">2</span>*<span class="k">int</span>(<span class="n">z'1E9E'</span>),     &amp;
+<a class="ln" id="ln-197" href="#ln-197"></a>      &amp;  lower_s       =  <span class="n">2</span>*<span class="k">int</span>(<span class="k">ichar</span>(<span class="s">'s'</span>)),  &amp;
+<a class="ln" id="ln-198" href="#ln-198"></a>      &amp;  upper_s       =  <span class="n">2</span>*<span class="k">int</span>(<span class="k">ichar</span>(<span class="s">'S'</span>))
+<a class="ln" id="ln-199" href="#ln-199"></a>
+<a class="ln" id="ln-200" href="#ln-200"></a>        <span class="c">! if every letter is a beta and first letter is COMB</span>
+<a class="ln" id="ln-201" href="#ln-201"></a>        <span class="c">! (which should not happen) longest index required would be</span>
+<a class="ln" id="ln-202" href="#ln-202"></a>        <span class="k">allocate</span>(codes(<span class="n">0</span>:<span class="n">2</span>*<span class="k">len</span>(in)))
+<a class="ln" id="ln-203" href="#ln-203"></a>
+<a class="ln" id="ln-204" href="#ln-204"></a>        ikeep=<span class="n">0</span>
+<a class="ln" id="ln-205" href="#ln-205"></a>        <span class="k">do</span> <span class="k">concurrent</span> ( i=<span class="n">1</span>:<span class="k">len</span>(in) )
+<a class="ln" id="ln-206" href="#ln-206"></a>           <span class="k">if</span>(in%codes(i) == comb)<span class="k">then</span>
+<a class="ln" id="ln-207" href="#ln-207"></a>              codes(ikeep)=codes(ikeep)+<span class="n">1</span>
+<a class="ln" id="ln-208" href="#ln-208"></a>           <span class="k">else</span>
+<a class="ln" id="ln-209" href="#ln-209"></a>              ikeep=ikeep+<span class="n">1</span>
+<a class="ln" id="ln-210" href="#ln-210"></a>              codes(ikeep)=in%codes(i)*<span class="n">2</span>
+<a class="ln" id="ln-211" href="#ln-211"></a>              <span class="k">select</span> <span class="k">case</span>(codes(ikeep))
+<a class="ln" id="ln-212" href="#ln-212"></a>               <span class="k">case</span>(:<span class="n">127</span>*<span class="n">2</span>)
+<a class="ln" id="ln-213" href="#ln-213"></a>               <span class="k">case</span>(um_lower_a); codes(ikeep)=lower_a
+<a class="ln" id="ln-214" href="#ln-214"></a>               <span class="k">case</span>(um_lower_o); codes(ikeep)=lower_o
+<a class="ln" id="ln-215" href="#ln-215"></a>               <span class="k">case</span>(um_lower_u); codes(ikeep)=lower_u
+<a class="ln" id="ln-216" href="#ln-216"></a>               <span class="k">case</span>(um_upper_a); codes(ikeep)=upper_a
+<a class="ln" id="ln-217" href="#ln-217"></a>               <span class="k">case</span>(um_upper_o); codes(ikeep)=upper_o
+<a class="ln" id="ln-218" href="#ln-218"></a>               <span class="k">case</span>(um_upper_u); codes(ikeep)=upper_u
+<a class="ln" id="ln-219" href="#ln-219"></a>               <span class="k">case</span>(lower_eszett)
+<a class="ln" id="ln-220" href="#ln-220"></a>                  codes(ikeep:ikeep+<span class="n">1</span>)=lower_s
+<a class="ln" id="ln-221" href="#ln-221"></a>                  ikeep=ikeep+<span class="n">1</span>
+<a class="ln" id="ln-222" href="#ln-222"></a>               <span class="k">case</span>(upper_eszett)
+<a class="ln" id="ln-223" href="#ln-223"></a>                  codes(ikeep:ikeep+<span class="n">1</span>)=upper_s
+<a class="ln" id="ln-224" href="#ln-224"></a>                  ikeep=ikeep+<span class="n">1</span>
+<a class="ln" id="ln-225" href="#ln-225"></a>              <span class="k">end</span> <span class="k">select</span>
+<a class="ln" id="ln-226" href="#ln-226"></a>           <span class="k">endif</span>
+<a class="ln" id="ln-227" href="#ln-227"></a>        enddo
+<a class="ln" id="ln-228" href="#ln-228"></a>        <span class="c">! codes are no longer valid Unicode codepoints for the input but</span>
+<a class="ln" id="ln-229" href="#ln-229"></a>        <span class="c">! can be used to compare lexically to another normalized value</span>
+<a class="ln" id="ln-230" href="#ln-230"></a>        <span class="c">! only because needed some method of telling if an A,O,U used to</span>
+<a class="ln" id="ln-231" href="#ln-231"></a>        <span class="c">! have an umlaut</span>
+<a class="ln" id="ln-232" href="#ln-232"></a>        out=codes(<span class="n">1</span>:ikeep)
+<a class="ln" id="ln-233" href="#ln-233"></a>
+<a class="ln" id="ln-234" href="#ln-234"></a>     <span class="k">end</span> <span class="k">function</span> nmi
+<a class="ln" id="ln-235" href="#ln-235"></a>
+<a class="ln" id="ln-236" href="#ln-236"></a>     <span class="k">end</span> <span class="k">program</span> demo_sort
+<a class="ln" id="ln-237" href="#ln-237"></a></code></pre>
+<h2 id="graphs">Graphs</h2>
+<h3>Files this one depends on</h3>
+<div class="graph"><svg width="246pt" height="30pt"
+ viewBox="0 0 246 30" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="scale(1 1) rotate(0) translate(4 25.6)" fill="none" stroke="#8a93a5" font-family="Helvetica,sans-Serif" font-size="13" text-anchor="middle"><a href="../sourcefile/demo_sort.f90.html" fill="white" stroke="none"><rect fill="#5c6f2d" stroke="#f0a868" stroke-width="2" rx="7.2" x="140" y="-21.6" width="97.5" height="21.6"/><text x="188.8" y="-6.1">demo_sort.f90</text></a><a href="../sourcefile/m_unicode.f90.html" fill="white" stroke="none"><rect fill="#5c6f2d" rx="7.2" x="0" y="-21.6" width="104" height="21.6"/><text x="52" y="-6.1">M_unicode.F90</text></a><path d="M139.1,-10.8C130.5,-10.8 121.5,-10.8 112.7,-10.8"/><polygon fill="#8a93a5" points="112.8,-8.4 105.8,-10.8 112.8,-13.3"/></g>
+</svg>
+</div>
+<footer>M_unicode was developed by John S. Urban. Generated on 2026-11-05 08:34 -0500. Documentation generated by <a href="https://github.com/jacobwilliams/fdoc">fdoc</a>.</footer>
+</div>
+</main>
+</div>
+</body>
+</html>

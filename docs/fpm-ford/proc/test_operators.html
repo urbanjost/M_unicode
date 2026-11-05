@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>test_operators &ndash; M_unicode</title>
+<meta name="author" content="John S. Urban">
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" href="../css/fdoc.css">
+<script src="../js/fdoc.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="brand" href="../index.html">M_unicode</a>
+<nav><a href="../lists/files.html">Source Files</a><a href="../lists/modules.html">Modules</a><a class="here" href="../lists/procedures.html">Procedures</a><a href="../lists/types.html">Derived Types</a><a href="../lists/programs.html">Programs</a></nav>
+<div class="search"><input type="search" placeholder="Search (/)" aria-label="Search"><div class="results"></div></div>
+<button class="theme" title="Change theme" aria-label="Change theme">&#9680;</button>
+</header>
+<div class="layout">
+<aside class="side">
+<h4>Variables</h4><ul><li><a href="#variable-a_bytes"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>a_bytes</a></li><li><a href="#variable-astr"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>astr</a></li><li><a href="#variable-lhs"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>lhs</a></li><li><a href="#variable-rhs"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>rhs</a></li><li><a href="#variable-smiley"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>smiley</a></li><li><a href="#variable-ut_str"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>ut_str</a></li></ul>
+<h4>On this page</h4><ul><li><a href="#calls">Calls</a></li><li><a href="#source">Source</a></li></ul>
+<h4><a href="../lists/files.html">Source Files</a></h4><h4><a href="../lists/modules.html">Modules</a></h4><h4><a href="../lists/procedures.html">Procedures</a></h4><ul><li><a href="../interface/add_backslash.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_backslash</a></li><li><a href="../interface/add_border.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_border</a></li><li><a href="../interface/add_html.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_html</a></li><li><a href="../interface/adjustl.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>adjustl</a></li><li><a href="../interface/adjustr.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>adjustr</a></li><li><a href="../proc/afmt.html"><span class="ico ico-f" title="function" aria-hidden="true">F</span>afmt</a></li><li><a href="../interface/assignment(=).html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>assignment(=)</a></li><li><a href="../proc/basics.html"><span class="ico ico-s" title="subroutine" aria-hidden="true">S</span>basics</a></li><li><a href="../proc/callit.html"><span class="ico ico-s" title="subroutine" aria-hidden="true">S</span>callit</a></li><li><a href="../proc/case_insensitive_compare.html"><span class="ico ico-f" title="function" aria-hidden="true">F</span>case_insensitive_compare</a></li><li><a class="more" href="../lists/procedures.html">All 158&hellip;</a></li></ul>
+<h4><a href="../lists/types.html">Derived Types</a></h4><h4><a href="../lists/programs.html">Programs</a></h4></aside>
+<main><div class="inner">
+<div class="crumbs"><a href="../sourcefile/test_m_unicode.f90.html">test_M_unicode.F90</a> <span class="sep">&rsaquo;</span> <a href="../module/testsuite_m_unicode.html">testsuite_M_unicode</a></div>
+<h1><span class="kind">subroutine</span>test_operators</h1>
+<div class="sig"><span class="k">subroutine</span> test_operators()</div>
+<h2 id="calls">Calls</h2>
+<ul class="chips"><li><a href="../proc/checkits.html">checkits</a></li><li><a href="../type/unicode_type.html#boundprocedure-byte">byte</a></li><li><a href="../proc/checkit~2.html">checkit</a></li><li><a href="../interface/character.html">character</a></li><li><a href="../proc/checkits_l.html">checkits_l</a></li><li><a href="../interface/lne.html">lne</a></li><li><a href="../interface/leq.html">leq</a></li></ul>
+<h2 id="source">Source</h2>
+<details class="source"><summary>Show the code</summary><pre><code><span class="k">subroutine</span> test_operators()
+<span class="k">type</span>(ut)             :: lhs, rhs
+<span class="k">character</span>(<span class="k">len</span>=:),<span class="k">allocatable</span>   :: astr
+<span class="k">type</span>(ut)             :: smiley
+<span class="k">type</span>(ut)             :: ut_str
+<span class="k">character</span>(<span class="k">len</span>=<span class="n">1</span>),<span class="k">parameter</span> :: a_bytes(*)=<span class="k">transfer</span>(<span class="s">'Hello World and Ni Hao -- 你好'</span>,[<span class="s">'A'</span>])
+   smiley=<span class="s">'😃'</span>
+   <span class="k">write</span>(stdout,g0)
+   astr=<span class="s">'Hello World and Ni Hao -- 你好'</span>
+   ut_str=astr
+   <span class="k">call</span> checkits(<span class="s">'convert to ASCII bytes'</span>,astr,ut_str%byte(),a_bytes)
+
+   ut_str=smiley <span class="k">.cat.</span> <span class="s">' and '</span> <span class="k">.cat.</span> smiley <span class="k">.cat.</span> <span class="s">'and'</span> <span class="k">.cat.</span> smiley <span class="k">.cat.</span> smiley <span class="k">.cat.</span> <span class="s">'is it'</span>
+   astr=<span class="s">'😃 and 😃and😃😃is it'</span>
+   <span class="k">call</span> checkit(<span class="s">'concatenation'</span>,astr,ch(ut_str), <span class="s">'😃 and 😃and😃😃is it'</span>)
+
+   lhs=<span class="s">'this is the left'</span>
+   rhs=<span class="s">'this is the right'</span>
+   <span class="k">call</span> checkits_l(<span class="s">'LLE'</span>,<span class="s">' '</span>, [ <span class="k">lle</span>(lhs,rhs),lhs &lt;= rhs,<span class="k">lle</span>(rhs,lhs),rhs &lt;= lhs ] , [T,T,F,F] )
+   <span class="k">call</span> checkits_l(<span class="s">'LLT'</span>,<span class="s">' '</span>, [ <span class="k">llt</span>(lhs,rhs),lhs &lt;  rhs,<span class="k">llt</span>(rhs,lhs),rhs &lt;  lhs ] , [T,T,F,F] )
+   <span class="k">call</span> checkits_l(<span class="s">'LNE'</span>,<span class="s">' '</span>, [ lne(lhs,rhs),lhs /= rhs,lne(rhs,lhs),rhs /= lhs ] , [T,T,T,T] )
+   <span class="k">call</span> checkits_l(<span class="s">'LEQ'</span>,<span class="s">' '</span>, [ leq(lhs,rhs),lhs == rhs,leq(rhs,lhs),rhs == lhs ] , [F,F,F,F] )
+   <span class="k">call</span> checkits_l(<span class="s">'LGT'</span>,<span class="s">' '</span>, [ <span class="k">lgt</span>(lhs,rhs),lhs &gt;  rhs,<span class="k">lgt</span>(rhs,lhs),rhs &gt;  lhs ] , [F,F,T,T] )
+   <span class="k">call</span> checkits_l(<span class="s">'LGE'</span>,<span class="s">' '</span>, [ <span class="k">lge</span>(lhs,rhs),lhs &gt;= rhs,<span class="k">lge</span>(rhs,lhs),rhs &gt;= lhs ] , [F,F,T,T] )
+   lhs=<span class="s">'abc'</span>
+   rhs=<span class="s">'abc '</span>
+   <span class="k">call</span> checkits_l(<span class="s">'LLE'</span>,<span class="s">' '</span>, [ <span class="k">lle</span>(lhs,rhs),lhs &lt;= rhs,<span class="k">lle</span>(rhs,lhs),rhs &lt;= lhs ] , [T,T,T,T] )
+   <span class="k">call</span> checkits_l(<span class="s">'LLT'</span>,<span class="s">' '</span>, [ <span class="k">llt</span>(lhs,rhs),lhs &lt;  rhs,<span class="k">llt</span>(rhs,lhs),rhs &lt;  lhs ] , [F,F,F,F] )
+   <span class="k">call</span> checkits_l(<span class="s">'LNE'</span>,<span class="s">' '</span>, [ lne(lhs,rhs),lhs /= rhs,lne(rhs,lhs),rhs /= lhs ] , [F,F,F,F] )
+   <span class="k">call</span> checkits_l(<span class="s">'LEQ'</span>,<span class="s">' '</span>, [ leq(lhs,rhs),lhs == rhs,leq(rhs,lhs),rhs == lhs ] , [T,T,T,T] )
+   <span class="k">call</span> checkits_l(<span class="s">'LGT'</span>,<span class="s">' '</span>, [ <span class="k">lgt</span>(lhs,rhs),lhs &gt;  rhs,<span class="k">lgt</span>(rhs,lhs),rhs &gt;  lhs ] , [F,F,F,F] )
+   <span class="k">call</span> checkits_l(<span class="s">'LGE'</span>,<span class="s">' '</span>, [ <span class="k">lge</span>(lhs,rhs),lhs &gt;= rhs,<span class="k">lge</span>(rhs,lhs),rhs &gt;= lhs ] , [T,T,T,T] )
+
+<span class="k">end</span> <span class="k">subroutine</span> test_operators</code></pre></details>
+<h2 id="graphs">Graphs</h2>
+<h3>Calls</h3>
+<div class="graph"><svg width="269pt" height="270pt"
+ viewBox="0 0 269 270" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="scale(1 1) rotate(0) translate(4 265.6)" fill="none" stroke="#8a93a5" font-family="Helvetica,sans-Serif" font-size="13" text-anchor="middle"><a href="../proc/test_operators.html" fill="white" stroke="none"><rect fill="#1d7a55" stroke="#f0a868" stroke-width="2" rx="7.2" x="0" y="-141.6" width="97.5" height="21.6"/><text x="48.8" y="-126.1">test_operators</text></a><a href="../proc/checkits.html" fill="white" stroke="none"><rect fill="#1d7a55" rx="7.2" x="166.8" y="-261.6" width="61.4" height="21.6"/><text x="197.4" y="-246.1">checkits</text></a><path d="M56.5,-142.5C68.9,-163.4 97.8,-206.8 133.5,-230.8 140.9,-235.8 149.7,-239.6 158.3,-242.5"/><polygon fill="#8a93a5" points="157.5,-244.8 164.9,-244.5 159,-240.1"/><a href="../type/unicode_type.html#boundprocedure-byte" fill="white" stroke="none"><rect fill="#7a6a2d" rx="7.2" x="133.5" y="-221.6" width="127.9" height="21.6"/><text x="197.4" y="-206.1">unicode_type%byte</text></a><path d="M63.1,-142.4C79,-155.7 106.6,-177.3 133.5,-190.8 137.8,-192.9 142.3,-194.9 146.9,-196.7"/><polygon fill="#8a93a5" points="145.9,-198.9 153.3,-199.1 147.6,-194.3"/><a href="../proc/checkit~2.html" fill="white" stroke="none"><rect fill="#1d7a55" rx="7.2" x="170" y="-181.6" width="54.9" height="21.6"/><text x="197.4" y="-166.1">checkit</text></a><path d="M93,-142.6C114.8,-148.5 141,-155.7 161.5,-161.3"/><polygon fill="#8a93a5" points="160.8,-163.6 168.2,-163.1 162.1,-158.9"/><a href="../interface/character.html" fill="white" stroke="none"><rect fill="#6a4fb3" rx="7.2" x="163.1" y="-141.6" width="68.6" height="21.6"/><text x="197.4" y="-126.1">character</text></a><path d="M98.2,-130.8C116.4,-130.8 136.9,-130.8 154.5,-130.8"/><polygon fill="#8a93a5" points="154.4,-133.3 161.4,-130.8 154.4,-128.4"/><a href="../proc/checkits_l.html" fill="white" stroke="none"><rect fill="#1d7a55" rx="7.2" x="161.7" y="-101.6" width="71.5" height="21.6"/><text x="197.4" y="-86.1">checkits_l</text></a><path d="M93,-119C112,-113.8 134.2,-107.8 153.2,-102.6"/><polygon fill="#8a93a5" points="153.8,-105 159.9,-100.8 152.6,-100.2"/><a href="../interface/lne.html" fill="white" stroke="none"><rect fill="#6a4fb3" rx="7.2" x="170.4" y="-61.6" width="54" height="21.6"/><text x="197.4" y="-46.1">lne</text></a><path d="M63.1,-119.2C79,-105.9 106.6,-84.3 133.5,-70.8 142.4,-66.3 152.5,-62.6 161.9,-59.6"/><polygon fill="#8a93a5" points="162.5,-62 168.5,-57.6 161.1,-57.3"/><a href="../interface/leq.html" fill="white" stroke="none"><rect fill="#6a4fb3" rx="7.2" x="170.4" y="-21.6" width="54" height="21.6"/><text x="197.4" y="-6.1">leq</text></a><path d="M56.5,-119.1C68.9,-98.2 97.8,-54.8 133.5,-30.8 142.1,-25.1 152.4,-20.9 162.1,-17.9"/><polygon fill="#8a93a5" points="162.6,-20.3 168.7,-16 161.3,-15.6"/></g>
+</svg>
+</div>
+<h3>Called by</h3>
+<div class="graph"><svg width="248pt" height="30pt"
+ viewBox="0 0 248 30" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="scale(1 1) rotate(0) translate(4 25.6)" fill="none" stroke="#8a93a5" font-family="Helvetica,sans-Serif" font-size="13" text-anchor="middle"><a href="../proc/test_operators.html" fill="white" stroke="none"><rect fill="#1d7a55" stroke="#f0a868" stroke-width="2" rx="7.2" x="0" y="-21.6" width="97.5" height="21.6"/><text x="48.8" y="-6.1">test_operators</text></a><a href="../program/test_m_unicode.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="133.5" y="-21.6" width="106.2" height="21.6"/><text x="186.6" y="-6.1">test_M_unicode</text></a><path d="M133.1,-10.8C124.4,-10.8 115.3,-10.8 106.5,-10.8"/><polygon fill="#8a93a5" points="106.6,-8.4 99.6,-10.8 106.6,-13.3"/></g>
+</svg>
+</div>
+<h2 id="variables">Variables</h2>
+<table class="arguments">
+<thead><tr><th>Name</th><th>Type</th><th>Attributes</th><th>Default</th><th>Description</th></tr></thead>
+<tbody>
+<tr id="variable-a_bytes"><td class="name">a_bytes</td><td class="type">character(len=1)</td><td class="attributes"><span class="attr attr-parameter">parameter</span><span class="attr attr-dimension">dimension(*)</span></td><td class="default">transfer('HelloWorldandNiHao--你好',['A'])</td><td></td></tr>
+<tr id="variable-astr"><td class="name">astr</td><td class="type">character(len=:)</td><td class="attributes"><span class="attr attr-allocatable">allocatable</span></td><td class="default"></td><td></td></tr>
+<tr id="variable-lhs"><td class="name">lhs</td><td class="type">type(<a href="../type/unicode_type.html">ut</a>)</td><td class="attributes"></td><td class="default"></td><td></td></tr>
+<tr id="variable-rhs"><td class="name">rhs</td><td class="type">type(<a href="../type/unicode_type.html">ut</a>)</td><td class="attributes"></td><td class="default"></td><td></td></tr>
+<tr id="variable-smiley"><td class="name">smiley</td><td class="type">type(<a href="../type/unicode_type.html">ut</a>)</td><td class="attributes"></td><td class="default"></td><td></td></tr>
+<tr id="variable-ut_str"><td class="name">ut_str</td><td class="type">type(<a href="../type/unicode_type.html">ut</a>)</td><td class="attributes"></td><td class="default"></td><td></td></tr>
+</tbody>
+</table>
+<footer>M_unicode was developed by John S. Urban. Generated on 2026-11-05 08:34 -0500. Documentation generated by <a href="https://github.com/jacobwilliams/fdoc">fdoc</a>.</footer>
+</div>
+</main>
+</div>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>clockrate &ndash; M_unicode</title>
+<meta name="author" content="John S. Urban">
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" href="../css/fdoc.css">
+<script src="../js/fdoc.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="brand" href="../index.html">M_unicode</a>
+<nav><a href="../lists/files.html">Source Files</a><a href="../lists/modules.html">Modules</a><a class="here" href="../lists/procedures.html">Procedures</a><a href="../lists/types.html">Derived Types</a><a href="../lists/programs.html">Programs</a></nav>
+<div class="search"><input type="search" placeholder="Search (/)" aria-label="Search"><div class="results"></div></div>
+<button class="theme" title="Change theme" aria-label="Change theme">&#9680;</button>
+</header>
+<div class="layout">
+<aside class="side">
+<h4>Variables</h4><ul><li><a href="#variable-count64"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>count64</a></li><li><a href="#variable-count64b"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>count64b</a></li><li><a href="#variable-count_max64"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>count_max64</a></li><li><a href="#variable-count_rate64"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>count_rate64</a></li><li><a href="#variable-g"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>g</a></li><li><a href="#variable-i"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>i</a></li><li><a href="#variable-j"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>j</a></li></ul>
+<h4>On this page</h4><ul><li><a href="#calls">Calls</a></li><li><a href="#source">Source</a></li></ul>
+<h4><a href="../lists/files.html">Source Files</a></h4><h4><a href="../lists/modules.html">Modules</a></h4><h4><a href="../lists/procedures.html">Procedures</a></h4><ul><li><a href="../interface/add_backslash.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_backslash</a></li><li><a href="../interface/add_border.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_border</a></li><li><a href="../interface/add_html.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_html</a></li><li><a href="../interface/adjustl.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>adjustl</a></li><li><a href="../interface/adjustr.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>adjustr</a></li><li><a href="../proc/afmt.html"><span class="ico ico-f" title="function" aria-hidden="true">F</span>afmt</a></li><li><a href="../interface/assignment(=).html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>assignment(=)</a></li><li><a href="../proc/basics.html"><span class="ico ico-s" title="subroutine" aria-hidden="true">S</span>basics</a></li><li><a href="../proc/callit.html"><span class="ico ico-s" title="subroutine" aria-hidden="true">S</span>callit</a></li><li><a href="../proc/case_insensitive_compare.html"><span class="ico ico-f" title="function" aria-hidden="true">F</span>case_insensitive_compare</a></li><li><a class="more" href="../lists/procedures.html">All 158&hellip;</a></li></ul>
+<h4><a href="../lists/types.html">Derived Types</a></h4><h4><a href="../lists/programs.html">Programs</a></h4></aside>
+<main><div class="inner">
+<div class="crumbs"><a href="../sourcefile/fid.f90.html">fid.f90</a> <span class="sep">&rsaquo;</span> <a href="../program/test_id.html">test_id</a></div>
+<h1><span class="kind">subroutine</span>clockrate</h1>
+<div class="sig"><span class="k">subroutine</span> clockrate()</div>
+<h2 id="calls">Calls</h2>
+<ul class="chips"><li><a href="../proc/three.html">three</a></li></ul>
+<h2 id="source">Source</h2>
+<details class="source"><summary>Show the code</summary><pre><code><span class="k">subroutine</span> clockrate()
+<span class="k">integer</span>(<span class="k">kind</span>=int64)            :: count64, count_rate64, count_max64
+<span class="k">integer</span>(<span class="k">kind</span>=int64)            :: count64b
+<span class="k">character</span>(<span class="k">len</span>=*), <span class="k">parameter</span>    :: g = <span class="s">'(1x,*(g0,1x))'</span>
+<span class="k">integer</span>(<span class="k">kind</span>=int64)            :: i
+<span class="k">integer</span>(<span class="k">kind</span>=int64)            :: j
+   <span class="k">print</span> g, <span class="k">huge</span>(<span class="n">0_int64</span>)
+   <span class="k">call</span> <span class="k">system_clock</span>(count64,count_rate64,count_max64)
+   <span class="k">print</span> g,  <span class="s">'SYSTEM_CLOCK(3) (using integer(kind=int64), result may vary with argument type):'</span>
+   <span class="k">print</span> g, <span class="s">'COUNT_MAX(64bit)=    '</span>, three(count_max64)
+   <span class="k">print</span> g, <span class="s">'COUNT_RATE(64bit)=   '</span>, three(count_rate64)
+   <span class="k">print</span> g, <span class="s">'CURRENT COUNT(64bit)='</span>, three(count64)
+
+   <span class="k">do</span> j=<span class="n">1</span>,<span class="n">10</span>
+      <span class="k">call</span> <span class="k">system_clock</span>(count64,count_rate64,count_max64)
+      <span class="k">do</span> i=<span class="n">1</span>,<span class="k">huge</span>(<span class="n">0_int64</span>)-<span class="n">1</span>
+         <span class="k">call</span> <span class="k">system_clock</span>(count64b,count_rate64,count_max64)
+         <span class="k">if</span>(count64b<span class="k">.ne.</span>count64)<span class="k">then</span>
+            <span class="k">write</span>(*,<span class="s">'(1x,g0)'</span>,advance=<span class="s">'no'</span>)count64b-count64
+            <span class="k">exit</span>
+         <span class="k">endif</span>
+      enddo
+   enddo
+   <span class="k">write</span>(*,*)
+<span class="k">end</span> <span class="k">subroutine</span> clockrate</code></pre></details>
+<h2 id="graphs">Graphs</h2>
+<h3>Calls</h3>
+<div class="graph"><svg width="164pt" height="30pt"
+ viewBox="0 0 164 30" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="scale(1 1) rotate(0) translate(4 25.6)" fill="none" stroke="#8a93a5" font-family="Helvetica,sans-Serif" font-size="13" text-anchor="middle"><a href="../proc/clockrate.html" fill="white" stroke="none"><rect fill="#1d7a55" stroke="#f0a868" stroke-width="2" rx="7.2" x="0" y="-21.6" width="66.4" height="21.6"/><text x="33.2" y="-6.1">clockrate</text></a><a href="../proc/three.html" fill="white" stroke="none"><rect fill="#0b7285" rx="7.2" x="102.4" y="-21.6" width="54" height="21.6"/><text x="129.4" y="-6.1">three</text></a><path d="M67.2,-10.8C75.8,-10.8 85,-10.8 93.7,-10.8"/><polygon fill="#8a93a5" points="93.6,-13.3 100.6,-10.8 93.6,-8.4"/></g>
+</svg>
+</div>
+<h3>Called by</h3>
+<div class="graph"><svg width="164pt" height="30pt"
+ viewBox="0 0 164 30" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="scale(1 1) rotate(0) translate(4 25.6)" fill="none" stroke="#8a93a5" font-family="Helvetica,sans-Serif" font-size="13" text-anchor="middle"><a href="../proc/clockrate.html" fill="white" stroke="none"><rect fill="#1d7a55" stroke="#f0a868" stroke-width="2" rx="7.2" x="0" y="-21.6" width="66.4" height="21.6"/><text x="33.2" y="-6.1">clockrate</text></a><a href="../program/test_id.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="102.4" y="-21.6" width="54" height="21.6"/><text x="129.4" y="-6.1">test_id</text></a><path d="M101.9,-10.8C93.8,-10.8 84.6,-10.8 75.6,-10.8"/><polygon fill="#8a93a5" points="75.7,-8.4 68.7,-10.8 75.7,-13.3"/></g>
+</svg>
+</div>
+<h2 id="variables">Variables</h2>
+<table class="arguments">
+<thead><tr><th>Name</th><th>Type</th><th>Attributes</th><th>Default</th><th>Description</th></tr></thead>
+<tbody>
+<tr id="variable-count64"><td class="name">count64</td><td class="type">integer(kind=int64)</td><td class="attributes"></td><td class="default"></td><td></td></tr>
+<tr id="variable-count64b"><td class="name">count64b</td><td class="type">integer(kind=int64)</td><td class="attributes"></td><td class="default"></td><td></td></tr>
+<tr id="variable-count_max64"><td class="name">count_max64</td><td class="type">integer(kind=int64)</td><td class="attributes"></td><td class="default"></td><td></td></tr>
+<tr id="variable-count_rate64"><td class="name">count_rate64</td><td class="type">integer(kind=int64)</td><td class="attributes"></td><td class="default"></td><td></td></tr>
+<tr id="variable-g"><td class="name">g</td><td class="type">character(len=*)</td><td class="attributes"><span class="attr attr-parameter">parameter</span></td><td class="default">'(1x,*(g0,1x))'</td><td></td></tr>
+<tr id="variable-i"><td class="name">i</td><td class="type">integer(kind=int64)</td><td class="attributes"></td><td class="default"></td><td></td></tr>
+<tr id="variable-j"><td class="name">j</td><td class="type">integer(kind=int64)</td><td class="attributes"></td><td class="default"></td><td></td></tr>
+</tbody>
+</table>
+<footer>M_unicode was developed by John S. Urban. Generated on 2026-11-05 08:34 -0500. Documentation generated by <a href="https://github.com/jacobwilliams/fdoc">fdoc</a>.</footer>
+</div>
+</main>
+</div>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>escape &ndash; M_unicode</title>
+<meta name="author" content="John S. Urban">
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" href="../css/fdoc.css">
+<script src="../js/fdoc.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="brand" href="../index.html">M_unicode</a>
+<nav><a href="../lists/files.html">Source Files</a><a href="../lists/modules.html">Modules</a><a class="here" href="../lists/procedures.html">Procedures</a><a href="../lists/types.html">Derived Types</a><a href="../lists/programs.html">Programs</a></nav>
+<div class="search"><input type="search" placeholder="Search (/)" aria-label="Search"><div class="results"></div></div>
+<button class="theme" title="Change theme" aria-label="Change theme">&#9680;</button>
+</header>
+<div class="layout">
+<aside class="side">
+<h4><a href="../lists/files.html">Source Files</a></h4><h4><a href="../lists/modules.html">Modules</a></h4><h4><a href="../lists/procedures.html">Procedures</a></h4><ul><li><a href="../interface/add_backslash.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_backslash</a></li><li><a href="../interface/add_border.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_border</a></li><li><a href="../interface/add_html.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_html</a></li><li><a href="../interface/adjustl.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>adjustl</a></li><li><a href="../interface/adjustr.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>adjustr</a></li><li><a href="../proc/afmt.html"><span class="ico ico-f" title="function" aria-hidden="true">F</span>afmt</a></li><li><a href="../interface/assignment(=).html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>assignment(=)</a></li><li><a href="../proc/basics.html"><span class="ico ico-s" title="subroutine" aria-hidden="true">S</span>basics</a></li><li><a href="../proc/callit.html"><span class="ico ico-s" title="subroutine" aria-hidden="true">S</span>callit</a></li><li><a href="../proc/case_insensitive_compare.html"><span class="ico ico-f" title="function" aria-hidden="true">F</span>case_insensitive_compare</a></li><li><a class="more" href="../lists/procedures.html">All 158&hellip;</a></li></ul>
+<h4><a href="../lists/types.html">Derived Types</a></h4><h4><a href="../lists/programs.html">Programs</a></h4></aside>
+<main><div class="inner">
+<div class="crumbs"><a href="../sourcefile/m_unicode.f90.html">M_unicode.F90</a> <span class="sep">&rsaquo;</span> <a href="../module/m_unicode.html">M_unicode</a></div>
+<h1><span class="kind">interface</span>escape</h1>
+<h2 id="call-forms">Call forms</h2>
+<div class="form">
+<div class="sig">result = escape(line [, protect]) <span class="attr attr-elemental">elemental</span></div>
+<table class="forms">
+<thead><tr><th>line</th><th>Procedure</th><th>Result</th></tr></thead>
+<tbody>
+<tr><td class="type">type(unicode_type)</td><td class="name"><a href="#proc-expand_backslash_uu" title="expand_backslash_uu">expand_backslash_uu</a></td><td class="type">type(unicode_type)</td></tr>
+<tr><td class="type">character(len=*)</td><td class="name"><a href="#proc-expand_backslash_au" title="expand_backslash_au">expand_backslash_au</a></td><td class="type">type(unicode_type)</td></tr>
+</tbody>
+</table>
+<p class="fixed"><code>protect</code> is type(unicode_type)</p>
+</div>
+<div class="form">
+<div class="sig">result = escape(line, protect) <span class="attr attr-elemental">elemental</span></div>
+
+<table class="forms">
+<thead><tr><th>line</th><th>Procedure</th><th>Result</th></tr></thead>
+<tbody>
+<tr><td class="type">type(unicode_type)</td><td class="name"><a href="#proc-expand_backslash_ua" title="expand_backslash_ua">expand_backslash_ua</a></td><td class="type">type(unicode_type)</td></tr>
+<tr><td class="type">character(len=*)</td><td class="name"><a href="#proc-expand_backslash_aa" title="expand_backslash_aa">expand_backslash_aa</a></td><td class="type">type(unicode_type)</td></tr>
+</tbody>
+</table>
+<p class="fixed"><code>protect</code> is character(len=1)</p>
+</div>
+<h2 id="procedures">Procedures</h2>
+<details class="specifics"><summary>All 4 procedures</summary>
+<div class="item" id="proc-expand_backslash_uu"><h3>expand_backslash_uu<span class="attr attr-impure" title="May have side effects">impure</span><span class="attr attr-elemental" title="Works on each element of arrays of any rank">elemental</span><span class="attr attr-private">private</span></h3>
+<div class="sig"><span class="k">impure</span> <span class="k">elemental</span> type(<a href="../type/unicode_type.html">unicode_type</a>) <span class="k">function</span> expand_backslash_uu(<span class="intent attr-in" title="intent(in)">line</span>, <span class="intent attr-in" title="intent(in)">protect</span>) <span class="k">result</span>(out)</div>
+<p>The default escape character is the backslash, but this may be
+   changed using the optional parameter PROTECT.</p>
+</div>
+<div class="item" id="proc-expand_backslash_ua"><h3>expand_backslash_ua<span class="attr attr-impure" title="May have side effects">impure</span><span class="attr attr-elemental" title="Works on each element of arrays of any rank">elemental</span><span class="attr attr-private">private</span></h3>
+<div class="sig"><span class="k">impure</span> <span class="k">elemental</span> type(<a href="../type/unicode_type.html">unicode_type</a>) <span class="k">function</span> expand_backslash_ua(<span class="intent attr-in" title="intent(in)">line</span>, <span class="intent attr-in" title="intent(in)">protect</span>) <span class="k">result</span>(out)</div>
+
+</div>
+<div class="item" id="proc-expand_backslash_au"><h3>expand_backslash_au<span class="attr attr-impure" title="May have side effects">impure</span><span class="attr attr-elemental" title="Works on each element of arrays of any rank">elemental</span><span class="attr attr-private">private</span></h3>
+<div class="sig"><span class="k">impure</span> <span class="k">elemental</span> type(<a href="../type/unicode_type.html">unicode_type</a>) <span class="k">function</span> expand_backslash_au(<span class="intent attr-in" title="intent(in)">line</span>, <span class="intent attr-in" title="intent(in)">protect</span>) <span class="k">result</span>(out)</div>
+
+</div>
+<div class="item" id="proc-expand_backslash_aa"><h3>expand_backslash_aa<span class="attr attr-impure" title="May have side effects">impure</span><span class="attr attr-elemental" title="Works on each element of arrays of any rank">elemental</span><span class="attr attr-private">private</span></h3>
+<div class="sig"><span class="k">impure</span> <span class="k">elemental</span> type(<a href="../type/unicode_type.html">unicode_type</a>) <span class="k">function</span> expand_backslash_aa(<span class="intent attr-in" title="intent(in)">line</span>, <span class="intent attr-in" title="intent(in)">protect</span>) <span class="k">result</span>(out)</div>
+
+</div>
+</details>
+<h2 id="graphs">Graphs</h2>
+<h3>Called by</h3>
+<div class="graph"><svg width="310pt" height="188pt"
+ viewBox="0 0 310 188" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="scale(1 1) rotate(0) translate(4 183.6)" fill="none" stroke="#8a93a5" font-family="Helvetica,sans-Serif" font-size="13" text-anchor="middle"><a href="../interface/escape.html" fill="white" stroke="none"><rect fill="#6a4fb3" stroke="#f0a868" stroke-width="2" rx="7.2" x="0" y="-101.6" width="56.3" height="21.6"/><text x="28.2" y="-86.1">escape</text></a><a href="../program/backslash_to_utf8.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="92.3" y="-179.6" width="119.2" height="21.6"/><text x="151.9" y="-164.1">backslash_to_utf8</text></a><path d="M120,-157.6C110.8,-153.7 100.9,-149.1 92.3,-143.8 75.7,-133.6 58.9,-119.2 46.8,-108"/><polygon fill="#8a93a5" points="48.8,-106.6 42,-103.6 45.4,-110.1"/><a href="../program/uni.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="247.5" y="-120.6" width="54" height="21.6"/><text x="274.5" y="-105.1">uni</text></a><path d="M247.2,-112.5C211.8,-115.6 146.9,-119.2 92.3,-110.8 83.3,-109.4 73.7,-106.9 64.9,-104.2"/><polygon fill="#8a93a5" points="65.9,-101.9 58.5,-102.1 64.4,-106.6"/><a href="../proc/get_text.html" fill="white" stroke="none"><rect fill="#0b7285" rx="7.2" x="121.6" y="-101.6" width="60.7" height="21.6"/><text x="151.9" y="-86.1">get_text</text></a><path d="M247,-105.6C230.6,-103 209.1,-99.7 190.9,-96.8"/><polygon fill="#8a93a5" points="191.5,-94.4 184.2,-95.7 190.7,-99.2"/><path d="M121.1,-90.8C104.3,-90.8 83.2,-90.8 65.4,-90.8"/><polygon fill="#8a93a5" points="65.5,-88.4 58.5,-90.8 65.5,-93.3"/><a href="../program/demo_escape.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="103.9" y="-61.6" width="96.1" height="21.6"/><text x="151.9" y="-46.1">demo_escape</text></a><path d="M116.7,-62C100.5,-67.4 81.1,-73.7 64.8,-79.1"/><polygon fill="#8a93a5" points="64.3,-76.7 58.4,-81.2 65.9,-81.3"/><a href="../program/main_greek.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="110.8" y="-21.6" width="82.3" height="21.6"/><text x="151.9" y="-6.1">main_greek</text></a><path d="M110.5,-22C104.2,-24.5 97.9,-27.4 92.3,-30.8 73.6,-42.1 55.9,-59.7 44.1,-73"/><polygon fill="#8a93a5" points="42.5,-71.1 39.7,-77.9 46.2,-74.3"/></g>
+</svg>
+</div>
+<footer>M_unicode was developed by John S. Urban. Generated on 2026-11-05 08:34 -0500. Documentation generated by <a href="https://github.com/jacobwilliams/fdoc">fdoc</a>.</footer>
+</div>
+</main>
+</div>
+</body>
+</html>

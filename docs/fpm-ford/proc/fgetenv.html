@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>fgetenv &ndash; M_unicode</title>
+<meta name="author" content="John S. Urban">
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" href="../css/fdoc.css">
+<script src="../js/fdoc.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="brand" href="../index.html">M_unicode</a>
+<nav><a href="../lists/files.html">Source Files</a><a href="../lists/modules.html">Modules</a><a class="here" href="../lists/procedures.html">Procedures</a><a href="../lists/types.html">Derived Types</a><a href="../lists/programs.html">Programs</a></nav>
+<div class="search"><input type="search" placeholder="Search (/)" aria-label="Search"><div class="results"></div></div>
+<button class="theme" title="Change theme" aria-label="Change theme">&#9680;</button>
+</header>
+<div class="layout">
+<aside class="side">
+<h4>Variables</h4><ul><li><a href="#variable-howbig"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>howbig</a></li><li><a href="#variable-length"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>length</a></li><li><a href="#variable-stat"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>stat</a></li></ul>
+<h4>On this page</h4><ul><li><a href="#arguments">Arguments</a></li><li><a href="#result">Result</a></li><li><a href="#source">Source</a></li></ul>
+<h4><a href="../lists/files.html">Source Files</a></h4><h4><a href="../lists/modules.html">Modules</a></h4><h4><a href="../lists/procedures.html">Procedures</a></h4><ul><li><a href="../interface/add_backslash.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_backslash</a></li><li><a href="../interface/add_border.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_border</a></li><li><a href="../interface/add_html.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_html</a></li><li><a href="../interface/adjustl.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>adjustl</a></li><li><a href="../interface/adjustr.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>adjustr</a></li><li><a href="../proc/afmt.html"><span class="ico ico-f" title="function" aria-hidden="true">F</span>afmt</a></li><li><a href="../interface/assignment(=).html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>assignment(=)</a></li><li><a href="../proc/basics.html"><span class="ico ico-s" title="subroutine" aria-hidden="true">S</span>basics</a></li><li><a href="../proc/callit.html"><span class="ico ico-s" title="subroutine" aria-hidden="true">S</span>callit</a></li><li><a href="../proc/case_insensitive_compare.html"><span class="ico ico-f" title="function" aria-hidden="true">F</span>case_insensitive_compare</a></li><li><a class="more" href="../lists/procedures.html">All 158&hellip;</a></li></ul>
+<h4><a href="../lists/types.html">Derived Types</a></h4><h4><a href="../lists/programs.html">Programs</a></h4></aside>
+<main><div class="inner">
+<div class="crumbs"><a href="../sourcefile/test_m_unicode.f90.html">test_M_unicode.F90</a> <span class="sep">&rsaquo;</span> <a href="../module/testsuite_m_unicode.html">testsuite_M_unicode</a></div>
+<h1><span class="kind">function</span>fgetenv</h1>
+<div class="sig">character(len=:) <span class="k">function</span> fgetenv(<span class="intent attr-in" title="intent(in)">name</span>, <span class="intent attr-in" title="intent(in)">default</span>) <span class="k">result</span>(value)</div>
+<h2 id="arguments">Arguments</h2>
+<table class="arguments">
+<thead><tr><th>Name</th><th>Type</th><th>Intent</th><th>Attributes</th><th>Description</th></tr></thead>
+<tbody>
+<tr id="variable-name"><td class="name">name</td><td class="type">character(len=*)</td><td><span class="attr attr-in">in</span></td><td class="attributes"></td><td></td></tr>
+<tr id="variable-default"><td class="name">default</td><td class="type">character(len=*)</td><td><span class="attr attr-in">in</span></td><td class="attributes"><span class="attr attr-optional">optional</span></td><td></td></tr>
+</tbody>
+</table>
+<h2 id="result">Result</h2>
+<table class="arguments">
+<thead><tr><th>Name</th><th>Type</th><th>Attributes</th><th>Description</th></tr></thead>
+<tbody>
+<tr id="variable-value"><td class="name">value</td><td class="type">character(len=:)</td><td class="attributes"><span class="attr attr-allocatable">allocatable</span></td><td></td></tr>
+</tbody>
+</table>
+<h2 id="source">Source</h2>
+<details class="source"><summary>Show the code</summary><pre><code><span class="k">function</span> fgetenv(name,default) <span class="k">result</span>(<span class="k">value</span>)
+<span class="c">! a function that makes calling get_environment_variable(3) simple</span>
+<span class="k">implicit</span> <span class="k">none</span>
+<span class="k">character</span>(<span class="k">len</span>=*),<span class="k">intent</span>(in)          :: name
+<span class="k">character</span>(<span class="k">len</span>=*),<span class="k">intent</span>(in),<span class="k">optional</span> :: default
+<span class="k">character</span>(<span class="k">len</span>=:),<span class="k">allocatable</span>         :: <span class="k">value</span>
+<span class="k">integer</span>                              :: howbig
+<span class="k">integer</span>                              :: <span class="k">stat</span>
+<span class="k">integer</span>                              :: length
+   length=<span class="n">0</span>
+   <span class="k">value</span>=<span class="s">''</span>
+   <span class="k">if</span>(name /= <span class="s">''</span>)<span class="k">then</span>
+      <span class="k">call</span> <span class="k">get_environment_variable</span>( name, &amp;
+      &amp; length=howbig,status=<span class="k">stat</span>,trim_name=<span class="k">.true.</span>)
+      <span class="k">select</span> <span class="k">case</span> (<span class="k">stat</span>)
+       <span class="k">case</span> (<span class="n">1</span>)
+         <span class="k">write</span>(stderr,*) &amp;
+         &amp; name, <span class="s">" is not defined in the environment. Strange..."</span>
+         <span class="k">value</span>=<span class="s">''</span>
+       <span class="k">case</span> (<span class="n">2</span>)
+         <span class="k">write</span>(stderr,*) &amp;
+         &amp; <span class="s">"This processor does not support environment variables. Boooh!"</span>
+         <span class="k">value</span>=<span class="s">''</span>
+       <span class="k">case</span> default
+         <span class="c">! make string of sufficient size to hold value</span>
+         <span class="k">if</span>(<span class="k">allocated</span>(<span class="k">value</span>))<span class="k">deallocate</span>(<span class="k">value</span>)
+         <span class="k">allocate</span>(<span class="k">character</span>(<span class="k">len</span>=<span class="k">max</span>(howbig,<span class="n">1</span>)) :: <span class="k">value</span>)
+         <span class="c">! get value</span>
+         <span class="k">call</span> <span class="k">get_environment_variable</span>( &amp;
+         &amp; name,<span class="k">value</span>,status=<span class="k">stat</span>,trim_name=<span class="k">.true.</span>)
+         <span class="k">if</span>(<span class="k">stat</span> /= <span class="n">0</span>)<span class="k">value</span>=<span class="s">''</span>
+      <span class="k">end</span> <span class="k">select</span>
+   <span class="k">endif</span>
+   <span class="k">if</span>(<span class="k">value</span> == <span class="s">''</span><span class="k">.and.</span><span class="k">present</span>(default))<span class="k">value</span>=default
+<span class="k">end</span> <span class="k">function</span> fgetenv</code></pre></details>
+<h2 id="graphs">Graphs</h2>
+<h3>Called by</h3>
+<div class="graph"><svg width="357pt" height="70pt"
+ viewBox="0 0 357 70" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="scale(1 1) rotate(0) translate(4 65.6)" fill="none" stroke="#8a93a5" font-family="Helvetica,sans-Serif" font-size="13" text-anchor="middle"><a href="../proc/fgetenv.html" fill="white" stroke="none"><rect fill="#0b7285" stroke="#f0a868" stroke-width="2" rx="7.2" x="0" y="-41.6" width="57" height="21.6"/><text x="28.5" y="-26.1">fgetenv</text></a><a href="../proc/test_get_env.html" fill="white" stroke="none"><rect fill="#1d7a55" rx="7.2" x="105.3" y="-61.6" width="88.8" height="21.6"/><text x="149.8" y="-46.1">test_get_env</text></a><path d="M105,-43.5C92.3,-41.3 78.5,-39 66.2,-37"/><polygon fill="#8a93a5" points="66.8,-34.6 59.5,-35.8 66,-39.4"/><a href="../proc/test_expand_env.html" fill="white" stroke="none"><rect fill="#1d7a55" rx="7.2" x="93" y="-21.6" width="113.4" height="21.6"/><text x="149.8" y="-6.1">test_expand_env</text></a><path d="M92.6,-20.2C83.6,-21.7 74.4,-23.3 66,-24.7"/><polygon fill="#8a93a5" points="65.8,-22.2 59.3,-25.8 66.6,-27.1"/><a href="../program/test_m_unicode.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="242.5" y="-41.6" width="106.2" height="21.6"/><text x="295.6" y="-26.1">test_M_unicode</text></a><path d="M242.2,-38.1C229.3,-39.9 215.5,-41.8 202.6,-43.6"/><polygon fill="#8a93a5" points="202.4,-41.1 195.8,-44.5 203.1,-46"/><path d="M242.2,-23.5C233.4,-22.3 224.1,-21 215,-19.7"/><polygon fill="#8a93a5" points="215.4,-17.3 208.2,-18.8 214.8,-22.2"/></g>
+</svg>
+</div>
+<h2 id="variables">Variables</h2>
+<table class="arguments">
+<thead><tr><th>Name</th><th>Type</th><th>Attributes</th><th>Description</th></tr></thead>
+<tbody>
+<tr id="variable-howbig"><td class="name">howbig</td><td class="type">integer</td><td class="attributes"></td><td></td></tr>
+<tr id="variable-length"><td class="name">length</td><td class="type">integer</td><td class="attributes"></td><td></td></tr>
+<tr id="variable-stat"><td class="name">stat</td><td class="type">integer</td><td class="attributes"></td><td></td></tr>
+</tbody>
+</table>
+<footer>M_unicode was developed by John S. Urban. Generated on 2026-11-05 08:34 -0500. Documentation generated by <a href="https://github.com/jacobwilliams/fdoc">fdoc</a>.</footer>
+</div>
+</main>
+</div>
+</body>
+</html>

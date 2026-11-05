@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>test_lower &ndash; M_unicode</title>
+<meta name="author" content="John S. Urban">
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" href="../css/fdoc.css">
+<script src="../js/fdoc.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="brand" href="../index.html">M_unicode</a>
+<nav><a href="../lists/files.html">Source Files</a><a href="../lists/modules.html">Modules</a><a class="here" href="../lists/procedures.html">Procedures</a><a href="../lists/types.html">Derived Types</a><a href="../lists/programs.html">Programs</a></nav>
+<div class="search"><input type="search" placeholder="Search (/)" aria-label="Search"><div class="results"></div></div>
+<button class="theme" title="Change theme" aria-label="Change theme">&#9680;</button>
+</header>
+<div class="layout">
+<aside class="side">
+<h4>Variables</h4><ul><li><a href="#variable-ascii7"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>ascii7</a></li><li><a href="#variable-codes"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>codes</a></li><li><a href="#variable-i"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>i</a></li><li><a href="#variable-letter1"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>letter1</a></li><li><a href="#variable-letter2"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>letter2</a></li><li><a href="#variable-letter3"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>letter3</a></li><li><a href="#variable-letter4"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>letter4</a></li><li><a href="#variable-low"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>low</a></li><li><a href="#variable-lowkludge"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>lowkludge</a></li><li><a href="#variable-temp"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>temp</a></li><li><a href="#variable-upp"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>upp</a></li></ul>
+<h4>Subroutines</h4><ul><li><a href="#proc-reportit"><span class="ico ico-s" title="subroutine" aria-hidden="true">S</span>reportit</a></li></ul>
+<h4>On this page</h4><ul><li><a href="#calls">Calls</a></li><li><a href="#source">Source</a></li></ul>
+<h4><a href="../lists/files.html">Source Files</a></h4><h4><a href="../lists/modules.html">Modules</a></h4><h4><a href="../lists/procedures.html">Procedures</a></h4><ul><li><a href="../interface/add_backslash.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_backslash</a></li><li><a href="../interface/add_border.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_border</a></li><li><a href="../interface/add_html.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_html</a></li><li><a href="../interface/adjustl.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>adjustl</a></li><li><a href="../interface/adjustr.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>adjustr</a></li><li><a href="../proc/afmt.html"><span class="ico ico-f" title="function" aria-hidden="true">F</span>afmt</a></li><li><a href="../interface/assignment(=).html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>assignment(=)</a></li><li><a href="../proc/basics.html"><span class="ico ico-s" title="subroutine" aria-hidden="true">S</span>basics</a></li><li><a href="../proc/callit.html"><span class="ico ico-s" title="subroutine" aria-hidden="true">S</span>callit</a></li><li><a href="../proc/case_insensitive_compare.html"><span class="ico ico-f" title="function" aria-hidden="true">F</span>case_insensitive_compare</a></li><li><a class="more" href="../lists/procedures.html">All 158&hellip;</a></li></ul>
+<h4><a href="../lists/types.html">Derived Types</a></h4><h4><a href="../lists/programs.html">Programs</a></h4></aside>
+<main><div class="inner">
+<div class="crumbs"><a href="../sourcefile/test_m_unicode.f90.html">test_M_unicode.F90</a> <span class="sep">&rsaquo;</span> <a href="../module/testsuite_m_unicode.html">testsuite_M_unicode</a></div>
+<h1><span class="kind">subroutine</span>test_lower</h1>
+<div class="sig"><span class="k">subroutine</span> test_lower()</div>
+<h2 id="calls">Calls</h2>
+<ul class="chips"><li><a href="../interface/lower.html">lower</a></li><li><a href="../proc/test_lower.html#proc-reportit">reportit</a></li><li><a href="../type/unicode_type.html#boundprocedure-codepoint">codepoint</a></li><li><a href="../proc/check.html">check</a></li><li><a href="../interface/character.html">character</a></li><li><a href="../interface/upper.html">upper</a></li><li><a href="../interface/replace.html">replace</a></li></ul>
+<h2 id="source">Source</h2>
+<details class="source"><summary>Show the code</summary><pre><code><span class="k">subroutine</span> test_lower()
+<span class="k">type</span>(ut)  :: upp, low, lowkludge, temp, letter1, letter2, letter3, letter4
+
+<span class="k">integer</span>             :: i
+<span class="k">integer</span>,<span class="k">allocatable</span> :: codes(:)
+<span class="k">character</span>(<span class="k">len</span>=<span class="n">128</span>)  :: ascii7
+<span class="c">!</span>
+<span class="c">! remember unicode characters are multi-byte so be careful</span>
+<span class="c">! with older compilers to not exceed 132 bytes per line</span>
+<span class="c">!</span>
+   low=<span class="s">'&amp;
+   &amp;abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëì&amp;
+   &amp;íîïðñòóôõöøùúûüýþÿāăąćĉċčďđēĕėęěĝğġģĥħĩīĭ&amp;
+   &amp;įıĳĵķĺļľŀłńņňŋōŏőœŕŗřśŝşšţťŧũūŭůűųŵŷźżž&amp;
+   &amp;ƃƅƈƌƒƙơƣƥƨƭưƴƶƹƽǆǉǌǎǐǒǔǖǘǚǜǟǡǣǥǧǩǫǭǯǳǵǻǽǿ&amp;
+   &amp;ȁȃȅȇȉȋȍȏȑȓȕȗɓɔɗɘəɛɠɣɨɩɯɲɵʃʈʊʋʒάέήί&amp;
+   &amp;αβγδεζηθικλμνξοπρστυφχψωϊϋόύώϣϥϧϩϫϭϯабвгдежзий&amp;
+   &amp;клмнопрстуфхцчшщъыьэюяёђѓєѕіїјљњћќўџ&amp;
+   &amp;ѡѣѥѧѩѫѭѯѱѳѵѷѹѻѽѿҁґғҕҗҙқҝҟҡңҥҧҩҫҭүұҳҵҷҹһҽҿӂӄӈ&amp;
+   &amp;ӌӑӓӕӗәӛӝӟӡӣӥӧөӫӯӱӳӵӹաբգդեզէըթժիլխծկհձղ&amp;
+   &amp;ճմյնշոչպջռսվտրցւփքօֆაბგდევზთიკლმნოპჟრსტუფქ&amp;
+   &amp;ღყშჩცძწჭხჯჰჱჲჳჴჵḁḃḅḇḉḋḍḏḑḓḕḗḙḛḝḟḡḣḥḧ&amp;
+   &amp;ḩḫḭḯḱḳḵḷḹḻḽḿṁṃṅṇṉṋṍṏṑṓṕṗṙ&amp;
+   &amp;ṛṝṟṡṣṥṧṩṫṭṯṱṳṵṷṹṻṽṿ&amp;
+   &amp;ẁẃẅẇẉẋẍẏẑẓẕạảấầẩẫậắằẳẵặẹẻẽếềểễệỉịọỏốồổỗ&amp;
+   &amp;ộớờởỡợụủứừửữựỳỵỷỹἀἁἂἃἄἅἆἇἐἑἒἓἔἕἠἡἢἣἤἥἦἧἰἱ&amp;
+   &amp;ἲἳἴἵἶἷὀὁὂὃὄὅὑὓὕὗὠὡὢὣὤὥὦὧᾀᾁᾂᾃᾄᾅᾆᾇᾐᾑᾒᾓᾔᾕᾖᾗ&amp;
+   &amp;ᾠᾡᾢᾣᾤᾥᾦᾧᾰᾱῐῑῠῡⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩ&amp;
+   &amp;ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ'</span>
+   upp=<span class="s">'&amp;
+   &amp;ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊË&amp;
+   &amp;ÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸĀĂĄĆĈĊČĎĐĒĔĖĘĚĜĞĠĢĤĦĨĪĬ&amp;
+   &amp;ĮIĲĴĶĹĻĽĿŁŃŅŇŊŌŎŐŒŔŖŘŚŜŞŠŢŤŦŨŪŬŮŰŲŴŶŹŻ&amp;
+   &amp;ŽƂƄƇƋƑƘƠƢƤƧƬƯƳƵƸƼǄǇǊǍǏǑǓǕǗǙǛǞǠǢǤǦǨǪǬǮǱǴǺǼǾ&amp;
+   &amp;ȀȂȄȆȈȊȌȎȐȒȔȖƁƆƊƎƏƐƓƔƗƖƜƝƟƩƮƱƲƷΆΈΉΊΑΒΓΔΕΖΗΘ&amp;
+   &amp;ΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩΪΫΌΎΏϢϤϦϨϪϬϮАБВГДЕЖЗИЙ&amp;
+   &amp;КЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯЁЂЃЄЅІЇЈЉЊЋЌЎЏѠѢѤѦѨѪѬ&amp;
+   &amp;ѮѰѲѴѶѸѺѼѾҀҐҒҔҖҘҚҜҞҠҢҤҦҨҪҬҮҰҲҴҶҸҺҼҾӁӃӇ&amp;
+   &amp;ӋӐӒӔӖӘӚӜӞӠӢӤӦӨӪӮӰӲӴӸԱԲԳԴԵԶԷԸԹԺԻԼԽԾԿՀՁՂՃՄ&amp;
+   &amp;ՅՆՇՈՉՊՋՌՍՎՏՐՑՒՓՔՕՖႠႡႢႣႤႥႦႧႨႩႪႫႬႭႮႯႰႱႲႳႴႵ&amp;
+   &amp;ႶႷႸႹႺႻႼႽႾႿჀჁჂჃჄჅḀḂḄḆḈḊḌḎḐḒḔḖḘḚḜḞḠḢḤḦḨḪḬḮ&amp;
+   &amp;ḰḲḴḶḸḺḼḾṀṂṄṆṈṊṌṎṐṒṔṖṘṚṜṞṠṢṤṦṨṪṬṮṰṲṴṶṸṺṼṾ&amp;
+   &amp;ẀẂẄẆẈẊẌẎẐẒẔẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼẾỀỂỄỆỈỊ&amp;
+   &amp;ỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪỬỮỰỲỴỶỸ&amp;
+   &amp;ἈἉἊἋἌἍἎἏἘἙἚἛἜἝἨἩἪἫἬἭἮἯἸἹ&amp;
+   &amp;ἺἻἼἽἾἿὈὉὊὋὌὍὙὛὝὟὨὩὪὫὬὭὮὯ&amp;
+   &amp;ᾈᾉᾊᾋᾌᾍᾎᾏᾘᾙᾚᾛᾜᾝᾞᾟᾨᾩᾪᾫᾬᾭᾮᾯᾸᾹ&amp;
+   &amp;ῘῙῨῩⒶⒷⒸⒹⒺⒻⒼⒽⒾⒿⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏ&amp;
+   &amp;ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ'</span>
+
+   temp=lower(upp)
+   <span class="k">call</span> reportit()
+   codes=low%codepoint()
+   codes(<span class="n">82</span>)=<span class="k">ichar</span>(<span class="s">'i'</span>)
+   lowkludge=codes
+   <span class="c">!call check('lower', temp == low )</span>
+   <span class="c">!call check('lower', ch(temp) == ch(low) )</span>
+   <span class="k">call</span> check(<span class="s">'lower'</span>, temp == lowkludge )
+   <span class="k">call</span> check(<span class="s">'lower'</span>, ch(temp) == ch(lowkludge) )
+
+   <span class="k">write</span>(ascii7,g0)(<span class="k">achar</span>(i),i=<span class="n">0</span>,<span class="n">127</span>)
+   ascii7( <span class="k">ichar</span>(<span class="s">'a'</span>)+<span class="n">1</span>:<span class="k">ichar</span>(<span class="s">'z'</span>)+<span class="n">1</span> ) = <span class="s">' '</span>
+   ascii7( <span class="k">ichar</span>(<span class="s">'A'</span>)+<span class="n">1</span>:<span class="k">ichar</span>(<span class="s">'Z'</span>)+<span class="n">1</span> ) = <span class="s">' '</span>
+   temp=ascii7
+   <span class="c">!call check('lower',temp%character() == ascii7,'check non-alphameric like'//ascii7(ichar(' ')+1:len(ascii7)-1) )</span>
+   <span class="k">call</span> check(<span class="s">'lower'</span>,upper(temp) == lower(temp),<span class="s">'expect no difference'</span>)
+   <span class="k">call</span> check(<span class="s">'lower'</span>,temp == lower(temp),<span class="s">'expect no change'</span>)
+
+   temp=upp%lower()
+   <span class="c">!write(stdout,*)ch(temp,82,82) ! known conundrum at 82 i ı</span>
+
+   letter1= <span class="k">int</span>(<span class="n">z"0049"</span>) <span class="c">! * U+0049 I LATIN CAPITAL LETTER I.</span>
+   letter2= <span class="k">int</span>(<span class="n">z"0130"</span>) <span class="c">! * U+0130 İ LATIN CAPITAL LETTER I WITH DOT ABOVE.</span>
+   letter3= <span class="k">int</span>(<span class="n">z"0069"</span>) <span class="c">! * U+0069 i LATIN SMALL LETTER I. (dotted)</span>
+   letter4= <span class="k">int</span>(<span class="n">z"0131"</span>) <span class="c">! * U+0131 ı LATIN SMALL LETTER I DOTLESS</span>
+
+   temp=replace(temp,<span class="n">82</span>,<span class="n">82</span>,letter4)
+
+   <span class="k">call</span> check(<span class="s">'%lower'</span>, temp == low )
+   <span class="k">call</span> check(<span class="s">'%lower'</span>, ch(temp) == ch(low) )
+   <span class="k">contains</span>
+   <span class="k">subroutine</span> reportit()
+   <span class="c">! known conundrum at 82 i ı</span>
+   <span class="k">do</span> i=<span class="n">1</span>,<span class="k">len</span>(temp)
+      letter1=temp%<span class="k">character</span>(i)
+      letter2=low%<span class="k">character</span>(i,i)
+      <span class="k">if</span> ( letter1 /= letter2 )<span class="k">then</span>
+         <span class="k">if</span>(i == <span class="n">82</span>)<span class="k">then</span>
+            <span class="k">call</span> check(<span class="s">'lower'</span>,i==<span class="n">82</span>,<span class="s">'expected difference'</span>//letter1%<span class="k">character</span>()//letter2%<span class="k">character</span>())
+         <span class="k">else</span>
+            <span class="k">call</span> check(<span class="s">'lower'</span>,letter1 == letter2,<span class="s">'failed'</span>//letter1%<span class="k">character</span>()//letter2%<span class="k">character</span>())
+         <span class="k">endif</span>
+      <span class="k">endif</span>
+   enddo
+   <span class="k">end</span> <span class="k">subroutine</span> reportit
+
+<span class="k">end</span> <span class="k">subroutine</span> test_lower</code></pre></details>
+<h2 id="graphs">Graphs</h2>
+<h3>Calls</h3>
+<div class="graph"><svg width="367pt" height="268pt"
+ viewBox="0 0 367 268" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="scale(1 1) rotate(0) translate(4 263.6)" fill="none" stroke="#8a93a5" font-family="Helvetica,sans-Serif" font-size="13" text-anchor="middle"><a href="../proc/test_lower.html" fill="white" stroke="none"><rect fill="#1d7a55" stroke="#f0a868" stroke-width="2" rx="7.2" x="0" y="-140.6" width="73.6" height="21.6"/><text x="36.8" y="-125.1">test_lower</text></a><a href="../interface/lower.html" fill="white" stroke="none"><rect fill="#6a4fb3" rx="7.2" x="162.5" y="-259.6" width="54" height="21.6"/><text x="189.5" y="-244.1">lower</text></a><path d="M42.9,-141.3C52.6,-162.1 76.1,-206 109.6,-228.8 122.6,-237.6 139.2,-242.5 153.8,-245.3"/><polygon fill="#8a93a5" points="153.3,-247.7 160.6,-246.4 154.1,-242.9"/><a href="../proc/test_lower.html#proc-reportit" fill="white" stroke="none"><rect fill="#1d7a55" rx="7.2" x="162.1" y="-219.6" width="54.9" height="21.6"/><text x="189.5" y="-204.1">reportit</text></a><path d="M48.9,-141.6C62.1,-155 85.5,-176.6 109.6,-188.8 123.3,-195.7 139.6,-200.4 153.8,-203.4"/><polygon fill="#8a93a5" points="153.1,-205.8 160.4,-204.8 154,-201"/><a href="../type/unicode_type.html#boundprocedure-codepoint" fill="white" stroke="none"><rect fill="#7a6a2d" rx="7.2" x="109.6" y="-179.6" width="159.7" height="21.6"/><text x="189.5" y="-164.1">unicode_type%codepoint</text></a><path d="M74.3,-139.2C93.1,-144.1 116.2,-150.1 136.8,-155.4"/><polygon fill="#8a93a5" points="136,-157.7 143.4,-157.1 137.2,-153"/><a href="../proc/check.html" fill="white" stroke="none"><rect fill="#1d7a55" rx="7.2" x="305.3" y="-179.6" width="54" height="21.6"/><text x="332.3" y="-164.1">check</text></a><path d="M74.3,-130.2C120.2,-131.3 201.3,-135.2 269.3,-148.8 278.4,-150.6 288,-153.3 296.9,-156.1"/><polygon fill="#8a93a5" points="296,-158.4 303.4,-158.3 297.5,-153.8"/><a href="../interface/character.html" fill="white" stroke="none"><rect fill="#6a4fb3" rx="7.2" x="155.2" y="-101.6" width="68.6" height="21.6"/><text x="189.5" y="-86.1">character</text></a><path d="M74.3,-120.4C96.2,-114.7 124.1,-107.5 146.8,-101.6"/><polygon fill="#8a93a5" points="147.3,-104 153.5,-99.9 146.1,-99.2"/><a href="../interface/upper.html" fill="white" stroke="none"><rect fill="#6a4fb3" rx="7.2" x="162.5" y="-61.6" width="54" height="21.6"/><text x="189.5" y="-46.1">upper</text></a><path d="M48.9,-118C62.1,-104.6 85.5,-83 109.6,-70.8 123.4,-63.8 139.9,-59.2 154.1,-56.1"/><polygon fill="#8a93a5" points="154.4,-58.5 160.8,-54.8 153.4,-53.7"/><a href="../interface/replace.html" fill="white" stroke="none"><rect fill="#6a4fb3" rx="7.2" x="161" y="-21.6" width="57" height="21.6"/><text x="189.5" y="-6.1">replace</text></a><path d="M42.9,-118.3C52.6,-97.5 76.1,-53.6 109.6,-30.8 122.3,-22.3 138.2,-17.4 152.5,-14.6"/><polygon fill="#8a93a5" points="152.7,-17 159.2,-13.4 151.9,-12.2"/><path d="M217.2,-202.5C232.6,-198.7 252.1,-193.8 269.3,-188.8 278.3,-186.2 288,-183.2 296.9,-180.3"/><polygon fill="#8a93a5" points="297.6,-182.7 303.5,-178.2 296,-178"/></g>
+</svg>
+</div>
+<h3>Called by</h3>
+<div class="graph"><svg width="224pt" height="30pt"
+ viewBox="0 0 224 30" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="scale(1 1) rotate(0) translate(4 25.6)" fill="none" stroke="#8a93a5" font-family="Helvetica,sans-Serif" font-size="13" text-anchor="middle"><a href="../proc/test_lower.html" fill="white" stroke="none"><rect fill="#1d7a55" stroke="#f0a868" stroke-width="2" rx="7.2" x="0" y="-21.6" width="73.6" height="21.6"/><text x="36.8" y="-6.1">test_lower</text></a><a href="../program/test_m_unicode.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="109.6" y="-21.6" width="106.2" height="21.6"/><text x="162.7" y="-6.1">test_M_unicode</text></a><path d="M109.2,-10.8C100.4,-10.8 91.3,-10.8 82.7,-10.8"/><polygon fill="#8a93a5" points="82.8,-8.4 75.8,-10.8 82.8,-13.3"/></g>
+</svg>
+</div>
+<h2 id="variables">Variables</h2>
+<table class="arguments">
+<thead><tr><th>Name</th><th>Type</th><th>Attributes</th><th>Description</th></tr></thead>
+<tbody>
+<tr id="variable-ascii7"><td class="name">ascii7</td><td class="type">character(len=128)</td><td class="attributes"></td><td></td></tr>
+<tr id="variable-codes"><td class="name">codes</td><td class="type">integer</td><td class="attributes"><span class="attr attr-allocatable">allocatable</span><span class="attr attr-dimension">dimension(:)</span></td><td></td></tr>
+<tr id="variable-i"><td class="name">i</td><td class="type">integer</td><td class="attributes"></td><td></td></tr>
+<tr id="variable-letter1"><td class="name">letter1</td><td class="type">type(<a href="../type/unicode_type.html">ut</a>)</td><td class="attributes"></td><td></td></tr>
+<tr id="variable-letter2"><td class="name">letter2</td><td class="type">type(<a href="../type/unicode_type.html">ut</a>)</td><td class="attributes"></td><td></td></tr>
+<tr id="variable-letter3"><td class="name">letter3</td><td class="type">type(<a href="../type/unicode_type.html">ut</a>)</td><td class="attributes"></td><td></td></tr>
+<tr id="variable-letter4"><td class="name">letter4</td><td class="type">type(<a href="../type/unicode_type.html">ut</a>)</td><td class="attributes"></td><td></td></tr>
+<tr id="variable-low"><td class="name">low</td><td class="type">type(<a href="../type/unicode_type.html">ut</a>)</td><td class="attributes"></td><td></td></tr>
+<tr id="variable-lowkludge"><td class="name">lowkludge</td><td class="type">type(<a href="../type/unicode_type.html">ut</a>)</td><td class="attributes"></td><td></td></tr>
+<tr id="variable-temp"><td class="name">temp</td><td class="type">type(<a href="../type/unicode_type.html">ut</a>)</td><td class="attributes"></td><td></td></tr>
+<tr id="variable-upp"><td class="name">upp</td><td class="type">type(<a href="../type/unicode_type.html">ut</a>)</td><td class="attributes"></td><td></td></tr>
+</tbody>
+</table>
+<h2 id="subroutines">Subroutines</h2>
+<div class="item" id="proc-reportit"><h3><a href="../proc/test_lower.html#proc-reportit">reportit</a></h3>
+<div class="sig"><span class="k">subroutine</span> reportit()</div>
+
+</div>
+<footer>M_unicode was developed by John S. Urban. Generated on 2026-11-05 08:34 -0500. Documentation generated by <a href="https://github.com/jacobwilliams/fdoc">fdoc</a>.</footer>
+</div>
+</main>
+</div>
+</body>
+</html>

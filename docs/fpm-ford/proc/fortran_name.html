@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>fortran_name &ndash; M_unicode</title>
+<meta name="author" content="John S. Urban">
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" href="../css/fdoc.css">
+<script src="../js/fdoc.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="brand" href="../index.html">M_unicode</a>
+<nav><a href="../lists/files.html">Source Files</a><a href="../lists/modules.html">Modules</a><a class="here" href="../lists/procedures.html">Procedures</a><a href="../lists/types.html">Derived Types</a><a href="../lists/programs.html">Programs</a></nav>
+<div class="search"><input type="search" placeholder="Search (/)" aria-label="Search"><div class="results"></div></div>
+<button class="theme" title="Change theme" aria-label="Change theme">&#9680;</button>
+</header>
+<div class="layout">
+<aside class="side">
+<h4>Variables</h4><ul><li><a href="#variable-allowed"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>allowed</a></li><li><a href="#variable-int"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>int</a></li><li><a href="#variable-lower"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>lower</a></li><li><a href="#variable-name"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>name</a></li><li><a href="#variable-upper"><span class="ico ico-v" title="variable" aria-hidden="true">V</span>upper</a></li></ul>
+<h4>On this page</h4><ul><li><a href="#arguments">Arguments</a></li><li><a href="#result">Result</a></li><li><a href="#calls">Calls</a></li><li><a href="#source">Source</a></li></ul>
+<h4><a href="../lists/files.html">Source Files</a></h4><h4><a href="../lists/modules.html">Modules</a></h4><h4><a href="../lists/procedures.html">Procedures</a></h4><ul><li><a href="../interface/add_backslash.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_backslash</a></li><li><a href="../interface/add_border.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_border</a></li><li><a href="../interface/add_html.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_html</a></li><li><a href="../interface/adjustl.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>adjustl</a></li><li><a href="../interface/adjustr.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>adjustr</a></li><li><a href="../proc/afmt.html"><span class="ico ico-f" title="function" aria-hidden="true">F</span>afmt</a></li><li><a href="../interface/assignment(=).html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>assignment(=)</a></li><li><a href="../proc/basics.html"><span class="ico ico-s" title="subroutine" aria-hidden="true">S</span>basics</a></li><li><a href="../proc/callit.html"><span class="ico ico-s" title="subroutine" aria-hidden="true">S</span>callit</a></li><li><a href="../proc/case_insensitive_compare.html"><span class="ico ico-f" title="function" aria-hidden="true">F</span>case_insensitive_compare</a></li><li><a class="more" href="../lists/procedures.html">All 158&hellip;</a></li></ul>
+<h4><a href="../lists/types.html">Derived Types</a></h4><h4><a href="../lists/programs.html">Programs</a></h4></aside>
+<main><div class="inner">
+<div class="crumbs"><a href="../sourcefile/demo_verify_3.f90.html">demo_verify_3.f90</a> <span class="sep">&rsaquo;</span> <a href="../program/fortran_symbol_name.html">fortran_symbol_name</a></div>
+<h1><span class="kind">function</span>fortran_name<span class="attr attr-impure" title="May have side effects">impure</span><span class="attr attr-elemental" title="Works on each element of arrays of any rank">elemental</span></h1>
+<div class="sig"><span class="k">impure</span> <span class="k">elemental</span> logical <span class="k">function</span> fortran_name(<span class="intent attr-in" title="intent(in)">line</span>) <span class="k">result</span>(lout)</div>
+<h2 id="arguments">Arguments</h2>
+<table class="arguments">
+<thead><tr><th>Name</th><th>Type</th><th>Intent</th><th>Attributes</th><th>Description</th></tr></thead>
+<tbody>
+<tr id="variable-line"><td class="name">line</td><td class="type">type(<a href="../type/unicode_type.html">ut</a>)</td><td><span class="attr attr-in">in</span></td><td class="attributes"></td><td></td></tr>
+</tbody>
+</table>
+<h2 id="result">Result</h2>
+<table class="arguments">
+<thead><tr><th>Name</th><th>Type</th><th>Attributes</th><th>Description</th></tr></thead>
+<tbody>
+<tr id="variable-lout"><td class="name">lout</td><td class="type">logical</td><td class="attributes"></td><td></td></tr>
+</tbody>
+</table>
+<h2 id="calls">Calls</h2>
+<ul class="chips"><li><a href="../type/unicode_type.html#boundprocedure-sub">sub</a></li></ul>
+<h2 id="source">Source</h2>
+<details class="source"><summary>Show the code</summary><pre><code>   impure <span class="k">elemental</span> <span class="k">function</span> fortran_name(line) <span class="k">result</span> (lout)
+   <span class="c">!</span>
+   <span class="c">! determine if a string is a valid Fortran name</span>
+   <span class="c">! ignoring trailing spaces (but not leading spaces)</span>
+   <span class="c">!</span>
+   <span class="k">character</span>(<span class="k">len</span>=*),<span class="k">parameter</span> :: <span class="k">int</span>=<span class="s">"0123456789"</span>
+   <span class="k">character</span>(<span class="k">len</span>=*),<span class="k">parameter</span> :: lower=<span class="s">"abcdefghijklmnopqrstuvwxyz"</span>
+   <span class="k">character</span>(<span class="k">len</span>=*),<span class="k">parameter</span> :: upper=<span class="s">"ABCDEFGHIJKLMNOPQRSTUVWXYZ"</span>
+   <span class="k">character</span>(<span class="k">len</span>=*),<span class="k">parameter</span> :: allowed=upper//lower//<span class="k">int</span>//<span class="s">"_"</span>
+
+   <span class="k">type</span>(ut),<span class="k">intent</span>(in)        :: line
+   <span class="k">type</span>(ut)                   :: name
+   <span class="k">logical</span>                    :: lout
+      name=<span class="k">trim</span>(line)
+      <span class="k">if</span>(<span class="k">len</span>(name) /= <span class="n">0</span>)<span class="k">then</span>
+         <span class="c">! first character is alphameric</span>
+         lout = <span class="k">verify</span>(name%sub(<span class="n">1</span>,<span class="n">1</span>), lower//upper) == <span class="n">0</span>  &amp;
+          <span class="c">! other characters are allowed in a symbol name</span>
+          &amp; <span class="k">.and.</span> <span class="k">verify</span>(name,allowed) == <span class="n">0</span>           &amp;
+          <span class="c">! allowable length</span>
+          &amp; <span class="k">.and.</span> <span class="k">len</span>(name) &lt;= <span class="n">63</span>
+      <span class="k">else</span>
+         lout = <span class="k">.false.</span>
+      <span class="k">endif</span>
+   <span class="k">end</span> <span class="k">function</span> fortran_name</code></pre></details>
+<h2 id="graphs">Graphs</h2>
+<h3>Calls</h3>
+<div class="graph"><svg width="350pt" height="30pt"
+ viewBox="0 0 350 30" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="scale(1 1) rotate(0) translate(4 25.6)" fill="none" stroke="#8a93a5" font-family="Helvetica,sans-Serif" font-size="13" text-anchor="middle"><a href="../proc/fortran_name.html" fill="white" stroke="none"><rect fill="#0b7285" stroke="#f0a868" stroke-width="2" rx="7.2" x="0" y="-21.6" width="91.7" height="21.6"/><text x="45.9" y="-6.1">fortran_name</text></a><a href="../type/unicode_type.html#boundprocedure-sub" fill="white" stroke="none"><rect fill="#7a6a2d" rx="7.2" x="127.7" y="-21.6" width="124.3" height="21.6"/><text x="189.9" y="-6.1">unicode_type%sub</text></a><path d="M92.6,-10.8C101.1,-10.8 110.1,-10.8 119.2,-10.8"/><polygon fill="#8a93a5" points="118.9,-13.3 125.9,-10.8 118.9,-8.4"/><a href="../proc/sub.html" fill="white" stroke="none"><rect fill="#0b7285" rx="7.2" x="288" y="-21.6" width="54" height="21.6"/><text x="315" y="-6.1">sub</text></a><path d="M252.4,-10.8C261.6,-10.8 270.8,-10.8 279.2,-10.8"/><polygon fill="#8a93a5" points="279.1,-13.3 286.1,-10.8 279.1,-8.4"/></g>
+</svg>
+</div>
+<h3>Called by</h3>
+<div class="graph"><svg width="276pt" height="30pt"
+ viewBox="0 0 276 30" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="scale(1 1) rotate(0) translate(4 25.6)" fill="none" stroke="#8a93a5" font-family="Helvetica,sans-Serif" font-size="13" text-anchor="middle"><a href="../proc/fortran_name.html" fill="white" stroke="none"><rect fill="#0b7285" stroke="#f0a868" stroke-width="2" rx="7.2" x="0" y="-21.6" width="91.7" height="21.6"/><text x="45.9" y="-6.1">fortran_name</text></a><a href="../program/fortran_symbol_name.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="127.7" y="-21.6" width="140.1" height="21.6"/><text x="197.8" y="-6.1">fortran_symbol_name</text></a><path d="M127.5,-10.8C118.7,-10.8 109.7,-10.8 101.1,-10.8"/><polygon fill="#8a93a5" points="101.2,-8.4 94.2,-10.8 101.2,-13.3"/></g>
+</svg>
+</div>
+<h2 id="variables">Variables</h2>
+<table class="arguments">
+<thead><tr><th>Name</th><th>Type</th><th>Attributes</th><th>Default</th><th>Description</th></tr></thead>
+<tbody>
+<tr id="variable-allowed"><td class="name">allowed</td><td class="type">character(len=*)</td><td class="attributes"><span class="attr attr-parameter">parameter</span></td><td class="default">upper//lower//int//"_"</td><td></td></tr>
+<tr id="variable-int"><td class="name">int</td><td class="type">character(len=*)</td><td class="attributes"><span class="attr attr-parameter">parameter</span></td><td class="default">"0123456789"</td><td></td></tr>
+<tr id="variable-lower"><td class="name">lower</td><td class="type">character(len=*)</td><td class="attributes"><span class="attr attr-parameter">parameter</span></td><td class="default">"abcdefghijklmnopqrstuvwxyz"</td><td></td></tr>
+<tr id="variable-name"><td class="name">name</td><td class="type">type(<a href="../type/unicode_type.html">ut</a>)</td><td class="attributes"></td><td class="default"></td><td></td></tr>
+<tr id="variable-upper"><td class="name">upper</td><td class="type">character(len=*)</td><td class="attributes"><span class="attr attr-parameter">parameter</span></td><td class="default">"ABCDEFGHIJKLMNOPQRSTUVWXYZ"</td><td></td></tr>
+</tbody>
+</table>
+<footer>M_unicode was developed by John S. Urban. Generated on 2026-11-05 08:34 -0500. Documentation generated by <a href="https://github.com/jacobwilliams/fdoc">fdoc</a>.</footer>
+</div>
+</main>
+</div>
+</body>
+</html>

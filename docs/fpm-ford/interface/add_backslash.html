@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>add_backslash &ndash; M_unicode</title>
+<meta name="author" content="John S. Urban">
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" href="../css/fdoc.css">
+<script src="../js/fdoc.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="brand" href="../index.html">M_unicode</a>
+<nav><a href="../lists/files.html">Source Files</a><a href="../lists/modules.html">Modules</a><a class="here" href="../lists/procedures.html">Procedures</a><a href="../lists/types.html">Derived Types</a><a href="../lists/programs.html">Programs</a></nav>
+<div class="search"><input type="search" placeholder="Search (/)" aria-label="Search"><div class="results"></div></div>
+<button class="theme" title="Change theme" aria-label="Change theme">&#9680;</button>
+</header>
+<div class="layout">
+<aside class="side">
+<h4><a href="../lists/files.html">Source Files</a></h4><h4><a href="../lists/modules.html">Modules</a></h4><h4><a href="../lists/procedures.html">Procedures</a></h4><ul><li><a href="../interface/add_backslash.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_backslash</a></li><li><a href="../interface/add_border.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_border</a></li><li><a href="../interface/add_html.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_html</a></li><li><a href="../interface/adjustl.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>adjustl</a></li><li><a href="../interface/adjustr.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>adjustr</a></li><li><a href="../proc/afmt.html"><span class="ico ico-f" title="function" aria-hidden="true">F</span>afmt</a></li><li><a href="../interface/assignment(=).html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>assignment(=)</a></li><li><a href="../proc/basics.html"><span class="ico ico-s" title="subroutine" aria-hidden="true">S</span>basics</a></li><li><a href="../proc/callit.html"><span class="ico ico-s" title="subroutine" aria-hidden="true">S</span>callit</a></li><li><a href="../proc/case_insensitive_compare.html"><span class="ico ico-f" title="function" aria-hidden="true">F</span>case_insensitive_compare</a></li><li><a class="more" href="../lists/procedures.html">All 158&hellip;</a></li></ul>
+<h4><a href="../lists/types.html">Derived Types</a></h4><h4><a href="../lists/programs.html">Programs</a></h4></aside>
+<main><div class="inner">
+<div class="crumbs"><a href="../sourcefile/m_unicode.f90.html">M_unicode.F90</a> <span class="sep">&rsaquo;</span> <a href="../module/m_unicode.html">M_unicode</a></div>
+<h1><span class="kind">interface</span>add_backslash</h1>
+<h2 id="call-forms">Call forms</h2>
+<div class="form">
+<div class="sig">result = add_backslash(line)</div>
+<table class="forms">
+<thead><tr><th>line</th><th class="rank">rank(line) = 0</th><th class="rank">rank(line) = 1</th><th>Result</th></tr></thead>
+<tbody>
+<tr><td class="type">type(unicode_type)</td><td class="rank"><a href="#proc-add_backslash_u_ascii" title="add_backslash_u_ascii">&#10003;</a></td><td class="rank"></td><td class="type">character(len=:), rank(line)</td></tr>
+<tr><td class="type">character(len=*)</td><td class="rank"><a href="#proc-add_backslash_ascii_ascii" title="add_backslash_ascii_ascii">&#10003;</a></td><td class="rank"></td><td class="type">character(len=:), rank(line)</td></tr>
+<tr><td class="type">character(len=*)</td><td class="rank"></td><td class="rank"><a href="#proc-add_backslash_ascii_ascii_arr" title="add_backslash_ascii_ascii_arr">&#10003;</a></td><td class="type">character(len=len(line)), rank(line)</td></tr>
+</tbody>
+</table>
+</div>
+<div class="form">
+<div class="sig">result = add_backslash(uline)</div>
+
+<table class="forms">
+<thead><tr><th>Procedure</th><th>Result</th></tr></thead>
+<tbody>
+<tr><td class="name"><a href="#proc-add_backslash_u_ascii_arr" title="add_backslash_u_ascii_arr">add_backslash_u_ascii_arr</a></td><td class="type">character(len=:), rank 1</td></tr>
+</tbody>
+</table>
+<p class="fixed"><code>uline</code> is type(unicode_type), rank 1</p>
+</div>
+<h2 id="procedures">Procedures</h2>
+<details class="specifics"><summary>All 4 procedures</summary>
+<div class="item" id="proc-add_backslash_u_ascii"><h3>add_backslash_u_ascii<span class="attr attr-private">private</span></h3>
+<div class="sig">character(len=:) <span class="k">function</span> add_backslash_u_ascii(<span class="intent attr-in" title="intent(in)">line</span>) <span class="k">result</span>(out)</div>
+<p>Sample Program:</p>
+</div>
+<div class="item" id="proc-add_backslash_ascii_ascii"><h3>add_backslash_ascii_ascii<span class="attr attr-private">private</span></h3>
+<div class="sig">character(len=:) <span class="k">function</span> add_backslash_ascii_ascii(<span class="intent attr-in" title="intent(in)">line</span>) <span class="k">result</span>(out)</div>
+
+</div>
+<div class="item" id="proc-add_backslash_u_ascii_arr"><h3>add_backslash_u_ascii_arr<span class="attr attr-private">private</span></h3>
+<div class="sig">character(len=:) <span class="k">function</span> add_backslash_u_ascii_arr(<span class="intent attr-in" title="intent(in)">uline</span>) <span class="k">result</span>(aout)</div>
+
+</div>
+<div class="item" id="proc-add_backslash_ascii_ascii_arr"><h3>add_backslash_ascii_ascii_arr<span class="attr attr-private">private</span></h3>
+<div class="sig">character(len=len(line)) <span class="k">function</span> add_backslash_ascii_ascii_arr(<span class="intent attr-in" title="intent(in)">line</span>) <span class="k">result</span>(aout)</div>
+
+</div>
+</details>
+<h2 id="graphs">Graphs</h2>
+<h3>Called by</h3>
+<div class="graph"><svg width="428pt" height="468pt"
+ viewBox="0 0 428 468" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="scale(1 1) rotate(0) translate(4 463.6)" fill="none" stroke="#8a93a5" font-family="Helvetica,sans-Serif" font-size="13" text-anchor="middle"><a href="../interface/add_backslash.html" fill="white" stroke="none"><rect fill="#6a4fb3" stroke="#f0a868" stroke-width="2" rx="7.2" x="0" y="-241.6" width="101.1" height="21.6"/><text x="50.6" y="-226.1">add_backslash</text></a><a href="../program/non_ascii.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="172.9" y="-459.6" width="69.3" height="21.6"/><text x="207.6" y="-444.1">non_ascii</text></a><path d="M172.5,-442.4C160.2,-438.7 146.9,-432.9 137.1,-423.8 85,-375.3 62.7,-289.1 55,-250.5"/><polygon fill="#8a93a5" points="57.4,-250.1 53.7,-243.7 52.6,-251"/><a href="../program/uni.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="340.1" y="-400.6" width="54" height="21.6"/><text x="367.1" y="-385.1">uni</text></a><path d="M339.8,-398.1C294.7,-410.7 201.2,-429.2 137.1,-390.8 85.6,-359.9 63.3,-286.2 55.4,-250.6"/><polygon fill="#8a93a5" points="57.8,-250.3 53.9,-243.9 53,-251.3"/><a href="../proc/get_text.html" fill="white" stroke="none"><rect fill="#0b7285" rx="7.2" x="177.2" y="-381.6" width="60.7" height="21.6"/><text x="207.6" y="-366.1">get_text</text></a><path d="M339.7,-386.6C314.2,-383.5 275.3,-378.8 246.5,-375.4"/><polygon fill="#8a93a5" points="247,-373 239.7,-374.6 246.4,-377.8"/><path d="M176.9,-366.8C163.8,-363.9 148.8,-359.1 137.1,-350.8 99.8,-324.4 72.9,-276.5 60.1,-249.9"/><polygon fill="#8a93a5" points="62.4,-249 57.2,-243.7 58,-251.1"/><a href="../program/utf8_to_backslash.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="148" y="-341.6" width="119.2" height="21.6"/><text x="207.6" y="-326.1">utf8_to_backslash</text></a><path d="M156.8,-319.6C150,-317.2 143.2,-314.3 137.1,-310.8 108.5,-294.5 81.8,-266.8 66.1,-248.6"/><polygon fill="#8a93a5" points="68.2,-247.3 61.8,-243.6 64.4,-250.5"/><a href="../program/demo_add_backslash.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="137.1" y="-301.6" width="140.9" height="21.6"/><text x="207.6" y="-286.1">demo_add_backslash</text></a><path d="M163.6,-279.6C154.8,-276.9 145.6,-274 137.1,-270.8 118.3,-263.7 97.8,-254.2 81.6,-246.3"/><polygon fill="#8a93a5" points="82.7,-244.1 75.4,-243.2 80.6,-248.5"/><a href="../program/demo_slurp.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="166.4" y="-261.6" width="82.3" height="21.6"/><text x="207.6" y="-246.1">demo_slurp</text></a><path d="M166.2,-245.6C149.2,-243.4 129,-240.8 110.4,-238.4"/><polygon fill="#8a93a5" points="110.7,-236 103.5,-237.5 110.1,-240.8"/><a href="../program/main_greek.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="166.4" y="-221.6" width="82.3" height="21.6"/><text x="207.6" y="-206.1">main_greek</text></a><path d="M166.2,-216C149.2,-218.2 129,-220.8 110.4,-223.2"/><polygon fill="#8a93a5" points="110.1,-220.8 103.5,-224.1 110.7,-225.6"/><a href="../program/demo_add_backslash~2.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="137.1" y="-181.6" width="140.9" height="21.6"/><text x="207.6" y="-166.1">demo_add_backslash</text></a><path d="M163.6,-182C154.8,-184.7 145.6,-187.6 137.1,-190.8 118.3,-197.9 97.8,-207.4 81.6,-215.3"/><polygon fill="#8a93a5" points="80.6,-213.1 75.4,-218.4 82.7,-217.5"/><a href="../proc/test_add_backslash.html" fill="white" stroke="none"><rect fill="#1d7a55" rx="7.2" x="142.9" y="-141.6" width="129.3" height="21.6"/><text x="207.6" y="-126.1">test_add_backslash</text></a><path d="M156.8,-142C150,-144.4 143.2,-147.3 137.1,-150.8 108.5,-167.1 81.8,-194.8 66.1,-213"/><polygon fill="#8a93a5" points="64.4,-211.1 61.8,-218 68.2,-214.3"/><a href="../proc/test_isascii.html" fill="white" stroke="none"><rect fill="#1d7a55" rx="7.2" x="168.6" y="-101.6" width="78" height="21.6"/><text x="207.6" y="-86.1">test_isascii</text></a><path d="M168.1,-97C157.4,-100 146.2,-104.3 137.1,-110.8 99.8,-137.2 72.9,-185.1 60.1,-211.7"/><polygon fill="#8a93a5" points="58,-210.5 57.2,-217.9 62.4,-212.6"/><a href="../proc/test_isspace.html" fill="white" stroke="none"><rect fill="#1d7a55" rx="7.2" x="164.2" y="-61.6" width="86.7" height="21.6"/><text x="207.6" y="-46.1">test_isspace</text></a><path d="M163.9,-57.3C154.4,-60.3 144.8,-64.6 137.1,-70.8 91,-108.1 66.5,-177 56.7,-210.9"/><polygon fill="#8a93a5" points="54.3,-210.3 54.8,-217.7 59.1,-211.6"/><a href="../proc/test_isblank.html" fill="white" stroke="none"><rect fill="#1d7a55" rx="7.2" x="166" y="-21.6" width="83" height="21.6"/><text x="207.6" y="-6.1">test_isblank</text></a><path d="M165.7,-16.2C155.5,-19.2 145.1,-23.7 137.1,-30.8 81.7,-79.7 61,-170.8 54.3,-210.9"/><polygon fill="#8a93a5" points="51.9,-210.5 53.3,-217.8 56.8,-211.3"/><a href="../program/test_m_unicode.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="314" y="-81.6" width="106.2" height="21.6"/><text x="367.1" y="-66.1">test_M_unicode</text></a><path d="M343.7,-82.1C326.1,-90.7 300.9,-102.4 278,-110.8 272,-113 265.7,-115.1 259.4,-117.1"/><polygon fill="#8a93a5" points="258.9,-114.7 252.9,-119.1 260.3,-119.4"/><path d="M313.6,-77.5C294.7,-79.9 273.5,-82.6 255.1,-84.9"/><polygon fill="#8a93a5" points="255,-82.4 248.3,-85.7 255.6,-87.3"/><path d="M313.6,-64.1C296.3,-61.9 276.9,-59.5 259.7,-57.3"/><polygon fill="#8a93a5" points="260.1,-54.9 252.9,-56.4 259.5,-59.7"/><path d="M343.7,-59.5C326.1,-50.9 300.9,-39.2 278,-30.8 271.4,-28.4 264.4,-26 257.4,-23.9"/><polygon fill="#8a93a5" points="258.1,-21.6 250.7,-21.9 256.7,-26.2"/></g>
+</svg>
+</div>
+<footer>M_unicode was developed by John S. Urban. Generated on 2026-11-05 08:34 -0500. Documentation generated by <a href="https://github.com/jacobwilliams/fdoc">fdoc</a>.</footer>
+</div>
+</main>
+</div>
+</body>
+</html>

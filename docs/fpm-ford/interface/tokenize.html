@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>tokenize &ndash; M_unicode</title>
+<meta name="author" content="John S. Urban">
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" href="../css/fdoc.css">
+<script src="../js/fdoc.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="brand" href="../index.html">M_unicode</a>
+<nav><a href="../lists/files.html">Source Files</a><a href="../lists/modules.html">Modules</a><a class="here" href="../lists/procedures.html">Procedures</a><a href="../lists/types.html">Derived Types</a><a href="../lists/programs.html">Programs</a></nav>
+<div class="search"><input type="search" placeholder="Search (/)" aria-label="Search"><div class="results"></div></div>
+<button class="theme" title="Change theme" aria-label="Change theme">&#9680;</button>
+</header>
+<div class="layout">
+<aside class="side">
+<h4><a href="../lists/files.html">Source Files</a></h4><h4><a href="../lists/modules.html">Modules</a></h4><h4><a href="../lists/procedures.html">Procedures</a></h4><ul><li><a href="../interface/add_backslash.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_backslash</a></li><li><a href="../interface/add_border.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_border</a></li><li><a href="../interface/add_html.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_html</a></li><li><a href="../interface/adjustl.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>adjustl</a></li><li><a href="../interface/adjustr.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>adjustr</a></li><li><a href="../proc/afmt.html"><span class="ico ico-f" title="function" aria-hidden="true">F</span>afmt</a></li><li><a href="../interface/assignment(=).html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>assignment(=)</a></li><li><a href="../proc/basics.html"><span class="ico ico-s" title="subroutine" aria-hidden="true">S</span>basics</a></li><li><a href="../proc/callit.html"><span class="ico ico-s" title="subroutine" aria-hidden="true">S</span>callit</a></li><li><a href="../proc/case_insensitive_compare.html"><span class="ico ico-f" title="function" aria-hidden="true">F</span>case_insensitive_compare</a></li><li><a class="more" href="../lists/procedures.html">All 158&hellip;</a></li></ul>
+<h4><a href="../lists/types.html">Derived Types</a></h4><h4><a href="../lists/programs.html">Programs</a></h4></aside>
+<main><div class="inner">
+<div class="crumbs"><a href="../sourcefile/m_unicode.f90.html">M_unicode.F90</a> <span class="sep">&rsaquo;</span> <a href="../module/m_unicode.html">M_unicode</a></div>
+<h1><span class="kind">interface</span>tokenize</h1>
+<h2 id="call-forms">Call forms</h2>
+<div class="form">
+<div class="sig">call tokenize(string, set, first, last)</div>
+
+<table class="forms">
+<thead><tr><th>Procedure</th></tr></thead>
+<tbody>
+<tr><td class="name"><a href="#proc-split_first_last" title="split_first_last">split_first_last</a></td></tr>
+</tbody>
+</table>
+<p class="fixed"><code>string</code> is type(unicode_type), <code>set</code> is type(unicode_type), <code>first</code> is integer, rank 1, <code>last</code> is integer, rank 1</p>
+</div>
+<div class="form">
+<div class="sig">call tokenize(string, set, first [, last])</div>
+
+<table class="forms">
+<thead><tr><th>Procedure</th></tr></thead>
+<tbody>
+<tr><td class="name"><a href="#proc-split_first_last_uaii" title="split_first_last_uaii">split_first_last_uaii</a></td></tr>
+</tbody>
+</table>
+<p class="fixed"><code>string</code> is type(unicode_type), <code>set</code> is character(len=*), <code>first</code> is integer, rank 1, <code>last</code> is integer, rank 1</p>
+</div>
+<div class="form">
+<div class="sig">call tokenize(string, set, pos [, back])</div>
+
+<table class="forms">
+<thead><tr><th>set</th><th>Procedure</th></tr></thead>
+<tbody>
+<tr><td class="type">type(unicode_type)</td><td class="name"><a href="#proc-split_pos" title="split_pos">split_pos</a></td></tr>
+<tr><td class="type">character(len=*)</td><td class="name"><a href="#proc-split_pos_uail" title="split_pos_uail">split_pos_uail</a></td></tr>
+</tbody>
+</table>
+<p class="fixed"><code>string</code> is type(unicode_type), <code>pos</code> is integer, <code>back</code> is logical</p>
+</div>
+<div class="form">
+<div class="sig">call tokenize(string, set, tokens [, separator])</div>
+<table class="forms">
+<thead><tr><th>set</th><th>Procedure</th></tr></thead>
+<tbody>
+<tr><td class="type">type(unicode_type)</td><td class="name"><a href="#proc-split_tokens" title="split_tokens">split_tokens</a></td></tr>
+<tr><td class="type">character(len=*)</td><td class="name"><a href="#proc-split_tokens_uauu" title="split_tokens_uauu">split_tokens_uauu</a></td></tr>
+</tbody>
+</table>
+<p class="fixed"><code>string</code> is type(unicode_type), <code>tokens</code> is type(unicode_type), rank 1, <code>separator</code> is type(unicode_type), rank 1</p>
+</div>
+<h2 id="procedures">Procedures</h2>
+<details class="specifics"><summary>All 6 procedures</summary>
+<div class="item" id="proc-split_first_last"><h3>split_first_last<span class="attr attr-impure" title="May have side effects">impure</span><span class="attr attr-private">private</span></h3>
+<div class="sig"><span class="k">impure</span> <span class="k">subroutine</span> split_first_last(<span class="intent attr-in" title="intent(in)">string</span>, <span class="intent attr-in" title="intent(in)">set</span>, <span class="intent attr-out" title="intent(out)">first</span>, <span class="intent attr-out" title="intent(out)">last</span>)</div>
+
+</div>
+<div class="item" id="proc-split_first_last_uaii"><h3>split_first_last_uaii<span class="attr attr-impure" title="May have side effects">impure</span><span class="attr attr-private">private</span></h3>
+<div class="sig"><span class="k">impure</span> <span class="k">subroutine</span> split_first_last_uaii(<span class="intent attr-in" title="intent(in)">string</span>, <span class="intent attr-in" title="intent(in)">set</span>, <span class="intent attr-out" title="intent(out)">first</span>, <span class="intent attr-out" title="intent(out)">last</span>)</div>
+
+</div>
+<div class="item" id="proc-split_pos"><h3>split_pos<span class="attr attr-impure" title="May have side effects">impure</span><span class="attr attr-private">private</span></h3>
+<div class="sig"><span class="k">impure</span> <span class="k">subroutine</span> split_pos(<span class="intent attr-in" title="intent(in)">string</span>, <span class="intent attr-in" title="intent(in)">set</span>, <span class="intent attr-inout" title="intent(inout)">pos</span>, <span class="intent attr-in" title="intent(in)">back</span>)</div>
+
+</div>
+<div class="item" id="proc-split_pos_uail"><h3>split_pos_uail<span class="attr attr-impure" title="May have side effects">impure</span><span class="attr attr-private">private</span></h3>
+<div class="sig"><span class="k">impure</span> <span class="k">subroutine</span> split_pos_uail(<span class="intent attr-in" title="intent(in)">string</span>, <span class="intent attr-in" title="intent(in)">set</span>, <span class="intent attr-inout" title="intent(inout)">pos</span>, <span class="intent attr-in" title="intent(in)">back</span>)</div>
+
+</div>
+<div class="item" id="proc-split_tokens"><h3>split_tokens<span class="attr attr-impure" title="May have side effects">impure</span><span class="attr attr-private">private</span></h3>
+<div class="sig"><span class="k">impure</span> <span class="k">subroutine</span> split_tokens(<span class="intent attr-in" title="intent(in)">string</span>, <span class="intent attr-in" title="intent(in)">set</span>, <span class="intent attr-out" title="intent(out)">tokens</span>, <span class="intent attr-out" title="intent(out)">separator</span>)</div>
+<p>SPLIT(3f) - [M_unicode:PARSE] parse a string into tokens, one at a time.
+   (LICENSE:MIT)</p>
+</div>
+<div class="item" id="proc-split_tokens_uauu"><h3>split_tokens_uauu<span class="attr attr-impure" title="May have side effects">impure</span><span class="attr attr-private">private</span></h3>
+<div class="sig"><span class="k">impure</span> <span class="k">subroutine</span> split_tokens_uauu(<span class="intent attr-in" title="intent(in)">string</span>, <span class="intent attr-in" title="intent(in)">set</span>, <span class="intent attr-out" title="intent(out)">tokens</span>, <span class="intent attr-out" title="intent(out)">separator</span>)</div>
+
+</div>
+</details>
+<h2 id="graphs">Graphs</h2>
+<h3>Called by</h3>
+<div class="graph"><svg width="505pt" height="266pt"
+ viewBox="0 0 505 266" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="scale(1 1) rotate(0) translate(4 261.6)" fill="none" stroke="#8a93a5" font-family="Helvetica,sans-Serif" font-size="13" text-anchor="middle"><a href="../interface/tokenize.html" fill="white" stroke="none"><rect fill="#6a4fb3" stroke="#f0a868" stroke-width="2" rx="7.2" x="0" y="-139.6" width="62.8" height="21.6"/><text x="31.4" y="-124.1">tokenize</text></a><a href="../program/demo_m_unicode.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="98.8" y="-257.6" width="117.7" height="21.6"/><text x="157.7" y="-242.1">demo_M_unicode</text></a><path d="M122.2,-235.5C114,-231.9 105.7,-227.4 98.8,-221.8 73.3,-201.2 53.1,-168.5 41.9,-147.9"/><polygon fill="#8a93a5" points="44.1,-146.7 38.7,-141.7 39.8,-149"/><a href="../program/demo_tokenize.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="252.6" y="-198.6" width="102.6" height="21.6"/><text x="303.9" y="-183.1">demo_tokenize</text></a><path d="M252.4,-198C209.9,-204.3 148.4,-207.9 98.8,-188.8 77.1,-180.4 58,-161.3 45.9,-146.8"/><polygon fill="#8a93a5" points="48.2,-145.7 41.9,-141.8 44.3,-148.8"/><a href="../proc/basics.html" fill="white" stroke="none"><rect fill="#1d7a55" rx="7.2" x="130.7" y="-179.6" width="54" height="21.6"/><text x="157.7" y="-164.1">basics</text></a><path d="M252.4,-181.2C232.9,-178.6 211,-175.7 193.3,-173.4"/><polygon fill="#8a93a5" points="193.7,-170.9 186.5,-172.5 193.1,-175.8"/><path d="M130.3,-160.3C113.3,-154.8 90.7,-147.6 71.5,-141.4"/><polygon fill="#8a93a5" points="72.4,-139.1 65,-139.3 70.9,-143.8"/><a href="../program/demo_tokenize~2.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="106.4" y="-139.6" width="102.6" height="21.6"/><text x="157.7" y="-124.1">demo_tokenize</text></a><path d="M106.1,-128.8C94.8,-128.8 82.9,-128.8 72.1,-128.8"/><polygon fill="#8a93a5" points="72.2,-126.4 65.2,-128.8 72.2,-131.3"/><a href="../proc/test_tokenize.html" fill="white" stroke="none"><rect fill="#1d7a55" rx="7.2" x="258.3" y="-61.6" width="91" height="21.6"/><text x="303.9" y="-46.1">test_tokenize</text></a><path d="M262.5,-62.1C221.3,-73.6 155.5,-92.2 98.8,-108.8 90.1,-111.4 80.7,-114.2 71.8,-116.8"/><polygon fill="#8a93a5" points="71.2,-114.4 65.2,-118.8 72.7,-119.1"/><a href="../proc/test_tokenize.html#proc-expectations" fill="white" stroke="none"><rect fill="#1d7a55" rx="7.2" x="114" y="-61.6" width="87.4" height="21.6"/><text x="157.7" y="-46.1">expectations</text></a><path d="M258,-50.8C242.7,-50.8 225.4,-50.8 209.6,-50.8"/><polygon fill="#8a93a5" points="210,-48.4 203,-50.8 210,-53.3"/><a href="../proc/test_tokenize.html#proc-urdu" fill="white" stroke="none"><rect fill="#1d7a55" rx="7.2" x="130.7" y="-21.6" width="54" height="21.6"/><text x="157.7" y="-6.1">urdu</text></a><path d="M262.3,-39.6C240.4,-33.5 213.7,-26 192.8,-20.3"/><polygon fill="#8a93a5" points="193.7,-18 186.3,-18.5 192.4,-22.7"/><path d="M126.5,-62.1C117.4,-65.9 107.5,-70.6 98.8,-75.8 81.6,-86.1 63.9,-100.5 51.1,-111.6"/><polygon fill="#8a93a5" points="49.6,-109.7 46,-116.2 52.9,-113.3"/><path d="M130.5,-16C119.9,-19.1 108,-23.8 98.8,-30.8 71.4,-51.8 51.3,-87.6 40.8,-109.6"/><polygon fill="#8a93a5" points="38.7,-108.3 38,-115.7 43.1,-110.3"/><a href="../program/test_m_unicode.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="391.1" y="-61.6" width="106.2" height="21.6"/><text x="444.2" y="-46.1">test_M_unicode</text></a><path d="M390.9,-50.8C380.2,-50.8 368.8,-50.8 358.1,-50.8"/><polygon fill="#8a93a5" points="358.1,-48.4 351.1,-50.8 358.1,-53.3"/></g>
+</svg>
+</div>
+<footer>M_unicode was developed by John S. Urban. Generated on 2026-11-05 08:34 -0500. Documentation generated by <a href="https://github.com/jacobwilliams/fdoc">fdoc</a>.</footer>
+</div>
+</main>
+</div>
+</body>
+</html>

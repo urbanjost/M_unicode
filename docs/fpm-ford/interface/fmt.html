@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>fmt &ndash; M_unicode</title>
+<meta name="author" content="John S. Urban">
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" href="../css/fdoc.css">
+<script src="../js/fdoc.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="brand" href="../index.html">M_unicode</a>
+<nav><a href="../lists/files.html">Source Files</a><a href="../lists/modules.html">Modules</a><a class="here" href="../lists/procedures.html">Procedures</a><a href="../lists/types.html">Derived Types</a><a href="../lists/programs.html">Programs</a></nav>
+<div class="search"><input type="search" placeholder="Search (/)" aria-label="Search"><div class="results"></div></div>
+<button class="theme" title="Change theme" aria-label="Change theme">&#9680;</button>
+</header>
+<div class="layout">
+<aside class="side">
+<h4><a href="../lists/files.html">Source Files</a></h4><h4><a href="../lists/modules.html">Modules</a></h4><h4><a href="../lists/procedures.html">Procedures</a></h4><ul><li><a href="../interface/add_backslash.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_backslash</a></li><li><a href="../interface/add_border.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_border</a></li><li><a href="../interface/add_html.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_html</a></li><li><a href="../interface/adjustl.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>adjustl</a></li><li><a href="../interface/adjustr.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>adjustr</a></li><li><a href="../proc/afmt.html"><span class="ico ico-f" title="function" aria-hidden="true">F</span>afmt</a></li><li><a href="../interface/assignment(=).html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>assignment(=)</a></li><li><a href="../proc/basics.html"><span class="ico ico-s" title="subroutine" aria-hidden="true">S</span>basics</a></li><li><a href="../proc/callit.html"><span class="ico ico-s" title="subroutine" aria-hidden="true">S</span>callit</a></li><li><a href="../proc/case_insensitive_compare.html"><span class="ico ico-f" title="function" aria-hidden="true">F</span>case_insensitive_compare</a></li><li><a class="more" href="../lists/procedures.html">All 158&hellip;</a></li></ul>
+<h4><a href="../lists/types.html">Derived Types</a></h4><h4><a href="../lists/programs.html">Programs</a></h4></aside>
+<main><div class="inner">
+<div class="crumbs"><a href="../sourcefile/m_unicode.f90.html">M_unicode.F90</a> <span class="sep">&rsaquo;</span> <a href="../module/m_unicode.html">M_unicode</a></div>
+<h1><span class="kind">interface</span>fmt</h1>
+<h2 id="call-forms">Call forms</h2>
+<div class="form">
+<div class="sig">result = fmt(general [, format]) <span class="attr attr-elemental">elemental</span></div>
+
+<table class="forms">
+<thead><tr><th>Procedure</th><th>Result</th></tr></thead>
+<tbody>
+<tr><td class="name"><a href="#proc-fmt_ga" title="fmt_ga">fmt_ga</a></td><td class="type">type(unicode_type)</td></tr>
+</tbody>
+</table>
+<p class="fixed"><code>general</code> is class(*), <code>format</code> is character(len=*)</p>
+</div>
+<div class="form">
+<div class="sig">result = fmt(general, format) <span class="attr attr-elemental">elemental</span></div>
+
+<table class="forms">
+<thead><tr><th>Procedure</th><th>Result</th></tr></thead>
+<tbody>
+<tr><td class="name"><a href="#proc-fmt_gs" title="fmt_gs">fmt_gs</a></td><td class="type">type(unicode_type)</td></tr>
+</tbody>
+</table>
+<p class="fixed"><code>general</code> is class(*), <code>format</code> is type(unicode_type)</p>
+</div>
+<h2 id="procedures">Procedures</h2>
+<details class="specifics"><summary>All 2 procedures</summary>
+<div class="item" id="proc-fmt_ga"><h3>fmt_ga<span class="attr attr-impure" title="May have side effects">impure</span><span class="attr attr-elemental" title="Works on each element of arrays of any rank">elemental</span><span class="attr attr-private">private</span></h3>
+<div class="sig"><span class="k">impure</span> <span class="k">elemental</span> type(<a href="../type/unicode_type.html">unicode_type</a>) <span class="k">function</span> fmt_ga(<span class="intent attr-in" title="intent(in)">general</span>, <span class="intent attr-in" title="intent(in)">format</span>) <span class="k">result</span>(line)</div>
+
+</div>
+<div class="item" id="proc-fmt_gs"><h3>fmt_gs<span class="attr attr-impure" title="May have side effects">impure</span><span class="attr attr-elemental" title="Works on each element of arrays of any rank">elemental</span><span class="attr attr-private">private</span></h3>
+<div class="sig"><span class="k">impure</span> <span class="k">elemental</span> type(<a href="../type/unicode_type.html">unicode_type</a>) <span class="k">function</span> fmt_gs(<span class="intent attr-in" title="intent(in)">general</span>, <span class="intent attr-in" title="intent(in)">format</span>) <span class="k">result</span>(line)</div>
+
+</div>
+</details>
+<h2 id="graphs">Graphs</h2>
+<h3>Called by</h3>
+<div class="graph"><svg width="312pt" height="70pt"
+ viewBox="0 0 312 70" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="scale(1 1) rotate(0) translate(4 65.6)" fill="none" stroke="#8a93a5" font-family="Helvetica,sans-Serif" font-size="13" text-anchor="middle"><a href="../interface/fmt.html" fill="white" stroke="none"><rect fill="#6a4fb3" stroke="#f0a868" stroke-width="2" rx="7.2" x="0" y="-41.6" width="54" height="21.6"/><text x="27" y="-26.1">fmt</text></a><a href="../program/demo_fmt.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="90" y="-61.6" width="72.2" height="21.6"/><text x="126.1" y="-46.1">demo_fmt</text></a><path d="M89.8,-43.5C81.1,-41.7 71.7,-39.8 63,-38"/><polygon fill="#8a93a5" points="63.8,-35.7 56.4,-36.7 62.8,-40.5"/><a href="../proc/test_fmt.html" fill="white" stroke="none"><rect fill="#1d7a55" rx="7.2" x="95.8" y="-21.6" width="60.6" height="21.6"/><text x="126.1" y="-6.1">test_fmt</text></a><path d="M95.4,-16.9C85.2,-19 73.7,-21.4 63.1,-23.6"/><polygon fill="#8a93a5" points="62.7,-21.2 56.3,-25 63.7,-26"/><a href="../program/test_m_unicode.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="198.2" y="-21.6" width="106.2" height="21.6"/><text x="251.3" y="-6.1">test_M_unicode</text></a><path d="M198,-10.8C187,-10.8 175.5,-10.8 165.1,-10.8"/><polygon fill="#8a93a5" points="165.1,-8.4 158.1,-10.8 165.1,-13.3"/></g>
+</svg>
+</div>
+<footer>M_unicode was developed by John S. Urban. Generated on 2026-11-05 08:34 -0500. Documentation generated by <a href="https://github.com/jacobwilliams/fdoc">fdoc</a>.</footer>
+</div>
+</main>
+</div>
+</body>
+</html>

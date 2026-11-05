@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>expand_html &ndash; M_unicode</title>
+<meta name="author" content="John S. Urban">
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" href="../css/fdoc.css">
+<script src="../js/fdoc.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="brand" href="../index.html">M_unicode</a>
+<nav><a href="../lists/files.html">Source Files</a><a href="../lists/modules.html">Modules</a><a class="here" href="../lists/procedures.html">Procedures</a><a href="../lists/types.html">Derived Types</a><a href="../lists/programs.html">Programs</a></nav>
+<div class="search"><input type="search" placeholder="Search (/)" aria-label="Search"><div class="results"></div></div>
+<button class="theme" title="Change theme" aria-label="Change theme">&#9680;</button>
+</header>
+<div class="layout">
+<aside class="side">
+<h4><a href="../lists/files.html">Source Files</a></h4><h4><a href="../lists/modules.html">Modules</a></h4><h4><a href="../lists/procedures.html">Procedures</a></h4><ul><li><a href="../interface/add_backslash.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_backslash</a></li><li><a href="../interface/add_border.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_border</a></li><li><a href="../interface/add_html.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>add_html</a></li><li><a href="../interface/adjustl.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>adjustl</a></li><li><a href="../interface/adjustr.html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>adjustr</a></li><li><a href="../proc/afmt.html"><span class="ico ico-f" title="function" aria-hidden="true">F</span>afmt</a></li><li><a href="../interface/assignment(=).html"><span class="ico ico-i" title="interface" aria-hidden="true">I</span>assignment(=)</a></li><li><a href="../proc/basics.html"><span class="ico ico-s" title="subroutine" aria-hidden="true">S</span>basics</a></li><li><a href="../proc/callit.html"><span class="ico ico-s" title="subroutine" aria-hidden="true">S</span>callit</a></li><li><a href="../proc/case_insensitive_compare.html"><span class="ico ico-f" title="function" aria-hidden="true">F</span>case_insensitive_compare</a></li><li><a class="more" href="../lists/procedures.html">All 158&hellip;</a></li></ul>
+<h4><a href="../lists/types.html">Derived Types</a></h4><h4><a href="../lists/programs.html">Programs</a></h4></aside>
+<main><div class="inner">
+<div class="crumbs"><a href="../sourcefile/m_unicode.f90.html">M_unicode.F90</a> <span class="sep">&rsaquo;</span> <a href="../module/m_unicode.html">M_unicode</a></div>
+<h1><span class="kind">interface</span>expand_html</h1>
+<div class="doc">
+<h2 id="name">NAME</h2>
+<p>expand_html(3f) - [M_unicode:ENCODE] expand HTML character entities (&ldquo;&NAME;&rdquo; strings)
+  (LICENSE:MIT)</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<div class="codehilite"><pre><code> pure elemental function expand_html(str) result (string)
+
+  type(unicode_type),intent(in),optional :: str
+  !  or
+  character(len=*),intent(in),optional   :: str
+
+  type(unicode_type)                     :: string
+</code></pre></div>
+<h2 id="description">DESCRIPTION</h2>
+<div class="codehilite"><pre><code>expand_html(string) returns a copy of the input string with all HTML
+character entities ( "&amp;NAME;" and "&amp;#NUMBER;") expanded
+</code></pre></div>
+<h2 id="options">OPTIONS</h2>
+<div class="codehilite"><pre><code> str    string containing HTML character entities to expand.
+
+        If STR is not present a table of all the HTML character entity
+        names and the characer they represent and its decimal and
+        hexadecimal value(s) is written to stdout
+</code></pre></div>
+<h2 id="returns">RETURNS</h2>
+<div class="codehilite"><pre><code> expand_html  copy of the input string with all HTML character entities
+              expanded
+</code></pre></div>
+<h2 id="examples">EXAMPLES</h2>
+<p>Sample program:</p>
+<div class="codehilite"><pre><code>program demo_expand_html
+use iso_fortran_env, only : stdout =&gt; output_unit
+use M_unicode,       only : expand_html, unicode_type, assignment(=)
+use M_unicode,       only : ut =&gt; unicode_type, operator(==)
+use M_unicode,       only : ch =&gt; character
+implicit none
+character(len=*),parameter :: g='(*(g0))'
+integer                    :: i
+character(len=*),parameter :: data(*)=[character(len=132) :: &amp;
+'             HTML Character Entity Test Page', &amp;
+'   Description     Entity  Entity  Rendered ', &amp;
+'                   Name    Number  Result', &amp;
+'Less than          &amp;amp;lt;    &amp;amp;#60;   &lt;&amp;lt;&amp;#60;', &amp;
+'Greater than       &amp;amp;gt;    &amp;amp;#62;   &gt;&amp;gt;&amp;#62;', &amp;
+'Ampersand          &amp;amp;amp;   &amp;amp;#38;   &amp;amp;&amp;amp;&amp;#38;', &amp;
+'Copyright          &amp;amp;copy;  &amp;amp;#169;  ©&amp;copy;&amp;#169;', &amp;
+'Registered         &amp;amp;reg;   &amp;amp;#174;  ®&amp;reg;&amp;#174;', &amp;
+'Trademark          &amp;amp;trade; &amp;amp;#8482; ™&amp;trade;&amp;#8482;', &amp;
+'Euro               &amp;amp;euro;  &amp;amp;#8364; €&amp;euro;&amp;#8364;', &amp;
+'Pound              &amp;amp;pound; &amp;amp;#163;  £&amp;pound;&amp;#163;', &amp;
+'Non-breaking space &amp;amp;nbsp;  &amp;amp;#160;  Before &amp;nbsp;&amp;#160;After']
+   do i=1,size(data)
+      write(stdout,g)trim(ch(expand_html(data(i))))
+   enddo
+end program demo_expand_html
+</code></pre></div>
+<p>Expected output</p>
+<blockquote>
+<div class="codehilite"><pre><code>         HTML Character Entity Test Page
+</code></pre></div>
+<p>Description     Entity  Entity  Rendered
+                   Name    Number  Result
+Less than          &lt;    &#60;   &lt;&lt;&lt;
+Greater than       &gt;    &#62;   &gt;&gt;&gt;
+Ampersand          &amp;   &#38;   &amp;&amp;&amp;
+Copyright          &copy;  &#169;  ©©©
+Registered         &reg;   &#174;  ®®®
+Trademark          &trade; &#8482; ™™™
+Euro               &euro;  &#8364; €€€
+Pound              &pound; &#163;  £££
+Non-breaking space &nbsp;  &#160;  Before   After</p>
+</blockquote>
+<h2 id="author">AUTHOR</h2>
+<div class="codehilite"><pre><code> John S. Urban
+</code></pre></div>
+<h2 id="license">LICENSE</h2>
+<div class="codehilite"><pre><code> MIT
+</code></pre></div>
+</div>
+<h2 id="call-forms">Call forms</h2>
+<div class="form">
+<div class="sig">result = expand_html([str]) <span class="attr attr-elemental">elemental</span></div>
+
+<table class="forms">
+<thead><tr><th>Procedure</th><th>Result</th></tr></thead>
+<tbody>
+<tr><td class="name"><a href="#proc-expand_html_uu" title="expand_html_uu">expand_html_uu</a></td><td class="type">type(unicode_type)</td></tr>
+</tbody>
+</table>
+<p class="fixed"><code>str</code> is type(unicode_type)</p>
+</div>
+<div class="form">
+<div class="sig">result = expand_html(string) <span class="attr attr-elemental">elemental</span></div>
+
+<table class="forms">
+<thead><tr><th>Procedure</th><th>Result</th></tr></thead>
+<tbody>
+<tr><td class="name"><a href="#proc-expand_html_au" title="expand_html_au">expand_html_au</a></td><td class="type">type(unicode_type)</td></tr>
+</tbody>
+</table>
+<p class="fixed"><code>string</code> is character(len=*)</p>
+</div>
+<h2 id="procedures">Procedures</h2>
+<details class="specifics"><summary>All 2 procedures</summary>
+<div class="item" id="proc-expand_html_uu"><h3>expand_html_uu<span class="attr attr-impure" title="May have side effects">impure</span><span class="attr attr-elemental" title="Works on each element of arrays of any rank">elemental</span><span class="attr attr-private">private</span></h3>
+<div class="sig"><span class="k">impure</span> <span class="k">elemental</span> type(<a href="../type/unicode_type.html">unicode_type</a>) <span class="k">function</span> expand_html_uu(<span class="intent attr-in" title="intent(in)">str</span>) <span class="k">result</span>(string)</div>
+
+</div>
+<div class="item" id="proc-expand_html_au"><h3>expand_html_au<span class="attr attr-impure" title="May have side effects">impure</span><span class="attr attr-elemental" title="Works on each element of arrays of any rank">elemental</span><span class="attr attr-private">private</span></h3>
+<div class="sig"><span class="k">impure</span> <span class="k">elemental</span> type(<a href="../type/unicode_type.html">unicode_type</a>) <span class="k">function</span> expand_html_au(<span class="intent attr-in" title="intent(in)">string</span>) <span class="k">result</span>(result)</div>
+
+</div>
+</details>
+<h2 id="graphs">Graphs</h2>
+<h3>Called by</h3>
+<div class="graph"><svg width="416pt" height="308pt"
+ viewBox="0 0 416 308" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="scale(1 1) rotate(0) translate(4 303.6)" fill="none" stroke="#8a93a5" font-family="Helvetica,sans-Serif" font-size="13" text-anchor="middle"><a href="../interface/expand_html.html" fill="white" stroke="none"><rect fill="#6a4fb3" stroke="#f0a868" stroke-width="2" rx="7.2" x="0" y="-161.6" width="88.8" height="21.6"/><text x="44.4" y="-146.1">expand_html</text></a><a href="../program/html_to_utf8.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="152.3" y="-299.6" width="85.9" height="21.6"/><text x="195.3" y="-284.1">html_to_utf8</text></a><path d="M152.1,-278.3C142.6,-274.7 132.9,-269.9 124.8,-263.8 91.5,-238.3 66.6,-194.9 54.2,-169.9"/><polygon fill="#8a93a5" points="56.5,-169.1 51.3,-163.9 52.1,-171.2"/><a href="../program/uni.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="327.8" y="-221.6" width="54" height="21.6"/><text x="354.8" y="-206.1">uni</text></a><path d="M327.5,-220.7C283.7,-235.7 193.5,-259.4 124.8,-230.8 95,-218.4 70.7,-188.8 57.1,-169.3"/><polygon fill="#8a93a5" points="59.2,-168 53.3,-163.6 55.2,-170.8"/><a href="../proc/setup.html" fill="white" stroke="none"><rect fill="#1d7a55" rx="7.2" x="168.3" y="-221.6" width="54" height="21.6"/><text x="195.3" y="-206.1">setup</text></a><path d="M327.4,-210.8C301,-210.8 260.1,-210.8 231,-210.8"/><polygon fill="#8a93a5" points="231.2,-208.4 224.2,-210.8 231.2,-213.3"/><a href="../proc/get_text.html" fill="white" stroke="none"><rect fill="#0b7285" rx="7.2" x="164.9" y="-181.6" width="60.7" height="21.6"/><text x="195.3" y="-166.1">get_text</text></a><path d="M327.4,-204.1C301.9,-197.6 263,-187.7 234.2,-180.4"/><polygon fill="#8a93a5" points="234.8,-178.1 227.4,-178.7 233.6,-182.8"/><path d="M167.8,-204.4C154.7,-201 138.7,-196.2 124.8,-190.8 107.3,-183.9 88.5,-174.6 73.6,-166.6"/><polygon fill="#8a93a5" points="74.8,-164.5 67.5,-163.3 72.5,-168.8"/><path d="M164.5,-166.8C145.6,-164.3 120.5,-160.9 98.2,-157.9"/><polygon fill="#8a93a5" points="98.6,-155.5 91.3,-157 97.9,-160.3"/><a href="../program/demo_expand_html.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="131" y="-141.6" width="128.6" height="21.6"/><text x="195.3" y="-126.1">demo_expand_html</text></a><path d="M130.7,-139.3C119.7,-140.8 108.4,-142.3 97.8,-143.8"/><polygon fill="#8a93a5" points="97.6,-141.3 90.9,-144.7 98.2,-146.2"/><a href="../program/demo_add_backslash~2.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="124.8" y="-101.6" width="140.9" height="21.6"/><text x="195.3" y="-86.1">demo_add_backslash</text></a><path d="M150.5,-102.1C141.9,-104.6 133,-107.6 124.8,-110.8 107.3,-117.7 88.5,-127 73.6,-135"/><polygon fill="#8a93a5" points="72.5,-132.8 67.5,-138.3 74.8,-137.1"/><a href="../proc/test_expand_html.html" fill="white" stroke="none"><rect fill="#1d7a55" rx="7.2" x="136.8" y="-61.6" width="117" height="21.6"/><text x="195.3" y="-46.1">test_expand_html</text></a><path d="M143.7,-62.1C137.1,-64.5 130.7,-67.3 124.8,-70.8 97.8,-86.8 73.4,-114.2 59,-132.4"/><polygon fill="#8a93a5" points="57.1,-130.9 54.7,-138 61,-133.9"/><a href="../proc/test_add_html.html" fill="white" stroke="none"><rect fill="#1d7a55" rx="7.2" x="147.2" y="-21.6" width="96.1" height="21.6"/><text x="195.3" y="-6.1">test_add_html</text></a><path d="M147,-19.5C139.1,-22.3 131.4,-26 124.8,-30.8 88.9,-57.2 64.5,-105.1 53,-131.7"/><polygon fill="#8a93a5" points="50.8,-130.5 50.4,-137.9 55.4,-132.4"/><a href="../program/test_m_unicode.html" fill="white" stroke="none"><rect fill="#a61e69" rx="7.2" x="301.7" y="-41.6" width="106.2" height="21.6"/><text x="354.8" y="-26.1">test_M_unicode</text></a><path d="M301.4,-37.5C288.9,-39 275.6,-40.7 262.6,-42.4"/><polygon fill="#8a93a5" points="262.3,-39.9 255.7,-43.3 263,-44.8"/><path d="M301.4,-24.1C285.5,-22.1 268,-19.9 252,-17.9"/><polygon fill="#8a93a5" points="252.5,-15.5 245.2,-17 251.9,-20.3"/></g>
+</svg>
+</div>
+<footer>M_unicode was developed by John S. Urban. Generated on 2026-11-05 08:34 -0500. Documentation generated by <a href="https://github.com/jacobwilliams/fdoc">fdoc</a>.</footer>
+</div>
+</main>
+</div>
+</body>
+</html>
