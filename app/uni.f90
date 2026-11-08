@@ -2125,6 +2125,7 @@ help_text=[ CHARACTER(LEN=128) :: &
 '   uni --tohtml # convert non-ASCII-7 characters to HTML entities                                     ',&
 '   uni --style htmlx # convert _all_ characters to HTML entities                                      ',&
 '   uni --toescape # convert non-ASCII-7 characters to C-style escape codes                            ',&
+'   uni --style codepoint,''<comma>'' --noadvance # convert file to codepoints                         ',&
 'SEE ALSO                                                                                              ',&
 '   dos2unix(1)/unix2dos(1), iconv(1)                                                                  ',&
 '                                                                                                      ',&
@@ -2295,11 +2296,8 @@ character(len=*),parameter           :: &
         else
            local_spacer=trim(styles(j))                                                 ! unknown style assumed to be a new spacer
         endif
-        if(j.eq.1)cycle
       end select
-      if(j.ne.size(styles))then
-         write(stdout,'(a)',advance='no') local_spacer
-      endif
+      write(stdout,'(a)',advance='no') local_spacer
    enddo
 end subroutine printcode
 
