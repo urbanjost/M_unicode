@@ -2116,7 +2116,8 @@ EXAMPLE
 
    # Clear screen and home cursor using ANSI terminal escape sequence
    uni -nNt '\e[H\e[2J\e[3J'
-   uni -nkt '<esc lbrack H esc lbrack two J esc lbrack three J'
+   uni -nkt '<esc lbrack H esc lbrack two J esc lbrack three J>'
+   uni -nkt '< 27 91 72 27 91 50 74 27 91 51 74 >'
    uni -nkt '<clear>'
    # turn xterm-compatible terminal background color green
    uni -nNt '\e]11;green\a'

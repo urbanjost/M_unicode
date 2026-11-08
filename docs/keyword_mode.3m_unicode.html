@@ -133,6 +133,10 @@ display keyword dictionary to stdout
 <B>wipe</B> </TD><TD valign=bottom>
 erase keyword dictionary
 </TD></TR>
+<TR valign=top><TD colspan=2>
+<B>japanese</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+load in romaji-like built-in dictionary
+</TD></TR>
 <TR></TR></TABLE></BLOCKQUOTE>
 <A name=4>
 
@@ -151,7 +155,7 @@ Sample program
     integer :: i
        lines=[character(len=110):: &
        &&#146;&lt;delta&gt;&#146;,   &
-       &&#146;&lt;E&gt;&lt;g&gt; c=&lt;pi&gt;&lt;times&gt;d &lt;/g&gt;&lt;/E&gt;&#146;,  &
+       &&#146;&lt;EB&gt;&lt;gr&gt; c=&lt;pi&gt;&lt;times&gt;d &lt;/gr&gt;&lt;/EB&gt;&#146;,  &
        &&#146;&lt;omega&gt;&#146;,   &
        &&#146; &#146;]
 <P>
@@ -178,36 +182,36 @@ Results:
    The escape sequences below add or remove text attributes
    like color when displayed on an ANSI-compatible terminal
 <P>
-   &gt; δ
-   &gt; \e[40m\e[32m c=π×d \e[39m\e[49m
-   &gt; ω
-   &gt;
-   &gt; &lt;delta&gt;
-   &gt; &lt;E&gt;&lt;g&gt; c=&lt;pi&gt;&lt;times&gt;d &lt;/g&gt;&lt;/E&gt;
-   &gt; &lt;omega&gt;
-   &gt;
-   &gt; δ
-   &gt;    c=π×d
-   &gt; ω
-   &gt;
-   &gt; δ
-   &gt; \e[40m\e[32m c=π×d \e[39m\e[49m
-   &gt; ω
-   &gt;
-   &gt; KEYWORD         VALUE
-   &gt; AElig            [Æ]      [Æ]
-   &gt; Abreve           [Ă]      [Ă]
-   &gt; Acirc            [Â]      [Â]
-   &gt;   :               :        :
-   &gt;   :               :        :
-   &gt;   :               :        :
-   &gt; zeetrf           [ℨ]      [ℨ]
-   &gt; zeta             [ζ]      [ζ]
-   &gt; zfr              [𝔷]      [𝔷]
-   &gt; zhcy             [ж]      [ж]
-   &gt; zigrarr          [⇝]      [⇝]
-   &gt; zopf             [𝕫]      [𝕫]
-   &gt; zscr             [𝓏]      [𝓏]
+     &gt; δ
+     &gt; \e[40m\e[32m c=π×d \e[39m\e[49m
+     &gt; ω
+     &gt;
+     &gt; &lt;delta&gt;
+     &gt; &lt;EB&gt;&lt;gr&gt; c=&lt;pi&gt;&lt;times&gt;d &lt;/gr&gt;&lt;/EB&gt;
+     &gt; &lt;omega&gt;
+     &gt;
+     &gt; δ
+     &gt;    c=π×d
+     &gt; ω
+     &gt;
+     &gt; δ
+     &gt; \e[40m\e[32m c=π×d \e[39m\e[49m
+     &gt; ω
+     &gt;
+     &gt; KEYWORD         VALUE
+     &gt; AElig            [Æ]      [Æ]
+     &gt; Abreve           [Ă]      [Ă]
+     &gt; Acirc            [Â]      [Â]
+     &gt;   :               :        :
+     &gt;   :               :        :
+     &gt;   :               :        :
+     &gt; zeetrf           [ℨ]      [ℨ]
+     &gt; zeta             [ζ]      [ζ]
+     &gt; zfr              [𝔷]      [𝔷]
+     &gt; zhcy             [ж]      [ж]
+     &gt; zigrarr          [⇝]      [⇝]
+     &gt; zopf             [𝕫]      [𝕫]
+     &gt; zscr             [𝓏]      [𝓏]
 <P>
 </PRE>
 </BLOCKQUOTE>

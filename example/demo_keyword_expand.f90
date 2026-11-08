@@ -14,6 +14,10 @@
          write(*,'(a)') ch(keyword_expand(&
          'decimal keywords <119 79 114 107> as well'))
 
+         write(*,'(a)') ch(keyword_expand(&
+          &'ASCII-7 <eight six seven dash five three oh nine slash>&
+          &Jenny as well'))
+
       contains
       subroutine printstuff(action)
       character(len=*),intent(in)  :: action

@@ -214,6 +214,10 @@ Sample program
        write(*,&#146;(a)&#146;) ch(keyword_expand(&
        &#146;decimal keywords &lt;119 79 114 107&gt; as well&#146;))
 <P>
+       write(*,&#146;(a)&#146;) ch(keyword_expand(&
+        &&#146;ASCII-7 &lt;eight six seven dash five three oh nine slash&gt;&
+        &Jenny as well&#146;))
+<P>
     contains
     subroutine printstuff(action)
     character(len=*),intent(in)  :: action
@@ -237,20 +241,20 @@ Sample program
 Results:
 <P>
 <PRE>
-   &gt; TEST ACTION=raw_mode
-   &gt; c=&lt;pi&gt;&lt;times&gt;d
-   &gt; a=&lt;pi&gt;&lt;times&gt;r&lt;S2&gt;
-   &gt; &lt;Delta&gt;&lt;delta&gt;
-   &gt; Copyright&lt;copy&gt;
+     &gt; TEST ACTION=raw_mode
+     &gt; c=&lt;pi&gt;&lt;times&gt;d
+     &gt; a=&lt;pi&gt;&lt;times&gt;r&lt;S2&gt;
+     &gt; &lt;Delta&gt;&lt;delta&gt;
+     &gt; Copyright&lt;copy&gt;
 <P>
-   &gt; TEST ACTION=alias_mode
-   &gt; c=π×d
-   &gt; a=π×r²
-   &gt; Δδ
-   &gt; Copyright©
+     &gt; TEST ACTION=alias_mode
+     &gt; c=π×d
+     &gt; a=π×r²
+     &gt; Δδ
+     &gt; Copyright©
 <P>
-   &gt; ADDING A CUSTOM SEQUENCE:
-   &gt; \e[5mItems for Friday\e[25m
+     &gt; ADDING A CUSTOM SEQUENCE:
+     &gt; \e[5mItems for Friday\e[25m
 <P>
 </PRE>
 </BLOCKQUOTE>

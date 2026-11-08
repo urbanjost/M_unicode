@@ -4933,7 +4933,7 @@ use,intrinsic :: iso_fortran_env, only : compiler_version, compiler_options
 character(len=*), intent(in)  :: input_str
 character(len=:), allocatable :: in
 character(len=:), allocatable :: output_str
-integer                       :: i, j, k
+integer                       :: i, j
 integer                       :: iarg
 integer                       :: input_len
 integer                       :: var_start, var_end
@@ -14682,9 +14682,9 @@ EXAMPLES
        write(*,'(a)') ch(keyword_expand(&
        'decimal keywords <119 79 114 107> as well'))
 
-       write(*,'(a)') ch(keyword_expand('ASCII-7 &
-       &<eight six seven dash five three oh nine slash>Jenny>&
-       & as well')
+       write(*,'(a)') ch(keyword_expand(&
+        &'ASCII-7 <eight six seven dash five three oh nine slash>&
+        &Jenny as well'))
 
     contains
     subroutine printstuff(action)
