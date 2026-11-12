@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 2.3% of total for procedures.">64 statements</a>
+                 title=" 2.0% of total for procedures.">64 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -174,13 +174,13 @@
     </div>
 
 
-    <h2 id="name">NAME</h2>
+    <h3 id="name">NAME</h3>
 <div class="codehilite"><pre><span></span><code>slurp(3f) - [M_unicode:IO] read formatted UTF-8 file into a
 TYPE(UNICODE_TYPE) string array
 (LICENSE:MIT)
 </code></pre></div>
 
-<h2 id="synopsis">SYNOPSIS</h2>
+<h3 id="synopsis">SYNOPSIS</h3>
 <p>function slurp(filename,iomsg) result(text)</p>
 <div class="codehilite"><pre><span></span><code><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">),</span><span class="nx">optional</span><span class="w">              </span><span class="o">::</span><span class="w"> </span><span class="nx">filename</span>
 <span class="p">!</span><span class="w"> </span><span class="k">or</span>
@@ -191,7 +191,7 @@ TYPE(UNICODE_TYPE) string array
 <span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">allocatable</span><span class="p">,</span><span class="nx">intent</span><span class="p">(</span><span class="nx">out</span><span class="p">)</span><span class="w">        </span><span class="o">::</span><span class="w"> </span><span class="nx">text</span><span class="p">(:)</span>
 </code></pre></div>
 
-<h2 id="description">DESCRIPTION</h2>
+<h3 id="description">DESCRIPTION</h3>
 <div class="codehilite"><pre><span></span><code>Uses READLINE(3f) to read an entire formatted UTF-8 encoded file into
 a TYPE(UNICODE_TYPE) string array, each line of the file becoming an
 element of the output array.
@@ -203,7 +203,7 @@ per line or in smaller units; as large files can consume unreasonable
 amounts of memory.
 </code></pre></div>
 
-<h2 id="options">OPTIONS</h2>
+<h3 id="options">OPTIONS</h3>
 <div class="codehilite"><pre><span></span><code><span class="w">   </span><span class="nv">filename</span><span class="w">   </span><span class="nv">filename</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">read</span><span class="w"> </span><span class="nv">into</span><span class="w"> </span><span class="nv">memory</span>.<span class="w"> </span><span class="k">If</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">filename</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">absent</span>
 <span class="w">              </span><span class="nv">stdin</span><span class="w"> </span><span class="nv">will</span><span class="w"> </span><span class="nv">be</span><span class="w"> </span><span class="nv">read</span>.
 
@@ -211,11 +211,11 @@ amounts of memory.
 <span class="w">              </span><span class="k">else</span><span class="w"> </span><span class="nv">it</span><span class="w"> </span><span class="nv">will</span><span class="w"> </span><span class="nv">be</span><span class="w"> </span><span class="nv">a</span><span class="w"> </span><span class="nv">null</span><span class="w"> </span><span class="nv">string</span>.
 </code></pre></div>
 
-<h2 id="returns">RETURNS</h2>
+<h3 id="returns">RETURNS</h3>
 <div class="codehilite"><pre><span></span><code>   text       array of characters that holds contents of the file
 </code></pre></div>
 
-<h2 id="examples">EXAMPLES</h2>
+<h3 id="examples">EXAMPLES</h3>
 <p>Sample program, which  creates test input file &ldquo;inputfile&rdquo; and
    then reads it back in.</p>
 <div class="codehilite"><pre><span></span><code><span class="n">program</span><span class="w"> </span><span class="n">demo_slurp</span>
@@ -292,11 +292,11 @@ vatu u d\u017Eepu no\u0161nje.</p>
 vatu u džepu nošnje.
 </p>
 </blockquote>
-<h2 id="author">AUTHOR</h2>
+<h3 id="author">AUTHOR</h3>
 <div class="codehilite"><pre><span></span><code>John S. Urban
 </code></pre></div>
 
-<h2 id="license">LICENSE</h2>
+<h3 id="license">LICENSE</h3>
 <div class="codehilite"><pre><span></span><code>MIT
 </code></pre></div>
 
@@ -347,7 +347,7 @@ vatu u džepu nošnje.
 
       <h3>Return Value
         <small>
-          <span class="anchor" id="variable-text~4"></span>
+          <span class="anchor" id="variable-text~7"></span>
           type(<a href='../type/unicode_type.html'>unicode_type</a>), allocatable, (:)
         </small>
       </h3>
@@ -370,7 +370,7 @@ vatu u džepu nošnje.
 <span class="k">use</span><span class="p">,</span><span class="k">intrinsic</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">iostat_end</span>
 <span class="k">implicit none</span>
 
-<span class="c">! ident_15="@(#) M_unicode slurp(3f) read file into TYPE(UNICODE_TYPE) array"</span>
+<span class="c">! ident_10="@(#) M_unicode slurp(3f) read file into TYPE(UNICODE_TYPE) array"</span>
 
 <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">optional</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">filename</span><span class="w">    </span><span class="c">! filename to shlep</span>
 <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="p">,</span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iomsg</span>
@@ -460,7 +460,7 @@ vatu u džepu nošnje.
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-05 13:37 +0000             </p>
+ on 2026-11-12 12:40 +0000             </p>
           </div>
         </div>
         <br>

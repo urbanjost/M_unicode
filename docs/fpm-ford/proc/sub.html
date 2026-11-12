@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 2.6% of total for procedures.">72 statements</a>
+                 title=" 2.2% of total for procedures.">72 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -162,12 +162,12 @@
 </h2>
     
 
-    <h2 id="name">NAME</h2>
+    <h3 id="name">NAME</h3>
 <div class="codehilite"><pre><span></span><code>SUB(3f) - [M_unicode:EDITING] Return substring
 (LICENSE:MIT)
 </code></pre></div>
 
-<h2 id="synopsis">SYNOPSIS</h2>
+<h3 id="synopsis">SYNOPSIS</h3>
 <div class="codehilite"><pre><span></span><code><span class="nx">impure</span><span class="w"> </span><span class="nx">elemental</span><span class="w"> </span><span class="nx">function</span><span class="w"> </span><span class="nx">sub</span><span class="p">(</span><span class="nx">str</span><span class="p">,</span><span class="nx">left</span><span class="p">,</span><span class="nx">right</span><span class="p">,</span><span class="nx">step</span><span class="p">)</span><span class="w"> </span><span class="nx">result</span><span class="p">(</span><span class="nx">section</span><span class="p">)</span>
 
 <span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span><span class="w">          </span><span class="o">::</span><span class="w"> </span><span class="nx">str</span>
@@ -177,11 +177,11 @@
 <span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span><span class="w">          </span><span class="o">::</span><span class="w"> </span><span class="nx">section</span>
 </code></pre></div>
 
-<h2 id="description">DESCRIPTION</h2>
+<h3 id="description">DESCRIPTION</h3>
 <div class="codehilite"><pre><span></span><code>sub(3f) returns a substring from one column to another.
 </code></pre></div>
 
-<h2 id="options">OPTIONS</h2>
+<h3 id="options">OPTIONS</h3>
 <div class="codehilite"><pre><span></span><code><span class="nv">str</span><span class="w">           </span><span class="nv">the</span><span class="w"> </span><span class="nv">input</span><span class="w"> </span><span class="nv">string</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nv">a</span><span class="w"> </span><span class="nv">section</span><span class="w"> </span><span class="nv">of</span>
 <span class="nv">left</span><span class="w">          </span><span class="nv">column</span><span class="w"> </span><span class="nv">number</span><span class="w"> </span><span class="nv">of</span><span class="w"> </span><span class="nv">str</span><span class="w"> </span><span class="nv">starting</span><span class="w"> </span><span class="nv">section</span><span class="w"> </span><span class="nv">of</span><span class="w"> </span><span class="nv">str</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="k">return</span>.
 <span class="w">              </span><span class="nv">Defaults</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="nv">when</span><span class="w"> </span><span class="nv">STEP</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">positive</span>,<span class="w"> </span><span class="nv">or</span><span class="w"> </span><span class="nv">right</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="nv">of</span>
@@ -193,11 +193,11 @@
 <span class="w">              </span><span class="nv">Defaults</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="mi">1</span>.
 </code></pre></div>
 
-<h2 id="returns">RETURNS</h2>
+<h3 id="returns">RETURNS</h3>
 <div class="codehilite"><pre><span></span><code>section  The specified subsection of the input string
 </code></pre></div>
 
-<h2 id="examples">EXAMPLES</h2>
+<h3 id="examples">EXAMPLES</h3>
 <p>Sample Program:</p>
 <div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_sub</span>
 <span class="w">  </span><span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">sub</span><span class="p">,</span><span class="w"> </span><span class="nx">assignment</span><span class="p">(=)</span>
@@ -236,15 +236,15 @@
 <span class="w"> </span><span class="o">&gt;</span>
 </code></pre></div>
 
-<h2 id="see-also">SEE ALSO</h2>
+<h3 id="see-also">SEE ALSO</h3>
 <div class="codehilite"><pre><span></span><code>  adjustl(3f), adjustr(3f), repeat(3f), trim(3f), len_trim(3f), len(3f)
 </code></pre></div>
 
-<h2 id="author">AUTHOR</h2>
+<h3 id="author">AUTHOR</h3>
 <div class="codehilite"><pre><span></span><code> John S. Urban
 </code></pre></div>
 
-<h2 id="license">LICENSE</h2>
+<h3 id="license">LICENSE</h3>
 <div class="codehilite"><pre><span></span><code> MIT
 </code></pre></div>
 
@@ -262,7 +262,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~12"></span>
+              <span class="anchor" id="variable-str~8"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -277,7 +277,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-start~3"></span>
+              <span class="anchor" id="variable-start~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -307,7 +307,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-step~3"></span>
+              <span class="anchor" id="variable-step"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -403,7 +403,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-05 13:37 +0000             </p>
+ on 2026-11-12 12:40 +0000             </p>
           </div>
         </div>
         <br>

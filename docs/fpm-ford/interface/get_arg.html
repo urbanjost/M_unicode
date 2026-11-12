@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.1% of total for procedures.</p>Including implementation: 29 statements,  1.0% of total for procedures.">4 statements</a>
+                 title="<p> 0.1% of total for procedures.</p>Including implementation: 29 statements,  0.9% of total for procedures.">4 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -165,21 +165,12 @@
 
     <div class="col-md-9" id='text'>
       <h2>public interface get_arg</h2>
-      
-
-
-
-        <h2>Module Procedures</h2>
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-get_arg_ia"></span> <h3>private impure elemental function get_arg_ia(position, default) result(value)  
-</h3></div>
-    <div class="card-body">
-        <h2 id="name">NAME</h2>
+      <h3 id="name">NAME</h3>
 <div class="codehilite"><pre><span></span><code>get_arg(3f) - [M_unicode:SYSTEM] get command line argument
 (LICENSE:MIT)
 </code></pre></div>
 
-<h2 id="synopsis">SYNOPSIS</h2>
+<h3 id="synopsis">SYNOPSIS</h3>
 <div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nx">impure</span><span class="w"> </span><span class="nx">elemental</span><span class="w"> </span><span class="nx">function</span><span class="w"> </span><span class="nx">get_arg</span><span class="p">(</span><span class="nx">position</span><span class="p">,</span><span class="k">default</span><span class="p">)</span><span class="w"> </span><span class="nx">result</span><span class="p">(</span><span class="nx">out</span><span class="p">)</span>
 
 <span class="w">  </span><span class="nx">integer</span><span class="p">,</span><span class="nx">intent</span><span class="p">=(</span><span class="k">in</span><span class="p">)</span><span class="w">         </span><span class="o">::</span><span class="w"> </span><span class="nx">position</span>
@@ -187,16 +178,16 @@
 <span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span><span class="w">          </span><span class="o">::</span><span class="w"> </span><span class="nx">out</span>
 </code></pre></div>
 
-<h2 id="characteristics">CHARACTERISTICS</h2>
+<h3 id="characteristics">CHARACTERISTICS</h3>
 <div class="codehilite"><pre><span></span><code><span class="nx">DEFAULT</span><span class="w"> </span><span class="nx">may</span><span class="w"> </span><span class="nx">be</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="nx">CHARACTER</span><span class="w"> </span><span class="k">type</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nx">well</span><span class="p">.</span>
 </code></pre></div>
 
-<h2 id="description">DESCRIPTION</h2>
+<h3 id="description">DESCRIPTION</h3>
 <div class="codehilite"><pre><span></span><code>get_arg(3f) gets the value of the requested command line argument
 as TYPE(UNICODE_TYPE) .
 </code></pre></div>
 
-<h2 id="options">OPTIONS</h2>
+<h3 id="options">OPTIONS</h3>
 <div class="codehilite"><pre><span></span><code><span class="nv">position</span><span class="w">  </span><span class="nv">Position</span><span class="w"> </span><span class="nv">on</span><span class="w"> </span><span class="nv">command</span><span class="w"> </span><span class="nv">line</span><span class="w"> </span><span class="nv">of</span><span class="w"> </span><span class="nv">requested</span><span class="w"> </span><span class="nv">argument</span>.<span class="w"> </span><span class="nv">Zero</span><span class="w"> </span><span class="nv">returns</span>
 <span class="w">          </span><span class="nv">the</span><span class="w"> </span><span class="nv">name</span><span class="w"> </span><span class="nv">of</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">command</span><span class="w"> </span><span class="nv">executed</span>.<span class="w"> </span><span class="nv">Non</span><span class="o">-</span><span class="nv">existent</span><span class="w"> </span><span class="nv">positions</span>
 <span class="w">          </span><span class="nv">default</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">returning</span><span class="w"> </span><span class="nv">a</span><span class="w"> </span><span class="nv">null</span><span class="w"> </span><span class="nv">string</span>.
@@ -204,11 +195,11 @@ as TYPE(UNICODE_TYPE) .
 <span class="nv">default</span><span class="w">  </span><span class="nv">value</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">argument</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">not</span><span class="w"> </span><span class="nv">set</span><span class="w"> </span><span class="nv">or</span><span class="w"> </span><span class="nv">set</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">a</span><span class="w"> </span><span class="nv">blank</span><span class="w"> </span><span class="nv">value</span>
 </code></pre></div>
 
-<h2 id="returns">RETURNS</h2>
+<h3 id="returns">RETURNS</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">out</span><span class="w">      </span><span class="n">value</span><span class="w"> </span><span class="n">assigned</span><span class="w"> </span><span class="n">based</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">environment</span><span class="w"> </span><span class="n">variable</span><span class="w"> </span><span class="n">NAME</span>
 </code></pre></div>
 
-<h2 id="examples">EXAMPLES</h2>
+<h3 id="examples">EXAMPLES</h3>
 <p>Sample program:</p>
 <div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_get_arg</span>
 <span class="w"> </span><span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">get_arg</span><span class="p">,</span><span class="w"> </span><span class="nx">ut</span><span class="o">=&gt;</span><span class="w"> </span><span class="nx">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="nx">ch</span><span class="o">=&gt;</span><span class="nx">character</span>
@@ -246,13 +237,22 @@ as TYPE(UNICODE_TYPE) .
 <span class="w">  </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">d</span><span class="o">][</span><span class="n">e</span><span class="o">][</span><span class="n">m</span><span class="o">][</span><span class="n">o</span><span class="o">][</span><span class="n">_</span><span class="o">][</span><span class="n">g</span><span class="o">][</span><span class="n">e</span><span class="o">][</span><span class="n">t</span><span class="o">][</span><span class="n">_</span><span class="o">][</span><span class="n">a</span><span class="o">][</span><span class="n">r</span><span class="o">][</span><span class="n">g</span><span class="o">]</span>
 </code></pre></div>
 
-<h2 id="author">AUTHOR</h2>
+<h3 id="author">AUTHOR</h3>
 <div class="codehilite"><pre><span></span><code>  John S. Urban
 </code></pre></div>
 
-<h2 id="license">LICENSE</h2>
+<h3 id="license">LICENSE</h3>
 <div class="codehilite"><pre><span></span><code> MIT
 </code></pre></div>
+<br>
+
+
+        <h2>Module Procedures</h2>
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-get_arg_ia"></span> <h3>private impure elemental function get_arg_ia(position, default) result(value)  
+</h3></div>
+    <div class="card-body">
+        
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -267,7 +267,7 @@ as TYPE(UNICODE_TYPE) .
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-position~2"></span>
+              <span class="anchor" id="variable-position~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -326,7 +326,7 @@ as TYPE(UNICODE_TYPE) .
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-position~3"></span>
+              <span class="anchor" id="variable-position~4"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -383,7 +383,7 @@ as TYPE(UNICODE_TYPE) .
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-05 13:37 +0000             </p>
+ on 2026-11-12 12:40 +0000             </p>
           </div>
         </div>
         <br>

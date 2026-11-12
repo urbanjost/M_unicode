@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.1% of total for procedures.</p>Including implementation: 86 statements,  3.1% of total for procedures.">4 statements</a>
+                 title="<p> 0.1% of total for procedures.</p>Including implementation: 86 statements,  2.7% of total for procedures.">4 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -165,10 +165,10 @@
 
     <div class="col-md-9" id='text'>
       <h2>public interface expand_html</h2>
-      <h2 id="name">NAME</h2>
+      <h3 id="name">NAME</h3>
 <p>expand_html(3f) - [M_unicode:ENCODE] expand HTML character entities (&ldquo;&NAME;&rdquo; strings)
   (LICENSE:MIT)</p>
-<h2 id="synopsis">SYNOPSIS</h2>
+<h3 id="synopsis">SYNOPSIS</h3>
 <div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nx">pure</span><span class="w"> </span><span class="nx">elemental</span><span class="w"> </span><span class="nx">function</span><span class="w"> </span><span class="nx">expand_html</span><span class="p">(</span><span class="nx">str</span><span class="p">)</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="p">(</span><span class="kt">string</span><span class="p">)</span>
 
 <span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">),</span><span class="nx">optional</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">str</span>
@@ -178,12 +178,12 @@
 <span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span><span class="w">                     </span><span class="o">::</span><span class="w"> </span><span class="kt">string</span>
 </code></pre></div>
 
-<h2 id="description">DESCRIPTION</h2>
+<h3 id="description">DESCRIPTION</h3>
 <div class="codehilite"><pre><span></span><code>expand_html(string) returns a copy of the input string with all HTML
 character entities ( "&amp;NAME;" and "&amp;#NUMBER;") expanded
 </code></pre></div>
 
-<h2 id="options">OPTIONS</h2>
+<h3 id="options">OPTIONS</h3>
 <div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nv">str</span><span class="w">    </span><span class="nv">string</span><span class="w"> </span><span class="nv">containing</span><span class="w"> </span><span class="nv">HTML</span><span class="w"> </span><span class="nv">character</span><span class="w"> </span><span class="nv">entities</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">expand</span>.
 
 <span class="w">        </span><span class="k">If</span><span class="w"> </span><span class="nv">STR</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">not</span><span class="w"> </span><span class="nv">present</span><span class="w"> </span><span class="nv">a</span><span class="w"> </span><span class="nv">table</span><span class="w"> </span><span class="nv">of</span><span class="w"> </span><span class="nv">all</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">HTML</span><span class="w"> </span><span class="nv">character</span><span class="w"> </span><span class="nv">entity</span>
@@ -191,12 +191,12 @@ character entities ( "&amp;NAME;" and "&amp;#NUMBER;") expanded
 <span class="w">        </span><span class="nv">hexadecimal</span><span class="w"> </span><span class="nv">value</span><span class="ss">(</span><span class="nv">s</span><span class="ss">)</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">written</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">stdout</span>
 </code></pre></div>
 
-<h2 id="returns">RETURNS</h2>
+<h3 id="returns">RETURNS</h3>
 <div class="codehilite"><pre><span></span><code> expand_html  copy of the input string with all HTML character entities
               expanded
 </code></pre></div>
 
-<h2 id="examples">EXAMPLES</h2>
+<h3 id="examples">EXAMPLES</h3>
 <p>Sample program:</p>
 <div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">demo_expand_html</span>
 <span class="nx">use</span><span class="w"> </span><span class="nx">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">stdout</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nx">output_unit</span>
@@ -242,11 +242,11 @@ Euro               &euro;  &#8364; €€€
 Pound              &pound; &#163;  £££
 Non-breaking space &nbsp;  &#160;  Before   After</p>
 </blockquote>
-<h2 id="author">AUTHOR</h2>
+<h3 id="author">AUTHOR</h3>
 <div class="codehilite"><pre><span></span><code> John S. Urban
 </code></pre></div>
 
-<h2 id="license">LICENSE</h2>
+<h3 id="license">LICENSE</h3>
 <div class="codehilite"><pre><span></span><code> MIT
 </code></pre></div>
 <br>
@@ -272,7 +272,7 @@ Non-breaking space &nbsp;  &#160;  Before   After</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~22"></span>
+              <span class="anchor" id="variable-str~14"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in),</td>
@@ -316,7 +316,7 @@ Non-breaking space &nbsp;  &#160;  Before   After</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~67"></span>
+              <span class="anchor" id="variable-string~49"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -358,7 +358,7 @@ Non-breaking space &nbsp;  &#160;  Before   After</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-05 13:37 +0000             </p>
+ on 2026-11-12 12:40 +0000             </p>
           </div>
         </div>
         <br>

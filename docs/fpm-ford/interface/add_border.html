@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.2% of total for procedures.</p>Including implementation: 50 statements,  1.8% of total for procedures.">6 statements</a>
+                 title="<p> 0.2% of total for procedures.</p>Including implementation: 50 statements,  1.5% of total for procedures.">6 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -167,80 +167,12 @@
 
     <div class="col-md-9" id='text'>
       <h2>public interface add_border</h2>
-      
-
-
-
-        <h2>Module Procedures</h2>
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-add_border_u"></span> <h3>private  function add_border_u(win, style) result(winout)  
-</h3></div>
-    <div class="card-body">
-        
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-win~6"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>win</strong>(:)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-style~7"></span>
-              class(*),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>style</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>), allocatable, (:)</small>
-    </h4>
-    
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-add_border_ascii"></span> <h3>private  function add_border_ascii(win, style) result(winout)  
-</h3></div>
-    <div class="card-body">
-        <h2 id="name">NAME</h2>
+      <h3 id="name">NAME</h3>
 <div class="codehilite"><pre><span></span><code> add_border(3f) - [M_unicode:EDITING] add border of UTF8-encoded box characters
  (LICENSE:MIT)
 </code></pre></div>
 
-<h2 id="synopsis">SYNOPSIS</h2>
+<h3 id="synopsis">SYNOPSIS</h3>
 <p>syntax:</p>
 <div class="codehilite"><pre><span></span><code><span class="w">   </span><span class="k">function</span><span class="w"> </span><span class="nf">add_border</span><span class="p">(</span>win,style<span class="p">)</span><span class="w"> </span><span class="n">result</span><span class="p">(</span><span class="n">winout</span><span class="p">)</span>
 
@@ -249,29 +181,29 @@
 <span class="w">   </span><span class="nb">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="n">allocatable</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">winout</span><span class="p">(:)</span>
 </code></pre></div>
 
-<h2 id="characteristics">CHARACTERISTICS</h2>
+<h3 id="characteristics">CHARACTERISTICS</h3>
 <ul>
 <li>WIN can be a scaler or vector of CHARACTER or TYPE(UNICODE_TYPE)
      strings.</li>
 <li>WINOUT elements will all have the length of the longest element
      of WIN</li>
 </ul>
-<h2 id="description">DESCRIPTION</h2>
+<h3 id="description">DESCRIPTION</h3>
 <div class="codehilite"><pre><span></span><code><span class="nx">Add</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">border</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">box</span><span class="w"> </span><span class="nx">characters</span><span class="w"> </span><span class="nx">around</span><span class="w"> </span><span class="nx">character</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="kt">string</span>
 <span class="p">(</span><span class="nx">ie</span><span class="p">.</span><span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">))</span><span class="w"> </span><span class="nx">scalar</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="nx">vector</span><span class="w"> </span><span class="nx">text</span><span class="p">.</span>
 </code></pre></div>
 
-<h2 id="options">OPTIONS</h2>
+<h3 id="options">OPTIONS</h3>
 <div class="codehilite"><pre><span></span><code>  win         input array to be changed
   style       may be "light", "bold", or "double". Default is
               "bold".
 </code></pre></div>
 
-<h2 id="returns">RETURNS</h2>
+<h3 id="returns">RETURNS</h3>
 <div class="codehilite"><pre><span></span><code>  winout     an array of strings with a box character border added
 </code></pre></div>
 
-<h2 id="examples">EXAMPLES</h2>
+<h3 id="examples">EXAMPLES</h3>
 <p>Sample Program:</p>
 <div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">demo_add_border</span>
 <span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">ut</span><span class="o">=&gt;</span><span class="nx">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="nx">assignment</span><span class="p">(=)</span>
@@ -359,13 +291,81 @@
   &gt; └───────────────────┘
 </code></pre></div>
 
-<h2 id="author">AUTHOR</h2>
+<h3 id="author">AUTHOR</h3>
 <div class="codehilite"><pre><span></span><code> John S. Urban
 </code></pre></div>
 
-<h2 id="license">LICENSE</h2>
+<h3 id="license">LICENSE</h3>
 <div class="codehilite"><pre><span></span><code> MIT
 </code></pre></div>
+<br>
+
+
+        <h2>Module Procedures</h2>
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-add_border_u"></span> <h3>private  function add_border_u(win, style) result(winout)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-win~6"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>win</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-style~6"></span>
+              class(*),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>style</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>), allocatable, (:)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-add_border_ascii"></span> <h3>private  function add_border_ascii(win, style) result(winout)  
+</h3></div>
+    <div class="card-body">
+        
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -395,7 +395,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-style~4"></span>
+              <span class="anchor" id="variable-style~3"></span>
               class(*),
             </td>
 <td>intent(in),</td>
@@ -454,7 +454,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-style~6"></span>
+              <span class="anchor" id="variable-style~5"></span>
               class(*),
             </td>
 <td>intent(in),</td>
@@ -513,7 +513,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-style~5"></span>
+              <span class="anchor" id="variable-style~4"></span>
               class(*),
             </td>
 <td>intent(in),</td>
@@ -555,7 +555,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-05 13:37 +0000             </p>
+ on 2026-11-12 12:40 +0000             </p>
           </div>
         </div>
         <br>

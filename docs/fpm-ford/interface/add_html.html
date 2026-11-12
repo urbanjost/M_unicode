@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.2% of total for procedures.</p>Including implementation: 63 statements,  2.3% of total for procedures.">6 statements</a>
+                 title="<p> 0.2% of total for procedures.</p>Including implementation: 63 statements,  1.9% of total for procedures.">6 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -167,66 +167,13 @@
 
     <div class="col-md-9" id='text'>
       <h2>public interface add_html</h2>
-      
-
-
-
-        <h2>Module Procedures</h2>
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-add_html_u_ascii"></span> <h3>private  function add_html_u_ascii(line) result(out)  
-</h3></div>
-    <div class="card-body">
-        
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-line~29"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>line</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>character(len=:), allocatable</small>
-    </h4>
-    
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-add_html_ascii_ascii"></span> <h3>private  function add_html_ascii_ascii(line) result(out)  
-</h3></div>
-    <div class="card-body">
-        <h2 id="name">NAME</h2>
+      <h3 id="name">NAME</h3>
 <div class="codehilite"><pre><span></span><code> ADD_HTML(3f) - [M_unicode:CONVERSION] Convert UTF-8 encoded data to
  ASCII-7 HTML decimal code representation
  (LICENSE:MIT)
 </code></pre></div>
 
-<h2 id="synopsis">SYNOPSIS</h2>
+<h3 id="synopsis">SYNOPSIS</h3>
 <div class="codehilite"><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="nf">add_html</span><span class="p">(</span>line<span class="p">)</span><span class="w"> </span><span class="n">result</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
 
 <span class="w"> </span><span class="nb">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="nb">line</span>
@@ -236,7 +183,7 @@
 <span class="w"> </span><span class="n">character</span><span class="p">(</span><span class="n">len</span><span class="p">=:),</span><span class="n">allocatable</span><span class="w">  </span><span class="p">::</span><span class="w"> </span><span class="n">out</span>
 </code></pre></div>
 
-<h2 id="description">DESCRIPTION</h2>
+<h3 id="description">DESCRIPTION</h3>
 <div class="codehilite"><pre><span></span><code>ADD_HTML(3f) returns a string with non-printable ASCII-7 characters
 and UTF8 (ie. non-ASCII-7) characters encoded as HTML
 
@@ -247,19 +194,19 @@ Each converted character is printed in the form
  where NNNNNN is the Unicode codepoint value in decimal.
 </code></pre></div>
 
-<h2 id="options">OPTIONS</h2>
+<h3 id="options">OPTIONS</h3>
 <div class="codehilite"><pre><span></span><code> LINE   An ASCII bytestream optionally containing UTF-8 encoded data
         or a UNICODE_TYPE() string to convert to an ASCII string
         containing HTML codes
 </code></pre></div>
 
-<h2 id="returns">RETURNS</h2>
+<h3 id="returns">RETURNS</h3>
 <div class="codehilite"><pre><span></span><code><span class="nv">The</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nv">value</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">input</span><span class="w"> </span><span class="nv">line</span><span class="w"> </span><span class="nv">with</span><span class="w"> </span><span class="nv">all</span><span class="w"> </span><span class="nv">characters</span><span class="w"> </span><span class="nv">not</span><span class="w"> </span><span class="nv">representing</span>
 <span class="nv">printable</span><span class="w"> </span><span class="nv">ASCII</span><span class="w"> </span><span class="nv">characters</span><span class="w"> </span><span class="nv">converted</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">their</span><span class="w"> </span><span class="nv">HTML</span><span class="w"> </span><span class="nv">equivalents</span>
 <span class="nv">sequences</span>.
 </code></pre></div>
 
-<h2 id="examples">EXAMPLES</h2>
+<h3 id="examples">EXAMPLES</h3>
 <p>Sample Program:</p>
 <div class="codehilite"><pre><span></span><code><span class="w">  </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_add_html</span>
 <span class="w">  </span><span class="p">!</span><span class="w"> </span><span class="nx">filter</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">replace</span><span class="w"> </span><span class="nx">all</span><span class="w"> </span><span class="nx">but</span><span class="w"> </span><span class="nx">printable</span><span class="w"> </span><span class="nx">ASCII</span><span class="o">-</span><span class="mi">7</span><span class="w"> </span><span class="nx">characters</span>
@@ -359,13 +306,22 @@ Each converted character is printed in the form
   &gt;  -- Jean de la Fontaine
 </code></pre></div>
 
-<h2 id="author">AUTHOR</h2>
+<h3 id="author">AUTHOR</h3>
 <div class="codehilite"><pre><span></span><code> John S. Urban
 </code></pre></div>
 
-<h2 id="license">LICENSE</h2>
+<h3 id="license">LICENSE</h3>
 <div class="codehilite"><pre><span></span><code> MIT
 </code></pre></div>
+<br>
+
+
+        <h2>Module Procedures</h2>
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-add_html_u_ascii"></span> <h3>private  function add_html_u_ascii(line) result(out)  
+</h3></div>
+    <div class="card-body">
+        
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -380,7 +336,51 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-line~26"></span>
+              <span class="anchor" id="variable-line~20"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>line</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>character(len=:), allocatable</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-add_html_ascii_ascii"></span> <h3>private  function add_html_ascii_ascii(line) result(out)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-line~17"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -424,7 +424,7 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-line~28"></span>
+              <span class="anchor" id="variable-line~19"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td></td>
@@ -468,7 +468,7 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-line~27"></span>
+              <span class="anchor" id="variable-line~18"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -510,7 +510,7 @@ Each converted character is printed in the form
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-05 13:37 +0000             </p>
+ on 2026-11-12 12:40 +0000             </p>
           </div>
         </div>
         <br>

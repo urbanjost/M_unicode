@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.1% of total for procedures.</p>Including implementation: 42 statements,  1.5% of total for procedures.">4 statements</a>
+                 title="<p> 0.1% of total for procedures.</p>Including implementation: 42 statements,  1.3% of total for procedures.">4 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -189,7 +189,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-action~3"></span>
+              <span class="anchor" id="variable-action~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -213,13 +213,13 @@
     <div class="card-header codesum"><span class="anchor" id="proc-keyword_mode_utf8"></span> <h3>private  subroutine keyword_mode_utf8(action)  
 </h3></div>
     <div class="card-body">
-        <h2 id="name">NAME</h2>
+        <h3 id="name">NAME</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">keyword_mode</span><span class="p">(</span><span class="mi">3</span><span class="n">f</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">[</span><span class="n">M_unicode</span><span class="o">]</span><span class="w"> </span><span class="k">select</span><span class="w"> </span><span class="n">processing</span><span class="w"> </span><span class="n">mode</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="k">output</span>
 <span class="k">from</span><span class="w"> </span><span class="n">keyword_expand</span><span class="p">(</span><span class="mi">3</span><span class="n">f</span><span class="p">)</span>
 <span class="p">(</span><span class="nl">LICENSE</span><span class="p">:</span><span class="n">MIT</span><span class="p">)</span>
 </code></pre></div>
 
-<h2 id="synopsis">SYNOPSIS</h2>
+<h3 id="synopsis">SYNOPSIS</h3>
 <div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nx">subroutine</span><span class="w"> </span><span class="nx">keyword_mode</span><span class="p">(</span><span class="nx">action</span><span class="p">)</span>
 
 <span class="w">    </span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">action</span>
@@ -227,13 +227,13 @@
 <span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">action</span>
 </code></pre></div>
 
-<h2 id="description">DESCRIPTION</h2>
+<h3 id="description">DESCRIPTION</h3>
 <div class="codehilite"><pre><span></span><code>When using the keyword_expand(3f) procedure turn the substitution of strings
 associated with the keywords on or off. That is, turn off string
 processing so keyword_expand(3f) just echos its input.
 </code></pre></div>
 
-<h2 id="options">OPTIONS</h2>
+<h3 id="options">OPTIONS</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">ACTION</span><span class="w">  </span><span class="n">The</span><span class="w"> </span><span class="n">current</span><span class="w"> </span><span class="n">modes</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">actions</span><span class="w"> </span><span class="n">supported</span><span class="w"> </span><span class="n">are</span>
 
 <span class="n">raw_mode</span><span class="p">,</span><span class="n">raw</span><span class="w">        </span><span class="n">echo</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">input</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">keyword_expand</span><span class="p">(</span><span class="mi">3</span><span class="n">f</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">its</span><span class="w"> </span><span class="n">output</span>
@@ -248,7 +248,7 @@ processing so keyword_expand(3f) just echos its input.
 <span class="n">japanese</span><span class="w">            </span><span class="nb">load</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">romaji</span><span class="o">-</span><span class="n">like</span><span class="w"> </span><span class="n">built</span><span class="o">-</span><span class="ow">in</span><span class="w"> </span><span class="n">dictionary</span>
 </code></pre></div>
 
-<h2 id="examples">EXAMPLES</h2>
+<h3 id="examples">EXAMPLES</h3>
 <div class="codehilite"><pre><span></span><code>Sample<span class="w"> </span>program
 
 <span class="w"> </span>program<span class="w"> </span>demo_keyword_mode
@@ -316,11 +316,11 @@ like<span class="w"> </span>color<span class="w"> </span>when<span class="w"> </
 <span class="w">  </span>&gt;<span class="w"> </span>zscr<span class="w">             </span>[𝓏]<span class="w">      </span>[𝓏]
 </code></pre></div>
 
-<h2 id="author">AUTHOR</h2>
+<h3 id="author">AUTHOR</h3>
 <div class="codehilite"><pre><span></span><code>John S. Urban, 2021
 </code></pre></div>
 
-<h2 id="license">LICENSE</h2>
+<h3 id="license">LICENSE</h3>
 <div class="codehilite"><pre><span></span><code>MIT
 </code></pre></div>
 
@@ -337,7 +337,7 @@ like<span class="w"> </span>color<span class="w"> </span>when<span class="w"> </
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-action~2"></span>
+              <span class="anchor" id="variable-action"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -374,7 +374,7 @@ like<span class="w"> </span>color<span class="w"> </span>when<span class="w"> </
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-05 13:37 +0000             </p>
+ on 2026-11-12 12:40 +0000             </p>
           </div>
         </div>
         <br>

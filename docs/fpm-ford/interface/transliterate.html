@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.1% of total for procedures.</p>Including implementation: 83 statements,  3.0% of total for procedures.">4 statements</a>
+                 title="<p> 0.1% of total for procedures.</p>Including implementation: 83 statements,  2.6% of total for procedures.">4 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -171,22 +171,13 @@
 
     <div class="col-md-9" id='text'>
       <h2>public interface transliterate</h2>
-      
-
-
-
-        <h2>Module Procedures</h2>
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-transliterate_uuu"></span> <h3>private impure elemental function transliterate_uuu(instr, old_set, new_set) result(outstr)  
-</h3></div>
-    <div class="card-body">
-        <h2 id="name">NAME</h2>
+      <h3 id="name">NAME</h3>
 <div class="codehilite"><pre><span></span><code> transliterate(3f) - [M_unicode:EDITING] replace characters from old
                      set with new set
  (LICENSE:MIT)
 </code></pre></div>
 
-<h2 id="synopsis">SYNOPSIS</h2>
+<h3 id="synopsis">SYNOPSIS</h3>
 <div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nx">impure</span><span class="w"> </span><span class="nx">elemental</span><span class="w"> </span><span class="o">&amp;</span>
 <span class="w">        </span><span class="o">&amp;</span><span class="w"> </span><span class="nx">function</span><span class="w"> </span><span class="nx">transliterate</span><span class="p">(</span><span class="nx">instr</span><span class="p">,</span><span class="nx">old_set</span><span class="p">,</span><span class="nx">new_set</span><span class="p">)</span><span class="w"> </span><span class="nx">result</span><span class="p">(</span><span class="nx">outstr</span><span class="p">)</span>
 
@@ -196,16 +187,16 @@
 <span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span><span class="w">             </span><span class="o">::</span><span class="w"> </span><span class="nx">outstr</span>
 </code></pre></div>
 
-<h2 id="characteristics">CHARACTERISTICS</h2>
+<h3 id="characteristics">CHARACTERISTICS</h3>
 <div class="codehilite"><pre><span></span><code>Although a conversion might occur on each call, the input values
 may be CHARACTER as well as TYPE(UNICODE_TYPE).
 </code></pre></div>
 
-<h2 id="description">DESCRIPTION</h2>
+<h3 id="description">DESCRIPTION</h3>
 <div class="codehilite"><pre><span></span><code>Translate or delete characters from an input string.
 </code></pre></div>
 
-<h2 id="options">OPTIONS</h2>
+<h3 id="options">OPTIONS</h3>
 <p>instr    input string to change
    old_set  list of glyphs to change in INSTR if found</p>
 <div class="codehilite"><pre><span></span><code>        Each glyph in the input string that matches a glyph
@@ -221,11 +212,11 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
         in NEW_SET.
 </code></pre></div>
 
-<h2 id="returns">RETURNS</h2>
+<h3 id="returns">RETURNS</h3>
 <div class="codehilite"><pre><span></span><code>outstr  INSTR with substitutions applied
 </code></pre></div>
 
-<h2 id="examples">EXAMPLES</h2>
+<h3 id="examples">EXAMPLES</h3>
 <p>Sample Program:</p>
 <div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">demo_transliterate</span>
 
@@ -304,13 +295,22 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
 <span class="k">  &gt; </span><span class="ge">Α·Β·Γ·Δ·Ε·Ζ·Η·Θ·Ι·Κ·Λ·Μ·Ν·Ξ·Ο·Π·Ρ·Σ·ςΤ·Υ·Φ·Χ·Ψ·Ω·</span>
 </code></pre></div>
 
-<h2 id="author">AUTHOR</h2>
+<h3 id="author">AUTHOR</h3>
 <div class="codehilite"><pre><span></span><code>John S. Urban
 </code></pre></div>
 
-<h2 id="license">LICENSE</h2>
+<h3 id="license">LICENSE</h3>
 <div class="codehilite"><pre><span></span><code> MIT
 </code></pre></div>
+<br>
+
+
+        <h2>Module Procedures</h2>
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-transliterate_uuu"></span> <h3>private impure elemental function transliterate_uuu(instr, old_set, new_set) result(outstr)  
+</h3></div>
+    <div class="card-body">
+        
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -340,7 +340,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-old_set"></span>
+              <span class="anchor" id="variable-old_set~5"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -355,7 +355,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-new_set"></span>
+              <span class="anchor" id="variable-new_set~5"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -414,7 +414,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-old_set~2"></span>
+              <span class="anchor" id="variable-old_set~6"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -429,7 +429,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-new_set~2"></span>
+              <span class="anchor" id="variable-new_set~6"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -488,7 +488,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-old_set~3"></span>
+              <span class="anchor" id="variable-old_set~7"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -503,7 +503,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-new_set~3"></span>
+              <span class="anchor" id="variable-new_set~7"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -562,7 +562,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-old_set~5"></span>
+              <span class="anchor" id="variable-old_set~9"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -577,7 +577,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-new_set~5"></span>
+              <span class="anchor" id="variable-new_set~9"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -636,7 +636,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-old_set~4"></span>
+              <span class="anchor" id="variable-old_set~8"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -651,7 +651,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-new_set~4"></span>
+              <span class="anchor" id="variable-new_set~8"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -710,7 +710,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-old_set~7"></span>
+              <span class="anchor" id="variable-old_set~11"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -725,7 +725,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-new_set~7"></span>
+              <span class="anchor" id="variable-new_set~11"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -784,7 +784,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-old_set~6"></span>
+              <span class="anchor" id="variable-old_set~10"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -799,7 +799,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-new_set~6"></span>
+              <span class="anchor" id="variable-new_set~10"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -858,7 +858,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-old_set~8"></span>
+              <span class="anchor" id="variable-old_set~12"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -873,7 +873,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-new_set~8"></span>
+              <span class="anchor" id="variable-new_set~12"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -915,7 +915,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-05 13:37 +0000             </p>
+ on 2026-11-12 12:40 +0000             </p>
           </div>
         </div>
         <br>

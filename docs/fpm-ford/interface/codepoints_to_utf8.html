@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.1% of total for procedures.</p>Including implementation: 61 statements,  2.2% of total for procedures.">3 statements</a>
+                 title="<p> 0.1% of total for procedures.</p>Including implementation: 61 statements,  1.9% of total for procedures.">3 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -165,89 +165,11 @@
 
     <div class="col-md-9" id='text'>
       <h2>public interface codepoints_to_utf8</h2>
-      
-
-
-
-        <h2>Module Procedures</h2>
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-codepoints_to_utf8_str"></span> <h3>private pure subroutine codepoints_to_utf8_str(codepoints, utf8, nerr)  
-</h3></div>
-    <div class="card-body">
-        
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-codepoints~5"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>codepoints</strong>(:)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-utf8~3"></span>
-              character(len=:),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              allocatable
-            </td>
-            <td>::</td>
-            <td><strong>utf8</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-nerr~5"></span>
-              integer,
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>nerr</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-codepoints_to_utf8_chars"></span> <h3>private pure subroutine codepoints_to_utf8_chars(codepoints, utf8, nerr)  
-</h3></div>
-    <div class="card-body">
-        <h2 id="name">NAME</h2>
+      <h3 id="name">NAME</h3>
 <p>CODEPOINTS_TO_UTF8(3f) - [M_unicode:CONVERSION] convert codepoints
    to CHARACTER
    (LICENSE:MIT)</p>
-<h2 id="synopsis">SYNOPSIS</h2>
+<h3 id="synopsis">SYNOPSIS</h3>
 <div class="codehilite"><pre><span></span><code>pure subroutine codepoints_to_utf8(codepoints,utf8,nerr)
 
  integer,allocatable,intent(in) :: codepoints(:)
@@ -259,18 +181,18 @@
  integer,intent(out)            :: nerr
 </code></pre></div>
 
-<h2 id="characteristics">CHARACTERISTICS</h2>
+<h3 id="characteristics">CHARACTERISTICS</h3>
 <ul>
 <li>UTF8 is a scalar or array CHARACTER variable</li>
 <li>CODEPOINTS is of default INTEGER kind</li>
 <li>NERR is of default INTEGER kind</li>
 </ul>
-<h2 id="description">DESCRIPTION</h2>
+<h3 id="description">DESCRIPTION</h3>
 <p>CODEPOINTS_TO_UTF8(3f) takes an integer array of Unicode codepoint
    values and generates either a scalar CHARACTER variable or an array
    of bytes (AKA. CHARACTER(LEN=1)) which are assumed to contain a stream
    of bytes representing UTF-8-encoded data.</p>
-<h2 id="options">OPTIONS</h2>
+<h3 id="options">OPTIONS</h3>
 <div class="codehilite"><pre><span></span><code><span class="o">+</span><span class="w"> </span><span class="n">CODEPOINTS</span><span class="w"> </span><span class="p">:</span><span class="w">  </span><span class="n">An</span><span class="w"> </span><span class="n">INTEGER</span><span class="w"> </span><span class="n">array</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">Unicode</span><span class="w"> </span><span class="n">codepoint</span><span class="w"> </span><span class="n">values</span><span class="w"> </span><span class="n">representing</span>
 <span class="w">                </span><span class="n">the</span><span class="w"> </span><span class="n">glyphs</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">encoded</span><span class="w"> </span><span class="n">at</span><span class="w"> </span><span class="n">UTF</span><span class="o">-</span><span class="mi">8</span><span class="w"> </span><span class="n">data</span>
 
@@ -282,7 +204,7 @@
 <span class="w">          </span><span class="n">could</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">completely</span><span class="w"> </span><span class="n">converted</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">UTF</span><span class="o">-</span><span class="mi">8</span><span class="w"> </span><span class="n">characters</span><span class="o">.</span>
 </code></pre></div>
 
-<h2 id="examples">EXAMPLES</h2>
+<h3 id="examples">EXAMPLES</h3>
 <p>Sample program</p>
 <div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">demo_codepoints_to_utf8</span>
 <span class="nx">use</span><span class="w"> </span><span class="nx">m_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">codepoints_to_utf8</span>
@@ -338,21 +260,30 @@
  &gt; 20
 </code></pre></div>
 
-<h2 id="see-also">SEE ALSO</h2>
+<h3 id="see-also">SEE ALSO</h3>
 <p>functions that perform operations on character strings:</p>
 <ul>
 <li>elemental: adjustl(3), adjustr(3), index(3), scan(3), verify(3)</li>
 <li>non-elemental: len_trim(3), repeat(3), trim(3),
                     codepoints_to_utf8(3), utf8_to_codepoints(3)</li>
 </ul>
-<h2 id="author">AUTHOR</h2>
+<h3 id="author">AUTHOR</h3>
 <ul>
 <li>John S. Urban</li>
 <li>Francois Jacq - enhancements from Francois Jacq, 2025-08</li>
 </ul>
-<h2 id="license">LICENSE</h2>
+<h3 id="license">LICENSE</h3>
 <div class="codehilite"><pre><span></span><code> MIT
 </code></pre></div>
+<br>
+
+
+        <h2>Module Procedures</h2>
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-codepoints_to_utf8_str"></span> <h3>private pure subroutine codepoints_to_utf8_str(codepoints, utf8, nerr)  
+</h3></div>
+    <div class="card-body">
+        
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -367,7 +298,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-codepoints~2"></span>
+              <span class="anchor" id="variable-codepoints~6"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -382,7 +313,76 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-utf8"></span>
+              <span class="anchor" id="variable-utf8~4"></span>
+              character(len=:),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>utf8</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nerr~13"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nerr</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-codepoints_to_utf8_chars"></span> <h3>private pure subroutine codepoints_to_utf8_chars(codepoints, utf8, nerr)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-codepoints~5"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>codepoints</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-utf8~3"></span>
               character(len=1),
             </td>
 <td>intent(out),</td>
@@ -397,7 +397,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nerr~2"></span>
+              <span class="anchor" id="variable-nerr~12"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -434,7 +434,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-05 13:37 +0000             </p>
+ on 2026-11-12 12:40 +0000             </p>
           </div>
         </div>
         <br>

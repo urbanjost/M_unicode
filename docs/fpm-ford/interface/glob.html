@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.1% of total for procedures.</p>Including implementation: 27 statements,  1.0% of total for procedures.">3 statements</a>
+                 title="<p> 0.1% of total for procedures.</p>Including implementation: 27 statements,  0.8% of total for procedures.">3 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -167,8 +167,241 @@
 
     <div class="col-md-9" id='text'>
       <h2>public interface glob</h2>
-      
+      <h3 id="name">NAME</h3>
+<div class="codehilite"><pre><span></span><code>glob(3f) - [M_unicode:COMPARE] compare given string for match to
+a pattern which may contain globbing wildcard characters
+(LICENSE:MIT)
+</code></pre></div>
 
+<h3 id="synopsis">SYNOPSIS</h3>
+<div class="codehilite"><pre><span></span><code><span class="nx">logical</span><span class="w"> </span><span class="nx">function</span><span class="w"> </span><span class="nx">glob</span><span class="p">(</span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">pattern</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="p">(</span><span class="nx">uline</span><span class="p">)</span>
+
+<span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="kt">string</span>
+<span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="k">or</span>
+<span class="w"> </span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w">   </span><span class="o">::</span><span class="w"> </span><span class="kt">string</span>
+
+<span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">pattern</span>
+<span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="k">or</span>
+<span class="w"> </span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w">   </span><span class="o">::</span><span class="w"> </span><span class="nx">pattern</span>
+
+<span class="w"> </span><span class="nx">logical</span><span class="w">                       </span><span class="o">::</span><span class="w"> </span><span class="nx">uline</span>
+</code></pre></div>
+
+<h3 id="description">DESCRIPTION</h3>
+<div class="codehilite"><pre><span></span><code>glob(3f) compares an (entire) STRING for a match to a PATTERN which
+may contain basic wildcard "globbing" characters.
+
++ "*" matches any string.
++ "?" matches any single character.
++ a NULL may not appear in the input strings
++ trailing whitespace is significant
+
+In this version to get a match the entire string must be described by
+PATTERN. Trailing whitespace is significant, so trim the input string
+if it is desired to ignore trailing whitespace.
+
+A NULL character is added to the input strings internally to avoid
+early matches. Without this, patterns like "b*ba" fail on a string
+like "babababa" because the first match found is not at the end of
+the string so 'baba' does not match 'babababa'. So the algorithm is
+said to find an early match.
+
+One method that allows skipping over the early matches is to insert
+an extra character at the end of the string and pattern that does
+not occur in the pattern. Typically a NULL is used (char(0)), as it is
+here. So searching for b*ba\0 in babababa\0 matches the entire string.
+</code></pre></div>
+
+<h3 id="options">OPTIONS</h3>
+<div class="codehilite"><pre><span></span><code><span class="kt">string</span><span class="w">   </span><span class="nx">the</span><span class="w"> </span><span class="nx">input</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">be</span><span class="w"> </span><span class="nx">tested</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="k">match</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">pattern</span><span class="p">.</span>
+<span class="nx">pattern</span><span class="w">  </span><span class="nx">the</span><span class="w"> </span><span class="nx">globbing</span><span class="w"> </span><span class="nx">pattern</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">search</span><span class="w"> </span><span class="k">for</span><span class="p">.</span><span class="w"> </span><span class="nx">The</span><span class="w"> </span><span class="nx">following</span><span class="w"> </span><span class="nx">simple</span>
+<span class="w">         </span><span class="nx">globbing</span><span class="w"> </span><span class="nx">rules</span><span class="w"> </span><span class="nx">apply</span><span class="p">:</span>
+
+<span class="w">         </span><span class="nx">o</span><span class="w"> </span><span class="s">"?"</span><span class="w"> </span><span class="nx">matching</span><span class="w"> </span><span class="nx">any</span><span class="w"> </span><span class="nx">one</span><span class="w"> </span><span class="nx">character</span>
+<span class="w">         </span><span class="nx">o</span><span class="w"> </span><span class="s">"*"</span><span class="w"> </span><span class="nx">matching</span><span class="w"> </span><span class="nx">zero</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="nx">more</span><span class="w"> </span><span class="nx">characters</span><span class="p">.</span>
+<span class="w">           </span><span class="nx">Do</span><span class="w"> </span><span class="nx">NOT</span><span class="w"> </span><span class="nx">use</span><span class="w"> </span><span class="nx">adjacent</span><span class="w"> </span><span class="nx">asterisks</span><span class="p">.</span>
+<span class="w">         </span><span class="nx">o</span><span class="w"> </span><span class="nx">The</span><span class="w"> </span><span class="nx">input</span><span class="w"> </span><span class="nx">strings</span><span class="w"> </span><span class="nx">must</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="nx">contain</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">NULL</span><span class="w"> </span><span class="nx">character</span>
+<span class="w">         </span><span class="nx">o</span><span class="w"> </span><span class="nx">spaces</span><span class="w"> </span><span class="nx">are</span><span class="w"> </span><span class="nx">significant</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="nx">must</span><span class="w"> </span><span class="nx">be</span><span class="w"> </span><span class="nx">matched</span><span class="p">.</span>
+<span class="w">         </span><span class="nx">o</span><span class="w"> </span><span class="nx">There</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="nx">no</span><span class="w"> </span><span class="nx">escape</span><span class="w"> </span><span class="nx">character</span><span class="p">,</span><span class="w"> </span><span class="nx">so</span><span class="w"> </span><span class="nx">matching</span><span class="w"> </span><span class="nx">strings</span><span class="w"> </span><span class="nx">with</span>
+<span class="w">           </span><span class="nx">a</span><span class="w"> </span><span class="nx">literal</span><span class="w"> </span><span class="nx">question</span><span class="w"> </span><span class="nx">mark</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="nx">asterisk</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="nx">problematic</span><span class="p">.</span>
+</code></pre></div>
+
+<h3 id="examples">EXAMPLES</h3>
+<p>Example program</p>
+<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_glob</span>
+<span class="w"> </span><span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">glob</span><span class="p">,</span><span class="w"> </span><span class="nx">trim</span><span class="p">,</span><span class="w"> </span><span class="nx">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="nx">len</span>
+<span class="w"> </span><span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">expand_backslash</span>
+<span class="w"> </span><span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">assignment</span><span class="p">(=)</span>
+<span class="w"> </span><span class="nx">implicit</span><span class="w"> </span><span class="nx">none</span>
+<span class="w"> </span><span class="nx">integer</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">i</span>
+<span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">allocatable</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">ufiles</span><span class="p">(:)</span>
+<span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">allocatable</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">matched</span><span class="p">(:)</span>
+<span class="w"> </span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">parameter</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">  </span><span class="nx">filenames</span><span class="p">(</span><span class="o">*</span><span class="p">)=</span><span class="w"> </span><span class="p">[</span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="mi">256</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">  </span><span class="o">&amp;</span><span class="w"> </span><span class="err">'</span><span class="nx">My_favorite_file</span><span class="p">.</span><span class="nx">F90</span><span class="err">'</span><span class="p">,</span><span class="w">    </span><span class="o">&amp;</span><span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">English</span>
+<span class="w">  </span><span class="o">&amp;</span><span class="w"> </span><span class="err">'</span><span class="nx">我最喜欢的文档</span><span class="p">.</span><span class="nx">c</span><span class="err">'</span><span class="p">,</span><span class="w">         </span><span class="o">&amp;</span><span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">Mandarin_Chinese</span>
+<span class="w">  </span><span class="o">&amp;</span><span class="w"> </span><span class="err">'</span><span class="nx">मर</span><span class="err">ी</span><span class="nx">_पसद</span><span class="err">ी</span><span class="nx">द</span><span class="err">ा</span><span class="nx">_फ</span><span class="err">ा</span><span class="nx">इल</span><span class="p">.</span><span class="nx">f90</span><span class="err">'</span><span class="p">,</span><span class="w">       </span><span class="o">&amp;</span><span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">Hindu</span>
+<span class="w">  </span><span class="o">&amp;</span><span class="w"> </span><span class="err">'</span><span class="nx">Mi_archivo_favorito</span><span class="p">.</span><span class="nx">c</span><span class="err">'</span><span class="p">,</span><span class="w">   </span><span class="o">&amp;</span><span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">Spanish</span>
+<span class="w">  </span><span class="o">&amp;</span><span class="w"> </span><span class="err">'</span><span class="nx">ملفي_المفضل</span><span class="p">.</span><span class="nx">h</span><span class="err">'</span><span class="p">,</span><span class="w">         </span><span class="o">&amp;</span><span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">Modern_Standard_Arabic</span>
+<span class="w">  </span><span class="o">&amp;</span><span class="w"> </span><span class="err">'</span><span class="nx">Mon_fichier_préféré</span><span class="p">.</span><span class="nx">f90</span><span class="err">'</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">French</span>
+<span class="w">  </span><span class="o">&amp;</span><span class="w"> </span><span class="err">'</span><span class="nx">আম</span><span class="err">া</span><span class="nx">র_পর</span><span class="err">ি</span><span class="nx">য_ফ</span><span class="err">া</span><span class="nx">ইল</span><span class="err">'</span><span class="p">,</span><span class="w">          </span><span class="o">&amp;</span><span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">Bengali</span>
+<span class="w">  </span><span class="o">&amp;</span><span class="w"> </span><span class="err">'</span><span class="nx">Meu_arquivo_favorito</span><span class="err">'</span><span class="p">,</span><span class="w">    </span><span class="o">&amp;</span><span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">Portuguese</span>
+<span class="w">  </span><span class="o">&amp;</span><span class="w"> </span><span class="err">'</span><span class="nx">Мой_любимый_файл</span><span class="err">'</span><span class="p">,</span><span class="w">          </span><span class="o">&amp;</span><span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">Russian</span>
+<span class="w">  </span><span class="o">&amp;</span><span class="w"> </span><span class="err">'</span><span class="nx">میری_پسندیدہ_فائل</span><span class="p">.</span><span class="nx">pdf</span><span class="err">'</span><span class="p">,</span><span class="w">   </span><span class="o">&amp;</span><span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">Urdu</span>
+<span class="w">  </span><span class="o">&amp;</span><span class="w"> </span><span class="err">'</span><span class="nx">src</span><span class="o">/</span><span class="nx">M_modules</span><span class="p">.</span><span class="nx">F90</span><span class="err">'</span><span class="p">,</span><span class="w">       </span><span class="o">&amp;</span>
+<span class="w">  </span><span class="o">&amp;</span><span class="w"> </span><span class="err">'</span><span class="nx">src</span><span class="o">/</span><span class="nx">subset</span><span class="p">.</span><span class="nx">inc</span><span class="err">'</span><span class="p">,</span><span class="w">          </span><span class="o">&amp;</span>
+<span class="w">  </span><span class="o">&amp;</span><span class="w"> </span><span class="err">'</span><span class="nx">test</span><span class="o">/</span><span class="nx">check</span><span class="p">.</span><span class="nx">f90</span><span class="w"> </span><span class="err">'</span><span class="p">,</span><span class="w">         </span><span class="o">&amp;</span>
+<span class="w">  </span><span class="o">&amp;</span><span class="w"> </span><span class="err">'</span><span class="nx">app</span><span class="o">/</span><span class="nx">main</span><span class="p">.</span><span class="nx">f90</span><span class="w"> </span><span class="err">'</span><span class="p">]</span>
+<span class="w"> </span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">parameter</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">  </span><span class="nx">encoded</span><span class="p">(</span><span class="o">*</span><span class="p">)=</span><span class="w"> </span><span class="p">[</span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="mi">256</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">  </span><span class="o">&amp;</span><span class="w"> </span><span class="err">'</span><span class="nx">My_favorite_file</span><span class="p">.</span><span class="nx">F90</span><span class="err">'</span><span class="p">,</span><span class="w">                    </span><span class="o">&amp;</span><span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">English</span>
+<span class="w">  </span><span class="o">&amp;</span><span class="w"> </span><span class="err">'\</span><span class="nx">u6211</span><span class="err">\</span><span class="nx">u6700</span><span class="err">\</span><span class="nx">u559C</span><span class="err">\</span><span class="nx">u6B22</span><span class="err">\</span><span class="nx">u7684</span><span class="err">\</span><span class="nx">u6587</span><span class="err">\</span><span class="nx">u6863</span><span class="p">.</span><span class="nx">c</span><span class="err">'</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">Mandarin_Chinese</span>
+<span class="w">  </span><span class="o">&amp;</span><span class="w"> </span><span class="err">'\</span><span class="nx">u092E</span><span class="err">\</span><span class="nx">u0947</span><span class="err">\</span><span class="nx">u0930</span><span class="err">\</span><span class="nx">u0940_</span><span class="o">&amp;</span>
+<span class="w">  </span><span class="o">&amp;</span><span class="err">\</span><span class="nx">u092A</span><span class="err">\</span><span class="nx">u0938</span><span class="err">\</span><span class="nx">u0902</span><span class="err">\</span><span class="nx">u0926</span><span class="err">\</span><span class="nx">u0940</span><span class="err">\</span><span class="nx">u0926</span><span class="err">\</span><span class="nx">u093E_</span><span class="o">&amp;</span>
+<span class="w">  </span><span class="o">&amp;</span><span class="err">\</span><span class="nx">u092B</span><span class="err">\</span><span class="nx">u093C</span><span class="err">\</span><span class="nx">u093E</span><span class="err">\</span><span class="nx">u0907</span><span class="err">\</span><span class="nx">u0932</span><span class="p">.</span><span class="nx">f90</span><span class="err">'</span><span class="p">,</span><span class="w">        </span><span class="o">&amp;</span><span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">Hindu</span>
+<span class="w">  </span><span class="o">&amp;</span><span class="w"> </span><span class="err">'</span><span class="nx">Mi_archivo_favorito</span><span class="p">.</span><span class="nx">c</span><span class="err">'</span><span class="p">,</span><span class="w">                   </span><span class="o">&amp;</span><span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">Spanish</span>
+<span class="w">  </span><span class="o">&amp;</span><span class="w"> </span><span class="err">'\</span><span class="nx">u0645</span><span class="err">\</span><span class="nx">u0644</span><span class="err">\</span><span class="nx">u0641</span><span class="err">\</span><span class="nx">u064A_</span><span class="o">&amp;</span>
+<span class="w">  </span><span class="o">&amp;</span><span class="err">\</span><span class="nx">u0627</span><span class="err">\</span><span class="nx">u0644</span><span class="err">\</span><span class="nx">u0645</span><span class="err">\</span><span class="nx">u0641</span><span class="err">\</span><span class="nx">u0636</span><span class="err">\</span><span class="nx">u0644</span><span class="p">.</span><span class="nx">h</span><span class="w"> </span><span class="err">'</span><span class="p">,</span><span class="w">   </span><span class="o">&amp;</span><span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">Modern_Standard_Arabic</span>
+<span class="w">  </span><span class="o">&amp;</span><span class="w"> </span><span class="err">'</span><span class="nx">Mon_fichier_pr</span><span class="err">\</span><span class="nx">xE9f</span><span class="err">\</span><span class="nx">xE9r</span><span class="err">\</span><span class="nx">xE9</span><span class="p">.</span><span class="nx">f90</span><span class="err">'</span><span class="p">,</span><span class="w">        </span><span class="o">&amp;</span><span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">French</span>
+<span class="w">  </span><span class="o">&amp;</span><span class="w"> </span><span class="err">'\</span><span class="nx">u0986</span><span class="err">\</span><span class="nx">u09AE</span><span class="err">\</span><span class="nx">u09BE</span><span class="err">\</span><span class="nx">u09B0_</span><span class="err">\</span><span class="nx">u09AA</span><span class="err">\</span><span class="nx">u09CD</span><span class="err">\</span><span class="nx">u09B0</span><span class="err">\</span><span class="nx">u09BF</span><span class="err">\</span><span class="nx">u09AF</span><span class="err">\</span><span class="nx">u09BC_</span><span class="o">&amp;</span>
+<span class="w">  </span><span class="o">&amp;</span><span class="err">\</span><span class="nx">u09AB</span><span class="err">\</span><span class="nx">u09BE</span><span class="err">\</span><span class="nx">u0987</span><span class="err">\</span><span class="nx">u09B2</span><span class="err">'</span><span class="p">,</span><span class="w">                  </span><span class="o">&amp;</span><span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">Bengali</span>
+<span class="w">  </span><span class="o">&amp;</span><span class="w"> </span><span class="err">'</span><span class="nx">Meu_arquivo_favorito</span><span class="err">'</span><span class="p">,</span><span class="w">                    </span><span class="o">&amp;</span><span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">Portuguese</span>
+<span class="w">  </span><span class="o">&amp;</span><span class="w"> </span><span class="err">'\</span><span class="nx">u041C</span><span class="err">\</span><span class="nx">u043E</span><span class="err">\</span><span class="nx">u0439_</span><span class="err">\</span><span class="nx">u043B</span><span class="err">\</span><span class="nx">u044E</span><span class="err">\</span><span class="nx">u0431</span><span class="err">\</span><span class="nx">u0438</span><span class="err">\</span><span class="nx">u043C</span><span class="err">\</span><span class="nx">u044B</span><span class="err">\</span><span class="nx">u0439_</span><span class="o">&amp;</span>
+<span class="w">  </span><span class="o">&amp;</span><span class="err">\</span><span class="nx">u0444</span><span class="err">\</span><span class="nx">u0430</span><span class="err">\</span><span class="nx">u0439</span><span class="err">\</span><span class="nx">u043B</span><span class="err">'</span><span class="p">,</span><span class="w">                  </span><span class="o">&amp;</span><span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">Russian</span>
+<span class="w">  </span><span class="o">&amp;</span><span class="w"> </span><span class="err">'\</span><span class="nx">u0645</span><span class="err">\</span><span class="nx">u06CC</span><span class="err">\</span><span class="nx">u0631</span><span class="err">\</span><span class="nx">u06CC_</span><span class="o">&amp;</span>
+<span class="w">  </span><span class="o">&amp;</span><span class="err">\</span><span class="nx">u067E</span><span class="err">\</span><span class="nx">u0633</span><span class="err">\</span><span class="nx">u0646</span><span class="err">\</span><span class="nx">u062F</span><span class="err">\</span><span class="nx">u06CC</span><span class="err">\</span><span class="nx">u062F</span><span class="err">\</span><span class="nx">u06C1_</span><span class="o">&amp;</span>
+<span class="w">  </span><span class="o">&amp;</span><span class="err">\</span><span class="nx">u0641</span><span class="err">\</span><span class="nx">u0627</span><span class="err">\</span><span class="nx">u0626</span><span class="err">\</span><span class="nx">u0644</span><span class="p">.</span><span class="nx">pdf</span><span class="err">'</span><span class="p">,</span><span class="w">              </span><span class="o">&amp;</span><span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">Urdu</span>
+<span class="w">  </span><span class="o">&amp;</span><span class="w"> </span><span class="err">'</span><span class="nx">src</span><span class="o">/</span><span class="nx">M_modules</span><span class="p">.</span><span class="nx">F90</span><span class="err">'</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">  </span><span class="o">&amp;</span><span class="w"> </span><span class="err">'</span><span class="nx">src</span><span class="o">/</span><span class="nx">subset</span><span class="p">.</span><span class="nx">inc</span><span class="err">'</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">  </span><span class="o">&amp;</span><span class="w"> </span><span class="err">'</span><span class="nx">test</span><span class="o">/</span><span class="nx">check</span><span class="p">.</span><span class="nx">f90</span><span class="w"> </span><span class="err">'</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">  </span><span class="o">&amp;</span><span class="w"> </span><span class="err">'</span><span class="nx">app</span><span class="o">/</span><span class="nx">main</span><span class="p">.</span><span class="nx">f90</span><span class="w"> </span><span class="err">'</span><span class="p">]</span>
+<span class="w"> </span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">parameter</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">     </span><span class="nx">g</span><span class="p">=</span><span class="err">'</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nx">g0</span><span class="p">))</span><span class="err">'</span><span class="p">,</span><span class="w"> </span><span class="nx">g1</span><span class="p">=</span><span class="err">'</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nx">g0</span><span class="p">,</span><span class="mi">1</span><span class="nx">x</span><span class="p">))</span><span class="err">'</span><span class="p">,</span><span class="w"> </span><span class="nx">comma</span><span class="p">=</span><span class="err">'</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nx">g0</span><span class="p">:,</span><span class="s">", "</span><span class="p">,</span><span class="o">/</span><span class="p">))</span><span class="err">'</span>
+
+<span class="w">    </span><span class="p">!</span><span class="w"> </span><span class="nx">some</span><span class="w"> </span><span class="nx">basic</span><span class="w"> </span><span class="nx">usage</span>
+<span class="w">    </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span><span class="nx">merge</span><span class="p">(</span><span class="err">'</span><span class="nx">PASSED</span><span class="sc">','</span><span class="nx">FAILED</span><span class="err">'</span><span class="p">,</span><span class="nx">glob</span><span class="p">(</span><span class="s">"mississipPI"</span><span class="p">,</span><span class="w"> </span><span class="s">"*issip*PI"</span><span class="p">))</span>
+<span class="w">    </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span><span class="nx">merge</span><span class="p">(</span><span class="err">'</span><span class="nx">PASSED</span><span class="sc">','</span><span class="nx">FAILED</span><span class="err">'</span><span class="p">,</span><span class="nx">glob</span><span class="p">(</span><span class="s">"bLah"</span><span class="p">,</span><span class="w"> </span><span class="s">"bL?h"</span><span class="p">))</span>
+<span class="w">    </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span><span class="nx">merge</span><span class="p">(</span><span class="err">'</span><span class="nx">PASSED</span><span class="sc">','</span><span class="nx">FAILED</span><span class="err">'</span><span class="p">,</span><span class="nx">glob</span><span class="p">(</span><span class="s">"bLaH"</span><span class="p">,</span><span class="w"> </span><span class="s">"?LaH"</span><span class="p">))</span>
+
+<span class="w">    </span><span class="p">!</span><span class="w"> </span><span class="nx">create</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">list</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">trimmed</span><span class="w"> </span><span class="nx">filenames</span>
+<span class="w">    </span><span class="nx">ufiles</span><span class="p">=</span><span class="nx">unicode_type</span><span class="p">(</span><span class="nx">filenames</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">ufiles</span><span class="p">=</span><span class="nx">trim</span><span class="p">(</span><span class="nx">ufiles</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span><span class="err">'</span><span class="nx">FILENAMES</span><span class="p">:</span><span class="err">'</span>
+<span class="w">    </span><span class="nx">call</span><span class="w"> </span><span class="nx">show_filenames</span><span class="p">(</span><span class="nx">ufiles</span><span class="p">)</span>
+
+<span class="w">    </span><span class="p">!</span><span class="w"> </span><span class="nx">create</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">list</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">trimmed</span><span class="w"> </span><span class="nx">filenames</span><span class="w"> </span><span class="nx">from</span><span class="w"> </span><span class="nx">encoded</span><span class="w"> </span><span class="nx">names</span>
+<span class="w">    </span><span class="nx">ufiles</span><span class="p">=</span><span class="nx">expand_backslash</span><span class="p">(</span><span class="nx">encoded</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">ufiles</span><span class="p">=</span><span class="nx">trim</span><span class="p">(</span><span class="nx">ufiles</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span><span class="err">'</span><span class="nx">ENCODED</span><span class="w"> </span><span class="nx">FILENAMES</span><span class="p">:</span><span class="err">'</span>
+<span class="w">    </span><span class="nx">call</span><span class="w"> </span><span class="nx">show_filenames</span><span class="p">(</span><span class="nx">ufiles</span><span class="p">)</span>
+
+<span class="w">    </span><span class="p">!</span><span class="w"> </span><span class="nx">get</span><span class="w"> </span><span class="nx">filenames</span><span class="w"> </span><span class="nx">ending</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s">".f90"</span>
+<span class="w">    </span><span class="nx">matched</span><span class="p">=</span><span class="nx">pack</span><span class="p">(</span><span class="nx">ufiles</span><span class="p">,</span><span class="nx">glob</span><span class="p">(</span><span class="nx">ufiles</span><span class="p">,</span><span class="err">'</span><span class="o">*</span><span class="p">.</span><span class="nx">f90</span><span class="err">'</span><span class="p">))</span>
+<span class="w">    </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span><span class="err">'</span><span class="nx">MATCHED</span><span class="w"> </span><span class="o">*</span><span class="p">.</span><span class="nx">f90</span><span class="p">:</span><span class="err">'</span>
+<span class="w">    </span><span class="nx">call</span><span class="w"> </span><span class="nx">show_filenames</span><span class="p">(</span><span class="nx">matched</span><span class="p">)</span>
+
+<span class="w">    </span><span class="p">!</span><span class="w"> </span><span class="nx">get</span><span class="w"> </span><span class="nx">filenames</span><span class="w"> </span><span class="nx">ending</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s">".c"</span>
+<span class="w">    </span><span class="nx">matched</span><span class="p">=</span><span class="nx">pack</span><span class="p">(</span><span class="nx">ufiles</span><span class="p">,</span><span class="nx">glob</span><span class="p">(</span><span class="nx">ufiles</span><span class="p">,</span><span class="err">'</span><span class="o">*</span><span class="p">.</span><span class="nx">c</span><span class="err">'</span><span class="p">))</span>
+<span class="w">    </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span><span class="err">'</span><span class="nx">MATCHED</span><span class="w"> </span><span class="o">*</span><span class="p">.</span><span class="nx">c</span><span class="p">:</span><span class="err">'</span>
+<span class="w">    </span><span class="nx">call</span><span class="w"> </span><span class="nx">show_filenames</span><span class="p">(</span><span class="nx">matched</span><span class="p">)</span>
+
+<span class="w">    </span><span class="nx">call</span><span class="w"> </span><span class="nx">oop</span><span class="p">()</span>
+
+<span class="w"> </span><span class="nx">contains</span>
+<span class="w"> </span><span class="nx">subroutine</span><span class="w"> </span><span class="nx">show_filenames</span><span class="p">(</span><span class="nx">names</span><span class="p">)</span>
+<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">allocatable</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">names</span><span class="p">(:)</span>
+<span class="w">    </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">g1</span><span class="p">)</span><span class="err">'</span><span class="p">:</span><span class="nx">SIZE</span><span class="p">:</span><span class="err">'</span><span class="p">,</span><span class="nx">size</span><span class="p">(</span><span class="nx">names</span><span class="p">),</span><span class="err">'</span><span class="p">:</span><span class="nx">LEN</span><span class="p">:</span><span class="err">'</span><span class="p">,</span><span class="nx">len</span><span class="p">(</span><span class="nx">names</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">comma</span><span class="p">)(</span><span class="nx">names</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span><span class="o">%</span><span class="nx">character</span><span class="p">(),</span><span class="nx">i</span><span class="p">=</span><span class="mi">1</span><span class="p">,</span><span class="nx">size</span><span class="p">(</span><span class="nx">names</span><span class="p">))</span>
+<span class="w"> </span><span class="nx">end</span><span class="w"> </span><span class="nx">subroutine</span><span class="w"> </span><span class="nx">show_filenames</span>
+
+<span class="w"> </span><span class="nx">subroutine</span><span class="w"> </span><span class="nx">oop</span><span class="p">()</span>
+<span class="w"> </span><span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">glob</span><span class="p">,</span><span class="nx">ut</span><span class="o">=&gt;</span><span class="nx">unicode_type</span>
+<span class="w"> </span><span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">write</span><span class="p">(</span><span class="nx">formatted</span><span class="p">),</span><span class="nx">ch</span><span class="o">=&gt;</span><span class="nx">character</span>
+<span class="w"> </span><span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">assignment</span><span class="p">(=)</span>
+<span class="w"> </span><span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">operator</span><span class="p">(</span><span class="c1">//)</span>
+<span class="w"> </span><span class="nx">implicit</span><span class="w"> </span><span class="nx">none</span>
+<span class="w"> </span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">parameter</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">u</span><span class="p">=</span><span class="err">'</span><span class="p">(</span><span class="nx">DT</span><span class="p">)</span><span class="err">'</span>
+<span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">)</span><span class="w">  </span><span class="o">::</span><span class="w"> </span><span class="nx">USTRING</span>
+<span class="w"> </span><span class="p">!</span>
+<span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">ignoring</span><span class="w"> </span><span class="nx">ς</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nx">simplicity</span>
+<span class="w"> </span><span class="nx">USTRING</span><span class="p">=</span><span class="err">'</span><span class="nx">ΑαΒβΓγΔδΕεΖζΗηΘθΙιΚκΛλΜμΝνΞξΟοΠπΡρΣσςΤτΥυΦφΧχΨψΩω</span><span class="err">'</span>
+
+<span class="w"> </span><span class="nx">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="err">'</span><span class="nx">OOP</span><span class="p">!</span><span class="w"> </span><span class="nx">Remember</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="k">match</span><span class="w"> </span><span class="nx">entire</span><span class="w"> </span><span class="kt">string</span><span class="err">'</span>
+<span class="w"> </span><span class="nx">print</span><span class="w"> </span><span class="nx">u</span><span class="p">,</span><span class="err">'</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="err">'</span><span class="w"> </span><span class="c1">// USTRING</span>
+<span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">pattern</span><span class="w"> </span><span class="nx">may</span><span class="w"> </span><span class="nx">be</span><span class="w"> </span><span class="nx">UTF</span><span class="o">-</span><span class="mi">8</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="nx">ASCII</span>
+<span class="w"> </span><span class="nx">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="nx">merge</span><span class="p">(</span><span class="err">'</span><span class="nx">PASSED</span><span class="sc">','</span><span class="nx">FAILED</span><span class="err">'</span><span class="p">,</span><span class="nx">USTRING</span><span class="o">%</span><span class="nx">glob</span><span class="p">(</span><span class="err">'</span><span class="o">*</span><span class="nx">Α</span><span class="o">*</span><span class="nx">Ζ</span><span class="o">*</span><span class="nx">Ω</span><span class="o">*</span><span class="err">'</span><span class="p">))</span>
+<span class="w"> </span><span class="nx">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="nx">merge</span><span class="p">(</span><span class="err">'</span><span class="nx">PASSED</span><span class="sc">','</span><span class="nx">FAILED</span><span class="err">'</span><span class="p">,.</span><span class="k">not</span><span class="p">.</span><span class="nx">USTRING</span><span class="o">%</span><span class="nx">glob</span><span class="p">(</span><span class="err">'</span><span class="o">*</span><span class="nx">Ω</span><span class="o">*</span><span class="nx">Α</span><span class="o">*</span><span class="nx">Ζ</span><span class="o">*</span><span class="err">'</span><span class="p">))</span>
+<span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">pattern</span><span class="w"> </span><span class="nx">may</span><span class="w"> </span><span class="nx">be</span><span class="w"> </span><span class="nx">unicode_type</span>
+<span class="w"> </span><span class="nx">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="nx">merge</span><span class="p">(</span><span class="err">'</span><span class="nx">PASSED</span><span class="sc">','</span><span class="nx">FAILED</span><span class="err">'</span><span class="p">,</span><span class="nx">USTRING</span><span class="o">%</span><span class="nx">glob</span><span class="p">(</span><span class="nx">ut</span><span class="p">(</span><span class="err">'</span><span class="o">*</span><span class="nx">Α</span><span class="o">*</span><span class="nx">Ζ</span><span class="o">*</span><span class="nx">Ω</span><span class="o">*</span><span class="err">'</span><span class="p">)))</span>
+<span class="w"> </span><span class="nx">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="nx">merge</span><span class="p">(</span><span class="err">'</span><span class="nx">PASSED</span><span class="sc">','</span><span class="nx">FAILED</span><span class="err">'</span><span class="p">,.</span><span class="k">not</span><span class="p">.</span><span class="nx">USTRING</span><span class="o">%</span><span class="nx">glob</span><span class="p">(</span><span class="nx">ut</span><span class="p">(</span><span class="err">'</span><span class="o">*</span><span class="nx">Ω</span><span class="o">*</span><span class="nx">Α</span><span class="o">*</span><span class="nx">Ζ</span><span class="o">*</span><span class="err">'</span><span class="p">)))</span>
+
+<span class="w"> </span><span class="nx">end</span><span class="w"> </span><span class="nx">subroutine</span><span class="w"> </span><span class="nx">oop</span>
+<span class="w"> </span><span class="nx">end</span><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_glob</span>
+</code></pre></div>
+
+<p>Results:</p>
+<blockquote>
+<p>Mi_archivo_favorito.c
+PASSED
+PASSED
+PASSED
+FILENAMES:
+:SIZE: 14 :LEN: 20 9 19 21 13 23 14 20 16 21 17 14 14 12
+My_favorite_file.F90,
+我最喜欢的文档.c,
+मरी_पसदीदा_फाइल.f90,
+Mi_archivo_favorito.c,
+ملفي_المفضل.h,
+Mon_fichier_préféré.f90,
+আমার_পরিয_ফাইল,
+Meu_arquivo_favorito,
+Мой_любимый_файл,
+میری_پسندیدہ_فائل.pdf,
+src/M_modules.F90,
+src/subset.inc,
+test/check.f90,
+app/main.f90
+ENCODED FILENAMES:
+:SIZE: 14 :LEN: 20 9 22 21 13 22 16 20 16 21 17 14 14 12
+My_favorite_file.F90,
+我最喜欢的文档.c,
+मेरी_पसंदीदा_फ़ाइल.f90,
+Mi_archivo_favorito.c,
+ملفي_المفضل.h,
+Mon_fichier_prຟéré.f90,
+আমার_প্রিয়_ফাইল,
+Meu_arquivo_favorito,
+Мой_любимый_файл,
+میری_پسندیدہ_فائل.pdf,
+src/M_modules.F90,
+src/subset.inc,
+test/check.f90,
+app/main.f90
+MATCHED <em>.f90:
+:SIZE: 4 :LEN: 22 22 14 12
+मेरी_पसंदीदा_फ़ाइल.f90,
+Mon_fichier_prຟéré.f90,
+test/check.f90,
+app/main.f90
+MATCHED </em>.c:
+:SIZE: 2 :LEN: 9 21
+我最喜欢的文档.c,
+Mi_archivo_favorito.c
+ OOP! Remember to match entire string
+ string is : ΑαΒβΓγΔδΕεΖζΗηΘθΙιΚκΛλΜμΝνΞξΟοΠπΡρΣσςΤτΥυΦφΧχΨψΩω
+ PASSED
+ PASSED
+ PASSED
+ PASSED</p>
+</blockquote>
+<h3 id="author">AUTHOR</h3>
+<p>John S. Urban</p>
+<h3 id="references">REFERENCES</h3>
+<p>The article &ldquo;Matching Wildcards: An Empirical Way to Tame an Algorithm&rdquo;
+   in Dr Dobb&rsquo;s Journal, By Kirk J. Krauss, October 07, 2014</p>
+<h3 id="license">LICENSE</h3>
+<p>MIT</p>
+<br>
 
 
         <h2>Module Procedures</h2>
@@ -191,7 +424,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tame~3"></span>
+              <span class="anchor" id="variable-tame~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -206,7 +439,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-wild~3"></span>
+              <span class="anchor" id="variable-wild~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -250,7 +483,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tame~6"></span>
+              <span class="anchor" id="variable-tame~5"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -265,7 +498,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-wild~6"></span>
+              <span class="anchor" id="variable-wild~5"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -309,7 +542,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tame~4"></span>
+              <span class="anchor" id="variable-tame~3"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -324,7 +557,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-wild~4"></span>
+              <span class="anchor" id="variable-wild~3"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -368,7 +601,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tame~5"></span>
+              <span class="anchor" id="variable-tame~4"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -383,7 +616,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-wild~5"></span>
+              <span class="anchor" id="variable-wild~4"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -425,7 +658,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-05 13:37 +0000             </p>
+ on 2026-11-12 12:40 +0000             </p>
           </div>
         </div>
         <br>

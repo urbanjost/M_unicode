@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.1% of total for procedures.</p>Including implementation: 166 statements,  6.0% of total for procedures.">4 statements</a>
+                 title="<p> 0.1% of total for procedures.</p>Including implementation: 166 statements,  5.1% of total for procedures.">4 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -165,21 +165,12 @@
 
     <div class="col-md-9" id='text'>
       <h2>public interface pound_to_box</h2>
-      
-
-
-
-        <h2>Module Procedures</h2>
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-pound_to_box_u"></span> <h3>private  function pound_to_box_u(win, style) result(winout)  
-</h3></div>
-    <div class="card-body">
-        <h2 id="name">NAME</h2>
+      <h3 id="name">NAME</h3>
 <div class="codehilite"><pre><span></span><code> pound_to_box(3f) - [M_unicode:EDITING] convert pound character to box characters
  (LICENSE:MIT)
 </code></pre></div>
 
-<h2 id="synopsis">SYNOPSIS</h2>
+<h3 id="synopsis">SYNOPSIS</h3>
 <p>syntax:</p>
 <div class="codehilite"><pre><span></span><code><span class="w">   </span><span class="k">function</span><span class="w"> </span><span class="nf">pound_to_box</span><span class="p">(</span>win,style<span class="p">)</span><span class="w"> </span><span class="n">result</span><span class="p">(</span><span class="n">winout</span><span class="p">)</span>
 
@@ -188,29 +179,29 @@
 <span class="w">   </span><span class="nb">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="n">allocatable</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">winout</span><span class="p">(:)</span>
 </code></pre></div>
 
-<h2 id="characteristics">CHARACTERISTICS</h2>
+<h3 id="characteristics">CHARACTERISTICS</h3>
 <ul>
 <li>WINOUT elements will all have the length of the longest element
      of WIN</li>
 </ul>
-<h2 id="description">DESCRIPTION</h2>
+<h3 id="description">DESCRIPTION</h3>
 <div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">pound</span><span class="w"> </span><span class="n">character</span><span class="w"> </span><span class="p">(</span><span class="s2">"#"</span><span class="p">)</span><span class="w"> </span><span class="n">may</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">used</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">construct</span><span class="w"> </span><span class="n">boxed</span><span class="w"> </span><span class="n">text</span>
 <span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">restriction</span><span class="w"> </span><span class="n">that</span><span class="w"> </span><span class="n">lines</span><span class="w"> </span><span class="n">must</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">seperated</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="n">at</span><span class="w"> </span><span class="n">least</span>
 <span class="w"> </span><span class="n">one</span><span class="w"> </span><span class="n">character</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">other</span><span class="w"> </span><span class="n">lines</span><span class="o">.</span>
 </code></pre></div>
 
-<h2 id="options">OPTIONS</h2>
+<h3 id="options">OPTIONS</h3>
 <div class="codehilite"><pre><span></span><code>  win         input array to be changed
   style       may be "light", "bold", or "double". Default is
               "bold".
 </code></pre></div>
 
-<h2 id="returns">RETURNS</h2>
+<h3 id="returns">RETURNS</h3>
 <div class="codehilite"><pre><span></span><code><span class="w">  </span><span class="nv">winout</span><span class="w">     </span><span class="nv">an</span><span class="w"> </span><span class="nv">array</span><span class="w"> </span><span class="nv">of</span><span class="w"> </span><span class="nv">strings</span><span class="w"> </span><span class="nv">with</span><span class="w"> </span><span class="nv">box</span><span class="w"> </span><span class="nv">characters</span><span class="w"> </span><span class="nv">substituted</span>
 <span class="w">             </span><span class="k">for</span><span class="w"> </span><span class="nv">adjacent</span><span class="w"> </span><span class="nv">pound</span><span class="w"> </span><span class="nv">characters</span>.
 </code></pre></div>
 
-<h2 id="examples">EXAMPLES</h2>
+<h3 id="examples">EXAMPLES</h3>
 <p>Sample Program:</p>
 <div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">demo_pound_to_box</span>
 <span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">ut</span><span class="o">=&gt;</span><span class="nx">unicode_type</span>
@@ -299,13 +290,22 @@
  &gt;    ╚═════════════════════════════════╝
 </code></pre></div>
 
-<h2 id="author">AUTHOR</h2>
+<h3 id="author">AUTHOR</h3>
 <div class="codehilite"><pre><span></span><code> John S. Urban
 </code></pre></div>
 
-<h2 id="license">LICENSE</h2>
+<h3 id="license">LICENSE</h3>
 <div class="codehilite"><pre><span></span><code> MIT
 </code></pre></div>
+<br>
+
+
+        <h2>Module Procedures</h2>
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-pound_to_box_u"></span> <h3>private  function pound_to_box_u(win, style) result(winout)  
+</h3></div>
+    <div class="card-body">
+        
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -335,7 +335,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-style~2"></span>
+              <span class="anchor" id="variable-style"></span>
               class(*),
             </td>
 <td>intent(in),</td>
@@ -394,7 +394,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-style~3"></span>
+              <span class="anchor" id="variable-style~2"></span>
               class(*),
             </td>
 <td>intent(in),</td>
@@ -436,7 +436,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-05 13:37 +0000             </p>
+ on 2026-11-12 12:40 +0000             </p>
           </div>
         </div>
         <br>

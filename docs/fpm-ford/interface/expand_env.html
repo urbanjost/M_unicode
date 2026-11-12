@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.2% of total for procedures.</p>Including implementation: 126 statements,  4.5% of total for procedures.">5 statements</a>
+                 title="<p> 0.2% of total for procedures.</p>Including implementation: 126 statements,  3.9% of total for procedures.">5 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -166,21 +166,12 @@
 
     <div class="col-md-9" id='text'>
       <h2>public interface expand_env</h2>
-      
-
-
-
-        <h2>Module Procedures</h2>
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-expand_env_aa"></span> <h3>private  function expand_env_aa(input_str) result(output_str)  
-</h3></div>
-    <div class="card-body">
-        <h2 id="name">NAME</h2>
+      <h3 id="name">NAME</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">expand_env</span><span class="p">(</span><span class="mi">3</span><span class="n">f</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">[</span><span class="n">M_unicode</span><span class="p">:</span><span class="n">QUERY</span><span class="p">]</span><span class="w"> </span><span class="n">implements</span><span class="w"> </span><span class="n">basic</span><span class="w"> </span><span class="n">shell</span><span class="o">-</span><span class="n">style</span><span class="w"> </span><span class="n">variable</span><span class="w"> </span><span class="n">expansion</span>
 <span class="p">(</span><span class="n">LICENSE</span><span class="p">:</span><span class="n">PD</span><span class="p">)</span>
 </code></pre></div>
 
-<h2 id="synopsis">SYNOPSIS</h2>
+<h3 id="synopsis">SYNOPSIS</h3>
 <div class="codehilite"><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="nf">expand_env</span><span class="p">(</span>in<span class="p">)</span><span class="w"> </span><span class="n">result</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
 
 <span class="w"> </span><span class="n">character</span><span class="p">(</span><span class="n">len</span><span class="p">=</span><span class="mi">1</span><span class="p">),</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">  </span><span class="p">::</span><span class="w"> </span><span class="n">in</span>
@@ -192,7 +183,7 @@
 <span class="w"> </span><span class="nb">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="n">allocatable</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">out</span>
 </code></pre></div>
 
-<h2 id="description">DESCRIPTION</h2>
+<h3 id="description">DESCRIPTION</h3>
 <p>expand_env(3f) implements basic shell-style variable expansion for
  environment variables and some pre-defined names.  That is, it scans for
  &lsquo;$&rsquo; and replaces &lsquo;$VAR&rsquo; or &lsquo;&rsquo; with values from environment variables
@@ -211,18 +202,18 @@
   o ZONE: returns a string of the form (+-)HHMM, representing the
           difference with respect to Coordinated Universal Time (UTC)
   o TIMESTAMP:  CCYY-MM-DDTHH:MM:SS</p>
-<h2 id="options">OPTIONS</h2>
+<h3 id="options">OPTIONS</h3>
 <div class="codehilite"><pre><span></span><code>A<span class="w"> </span>string<span class="w"> </span>containing<span class="w"> </span>names<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>syntax<span class="w"> </span><span class="nv">$VAR</span><span class="w"> </span>or<span class="w"> </span><span class="cp">${</span><span class="n">VAR</span><span class="cp">}</span><span class="w"> </span>in<span class="w"> </span>addition<span class="w"> </span>to
 plain<span class="w"> </span>text<span class="w"> </span>not<span class="w"> </span>to<span class="w"> </span>be<span class="w"> </span>expanded.
 </code></pre></div>
 
-<h2 id="returns">RETURNS</h2>
+<h3 id="returns">RETURNS</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">A</span><span class="w"> </span><span class="n">string</span><span class="w"> </span><span class="n">where</span><span class="w"> </span><span class="o">$</span><span class="n">VAR</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="o">$</span><span class="p">{</span><span class="n">VAR</span><span class="p">}</span><span class="w"> </span><span class="n">are</span><span class="w"> </span><span class="n">replaced</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">the</span>
 <span class="n">environment</span><span class="w"> </span><span class="n">variable</span><span class="o">.</span><span class="w"> </span><span class="n">If</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">returned</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="nb nb-Type">null</span><span class="w"> </span><span class="n">several</span><span class="w"> </span><span class="n">predefined</span>
 <span class="n">variable</span><span class="w"> </span><span class="n">names</span><span class="w"> </span><span class="n">will</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">expanded</span><span class="w"> </span><span class="n">per</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">table</span><span class="w"> </span><span class="n">above</span><span class="o">.</span>
 </code></pre></div>
 
-<h2 id="examples">EXAMPLES</h2>
+<h3 id="examples">EXAMPLES</h3>
 <div class="codehilite"><pre><span></span><code><span class="nx">Sample</span><span class="w"> </span><span class="nx">program</span>
 
 <span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_expand_env</span>
@@ -239,7 +230,7 @@ plain<span class="w"> </span>text<span class="w"> </span>not<span class="w"> </s
 <span class="w"> </span><span class="nx">testsa</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="mi">80</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="o">&amp;</span>
 <span class="w"> </span><span class="s">"-------------- Testing Pure Fortran Word Expansion --------------"</span><span class="p">,</span><span class="o">&amp;</span>
 <span class="w"> </span><span class="s">" scratch space is $TMP for $USER with home directory  ${HOME}"</span><span class="p">,</span><span class="w">    </span><span class="o">&amp;</span>
-<span class="w"> </span><span class="s">" DATE is $DATE TIME is 08:27:37 ZONE is $ZONE TIMESTAMP $TIMESTAMP"</span><span class="p">,</span><span class="o">&amp;</span>
+<span class="w"> </span><span class="s">" DATE is $DATE TIME is 16:50:53 ZONE is $ZONE TIMESTAMP $TIMESTAMP"</span><span class="p">,</span><span class="o">&amp;</span>
 <span class="w"> </span><span class="s">" FILE is $FILE ARGS: 0: $0 1: $1 2: $2 3: $3"</span><span class="p">,</span><span class="w">                     </span><span class="o">&amp;</span>
 <span class="w"> </span><span class="s">" COMPILER is $COMPILER COMPILER_OPTIONS are ${COMPILER_OPTIONS}"</span><span class="p">,</span><span class="w">  </span><span class="o">&amp;</span>
 <span class="w"> </span><span class="s">" ${0} versus M_unicode.FF  $0 versus $FILE"</span><span class="p">,</span><span class="w">                            </span><span class="o">&amp;</span>
@@ -328,17 +319,26 @@ plain<span class="w"> </span>text<span class="w"> </span>not<span class="w"> </s
                        -fimplicit-none
                        -ffree-form
                        -J build/gfortran_DD609D2CDA6636FC</p>
-<h2 id="see-also">SEE ALSO</h2>
+<h3 id="see-also">SEE ALSO</h3>
 <div class="codehilite"><pre><span></span><code>wordexp(3c) and POSIX shell string expansion
 </code></pre></div>
 
-<h2 id="author">AUTHOR</h2>
+<h3 id="author">AUTHOR</h3>
 <div class="codehilite"><pre><span></span><code>John S. Urban
 </code></pre></div>
 
-<h2 id="license">LICENSE</h2>
+<h3 id="license">LICENSE</h3>
 <div class="codehilite"><pre><span></span><code>MIT
 </code></pre></div>
+<br>
+
+
+        <h2>Module Procedures</h2>
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-expand_env_aa"></span> <h3>private  function expand_env_aa(input_str) result(output_str)  
+</h3></div>
+    <div class="card-body">
+        
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -483,7 +483,7 @@ plain<span class="w"> </span>text<span class="w"> </span>not<span class="w"> </s
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-05 13:37 +0000             </p>
+ on 2026-11-12 12:40 +0000             </p>
           </div>
         </div>
         <br>

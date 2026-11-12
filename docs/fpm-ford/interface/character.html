@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.2% of total for procedures.</p>Including implementation: 129 statements,  4.6% of total for procedures.">6 statements</a>
+                 title="<p> 0.2% of total for procedures.</p>Including implementation: 129 statements,  4.0% of total for procedures.">6 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -171,22 +171,13 @@
 
     <div class="col-md-9" id='text'>
       <h2>public interface character</h2>
-      
-
-
-
-        <h2>Module Procedures</h2>
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-str_to_char"></span> <h3>private pure function str_to_char(string) result(aline)  
-</h3></div>
-    <div class="card-body">
-        <h2 id="name">NAME</h2>
+      <h3 id="name">NAME</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">CHARACTER</span><span class="p">(</span><span class="mi">3</span><span class="n">f</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">[</span><span class="n">M_unicode</span><span class="p">:</span><span class="n">CONVERSION</span><span class="p">]</span><span class="w"> </span><span class="nb">convert</span><span class="w"> </span><span class="n">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span>
 <span class="n">string</span><span class="w">  </span><span class="n">to</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">CHARACTER</span><span class="w"> </span><span class="n">variable</span>
 <span class="p">(</span><span class="n">LICENSE</span><span class="p">:</span><span class="n">MIT</span><span class="p">)</span>
 </code></pre></div>
 
-<h2 id="synopsis">SYNOPSIS</h2>
+<h3 id="synopsis">SYNOPSIS</h3>
 <div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">character</span><span class="p">(</span><span class="nx">STRING</span><span class="p">,</span><span class="nx">start</span><span class="p">,</span><span class="nx">end</span><span class="p">,</span><span class="nx">inc</span><span class="p">)</span>
 <span class="w">  </span><span class="k">or</span>
 <span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">STRING</span><span class="o">%</span><span class="nx">character</span><span class="p">(</span><span class="nx">start</span><span class="p">,</span><span class="nx">end</span><span class="p">,</span><span class="nx">inc</span><span class="p">)</span>
@@ -200,26 +191,26 @@
 <span class="w">   </span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">)</span><span class="w">              </span><span class="o">::</span><span class="w"> </span><span class="nx">result</span>
 </code></pre></div>
 
-<h2 id="characteristics">CHARACTERISTICS</h2>
+<h3 id="characteristics">CHARACTERISTICS</h3>
 <ul>
 <li>STRING is a scalar or array string variable</li>
 <li>the returned value is a CHARACTER scalar or array</li>
 </ul>
-<h2 id="description">DESCRIPTION</h2>
+<h3 id="description">DESCRIPTION</h3>
 <p>CHARACTER(3f) returns a CHARACTER variable given a string variable
    of type type(unicode_type).</p>
-<h2 id="options">OPTIONS</h2>
+<h3 id="options">OPTIONS</h3>
 <ul>
 <li>STRING : A scalar or array string to convert to intrinsic CHARACTER
               type.</li>
 </ul>
-<h2 id="result">RESULT</h2>
+<h3 id="result">RESULT</h3>
 <p>The result converts each string to bytes stored in CHARACTER variables.
    All elements will be padded to the same length of the longest element;
    as all elements of a CHARACTER array are required to be of the same length.</p>
 <p>Commonly used to pass data to procedures requiring CHARACTER variables
    or for printing when the DT format is not used..</p>
-<h2 id="examples">EXAMPLES</h2>
+<h3 id="examples">EXAMPLES</h3>
 <p>Sample program</p>
 <div class="codehilite"><pre><span></span><code><span class="n">program</span><span class="w"> </span><span class="n">demo_character</span>
 <span class="n">use</span><span class="w"> </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="n">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ut</span><span class="o">=&gt;</span><span class="n">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="n">ch</span><span class="o">=&gt;</span><span class="n">character</span><span class="p">,</span><span class="w"> </span><span class="n">trim</span><span class="p">,</span><span class="w"> </span><span class="n">len</span><span class="p">,</span><span class="w"> </span><span class="n">pad</span>
@@ -343,19 +334,28 @@
 <span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="err">[</span>
 </code></pre></div>
 
-<h2 id="see-also">SEE ALSO</h2>
+<h3 id="see-also">SEE ALSO</h3>
 <p>functions that perform operations on character strings:</p>
 <ul>
 <li>elemental: adjustl(3), adjustr(3), index(3), scan(3), verify(3)</li>
 <li>non-elemental: len_trim(3), len(3), repeat(3), trim(3)</li>
 </ul>
-<h2 id="author">AUTHOR</h2>
+<h3 id="author">AUTHOR</h3>
 <div class="codehilite"><pre><span></span><code> John S. Urban
 </code></pre></div>
 
-<h2 id="license">LICENSE</h2>
+<h3 id="license">LICENSE</h3>
 <div class="codehilite"><pre><span></span><code> MIT
 </code></pre></div>
+<br>
+
+
+        <h2>Module Procedures</h2>
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-str_to_char"></span> <h3>private pure function str_to_char(string) result(aline)  
+</h3></div>
+    <div class="card-body">
+        
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -370,7 +370,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~17"></span>
+              <span class="anchor" id="variable-string~40"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -414,7 +414,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~18"></span>
+              <span class="anchor" id="variable-string~41"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -458,7 +458,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~19"></span>
+              <span class="anchor" id="variable-string~42"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -473,7 +473,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pos~3"></span>
+              <span class="anchor" id="variable-pos~10"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -517,7 +517,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~20"></span>
+              <span class="anchor" id="variable-string~43"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -532,7 +532,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pos~4"></span>
+              <span class="anchor" id="variable-pos~11"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -576,7 +576,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~21"></span>
+              <span class="anchor" id="variable-string~44"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -591,7 +591,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first~3"></span>
+              <span class="anchor" id="variable-first~14"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -606,7 +606,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~5"></span>
+              <span class="anchor" id="variable-last~16"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -650,7 +650,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~22"></span>
+              <span class="anchor" id="variable-string~45"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -665,7 +665,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first~4"></span>
+              <span class="anchor" id="variable-first~15"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -680,7 +680,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~6"></span>
+              <span class="anchor" id="variable-last~17"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -724,7 +724,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~23"></span>
+              <span class="anchor" id="variable-string~46"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -739,7 +739,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first~5"></span>
+              <span class="anchor" id="variable-first~16"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -754,7 +754,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~7"></span>
+              <span class="anchor" id="variable-last~18"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -769,7 +769,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-step"></span>
+              <span class="anchor" id="variable-step~6"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -813,7 +813,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~24"></span>
+              <span class="anchor" id="variable-string~47"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -828,7 +828,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first~6"></span>
+              <span class="anchor" id="variable-first~17"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -843,7 +843,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~8"></span>
+              <span class="anchor" id="variable-last~19"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -858,7 +858,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-step~2"></span>
+              <span class="anchor" id="variable-step~7"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -900,7 +900,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-05 13:37 +0000             </p>
+ on 2026-11-12 12:40 +0000             </p>
           </div>
         </div>
         <br>

@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.1% of total for procedures.</p>Including implementation: 36 statements,  1.3% of total for procedures.">4 statements</a>
+                 title="<p> 0.1% of total for procedures.</p>Including implementation: 36 statements,  1.1% of total for procedures.">4 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -165,20 +165,11 @@
 
     <div class="col-md-9" id='text'>
       <h2>public interface scan</h2>
-      
-
-
-
-        <h2>Module Procedures</h2>
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-scan_uu"></span> <h3>private pure elemental function scan_uu(string, set, back) result(pos)  
-</h3></div>
-    <div class="card-body">
-        <h2 id="name">NAME</h2>
+      <h3 id="name">NAME</h3>
 <p>SCAN(3f) - [M_unicode:SEARCH] Scan a string for the presence of a
    set of characters
    (LICENSE:MIT)</p>
-<h2 id="synopsis">SYNOPSIS</h2>
+<h3 id="synopsis">SYNOPSIS</h3>
 <p>result = scan( string, set, [,back] )</p>
 <div class="codehilite"><pre><span></span><code><span class="nx">elemental</span><span class="w"> </span><span class="nx">integer</span><span class="p">(</span><span class="nx">kind</span><span class="p">=</span><span class="nx">KIND</span><span class="p">)</span><span class="w"> </span><span class="nx">function</span><span class="w"> </span><span class="nx">scan</span><span class="p">(</span><span class="kt">string</span><span class="p">,</span><span class="nx">set</span><span class="p">,</span><span class="nx">back</span><span class="p">)</span>
 
@@ -191,7 +182,7 @@
 <span class="w"> </span><span class="nx">logical</span><span class="p">,</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">),</span><span class="nx">optional</span><span class="w">   </span><span class="o">::</span><span class="w"> </span><span class="nx">back</span>
 </code></pre></div>
 
-<h2 id="characteristics">CHARACTERISTICS</h2>
+<h3 id="characteristics">CHARACTERISTICS</h3>
 <ul>
 <li>
 <p>STRING is a string of type unicode_type</p>
@@ -206,13 +197,13 @@
 <p>the result is an integer of default kind.</p>
 </li>
 </ul>
-<h2 id="description">DESCRIPTION</h2>
+<h3 id="description">DESCRIPTION</h3>
 <p>SCAN(3f) scans a STRING for any of the characters in a SET of characters.</p>
 <p>If BACK is either absent or equals .false., this function returns the
    position of the leftmost character of STRING that is in SET. If BACK
    equals .true., the rightmost position is returned. If no character of
    SET is found in STRING, the result is zero.</p>
-<h2 id="options">OPTIONS</h2>
+<h3 id="options">OPTIONS</h3>
 <ul>
 <li>
 <p>STRING : the string to be scanned</p>
@@ -225,7 +216,7 @@
       is returned, instead of the leftmost.</p>
 </li>
 </ul>
-<h2 id="result">RESULT</h2>
+<h3 id="result">RESULT</h3>
 <p>If BACK is absent or is present with the value false and if STRING
    contains at least one character that is in SET, the value of the result
    is the position of the leftmost character of STRING that is in SET.</p>
@@ -234,7 +225,7 @@
    of the rightmost character of STRING that is in SET.</p>
 <p>The value of the result is zero if no character of STRING is in SET
    or if the length of STRING or SET is zero.</p>
-<h2 id="examples">EXAMPLES</h2>
+<h3 id="examples">EXAMPLES</h3>
 <p>Sample program:</p>
 <div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">demo_scan</span>
 <span class="nx">use</span><span class="w"> </span><span class="nx">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">stdout</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nx">output_unit</span>
@@ -278,7 +269,7 @@
  &gt; 15
 </code></pre></div>
 
-<h2 id="see-also">SEE ALSO</h2>
+<h3 id="see-also">SEE ALSO</h3>
 <p>Functions that perform operations on character strings, return lengths
    of arguments, and search for certain arguments:</p>
 <ul>
@@ -289,13 +280,22 @@
 <p>LEN_TRIM(3), LEN(3), REPEAT(3), TRIM(3)</p>
 </li>
 </ul>
-<h2 id="author">AUTHOR</h2>
+<h3 id="author">AUTHOR</h3>
 <div class="codehilite"><pre><span></span><code> John S. Urban
 </code></pre></div>
 
-<h2 id="license">LICENSE</h2>
+<h3 id="license">LICENSE</h3>
 <div class="codehilite"><pre><span></span><code> MIT
 </code></pre></div>
+<br>
+
+
+        <h2>Module Procedures</h2>
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-scan_uu"></span> <h3>private pure elemental function scan_uu(string, set, back) result(pos)  
+</h3></div>
+    <div class="card-body">
+        
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -310,7 +310,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~41"></span>
+              <span class="anchor" id="variable-string~52"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -325,7 +325,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~9"></span>
+              <span class="anchor" id="variable-set~12"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -340,7 +340,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-back~14"></span>
+              <span class="anchor" id="variable-back~12"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -384,7 +384,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~42"></span>
+              <span class="anchor" id="variable-string~53"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -399,7 +399,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~10"></span>
+              <span class="anchor" id="variable-set~13"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -414,7 +414,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-back~15"></span>
+              <span class="anchor" id="variable-back~13"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -456,7 +456,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-05 13:37 +0000             </p>
+ on 2026-11-12 12:40 +0000             </p>
           </div>
         </div>
         <br>

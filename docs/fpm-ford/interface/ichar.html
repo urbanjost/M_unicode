@@ -173,21 +173,21 @@
     <div class="card-header codesum"><span class="anchor" id="proc-ichar_str"></span> <h3>private elemental function ichar_str(string) result(code)  
 </h3></div>
     <div class="card-body">
-        <h2 id="name">NAME</h2>
+        <h3 id="name">NAME</h3>
 <p>ICHAR(3f) - [M_unicode:CONVERSION] character-to-integer Unicode codepoint conversion
    function
    (LICENSE:MIT)</p>
-<h2 id="synopsis">SYNOPSIS</h2>
+<h3 id="synopsis">SYNOPSIS</h3>
 <p>result = ichar(c)</p>
 <div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nx">elemental</span><span class="w"> </span><span class="nx">integer</span><span class="w"> </span><span class="nx">function</span><span class="w"> </span><span class="nx">ichar</span><span class="p">(</span><span class="nx">c</span><span class="p">,</span><span class="nx">kind</span><span class="p">)</span>
 
 <span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">c</span>
 </code></pre></div>
 
-<h2 id="characteristics">CHARACTERISTICS</h2>
+<h3 id="characteristics">CHARACTERISTICS</h3>
 <p>•  c is a scalar character</p>
 <p>•  the return value is of default integer kind.</p>
-<h2 id="description">DESCRIPTION</h2>
+<h3 id="description">DESCRIPTION</h3>
 <p>This overload of ichar(3f) only returns values from input type
    unicode_type.  This is because the intrinsic ichar(3f) returns the
    code for the character in the system&rsquo;s native character set. the
@@ -195,11 +195,11 @@
    same across different Fortran implementations. For example, a platform
    using EBCDIC would return different values than an ASCII platform.</p>
 <p>See IACHAR(3f) for specifically working with the ASCII character set.</p>
-<h2 id="options">OPTIONS</h2>
+<h3 id="options">OPTIONS</h3>
 <ul>
 <li>C : The input character to determine the Unicode codepoint of.</li>
 </ul>
-<h2 id="result">RESULT</h2>
+<h3 id="result">RESULT</h3>
 <div class="codehilite"><pre><span></span><code><span class="nv">The</span><span class="w"> </span><span class="nv">codepoint</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">Unicode</span><span class="w"> </span><span class="nv">character</span><span class="w"> </span><span class="nv">set</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">character</span><span class="w"> </span><span class="nv">being</span>
 <span class="nv">queried</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">returned</span>.
 
@@ -214,7 +214,7 @@
 <span class="nv">D</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">true</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">and</span><span class="w"> </span><span class="nv">only</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">ICHAR</span><span class="ss">(</span><span class="nv">C</span><span class="ss">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nv">ICHAR</span><span class="ss">(</span><span class="nv">D</span><span class="ss">)</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">true</span>.
 </code></pre></div>
 
-<h2 id="examples">EXAMPLES</h2>
+<h3 id="examples">EXAMPLES</h3>
 <p>sample program:</p>
 <div class="codehilite"><pre><span></span><code><span class="n">program</span><span class="w"> </span><span class="n">demo_ichar</span>
 <span class="n">use</span><span class="w"> </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="n">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">),</span><span class="n">ch</span><span class="o">=&gt;</span><span class="n">character</span>
@@ -297,7 +297,7 @@
  &gt; OOPS:     3B5 1F55 3C1 3B7 3BA 3B1 21
 </code></pre></div>
 
-<h2 id="see-also">SEE ALSO</h2>
+<h3 id="see-also">SEE ALSO</h3>
 <p>achar(3), char(3), iachar(3),
    utf8_to_codepoints(3f),
    STRING%codepoint(start,end,inc)</p>
@@ -312,11 +312,11 @@
 <p>nonelemental: len_trim(3), len(3), repeat(3), trim(3)</p>
 </li>
 </ul>
-<h2 id="author">AUTHOR</h2>
+<h3 id="author">AUTHOR</h3>
 <div class="codehilite"><pre><span></span><code> John S. Urban
 </code></pre></div>
 
-<h2 id="license">LICENSE</h2>
+<h3 id="license">LICENSE</h3>
 <div class="codehilite"><pre><span></span><code> MIT
 </code></pre></div>
 
@@ -333,7 +333,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~27"></span>
+              <span class="anchor" id="variable-string~16"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -375,7 +375,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-05 13:37 +0000             </p>
+ on 2026-11-12 12:40 +0000             </p>
           </div>
         </div>
         <br>

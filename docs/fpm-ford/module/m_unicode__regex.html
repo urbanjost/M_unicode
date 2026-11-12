@@ -1,0 +1,957 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="Fortran Unicode when ISO_10646 is not supported">
+    <meta name="author" content="John S. Urban" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>M_unicode__regex &ndash; M_unicode</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">M_unicode </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>M_unicode__regex
+      <small>Module</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 9.4% of total for modules and submodules.">970 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/M_unicode__regex.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/m_unicode__regex.f90.html'>M_unicode__regex.f90</a></li>
+            <li class="breadcrumb-item active" aria-current="page">M_unicode__regex</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#types-0"
+         aria-expanded="false" aria-controls="types-0">
+         <h4 class="card-header bg-primary text-white">Derived Types</h4>
+      </a>
+      <div id="types-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/m_unicode__regex.html#type-match_t">match_t</a>
+            <a class="list-group-item" href="../module/m_unicode__regex.html#type-regex_t">regex_t</a>
+        </div>
+      </div>
+    </div>
+
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#funcs-0"
+         aria-expanded="false" aria-controls="funcs-0">
+         <h4 class="card-header bg-primary text-white">Functions</h4>
+      </a>
+      <div id="funcs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/m_unicode__regex.html#proc-ctou">ctou</a>
+            <a class="list-group-item" href="../module/m_unicode__regex.html#proc-regex_compile">regex_compile</a>
+            <a class="list-group-item" href="../module/m_unicode__regex.html#proc-regex_replace">regex_replace</a>
+            <a class="list-group-item" href="../module/m_unicode__regex.html#proc-regex_search">regex_search</a>
+            <a class="list-group-item" href="../module/m_unicode__regex.html#proc-utoc">utoc</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+  </div>
+
+    </div>
+
+    <div class="col-md-9" id='text'>
+      <h3 id="name">NAME</h3>
+<p>M_unicode__regex(3f) - [M_unicode__regex:REGULAR EXPRESSIONS] Overview
+   of UTF-8 codepoint Regular Expression engine
+   (LICENSE:MIT)</p>
+<h3 id="synopsis">SYNOPSIS</h3>
+<p>Syntax</p>
+<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode__regex</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="p">:</span><span class="w"> </span><span class="nx">regex_t</span><span class="p">,</span><span class="w"> </span><span class="nx">match_t</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">                      </span><span class="nx">regex_compile</span><span class="p">,</span><span class="w"> </span><span class="nx">regex_search</span><span class="p">,</span><span class="w"> </span><span class="nx">regex_replace</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">                      </span><span class="nx">utoc</span><span class="p">,</span><span class="w"> </span><span class="nx">ctou</span>
+
+<span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="nx">regex_t</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">re</span>
+<span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="nx">match_t</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">m</span>
+<span class="w"> </span><span class="nx">integer</span><span class="p">(</span><span class="nx">int32</span><span class="p">),</span><span class="w"> </span><span class="nx">allocatable</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">pat</span><span class="p">(:),</span><span class="w"> </span><span class="nx">txt</span><span class="p">(:),</span><span class="w"> </span><span class="nx">repl</span><span class="p">(:),</span><span class="w"> </span><span class="nx">out</span><span class="p">(:)</span>
+<span class="w"> </span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=:),</span><span class="w"> </span><span class="nx">allocatable</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">str</span>
+
+<span class="w"> </span><span class="nx">pat</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="nx">utoc</span><span class="p">(</span><span class="nx">str</span><span class="p">)</span>
+<span class="w"> </span><span class="nx">re</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="nx">regex_compile</span><span class="p">(</span><span class="nx">pat</span><span class="p">)</span>
+<span class="w"> </span><span class="nx">m</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="nx">regex_search</span><span class="p">(</span><span class="nx">re</span><span class="p">,</span><span class="w"> </span><span class="nx">txt</span><span class="w"> </span><span class="p">[,</span><span class="w"> </span><span class="nx">start_offset</span><span class="p">])</span>
+<span class="w"> </span><span class="nx">out</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="nx">regex_replace</span><span class="p">(</span><span class="nx">re</span><span class="p">,</span><span class="w"> </span><span class="nx">txt</span><span class="p">,</span><span class="w"> </span><span class="nx">repl</span><span class="w"> </span><span class="p">[,</span><span class="w"> </span><span class="nx">replace_all</span><span class="p">])</span>
+<span class="w"> </span><span class="nx">str</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="nx">ctou</span><span class="p">(</span><span class="nx">out</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="description">DESCRIPTION</h3>
+<div class="codehilite"><pre><span></span><code><span class="nx">The</span><span class="w"> </span><span class="nx">M_unicode__regex</span><span class="p">(</span><span class="mi">3</span><span class="nx">f</span><span class="p">)</span><span class="w">  </span><span class="nx">module</span><span class="w"> </span><span class="nx">implements</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="kp">self</span><span class="o">-</span><span class="nx">contained</span><span class="p">,</span>
+<span class="nx">Unicode</span><span class="o">-</span><span class="nx">aware</span><span class="w"> </span><span class="nx">regular</span><span class="w"> </span><span class="nx">expression</span><span class="w"> </span><span class="nx">compiler</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="nx">backtracking</span>
+<span class="nx">Nondeterministic</span><span class="w"> </span><span class="nx">Finite</span><span class="w"> </span><span class="nx">Automaton</span><span class="w"> </span><span class="p">(</span><span class="nx">NFA</span><span class="p">)</span><span class="w"> </span><span class="kd">virtual</span><span class="w"> </span><span class="nx">machine</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nx">standard</span>
+<span class="nx">Fortran</span><span class="w"> </span><span class="mi">2008</span><span class="p">.</span>
+
+<span class="nx">All</span><span class="w"> </span><span class="nx">pattern</span><span class="w"> </span><span class="nx">compilation</span><span class="p">,</span><span class="w"> </span><span class="nx">text</span><span class="w"> </span><span class="nx">matching</span><span class="p">,</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="nx">replacement</span>
+<span class="nx">operate</span><span class="w"> </span><span class="nx">directly</span><span class="w"> </span><span class="nx">on</span><span class="w"> </span><span class="mi">1</span><span class="o">-</span><span class="nx">indexed</span><span class="w"> </span><span class="nx">arrays</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">UTF</span><span class="o">-</span><span class="mi">32</span><span class="w"> </span><span class="nx">scalar</span><span class="w"> </span><span class="nx">codepoints</span>
+<span class="p">(</span><span class="nx">integer</span><span class="p">(</span><span class="nx">int32</span><span class="p">)).</span><span class="w">  </span><span class="nx">Helper</span><span class="w"> </span><span class="nx">functions</span><span class="w"> </span><span class="nx">utoc</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="k">and</span>
+<span class="nx">ctou</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="nx">convert</span><span class="w"> </span><span class="nx">between</span><span class="w"> </span><span class="nx">standard</span><span class="w"> </span><span class="nx">UTF</span><span class="o">-</span><span class="mi">8</span><span class="w"> </span><span class="nx">encoded</span><span class="w"> </span><span class="nx">Fortran</span>
+<span class="nx">character</span><span class="w"> </span><span class="nx">strings</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="nx">UTF</span><span class="o">-</span><span class="mi">32</span><span class="w"> </span><span class="nx">codepoint</span><span class="w"> </span><span class="nx">arrays</span><span class="p">.</span>
+</code></pre></div>
+
+<h3 id="public-derived-types">PUBLIC DERIVED TYPES</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">type</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">regex_t</span><span class="w">   </span><span class="nx">Compiled</span><span class="w"> </span><span class="nx">regular</span><span class="w"> </span><span class="nx">expression</span><span class="w"> </span><span class="nx">bytecode</span><span class="w"> </span><span class="nx">container</span><span class="p">.</span>
+
+<span class="w">        </span><span class="nx">Components</span><span class="p">:</span>
+
+<span class="w">            </span><span class="nx">prog</span><span class="p">(:)</span><span class="w">     </span><span class="nx">Allocatable</span><span class="w"> </span><span class="nx">array</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">VM</span><span class="w"> </span><span class="nx">instructions</span><span class="w"> </span><span class="p">(</span><span class="k">private</span><span class="w"> </span><span class="nx">layout</span><span class="p">).</span>
+<span class="w">            </span><span class="nx">num_groups</span><span class="w">  </span><span class="nx">Integer</span><span class="w"> </span><span class="nx">count</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">capture</span><span class="w"> </span><span class="nx">groups</span><span class="w"> </span><span class="nx">including</span><span class="w"> </span><span class="nx">group</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">                        </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="nx">num_groups</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">10</span><span class="p">).</span>
+<span class="w">            </span><span class="nx">valid</span><span class="w">       </span><span class="nx">Logical</span><span class="w"> </span><span class="nx">flag</span><span class="w"> </span><span class="nx">set</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="p">.</span><span class="kc">true</span><span class="p">.</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nx">compilation</span><span class="w"> </span><span class="nx">succeeded</span><span class="p">,</span>
+<span class="w">                        </span><span class="k">or</span><span class="w"> </span><span class="p">.</span><span class="kc">false</span><span class="p">.</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">pattern</span><span class="w"> </span><span class="nx">contained</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">syntax</span><span class="w"> </span><span class="nx">error</span>
+<span class="w">                        </span><span class="k">or</span><span class="w"> </span><span class="nx">exceeded</span><span class="w"> </span><span class="nx">group</span><span class="w"> </span><span class="nx">limits</span><span class="p">.</span>
+
+<span class="k">type</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">match_t</span><span class="w">   </span><span class="nx">Result</span><span class="w"> </span><span class="nx">structure</span><span class="w"> </span><span class="k">returned</span><span class="w"> </span><span class="nx">by</span><span class="w"> </span><span class="nx">regex_search</span><span class="p">(</span><span class="mi">3</span><span class="p">).</span>
+
+<span class="w">        </span><span class="nx">Components</span><span class="p">:</span>
+
+<span class="w">            </span><span class="nx">matched</span><span class="w">         </span><span class="nx">Logical</span><span class="w"> </span><span class="nx">flag</span><span class="p">;</span><span class="w"> </span><span class="p">.</span><span class="kc">true</span><span class="p">.</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="k">match</span><span class="w"> </span><span class="nx">was</span><span class="w"> </span><span class="nx">found</span><span class="p">.</span>
+<span class="w">            </span><span class="nx">start_pos</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="mi">9</span><span class="p">)</span><span class="w">  </span><span class="mi">1</span><span class="o">-</span><span class="nx">based</span><span class="w"> </span><span class="nx">starting</span><span class="w"> </span><span class="nx">codepoint</span><span class="w"> </span><span class="nx">index</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nx">each</span><span class="w"> </span><span class="nx">capture</span>
+<span class="w">                            </span><span class="nx">group</span><span class="p">.</span><span class="w"> </span><span class="nx">Group</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">entire</span><span class="w"> </span><span class="k">match</span><span class="p">;</span><span class="w"> </span><span class="nx">groups</span><span class="w"> </span><span class="mi">1</span><span class="p">.</span><span class="m m-Double">.9</span>
+<span class="w">                            </span><span class="nx">are</span><span class="w"> </span><span class="nx">parenthesized</span><span class="w"> </span><span class="nx">subexpressions</span><span class="p">.</span>
+<span class="w">            </span><span class="nx">end_pos</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="mi">9</span><span class="p">)</span><span class="w">    </span><span class="mi">1</span><span class="o">-</span><span class="nx">based</span><span class="w"> </span><span class="nx">inclusive</span><span class="w"> </span><span class="nx">ending</span><span class="w"> </span><span class="nx">codepoint</span><span class="w"> </span><span class="nx">index</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nx">each</span>
+<span class="w">                            </span><span class="nx">capture</span><span class="w"> </span><span class="nx">group</span><span class="p">.</span><span class="w"> </span><span class="nx">For</span><span class="w"> </span><span class="nx">an</span><span class="w"> </span><span class="nx">unmatched</span><span class="w"> </span><span class="nx">group</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">zero</span><span class="o">-</span>
+<span class="w">                            </span><span class="nx">length</span><span class="w"> </span><span class="k">match</span><span class="p">,</span><span class="w"> </span><span class="nx">end_pos</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="nx">start_pos</span><span class="p">(</span><span class="nx">i</span><span class="p">).</span>
+</code></pre></div>
+
+<h3 id="public-procedures">PUBLIC PROCEDURES</h3>
+<div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="n">regex_compile</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span><span class="w"> </span><span class="n">result</span><span class="p">(</span><span class="n">re</span><span class="p">)</span>
+
+<span class="w">        </span><span class="n">Compiles</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">UTF</span><span class="o">-</span><span class="mi">32</span><span class="w"> </span><span class="n">regular</span><span class="w"> </span><span class="n">expression</span><span class="w"> </span><span class="n">pattern</span><span class="w"> </span><span class="n">into</span><span class="w"> </span><span class="n">NFA</span><span class="w"> </span><span class="n">bytecode</span><span class="o">.</span>
+
+<span class="w">        </span><span class="n">Arguments</span><span class="p">:</span>
+
+<span class="w">            </span><span class="n">pattern</span><span class="w">     </span><span class="n">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="n">intent</span><span class="p">(</span><span class="ow">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">pattern</span><span class="p">(:)</span>
+<span class="w">                        </span><span class="nb nb-Type">Array</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">Unicode</span><span class="w"> </span><span class="n">codepoints</span><span class="w"> </span><span class="n">representing</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">regex</span><span class="o">.</span>
+
+<span class="w">        </span><span class="n">Return</span><span class="w"> </span><span class="n">Value</span><span class="p">:</span>
+<span class="w">            </span><span class="n">re</span><span class="w">          </span><span class="n">type</span><span class="p">(</span><span class="n">regex_t</span><span class="p">)</span>
+<span class="w">                        </span><span class="n">Inspect</span><span class="w"> </span><span class="n">re</span><span class="o">%</span><span class="n">valid</span><span class="w"> </span><span class="n">before</span><span class="w"> </span><span class="n">passing</span><span class="w"> </span><span class="n">re</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">regex_search</span>
+<span class="w">                        </span><span class="ow">or</span><span class="w"> </span><span class="n">regex_replace</span><span class="o">.</span><span class="w"> </span><span class="n">Invalid</span><span class="w"> </span><span class="n">patterns</span><span class="w"> </span><span class="k">return</span>
+<span class="w">                        </span><span class="n">re</span><span class="o">%</span><span class="n">valid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">.</span><span class="n">false</span><span class="o">.</span><span class="w"> </span><span class="n">without</span><span class="w"> </span><span class="n">aborting</span><span class="o">.</span>
+
+<span class="w">    </span><span class="n">regex_search</span><span class="p">(</span><span class="n">re</span><span class="p">,</span><span class="w"> </span><span class="n">text</span><span class="w"> </span><span class="p">[,</span><span class="w"> </span><span class="n">start_offset</span><span class="p">])</span><span class="w"> </span><span class="n">result</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+
+<span class="w">        </span><span class="n">Searches</span><span class="w"> </span><span class="n">text</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">leftmost</span><span class="w"> </span><span class="k">match</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">compiled</span><span class="w"> </span><span class="n">expression</span><span class="w"> </span><span class="n">re</span><span class="o">.</span>
+
+<span class="w">        </span><span class="n">Arguments</span><span class="p">:</span>
+<span class="w">            </span><span class="n">re</span><span class="w">            </span><span class="n">type</span><span class="p">(</span><span class="n">regex_t</span><span class="p">),</span><span class="w"> </span><span class="n">intent</span><span class="p">(</span><span class="ow">in</span><span class="p">)</span>
+<span class="w">                          </span><span class="n">Compiled</span><span class="w"> </span><span class="n">regular</span><span class="w"> </span><span class="n">expression</span><span class="o">.</span><span class="w"> </span><span class="n">If</span><span class="w"> </span><span class="o">.</span><span class="ow">not</span><span class="o">.</span><span class="w"> </span><span class="n">re</span><span class="o">%</span><span class="n">valid</span><span class="p">,</span>
+<span class="w">                          </span><span class="n">returns</span><span class="w"> </span><span class="n">m</span><span class="o">%</span><span class="n">matched</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">.</span><span class="n">false</span><span class="o">.</span><span class="w"> </span><span class="n">immediately</span><span class="o">.</span>
+<span class="w">            </span><span class="n">text</span><span class="w">          </span><span class="n">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="n">intent</span><span class="p">(</span><span class="ow">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">text</span><span class="p">(:)</span>
+<span class="w">                          </span><span class="n">Subject</span><span class="w"> </span><span class="n">text</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">an</span><span class="w"> </span><span class="n">array</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">UTF</span><span class="o">-</span><span class="mi">32</span><span class="w"> </span><span class="n">codepoints</span><span class="o">.</span>
+<span class="w">            </span><span class="n">start_offset</span><span class="w">  </span><span class="n">integer</span><span class="p">,</span><span class="w"> </span><span class="n">intent</span><span class="p">(</span><span class="ow">in</span><span class="p">),</span><span class="w"> </span><span class="n">optional</span>
+<span class="w">                          </span><span class="mi">1</span><span class="o">-</span><span class="n">based</span><span class="w"> </span><span class="n">codepoint</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="n">at</span><span class="w"> </span><span class="n">which</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">begin</span><span class="w"> </span><span class="n">searching</span>
+<span class="w">                          </span><span class="p">(</span><span class="n">defaults</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">values</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">are</span><span class="w"> </span><span class="n">clamped</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="o">.</span>
+
+<span class="w">        </span><span class="n">Return</span><span class="w"> </span><span class="n">Value</span><span class="p">:</span>
+<span class="w">            </span><span class="n">m</span><span class="w">             </span><span class="n">type</span><span class="p">(</span><span class="n">match_t</span><span class="p">)</span>
+<span class="w">                          </span><span class="n">If</span><span class="w"> </span><span class="n">m</span><span class="o">%</span><span class="n">matched</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="o">.</span><span class="n">true</span><span class="o">.</span><span class="p">,</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">matched</span><span class="w"> </span><span class="n">slice</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">group</span>
+<span class="w">                          </span><span class="n">g</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">re</span><span class="o">%</span><span class="n">num_groups</span><span class="p">)</span><span class="w"> </span><span class="k">is</span><span class="p">:</span>
+<span class="w">                              </span><span class="n">text</span><span class="p">(</span><span class="n">m</span><span class="o">%</span><span class="n">start_pos</span><span class="p">(</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">m</span><span class="o">%</span><span class="n">end_pos</span><span class="p">(</span><span class="n">g</span><span class="p">))</span>
+<span class="w">                          </span><span class="n">whenever</span><span class="w"> </span><span class="n">m</span><span class="o">%</span><span class="n">start_pos</span><span class="p">(</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="ow">and</span>
+<span class="w">                          </span><span class="n">m</span><span class="o">%</span><span class="n">end_pos</span><span class="p">(</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">m</span><span class="o">%</span><span class="n">start_pos</span><span class="p">(</span><span class="n">g</span><span class="p">)</span><span class="o">.</span>
+
+<span class="w">    </span><span class="n">regex_replace</span><span class="p">(</span><span class="n">re</span><span class="p">,</span><span class="w"> </span><span class="n">text</span><span class="p">,</span><span class="w"> </span><span class="n">replacement</span><span class="w"> </span><span class="p">[,</span><span class="w"> </span><span class="n">replace_all</span><span class="p">])</span><span class="w"> </span><span class="n">result</span><span class="p">(</span><span class="n">out_text</span><span class="p">)</span>
+
+<span class="w">        </span><span class="n">Replaces</span><span class="w"> </span><span class="n">matches</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">re</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">text</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">replacement</span><span class="p">,</span><span class="w"> </span><span class="n">expanding</span><span class="w"> </span><span class="n">capture</span>
+<span class="w">        </span><span class="n">group</span><span class="w"> </span><span class="n">backreferences</span><span class="o">.</span>
+
+<span class="w">        </span><span class="n">Arguments</span><span class="p">:</span>
+
+<span class="w">            </span><span class="n">re</span><span class="w">           </span><span class="n">type</span><span class="p">(</span><span class="n">regex_t</span><span class="p">),</span><span class="w"> </span><span class="n">intent</span><span class="p">(</span><span class="ow">in</span><span class="p">)</span>
+<span class="w">                         </span><span class="n">Compiled</span><span class="w"> </span><span class="n">regular</span><span class="w"> </span><span class="n">expression</span><span class="o">.</span>
+<span class="w">            </span><span class="n">text</span><span class="w">         </span><span class="n">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="n">intent</span><span class="p">(</span><span class="ow">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">text</span><span class="p">(:)</span>
+<span class="w">                         </span><span class="n">Subject</span><span class="w"> </span><span class="n">text</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">an</span><span class="w"> </span><span class="n">array</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">UTF</span><span class="o">-</span><span class="mi">32</span><span class="w"> </span><span class="n">codepoints</span><span class="o">.</span>
+<span class="w">            </span><span class="n">replacement</span><span class="w">  </span><span class="n">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="n">intent</span><span class="p">(</span><span class="ow">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">replacement</span><span class="p">(:)</span>
+<span class="w">                         </span><span class="n">Replacement</span><span class="w"> </span><span class="n">template</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">UTF</span><span class="o">-</span><span class="mi">32</span><span class="w"> </span><span class="n">codepoints</span><span class="o">.</span><span class="w"> </span><span class="n">Supports</span>
+<span class="w">                         </span><span class="n">backreferences</span><span class="w"> </span><span class="o">$</span><span class="mf">0.</span><span class="o">.$</span><span class="mi">9</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span>\<span class="mf">0.</span><span class="o">.</span>\<span class="mi">9</span><span class="p">,</span><span class="w"> </span><span class="n">where</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">is</span>
+<span class="w">                         </span><span class="n">the</span><span class="w"> </span><span class="n">full</span><span class="w"> </span><span class="k">match</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="mf">1.</span><span class="o">.</span><span class="mi">9</span><span class="w"> </span><span class="n">are</span><span class="w"> </span><span class="n">capture</span><span class="w"> </span><span class="n">groups</span><span class="o">.</span><span class="w"> </span><span class="n">Literal</span>
+<span class="w">                         </span><span class="s1">'$'</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="s1">'</span><span class="se">\'</span><span class="s1"> may be escaped by doubling ('</span><span class="o">$$</span><span class="s1">' or '</span>\\<span class="s1">').</span>
+<span class="w">            </span><span class="n">replace_all</span><span class="w">  </span><span class="n">logical</span><span class="p">,</span><span class="w"> </span><span class="n">intent</span><span class="p">(</span><span class="ow">in</span><span class="p">),</span><span class="w"> </span><span class="n">optional</span>
+<span class="w">                         </span><span class="n">If</span><span class="w"> </span><span class="o">.</span><span class="n">true</span><span class="o">.</span><span class="w"> </span><span class="p">(</span><span class="n">the</span><span class="w"> </span><span class="n">default</span><span class="p">),</span><span class="w"> </span><span class="n">replaces</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="n">non</span><span class="o">-</span><span class="n">overlapping</span>
+<span class="w">                         </span><span class="n">matches</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">text</span><span class="o">.</span><span class="w"> </span><span class="n">If</span><span class="w"> </span><span class="o">.</span><span class="n">false</span><span class="o">.</span><span class="p">,</span><span class="w"> </span><span class="n">replaces</span><span class="w"> </span><span class="n">only</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">first</span>
+<span class="w">                         </span><span class="k">match</span><span class="o">.</span>
+
+<span class="w">        </span><span class="n">Return</span><span class="w"> </span><span class="n">Value</span><span class="p">:</span>
+
+<span class="w">            </span><span class="n">out_text</span><span class="w">     </span><span class="n">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="n">allocatable</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">out_text</span><span class="p">(:)</span>
+<span class="w">                         </span><span class="n">Newly</span><span class="w"> </span><span class="n">allocated</span><span class="w"> </span><span class="n">UTF</span><span class="o">-</span><span class="mi">32</span><span class="w"> </span><span class="n">codepoint</span><span class="w"> </span><span class="n">array</span><span class="w"> </span><span class="n">containing</span>
+<span class="w">                         </span><span class="n">the</span><span class="w"> </span><span class="n">resulting</span><span class="w"> </span><span class="n">text</span><span class="o">.</span>
+
+<span class="w">    </span><span class="n">utoc</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="w"> </span><span class="n">result</span><span class="p">(</span><span class="n">cp</span><span class="p">)</span>
+
+<span class="w">        </span><span class="n">Decodes</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">UTF</span><span class="o">-</span><span class="mi">8</span><span class="w"> </span><span class="n">encoded</span><span class="w"> </span><span class="n">Fortran</span><span class="w"> </span><span class="n">character</span><span class="w"> </span><span class="n">variable</span><span class="w"> </span><span class="n">into</span><span class="w"> </span><span class="n">an</span><span class="w"> </span><span class="n">array</span><span class="w"> </span><span class="n">of</span>
+<span class="w">        </span><span class="n">UTF</span><span class="o">-</span><span class="mi">32</span><span class="w"> </span><span class="n">codepoints</span><span class="o">.</span>
+
+<span class="w">        </span><span class="n">Arguments</span><span class="p">:</span>
+<span class="w">            </span><span class="nb">str</span><span class="w">  </span><span class="n">character</span><span class="p">(</span><span class="n">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="n">intent</span><span class="p">(</span><span class="ow">in</span><span class="p">)</span>
+<span class="w">                 </span><span class="n">Input</span><span class="w"> </span><span class="n">UTF</span><span class="o">-</span><span class="mi">8</span><span class="w"> </span><span class="n">byte</span><span class="w"> </span><span class="n">sequence</span><span class="o">.</span><span class="w"> </span><span class="n">Truncated</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">malformed</span><span class="w"> </span><span class="n">UTF</span><span class="o">-</span><span class="mi">8</span>
+<span class="w">                 </span><span class="n">sequences</span><span class="w"> </span><span class="n">are</span><span class="w"> </span><span class="n">replaced</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">U</span><span class="o">+</span><span class="n">FFFD</span><span class="w"> </span><span class="p">(</span><span class="n">Replacement</span><span class="w"> </span><span class="n">Character</span><span class="p">)</span><span class="o">.</span>
+
+<span class="w">        </span><span class="n">Return</span><span class="w"> </span><span class="n">Value</span><span class="p">:</span>
+<span class="w">            </span><span class="n">cp</span><span class="w">   </span><span class="n">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="n">allocatable</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">cp</span><span class="p">(:)</span>
+<span class="w">                 </span><span class="nb nb-Type">Array</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">decoded</span><span class="w"> </span><span class="n">scalar</span><span class="w"> </span><span class="n">codepoints</span><span class="w"> </span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">len</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="o">.</span>
+
+<span class="w">    </span><span class="n">ctou</span><span class="p">(</span><span class="n">cp</span><span class="p">)</span><span class="w"> </span><span class="n">result</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+
+<span class="w">        </span><span class="n">Encodes</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">UTF</span><span class="o">-</span><span class="mi">32</span><span class="w"> </span><span class="n">codepoint</span><span class="w"> </span><span class="n">array</span><span class="w"> </span><span class="n">into</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">UTF</span><span class="o">-</span><span class="mi">8</span><span class="w"> </span><span class="n">Fortran</span><span class="w"> </span><span class="n">character</span><span class="w"> </span><span class="n">string</span><span class="o">.</span>
+
+<span class="w">        </span><span class="n">Arguments</span><span class="p">:</span>
+<span class="w">            </span><span class="n">cp</span><span class="w">   </span><span class="n">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="n">intent</span><span class="p">(</span><span class="ow">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">cp</span><span class="p">(:)</span>
+<span class="w">                 </span><span class="nb nb-Type">Array</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">Unicode</span><span class="w"> </span><span class="n">scalar</span><span class="w"> </span><span class="n">values</span><span class="o">.</span><span class="w"> </span><span class="n">Out</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="nb">range</span><span class="w"> </span><span class="n">values</span>
+<span class="w">                 </span><span class="p">(</span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">U</span><span class="o">+</span><span class="mi">10</span><span class="n">FFFF</span><span class="p">)</span><span class="w"> </span><span class="n">are</span><span class="w"> </span><span class="n">encoded</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">U</span><span class="o">+</span><span class="n">FFFD</span><span class="o">.</span>
+
+<span class="w">        </span><span class="n">Return</span><span class="w"> </span><span class="n">Value</span><span class="p">:</span>
+<span class="w">            </span><span class="nb">str</span><span class="w">  </span><span class="n">character</span><span class="p">(</span><span class="n">len</span><span class="o">=</span><span class="p">:),</span><span class="w"> </span><span class="n">allocatable</span>
+<span class="w">                 </span><span class="n">UTF</span><span class="o">-</span><span class="mi">8</span><span class="w"> </span><span class="n">encoded</span><span class="w"> </span><span class="n">string</span><span class="o">.</span>
+</code></pre></div>
+
+<h3 id="regular-expression-syntax">REGULAR EXPRESSION SYNTAX</h3>
+<div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="n">Atoms</span>
+
+<span class="w">        </span><span class="n">c</span><span class="w">           </span><span class="n">Matches</span><span class="w"> </span><span class="n">literal</span><span class="w"> </span><span class="nf">Unicode</span><span class="w"> </span><span class="n">codepoint</span><span class="w"> </span><span class="n">c</span><span class="p">.</span>
+<span class="w">        </span><span class="p">.</span><span class="w">           </span><span class="n">Matches</span><span class="w"> </span><span class="ow">any</span><span class="w"> </span><span class="n">single</span><span class="w"> </span><span class="n">codepoint</span><span class="w"> </span><span class="ow">except</span><span class="w"> </span><span class="n">Line</span><span class="w"> </span><span class="n">Feed</span><span class="w"> </span><span class="p">(</span><span class="n">U</span><span class="o">+</span><span class="mi">000</span><span class="n">A</span><span class="p">).</span>
+<span class="w">        </span><span class="o">[</span><span class="n">abc</span><span class="o">]</span><span class="w">       </span><span class="k">Character</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="n">matching</span><span class="w"> </span><span class="ow">any</span><span class="w"> </span><span class="n">listed</span><span class="w"> </span><span class="n">codepoint</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="k">range</span>
+<span class="w">                    </span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">g</span><span class="p">.,</span><span class="w"> </span><span class="o">[</span><span class="n">a-z0-9_</span><span class="o">]</span><span class="p">).</span><span class="w"> </span><span class="n">Supports</span><span class="w"> </span><span class="err">\</span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="err">\</span><span class="n">w</span><span class="p">,</span><span class="w"> </span><span class="err">\</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="err">\</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="err">\</span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="err">\</span><span class="n">t</span><span class="p">.</span>
+<span class="w">        </span><span class="o">[</span><span class="n">^abc</span><span class="o">]</span><span class="w">      </span><span class="n">Negated</span><span class="w"> </span><span class="k">character</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="n">matching</span><span class="w"> </span><span class="ow">any</span><span class="w"> </span><span class="n">codepoint</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">the</span>
+<span class="w">                    </span><span class="n">listed</span><span class="w"> </span><span class="k">set</span><span class="w"> </span><span class="p">(</span><span class="n">including</span><span class="w"> </span><span class="n">Line</span><span class="w"> </span><span class="n">Feed</span><span class="p">).</span>
+<span class="w">        </span><span class="p">(</span><span class="n">expr</span><span class="p">)</span><span class="w">      </span><span class="n">Capturing</span><span class="w"> </span><span class="k">group</span><span class="w"> </span><span class="p">(</span><span class="n">up</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="mi">9</span><span class="w"> </span><span class="n">groups</span><span class="p">,</span><span class="w"> </span><span class="n">numbered</span><span class="w"> </span><span class="mf">1..9</span><span class="w"> </span><span class="nf">left</span><span class="o">-</span><span class="k">to</span><span class="o">-</span>
+<span class="w">                    </span><span class="nf">right</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">opening</span><span class="w"> </span><span class="n">parenthesis</span><span class="p">).</span>
+<span class="w">        </span><span class="err">\</span><span class="n">x</span><span class="w">          </span><span class="n">Escaped</span><span class="w"> </span><span class="k">character</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">shorthand</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="p">(</span><span class="n">see</span><span class="w"> </span><span class="n">below</span><span class="p">).</span>
+
+<span class="w">    </span><span class="n">Shorthand</span><span class="w"> </span><span class="n">Classes</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">Escapes</span>
+
+<span class="w">        </span><span class="err">\</span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="err">\</span><span class="n">D</span><span class="w">      </span><span class="nf">ASCII</span><span class="w"> </span><span class="n">digit</span><span class="w"> </span><span class="o">[</span><span class="n">0-9</span><span class="o">]</span><span class="w"> </span><span class="p">(</span><span class="err">\</span><span class="n">d</span><span class="p">)</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">non</span><span class="o">-</span><span class="n">digit</span><span class="w"> </span><span class="p">(</span><span class="err">\</span><span class="n">D</span><span class="p">).</span>
+<span class="w">        </span><span class="err">\</span><span class="n">w</span><span class="p">,</span><span class="w"> </span><span class="err">\</span><span class="n">W</span><span class="w">      </span><span class="n">Word</span><span class="w"> </span><span class="k">character</span><span class="w"> </span><span class="p">(</span><span class="err">\</span><span class="n">w</span><span class="p">)</span><span class="err">:</span><span class="w"> </span><span class="o">[</span><span class="n">0-9A-Za-z_</span><span class="o">]</span><span class="w"> </span><span class="n">plus</span><span class="w"> </span><span class="n">Latin</span><span class="o">-</span><span class="mi">1</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">Latin</span>
+<span class="w">                    </span><span class="n">Extended</span><span class="w"> </span><span class="n">letters</span><span class="w"> </span><span class="p">(</span><span class="n">U</span><span class="o">+</span><span class="mi">00</span><span class="n">C0</span><span class="p">..</span><span class="n">U</span><span class="o">+</span><span class="mi">00</span><span class="n">D6</span><span class="p">,</span><span class="w"> </span><span class="n">U</span><span class="o">+</span><span class="mi">00</span><span class="n">D8</span><span class="p">..</span><span class="n">U</span><span class="o">+</span><span class="mi">00</span><span class="n">F6</span><span class="p">,</span>
+<span class="w">                    </span><span class="n">U</span><span class="o">+</span><span class="mi">00</span><span class="n">F8</span><span class="p">..</span><span class="n">U</span><span class="o">+</span><span class="mi">024</span><span class="n">F</span><span class="p">).</span><span class="w"> </span><span class="err">\</span><span class="n">W</span><span class="w"> </span><span class="n">matches</span><span class="w"> </span><span class="ow">any</span><span class="w"> </span><span class="n">non</span><span class="o">-</span><span class="n">word</span><span class="w"> </span><span class="n">codepoint</span><span class="p">.</span>
+<span class="w">        </span><span class="err">\</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="err">\</span><span class="n">S</span><span class="w">      </span><span class="n">Whitespace</span><span class="w"> </span><span class="p">(</span><span class="err">\</span><span class="n">s</span><span class="p">)</span><span class="err">:</span><span class="w"> </span><span class="nf">ASCII</span><span class="w"> </span><span class="nf">space</span><span class="w"> </span><span class="p">(</span><span class="n">U</span><span class="o">+</span><span class="mi">0020</span><span class="p">),</span><span class="w"> </span><span class="err">\</span><span class="n">t</span><span class="p">..</span><span class="err">\</span><span class="n">r</span><span class="w"> </span><span class="p">(</span><span class="n">U</span><span class="o">+</span><span class="mf">0009.</span><span class="p">.</span>
+<span class="w">                    </span><span class="n">U</span><span class="o">+</span><span class="mi">000</span><span class="n">D</span><span class="p">),</span><span class="w"> </span><span class="n">non</span><span class="o">-</span><span class="n">breaking</span><span class="w"> </span><span class="nf">space</span><span class="w"> </span><span class="p">(</span><span class="n">U</span><span class="o">+</span><span class="mi">00</span><span class="n">A0</span><span class="p">),</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="nf">Unicode</span><span class="w"> </span><span class="n">spaces</span>
+<span class="w">                    </span><span class="p">(</span><span class="n">U</span><span class="o">+</span><span class="mf">2000.</span><span class="p">.</span><span class="n">U</span><span class="o">+</span><span class="mi">200</span><span class="n">A</span><span class="p">).</span><span class="w"> </span><span class="err">\</span><span class="n">S</span><span class="w"> </span><span class="n">matches</span><span class="w"> </span><span class="ow">any</span><span class="w"> </span><span class="n">non</span><span class="o">-</span><span class="n">whitespace</span><span class="w"> </span><span class="n">codepoint</span><span class="p">.</span>
+<span class="w">        </span><span class="err">\</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="err">\</span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="err">\</span><span class="n">t</span><span class="w">  </span><span class="n">Line</span><span class="w"> </span><span class="n">Feed</span><span class="w"> </span><span class="p">(</span><span class="n">U</span><span class="o">+</span><span class="mi">000</span><span class="n">A</span><span class="p">),</span><span class="w"> </span><span class="n">Carriage</span><span class="w"> </span><span class="k">Return</span><span class="w"> </span><span class="p">(</span><span class="n">U</span><span class="o">+</span><span class="mi">000</span><span class="n">D</span><span class="p">),</span><span class="w"> </span><span class="n">Tab</span><span class="w"> </span><span class="p">(</span><span class="n">U</span><span class="o">+</span><span class="mi">0009</span><span class="p">).</span>
+<span class="w">        </span><span class="err">\\</span><span class="p">,</span><span class="w"> </span><span class="err">\</span><span class="p">.,</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="n">Escapes</span><span class="w"> </span><span class="ow">any</span><span class="w"> </span><span class="n">metacharacter</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="k">match</span><span class="w"> </span><span class="n">it</span><span class="w"> </span><span class="n">literally</span><span class="p">.</span>
+
+<span class="w">    </span><span class="n">Anchors</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">Zero</span><span class="o">-</span><span class="n">Width</span><span class="w"> </span><span class="n">Assertions</span>
+
+<span class="w">        </span><span class="o">^</span><span class="w">           </span><span class="n">Matches</span><span class="w"> </span><span class="k">start</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nc">text</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">immediately</span><span class="w"> </span><span class="k">after</span><span class="w"> </span><span class="n">Line</span><span class="w"> </span><span class="n">Feed</span><span class="w"> </span><span class="p">(</span><span class="n">U</span><span class="o">+</span><span class="mi">000</span><span class="n">A</span><span class="p">).</span>
+<span class="w">        </span><span class="err">$</span><span class="w">           </span><span class="n">Matches</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nc">text</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">immediately</span><span class="w"> </span><span class="k">before</span><span class="w"> </span><span class="n">Line</span><span class="w"> </span><span class="n">Feed</span><span class="w"> </span><span class="p">(</span><span class="n">U</span><span class="o">+</span><span class="mi">000</span><span class="n">A</span><span class="p">).</span>
+<span class="w">        </span><span class="err">\</span><span class="n">b</span><span class="w">          </span><span class="n">Matches</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="nf">Unicode</span><span class="w"> </span><span class="n">word</span><span class="w"> </span><span class="n">boundary</span><span class="w"> </span><span class="p">(</span><span class="n">transition</span><span class="w"> </span><span class="ow">between</span><span class="w"> </span><span class="err">\</span><span class="n">w</span><span class="w"> </span><span class="ow">and</span>
+<span class="w">                    </span><span class="err">\</span><span class="n">W</span><span class="p">,</span><span class="w"> </span><span class="n">including</span><span class="w"> </span><span class="k">start</span><span class="o">/</span><span class="k">end</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nc">text</span><span class="p">).</span>
+<span class="w">        </span><span class="err">\</span><span class="n">B</span><span class="w">          </span><span class="n">Matches</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="k">position</span><span class="w"> </span><span class="n">that</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">word</span><span class="w"> </span><span class="n">boundary</span><span class="p">.</span>
+
+<span class="w">    </span><span class="n">Quantifiers</span><span class="w"> </span><span class="p">(</span><span class="n">Greedy</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">Non</span><span class="o">-</span><span class="n">Greedy</span><span class="p">)</span>
+
+<span class="w">        </span><span class="o">*</span><span class="w">           </span><span class="mi">0</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">more</span><span class="w"> </span><span class="n">times</span><span class="w"> </span><span class="p">(</span><span class="n">greedy</span><span class="p">).</span>
+<span class="w">        </span><span class="o">+</span><span class="w">           </span><span class="mi">1</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">more</span><span class="w"> </span><span class="n">times</span><span class="w"> </span><span class="p">(</span><span class="n">greedy</span><span class="p">).</span>
+<span class="w">        </span><span class="vm">?</span><span class="w">           </span><span class="mi">0</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="nc">time</span><span class="w"> </span><span class="p">(</span><span class="n">greedy</span><span class="p">).</span>
+<span class="w">        </span><span class="err">{</span><span class="n">n</span><span class="err">}</span><span class="w">         </span><span class="n">Exactly</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="n">times</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">1000</span><span class="p">).</span>
+<span class="w">        </span><span class="err">{</span><span class="n">n</span><span class="p">,</span><span class="err">}</span><span class="w">        </span><span class="n">n</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">more</span><span class="w"> </span><span class="n">times</span><span class="w"> </span><span class="p">(</span><span class="n">greedy</span><span class="p">).</span>
+<span class="w">        </span><span class="err">{</span><span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="err">}</span><span class="w">       </span><span class="ow">Between</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="n">times</span><span class="w"> </span><span class="n">inclusive</span><span class="w"> </span><span class="p">(</span><span class="n">greedy</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">1000</span><span class="p">).</span>
+<span class="w">        </span><span class="o">*</span><span class="vm">?</span><span class="p">,</span><span class="w"> </span><span class="o">+</span><span class="vm">?</span><span class="p">,</span><span class="w"> </span><span class="vm">??</span><span class="p">,</span><span class="w"> </span><span class="err">{</span><span class="n">n</span><span class="p">,</span><span class="err">}</span><span class="vm">?</span><span class="p">,</span><span class="w"> </span><span class="err">{</span><span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="err">}</span><span class="vm">?</span>
+<span class="w">                    </span><span class="n">Non</span><span class="o">-</span><span class="n">greedy</span><span class="w"> </span><span class="p">(</span><span class="n">lazy</span><span class="p">)</span><span class="w"> </span><span class="n">variants</span><span class="w"> </span><span class="n">matching</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">few</span><span class="w"> </span><span class="n">repetitions</span>
+<span class="w">                    </span><span class="k">as</span><span class="w"> </span><span class="n">possible</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="n">still</span><span class="w"> </span><span class="n">allowing</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">overall</span><span class="w"> </span><span class="n">pattern</span><span class="w"> </span><span class="k">to</span>
+<span class="w">                    </span><span class="n">succeed</span><span class="p">.</span>
+
+<span class="w">    </span><span class="n">Alternation</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">Precedence</span>
+
+<span class="w">        </span><span class="n">expr1</span><span class="o">|</span><span class="n">expr2</span><span class="w"> </span><span class="n">Matches</span><span class="w"> </span><span class="n">expr1</span><span class="w"> </span><span class="ow">or</span><span class="p">,</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">that</span><span class="w"> </span><span class="n">fails</span><span class="p">,</span><span class="w"> </span><span class="n">expr2</span><span class="p">.</span>
+<span class="w">        </span><span class="n">Precedence</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">highest</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nl">lowest</span><span class="p">:</span>
+<span class="w">            </span><span class="mf">1.</span><span class="w"> </span><span class="n">Atoms</span><span class="p">,</span><span class="w"> </span><span class="k">character</span><span class="w"> </span><span class="n">classes</span><span class="p">,</span><span class="w"> </span><span class="n">escapes</span><span class="p">,</span><span class="w"> </span><span class="n">parenthesized</span><span class="w"> </span><span class="n">groups</span>
+<span class="w">            </span><span class="mf">2.</span><span class="w"> </span><span class="n">Quantifiers</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">+</span><span class="p">,</span><span class="w"> </span><span class="vm">?</span><span class="p">,</span><span class="w"> </span><span class="err">{</span><span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="err">}</span><span class="p">)</span>
+<span class="w">            </span><span class="mf">3.</span><span class="w"> </span><span class="n">Concatenation</span>
+<span class="w">            </span><span class="mf">4.</span><span class="w"> </span><span class="n">Alternation</span><span class="w"> </span><span class="p">(</span><span class="o">|</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="limitations-notes">LIMITATIONS &amp; NOTES</h3>
+<div class="codehilite"><pre><span></span><code>o   Maximum capture groups is 9 (MAX_GROUPS = 10 including group 0).
+o   Maximum repetition bound in {n,m} is 1000.
+o   The VM uses recursive backtracking; pathological nested quantifiers
+    such as (a+)+b on non-matching input can exhibit exponential time
+    and stack depth.
+</code></pre></div>
+
+<h3 id="example">EXAMPLE</h3>
+<p>Sample program</p>
+<div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">example</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="p">:</span><span class="w"> </span><span class="nx">int32</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode__regex</span>
+<span class="nx">implicit</span><span class="w"> </span><span class="nx">none</span>
+<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="nx">parameter</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">BS</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">achar</span><span class="p">(</span><span class="mi">92</span><span class="p">)</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">regex_t</span><span class="p">)</span><span class="w">               </span><span class="o">::</span><span class="w"> </span><span class="nx">re</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">match_t</span><span class="p">)</span><span class="w">               </span><span class="o">::</span><span class="w"> </span><span class="nx">m</span>
+<span class="nx">integer</span><span class="p">(</span><span class="nx">int32</span><span class="p">),</span><span class="w"> </span><span class="nx">allocatable</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">txt</span><span class="p">(:),</span><span class="w"> </span><span class="nx">out</span><span class="p">(:)</span>
+<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=:),</span><span class="nx">allocatable</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">pat</span>
+<span class="w">   </span><span class="nx">pat</span><span class="p">=</span><span class="err">'</span><span class="p">(</span><span class="err">\</span><span class="nx">w</span><span class="o">+</span><span class="p">)</span><span class="err">\</span><span class="nx">s</span><span class="o">+</span><span class="p">(</span><span class="err">🚀</span><span class="o">|</span><span class="err">🛸</span><span class="p">)</span><span class="err">'</span>
+<span class="w">   </span><span class="nx">re</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">regex_compile</span><span class="p">(</span><span class="nx">utoc</span><span class="p">(</span><span class="nx">pat</span><span class="p">)</span>
+<span class="w">   </span><span class="k">if</span><span class="w"> </span><span class="p">(.</span><span class="k">not</span><span class="p">.</span><span class="w"> </span><span class="nx">re</span><span class="o">%</span><span class="nx">valid</span><span class="p">)</span><span class="w"> </span><span class="nx">error</span><span class="w"> </span><span class="nx">stop</span><span class="w"> </span><span class="err">'</span><span class="nx">Invalid</span><span class="w"> </span><span class="nx">pattern</span><span class="err">'</span>
+<span class="w">   </span><span class="nx">txt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">utoc</span><span class="p">(</span><span class="err">'</span><span class="nx">Mission</span><span class="w"> </span><span class="nx">Zürich</span><span class="w"> </span><span class="err">🚀</span><span class="w"> </span><span class="nx">ready</span><span class="err">'</span><span class="p">)</span>
+<span class="w">   </span><span class="nx">m</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">regex_search</span><span class="p">(</span><span class="nx">re</span><span class="p">,</span><span class="w"> </span><span class="nx">txt</span><span class="p">)</span>
+<span class="w">   </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="o">%</span><span class="nx">matched</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="w">      </span><span class="nx">print</span><span class="w"> </span><span class="err">'</span><span class="p">(</span><span class="nx">A</span><span class="p">)</span><span class="err">'</span><span class="p">,</span><span class="w"> </span><span class="err">'</span><span class="nx">City</span><span class="p">:</span><span class="w">  </span><span class="err">'</span><span class="w"> </span><span class="c1">// &amp;</span>
+<span class="w">      </span><span class="o">&amp;</span><span class="w"> </span><span class="nx">ctou</span><span class="p">(</span><span class="nx">txt</span><span class="p">(</span><span class="nx">m</span><span class="o">%</span><span class="nx">start_pos</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span><span class="nx">m</span><span class="o">%</span><span class="nx">end_pos</span><span class="p">(</span><span class="mi">1</span><span class="p">)))</span>
+<span class="w">      </span><span class="nx">print</span><span class="w"> </span><span class="err">'</span><span class="p">(</span><span class="nx">A</span><span class="p">)</span><span class="err">'</span><span class="p">,</span><span class="w"> </span><span class="err">'</span><span class="nx">Craft</span><span class="p">:</span><span class="w"> </span><span class="err">'</span><span class="w"> </span><span class="c1">// &amp;</span>
+<span class="w">      </span><span class="o">&amp;</span><span class="w"> </span><span class="nx">ctou</span><span class="p">(</span><span class="nx">txt</span><span class="p">(</span><span class="nx">m</span><span class="o">%</span><span class="nx">start_pos</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span><span class="nx">m</span><span class="o">%</span><span class="nx">end_pos</span><span class="p">(</span><span class="mi">2</span><span class="p">)))</span>
+<span class="w">   </span><span class="nx">endif</span>
+<span class="w">   </span><span class="nx">out</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">regex_replace</span><span class="p">(</span><span class="nx">re</span><span class="p">,</span><span class="w"> </span><span class="nx">txt</span><span class="p">,</span><span class="w"> </span><span class="nx">utoc</span><span class="p">(</span><span class="err">'$</span><span class="mi">2</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="err">$</span><span class="mi">1</span><span class="err">'</span><span class="p">))</span>
+<span class="w">   </span><span class="nx">print</span><span class="w"> </span><span class="err">'</span><span class="p">(</span><span class="nx">A</span><span class="p">)</span><span class="err">'</span><span class="p">,</span><span class="w"> </span><span class="err">'</span><span class="nx">Swapped</span><span class="p">:</span><span class="w"> </span><span class="err">'</span><span class="w"> </span><span class="c1">// ctou(out)</span>
+<span class="nx">end</span><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">example</span>
+</code></pre></div>
+
+<h3 id="contributors">CONTRIBUTORS</h3>
+<p>Developed with coding and debugging assistance from Gemini (Google).</p>
+<p>Portions of this module (NFA compiler fixes, counted/lazy quantifiers,
+  word boundaries, test suite, and documentation) were generated with
+  assistance from Gemini (Google).</p>
+<h3 id="see-also">SEE ALSO</h3>
+<p>iso_fortran_env(3), pcre2syntax(3), regex(7)</p>
+<br>          <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_fortran_env'>iso_fortran_env</a></li>
+              </ul>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+      
+      <br>
+
+
+
+
+
+
+        <section>
+          <h2>Derived Types</h2>
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-match_t"></span>
+      <h3>
+        type, public&nbsp;::&nbsp;
+        <a href='../type/match_t.html'>match_t</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      
+
+        <h4>Components</h4>
+          <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-end_pos"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>end_pos</strong>(0:MAX_GROUPS-1)</td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matched"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>matched</strong></td>
+<td> =</td>
+                <td>.false.</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-start_pos"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>start_pos</strong>(0:MAX_GROUPS-1)</td>
+<td> =</td>
+                <td>0</td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-regex_t"></span>
+      <h3>
+        type, public&nbsp;::&nbsp;
+        <a href='../type/regex_t.html'>regex_t</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      
+
+        <h4>Components</h4>
+          <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-num_groups"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>num_groups</strong></td>
+<td> =</td>
+                <td>0</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-prog"></span>
+              type(inst_t),
+            </td>
+              <td>public,</td>
+            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>prog</strong>(:)</td>
+                <td></td>
+                <td></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-valid"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>valid</strong></td>
+<td> =</td>
+                <td>.false.</td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+        <section>
+          <h2>Functions</h2>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-ctou"></span> <h3>public  function <a href='../proc/ctou.html'>ctou</a>(cp) result(str)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cp~2"></span>
+              integer(kind=int32),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>cp</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>character(len=:), allocatable</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-regex_compile"></span> <h3>public  function <a href='../proc/regex_compile.html'>regex_compile</a>(pattern) result(re)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pattern"></span>
+              integer(kind=int32),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>pattern</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/regex_t.html'>regex_t</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-regex_replace"></span> <h3>public  function <a href='../proc/regex_replace.html'>regex_replace</a>(re, text, replacement, replace_all) result(out_text)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-re~3"></span>
+              type(<a href='../type/regex_t.html'>regex_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>re</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-text~3"></span>
+              integer(kind=int32),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>text</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-replacement"></span>
+              integer(kind=int32),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>replacement</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-replace_all"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>replace_all</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer(kind=int32), allocatable, (:)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-regex_search"></span> <h3>public  function <a href='../proc/regex_search.html'>regex_search</a>(re, text, start_offset) result(m)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-re~2"></span>
+              type(<a href='../type/regex_t.html'>regex_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>re</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-text"></span>
+              integer(kind=int32),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>text</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-start_offset"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>start_offset</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/match_t.html'>match_t</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-utoc"></span> <h3>public  function <a href='../proc/utoc.html'>utoc</a>(str) result(cp)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-str"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>str</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer(kind=int32), allocatable, (:)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+
+
+
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              M_unicode
+ was developed by John S. Urban<br>              &copy; 2026 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2026-11-12 12:40 +0000             </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

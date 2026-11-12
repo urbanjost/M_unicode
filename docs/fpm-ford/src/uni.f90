@@ -9,15 +9,15 @@ use M_unicode, only : add_backslash, remove_backslash=>escape, replace
 use M_unicode, only : isascii, slurp, repeat, pound_to_box, add_border
 use M_unicode, only : ut => unicode_type, assignment(=), ch=>character
 use M_unicode, only : operator(==), operator(//)
-use M_CLI2,    only : set_mode, set_args, get_args, sgets, specified, files=>unnamed
+use M_CLI2,    only : set_mode, set_args, get_args, sget, sgets, specified, files=>unnamed
 implicit none
 integer                      :: i, j, icode, ulen, alen, iostat, lun, linenum, knd
 integer,allocatable          :: ints(:)
 type(ut)                     :: line
 type(ut),allocatable         :: text(:)
-logical                      :: verbose, debug, length, toescape, noescape, ucase, lcase, findwide, nowide, show_keys
-logical                      :: code, allascii, border, tohtml, nohtml, entities, sample, reverse, nofile, nokeys
-character(len=:),allocatable :: filenames(:), style_box, style_border, styles(:)
+logical                      :: verbose, debug, length, noadvance, toescape, noescape, ucase, lcase, findwide, nowide, show_keys
+logical                      :: code, allascii, border, tohtml, nohtml, entities, sample, reverse, nofile, nokeys, styled
+character(len=:),allocatable :: filenames(:), style_box, style_border, styles(:), keys_mode
 character(len=*),parameter   :: g0='(*(g0))'
 character(len=*),parameter   :: formu= '("char(int(z''",z0,"''),kind=ucs4)":,"// &")'
 character(len=*),parameter   :: form2= '("char([",*(i0:,","))'
@@ -348,13 +348,32 @@ character(len=256)           :: iomsg
 
                line=ints
                ! write the line with all but ASCII-7 replaced with HTML escape codes
-               write(stdout,'(a)')add_html(line)
+               write(stdout,'(a)',advance=merge('no ','yes',noadvance))add_html(line)
          else
-            write(stdout,g0)line%character()
+            if(styled)then
+               block
+               integer,allocatable          :: codes(:)
+               character(len=:),allocatable :: yesno
+               integer                      :: loopit
+               yesno=merge('no ','yes',noadvance)
+               if(yesno.eq.'no')then
+                  codes=[line%codepoint(),ichar(new_line('A'))]
+               else
+                  codes=line%codepoint()
+               endif
+               do loopit=1,size(codes)
+                  call printcode(codes(loopit),styles)
+               enddo
+               write(stdout,'(a)',advance=yesno)''
+               end block
+            else
+               write(stdout,g0,advance=merge('no ','yes',noadvance))line%character()
+            endif
          endif
+
       enddo INFINITE
       if(iostat /= iostat_end)then
-         write(stdout,g0)'<ERROR> failed on read of input line ',linenum,':',line%character()
+         write(stderr,g0)'<ERROR> failed on read of input line ',linenum,':',line%character()
       endif
    enddo DATUM
 ! candidates
@@ -1763,13 +1782,6 @@ subroutine setup()
 character(len=:),allocatable :: help_text(:), version_text(:)
 integer                      :: startrange, endrange
 integer                      :: i
-character(len=*),parameter   :: &
-
-   & form = '(1x,"char(int(z''",z0,"''),kind=ucs4)":,"// &")', &
-   & form_M = '(1x,"int(z''",z0,"'')":,", &")'               , &
-   & form_zhtml = '(1x,*(:"&#x",z0,";"))'                    , &
-   & form_html = '(1x,*(:"&#",i0,";"))'
-
 type(ut)                     :: ustr
 help_text=[ CHARACTER(LEN=128) :: &
 'NAME                                                                            ',&
@@ -1777,9 +1789,10 @@ help_text=[ CHARACTER(LEN=128) :: &
 '   (LICENSE:PD)                                                                 ',&
 '                                                                                ',&
 'SYNOPSIS                                                                        ',&
-'    uni [--toescape|--noescape] | [--tohtml|--nohtml] | --code | --nokeys       ',&
+'    uni [--toescape|--noescape] | [--tohtml|--nohtml] | --code |                ',&
+'    --nokeys [--keys_mode MODE] |                                               ',&
 '    [--lcase|--ucase] [--reverse] [--box STYLE --border STYLE] |                ',&
-'    [--text "STRING" | infile(s)] |                                             ',&
+'    [--text "STRING" [--noadvance] | infile(s)] |                               ',&
 '                                                                                ',&
 '    uni --findwide | --nowide [--text "STRING" | infile(s)]                     ',&
 '                                                                                ',&
@@ -1858,6 +1871,8 @@ help_text=[ CHARACTER(LEN=128) :: &
 '                 form &NAME; and &#NNNNN; to UTF-8                              ',&
 '   --nokeys,K    expand text containing text between "<" and ">" using the      ',&
 '                 keyword dictionary                                             ',&
+'   --keys_mode MODE  The optional mode for keyword output may be                ',&
+'                     "default", "plain" or "raw",                               ',&
 '                                                                                ',&
 '   CONVERSIONS                                                                  ',&
 '   --lcase,L     convert uppercase to lowercase                                 ',&
@@ -1900,6 +1915,12 @@ help_text=[ CHARACTER(LEN=128) :: &
 '   --text,t "STRING"  strings on the command that would be treated as           ',&
 '                      filenames are treated as text instead.                    ',&
 '                                                                                ',&
+'   OUTPUT                                                                       ',&
+'                                                                                ',&
+'   --noadvance,n  turn off line advance on output. Typically used with          ',&
+'                  the --text and --noescape options to write terminal           ',&
+'                  escape sequences.                                             ',&
+'                                                                                ',&
 '   INFORMATION                                                                  ',&
 '   --start,S    starting codepoint to generate a list of glyphs from.           ',&
 '                If specified other options are ignored except --finish          ',&
@@ -1930,10 +1951,6 @@ help_text=[ CHARACTER(LEN=128) :: &
 '                If "test" is specified the glyphs of the specified values       ',&
 '                are streamed to output separated by a space.                    ',&
 '                                                                                ',&
-'                The --style option also applies when --nokeys is                ',&
-'                specified.  In this case the allowed value is either            ',&
-'                "plain" or "raw",                                               ',&
-'                                                                                ',&
 '   --entities,e  display table of HTML character entities and stop.             ',&
 '                 Other parameters are ignored.                                  ',&
 '   --show_keys   Dump the current dictionary of keys for the --nokeys           ',&
@@ -1957,22 +1974,22 @@ help_text=[ CHARACTER(LEN=128) :: &
 'The available style names for the --style switch, based on common               ',&
 'ways to represent Unicode Codepoints:                                           ',&
 '                                                                                ',&
-'+ DECIMAL                                                                       ',&
+'+ decimal,d,codepoint                                                           ',&
 '    + the codepoint value in decimal                                            ',&
-'+ BINARY,B                                                                      ',&
+'+ binary,b                                                                      ',&
 '    + binary value with a "b" prefix                                            ',&
-'+ OCTAL,O                                                                       ',&
+'+ octal,o                                                                       ',&
 '    + octal value with a "o" prefix                                             ',&
-'+ HEXADECIMAL,Z                                                                 ',&
+'+ hexadecimal,z                                                                 ',&
 '    + hexadecimal value with a "z" prefix                                       ',&
-'+ HEX                                                                           ',&
+'+ hex                                                                           ',&
 '    + hexadecimal value of codepoint                                            ',&
-'+ UTF8                                                                          ',&
+'+ utf8,letter,l                                                                 ',&
 '    + The Unicode codepoint value encoded as UTF-8 data                         ',&
-'+ STANDARD,U                                                                    ',&
+'+ standard,u                                                                    ',&
 '    + The standard format is U+ followed by the hexadecimal value.              ',&
 '          Examples: U+0041 (letter ''A''), U+1F600 (😀 emoji).                ',&
-'+ C,J,HTMLD,HTMLX,UCS4,CODEX                                                    ',&
+'+ c,j,htmld,htmlx,ucs4,codex                                                    ',&
 '    + Programming Escapes:                                                      ',&
 '       + C: Python/C++/Java: \u0041 (4-digit format) or \U0001F600 (8-digit     ',&
 '          format).                                                              ',&
@@ -1980,7 +1997,17 @@ help_text=[ CHARACTER(LEN=128) :: &
 '       + HTMLD,HTMLD: CSS/HTML forms \0041 or &#x1F600;.                        ',&
 '       + UCS4: Fortran UCS4 Hex: char(int(''z1f600'',kind=ucs4)                 ',&
 '       + CODEX: int(''z1f600'')                                                 ',&
-'+ Other (not supported)                                                         ',&
+'+ Special spacer names                                                          ',&
+'       + space,comma,colon,semicolon,nil,null                                   ',&
+'+ Unknown names                                                                 ',&
+'       + if a name other than one of the above is specified of the form         ',&
+'         "<STRING>" it will be interpreted as a new seperator assumed to        ',&
+'         be encoded using keywords as displayed by --show_keys. This allows     ',&
+'         circumventing the issues with defining a separator with an allowed     ',&
+'         seperator or unprintable character that the command line parser        ',&
+'         would interpret as a seperator for the list of styles or an            ',&
+'         unprintable or multi-byte character.                                   ',&
+'+ Others for reference (not supported)                                          ',&
 '    + Normalization Forms:                                                      ',&
 '      The same character might be represented as a single code point            ',&
 '      (e.g., ñ U+00F1) or via normalization forms (NFC, NFD) which             ',&
@@ -1993,7 +2020,7 @@ help_text=[ CHARACTER(LEN=128) :: &
 'EXAMPLE                                                                         ',&
 '  Sample runs:                                                                  ',&
 '                                                                                ',&
-'   # find any lines with non-ASCII-7 characters                                 ',&
+'   # find any lines with non-ASCII-7 characters (default behavior)              ',&
 '   uni -W The_Crow_and_the_Fox.utf8                                             ',&
 '                                                                                ',&
 '       1 [“The Crow and the Fox” by Jean de la Fontaine]                    ',&
@@ -2068,10 +2095,11 @@ help_text=[ CHARACTER(LEN=128) :: &
 '                                                                                                      ',&
 '   uni -S 9472 -F 9599                                                                                ',&
 '                                                                                                      ',&
+'   # convert HTML entities to utf-8                                                                   ',&
 '   uni -t ''&#128512; &#128516; &#128525; &#128151;'' -H                                              ',&
 '   😀 😄 😍 💗                                                                                ',&
 '                                                                                                      ',&
-'   # basic Greek alphabet                                                                             ',&
+'   # display codes for basic Greek alphabet                                                           ',&
 '   uni --start 880 --finish 1023                                                                      ',&
 '                                                                                                      ',&
 '   # test current font                                                                                ',&
@@ -2079,19 +2107,34 @@ help_text=[ CHARACTER(LEN=128) :: &
 '                                                                                                      ',&
 '   # German mneumonics                                                                                ',&
 '   uni -t ''<raquo><ae oe ue ss Ae Oe Ue Ss><laquo>'' --nokeys                                        ',&
-'   uni -t ''<raquo><ae oe ue ss Ae Oe Ue Ss><laquo>'' --nokeys --style plain                          ',&
+'   uni -t ''<raquo><ae oe ue ss Ae Oe Ue Ss><laquo>'' --nokeys --keys_mode plain                      ',&
 '                                                                                                      ',&
 '   # Show information about a codepoint                                                               ',&
 '   uni -S U+A5                                                                                        ',&
+'   uni -S 40                                                                                          ',&
 '                                                                                                      ',&
+'   # Clear screen and home cursor using ANSI terminal escape sequence                                 ',&
+'   uni -nNt ''\e[H\e[2J\e[3J''                                                                        ',&
+'   uni -nkt ''<esc lbrack H esc lbrack two J esc lbrack three J''                                     ',&
+'   uni -nkt ''<clear>''                                                                               ',&
+'   # turn xterm-compatible terminal background color green                                            ',&
+'   uni -nNt ''\e]11;green\a''                                                                         ',&
+'                                                                                                      ',&
+'   # encode stdin                                                                                     ',&
+'   uni --style comma,codepoint                                                                        ',&
+'   uni --tohtml # convert non-ASCII-7 characters to HTML entities                                     ',&
+'   uni --style htmlx # convert _all_ characters to HTML entities                                      ',&
+'   uni --toescape # convert non-ASCII-7 characters to C-style escape codes                            ',&
+'   uni --style codepoint,''<comma>'' --noadvance # convert file to codepoints                         ',&
 'SEE ALSO                                                                                              ',&
 '   dos2unix(1)/unix2dos(1), iconv(1)                                                                  ',&
 '                                                                                                      ',&
 '']
 version_text=[ CHARACTER(LEN=128) :: &
-'@(#)PROGRAM:     uni(1)            >',&
+'@(#)PROGRAM:     uni(1)               >',&
 '@(#)DESCRIPTION: convert UTF-8 encoded text to and from ASCII-7 and C-style escape sequences >',&
 '@(#)VERSION:     1.0 2026-02-24       >                                                       ',&
+'@(#)VERSION:     2.0 2026-11-07       >                                                       ',&
 '@(#)AUTHOR:      John S. Urban        >                                                       ',&
 '@(#)LICENSE:     MIT                  >                                                       ',&
 '']
@@ -2111,11 +2154,13 @@ version_text=[ CHARACTER(LEN=128) :: &
     & --nohtml:H F &
     & --tohtml:h F &
     & --nokeys:k F &
+    & --keys_mode:m "default" &
     & --kind:K 1 &
     & --lcase:L F &
     & --ucase:U F &
     & --length:l F &
     & --text:t F &
+    & --noadvance:n F &
     & --reverse:R F &
     & --start:S 0 &
     & --finish:F 1114111 &
@@ -2136,6 +2181,7 @@ version_text=[ CHARACTER(LEN=128) :: &
    call get_args('sample',   sample )
    call get_args('nohtml',   nohtml )
    call get_args('tohtml',   tohtml )
+   call get_args('noadvance',   noadvance )
    call get_args('nokeys',   nokeys )
    call get_args('kind',     knd )
    call get_args('lcase',    lcase,      'ucase',    ucase    )
@@ -2147,10 +2193,9 @@ version_text=[ CHARACTER(LEN=128) :: &
    call get_args('nowide',   nowide )
    call get_args('text',     nofile )
    styles=sgets('style')
+   styled=specified('style')
    if(size(styles) == 0) styles=['all']
-   if( specified('nokeys') .and. specified('style') )then
-      call keyword_mode(styles(1))
-   endif
+   call keyword_mode(sget('keys_mode'))
    if( specified('border') ) border=.TRUE.
    if( specified('box') .and. style_box==' ') style_box='bold'
    if( specified('border') .and. style_border==' ') style_border='bold'
@@ -2185,24 +2230,7 @@ version_text=[ CHARACTER(LEN=128) :: &
          write(stdout,*)
       else
          do i=startrange,max(min(endrange,1114111),0)
-            ustr=i
-            do j=1,size(styles)
-             select case(styles(j))
-              case('d','decimal'); write(stdout,'(1x,i0)',advance='no') i    ! codepoint
-              case('utf8'); write(stdout,'(1x,a)',advance='no')ch(ustr)  ! character
-              case('c') ;write(stdout,'(1x,''\U'',z8.8)',advance='no')i  ! \U00000064
-              case('b','binary') ;                 write(stdout,'(1x,"b",b0)',advance='no')i       ! bNNNNN
-              case('o','octal') ;                  write(stdout,'(1x,"o",o0)',advance='no')i       ! oNNNNN
-              case('z','h','hexidecimal') ;        write(stdout,'(1x,"z",z0)',advance='no')i       ! zNNNNN
-              case('hex') ;                        write(stdout,'(1x,z0)',advance='no')i           ! FFFFF
-              case('u','standard') ;               write(stdout,'(1x,''U+'',z0.8)',advance='no')i  ! U+64
-              case('htmlx')  ;write(stdout,form_zhtml,advance='no')i     ! &#x4EBA;
-              case('htmld')  ;write(stdout,form_html,advance='no')i      ! &#20154;
-              case('ucs4')   ;write(stdout,form,advance='no')i           ! char(int(z'nnn',kind=ucs4))
-              case('codex')  ;write(stdout,form_M,advance='no')i         ! int(z'nnn')
-             end select
-             write(stdout,'(a)',advance='no') ' '
-            enddo
+            call printcode(i,styles,' ')
             write(stdout,*)
          enddo
       endif
@@ -2222,6 +2250,56 @@ version_text=[ CHARACTER(LEN=128) :: &
       enddo
    endif
 end subroutine setup
+
+subroutine printcode(i,styles,spacer)
+
+! costly overhead for the sake of flexibility
+integer,intent(in)                   :: i
+character(len=*),intent(in)          :: styles(:)
+character(len=*),intent(in),optional :: spacer
+! maybe allow user-specified format statement
+
+integer                              :: j
+character(len=:),allocatable         :: local_spacer
+character(len=*),parameter           :: &
+ & form = '("char(int(z''",z0,"''),kind=ucs4)":,"// &")', &
+ & form_M = '("int(z''",z0,"'')":,", &")'               , &
+ & form_zhtml = '(*(:"&#x",z0,";"))'                    , &
+ & form_html = '(*(:"&#",i0,";"))'
+
+   if(present(spacer))then;local_spacer=spacer;else;local_spacer='';endif
+
+   do j=1,size(styles)
+      select case(styles(j))
+       case('d','decimal','codepoint'); write(stdout,'(i0)',advance='no') i             ! codepoint
+       case('utf8','letter','l'); write(stdout,'(a)',advance='no')ch(ut([i]))           ! character
+       case('c') ;write(stdout,'(''\U'',z8.8)',advance='no')i                           ! \U00000064
+       case('b','binary') ;                 write(stdout,'("b",b0)',advance='no')i      ! bNNNNN
+       case('o','octal') ;                  write(stdout,'("o",o0)',advance='no')i      ! oNNNNN
+       case('z','h','hexidecimal') ;        write(stdout,'("z",z0)',advance='no')i      ! zNNNNN
+       case('hex') ;                        write(stdout,'(z0)',advance='no')i          ! FFFFF
+       case('u','standard') ;               write(stdout,'(''U+'',z0.8)',advance='no')i ! U+64
+       case('html','htmlx')  ;write(stdout,form_zhtml,advance='no')i                    ! &#x4EBA;
+       case('htmld')  ;write(stdout,form_html,advance='no')i                            ! &#20154;
+       case('ucs4')   ;write(stdout,form,advance='no')i                                 ! char(int(z'nnn',kind=ucs4))
+       case('codex')  ;write(stdout,form_M,advance='no')i                               ! int(z'nnn')
+       case('comma')          ;local_spacer=','
+       case('colon')          ;local_spacer=':'
+       case('semicolon')      ;local_spacer=';'
+       case('space','blank')  ;local_spacer=' '
+       case('nil','null','nul','nill')  ;local_spacer=''
+       case default
+        if(index(styles(j),'<').eq.1)then
+           local_spacer=keyword_expand(trim(styles(j)))
+        elseif(index(styles(j),'(').eq.1)then
+           write(stdout,styles(j),advance='no')i                                        ! use as format for codepoint
+        else
+           local_spacer=trim(styles(j))                                                 ! unknown style assumed to be a new spacer
+        endif
+      end select
+      write(stdout,'(a)',advance='no') local_spacer
+   enddo
+end subroutine printcode
 
 subroutine sample_file()
 integer                                                              :: i

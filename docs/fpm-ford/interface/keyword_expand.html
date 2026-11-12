@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.2% of total for procedures.</p>Including implementation: 87 statements,  3.1% of total for procedures.">6 statements</a>
+                 title="<p> 0.2% of total for procedures.</p>Including implementation: 87 statements,  2.7% of total for procedures.">6 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -176,12 +176,12 @@
     <div class="card-header codesum"><span class="anchor" id="proc-keyword_scalar_ut"></span> <h3>private  function keyword_scalar_ut(string) result(expanded)  
 </h3></div>
     <div class="card-body">
-        <h2 id="name">NAME</h2>
+        <h3 id="name">NAME</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">keyword_expand</span><span class="p">(</span><span class="mi">3</span><span class="n">f</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">[</span><span class="n">M_unicode</span><span class="o">]</span><span class="w"> </span><span class="n">substitute</span><span class="w"> </span><span class="n">HTML</span><span class="o">-</span><span class="ow">like</span><span class="w"> </span><span class="n">keywords</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">other</span><span class="w"> </span><span class="n">strings</span>
 <span class="p">(</span><span class="nl">LICENSE</span><span class="p">:</span><span class="n">MIT</span><span class="p">)</span>
 </code></pre></div>
 
-<h2 id="synopsis">SYNOPSIS</h2>
+<h3 id="synopsis">SYNOPSIS</h3>
 <div class="codehilite"><pre><span></span><code><span class="w">  </span><span class="k">function</span><span class="w"> </span><span class="nf">keyword_expand</span><span class="p">(</span>string<span class="p">)</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="p">(</span><span class="n">expanded</span><span class="p">)</span>
 
 <span class="w">    </span>!<span class="w"> </span><span class="n">scalar</span>
@@ -200,7 +200,7 @@
 <span class="w">    </span><span class="nb">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="n">allocatable</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">expanded</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
 </code></pre></div>
 
-<h2 id="description">DESCRIPTION</h2>
+<h3 id="description">DESCRIPTION</h3>
 <div class="codehilite"><pre><span></span><code>Strings of the form &lt;name&gt; are replaced with another string.
 Use this HTML-like syntax for purposes such as:
 
@@ -225,25 +225,25 @@ More than one keyword may be enclosed. Numeric keywords are assumed
 to be Unicode codepoints.
 </code></pre></div>
 
-<h2 id="options">OPTIONS</h2>
+<h3 id="options">OPTIONS</h3>
 <div class="codehilite"><pre><span></span><code>string        case-sensitive input string  of form
 
                   "arbitrary text&lt;keyword&gt;arbitrary text"
 </code></pre></div>
 
-<h2 id="output">OUTPUT</h2>
+<h3 id="output">OUTPUT</h3>
 <div class="codehilite"><pre><span></span><code>              A string with all "&lt;keyword&gt;" strings expanded
               or optionally left as-is
 </code></pre></div>
 
-<h2 id="limitations">LIMITATIONS</h2>
+<h3 id="limitations">LIMITATIONS</h3>
 <div class="codehilite"><pre><span></span><code>o you should use "&lt;gt&gt;" and "&lt;lt&gt;" instead of "&gt;" and "&lt;" in an string
   processed by keyword_expand(3f) so that the raw mode will create correct
   input for the keyword_expand(3f) function if read back in.
 o keywords are case-sensitive
 </code></pre></div>
 
-<h2 id="examples">EXAMPLES</h2>
+<h3 id="examples">EXAMPLES</h3>
 <div class="codehilite"><pre><span></span><code>Sample<span class="w"> </span>program
 
 <span class="w"> </span>program<span class="w"> </span>demo_keyword
@@ -303,15 +303,15 @@ o keywords are case-sensitive
 <span class="k">  &gt; </span><span class="ge">\e[5mItems for Friday\e[25m</span>
 </code></pre></div>
 
-<h2 id="author">AUTHOR</h2>
+<h3 id="author">AUTHOR</h3>
 <div class="codehilite"><pre><span></span><code>John S. Urban, 2021
 </code></pre></div>
 
-<h2 id="license">LICENSE</h2>
+<h3 id="license">LICENSE</h3>
 <div class="codehilite"><pre><span></span><code>MIT
 </code></pre></div>
 
-<h2 id="see-also">SEE ALSO</h2>
+<h3 id="see-also">SEE ALSO</h3>
 <div class="codehilite"><pre><span></span><code>keyword_mode(3f), keyword_update(3f)
 </code></pre></div>
 
@@ -328,7 +328,7 @@ o keywords are case-sensitive
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~54"></span>
+              <span class="anchor" id="variable-string~38"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -372,7 +372,7 @@ o keywords are case-sensitive
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-strings~4"></span>
+              <span class="anchor" id="variable-strings~3"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -416,7 +416,7 @@ o keywords are case-sensitive
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~55"></span>
+              <span class="anchor" id="variable-string~39"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -460,7 +460,7 @@ o keywords are case-sensitive
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-strings~5"></span>
+              <span class="anchor" id="variable-strings~4"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -502,7 +502,7 @@ o keywords are case-sensitive
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-05 13:37 +0000             </p>
+ on 2026-11-12 12:40 +0000             </p>
           </div>
         </div>
         <br>

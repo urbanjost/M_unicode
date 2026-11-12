@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.1% of total for procedures.</p>Including implementation: 219 statements,  7.9% of total for procedures.">4 statements</a>
+                 title="<p> 0.1% of total for procedures.</p>Including implementation: 219 statements,  6.8% of total for procedures.">4 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -165,13 +165,13 @@
 
     <div class="col-md-9" id='text'>
       <h2>public interface sort</h2>
-      <h2 id="name">NAME</h2>
+      <h3 id="name">NAME</h3>
 <div class="codehilite"><pre><span></span><code> SORT(3f) - [M_unicode:SORT] indexed hybrid quicksort of
  an array
  (LICENSE:MIT)
 </code></pre></div>
 
-<h2 id="synopsis">SYNOPSIS</h2>
+<h3 id="synopsis">SYNOPSIS</h3>
 <div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nx">subroutine</span><span class="w"> </span><span class="nx">sort</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span><span class="nx">index</span><span class="p">,</span><span class="nx">comparison_func</span><span class="p">)</span>
 
 <span class="w">     </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w">           </span><span class="o">::</span><span class="w"> </span><span class="nx">data</span><span class="p">(:)</span>
@@ -179,7 +179,7 @@
 <span class="w">     </span><span class="nx">procedure</span><span class="p">(</span><span class="nx">unicode_comparator</span><span class="p">),</span><span class="w"> </span><span class="nx">optional</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">comparison_func</span>
 </code></pre></div>
 
-<h2 id="description">DESCRIPTION</h2>
+<h3 id="description">DESCRIPTION</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">A</span> <span class="n">rank</span> <span class="n">hybrid</span> <span class="n">quicksort</span><span class="o">.</span> <span class="n">The</span> <span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">moved</span><span class="o">.</span> <span class="n">An</span> <span class="n">integer</span> <span class="n">array</span> <span class="ow">is</span>
 <span class="n">generated</span> <span class="n">instead</span> <span class="k">with</span> <span class="n">values</span> <span class="n">that</span> <span class="n">are</span> <span class="n">indices</span> <span class="n">to</span> <span class="n">the</span> <span class="nb">sorted</span> <span class="n">order</span>
 <span class="n">of</span> <span class="n">the</span> <span class="n">data</span><span class="o">.</span> <span class="n">This</span> <span class="n">requires</span> <span class="n">a</span> <span class="n">second</span> <span class="n">array</span> <span class="n">the</span> <span class="n">size</span> <span class="n">of</span> <span class="n">the</span> <span class="nb">input</span>
@@ -203,7 +203,7 @@
     <span class="n">end</span> <span class="n">interface</span>
 </code></pre></div>
 
-<h2 id="background">BACKGROUND</h2>
+<h3 id="background">BACKGROUND</h3>
 <div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="n">From</span><span class="w"> </span><span class="n">Leonard</span><span class="w"> </span><span class="n">J</span><span class="p">.</span><span class="w"> </span><span class="n">Moss</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">SLAC</span><span class="o">:</span>
 
 <span class="w"> </span><span class="n">Here</span><span class="err">'</span><span class="n">s</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">hybrid</span><span class="w"> </span><span class="n">QuickSort</span><span class="w"> </span><span class="n">I</span><span class="w"> </span><span class="n">wrote</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">years</span><span class="w"> </span><span class="n">ago</span><span class="p">.</span><span class="w"> </span><span class="n">It</span><span class="err">'</span><span class="n">s</span><span class="w"> </span><span class="n">based</span>
@@ -242,7 +242,7 @@
 <span class="w"> </span><span class="n">o</span><span class="w"> </span><span class="n">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="n">JSU</span><span class="w"> </span><span class="mi">2025-09</span><span class="mf">-20.</span><span class="w"> </span><span class="n">See</span><span class="w"> </span><span class="n">M_sort</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">other</span><span class="w"> </span><span class="n">types</span><span class="p">.</span>
 </code></pre></div>
 
-<h2 id="examples">EXAMPLES</h2>
+<h3 id="examples">EXAMPLES</h3>
 <p>Note that the custom German dictionary collate function found below
    is just a sample, and likely to be quite slow.</p>
 <p>Sample usage:</p>
@@ -525,11 +525,11 @@
 <span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nv">PASSED</span>
 </code></pre></div>
 
-<h2 id="author">AUTHOR</h2>
+<h3 id="author">AUTHOR</h3>
 <div class="codehilite"><pre><span></span><code> John S. Urban
 </code></pre></div>
 
-<h2 id="license">LICENSE</h2>
+<h3 id="license">LICENSE</h3>
 <div class="codehilite"><pre><span></span><code> MIT
 </code></pre></div>
 <br>
@@ -555,7 +555,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-data~2"></span>
+              <span class="anchor" id="variable-data~3"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -609,7 +609,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-data"></span>
+              <span class="anchor" id="variable-data~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -676,7 +676,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-05 13:37 +0000             </p>
+ on 2026-11-12 12:40 +0000             </p>
           </div>
         </div>
         <br>

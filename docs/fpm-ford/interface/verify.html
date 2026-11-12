@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.2% of total for procedures.</p>Including implementation: 41 statements,  1.5% of total for procedures.">5 statements</a>
+                 title="<p> 0.2% of total for procedures.</p>Including implementation: 41 statements,  1.3% of total for procedures.">5 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -166,20 +166,11 @@
 
     <div class="col-md-9" id='text'>
       <h2>public interface verify</h2>
-      
-
-
-
-        <h2>Module Procedures</h2>
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-verify_uu"></span> <h3>private impure elemental function verify_uu(string, set, back) result(result)  
-</h3></div>
-    <div class="card-body">
-        <h2 id="name">NAME</h2>
+      <h3 id="name">NAME</h3>
 <p>VERIFY(3f) - [M_unicode:SEARCH] Position of a character in a string of
    characters that does not appear in a given set of characters.
    (LICENSE:MIT)</p>
-<h2 id="synopsis">SYNOPSIS</h2>
+<h3 id="synopsis">SYNOPSIS</h3>
 <p>result = verify(string, set [,back] [,kind] )</p>
 <div class="codehilite"><pre><span></span><code><span class="w">        </span><span class="nx">elemental</span><span class="w"> </span><span class="nx">integer</span><span class="w"> </span><span class="nx">function</span><span class="w"> </span><span class="nx">verify</span><span class="p">(</span><span class="kt">string</span><span class="p">,</span><span class="nx">set</span><span class="p">,</span><span class="nx">back</span><span class="p">,</span><span class="nx">KIND</span><span class="p">)</span>
 
@@ -192,14 +183,14 @@
 <span class="w">         </span><span class="nx">logical</span><span class="p">,</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">),</span><span class="nx">optional</span><span class="w">   </span><span class="o">::</span><span class="w"> </span><span class="nx">back</span>
 </code></pre></div>
 
-<h2 id="characteristics">CHARACTERISTICS</h2>
+<h3 id="characteristics">CHARACTERISTICS</h3>
 <ul>
 <li>STRING  must be of type string</li>
 <li>SET  must be of type string or character.</li>
 <li>BACK shall be of type logical.</li>
 <li>A default integer kind is returned.</li>
 </ul>
-<h2 id="description">DESCRIPTION</h2>
+<h3 id="description">DESCRIPTION</h3>
 <p>VERIFY(3f) verifies that all the characters in STRING belong to the set of
    characters in SET by identifying the position of the first character in the
    string that is not in the set.</p>
@@ -209,7 +200,7 @@
    ISBLANK(3c), ISCNTRL(3c), ISDIGIT(3c), ISGRAPH(3c), ISLOWER(3c), ISPRINT(3c),
    ISPUNCT(3c), ISSPACE(3c), ISUPPER(3c), and ISXDIGIT(3c); but for a string as
    well as an array of strings.</p>
-<h2 id="options">OPTIONS</h2>
+<h3 id="options">OPTIONS</h3>
 <ul>
 <li>
 <p>STRING : The string to search in for an unmatched character.</p>
@@ -224,13 +215,13 @@
       to be returned instead of the left‐most unmatched character.</p>
 </li>
 </ul>
-<h2 id="result">RESULT</h2>
+<h3 id="result">RESULT</h3>
 <p>If all characters of STRING are found in SET, the result is zero.</p>
 <p>If STRING is of zero length a zero (0) is always returned.</p>
 <p>Otherwise, if an unmatched character is found The position of the first or
    last (if BACK is .false.) unmatched character in STRING is returned, starting
    with position one on the left end of the string.</p>
-<h2 id="examples">EXAMPLES</h2>
+<h3 id="examples">EXAMPLES</h3>
 <p>Sample program I:</p>
 <div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">demo_verify</span>
 <span class="p">!</span><span class="w"> </span><span class="nx">general</span><span class="w"> </span><span class="nx">examples</span>
@@ -574,7 +565,7 @@
   &gt;  1 2 1
 </code></pre></div>
 
-<h2 id="see-also">SEE ALSO</h2>
+<h3 id="see-also">SEE ALSO</h3>
 <p>Functions that perform operations on character strings, return
    lengths of arguments, and search for certain arguments:</p>
 <ul>
@@ -585,13 +576,22 @@
 <p>NONELEMENTAL: LEN_TRIM(3), LEN(3), REPEAT(3), TRIM(3)</p>
 </li>
 </ul>
-<h2 id="author">AUTHOR</h2>
+<h3 id="author">AUTHOR</h3>
 <div class="codehilite"><pre><span></span><code> John S. Urban
 </code></pre></div>
 
-<h2 id="license">LICENSE</h2>
+<h3 id="license">LICENSE</h3>
 <div class="codehilite"><pre><span></span><code> MIT
 </code></pre></div>
+<br>
+
+
+        <h2>Module Procedures</h2>
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-verify_uu"></span> <h3>private impure elemental function verify_uu(string, set, back) result(result)  
+</h3></div>
+    <div class="card-body">
+        
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -606,7 +606,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~43"></span>
+              <span class="anchor" id="variable-string~54"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -621,7 +621,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~11"></span>
+              <span class="anchor" id="variable-set~14"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -636,7 +636,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-back~16"></span>
+              <span class="anchor" id="variable-back~14"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -680,7 +680,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~44"></span>
+              <span class="anchor" id="variable-string~55"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -695,7 +695,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~12"></span>
+              <span class="anchor" id="variable-set~15"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -710,7 +710,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-back~17"></span>
+              <span class="anchor" id="variable-back~15"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -754,7 +754,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~45"></span>
+              <span class="anchor" id="variable-string~56"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -769,7 +769,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~13"></span>
+              <span class="anchor" id="variable-set~16"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -784,7 +784,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-back~18"></span>
+              <span class="anchor" id="variable-back~16"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -826,7 +826,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-05 13:37 +0000             </p>
+ on 2026-11-12 12:40 +0000             </p>
           </div>
         </div>
         <br>

@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 1.2% of total for procedures.">32 statements</a>
+                 title=" 1.0% of total for procedures.">32 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -162,12 +162,12 @@
 </h2>
     
 
-    <h2 id="name">NAME</h2>
+    <h3 id="name">NAME</h3>
 <div class="codehilite"><pre><span></span><code> EXPANDTABS(3f) - [M_unicode:WHITESPACE] function to expand tab characters
  (LICENSE:MIT)
 </code></pre></div>
 
-<h2 id="synopsis">SYNOPSIS</h2>
+<h3 id="synopsis">SYNOPSIS</h3>
 <div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nx">elemental</span><span class="w"> </span><span class="nx">function</span><span class="w"> </span><span class="nx">expandtabs</span><span class="p">(</span><span class="nx">INSTR</span><span class="p">,</span><span class="nx">TABSIZE</span><span class="p">)</span><span class="w"> </span><span class="nx">result</span><span class="p">(</span><span class="nx">OUT</span><span class="p">)</span>
 
 <span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">intent</span><span class="p">=(</span><span class="k">in</span><span class="p">)</span><span class="w">  </span><span class="o">::</span><span class="w"> </span><span class="nx">INSTR</span>
@@ -175,21 +175,21 @@
 <span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span><span class="w">              </span><span class="o">::</span><span class="w"> </span><span class="nx">OUT</span>
 </code></pre></div>
 
-<h2 id="description">DESCRIPTION</h2>
+<h3 id="description">DESCRIPTION</h3>
 <div class="codehilite"><pre><span></span><code>EXPANDTABS(3f) expands tabs in INSTR to spaces in OUT. It assumes a
 tab is set every 8 characters by default. Trailing spaces are removed.
 </code></pre></div>
 
-<h2 id="options">OPTIONS</h2>
+<h3 id="options">OPTIONS</h3>
 <div class="codehilite"><pre><span></span><code>instr     Input line to remove tabs from
 tab_size  spacing between tab stops.
 </code></pre></div>
 
-<h2 id="returns">RETURNS</h2>
+<h3 id="returns">RETURNS</h3>
 <div class="codehilite"><pre><span></span><code>out       Output string with tabs expanded.
 </code></pre></div>
 
-<h2 id="examples">EXAMPLES</h2>
+<h3 id="examples">EXAMPLES</h3>
 <p>Sample program:</p>
 <div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="n">program</span><span class="w"> </span><span class="n">demo_expandtabs</span>
 <span class="w"> </span><span class="k">use</span><span class="w"> </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="n">expandtabs</span><span class="p">,</span><span class="w"> </span><span class="n">ch</span><span class="o">=&gt;</span><span class="k">character</span><span class="p">,</span><span class="w"> </span><span class="nf">replace</span>
@@ -228,11 +228,11 @@ tab_size  spacing between tab stops.
 <span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">thisismystring</span><span class="o">]</span>
 </code></pre></div>
 
-<h2 id="author">AUTHOR</h2>
+<h3 id="author">AUTHOR</h3>
 <div class="codehilite"><pre><span></span><code>  John S. Urban
 </code></pre></div>
 
-<h2 id="license">LICENSE</h2>
+<h3 id="license">LICENSE</h3>
 <div class="codehilite"><pre><span></span><code> MIT
 </code></pre></div>
 
@@ -283,7 +283,7 @@ tab_size  spacing between tab stops.
 
       <h3>Return Value
         <small>
-          <span class="anchor" id="variable-out~8"></span>
+          <span class="anchor" id="variable-out~7"></span>
           type(<a href='../type/unicode_type.html'>unicode_type</a>)
         </small>
       </h3>
@@ -304,7 +304,7 @@ tab_size  spacing between tab stops.
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="k">elemental function </span><span class="n">expandtabs</span><span class="p">(</span><span class="n">instr</span><span class="p">,</span><span class="n">tab_size</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
 
-<span class="c">! ident_9="@(#) M_unicode expandtabs(3f) convert tabs to spaces and trim line removing CRLF chars"</span>
+<span class="c">! ident_6="@(#) M_unicode expandtabs(3f) convert tabs to spaces and trim line removing CRLF chars"</span>
 
 <span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">instr</span><span class="w">     </span><span class="c">! input line to scan for tab characters</span>
 <span class="k">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">out</span><span class="w">       </span><span class="c">! tab-expanded version of INSTR produced</span>
@@ -362,7 +362,7 @@ tab_size  spacing between tab stops.
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-05 13:37 +0000             </p>
+ on 2026-11-12 12:40 +0000             </p>
           </div>
         </div>
         <br>
