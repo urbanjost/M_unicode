@@ -8728,7 +8728,97 @@ end interface character
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
+$parcel assignment
+!> Assign a string to a character sequence
+subroutine assign_ints_str(lhs, rhs)
+integer,allocatable,intent(out) :: lhs(:)
+type(unicode_type),intent(in)   :: rhs
+   lhs=rhs%codes
+end subroutine assign_ints_str
+
+!> Assign a string to a character sequence
+subroutine assign_char_str(lhs, rhs)
+character(len=:),allocatable,intent(out) :: lhs
+type(unicode_type),intent(in)            :: rhs
+integer                                  :: nerr
+   call codepoints_to_utf8_str(rhs%codes,lhs,nerr)
+end subroutine assign_char_str
+
+!> Assign a string array to a character array
+subroutine assign_chars_strs(lhs, rhs)
+character(len=:),allocatable,intent(out) :: lhs(:)
+character(len=:),allocatable             :: temp
+type(unicode_type),intent(in)            :: rhs(:)
+integer                                  :: i
+integer                                  :: mx
+integer                                  :: lensum
+integer                                  :: nerr
+
+   ! get max length in bytes (not glyphs)
+   mx=0
+   do i=1,size(rhs)
+      call byte_length_of_codepoints(rhs(i)%codes,lensum,nerr)
+      mx=max( mx, lensum )
+   enddo
+
+   if(allocated(lhs))deallocate(lhs)
+   allocate(character(len=mx) :: lhs(size(rhs)))
+
+   do i=1,size(rhs)
+      call codepoints_to_utf8_str(rhs(i)%codes,temp,nerr)
+      lhs(i)(:)=temp
+   enddo
+
+end subroutine assign_chars_strs
+
+!> Assign a character sequence to a string.
+pure elemental subroutine assign_str_char(lhs, rhs)
+type(unicode_type),intent(out)  :: lhs
+character(len=*),intent(in)     :: rhs
+integer                         :: nerr
+   call utf8_to_codepoints_str(rhs,lhs%codes,nerr)
+end subroutine assign_str_char
+
+subroutine assign_strs_char(lhs, rhs)
+type(unicode_type),intent(out) :: lhs
+character(len=*),intent(in)    :: rhs(:)
+integer                        :: nerr
+integer                        :: i
+integer,allocatable            :: temp(:)
+   if(allocated(lhs%codes))deallocate(lhs%codes)
+   allocate(lhs%codes(0))
+   do i=1,size(rhs)
+      call utf8_to_codepoints_str(rhs(i),temp,nerr)
+      lhs%codes=[lhs%codes,temp]
+   enddo
+end subroutine assign_strs_char
+
+subroutine assign_strs_chars(lhs, rhs)
+type(unicode_type),intent(out),allocatable :: lhs(:)
+character(len=*),intent(in)                :: rhs(:)
+integer                                    :: nerr
+integer                                    :: i
+   if(allocated(lhs))deallocate(lhs)
+   allocate(lhs(size(rhs)))
+   do i=1,size(rhs)
+      call utf8_to_codepoints_str(rhs(i),lhs(i)%codes,nerr)
+   enddo
+end subroutine assign_strs_chars
+
+! Assign a sequence of codepoints to a string.
+subroutine assign_str_codes(lhs, rhs)
+type(unicode_type), intent(out) :: lhs
+integer, intent(in)             :: rhs(:)
+   lhs%codes=rhs
+end subroutine assign_str_codes
+
+elemental subroutine assign_str_code(lhs, rhs)
+type(unicode_type), intent(out) :: lhs
+integer, intent(in)             :: rhs
+   lhs%codes=[rhs]
+end subroutine assign_str_code
 ! Assign a character sequence to a string.
+$endparcel
 interface assignment(=)
    module procedure :: assign_strs_chars
    module procedure :: assign_strs_char
@@ -10591,97 +10681,6 @@ integer,intent(in) :: codes(:)
 type(unicode_type) :: new
    new%codes=codes
 end function new_codes
-!===================================================================================================================================
-!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
-!===================================================================================================================================
-!> Assign a string to a character sequence
-subroutine assign_ints_str(lhs, rhs)
-integer,allocatable,intent(out) :: lhs(:)
-type(unicode_type),intent(in)   :: rhs
-   lhs=rhs%codes
-end subroutine assign_ints_str
-
-!> Assign a string to a character sequence
-subroutine assign_char_str(lhs, rhs)
-character(len=:),allocatable,intent(out) :: lhs
-type(unicode_type),intent(in)            :: rhs
-integer                                  :: nerr
-   call codepoints_to_utf8_str(rhs%codes,lhs,nerr)
-end subroutine assign_char_str
-
-!> Assign a string array to a character array
-subroutine assign_chars_strs(lhs, rhs)
-character(len=:),allocatable,intent(out) :: lhs(:)
-character(len=:),allocatable             :: temp
-type(unicode_type),intent(in)            :: rhs(:)
-integer                                  :: i
-integer                                  :: mx
-integer                                  :: lensum
-integer                                  :: nerr
-
-   ! get max length in bytes (not glyphs)
-   mx=0
-   do i=1,size(rhs)
-      call byte_length_of_codepoints(rhs(i)%codes,lensum,nerr)
-      mx=max( mx, lensum )
-   enddo
-
-   if(allocated(lhs))deallocate(lhs)
-   allocate(character(len=mx) :: lhs(size(rhs)))
-
-   do i=1,size(rhs)
-      call codepoints_to_utf8_str(rhs(i)%codes,temp,nerr)
-      lhs(i)(:)=temp
-   enddo
-
-end subroutine assign_chars_strs
-
-!> Assign a character sequence to a string.
-pure elemental subroutine assign_str_char(lhs, rhs)
-type(unicode_type),intent(out)  :: lhs
-character(len=*),intent(in)     :: rhs
-integer                         :: nerr
-   call utf8_to_codepoints_str(rhs,lhs%codes,nerr)
-end subroutine assign_str_char
-
-subroutine assign_strs_char(lhs, rhs)
-type(unicode_type),intent(out) :: lhs
-character(len=*),intent(in)    :: rhs(:)
-integer                        :: nerr
-integer                        :: i
-integer,allocatable            :: temp(:)
-   if(allocated(lhs%codes))deallocate(lhs%codes)
-   allocate(lhs%codes(0))
-   do i=1,size(rhs)
-      call utf8_to_codepoints_str(rhs(i),temp,nerr)
-      lhs%codes=[lhs%codes,temp]
-   enddo
-end subroutine assign_strs_char
-
-subroutine assign_strs_chars(lhs, rhs)
-type(unicode_type),intent(out),allocatable :: lhs(:)
-character(len=*),intent(in)                :: rhs(:)
-integer                                    :: nerr
-integer                                    :: i
-   if(allocated(lhs))deallocate(lhs)
-   allocate(lhs(size(rhs)))
-   do i=1,size(rhs)
-      call utf8_to_codepoints_str(rhs(i),lhs(i)%codes,nerr)
-   enddo
-end subroutine assign_strs_chars
-
-! Assign a sequence of codepoints to a string.
-subroutine assign_str_codes(lhs, rhs)
-type(unicode_type), intent(out) :: lhs
-integer, intent(in)             :: rhs(:)
-   lhs%codes=rhs
-end subroutine assign_str_codes
-
-elemental subroutine assign_str_code(lhs, rhs)
-type(unicode_type), intent(out) :: lhs
-integer, intent(in)             :: rhs
-   lhs%codes=[rhs]
-end subroutine assign_str_code
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
@@ -17079,6 +17078,8 @@ $post isascii
 $post isblank
 $post isspace
 
+! assignment
+$post assignment
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
