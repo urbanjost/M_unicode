@@ -91,7 +91,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="77.7% of total for modules and submodules.">7990 statements</a>
+                 title="77.6% of total for modules and submodules.">8018 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -170,6 +170,7 @@
             <a class="list-group-item" href="../module/m_unicode.html#interface-index">index</a>
             <a class="list-group-item" href="../module/m_unicode.html#interface-isascii">isascii</a>
             <a class="list-group-item" href="../module/m_unicode.html#interface-isblank">isblank</a>
+            <a class="list-group-item" href="../module/m_unicode.html#interface-issensitive">issensitive</a>
             <a class="list-group-item" href="../module/m_unicode.html#interface-isspace">isspace</a>
             <a class="list-group-item" href="../module/m_unicode.html#interface-keyword_expand">keyword_expand</a>
             <a class="list-group-item" href="../module/m_unicode.html#interface-keyword_mode">keyword_mode</a>
@@ -414,6 +415,8 @@
 <span class="w">           </span><span class="nx">tab</span><span class="p">).</span>
 <span class="w"> </span><span class="nx">isspace</span><span class="w">   </span><span class="nx">returns</span><span class="w"> </span><span class="p">.</span><span class="kc">true</span><span class="p">.</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="nx">composed</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">all</span><span class="w"> </span><span class="nx">spaces</span>
 <span class="w">           </span><span class="p">(</span><span class="nx">ASCII</span><span class="o">-</span><span class="mi">7</span><span class="w"> </span><span class="nx">spaces</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="nx">from</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">set</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">Unicode</span><span class="w"> </span><span class="nx">blanks</span><span class="p">).</span>
+<span class="w"> </span><span class="nx">issensitive</span><span class="w">   </span><span class="nx">returns</span><span class="w"> </span><span class="p">.</span><span class="kc">true</span><span class="p">.</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nx">first</span><span class="w"> </span><span class="nx">character</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="k">is</span>
+<span class="w">               </span><span class="k">case</span><span class="o">-</span><span class="nx">sensitive</span><span class="p">.</span>
 
 <span class="nx">IO</span>
 
@@ -769,30 +772,85 @@
 </code></pre></div>
 
 <h3 id="name_4">NAME</h3>
-<p>reverse(3f) - [M_unicode:CASE] reverse order of glyphs on a line
+<p>issensitive(3f) - [M_unicode:CASE] determine if character is case-sensitive
   (LICENSE:MIT)</p>
 <h3 id="synopsis_4">SYNOPSIS</h3>
+<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nx">pure</span><span class="w"> </span><span class="nx">elemental</span><span class="w"> </span><span class="nx">function</span><span class="w"> </span><span class="nx">issensitive</span><span class="p">(</span><span class="nx">str</span><span class="p">)</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="p">(</span><span class="nx">mask</span><span class="p">)</span>
+
+<span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">str</span>
+<span class="w">  </span><span class="nx">logical</span><span class="w">                       </span><span class="o">::</span><span class="w"> </span><span class="nx">mask</span>
+</code></pre></div>
+
+<h3 id="description_4">DESCRIPTION</h3>
+<div class="codehilite"><pre><span></span><code><span class="nv">issensitive</span><span class="ss">(</span><span class="nv">string</span><span class="ss">)</span><span class="w"> </span><span class="nv">returns</span><span class="w"> </span><span class="nv">true</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">character</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">considered</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">be</span>
+<span class="nv">case</span><span class="o">-</span><span class="nv">sensitive</span>,<span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="nv">it</span><span class="w"> </span><span class="nv">returns</span><span class="w"> </span><span class="nv">false</span>.
+</code></pre></div>
+
+<h3 id="options_3">OPTIONS</h3>
+<div class="codehilite"><pre><span></span><code> str    string to query, only first character is tested.
+</code></pre></div>
+
+<h3 id="returns_3">RETURNS</h3>
+<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nv">mask</span><span class="w">   </span><span class="nv">returns</span><span class="w"> </span><span class="nv">true</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">character</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">considered</span><span class="w"> </span><span class="nv">case</span><span class="o">-</span><span class="nv">sensitive</span><span class="c1">;</span>
+<span class="w">        </span><span class="nv">otherwise</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">returns</span><span class="w"> </span><span class="nv">false</span>.
+</code></pre></div>
+
+<h3 id="examples_4">EXAMPLES</h3>
+<p>Sample program:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">program</span><span class="w"> </span><span class="n">demo_issensitive</span>
+<span class="k">use</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="n">stdout</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">output_unit</span>
+<span class="k">use</span><span class="w"> </span><span class="n">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="n">issensitive</span><span class="p">,</span><span class="w"> </span><span class="nf">len</span><span class="p">,</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">),</span><span class="w"> </span><span class="n">ch</span><span class="o">=&gt;</span><span class="k">character</span>
+<span class="k">use</span><span class="w"> </span><span class="n">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="n">ut</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">==</span><span class="p">)</span>
+<span class="n">implicit</span><span class="w"> </span><span class="k">none</span>
+<span class="n">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">                   </span><span class="o">::</span><span class="w"> </span><span class="n">line</span>
+<span class="k">character</span><span class="p">(</span><span class="nf">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="n">g</span><span class="o">=</span><span class="s1">'(*(g0))'</span>
+<span class="k">integer</span><span class="w">                    </span><span class="o">::</span><span class="w"> </span><span class="n">i</span>
+<span class="w">   </span><span class="n">line</span><span class="o">=</span><span class="s1">'[AB]cd{E}fg(H)i^J~klm:NOP;q|RSTU!,vwxyz0123456789'</span>
+<span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="n">g</span><span class="p">,</span><span class="w"> </span><span class="n">line</span><span class="o">%</span><span class="n">ch</span><span class="p">()</span>
+<span class="w">   </span><span class="n">do</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="nf">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+<span class="w">      </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">advance</span><span class="o">=</span><span class="s1">'no'</span><span class="p">)</span><span class="k">merge</span><span class="p">(</span><span class="w"> </span><span class="s1">'^'</span><span class="p">,</span><span class="w"> </span><span class="s1">'_'</span><span class="p">,</span><span class="w"> </span><span class="n">issensitive</span><span class="p">(</span><span class="n">line</span><span class="o">%</span><span class="n">sub</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="n">enddo</span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span>
+<span class="k">end</span><span class="w"> </span><span class="n">program</span><span class="w"> </span><span class="n">demo_issensitive</span>
+</code></pre></div>
+
+<p>Expected output</p>
+<blockquote>
+<p>The quick brown fox jumps over the lazy dog.</p>
+</blockquote>
+<h3 id="author_4">AUTHOR</h3>
+<div class="codehilite"><pre><span></span><code> John S. Urban
+</code></pre></div>
+
+<h3 id="license_4">LICENSE</h3>
+<div class="codehilite"><pre><span></span><code> MIT
+</code></pre></div>
+
+<h3 id="name_5">NAME</h3>
+<p>reverse(3f) - [M_unicode:CASE] reverse order of glyphs on a line
+  (LICENSE:MIT)</p>
+<h3 id="synopsis_5">SYNOPSIS</h3>
 <div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nx">impure</span><span class="w"> </span><span class="nx">elemental</span><span class="w"> </span><span class="nx">function</span><span class="w"> </span><span class="nx">reverse</span><span class="p">(</span><span class="nx">str</span><span class="p">)</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="p">(</span><span class="kt">string</span><span class="p">)</span>
 
 <span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">str</span>
 <span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span><span class="w">            </span><span class="o">::</span><span class="w"> </span><span class="kt">string</span>
 </code></pre></div>
 
-<h3 id="description_4">DESCRIPTION</h3>
+<h3 id="description_5">DESCRIPTION</h3>
 <div class="codehilite"><pre><span></span><code>reverse(string) returns a copy of the input string with all characters
 in reverse position on the line.
 </code></pre></div>
 
-<h3 id="options_3">OPTIONS</h3>
+<h3 id="options_4">OPTIONS</h3>
 <div class="codehilite"><pre><span></span><code> str    string to reverse
 </code></pre></div>
 
-<h3 id="returns_3">RETURNS</h3>
+<h3 id="returns_4">RETURNS</h3>
 <div class="codehilite"><pre><span></span><code> reverse  copy of the input string with order of characters on the
           line reversed.
 </code></pre></div>
 
-<h3 id="examples_4">EXAMPLES</h3>
+<h3 id="examples_5">EXAMPLES</h3>
 <p>Sample program:</p>
 <div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">demo_reverse</span>
 <span class="nx">use</span><span class="w"> </span><span class="nx">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">stdout</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nx">output_unit</span>
@@ -821,34 +879,34 @@ in reverse position on the line.
  &gt; 七十五
 </code></pre></div>
 
-<h3 id="author_4">AUTHOR</h3>
+<h3 id="author_5">AUTHOR</h3>
 <div class="codehilite"><pre><span></span><code> John S. Urban
 </code></pre></div>
 
-<h3 id="license_4">LICENSE</h3>
+<h3 id="license_5">LICENSE</h3>
 <div class="codehilite"><pre><span></span><code> MIT
 </code></pre></div>
 
-<h3 id="name_5">NAME</h3>
+<h3 id="name_6">NAME</h3>
 <p>UPPER(3f) - [M_unicode:CASE] changes a string to uppercase
   (LICENSE:MIT)</p>
-<h3 id="synopsis_5">SYNOPSIS</h3>
+<h3 id="synopsis_6">SYNOPSIS</h3>
 <div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nx">pure</span><span class="w"> </span><span class="nx">elemental</span><span class="w"> </span><span class="nx">function</span><span class="w"> </span><span class="nx">upper</span><span class="p">(</span><span class="nx">str</span><span class="p">)</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="p">(</span><span class="kt">string</span><span class="p">)</span>
 
 <span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">str</span>
 <span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span><span class="w">            </span><span class="o">::</span><span class="w"> </span><span class="kt">string</span>
 </code></pre></div>
 
-<h3 id="description_5">DESCRIPTION</h3>
+<h3 id="description_6">DESCRIPTION</h3>
 <div class="codehilite"><pre><span></span><code>upper(string) returns a copy of the input string with all characters
 converted to uppercase, assuming Unicode character sets are being used.
 </code></pre></div>
 
-<h3 id="options_4">OPTIONS</h3>
+<h3 id="options_5">OPTIONS</h3>
 <div class="codehilite"><pre><span></span><code> str    string to convert to uppercase
 </code></pre></div>
 
-<h3 id="returns_4">RETURNS</h3>
+<h3 id="returns_5">RETURNS</h3>
 <div class="codehilite"><pre><span></span><code> upper  copy of the input string with all characters converted to
         uppercase.
 </code></pre></div>
@@ -864,7 +922,7 @@ converted to uppercase, assuming Unicode character sets are being used.
  majuscule letters, ended up in the harder to reach upper cases.
 </code></pre></div>
 
-<h3 id="examples_5">EXAMPLES</h3>
+<h3 id="examples_6">EXAMPLES</h3>
 <p>Sample program:</p>
 <div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">demo_upper</span>
 <span class="nx">use</span><span class="w"> </span><span class="nx">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">stdout</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nx">output_unit</span>
@@ -924,37 +982,37 @@ Příliš žluťoučký kůň úpěl ďábelské ódy.
 PŘÍLIŠ ŽLUŤOUČKÝ KŮŇ ÚPĚL ĎÁBELSKÉ ÓDY.
 PASSED</p>
 </blockquote>
-<h3 id="author_5">AUTHOR</h3>
+<h3 id="author_6">AUTHOR</h3>
 <div class="codehilite"><pre><span></span><code> John S. Urban
 </code></pre></div>
 
-<h3 id="license_5">LICENSE</h3>
+<h3 id="license_6">LICENSE</h3>
 <div class="codehilite"><pre><span></span><code> MIT
 </code></pre></div>
 
-<h3 id="name_6">NAME</h3>
+<h3 id="name_7">NAME</h3>
 <div class="codehilite"><pre><span></span><code> LOWER(3f) - [M_unicode:CASE] changes a string to lowercase over
  specified range
  (LICENSE:MIT)
 </code></pre></div>
 
-<h3 id="synopsis_6">SYNOPSIS</h3>
+<h3 id="synopsis_7">SYNOPSIS</h3>
 <div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nx">pure</span><span class="w"> </span><span class="nx">elemental</span><span class="w"> </span><span class="nx">function</span><span class="w"> </span><span class="nx">lower</span><span class="p">(</span><span class="nx">str</span><span class="p">)</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="p">(</span><span class="kt">string</span><span class="p">)</span>
 
 <span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">str</span>
 <span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span><span class="w">            </span><span class="o">::</span><span class="w"> </span><span class="kt">string</span>
 </code></pre></div>
 
-<h3 id="description_6">DESCRIPTION</h3>
+<h3 id="description_7">DESCRIPTION</h3>
 <div class="codehilite"><pre><span></span><code>   lower(str) returns a copy of the input string with all
    characters converted to miniscule (ie. "lowercase").
 </code></pre></div>
 
-<h3 id="options_5">OPTIONS</h3>
+<h3 id="options_6">OPTIONS</h3>
 <div class="codehilite"><pre><span></span><code> str    string to convert to miniscule
 </code></pre></div>
 
-<h3 id="returns_5">RETURNS</h3>
+<h3 id="returns_6">RETURNS</h3>
 <div class="codehilite"><pre><span></span><code> lower  copy of the entire input string with all characters converted
         to miniscule.
 </code></pre></div>
@@ -970,7 +1028,7 @@ the work bench. The less often needed, capitalized, majuscule letters,
 ended up in the harder to reach upper cases.
 </code></pre></div>
 
-<h3 id="examples_6">EXAMPLES</h3>
+<h3 id="examples_7">EXAMPLES</h3>
 <p>Sample program:</p>
 <div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">demo_lower</span>
 <span class="nx">use</span><span class="w"> </span><span class="nx">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">stdout</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nx">output_unit</span>
@@ -1030,11 +1088,11 @@ ended up in the harder to reach upper cases.
   &gt; PASSED
 </code></pre></div>
 
-<h3 id="author_6">AUTHOR</h3>
+<h3 id="author_7">AUTHOR</h3>
 <div class="codehilite"><pre><span></span><code> John S. Urban
 </code></pre></div>
 
-<h3 id="license_6">LICENSE</h3>
+<h3 id="license_7">LICENSE</h3>
 <div class="codehilite"><pre><span></span><code> MIT
 </code></pre></div>
 
@@ -1364,7 +1422,7 @@ Escape sequences
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-line~26"></span>
+              <span class="anchor" id="variable-line~17"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1407,7 +1465,7 @@ Escape sequences
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-line~27"></span>
+              <span class="anchor" id="variable-line~18"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1450,7 +1508,7 @@ Escape sequences
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-uline~11"></span>
+              <span class="anchor" id="variable-uline~8"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1493,7 +1551,7 @@ Escape sequences
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-line~28"></span>
+              <span class="anchor" id="variable-line~19"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1694,7 +1752,7 @@ Escape sequences
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-style~7"></span>
+              <span class="anchor" id="variable-style~6"></span>
               class(*),
             </td>
 <td>intent(in),</td>
@@ -1752,7 +1810,7 @@ Escape sequences
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-style~4"></span>
+              <span class="anchor" id="variable-style~3"></span>
               class(*),
             </td>
 <td>intent(in),</td>
@@ -1810,7 +1868,7 @@ Escape sequences
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-style~6"></span>
+              <span class="anchor" id="variable-style~5"></span>
               class(*),
             </td>
 <td>intent(in),</td>
@@ -1868,7 +1926,7 @@ Escape sequences
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-style~5"></span>
+              <span class="anchor" id="variable-style~4"></span>
               class(*),
             </td>
 <td>intent(in),</td>
@@ -2069,7 +2127,7 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-line~21"></span>
+              <span class="anchor" id="variable-line~12"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2112,7 +2170,7 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-line~18"></span>
+              <span class="anchor" id="variable-line~9"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2155,7 +2213,7 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-line~20"></span>
+              <span class="anchor" id="variable-line~11"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td></td>
@@ -2198,7 +2256,7 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-line~19"></span>
+              <span class="anchor" id="variable-line~10"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2335,7 +2393,7 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~22"></span>
+              <span class="anchor" id="variable-string~14"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2561,7 +2619,7 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~21"></span>
+              <span class="anchor" id="variable-string~13"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2629,7 +2687,7 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~9"></span>
+              <span class="anchor" id="variable-lhs~30"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(out),</td>
@@ -2644,7 +2702,7 @@ Each converted character is printed in the form
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~9"></span>
+              <span class="anchor" id="variable-rhs~30"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2682,7 +2740,7 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~8"></span>
+              <span class="anchor" id="variable-lhs~29"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(out)</td>
@@ -2697,7 +2755,7 @@ Each converted character is printed in the form
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~8"></span>
+              <span class="anchor" id="variable-rhs~29"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2735,7 +2793,7 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~7"></span>
+              <span class="anchor" id="variable-lhs~28"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(out)</td>
@@ -2750,7 +2808,7 @@ Each converted character is printed in the form
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~7"></span>
+              <span class="anchor" id="variable-rhs~28"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2788,7 +2846,7 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~6"></span>
+              <span class="anchor" id="variable-lhs~27"></span>
               character(len=:),
             </td>
 <td>intent(out),</td>
@@ -2803,7 +2861,7 @@ Each converted character is printed in the form
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~6"></span>
+              <span class="anchor" id="variable-rhs~27"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2841,7 +2899,7 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~5"></span>
+              <span class="anchor" id="variable-lhs~26"></span>
               character(len=:),
             </td>
 <td>intent(out),</td>
@@ -2856,7 +2914,7 @@ Each converted character is printed in the form
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~5"></span>
+              <span class="anchor" id="variable-rhs~26"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2894,7 +2952,7 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~4"></span>
+              <span class="anchor" id="variable-lhs~25"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2909,7 +2967,7 @@ Each converted character is printed in the form
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~4"></span>
+              <span class="anchor" id="variable-rhs~25"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2947,7 +3005,7 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~11"></span>
+              <span class="anchor" id="variable-lhs~32"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(out)</td>
@@ -2962,7 +3020,7 @@ Each converted character is printed in the form
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~11"></span>
+              <span class="anchor" id="variable-rhs~32"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -3000,7 +3058,7 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~10"></span>
+              <span class="anchor" id="variable-lhs~31"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(out)</td>
@@ -3015,7 +3073,7 @@ Each converted character is printed in the form
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~10"></span>
+              <span class="anchor" id="variable-rhs~31"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -3241,7 +3299,7 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~43"></span>
+              <span class="anchor" id="variable-string~35"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3284,7 +3342,7 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~44"></span>
+              <span class="anchor" id="variable-string~36"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3327,7 +3385,7 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~45"></span>
+              <span class="anchor" id="variable-string~37"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3385,7 +3443,7 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~46"></span>
+              <span class="anchor" id="variable-string~38"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3443,7 +3501,7 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~47"></span>
+              <span class="anchor" id="variable-string~39"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3473,7 +3531,7 @@ Each converted character is printed in the form
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~16"></span>
+              <span class="anchor" id="variable-last~15"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -3516,7 +3574,7 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~48"></span>
+              <span class="anchor" id="variable-string~40"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3546,7 +3604,7 @@ Each converted character is printed in the form
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~17"></span>
+              <span class="anchor" id="variable-last~16"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -3589,7 +3647,7 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~49"></span>
+              <span class="anchor" id="variable-string~41"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3619,7 +3677,7 @@ Each converted character is printed in the form
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~18"></span>
+              <span class="anchor" id="variable-last~17"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -3677,7 +3735,7 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~50"></span>
+              <span class="anchor" id="variable-string~42"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3707,7 +3765,7 @@ Each converted character is printed in the form
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~19"></span>
+              <span class="anchor" id="variable-last~18"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -3887,7 +3945,7 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-codepoints~6"></span>
+              <span class="anchor" id="variable-codepoints~5"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -3917,7 +3975,7 @@ Each converted character is printed in the form
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nerr~13"></span>
+              <span class="anchor" id="variable-nerr~7"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -3955,7 +4013,7 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-codepoints~5"></span>
+              <span class="anchor" id="variable-codepoints~4"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -3985,7 +4043,7 @@ Each converted character is printed in the form
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nerr~12"></span>
+              <span class="anchor" id="variable-nerr~6"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -4033,7 +4091,7 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-line~22"></span>
+              <span class="anchor" id="variable-line~13"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4091,7 +4149,7 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-line~25"></span>
+              <span class="anchor" id="variable-line~16"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4149,7 +4207,7 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-line~24"></span>
+              <span class="anchor" id="variable-line~15"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -4207,7 +4265,7 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-line~23"></span>
+              <span class="anchor" id="variable-line~14"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -4415,7 +4473,7 @@ PROTECT  A single character designating the escape prefix. Defaults
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-line~22"></span>
+              <span class="anchor" id="variable-line~13"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4473,7 +4531,7 @@ PROTECT  A single character designating the escape prefix. Defaults
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-line~25"></span>
+              <span class="anchor" id="variable-line~16"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4531,7 +4589,7 @@ PROTECT  A single character designating the escape prefix. Defaults
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-line~24"></span>
+              <span class="anchor" id="variable-line~15"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -4589,7 +4647,7 @@ PROTECT  A single character designating the escape prefix. Defaults
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-line~23"></span>
+              <span class="anchor" id="variable-line~14"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -4701,10 +4759,10 @@ plain<span class="w"> </span>text<span class="w"> </span>not<span class="w"> </s
 <span class="w"> </span><span class="nx">testsa</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="mi">80</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="o">&amp;</span>
 <span class="w"> </span><span class="s">"-------------- Testing Pure Fortran Word Expansion --------------"</span><span class="p">,</span><span class="o">&amp;</span>
 <span class="w"> </span><span class="s">" scratch space is $TMP for $USER with home directory  ${HOME}"</span><span class="p">,</span><span class="w">    </span><span class="o">&amp;</span>
-<span class="w"> </span><span class="s">" DATE is $DATE TIME is 16:50:53 ZONE is $ZONE TIMESTAMP $TIMESTAMP"</span><span class="p">,</span><span class="o">&amp;</span>
+<span class="w"> </span><span class="s">" DATE is $DATE TIME is 21:53:34 ZONE is $ZONE TIMESTAMP $TIMESTAMP"</span><span class="p">,</span><span class="o">&amp;</span>
 <span class="w"> </span><span class="s">" FILE is $FILE ARGS: 0: $0 1: $1 2: $2 3: $3"</span><span class="p">,</span><span class="w">                     </span><span class="o">&amp;</span>
 <span class="w"> </span><span class="s">" COMPILER is $COMPILER COMPILER_OPTIONS are ${COMPILER_OPTIONS}"</span><span class="p">,</span><span class="w">  </span><span class="o">&amp;</span>
-<span class="w"> </span><span class="s">" ${0} versus M_unicode.FF  $0 versus $FILE"</span><span class="p">,</span><span class="w">                            </span><span class="o">&amp;</span>
+<span class="w"> </span><span class="s">" ${0} versus src/source/M_unicode.FF  $0 versus $FILE"</span><span class="p">,</span><span class="w">                            </span><span class="o">&amp;</span>
 <span class="w"> </span><span class="s">" All arguments is ${0} ${*}"</span><span class="p">,</span><span class="w">                                      </span><span class="o">&amp;</span>
 <span class="w"> </span><span class="s">" unknown $UNKNOWN incorrect ${ A B C} but syntax OK"</span><span class="p">,</span><span class="w">              </span><span class="o">&amp;</span>
 <span class="w"> </span><span class="s">" Bad $  ${  and stuff $UNKNOWN ${ A B C}"</span><span class="p">,</span><span class="w">                         </span><span class="o">&amp;</span>
@@ -5048,7 +5106,7 @@ Non-breaking space &nbsp;  &#160;  Before   After</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~15"></span>
+              <span class="anchor" id="variable-str~10"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in),</td>
@@ -5091,7 +5149,7 @@ Non-breaking space &nbsp;  &#160;  Before   After</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~52"></span>
+              <span class="anchor" id="variable-string~44"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -5429,7 +5487,7 @@ as TYPE(UNICODE_TYPE) .
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-position~3"></span>
+              <span class="anchor" id="variable-position~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -5444,7 +5502,7 @@ as TYPE(UNICODE_TYPE) .
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-default~10"></span>
+              <span class="anchor" id="variable-default~8"></span>
               character(len=*),
             </td>
 <td>intent(in),</td>
@@ -5487,7 +5545,7 @@ as TYPE(UNICODE_TYPE) .
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-position~4"></span>
+              <span class="anchor" id="variable-position~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -5502,7 +5560,7 @@ as TYPE(UNICODE_TYPE) .
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-default~11"></span>
+              <span class="anchor" id="variable-default~9"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -5661,7 +5719,7 @@ as TYPE(UNICODE_TYPE) .
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~7"></span>
+              <span class="anchor" id="variable-name~5"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -5676,7 +5734,7 @@ as TYPE(UNICODE_TYPE) .
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-default~7"></span>
+              <span class="anchor" id="variable-default~5"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in),</td>
@@ -5719,7 +5777,7 @@ as TYPE(UNICODE_TYPE) .
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~9"></span>
+              <span class="anchor" id="variable-name~7"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -5734,7 +5792,7 @@ as TYPE(UNICODE_TYPE) .
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-default~9"></span>
+              <span class="anchor" id="variable-default~7"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -5777,7 +5835,7 @@ as TYPE(UNICODE_TYPE) .
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~8"></span>
+              <span class="anchor" id="variable-name~6"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -5792,7 +5850,7 @@ as TYPE(UNICODE_TYPE) .
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-default~8"></span>
+              <span class="anchor" id="variable-default~6"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -5835,7 +5893,7 @@ as TYPE(UNICODE_TYPE) .
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~6"></span>
+              <span class="anchor" id="variable-name~4"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -5850,7 +5908,7 @@ as TYPE(UNICODE_TYPE) .
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-default~6"></span>
+              <span class="anchor" id="variable-default~4"></span>
               character(len=*),
             </td>
 <td>intent(in),</td>
@@ -6139,7 +6197,7 @@ Mi_archivo_favorito.c
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tame~3"></span>
+              <span class="anchor" id="variable-tame~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -6154,7 +6212,7 @@ Mi_archivo_favorito.c
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-wild~3"></span>
+              <span class="anchor" id="variable-wild~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -6197,7 +6255,7 @@ Mi_archivo_favorito.c
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tame~6"></span>
+              <span class="anchor" id="variable-tame~5"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -6212,7 +6270,7 @@ Mi_archivo_favorito.c
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-wild~6"></span>
+              <span class="anchor" id="variable-wild~5"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -6255,7 +6313,7 @@ Mi_archivo_favorito.c
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tame~4"></span>
+              <span class="anchor" id="variable-tame~3"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -6270,7 +6328,7 @@ Mi_archivo_favorito.c
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-wild~4"></span>
+              <span class="anchor" id="variable-wild~3"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -6313,7 +6371,7 @@ Mi_archivo_favorito.c
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tame~5"></span>
+              <span class="anchor" id="variable-tame~4"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -6328,7 +6386,7 @@ Mi_archivo_favorito.c
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-wild~5"></span>
+              <span class="anchor" id="variable-wild~4"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -6526,7 +6584,7 @@ Mi_archivo_favorito.c
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~19"></span>
+              <span class="anchor" id="variable-string~11"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -6703,7 +6761,7 @@ Mi_archivo_favorito.c
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~23"></span>
+              <span class="anchor" id="variable-string~15"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -6718,7 +6776,7 @@ Mi_archivo_favorito.c
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-substring~2"></span>
+              <span class="anchor" id="variable-substring"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -6776,7 +6834,7 @@ Mi_archivo_favorito.c
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~24"></span>
+              <span class="anchor" id="variable-string~16"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -6791,7 +6849,7 @@ Mi_archivo_favorito.c
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-substring~3"></span>
+              <span class="anchor" id="variable-substring~2"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -6849,7 +6907,7 @@ Mi_archivo_favorito.c
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~25"></span>
+              <span class="anchor" id="variable-string~17"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -6864,7 +6922,7 @@ Mi_archivo_favorito.c
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-substring~4"></span>
+              <span class="anchor" id="variable-substring~3"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -6932,7 +6990,7 @@ Mi_archivo_favorito.c
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~22"></span>
+              <span class="anchor" id="variable-str~17"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -6975,7 +7033,7 @@ Mi_archivo_favorito.c
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~21"></span>
+              <span class="anchor" id="variable-str~16"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -7028,7 +7086,7 @@ Mi_archivo_favorito.c
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~65"></span>
+              <span class="anchor" id="variable-string~57"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -7071,7 +7129,7 @@ Mi_archivo_favorito.c
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~64"></span>
+              <span class="anchor" id="variable-string~56"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -7080,6 +7138,102 @@ Mi_archivo_favorito.c
             </td>
             <td>::</td>
             <td><strong>string</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+          </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-issensitive"></span>
+      <h3>public        interface <a href='../interface/issensitive.html'>issensitive</a> 
+      </h3>
+    </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private impure elemental function issensitive_a(string) result(mask)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-string~60"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>string</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private impure elemental function issensitive_u(str) result(mask)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-str~18"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>str</strong></td>
             <td>
                 
             </td>
@@ -7124,7 +7278,7 @@ Mi_archivo_favorito.c
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~67"></span>
+              <span class="anchor" id="variable-string~59"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -7167,7 +7321,7 @@ Mi_archivo_favorito.c
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~66"></span>
+              <span class="anchor" id="variable-string~58"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -7357,7 +7511,7 @@ o keywords are case-sensitive
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~41"></span>
+              <span class="anchor" id="variable-string~33"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -7400,7 +7554,7 @@ o keywords are case-sensitive
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-strings~3"></span>
+              <span class="anchor" id="variable-strings~4"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -7443,7 +7597,7 @@ o keywords are case-sensitive
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~42"></span>
+              <span class="anchor" id="variable-string~34"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -7486,7 +7640,7 @@ o keywords are case-sensitive
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-strings~4"></span>
+              <span class="anchor" id="variable-strings~5"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -8271,7 +8425,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~16"></span>
+              <span class="anchor" id="variable-string~8"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -8415,7 +8569,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~18"></span>
+              <span class="anchor" id="variable-string~10"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -8468,7 +8622,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~17"></span>
+              <span class="anchor" id="variable-lhs~8"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -8483,7 +8637,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~17"></span>
+              <span class="anchor" id="variable-rhs~8"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -8526,7 +8680,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~16"></span>
+              <span class="anchor" id="variable-lhs~7"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -8541,7 +8695,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~16"></span>
+              <span class="anchor" id="variable-rhs~7"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -8584,7 +8738,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~15"></span>
+              <span class="anchor" id="variable-lhs~6"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -8599,7 +8753,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~15"></span>
+              <span class="anchor" id="variable-rhs~6"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -8652,6 +8806,190 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
+              <span class="anchor" id="variable-lhs~9"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~9"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private elemental function lge_str_char(lhs, rhs) result(is_lge)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~10"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~10"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private elemental function lge_char_str(lhs, rhs) result(is_lge)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~11"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~11"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+          </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-lgt"></span>
+      <h3>public        interface <a href='../interface/lgt.html'>lgt</a> 
+      </h3>
+    </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private elemental function lgt_str_str(lhs, rhs) result(is_lgt)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
               <span class="anchor" id="variable-lhs~18"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
@@ -8692,7 +9030,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
           </li>
           <li class="list-group-item">
                 <h3>
-    private elemental function lge_str_char(lhs, rhs) result(is_lge)  
+    private elemental function lgt_str_char(lhs, rhs) result(is_lgt)  
 
     </h3>
   
@@ -8750,7 +9088,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
           </li>
           <li class="list-group-item">
                 <h3>
-    private elemental function lge_char_str(lhs, rhs) result(is_lge)  
+    private elemental function lgt_char_str(lhs, rhs) result(is_lgt)  
 
     </h3>
   
@@ -8811,190 +9149,6 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-lgt"></span>
-      <h3>public        interface <a href='../interface/lgt.html'>lgt</a> 
-      </h3>
-    </div>
-    <ul class="list-group">
-          <li class="list-group-item">
-                <h3>
-    private elemental function lgt_str_str(lhs, rhs) result(is_lgt)  
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lhs~27"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rhs~27"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>logical</small>
-    </h4>
-    
-
-          </li>
-          <li class="list-group-item">
-                <h3>
-    private elemental function lgt_str_char(lhs, rhs) result(is_lgt)  
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lhs~28"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rhs~28"></span>
-              character(len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>logical</small>
-    </h4>
-    
-
-          </li>
-          <li class="list-group-item">
-                <h3>
-    private elemental function lgt_char_str(lhs, rhs) result(is_lgt)  
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lhs~29"></span>
-              character(len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rhs~29"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>logical</small>
-    </h4>
-    
-
-          </li>
-    </ul>
-  </div>
-
-              <div class="card">
-    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-lle"></span>
       <h3>public        interface <a href='../interface/lle.html'>lle</a> 
       </h3>
@@ -9020,7 +9174,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~21"></span>
+              <span class="anchor" id="variable-lhs~12"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -9035,7 +9189,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~21"></span>
+              <span class="anchor" id="variable-rhs~12"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -9078,7 +9232,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~22"></span>
+              <span class="anchor" id="variable-lhs~13"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -9093,7 +9247,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~22"></span>
+              <span class="anchor" id="variable-rhs~13"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -9136,7 +9290,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~23"></span>
+              <span class="anchor" id="variable-lhs~14"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -9151,7 +9305,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~23"></span>
+              <span class="anchor" id="variable-rhs~14"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -9204,7 +9358,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~24"></span>
+              <span class="anchor" id="variable-lhs~15"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -9219,7 +9373,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~24"></span>
+              <span class="anchor" id="variable-rhs~15"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -9245,1458 +9399,6 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
           <li class="list-group-item">
                 <h3>
     private elemental function llt_str_char(lhs, rhs) result(is_llt)  
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lhs~25"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rhs~25"></span>
-              character(len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>logical</small>
-    </h4>
-    
-
-          </li>
-          <li class="list-group-item">
-                <h3>
-    private elemental function llt_char_str(lhs, rhs) result(is_llt)  
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lhs~26"></span>
-              character(len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rhs~26"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>logical</small>
-    </h4>
-    
-
-          </li>
-    </ul>
-  </div>
-
-              <div class="card">
-    <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-lne"></span>
-      <h3>public        interface <a href='../interface/lne.html'>lne</a> 
-      </h3>
-    </div>
-    <ul class="list-group">
-          <li class="list-group-item">
-                <h3>
-    private elemental function lne_char_str(lhs, rhs) result(is_equal)  
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lhs~14"></span>
-              character(len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rhs~14"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>logical</small>
-    </h4>
-    
-
-          </li>
-          <li class="list-group-item">
-                <h3>
-    private elemental function lne_str_char(lhs, rhs) result(is_equal)  
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lhs~13"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rhs~13"></span>
-              character(len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>logical</small>
-    </h4>
-    
-
-          </li>
-          <li class="list-group-item">
-                <h3>
-    private elemental function lne_str_str(lhs, rhs) result(is_equal)  
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lhs~12"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rhs~12"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>logical</small>
-    </h4>
-    
-
-          </li>
-    </ul>
-  </div>
-
-              <div class="card">
-    <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-lower"></span>
-      <h3>public        interface <a href='../interface/lower.html'>lower</a> 
-      </h3>
-    </div>
-    <ul class="list-group">
-          <li class="list-group-item">
-                <h3>
-    private elemental function lower_a(string) result(res)  
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-string~63"></span>
-              character(len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>string</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
-    </h4>
-    
-
-          </li>
-          <li class="list-group-item">
-                <h3>
-    private pure elemental function lower_u(str) result(string)  
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-str~20"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>str</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
-    </h4>
-    
-
-          </li>
-    </ul>
-  </div>
-
-              <div class="card">
-    <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-operator%28%2B%29"></span>
-      <h3>public        interface <a href='../interface/operator(+).html'>operator(+)</a> 
-      </h3>
-    </div>
-    <ul class="list-group">
-          <li class="list-group-item">
-                <h3>
-    private impure elemental function concat_u_character(lhs, rhs) result(string)  
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lhs~33"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rhs~33"></span>
-              character(len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
-    </h4>
-    
-
-          </li>
-          <li class="list-group-item">
-                <h3>
-    private impure elemental function concat_character_u(lhs, rhs) result(string)  
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lhs~32"></span>
-              character(len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rhs~32"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
-    </h4>
-    
-
-          </li>
-          <li class="list-group-item">
-                <h3>
-    private impure elemental function concat_u_u(lhs, rhs) result(string)  
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lhs~30"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rhs~30"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
-    </h4>
-    
-
-          </li>
-    </ul>
-  </div>
-
-              <div class="card">
-    <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-operator%28.cat.%29"></span>
-      <h3>public        interface <a href='../interface/operator(.cat.).html'>operator(.cat.)</a> 
-      </h3>
-    </div>
-    <ul class="list-group">
-          <li class="list-group-item">
-                <h3>
-    private impure elemental function concat_g_g(lhs, rhs) result(string)  
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lhs~31"></span>
-              class(*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rhs~31"></span>
-              class(*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
-    </h4>
-    
-
-          </li>
-    </ul>
-  </div>
-
-              <div class="card">
-    <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-operator%28SLASHSLASH%29"></span>
-      <h3>public        interface <a href='../interface/operator(SLASHSLASH).html'>operator(//)</a> 
-      </h3>
-    </div>
-    <ul class="list-group">
-          <li class="list-group-item">
-                <h3>
-    private impure elemental function concat_u_character(lhs, rhs) result(string)  
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lhs~33"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rhs~33"></span>
-              character(len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
-    </h4>
-    
-
-          </li>
-          <li class="list-group-item">
-                <h3>
-    private impure elemental function concat_character_u(lhs, rhs) result(string)  
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lhs~32"></span>
-              character(len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rhs~32"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
-    </h4>
-    
-
-          </li>
-          <li class="list-group-item">
-                <h3>
-    private impure elemental function concat_u_u(lhs, rhs) result(string)  
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lhs~30"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rhs~30"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
-    </h4>
-    
-
-          </li>
-    </ul>
-  </div>
-
-              <div class="card">
-    <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-operator%28SLASH%3D%29"></span>
-      <h3>public        interface <a href='../interface/operator(SLASH=).html'>operator(/=)</a> 
-      </h3>
-    </div>
-    <ul class="list-group">
-          <li class="list-group-item">
-                <h3>
-    private elemental function lne_char_str(lhs, rhs) result(is_equal)  
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lhs~14"></span>
-              character(len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rhs~14"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>logical</small>
-    </h4>
-    
-
-          </li>
-          <li class="list-group-item">
-                <h3>
-    private elemental function lne_str_char(lhs, rhs) result(is_equal)  
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lhs~13"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rhs~13"></span>
-              character(len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>logical</small>
-    </h4>
-    
-
-          </li>
-          <li class="list-group-item">
-                <h3>
-    private elemental function lne_str_str(lhs, rhs) result(is_equal)  
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lhs~12"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rhs~12"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>logical</small>
-    </h4>
-    
-
-          </li>
-    </ul>
-  </div>
-
-              <div class="card">
-    <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-operator%28lt%29"></span>
-      <h3>public        interface <a href='../interface/operator(lt).html'>operator(<)</a> 
-      </h3>
-    </div>
-    <ul class="list-group">
-          <li class="list-group-item">
-                <h3>
-    private elemental function llt_str_str(lhs, rhs) result(is_llt)  
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lhs~24"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rhs~24"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>logical</small>
-    </h4>
-    
-
-          </li>
-          <li class="list-group-item">
-                <h3>
-    private elemental function llt_str_char(lhs, rhs) result(is_llt)  
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lhs~25"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rhs~25"></span>
-              character(len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>logical</small>
-    </h4>
-    
-
-          </li>
-          <li class="list-group-item">
-                <h3>
-    private elemental function llt_char_str(lhs, rhs) result(is_llt)  
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lhs~26"></span>
-              character(len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rhs~26"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>logical</small>
-    </h4>
-    
-
-          </li>
-    </ul>
-  </div>
-
-              <div class="card">
-    <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-operator%28lt%3D%29"></span>
-      <h3>public        interface <a href='../interface/operator(lt=).html'>operator(<=)</a> 
-      </h3>
-    </div>
-    <ul class="list-group">
-          <li class="list-group-item">
-                <h3>
-    private elemental function lle_str_str(lhs, rhs) result(is_lle)  
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lhs~21"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rhs~21"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>logical</small>
-    </h4>
-    
-
-          </li>
-          <li class="list-group-item">
-                <h3>
-    private elemental function lle_str_char(lhs, rhs) result(is_lle)  
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lhs~22"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rhs~22"></span>
-              character(len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>logical</small>
-    </h4>
-    
-
-          </li>
-          <li class="list-group-item">
-                <h3>
-    private elemental function lle_char_str(lhs, rhs) result(is_lle)  
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lhs~23"></span>
-              character(len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rhs~23"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>logical</small>
-    </h4>
-    
-
-          </li>
-    </ul>
-  </div>
-
-              <div class="card">
-    <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-operator%28%3D%3D%29"></span>
-      <h3>public        interface <a href='../interface/operator(==).html'>operator(==)</a> 
-      </h3>
-    </div>
-    <ul class="list-group">
-          <li class="list-group-item">
-                <h3>
-    private elemental function leq_char_str(lhs, rhs) result(is_equal)  
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lhs~17"></span>
-              character(len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rhs~17"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>logical</small>
-    </h4>
-    
-
-          </li>
-          <li class="list-group-item">
-                <h3>
-    private elemental function leq_str_char(lhs, rhs) result(is_equal)  
 
     </h3>
   
@@ -10754,7 +9456,975 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
           </li>
           <li class="list-group-item">
                 <h3>
-    private elemental function leq_str_str(lhs, rhs) result(is_equal)  
+    private elemental function llt_char_str(lhs, rhs) result(is_llt)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~17"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~17"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+          </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-lne"></span>
+      <h3>public        interface <a href='../interface/lne.html'>lne</a> 
+      </h3>
+    </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private elemental function lne_char_str(lhs, rhs) result(is_equal)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~5"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~5"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private elemental function lne_str_char(lhs, rhs) result(is_equal)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~4"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~4"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private elemental function lne_str_str(lhs, rhs) result(is_equal)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~3"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~3"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+          </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-lower"></span>
+      <h3>public        interface <a href='../interface/lower.html'>lower</a> 
+      </h3>
+    </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private elemental function lower_a(string) result(res)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-string~55"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>string</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
+    </h4>
+    
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private pure elemental function lower_u(str) result(string)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-str~15"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>str</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
+    </h4>
+    
+
+          </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-operator%28%2B%29"></span>
+      <h3>public        interface <a href='../interface/operator(+).html'>operator(+)</a> 
+      </h3>
+    </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private impure elemental function concat_u_character(lhs, rhs) result(string)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~24"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~24"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
+    </h4>
+    
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private impure elemental function concat_character_u(lhs, rhs) result(string)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~23"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~23"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
+    </h4>
+    
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private impure elemental function concat_u_u(lhs, rhs) result(string)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~21"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~21"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
+    </h4>
+    
+
+          </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-operator%28.cat.%29"></span>
+      <h3>public        interface <a href='../interface/operator(.cat.).html'>operator(.cat.)</a> 
+      </h3>
+    </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private impure elemental function concat_g_g(lhs, rhs) result(string)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~22"></span>
+              class(*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~22"></span>
+              class(*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
+    </h4>
+    
+
+          </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-operator%28SLASHSLASH%29"></span>
+      <h3>public        interface <a href='../interface/operator(SLASHSLASH).html'>operator(//)</a> 
+      </h3>
+    </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private impure elemental function concat_u_character(lhs, rhs) result(string)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~24"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~24"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
+    </h4>
+    
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private impure elemental function concat_character_u(lhs, rhs) result(string)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~23"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~23"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
+    </h4>
+    
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private impure elemental function concat_u_u(lhs, rhs) result(string)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~21"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~21"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
+    </h4>
+    
+
+          </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-operator%28SLASH%3D%29"></span>
+      <h3>public        interface <a href='../interface/operator(SLASH=).html'>operator(/=)</a> 
+      </h3>
+    </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private elemental function lne_char_str(lhs, rhs) result(is_equal)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~5"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~5"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private elemental function lne_str_char(lhs, rhs) result(is_equal)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~4"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~4"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private elemental function lne_str_str(lhs, rhs) result(is_equal)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~3"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~3"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+          </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-operator%28lt%29"></span>
+      <h3>public        interface <a href='../interface/operator(lt).html'>operator(<)</a> 
+      </h3>
+    </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private elemental function llt_str_str(lhs, rhs) result(is_llt)  
 
     </h3>
   
@@ -10810,6 +10480,490 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     
 
           </li>
+          <li class="list-group-item">
+                <h3>
+    private elemental function llt_str_char(lhs, rhs) result(is_llt)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~16"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~16"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private elemental function llt_char_str(lhs, rhs) result(is_llt)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~17"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~17"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+          </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-operator%28lt%3D%29"></span>
+      <h3>public        interface <a href='../interface/operator(lt=).html'>operator(<=)</a> 
+      </h3>
+    </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private elemental function lle_str_str(lhs, rhs) result(is_lle)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~12"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~12"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private elemental function lle_str_char(lhs, rhs) result(is_lle)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~13"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~13"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private elemental function lle_char_str(lhs, rhs) result(is_lle)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~14"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~14"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+          </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-operator%28%3D%3D%29"></span>
+      <h3>public        interface <a href='../interface/operator(==).html'>operator(==)</a> 
+      </h3>
+    </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private elemental function leq_char_str(lhs, rhs) result(is_equal)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~8"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~8"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private elemental function leq_str_char(lhs, rhs) result(is_equal)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~7"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~7"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private elemental function leq_str_str(lhs, rhs) result(is_equal)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~6"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~6"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+          </li>
     </ul>
   </div>
 
@@ -10823,190 +10977,6 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
           <li class="list-group-item">
                 <h3>
     private elemental function lgt_str_str(lhs, rhs) result(is_lgt)  
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lhs~27"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rhs~27"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>logical</small>
-    </h4>
-    
-
-          </li>
-          <li class="list-group-item">
-                <h3>
-    private elemental function lgt_str_char(lhs, rhs) result(is_lgt)  
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lhs~28"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rhs~28"></span>
-              character(len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>logical</small>
-    </h4>
-    
-
-          </li>
-          <li class="list-group-item">
-                <h3>
-    private elemental function lgt_char_str(lhs, rhs) result(is_lgt)  
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lhs~29"></span>
-              character(len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rhs~29"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>logical</small>
-    </h4>
-    
-
-          </li>
-    </ul>
-  </div>
-
-              <div class="card">
-    <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-operator%28gt%3D%29"></span>
-      <h3>public        interface <a href='../interface/operator(gt=).html'>operator(>=)</a> 
-      </h3>
-    </div>
-    <ul class="list-group">
-          <li class="list-group-item">
-                <h3>
-    private elemental function lge_str_str(lhs, rhs) result(is_lge)  
 
     </h3>
   
@@ -11064,7 +11034,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
           </li>
           <li class="list-group-item">
                 <h3>
-    private elemental function lge_str_char(lhs, rhs) result(is_lge)  
+    private elemental function lgt_str_char(lhs, rhs) result(is_lgt)  
 
     </h3>
   
@@ -11122,7 +11092,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
           </li>
           <li class="list-group-item">
                 <h3>
-    private elemental function lge_char_str(lhs, rhs) result(is_lge)  
+    private elemental function lgt_char_str(lhs, rhs) result(is_lgt)  
 
     </h3>
   
@@ -11156,6 +11126,190 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         <tr>
             <td>
               <span class="anchor" id="variable-rhs~20"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+          </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-operator%28gt%3D%29"></span>
+      <h3>public        interface <a href='../interface/operator(gt=).html'>operator(>=)</a> 
+      </h3>
+    </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private elemental function lge_str_str(lhs, rhs) result(is_lge)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~9"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~9"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private elemental function lge_str_char(lhs, rhs) result(is_lge)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~10"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~10"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private elemental function lge_char_str(lhs, rhs) result(is_lge)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~11"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~11"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -11357,7 +11511,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-style~2"></span>
+              <span class="anchor" id="variable-style"></span>
               class(*),
             </td>
 <td>intent(in),</td>
@@ -11415,7 +11569,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-style~3"></span>
+              <span class="anchor" id="variable-style~2"></span>
               class(*),
             </td>
 <td>intent(in),</td>
@@ -11525,7 +11679,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~17"></span>
+              <span class="anchor" id="variable-string~9"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -13037,7 +13191,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~10"></span>
+              <span class="anchor" id="variable-str~5"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -13067,7 +13221,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~8"></span>
+              <span class="anchor" id="variable-last~7"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -13125,7 +13279,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~11"></span>
+              <span class="anchor" id="variable-str~6"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -13155,7 +13309,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~9"></span>
+              <span class="anchor" id="variable-last~8"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -13213,7 +13367,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~12"></span>
+              <span class="anchor" id="variable-str~7"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -13243,7 +13397,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~10"></span>
+              <span class="anchor" id="variable-last~9"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -13301,7 +13455,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~13"></span>
+              <span class="anchor" id="variable-str~8"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -13331,7 +13485,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~11"></span>
+              <span class="anchor" id="variable-last~10"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -13399,7 +13553,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~54"></span>
+              <span class="anchor" id="variable-string~46"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -13442,7 +13596,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~53"></span>
+              <span class="anchor" id="variable-string~45"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -13619,7 +13773,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~55"></span>
+              <span class="anchor" id="variable-string~47"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -13634,7 +13788,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~13"></span>
+              <span class="anchor" id="variable-set~11"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -13692,7 +13846,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~56"></span>
+              <span class="anchor" id="variable-string~48"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -13707,7 +13861,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~14"></span>
+              <span class="anchor" id="variable-set~12"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -14144,7 +14298,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-data~3"></span>
+              <span class="anchor" id="variable-data~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -14197,7 +14351,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-data~2"></span>
+              <span class="anchor" id="variable-data"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -14275,7 +14429,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~29"></span>
+              <span class="anchor" id="variable-string~21"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -14290,7 +14444,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~5"></span>
+              <span class="anchor" id="variable-set~3"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -14320,7 +14474,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~6"></span>
+              <span class="anchor" id="variable-last~5"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -14358,7 +14512,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~30"></span>
+              <span class="anchor" id="variable-string~22"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -14373,7 +14527,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~6"></span>
+              <span class="anchor" id="variable-set~4"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -14403,7 +14557,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~7"></span>
+              <span class="anchor" id="variable-last~6"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -14441,7 +14595,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~31"></span>
+              <span class="anchor" id="variable-string~23"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -14456,7 +14610,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~7"></span>
+              <span class="anchor" id="variable-set~5"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -14524,7 +14678,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~32"></span>
+              <span class="anchor" id="variable-string~24"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -14539,7 +14693,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~8"></span>
+              <span class="anchor" id="variable-set~6"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -15060,7 +15214,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~27"></span>
+              <span class="anchor" id="variable-string~19"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -15075,7 +15229,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~3"></span>
+              <span class="anchor" id="variable-set"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -15105,7 +15259,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-separator"></span>
+              <span class="anchor" id="variable-separator~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(out),</td>
@@ -15143,7 +15297,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~28"></span>
+              <span class="anchor" id="variable-string~20"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -15158,7 +15312,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~4"></span>
+              <span class="anchor" id="variable-set~2"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -15188,7 +15342,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-separator~2"></span>
+              <span class="anchor" id="variable-separator~3"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(out),</td>
@@ -15236,7 +15390,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~29"></span>
+              <span class="anchor" id="variable-string~21"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -15251,7 +15405,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~5"></span>
+              <span class="anchor" id="variable-set~3"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -15281,7 +15435,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~6"></span>
+              <span class="anchor" id="variable-last~5"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -15319,7 +15473,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~30"></span>
+              <span class="anchor" id="variable-string~22"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -15334,7 +15488,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~6"></span>
+              <span class="anchor" id="variable-set~4"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -15364,7 +15518,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~7"></span>
+              <span class="anchor" id="variable-last~6"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -15402,7 +15556,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~31"></span>
+              <span class="anchor" id="variable-string~23"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -15417,7 +15571,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~7"></span>
+              <span class="anchor" id="variable-set~5"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -15485,7 +15639,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~32"></span>
+              <span class="anchor" id="variable-string~24"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -15500,7 +15654,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~8"></span>
+              <span class="anchor" id="variable-set~6"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -16021,7 +16175,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~27"></span>
+              <span class="anchor" id="variable-string~19"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -16036,7 +16190,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~3"></span>
+              <span class="anchor" id="variable-set"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -16066,7 +16220,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-separator"></span>
+              <span class="anchor" id="variable-separator~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(out),</td>
@@ -16104,7 +16258,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~28"></span>
+              <span class="anchor" id="variable-string~20"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -16119,7 +16273,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~4"></span>
+              <span class="anchor" id="variable-set~2"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -16149,7 +16303,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-separator~2"></span>
+              <span class="anchor" id="variable-separator~3"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(out),</td>
@@ -17015,7 +17169,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~20"></span>
+              <span class="anchor" id="variable-string~12"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -17111,7 +17265,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~12"></span>
+              <span class="anchor" id="variable-string~4"></span>
               character(len=*),
             </td>
 <td>intent(in),</td>
@@ -17154,7 +17308,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-strings"></span>
+              <span class="anchor" id="variable-strings~2"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -17207,7 +17361,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~61"></span>
+              <span class="anchor" id="variable-string~53"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -17250,7 +17404,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~19"></span>
+              <span class="anchor" id="variable-str~14"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -17433,7 +17587,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-codepoints~4"></span>
+              <span class="anchor" id="variable-codepoints~3"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -17448,7 +17602,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nerr~11"></span>
+              <span class="anchor" id="variable-nerr~5"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -17501,7 +17655,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-codepoints~3"></span>
+              <span class="anchor" id="variable-codepoints~2"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -17516,7 +17670,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nerr~10"></span>
+              <span class="anchor" id="variable-nerr~4"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -17983,7 +18137,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~57"></span>
+              <span class="anchor" id="variable-string~49"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -17998,7 +18152,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~15"></span>
+              <span class="anchor" id="variable-set~13"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -18056,7 +18210,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~58"></span>
+              <span class="anchor" id="variable-string~50"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -18071,7 +18225,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~16"></span>
+              <span class="anchor" id="variable-set~14"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -18129,7 +18283,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~59"></span>
+              <span class="anchor" id="variable-string~51"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -18144,7 +18298,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-set~17"></span>
+              <span class="anchor" id="variable-set~15"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -18306,7 +18460,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/unicode_type.html#boundprocedure-ch~4'>ch</a></strong> => oop_character</td>
+  <strong><a href='../type/unicode_type.html#boundprocedure-ch'>ch</a></strong> => oop_character</td>
                   <td></td>
               </tr>
               <tr>
@@ -18421,7 +18575,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/unicode_type.html#boundprocedure-reverse~2'>reverse</a></strong> => oop_reverse</td>
+  <strong><a href='../type/unicode_type.html#boundprocedure-reverse'>reverse</a></strong> => oop_reverse</td>
                   <td></td>
               </tr>
               <tr>
@@ -18436,7 +18590,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/unicode_type.html#boundprocedure-sub'>sub</a></strong> => oop_sub</td>
+  <strong><a href='../type/unicode_type.html#boundprocedure-sub~2'>sub</a></strong> => oop_sub</td>
                   <td></td>
               </tr>
               <tr>
@@ -18614,7 +18768,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~8"></span>
+              <span class="anchor" id="variable-str~3"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -18629,7 +18783,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sep~5"></span>
+              <span class="anchor" id="variable-sep~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in),</td>
@@ -18689,7 +18843,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-line~13"></span>
+              <span class="anchor" id="variable-line~4"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -18704,7 +18858,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-length~8"></span>
+              <span class="anchor" id="variable-length~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -18794,7 +18948,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lun~2"></span>
+              <span class="anchor" id="variable-lun"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -18809,7 +18963,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iostat~5"></span>
+              <span class="anchor" id="variable-iostat~2"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -18869,7 +19023,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iomsg~3"></span>
+              <span class="anchor" id="variable-iomsg"></span>
               character(len=:),
             </td>
 <td></td>
@@ -18914,7 +19068,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~9"></span>
+              <span class="anchor" id="variable-str~4"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -18929,7 +19083,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-start~2"></span>
+              <span class="anchor" id="variable-start"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -19008,7 +19162,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-12 21:14 +0000             </p>
+ on 2026-11-13 05:38 +0000             </p>
           </div>
         </div>
         <br>

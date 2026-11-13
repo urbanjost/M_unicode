@@ -134,7 +134,7 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../proc/test_alternation_and_grouping.html#variable-m~7">m</a>
-            <a class="list-group-item" href="../proc/test_alternation_and_grouping.html#variable-re~8">re</a>
+            <a class="list-group-item" href="../proc/test_alternation_and_grouping.html#variable-re~9">re</a>
             <a class="list-group-item" href="../proc/test_alternation_and_grouping.html#variable-txt~2">txt</a>
         </div>
       </div>
@@ -214,7 +214,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-re~8"></span>
+              <span class="anchor" id="variable-re~9"></span>
               type(<a href='../type/regex_t.html'>regex_t</a>),
             </td>
               <td>public</td>
@@ -267,36 +267,36 @@
 <span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">match_t</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">m</span>
 <span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">txt</span><span class="p">(:)</span>
 
-<span class="w">      </span><span class="n">re</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">regex_compile</span><span class="p">(</span><span class="n">utf8_to_codepoints</span><span class="p">(</span><span class="s1">'^(cat|dog|bird|fish)$'</span><span class="p">))</span>
+<span class="w">      </span><span class="n">re</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">regex_compile</span><span class="p">(</span><span class="n">utoc</span><span class="p">(</span><span class="s1">'^(cat|dog|bird|fish)$'</span><span class="p">))</span>
 <span class="w">      </span><span class="k">call </span><span class="n">assert_true</span><span class="p">(</span><span class="n">re</span><span class="p">%</span><span class="n">valid</span><span class="p">,</span><span class="w"> </span><span class="s1">'Compile 4-way alternation'</span><span class="p">)</span>
 
-<span class="w">      </span><span class="n">txt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utf8_to_codepoints</span><span class="p">(</span><span class="s1">'cat'</span><span class="p">)</span>
+<span class="w">      </span><span class="n">txt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utoc</span><span class="p">(</span><span class="s1">'cat'</span><span class="p">)</span>
 <span class="w">      </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">regex_search</span><span class="p">(</span><span class="n">re</span><span class="p">,</span><span class="w"> </span><span class="n">txt</span><span class="p">)</span>
 <span class="w">      </span><span class="k">call </span><span class="n">assert_true</span><span class="p">(</span><span class="n">m</span><span class="p">%</span><span class="n">matched</span><span class="p">,</span><span class="w"> </span><span class="s1">'Alternation matches 1st branch (cat)'</span><span class="p">)</span>
 <span class="w">      </span><span class="k">call </span><span class="n">assert_str_eq</span><span class="p">(</span><span class="n">extract_group</span><span class="p">(</span><span class="n">txt</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="s1">'cat'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Capture group 1 = cat'</span><span class="p">)</span>
 
-<span class="w">      </span><span class="n">txt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utf8_to_codepoints</span><span class="p">(</span><span class="s1">'dog'</span><span class="p">)</span>
+<span class="w">      </span><span class="n">txt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utoc</span><span class="p">(</span><span class="s1">'dog'</span><span class="p">)</span>
 <span class="w">      </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">regex_search</span><span class="p">(</span><span class="n">re</span><span class="p">,</span><span class="w"> </span><span class="n">txt</span><span class="p">)</span>
 <span class="w">      </span><span class="k">call </span><span class="n">assert_true</span><span class="p">(</span><span class="n">m</span><span class="p">%</span><span class="n">matched</span><span class="p">,</span><span class="w"> </span><span class="s1">'Alternation matches 2nd branch (dog)'</span><span class="p">)</span>
 <span class="w">      </span><span class="k">call </span><span class="n">assert_str_eq</span><span class="p">(</span><span class="n">extract_group</span><span class="p">(</span><span class="n">txt</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="s1">'dog'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Capture group 1 = dog'</span><span class="p">)</span>
 
-<span class="w">      </span><span class="n">txt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utf8_to_codepoints</span><span class="p">(</span><span class="s1">'bird'</span><span class="p">)</span>
+<span class="w">      </span><span class="n">txt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utoc</span><span class="p">(</span><span class="s1">'bird'</span><span class="p">)</span>
 <span class="w">      </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">regex_search</span><span class="p">(</span><span class="n">re</span><span class="p">,</span><span class="w"> </span><span class="n">txt</span><span class="p">)</span>
 <span class="w">      </span><span class="k">call </span><span class="n">assert_true</span><span class="p">(</span><span class="n">m</span><span class="p">%</span><span class="n">matched</span><span class="p">,</span><span class="w"> </span><span class="s1">'Alternation matches 3rd branch (bird)'</span><span class="p">)</span>
 <span class="w">      </span><span class="k">call </span><span class="n">assert_str_eq</span><span class="p">(</span><span class="n">extract_group</span><span class="p">(</span><span class="n">txt</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="s1">'bird'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Capture group 1 = bird'</span><span class="p">)</span>
 
-<span class="w">      </span><span class="n">txt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utf8_to_codepoints</span><span class="p">(</span><span class="s1">'fish'</span><span class="p">)</span>
+<span class="w">      </span><span class="n">txt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utoc</span><span class="p">(</span><span class="s1">'fish'</span><span class="p">)</span>
 <span class="w">      </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">regex_search</span><span class="p">(</span><span class="n">re</span><span class="p">,</span><span class="w"> </span><span class="n">txt</span><span class="p">)</span>
 <span class="w">      </span><span class="k">call </span><span class="n">assert_true</span><span class="p">(</span><span class="n">m</span><span class="p">%</span><span class="n">matched</span><span class="p">,</span><span class="w"> </span><span class="s1">'Alternation matches 4th branch (fish)'</span><span class="p">)</span>
 <span class="w">      </span><span class="k">call </span><span class="n">assert_str_eq</span><span class="p">(</span><span class="n">extract_group</span><span class="p">(</span><span class="n">txt</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="s1">'fish'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Capture group 1 = fish'</span><span class="p">)</span>
 
-<span class="w">      </span><span class="n">txt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utf8_to_codepoints</span><span class="p">(</span><span class="s1">'catdog'</span><span class="p">)</span>
+<span class="w">      </span><span class="n">txt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utoc</span><span class="p">(</span><span class="s1">'catdog'</span><span class="p">)</span>
 <span class="w">      </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">regex_search</span><span class="p">(</span><span class="n">re</span><span class="p">,</span><span class="w"> </span><span class="n">txt</span><span class="p">)</span>
 <span class="w">      </span><span class="k">call </span><span class="n">assert_true</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="n">m</span><span class="p">%</span><span class="n">matched</span><span class="p">,</span><span class="w"> </span><span class="s1">'Alternation does not fall through cat -&gt; dog'</span><span class="p">)</span>
 
 <span class="w">      </span><span class="c">! Empty branch alternation (a|)</span>
-<span class="w">      </span><span class="n">re</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">regex_compile</span><span class="p">(</span><span class="n">utf8_to_codepoints</span><span class="p">(</span><span class="s1">'^(a|)$'</span><span class="p">))</span>
-<span class="w">      </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">regex_search</span><span class="p">(</span><span class="n">re</span><span class="p">,</span><span class="w"> </span><span class="n">utf8_to_codepoints</span><span class="p">(</span><span class="s1">''</span><span class="p">))</span>
+<span class="w">      </span><span class="n">re</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">regex_compile</span><span class="p">(</span><span class="n">utoc</span><span class="p">(</span><span class="s1">'^(a|)$'</span><span class="p">))</span>
+<span class="w">      </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">regex_search</span><span class="p">(</span><span class="n">re</span><span class="p">,</span><span class="w"> </span><span class="n">utoc</span><span class="p">(</span><span class="s1">''</span><span class="p">))</span>
 <span class="w">      </span><span class="k">call </span><span class="n">assert_true</span><span class="p">(</span><span class="n">m</span><span class="p">%</span><span class="n">matched</span><span class="p">,</span><span class="w"> </span><span class="s1">'Empty alternation branch (a|) matches empty string'</span><span class="p">)</span>
 <span class="w">   </span><span class="k">end subroutine </span><span class="n">test_alternation_and_grouping</span>
 </pre></div>
@@ -322,7 +322,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-12 21:14 +0000             </p>
+ on 2026-11-13 05:38 +0000             </p>
           </div>
         </div>
         <br>

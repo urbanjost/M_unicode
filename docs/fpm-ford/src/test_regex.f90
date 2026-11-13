@@ -1,6 +1,6 @@
 program test_M_unicode__regex
    use iso_fortran_env, only: int32, error_unit
-   use M_unicode codepoints_to_utf8, utf8_to_codepoints
+   use M_unicode__regex, only: ctou, utoc
    use M_unicode__regex
    implicit none
 
@@ -62,7 +62,7 @@ contains
       if (.not. m%matched .or. m%start_pos(grp) < 1 .or. m%end_pos(grp) < m%start_pos(grp)) then
          sub = ''
       else
-         sub = codepoints_to_utf8(text_cp(m%start_pos(grp):m%end_pos(grp)))
+         sub = ctou(text_cp(m%start_pos(grp):m%end_pos(grp)))
       end if
    end function extract_group
 
@@ -71,15 +71,15 @@ contains
       integer(int32), allocatable :: cp(:)
       character(len=:), allocatable :: roundtrip
 
-      cp = utf8_to_codepoints(sample)
+      cp = utoc(sample)
       call assert_true(size(cp) == 20, 'UTF-8 codepoint count (ASCII + Latin + Emoji + CJK)')
-      roundtrip = codepoints_to_utf8(cp)
+      roundtrip = ctou(cp)
       call assert_str_eq(roundtrip, sample, 'UTF-8 -> UTF-32 -> UTF-8 roundtrip')
 
       ! Empty string roundtrip
-      cp = utf8_to_codepoints('')
+      cp = utoc('')
       call assert_true(size(cp) == 0, 'Empty UTF-8 string produces 0 codepoints')
-      call assert_str_eq(codepoints_to_utf8(cp), '', 'Empty codepoint array produces empty UTF-8')
+      call assert_str_eq(ctou(cp), '', 'Empty codepoint array produces empty UTF-8')
    end subroutine test_utf8_roundtrip
 
    subroutine test_basic_literals_and_anchors()
@@ -87,20 +87,20 @@ contains
       type(match_t) :: m
       integer(int32), allocatable :: txt(:)
 
-      txt = utf8_to_codepoints('line1' // new_line('a') // 'target_word' // new_line('a') // 'line3')
+      txt = utoc('line1' // new_line('a') // 'target_word' // new_line('a') // 'line3')
 
-      re = regex_compile(utf8_to_codepoints('^target_word$'))
+      re = regex_compile(utoc('^target_word$'))
       call assert_true(re%valid, 'Compile multiline anchored pattern')
       m = regex_search(re, txt)
       call assert_true(m%matched, 'Match ^target_word$ across newlines')
       call assert_str_eq(extract_group(txt, m, 0), 'target_word', 'Extracted multiline match')
 
-      re = regex_compile(utf8_to_codepoints('^word$'))
+      re = regex_compile(utoc('^word$'))
       m = regex_search(re, txt)
       call assert_true(.not. m%matched, 'Reject partial line match with ^...$')
 
       ! Dot does not cross newline
-      re = regex_compile(utf8_to_codepoints('line1.target'))
+      re = regex_compile(utoc('line1.target'))
       m = regex_search(re, txt)
       call assert_true(.not. m%matched, 'Dot (.) does not match newline')
    end subroutine test_basic_literals_and_anchors
@@ -110,36 +110,36 @@ contains
       type(match_t) :: m
       integer(int32), allocatable :: txt(:)
 
-      re = regex_compile(utf8_to_codepoints('^(cat|dog|bird|fish)$'))
+      re = regex_compile(utoc('^(cat|dog|bird|fish)$'))
       call assert_true(re%valid, 'Compile 4-way alternation')
 
-      txt = utf8_to_codepoints('cat')
+      txt = utoc('cat')
       m = regex_search(re, txt)
       call assert_true(m%matched, 'Alternation matches 1st branch (cat)')
       call assert_str_eq(extract_group(txt, m, 1), 'cat', 'Capture group 1 = cat')
 
-      txt = utf8_to_codepoints('dog')
+      txt = utoc('dog')
       m = regex_search(re, txt)
       call assert_true(m%matched, 'Alternation matches 2nd branch (dog)')
       call assert_str_eq(extract_group(txt, m, 1), 'dog', 'Capture group 1 = dog')
 
-      txt = utf8_to_codepoints('bird')
+      txt = utoc('bird')
       m = regex_search(re, txt)
       call assert_true(m%matched, 'Alternation matches 3rd branch (bird)')
       call assert_str_eq(extract_group(txt, m, 1), 'bird', 'Capture group 1 = bird')
 
-      txt = utf8_to_codepoints('fish')
+      txt = utoc('fish')
       m = regex_search(re, txt)
       call assert_true(m%matched, 'Alternation matches 4th branch (fish)')
       call assert_str_eq(extract_group(txt, m, 1), 'fish', 'Capture group 1 = fish')
 
-      txt = utf8_to_codepoints('catdog')
+      txt = utoc('catdog')
       m = regex_search(re, txt)
       call assert_true(.not. m%matched, 'Alternation does not fall through cat -> dog')
 
       ! Empty branch alternation (a|)
-      re = regex_compile(utf8_to_codepoints('^(a|)$'))
-      m = regex_search(re, utf8_to_codepoints(''))
+      re = regex_compile(utoc('^(a|)$'))
+      m = regex_search(re, utoc(''))
       call assert_true(m%matched, 'Empty alternation branch (a|) matches empty string')
    end subroutine test_alternation_and_grouping
 
@@ -148,19 +148,19 @@ contains
       type(match_t) :: m
       integer(int32), allocatable :: txt(:)
 
-      re = regex_compile(utf8_to_codepoints('^(a(b|c)*d)+$'))
+      re = regex_compile(utoc('^(a(b|c)*d)+$'))
       call assert_true(re%valid, 'Compile nested alternation inside * and +')
 
-      txt = utf8_to_codepoints('adabcbd')
+      txt = utoc('adabcbd')
       m = regex_search(re, txt)
       call assert_true(m%matched, 'Nested quantifier matches adabcbd')
       call assert_str_eq(extract_group(txt, m, 1), 'abcbd', 'Outer group captures last iteration')
       call assert_str_eq(extract_group(txt, m, 2), 'b', 'Inner group captures last alternation')
 
-      re = regex_compile(utf8_to_codepoints('^colou?r$'))
-      m = regex_search(re, utf8_to_codepoints('color'))
+      re = regex_compile(utoc('^colou?r$'))
+      m = regex_search(re, utoc('color'))
       call assert_true(m%matched, 'Optional ? matches zero occurrences (color)')
-      m = regex_search(re, utf8_to_codepoints('colour'))
+      m = regex_search(re, utoc('colour'))
       call assert_true(m%matched, 'Optional ? matches one occurrence (colour)')
    end subroutine test_quantifiers_and_nesting
 
@@ -170,51 +170,51 @@ contains
       integer(int32), allocatable :: txt(:)
 
       ! Exact {n}
-      re = regex_compile(utf8_to_codepoints('^a{3}$'))
+      re = regex_compile(utoc('^a{3}$'))
       call assert_true(re%valid, 'Compile exact repetition a{3}')
-      m = regex_search(re, utf8_to_codepoints('aaa'))
+      m = regex_search(re, utoc('aaa'))
       call assert_true(m%matched, 'a{3} matches aaa')
-      m = regex_search(re, utf8_to_codepoints('aa'))
+      m = regex_search(re, utoc('aa'))
       call assert_true(.not. m%matched, 'a{3} rejects aa')
-      m = regex_search(re, utf8_to_codepoints('aaaa'))
+      m = regex_search(re, utoc('aaaa'))
       call assert_true(.not. m%matched, 'a{3} rejects aaaa')
 
       ! Zero repetition {0}
-      re = regex_compile(utf8_to_codepoints('^ab{0}c$'))
-      m = regex_search(re, utf8_to_codepoints('ac'))
+      re = regex_compile(utoc('^ab{0}c$'))
+      m = regex_search(re, utoc('ac'))
       call assert_true(m%matched, 'ab{0}c matches ac')
-      m = regex_search(re, utf8_to_codepoints('abc'))
+      m = regex_search(re, utoc('abc'))
       call assert_true(.not. m%matched, 'ab{0}c rejects abc')
 
       ! Bounded {n,m}
-      re = regex_compile(utf8_to_codepoints('^' // BS // 'd{2,4}$'))
+      re = regex_compile(utoc('^' // BS // 'd{2,4}$'))
       call assert_true(re%valid, 'Compile bounded repetition \d{2,4}')
-      m = regex_search(re, utf8_to_codepoints('1'))
+      m = regex_search(re, utoc('1'))
       call assert_true(.not. m%matched, '\d{2,4} rejects 1 digit')
-      m = regex_search(re, utf8_to_codepoints('123'))
+      m = regex_search(re, utoc('123'))
       call assert_true(m%matched, '\d{2,4} matches 3 digits')
-      m = regex_search(re, utf8_to_codepoints('12345'))
+      m = regex_search(re, utoc('12345'))
       call assert_true(.not. m%matched, '\d{2,4} rejects 5 digits')
 
       ! Bounded from zero {0,2}
-      re = regex_compile(utf8_to_codepoints('^x{0,2}$'))
-      m = regex_search(re, utf8_to_codepoints(''))
+      re = regex_compile(utoc('^x{0,2}$'))
+      m = regex_search(re, utoc(''))
       call assert_true(m%matched, 'x{0,2} matches empty string')
-      m = regex_search(re, utf8_to_codepoints('xx'))
+      m = regex_search(re, utoc('xx'))
       call assert_true(m%matched, 'x{0,2} matches xx')
-      m = regex_search(re, utf8_to_codepoints('xxx'))
+      m = regex_search(re, utoc('xxx'))
       call assert_true(.not. m%matched, 'x{0,2} rejects xxx')
 
       ! Unbounded {n,}
-      re = regex_compile(utf8_to_codepoints('^(ab){2,}$'))
-      txt = utf8_to_codepoints('ababab')
+      re = regex_compile(utoc('^(ab){2,}$'))
+      txt = utoc('ababab')
       m = regex_search(re, txt)
       call assert_true(m%matched, '(ab){2,} matches ababab')
       call assert_str_eq(extract_group(txt, m, 1), 'ab', 'Capture group in (ab){2, }')
 ! Non-quantifier literal braces {foo}
-      re = regex_compile(utf8_to_codepoints('^a{foo}b$'))
+      re = regex_compile(utoc('^a{foo}b$'))
       call assert_true(re%valid, 'Literal braces a{foo}b compile as literal chars')
-      m = regex_search(re, utf8_to_codepoints('a{foo}b'))
+      m = regex_search(re, utoc('a{foo}b'))
       call assert_true(m%matched, 'Literal braces a{foo}b match literally')
    end subroutine test_counted_repetitions
    subroutine test_non_greedy_quantifiers()
@@ -222,39 +222,39 @@ contains
       type(match_t) :: m
       integer(int32), allocatable :: txt(:), repl(:), out(:)
 
-      txt = utf8_to_codepoints('<tag>first</tag> and <tag>second</tag>')
+      txt = utoc('<tag>first</tag> and <tag>second</tag>')
 
       ! Greedy .* spans across both tags
-      re = regex_compile(utf8_to_codepoints('<tag>.*</tag>'))
+      re = regex_compile(utoc('<tag>.*</tag>'))
       m = regex_search(re, txt)
       call assert_str_eq(extract_group(txt, m, 0), '<tag>first</tag> and <tag>second</tag>', &
          'Greedy <tag>.*</tag> spans to last closing tag')
 
       ! Non-greedy .*? stops at the first closing tag
-      re = regex_compile(utf8_to_codepoints('<tag>(.*?)</tag>'))
+      re = regex_compile(utoc('<tag>(.*?)</tag>'))
       m = regex_search(re, txt)
       call assert_true(m%matched, 'Non-greedy <tag>(.*?)</tag> matches')
       call assert_str_eq(extract_group(txt, m, 1), 'first', &
          'Non-greedy <tag>(.*?)</tag> captures first tag only')
 
       ! Global replacement with non-greedy +?
-      re = regex_compile(utf8_to_codepoints(BS // '[(.+?)' // BS // ']'))
-      txt = utf8_to_codepoints('[one] [two] [three]')
-      repl = utf8_to_codepoints('($1)')
+      re = regex_compile(utoc(BS // '[(.+?)' // BS // ']'))
+      txt = utoc('[one] [two] [three]')
+      repl = utoc('($1)')
       out = regex_replace(re, txt, repl, replace_all=.true.)
-      call assert_str_eq(codepoints_to_utf8(out), '(one) (two) (three)', &
+      call assert_str_eq(ctou(out), '(one) (two) (three)', &
          'Global replace with non-greedy \[(.+?)\]')
 
       ! Non-greedy bounded repetition {1,3}? prefers minimum count
-      re = regex_compile(utf8_to_codepoints('a{1,3}?'))
-      txt = utf8_to_codepoints('aaaa')
+      re = regex_compile(utoc('a{1,3}?'))
+      txt = utoc('aaaa')
       m = regex_search(re, txt)
       call assert_str_eq(extract_group(txt, m, 0), 'a', &
          'Non-greedy a{1,3}? matches minimal 1 char')
 
       ! Non-greedy optional ?? prefers 0 matches when allowed
-      re = regex_compile(utf8_to_codepoints('ab??'))
-      txt = utf8_to_codepoints('ab')
+      re = regex_compile(utoc('ab??'))
+      txt = utoc('ab')
       m = regex_search(re, txt)
       call assert_str_eq(extract_group(txt, m, 0), 'a', &
          'Non-greedy ab?? matches minimal "a"')
@@ -263,32 +263,32 @@ contains
       type(regex_t) :: re
       type(match_t) :: m
       integer(int32), allocatable :: txt(:), repl(:), out(:)
-      re = regex_compile(utf8_to_codepoints(BS // 'bcat' // BS // 'b'))
+      re = regex_compile(utoc(BS // 'bcat' // BS // 'b'))
       call assert_true(re%valid, 'Compile word boundary \bcat\b')
-      txt = utf8_to_codepoints('scatter the cat around')
+      txt = utoc('scatter the cat around')
       m = regex_search(re, txt)
       call assert_true(m%matched, '\bcat\b matches standalone word cat')
       call assert_true(m%start_pos(0) == 13 .and. m%end_pos(0) == 15, &
          '\bcat\b skips "cat" inside "scatter"')
 ! Unicode word boundary with accented Latin characters
-      re = regex_compile(utf8_to_codepoints(BS // 'bZürich' // BS // 'b'))
-      txt = utf8_to_codepoints('In Zürich, Switzerland')
+      re = regex_compile(utoc(BS // 'bZürich' // BS // 'b'))
+      txt = utoc('In Zürich, Switzerland')
       m = regex_search(re, txt)
       call assert_true(m%matched, '\bZürich\b matches accented word boundary')
 ! Non-word boundary \B matches inside a word
-      re = regex_compile(utf8_to_codepoints(BS // 'Bcat' // BS // 'B'))
-      txt = utf8_to_codepoints('scatter')
+      re = regex_compile(utoc(BS // 'Bcat' // BS // 'B'))
+      txt = utoc('scatter')
       m = regex_search(re, txt)
       call assert_true(m%matched, '\Bcat\B matches inside "scatter"')
-      txt = utf8_to_codepoints('cat')
+      txt = utoc('cat')
       m = regex_search(re, txt)
       call assert_true(.not. m%matched, '\Bcat\B rejects standalone "cat"')
 ! Global word replacement
-      re = regex_compile(utf8_to_codepoints(BS // 'bfoo' // BS // 'b'))
-      txt = utf8_to_codepoints('foo foobar barfoo foo')
-      repl = utf8_to_codepoints('baz')
+      re = regex_compile(utoc(BS // 'bfoo' // BS // 'b'))
+      txt = utoc('foo foobar barfoo foo')
+      repl = utoc('baz')
       out = regex_replace(re, txt, repl, replace_all=.true.)
-      call assert_str_eq(codepoints_to_utf8(out), 'baz foobar barfoo baz', &
+      call assert_str_eq(ctou(out), 'baz foobar barfoo baz', &
          'Replace whole words only with \bfoo\b')
    end subroutine test_word_boundaries
    subroutine test_char_classes_and_escapes()
@@ -296,19 +296,19 @@ contains
       type(match_t) :: m
       integer(int32), allocatable :: txt(:)
 ! Shorthand \d inside character class [...]
-      re = regex_compile(utf8_to_codepoints('^[' // BS // 'da-fA-F]+$'))
+      re = regex_compile(utoc('^[' // BS // 'da-fA-F]+$'))
       call assert_true(re%valid, 'Compile hex class with \d shorthand')
-      txt = utf8_to_codepoints('deadBEEF42')
+      txt = utoc('deadBEEF42')
       m = regex_search(re, txt)
       call assert_true(m%matched, 'Match hex digits via [\da-fA-F]+')
 ! Negated class [^...]
-      re = regex_compile(utf8_to_codepoints('^[^0-9]+$'))
-      txt = utf8_to_codepoints('abc_XYZ!')
+      re = regex_compile(utoc('^[^0-9]+$'))
+      txt = utoc('abc_XYZ!')
       m = regex_search(re, txt)
       call assert_true(m%matched, 'Negated class [^0-9]+ matches non-digits')
 ! Negated shorthand \D, \W ⁠
-      re = regex_compile(utf8_to_codepoints('^' // BS // 'D+' // BS // 'S+' // BS // 'W+$'))
-      txt = utf8_to_codepoints('abc!@#')
+      re = regex_compile(utoc('^' // BS // 'D+' // BS // 'S+' // BS // 'W+$'))
+      txt = utoc('abc!@#')
       m = regex_search(re, txt)
       call assert_true(m%matched, 'Negated shorthands \D, \S, \W match properly')
    end subroutine test_char_classes_and_escapes
@@ -316,9 +316,9 @@ contains
       type(regex_t) :: re
       type(match_t) :: m
       integer(int32), allocatable :: txt(:)
-      re = regex_compile(utf8_to_codepoints('(' // BS // 'w+)' // BS // 's+(🚀|🛸)'))
+      re = regex_compile(utoc('(' // BS // 'w+)' // BS // 's+(🚀|🛸)'))
       call assert_true(re%valid, 'Compile Unicode \w and emoji alternation')
-      txt = utf8_to_codepoints('Launch Zürich 🚀 now')
+      txt = utoc('Launch Zürich 🚀 now')
       m = regex_search(re, txt)
       call assert_true(m%matched, 'Match accented Unicode word + emoji')
       call assert_str_eq(extract_group(txt, m, 1), 'Zürich', 'Captured Unicode word Zürich')
@@ -328,49 +328,49 @@ contains
       type(regex_t) :: re
       integer(int32), allocatable :: txt(:), repl(:), out(:)
 
-      re = regex_compile(utf8_to_codepoints('(' // BS // 'd{4})-(' // BS // 'd{2})-(' // BS // 'd{2})'))
-      txt = utf8_to_codepoints('Dates: 2026-11-11 and 2027-01-05.')
-      repl = utf8_to_codepoints('$3/$2/$1')
+      re = regex_compile(utoc('(' // BS // 'd{4})-(' // BS // 'd{2})-(' // BS // 'd{2})'))
+      txt = utoc('Dates: 2026-11-11 and 2027-01-05.')
+      repl = utoc('$3/$2/$1')
 
       out = regex_replace(re, txt, repl, replace_all=.true.)
-      call assert_str_eq(codepoints_to_utf8(out), 'Dates: 11/11/2026 and 05/01/2027.', &
+      call assert_str_eq(ctou(out), 'Dates: 11/11/2026 and 05/01/2027.', &
          'Global replace with $1..$3 backreferences')
 
       out = regex_replace(re, txt, repl, replace_all=.false.)
-      call assert_str_eq(codepoints_to_utf8(out), 'Dates: 11/11/2026 and 2027-01-05.', &
+      call assert_str_eq(ctou(out), 'Dates: 11/11/2026 and 2027-01-05.', &
          'Single replace (replace_all=.false.)')
 
       ! Backslash backreference (\1) and escaped literal dollar ($$)
-      repl = utf8_to_codepoints('$$' // BS // '1')
+      repl = utoc('$$' // BS // '1')
       out = regex_replace(re, txt, repl, replace_all=.false.)
-      call assert_str_eq(codepoints_to_utf8(out), 'Dates: $2026 and 2027-01-05.', &
+      call assert_str_eq(ctou(out), 'Dates: $2026 and 2027-01-05.', &
          'Backslash backref \1 and escaped $$ in replacement')
 
       ! Zero-length match replacement
-      re = regex_compile(utf8_to_codepoints('a*'))
-      txt = utf8_to_codepoints('b')
-      repl = utf8_to_codepoints('X')
+      re = regex_compile(utoc('a*'))
+      txt = utoc('b')
+      repl = utoc('X')
       out = regex_replace(re, txt, repl, replace_all=.true.)
-      call assert_str_eq(codepoints_to_utf8(out), 'XbX', &
+      call assert_str_eq(ctou(out), 'XbX', &
          'Zero-length match replace matches standard PCRE/Python semantics')
    end subroutine test_replace_and_backrefs
    subroutine test_invalid_patterns()
       type(regex_t) :: re
-      re = regex_compile(utf8_to_codepoints('*abc'))
+      re = regex_compile(utoc('*abc'))
       call assert_true(.not. re%valid, 'Reject leading quantifier *abc')
-      re = regex_compile(utf8_to_codepoints('a**'))
+      re = regex_compile(utoc('a**'))
       call assert_true(.not. re%valid, 'Reject chained quantifier a**')
-      re = regex_compile(utf8_to_codepoints('a*??'))
+      re = regex_compile(utoc('a*??'))
       call assert_true(.not. re%valid, 'Reject invalid quantifier a*??')
-      re = regex_compile(utf8_to_codepoints('a{5,2}'))
+      re = regex_compile(utoc('a{5,2}'))
       call assert_true(.not. re%valid, 'Reject inverted range a{5,2}')
-      re = regex_compile(utf8_to_codepoints('a{2}{3}'))
+      re = regex_compile(utoc('a{2}{3}'))
       call assert_true(.not. re%valid, 'Reject chained brace quantifier a{2}{3}')
-      re = regex_compile(utf8_to_codepoints('(unclosed'))
+      re = regex_compile(utoc('(unclosed'))
       call assert_true(.not. re%valid, 'Reject unclosed group (unclosed')
-      re = regex_compile(utf8_to_codepoints('[z-a]'))
+      re = regex_compile(utoc('[z-a]'))
       call assert_true(.not. re%valid, 'Reject inverted range [z-a]')
-      re = regex_compile(utf8_to_codepoints('trailing' // BS))
+      re = regex_compile(utoc('trailing' // BS))
       call assert_true(.not. re%valid, 'Reject trailing backslash')
    end subroutine test_invalid_patterns
 end program test_M_unicode__regex

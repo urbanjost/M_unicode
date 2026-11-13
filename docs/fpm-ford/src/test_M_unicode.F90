@@ -20,6 +20,7 @@ use M_unicode, only : tokenize, split
 use M_unicode, only : isascii
 use M_unicode, only : isblank
 use M_unicode, only : isspace
+use M_unicode, only : issensitive
 use M_unicode, only : ichar
 use M_unicode, only : replace
 use M_unicode, only : sub
@@ -1484,21 +1485,21 @@ character(len=1)             :: ch
 integer                      :: i
    a_str='😃'
    ut_str='😃'
-   call checkits_l('iascii','smiley emoji', answer=[ isascii(a_str),isascii(ut_str)] , expected=[F,F] )
+   call checkits_l('isascii','smiley emoji', answer=[ isascii(a_str),isascii(ut_str)] , expected=[F,F] )
 
    a_str="THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG."
    ut_str=a_str
-   call checkits_l('iascii','English pangram', answer=[ isascii(a_str),isascii(ut_str)] , expected=[T,T] )
+   call checkits_l('isascii','English pangram', answer=[ isascii(a_str),isascii(ut_str)] , expected=[T,T] )
 
    ! French panagram translates from the French to
    ! "Take this old whisky to the blond judge who is smoking."
    a_str='Portez ce vieux whisky au juge blond qui fume.'
    ut_str=a_str
-   call checkits_l('iascii','ASCII-7 French pangram', answer=[ isascii(a_str),isascii(ut_str)] , expected=[T,T] )
+   call checkits_l('isascii','ASCII-7 French pangram', answer=[ isascii(a_str),isascii(ut_str)] , expected=[T,T] )
    ! (variant with “é”)
    a_str='Portez ce vieux whisky au juge blond qui a fumé.'
    ut_str=a_str
-   call checkits_l('iascii','UTF-8 French pangram', answer=[ isascii(a_str),isascii(ut_str)] , expected=[F,F] )
+   call checkits_l('isascii','UTF-8 French pangram', answer=[ isascii(a_str),isascii(ut_str)] , expected=[F,F] )
 
    do i=0,number_of_chars-1
       ch=char(i)
@@ -1509,6 +1510,36 @@ integer                      :: i
    enddo
 
 end subroutine test_isascii
+!TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+subroutine test_issensitive()
+type(ut)                   :: line, change, nochange, expected
+character(len=*),parameter :: g = '(*(g0))'
+integer                    :: i
+integer                    :: j
+logical,allocatable        :: mask(:)
+
+   line = 'P{äg15🍐 🌦6^c0ßßẞ)🌛🌢;4279OTRNiü!zx🌴|'
+   expected='PägcßßẞOTRNiüzx'
+   mask=[(issensitive(line%sub(i,i)),i=1,len(line))]
+   change=pack(line%codes,mask)
+   call checkit('issensitive','select sensitive characters', answer=change%ch() , expected=expected%ch() )
+
+   expected='{15🍐 🌦6^0)🌛🌢;4279!🌴|'
+   change=pack(line%codes,.not.mask)
+   call checkit('issensitive','select non-sensitive characters', answer=change%ch() , expected=expected%ch() )
+
+   line = 'vHk~dqyUBm🌟🌬lEwöJ🌀A,f[]8🌷(S}🍍3'
+   expected='vHkdqyUBmlEwöJAfS'
+   mask=[(issensitive(line%sub(i,i)),i=1,len(line))]
+   change=pack(line%codes,mask)
+   call checkit('issensitive','select sensitive characters', answer=change%ch() , expected=expected%ch() )
+
+   expected='~🌟🌬🌀,[]8🌷(}🍍3'
+   change=pack(line%codes,.not.mask)
+   call checkit('issensitive','select non-sensitive characters', answer=change%ch() , expected=expected%ch() )
+
+
+end subroutine test_issensitive
 !TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
 subroutine test_isspace
 integer,parameter             :: number_of_chars=128
@@ -2013,6 +2044,7 @@ use testsuite_M_unicode
    call test_ichar()
    call test_index()
    call test_isascii()
+   call test_issensitive()
    call test_isblank()
    call test_isspace()
    call test_join()

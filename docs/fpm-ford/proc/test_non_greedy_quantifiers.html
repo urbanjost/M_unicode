@@ -134,8 +134,8 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../proc/test_non_greedy_quantifiers.html#variable-m~10">m</a>
-            <a class="list-group-item" href="../proc/test_non_greedy_quantifiers.html#variable-out~22">out</a>
-            <a class="list-group-item" href="../proc/test_non_greedy_quantifiers.html#variable-re~11">re</a>
+            <a class="list-group-item" href="../proc/test_non_greedy_quantifiers.html#variable-out~25">out</a>
+            <a class="list-group-item" href="../proc/test_non_greedy_quantifiers.html#variable-re~12">re</a>
             <a class="list-group-item" href="../proc/test_non_greedy_quantifiers.html#variable-repl~2">repl</a>
             <a class="list-group-item" href="../proc/test_non_greedy_quantifiers.html#variable-txt~5">txt</a>
         </div>
@@ -216,7 +216,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-out~22"></span>
+              <span class="anchor" id="variable-out~25"></span>
               integer(kind=int32),
             </td>
               <td>public,</td>
@@ -233,7 +233,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-re~11"></span>
+              <span class="anchor" id="variable-re~12"></span>
               type(<a href='../type/regex_t.html'>regex_t</a>),
             </td>
               <td>public</td>
@@ -303,39 +303,39 @@
 <span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">match_t</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">m</span>
 <span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">txt</span><span class="p">(:),</span><span class="w"> </span><span class="n">repl</span><span class="p">(:),</span><span class="w"> </span><span class="n">out</span><span class="p">(:)</span>
 
-<span class="w">      </span><span class="n">txt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utf8_to_codepoints</span><span class="p">(</span><span class="s1">'&lt;tag&gt;first&lt;/tag&gt; and &lt;tag&gt;second&lt;/tag&gt;'</span><span class="p">)</span>
+<span class="w">      </span><span class="n">txt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utoc</span><span class="p">(</span><span class="s1">'&lt;tag&gt;first&lt;/tag&gt; and &lt;tag&gt;second&lt;/tag&gt;'</span><span class="p">)</span>
 
 <span class="w">      </span><span class="c">! Greedy .* spans across both tags</span>
-<span class="w">      </span><span class="n">re</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">regex_compile</span><span class="p">(</span><span class="n">utf8_to_codepoints</span><span class="p">(</span><span class="s1">'&lt;tag&gt;.*&lt;/tag&gt;'</span><span class="p">))</span>
+<span class="w">      </span><span class="n">re</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">regex_compile</span><span class="p">(</span><span class="n">utoc</span><span class="p">(</span><span class="s1">'&lt;tag&gt;.*&lt;/tag&gt;'</span><span class="p">))</span>
 <span class="w">      </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">regex_search</span><span class="p">(</span><span class="n">re</span><span class="p">,</span><span class="w"> </span><span class="n">txt</span><span class="p">)</span>
 <span class="w">      </span><span class="k">call </span><span class="n">assert_str_eq</span><span class="p">(</span><span class="n">extract_group</span><span class="p">(</span><span class="n">txt</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="s1">'&lt;tag&gt;first&lt;/tag&gt; and &lt;tag&gt;second&lt;/tag&gt;'</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">         </span><span class="s1">'Greedy &lt;tag&gt;.*&lt;/tag&gt; spans to last closing tag'</span><span class="p">)</span>
 
 <span class="w">      </span><span class="c">! Non-greedy .*? stops at the first closing tag</span>
-<span class="w">      </span><span class="n">re</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">regex_compile</span><span class="p">(</span><span class="n">utf8_to_codepoints</span><span class="p">(</span><span class="s1">'&lt;tag&gt;(.*?)&lt;/tag&gt;'</span><span class="p">))</span>
+<span class="w">      </span><span class="n">re</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">regex_compile</span><span class="p">(</span><span class="n">utoc</span><span class="p">(</span><span class="s1">'&lt;tag&gt;(.*?)&lt;/tag&gt;'</span><span class="p">))</span>
 <span class="w">      </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">regex_search</span><span class="p">(</span><span class="n">re</span><span class="p">,</span><span class="w"> </span><span class="n">txt</span><span class="p">)</span>
 <span class="w">      </span><span class="k">call </span><span class="n">assert_true</span><span class="p">(</span><span class="n">m</span><span class="p">%</span><span class="n">matched</span><span class="p">,</span><span class="w"> </span><span class="s1">'Non-greedy &lt;tag&gt;(.*?)&lt;/tag&gt; matches'</span><span class="p">)</span>
 <span class="w">      </span><span class="k">call </span><span class="n">assert_str_eq</span><span class="p">(</span><span class="n">extract_group</span><span class="p">(</span><span class="n">txt</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="s1">'first'</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">         </span><span class="s1">'Non-greedy &lt;tag&gt;(.*?)&lt;/tag&gt; captures first tag only'</span><span class="p">)</span>
 
 <span class="w">      </span><span class="c">! Global replacement with non-greedy +?</span>
-<span class="w">      </span><span class="n">re</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">regex_compile</span><span class="p">(</span><span class="n">utf8_to_codepoints</span><span class="p">(</span><span class="n">BS</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">'[(.+?)'</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">BS</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">']'</span><span class="p">))</span>
-<span class="w">      </span><span class="n">txt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utf8_to_codepoints</span><span class="p">(</span><span class="s1">'[one] [two] [three]'</span><span class="p">)</span>
-<span class="w">      </span><span class="n">repl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utf8_to_codepoints</span><span class="p">(</span><span class="s1">'($1)'</span><span class="p">)</span>
+<span class="w">      </span><span class="n">re</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">regex_compile</span><span class="p">(</span><span class="n">utoc</span><span class="p">(</span><span class="n">BS</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">'[(.+?)'</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">BS</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">']'</span><span class="p">))</span>
+<span class="w">      </span><span class="n">txt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utoc</span><span class="p">(</span><span class="s1">'[one] [two] [three]'</span><span class="p">)</span>
+<span class="w">      </span><span class="n">repl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utoc</span><span class="p">(</span><span class="s1">'($1)'</span><span class="p">)</span>
 <span class="w">      </span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">regex_replace</span><span class="p">(</span><span class="n">re</span><span class="p">,</span><span class="w"> </span><span class="n">txt</span><span class="p">,</span><span class="w"> </span><span class="n">repl</span><span class="p">,</span><span class="w"> </span><span class="n">replace_all</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.)</span>
-<span class="w">      </span><span class="k">call </span><span class="n">assert_str_eq</span><span class="p">(</span><span class="n">codepoints_to_utf8</span><span class="p">(</span><span class="n">out</span><span class="p">),</span><span class="w"> </span><span class="s1">'(one) (two) (three)'</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">      </span><span class="k">call </span><span class="n">assert_str_eq</span><span class="p">(</span><span class="n">ctou</span><span class="p">(</span><span class="n">out</span><span class="p">),</span><span class="w"> </span><span class="s1">'(one) (two) (three)'</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">         </span><span class="s1">'Global replace with non-greedy \[(.+?)\]'</span><span class="p">)</span>
 
 <span class="w">      </span><span class="c">! Non-greedy bounded repetition {1,3}? prefers minimum count</span>
-<span class="w">      </span><span class="n">re</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">regex_compile</span><span class="p">(</span><span class="n">utf8_to_codepoints</span><span class="p">(</span><span class="s1">'a{1,3}?'</span><span class="p">))</span>
-<span class="w">      </span><span class="n">txt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utf8_to_codepoints</span><span class="p">(</span><span class="s1">'aaaa'</span><span class="p">)</span>
+<span class="w">      </span><span class="n">re</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">regex_compile</span><span class="p">(</span><span class="n">utoc</span><span class="p">(</span><span class="s1">'a{1,3}?'</span><span class="p">))</span>
+<span class="w">      </span><span class="n">txt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utoc</span><span class="p">(</span><span class="s1">'aaaa'</span><span class="p">)</span>
 <span class="w">      </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">regex_search</span><span class="p">(</span><span class="n">re</span><span class="p">,</span><span class="w"> </span><span class="n">txt</span><span class="p">)</span>
 <span class="w">      </span><span class="k">call </span><span class="n">assert_str_eq</span><span class="p">(</span><span class="n">extract_group</span><span class="p">(</span><span class="n">txt</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="s1">'a'</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">         </span><span class="s1">'Non-greedy a{1,3}? matches minimal 1 char'</span><span class="p">)</span>
 
 <span class="w">      </span><span class="c">! Non-greedy optional ?? prefers 0 matches when allowed</span>
-<span class="w">      </span><span class="n">re</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">regex_compile</span><span class="p">(</span><span class="n">utf8_to_codepoints</span><span class="p">(</span><span class="s1">'ab??'</span><span class="p">))</span>
-<span class="w">      </span><span class="n">txt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utf8_to_codepoints</span><span class="p">(</span><span class="s1">'ab'</span><span class="p">)</span>
+<span class="w">      </span><span class="n">re</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">regex_compile</span><span class="p">(</span><span class="n">utoc</span><span class="p">(</span><span class="s1">'ab??'</span><span class="p">))</span>
+<span class="w">      </span><span class="n">txt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utoc</span><span class="p">(</span><span class="s1">'ab'</span><span class="p">)</span>
 <span class="w">      </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">regex_search</span><span class="p">(</span><span class="n">re</span><span class="p">,</span><span class="w"> </span><span class="n">txt</span><span class="p">)</span>
 <span class="w">      </span><span class="k">call </span><span class="n">assert_str_eq</span><span class="p">(</span><span class="n">extract_group</span><span class="p">(</span><span class="n">txt</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="s1">'a'</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">         </span><span class="s1">'Non-greedy ab?? matches minimal "a"'</span><span class="p">)</span>
@@ -363,7 +363,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-12 21:14 +0000             </p>
+ on 2026-11-13 05:38 +0000             </p>
           </div>
         </div>
         <br>
