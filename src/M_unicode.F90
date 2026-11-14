@@ -364,11 +364,18 @@ module M_unicode
 ! first presented in https://fortran-lang.discourse.group/t/how-to-use-utf-8-in-gfortran/9949
 ! including enhancements and optional Latin support from Francois Jacq, 2025-08
 !
+
 use,intrinsic :: iso_fortran_env, only : stdout=>output_unit
 use,intrinsic :: iso_fortran_env, only : stdin=>input_unit
 use,intrinsic :: iso_fortran_env, only : stderr=>error_unit
 use,intrinsic :: iso_fortran_env, only : int8, int16, int32, int64
 use,intrinsic :: iso_fortran_env, only : real32, real64, real128
+
+use M_unicode__float,   only : str_to_real
+use M_unicode__random,  only : random_string
+use M_unicode__regex,   only : regex_t, match_t, regex_compile, regex_search, regex_replace
+use M_unicode__convert, only : utoc, ctou
+
 implicit none
 
 private
@@ -376,6 +383,7 @@ PUBLIC :: unicode_type
 PUBLIC :: UTF8_TO_CODEPOINTS
 PUBLIC :: CODEPOINTS_TO_UTF8
 public :: character
+!public :: codepoint
 public :: sort
 public :: upper
 public :: lower
@@ -423,6 +431,11 @@ public :: isblank
 public :: isspace
 public :: issensitive
 public :: glob
+
+public :: regex_t, match_t, regex_compile, regex_search, regex_replace
+public :: random_string
+public :: str_to_real
+public :: utoc, ctou
 
 #ifdef HAS_DT
 PUBLIC :: write(formatted)
@@ -682,23 +695,95 @@ interface  isspace;  module  procedure  isspace_a,isspace_u;  end  interface  is
 !!
 !!    program demo_issensitive
 !!    use iso_fortran_env, only : stdout => output_unit
-!!    use M_unicode,       only : issensitive, len, assignment(=), ch=>character
-!!    use M_unicode,       only : ut => unicode_type, operator(==)
+!!    use M_unicode,       only : issensitive, len, assignment(=)
+!!    use M_unicode,       only : ut => unicode_type, lower, upper
+!!    use M_unicode,       only : ch => character
 !!    implicit none
-!!    type(ut)                   :: line
-!!    character(len=*),parameter :: g='(*(g0))'
+!!    type(ut)                   :: lines(4), line, low, upp, diff
+!!    character(len=*),parameter :: g = '(*(g0))'
 !!    integer                    :: i
-!!       line='[AB]cd{E}fg(H)i^J~klm:NOP;q|RSTU!,vwxyz0123456789'
-!!       print g, line%ch()
-!!       do i=1,len(line)
-!!          write(*,g,advance='no')merge( '^', '_', issensitive(line%sub(1,1)) )
+!!    integer                    :: j
+!!
+!!       lines(1) = 'P{äg15🍐 🌦6^c0ßßẞ)🌛🌢;4279OTRNiü!zx🌴|'
+!!       lines(2) = 'ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ'
+!!       lines(3) = 'abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+!!       lines(4) = 'v:Hk~dqyUBm🌟🌬lEwöJ🌀A,f[]8🌷(S}🍍3'
+!!
+!!       do j=1,size(lines)
+!!          ! given a line
+!!          line=lines(j)
+!!          ! generate a lowercase and uppercase copy
+!!          low=lower(line)
+!!          upp=upper(line)
+!!
+!!          ! determining which characters are different in the
+!!          ! lowercase and uppercase versions lets us determine
+!!          ! which characters are case-sensitive, at least as
+!!          ! far as the upper(3f) and lower(3f) functions
+!!          print g, 'ORIGINAL      :',line%ch()
+!!          print g, 'LOWERCASE COPY:',low%ch()
+!!          print g, 'UPPERCASE COPY:',upp%ch()
+!!          diff=pack(line%codes,low%codes == upp%codes)
+!!          print g, 'NO CASE CHANGE:',diff%ch()
+!!          diff=pack(line%codes,low%codes /= upp%codes)
+!!          print g, 'CASE CHANGED  :',diff%ch()
+!!
+!!          ! the same characters should be identified by the
+!!          ! issensitive(3f) function
+!!          write(*,g,advance='no')'SENSITIVE     :'
+!!          do i = 1,len(line)
+!!             if (issensitive(line%sub(i,i))) then
+!!                write(*,g,advance='no')line%ch(i,i)
+!!             endif
+!!          enddo
+!!          write(*,g)
+!!
+!!          write(*,g,advance='no')'NOT SENSITIVE :'
+!!          do i = 1,len(line)
+!!             if (.not.issensitive(line%sub(i,i))) then
+!!                write(*,g,advance='no')line%ch(i,i)
+!!             endif
+!!          enddo
+!!          write(*,g)
+!!          write(*,g)
 !!       enddo
-!!       write(*,g)
+!!
 !!    end program demo_issensitive
 !!
 !!  Expected output
 !!
 !!   > The quick brown fox jumps over the lazy dog.
+!!   > ORIGINAL      :P{äg15🍐 🌦6^c0ßßẞ)🌛🌢;4279OTRNiü!zx🌴|
+!!   > LOWERCASE COPY:p{äg15🍐 🌦6^c0ẞẞẞ)🌛🌢;4279otrniü!zx🌴|
+!!   > UPPERCASE COPY:P{ÄG15🍐 🌦6^C0ßßß)🌛🌢;4279OTRNIÜ!ZX🌴|
+!!   > NO CASE CHANGE:{15🍐 🌦6^0)🌛🌢;4279!🌴|
+!!   > CASE CHANGED  :PägcßßẞOTRNiüzx
+!!   > SENSITIVE     :PägcßßẞOTRNiüzx
+!!   > NOT SENSITIVE :{15🍐 🌦6^0)🌛🌢;4279!🌴|
+!!   >
+!!   > ORIGINAL      :ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ
+!!   > LOWERCASE COPY:ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ
+!!   > UPPERCASE COPY:ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ
+!!   > NO CASE CHANGE:
+!!   > CASE CHANGED  :ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ
+!!   > SENSITIVE     :ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ
+!!   > NOT SENSITIVE :
+!!   >
+!!   > ORIGINAL      :abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ
+!!   > LOWERCASE COPY:abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz
+!!   > UPPERCASE COPY:ABCDEFGHIJKLMNOPQRSTUVWXYZ ABCDEFGHIJKLMNOPQRSTUVWXYZ
+!!   > NO CASE CHANGE:
+!!   > CASE CHANGED  :abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
+!!   > SENSITIVE     :abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
+!!   > NOT SENSITIVE :
+!!   >
+!!   > ORIGINAL      :v:Hk~dqyUBm🌟🌬lEwöJ🌀A,f[]8🌷(S}🍍3
+!!   > LOWERCASE COPY:v:hk~dqyubm🌟🌬lewöj🌀a,f[]8🌷(s}🍍3
+!!   > UPPERCASE COPY:V:HK~DQYUBM🌟🌬LEWÖJ🌀A,F[]8🌷(S}🍍3
+!!   > NO CASE CHANGE::~🌟🌬🌀,[]8🌷(}🍍3
+!!   > CASE CHANGED  :vHkdqyUBmlEwöJAfS
+!!   > SENSITIVE     :vHkdqyUBmlEwöJAfS
+!!   > NOT SENSITIVE ::~🌟🌬🌀,[]8🌷(}🍍3
 !!
 !!### AUTHOR
 !!     John S. Urban
@@ -2030,10 +2115,10 @@ end interface get_arg
 !!     testsa = [ character(len=80) :: &
 !!     "-------------- Testing Pure Fortran Word Expansion --------------",&
 !!     " scratch space is $TMP for $USER with home directory  ${HOME}",    &
-!!     " DATE is $DATE TIME is 21:53:34 ZONE is $ZONE TIMESTAMP $TIMESTAMP",&
+!!     " DATE is $DATE TIME is 16:19:04 ZONE is $ZONE TIMESTAMP $TIMESTAMP",&
 !!     " FILE is $FILE ARGS: 0: $0 1: $1 2: $2 3: $3",                     &
 !!     " COMPILER is $COMPILER COMPILER_OPTIONS are ${COMPILER_OPTIONS}",  &
-!!     " ${0} versus src/source/M_unicode.FF  $0 versus $FILE",                            &
+!!     " ${0} versus M_unicode.FF  $0 versus $FILE",                            &
 !!     " All arguments is ${0} ${*}",                                      &
 !!     " unknown $UNKNOWN incorrect ${ A B C} but syntax OK",              &
 !!     " Bad $  ${  and stuff $UNKNOWN ${ A B C}",                         &
@@ -3219,8 +3304,9 @@ end interface fmt
 !!### OPTIONS
 !!   + UTF8 :  Scalar CHARACTER string or single-character array of CHARACTER
 !!             variables assumed to represent a stream of bytes containing
-!!             data encoded at UTF-8 text.
+!!             data encoded as UTF-8 text.
 !!
+!!### OUTPUT
 !!   + CODEPOINTS :  An INTEGER array of Unicode codepoint values
 !!                   representing the glyphs found in STRING
 !!   + NERR :  Zero if no error occurred. If not zero the stream of bytes
@@ -3336,10 +3422,11 @@ end interface utf8_to_codepoints
 !!### OPTIONS
 !!
 !!    + CODEPOINTS :  An INTEGER array of Unicode codepoint values representing
-!!                    the glyphs to be encoded at UTF-8 data
+!!                    the glyphs to be encoded as UTF-8 data
 !!
+!!### OUPUT
 !!    + UTF8 :  Scalar or single-character array CHARACTER variables
-!!              to contain a stream of bytes containing data encoded at
+!!              to contain a stream of bytes containing data encoded as
 !!              UTF-8 text.
 !!
 !!    + NERR :  Zero if no error occurred. If not zero the stream of bytes
@@ -5859,6 +5946,14 @@ abstract interface
 end interface
 
 !== End of KEYWORD section =========================================================================================================
+!==================================================================================================================================!
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!==================================================================================================================================!
+interface random_string
+  module procedure :: random_string_a
+  module procedure :: random_string_u
+end interface random_string
+!===================================================================================================================================
 ! backward compatibililty
 interface escape
    module procedure :: expand_backslash_uu
@@ -16967,6 +17062,22 @@ integer, intent(in)             :: rhs
    lhs%codes=[rhs]
 end subroutine assign_str_code
 ! Assign a character sequence to a string.
+
+! random
+function random_string_a(astr,length) result(out)
+character(len=*),intent(in)     :: astr
+integer,intent(in)              :: length
+character(len=length)           :: out
+   out=ctou(random_string(utoc(astr),length))
+end function random_string_a
+!-----------------------------------------------------------------------------------------------------------------------------------
+function random_string_u(ustr,length) result(out)
+type(unicode_type),intent(in)   :: ustr
+integer,intent(in)              :: length
+type(unicode_type)              :: out
+   out%codes=random_string(ustr%codes,length)
+end function random_string_u
+!-----------------------------------------------------------------------------------------------------------------------------------
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================

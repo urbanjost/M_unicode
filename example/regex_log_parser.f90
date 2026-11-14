@@ -2,27 +2,34 @@
 ! through every match in a multi-line buffer using start_offset, and
 ! extracting submatches safely.
 program log_parser
-   use iso_fortran_env,  only : int32
-   use M_unicode__regex, only : utoc, ctou
-   use M_unicode__regex, only : regex_t, match_t, regex_compile, regex_search
-   implicit none
+use iso_fortran_env,  only : int32
+use M_unicode, only : utoc, ctou
+use M_unicode, only : regex_t, match_t, regex_compile, regex_search
+implicit none
 
-   character(len=1), parameter   :: BS = achar(92)
-   type(regex_t)                 :: re
-   type(match_t)                 :: m
-   integer(int32), allocatable   :: log_cp(:)
-   integer                       :: offset, count
-   character(len=:), allocatable :: raw_log, pat_str
+character(len=1),parameter   :: BS = achar(92)
+type(regex_t)                :: re
+type(match_t)                :: m
+integer(int32),allocatable   :: log_cp(:)
+integer                      :: offset, count, i
+character(len=:),allocatable :: raw_log, pat_str
+character(len=*),parameter   :: nl=new_line('a')
 
    raw_log = &
-      '2026-11-12 08:14:02 [INFO]  User "alice" connected from 10.0.1.42' // new_line('a') // &
-      '2026-11-12 08:14:09 [WARN]  High latency (312ms) on node Zürich-01' // new_line('a') // &
-      '2026-11-12 08:14:15 [ERROR] Failed login for user "bob" from 192.168.1.99'
+   '2026-11-12 08:14:02 [INFO]  User "alice" connected from 10.0.1.42' // nl // &
+   '2026-11-12 08:14:09 [WARN]  High latency (312ms) on node Zürich-01' // nl // &
+   '2026-11-12 08:14:15 [ERROR] Failed login for user "bob" from 192.168.1.99'
 
-   ! Pattern: ^(\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2})\s+\[(\w+)\]\s+(.*)$
-   pat_str = '^(' // BS // 'd{4}-' // BS // 'd{2}-' // BS // 'd{2}' // BS // 's+' // &
-             BS // 'd{2}:' // BS // 'd{2}:' // BS // 'd{2})' // BS // 's+' // &
-             BS // '[(' // BS // 'w+)' // BS // ']' // BS // 's+(.*)$'
+   ! Pattern:
+   !^(\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2})\s+\[(\w+)\]\s+(.*)$
+   ! some compilers treat backslash as an escape character 
+   ! so replace % with backslash
+   pat_str = '^(%d{4}-%d{2}-%d{2}%s+%d{2}:%d{2}:%d{2})%s+%[(%w+)%]%s+(.*)$'
+   do i=1,len(pat_str)
+      select case(pat_str(i:i))
+      case('%');pat_str(i:i)=char(92)
+      end select
+   enddo
 
    re = regex_compile(utoc(pat_str))
    if (.not. re%valid) error stop 'Failed to compile log pattern'

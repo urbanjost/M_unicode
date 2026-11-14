@@ -1,7 +1,7 @@
 program test_M_unicode__regex
    use iso_fortran_env, only: int32, error_unit
-   use M_unicode__regex, only: ctou, utoc
-   use M_unicode__regex
+   use M_unicode, only: ctou, utoc
+   use M_unicode
    implicit none
 
    character(len=1), parameter :: BS = achar(92)

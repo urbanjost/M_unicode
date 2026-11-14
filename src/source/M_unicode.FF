@@ -383,11 +383,18 @@ module M_unicode
 ! first presented in https://fortran-lang.discourse.group/t/how-to-use-utf-8-in-gfortran/9949
 ! including enhancements and optional Latin support from Francois Jacq, 2025-08
 !
+
 use,intrinsic :: iso_fortran_env, only : stdout=>output_unit
 use,intrinsic :: iso_fortran_env, only : stdin=>input_unit
 use,intrinsic :: iso_fortran_env, only : stderr=>error_unit
 use,intrinsic :: iso_fortran_env, only : int8, int16, int32, int64
 use,intrinsic :: iso_fortran_env, only : real32, real64, real128
+
+use M_unicode__float,   only : str_to_real
+use M_unicode__random,  only : random_string
+use M_unicode__regex,   only : regex_t, match_t, regex_compile, regex_search, regex_replace
+use M_unicode__convert, only : utoc, ctou
+
 implicit none
 
 private
@@ -443,6 +450,11 @@ public :: isblank
 public :: isspace
 public :: issensitive
 public :: glob
+
+public :: regex_t, match_t, regex_compile, regex_search, regex_replace
+public :: random_string
+public :: str_to_real
+public :: utoc, ctou
 
 #ifdef HAS_DT
 PUBLIC :: write(formatted)
@@ -796,20 +808,20 @@ EXAMPLES
    character(len=*),parameter :: g = '(*(g0))'
    integer                    :: i
    integer                    :: j
-   
+
       lines(1) = 'P{äg15🍐 🌦6^c0ßßẞ)🌛🌢;4279OTRNiü!zx🌴|'
       lines(2) = 'ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ'
       lines(3) = 'abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ'
       lines(4) = 'v:Hk~dqyUBm🌟🌬lEwöJ🌀A,f[]8🌷(S}🍍3'
-   
+
       do j=1,size(lines)
          ! given a line
          line=lines(j)
          ! generate a lowercase and uppercase copy
          low=lower(line)
          upp=upper(line)
-   
-         ! determining which characters are different in the 
+
+         ! determining which characters are different in the
          ! lowercase and uppercase versions lets us determine
          ! which characters are case-sensitive, at least as
          ! far as the upper(3f) and lower(3f) functions
@@ -820,9 +832,9 @@ EXAMPLES
          print g, 'NO CASE CHANGE:',diff%ch()
          diff=pack(line%codes,low%codes /= upp%codes)
          print g, 'CASE CHANGED  :',diff%ch()
-   
+
          ! the same characters should be identified by the
-         ! issensitive(3f) function 
+         ! issensitive(3f) function
          write(*,g,advance='no')'SENSITIVE     :'
          do i = 1,len(line)
             if (issensitive(line%sub(i,i))) then
@@ -830,7 +842,7 @@ EXAMPLES
             endif
          enddo
          write(*,g)
-   
+
          write(*,g,advance='no')'NOT SENSITIVE :'
          do i = 1,len(line)
             if (.not.issensitive(line%sub(i,i))) then
@@ -840,7 +852,7 @@ EXAMPLES
          write(*,g)
          write(*,g)
       enddo
-   
+
    end program demo_issensitive
 
  Expected output
@@ -7146,8 +7158,9 @@ $endif
 OPTIONS
   + UTF8 :  Scalar CHARACTER string or single-character array of CHARACTER
             variables assumed to represent a stream of bytes containing
-            data encoded at UTF-8 text.
+            data encoded as UTF-8 text.
 
+OUTPUT
   + CODEPOINTS :  An INTEGER array of Unicode codepoint values
                   representing the glyphs found in STRING
   + NERR :  Zero if no error occurred. If not zero the stream of bytes
@@ -7404,10 +7417,11 @@ DESCRIPTION
 OPTIONS
 
    + CODEPOINTS :  An INTEGER array of Unicode codepoint values representing
-                   the glyphs to be encoded at UTF-8 data
+                   the glyphs to be encoded as UTF-8 data
 
+OUPUT
    + UTF8 :  Scalar or single-character array CHARACTER variables
-             to contain a stream of bytes containing data encoded at
+             to contain a stream of bytes containing data encoded as
              UTF-8 text.
 
    + NERR :  Zero if no error occurred. If not zero the stream of bytes
@@ -10725,6 +10739,30 @@ abstract interface
 end interface
 
 !== End of KEYWORD section =========================================================================================================
+!==================================================================================================================================!
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!==================================================================================================================================!
+$parcel random_string
+function random_string_a(astr,length) result(out)
+character(len=*),intent(in)     :: astr
+integer,intent(in)              :: length
+character(len=length)           :: out
+   out=ctou(random_string(utoc(astr),length))
+end function random_string_a
+!-----------------------------------------------------------------------------------------------------------------------------------
+function random_string_u(ustr,length) result(out)
+type(unicode_type),intent(in)   :: ustr
+integer,intent(in)              :: length
+type(unicode_type)              :: out
+   out%codes=random_string(ustr%codes,length)
+end function random_string_u
+!-----------------------------------------------------------------------------------------------------------------------------------
+$endparcel
+interface random_string
+  module procedure :: random_string_a
+  module procedure :: random_string_u
+end interface random_string
+!===================================================================================================================================
 ! backward compatibililty
 interface escape
    module procedure :: expand_backslash_uu
@@ -17269,6 +17307,9 @@ $post issensitive
 
 ! assignment
 $post assignment
+
+! random
+$post random_string
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
