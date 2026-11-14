@@ -62,6 +62,9 @@
                   <a class="nav-link" href="../lists/procedures.html">Procedures</a>
                 </li>
                 <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
                   <a class="nav-link" href="../lists/types.html">Derived Types</a>
                 </li>
                 <li class="nav-item">
@@ -90,7 +93,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 8.1% of total for programs.">298 statements</a>
+                 title=" 8.0% of total for programs.">298 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -131,7 +134,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../program/test_m_unicode__regex.html#variable-bs~4">BS</a>
+            <a class="list-group-item" href="../program/test_m_unicode__regex.html#variable-bs">BS</a>
             <a class="list-group-item" href="../program/test_m_unicode__regex.html#variable-failed">failed</a>
             <a class="list-group-item" href="../program/test_m_unicode__regex.html#variable-passed">passed</a>
         </div>
@@ -209,8 +212,8 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
+                  <li class="list-inline-item"><a href='../module/m_unicode.html'>M_unicode</a></li>
                   <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_fortran_env'>iso_fortran_env</a></li>
-                  <li class="list-inline-item"><a href='../module/m_unicode__regex.html'>M_unicode__regex</a></li>
               </ul>
             </li>
         </ul>
@@ -234,7 +237,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-bs~4"></span>
+              <span class="anchor" id="variable-bs"></span>
               character(len=1),
             </td>
             <td>
@@ -328,7 +331,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-m~5"></span>
+              <span class="anchor" id="variable-m~2"></span>
               type(<a href='../type/match_t.html'>match_t</a>),
             </td>
 <td>intent(in)</td>
@@ -343,7 +346,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-grp~2"></span>
+              <span class="anchor" id="variable-grp"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -409,7 +412,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-expected~14"></span>
+              <span class="anchor" id="variable-expected"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -424,7 +427,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~12"></span>
+              <span class="anchor" id="variable-name~2"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -479,7 +482,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~11"></span>
+              <span class="anchor" id="variable-name"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -649,8 +652,8 @@ parameter
     <h2 id="src">Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="k">program </span><span class="n">test_M_unicode__regex</span>
 <span class="w">   </span><span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">int32</span><span class="p">,</span><span class="w"> </span><span class="n">error_unit</span>
-<span class="w">   </span><span class="k">use </span><span class="n">M_unicode__regex</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">ctou</span><span class="p">,</span><span class="w"> </span><span class="n">utoc</span>
-<span class="w">   </span><span class="k">use </span><span class="n">M_unicode__regex</span>
+<span class="w">   </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">ctou</span><span class="p">,</span><span class="w"> </span><span class="n">utoc</span>
+<span class="w">   </span><span class="k">use </span><span class="n">M_unicode</span>
 <span class="w">   </span><span class="k">implicit none</span>
 
 <span class="k">   </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">BS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">achar</span><span class="p">(</span><span class="mi">92</span><span class="p">)</span>
@@ -1045,7 +1048,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-13 05:38 +0000             </p>
+ on 2026-11-14 01:44 +0000             </p>
           </div>
         </div>
         <br>

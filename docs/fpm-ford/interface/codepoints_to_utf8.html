@@ -62,6 +62,9 @@
                   <a class="nav-link" href="../lists/procedures.html">Procedures</a>
                 </li>
                 <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
                   <a class="nav-link" href="../lists/types.html">Derived Types</a>
                 </li>
                 <li class="nav-item">
@@ -91,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.1% of total for procedures.</p>Including implementation: 61 statements,  1.9% of total for procedures.">3 statements</a>
+                 title="<p> 0.1% of total for procedures.</p>Including implementation: 61 statements,  1.7% of total for procedures.">3 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -193,11 +196,13 @@
    of bytes (AKA. CHARACTER(LEN=1)) which are assumed to contain a stream
    of bytes representing UTF-8-encoded data.</p>
 <h3 id="options">OPTIONS</h3>
-<div class="codehilite"><pre><span></span><code><span class="o">+</span><span class="w"> </span><span class="n">CODEPOINTS</span><span class="w"> </span><span class="p">:</span><span class="w">  </span><span class="n">An</span><span class="w"> </span><span class="n">INTEGER</span><span class="w"> </span><span class="n">array</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">Unicode</span><span class="w"> </span><span class="n">codepoint</span><span class="w"> </span><span class="n">values</span><span class="w"> </span><span class="n">representing</span>
-<span class="w">                </span><span class="n">the</span><span class="w"> </span><span class="n">glyphs</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">encoded</span><span class="w"> </span><span class="n">at</span><span class="w"> </span><span class="n">UTF</span><span class="o">-</span><span class="mi">8</span><span class="w"> </span><span class="n">data</span>
+<div class="codehilite"><pre><span></span><code>+ CODEPOINTS :  An INTEGER array of Unicode codepoint values representing
+                the glyphs to be encoded as UTF-8 data
+</code></pre></div>
 
-<span class="o">+</span><span class="w"> </span><span class="n">UTF8</span><span class="w"> </span><span class="p">:</span><span class="w">  </span><span class="n">Scalar</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">single</span><span class="o">-</span><span class="n">character</span><span class="w"> </span><span class="n">array</span><span class="w"> </span><span class="n">CHARACTER</span><span class="w"> </span><span class="n">variables</span>
-<span class="w">          </span><span class="n">to</span><span class="w"> </span><span class="n">contain</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">stream</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">bytes</span><span class="w"> </span><span class="n">containing</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="n">encoded</span><span class="w"> </span><span class="n">at</span>
+<h3 id="ouput">OUPUT</h3>
+<div class="codehilite"><pre><span></span><code><span class="o">+</span><span class="w"> </span><span class="n">UTF8</span><span class="w"> </span><span class="p">:</span><span class="w">  </span><span class="n">Scalar</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">single</span><span class="o">-</span><span class="n">character</span><span class="w"> </span><span class="n">array</span><span class="w"> </span><span class="n">CHARACTER</span><span class="w"> </span><span class="n">variables</span>
+<span class="w">          </span><span class="n">to</span><span class="w"> </span><span class="n">contain</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">stream</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">bytes</span><span class="w"> </span><span class="n">containing</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="n">encoded</span><span class="w"> </span><span class="k">as</span>
 <span class="w">          </span><span class="n">UTF</span><span class="o">-</span><span class="mi">8</span><span class="w"> </span><span class="n">text</span><span class="o">.</span>
 
 <span class="o">+</span><span class="w"> </span><span class="n">NERR</span><span class="w"> </span><span class="p">:</span><span class="w">  </span><span class="n">Zero</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">no</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="n">occurred</span><span class="o">.</span><span class="w"> </span><span class="n">If</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">zero</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">stream</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">bytes</span>
@@ -298,7 +303,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-codepoints~5"></span>
+              <span class="anchor" id="variable-codepoints~6"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -313,7 +318,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-utf8~4"></span>
+              <span class="anchor" id="variable-utf8~11"></span>
               character(len=:),
             </td>
 <td>intent(out),</td>
@@ -328,7 +333,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nerr~7"></span>
+              <span class="anchor" id="variable-nerr~8"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -367,7 +372,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-codepoints~4"></span>
+              <span class="anchor" id="variable-codepoints~5"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -382,7 +387,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-utf8~3"></span>
+              <span class="anchor" id="variable-utf8~10"></span>
               character(len=1),
             </td>
 <td>intent(out),</td>
@@ -397,7 +402,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nerr~6"></span>
+              <span class="anchor" id="variable-nerr~7"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -434,7 +439,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-13 05:38 +0000             </p>
+ on 2026-11-14 01:44 +0000             </p>
           </div>
         </div>
         <br>

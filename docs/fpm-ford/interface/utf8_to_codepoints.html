@@ -62,6 +62,9 @@
                   <a class="nav-link" href="../lists/procedures.html">Procedures</a>
                 </li>
                 <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
                   <a class="nav-link" href="../lists/types.html">Derived Types</a>
                 </li>
                 <li class="nav-item">
@@ -91,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.1% of total for procedures.</p>Including implementation: 114 statements,  3.5% of total for procedures.">3 statements</a>
+                 title="<p> 0.1% of total for procedures.</p>Including implementation: 114 statements,  3.3% of total for procedures.">3 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -194,15 +197,14 @@
    array containing Unicode codepoint values for each glyph.</p>
 <h3 id="options">OPTIONS</h3>
 <ul>
-<li>
-<p>UTF8 :  Scalar CHARACTER string or single-character array of CHARACTER
+<li>UTF8 :  Scalar CHARACTER string or single-character array of CHARACTER
              variables assumed to represent a stream of bytes containing
-             data encoded at UTF-8 text.</p>
-</li>
-<li>
-<p>CODEPOINTS :  An INTEGER array of Unicode codepoint values
-                   representing the glyphs found in STRING</p>
-</li>
+             data encoded as UTF-8 text.</li>
+</ul>
+<h3 id="output">OUTPUT</h3>
+<ul>
+<li>CODEPOINTS :  An INTEGER array of Unicode codepoint values
+                   representing the glyphs found in STRING</li>
 <li>NERR :  Zero if no error occurred. If not zero the stream of bytes
              could not be completely converted to UTF-8 characters.</li>
 </ul>
@@ -301,7 +303,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-utf8~2"></span>
+              <span class="anchor" id="variable-utf8~9"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -310,6 +312,75 @@
             </td>
             <td>::</td>
             <td><strong>utf8</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-codepoints~4"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>codepoints</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nerr~6"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nerr</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-utf8_to_codepoints_chars"></span> <h3>private pure subroutine utf8_to_codepoints_chars(utf8, codepoints, nerr)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-utf8~8"></span>
+              character(len=1),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>utf8</strong>(:)</td>
             <td>
                 
             </td>
@@ -351,75 +422,6 @@
     </div>
   </div>
 
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-utf8_to_codepoints_chars"></span> <h3>private pure subroutine utf8_to_codepoints_chars(utf8, codepoints, nerr)  
-</h3></div>
-    <div class="card-body">
-        
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-utf8"></span>
-              character(len=1),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>utf8</strong>(:)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-codepoints~2"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              allocatable
-            </td>
-            <td>::</td>
-            <td><strong>codepoints</strong>(:)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-nerr~4"></span>
-              integer,
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>nerr</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
 </div>
   </div>
       <hr>
@@ -437,7 +439,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-13 05:38 +0000             </p>
+ on 2026-11-14 01:44 +0000             </p>
           </div>
         </div>
         <br>

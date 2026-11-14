@@ -10,7 +10,7 @@
 !!
 !!     use M_unicode__regex, only: regex_t, match_t, &
 !!                          regex_compile, regex_search, regex_replace, &
-!!                          utoc, ctou
+!!     use M_unicode__convert, only: utoc, ctou
 !!
 !!     type(regex_t) :: re
 !!     type(match_t) :: m
@@ -125,33 +125,6 @@
 !!                             Newly allocated UTF-32 codepoint array containing
 !!                             the resulting text.
 !!
-!!        utoc(str) result(cp)
-!!
-!!            Decodes a UTF-8 encoded Fortran character variable into an array of
-!!            UTF-32 codepoints.
-!!
-!!            Arguments:
-!!                str  character(len=*), intent(in)
-!!                     Input UTF-8 byte sequence. Truncated or malformed UTF-8
-!!                     sequences are replaced with U+FFFD (Replacement Character).
-!!
-!!            Return Value:
-!!                cp   integer(int32), allocatable :: cp(:)
-!!                     Array of decoded scalar codepoints (size 0 if len(str) == 0).
-!!
-!!        ctou(cp) result(str)
-!!
-!!            Encodes a UTF-32 codepoint array into a UTF-8 Fortran character string.
-!!
-!!            Arguments:
-!!                cp   integer(int32), intent(in) :: cp(:)
-!!                     Array of Unicode scalar values. Out-of-range values
-!!                     (< 0 or > U+10FFFF) are encoded as U+FFFD.
-!!
-!!            Return Value:
-!!                str  character(len=:), allocatable
-!!                     UTF-8 encoded string.
-!!
 !!### REGULAR EXPRESSION SYNTAX
 !!
 !!        Atoms
@@ -223,7 +196,9 @@
 !!
 !!    program example
 !!    use iso_fortran_env, only: int32
-!!    use M_unicode__regex
+!!    use M_unicode__regex, only : regex_t, match_t
+!!    use M_unicode__regex, only : gex_compile, regex_search, regex_replace
+!!    use M_unicode__convert, only : utoc, ctou
 !!    implicit none
 !!    character(len=1), parameter :: BS = achar(92)
 !!    type(regex_t)               :: re
@@ -263,26 +238,25 @@ module M_unicode__regex
 
    public :: regex_t, match_t
    public :: regex_compile, regex_search, regex_replace
-   public :: utoc, ctou
 
    ! Instruction opcodes for the NFA Virtual Machine
-   integer, parameter :: OP_CHAR      = 1
-   integer, parameter :: OP_ANY       = 2
-   integer, parameter :: OP_CLASS     = 3
-   integer, parameter :: OP_NCLASS    = 4
-   integer, parameter :: OP_SPLIT     = 5
-   integer, parameter :: OP_JMP       = 6
-   integer, parameter :: OP_SAVE      = 7
-   integer, parameter :: OP_BOL       = 8
-   integer, parameter :: OP_EOL       = 9
-   integer, parameter :: OP_MATCH     = 10
-   integer, parameter :: OP_WB        = 11  ! \b (word boundary)
-   integer, parameter :: OP_NWB       = 12  ! \B (non-word boundary)
+   integer, parameter :: OP_CHAR              = 1
+   integer, parameter :: OP_ANY               = 2
+   integer, parameter :: OP_CLASS             = 3
+   integer, parameter :: OP_NCLASS            = 4
+   integer, parameter :: OP_SPLIT             = 5
+   integer, parameter :: OP_JMP               = 6
+   integer, parameter :: OP_SAVE              = 7
+   integer, parameter :: OP_BOL               = 8
+   integer, parameter :: OP_EOL               = 9
+   integer, parameter :: OP_MATCH             = 10
+   integer, parameter :: OP_WB                = 11  ! \b (word boundary)
+   integer, parameter :: OP_NWB               = 12  ! \B (non-word boundary)
 
-   integer(int32), parameter :: CP_BACKSLASH = 92_int32
+   integer(int32), parameter :: CP_BACKSLASH  = 92_int32
 
-   integer, parameter :: MAX_GROUPS   = 10  ! Group 0 (full match) + Groups 1..9
-   integer, parameter :: MAX_SLOTS    = MAX_GROUPS * 2
+   integer, parameter :: MAX_GROUPS           = 10  ! Group 0 (full match) + Groups 1..9
+   integer, parameter :: MAX_SLOTS            = MAX_GROUPS * 2
 
    type :: char_range_t
       integer(int32) :: low
@@ -858,6 +832,7 @@ contains
          end_pc = start_pc
       end select
    end subroutine parse_atom
+
    subroutine append_shorthand_ranges(c, ranges, count, ok)
       integer(int32), intent(in)        :: c
       type(char_range_t), intent(inout) :: ranges(:)
@@ -890,6 +865,7 @@ contains
          ok = .false.
       end select
    end subroutine append_shorthand_ranges
+
    subroutine emit_escape(p, c, start_pc, end_pc)
       type(parser_t), intent(inout) :: p
       integer(int32), intent(in)    :: c
@@ -920,6 +896,7 @@ contains
       end select
       end_pc = start_pc
    end subroutine emit_escape
+
    subroutine parse_char_class(p, start_pc, end_pc)
       type(parser_t), intent(inout) :: p
       integer, intent(out)          :: start_pc, end_pc
@@ -999,9 +976,10 @@ contains
          end select
       end if
    end function read_class_char
-!===========================================================================
-! EXECUTION ENGINE (Backtracking NFA VM with Submatch Captures)
-!===========================================================================
+
+   !===========================================================================
+   ! EXECUTION ENGINE (Backtracking NFA VM with Submatch Captures)
+   !===========================================================================
    function regex_search(re, text, start_offset) result(m)
       type(regex_t), intent(in)     :: re
       integer(int32), intent(in)    :: text(:)
@@ -1026,6 +1004,7 @@ contains
          end if
       end do
    end function regex_search
+
    recursive function vm_exec(prog, text, n, pc, sp, saved) result(ok)
       type(inst_t), intent(in)   :: prog(:)
       integer(int32), intent(in) :: text(:)
@@ -1159,7 +1138,7 @@ contains
       do while (pos <= n + 1)
          m = regex_search(re, text, start_offset=pos)
          if (.not. m%matched) exit
-! Skip empty match immediately adjacent to the end of a prior non-empty match
+         ! Skip empty match immediately adjacent to the end of a prior non-empty match
          if (m%end_pos(0) < m%start_pos(0) .and. m%start_pos(0) == last_nonempty_end + 1) then
             if (pos <= n) call append_slice(out_text, out_len, text(pos:pos))
             pos = pos + 1
@@ -1183,6 +1162,7 @@ contains
       end if
       out_text = out_text(1:out_len)
    end function regex_replace
+
    subroutine append_expanded(buf, buf_len, text, repl, m)
       integer(int32), allocatable, intent(inout) :: buf(:)
       integer, intent(inout)                     :: buf_len
@@ -1229,75 +1209,4 @@ contains
       buf(buf_len + 1 : buf_len + slen) = slice
       buf_len = buf_len + slen
    end subroutine append_slice
-!===========================================================================
-! UTF-8 <-> UTF-32 CODEPOINT ARRAY HELPERS
-!===========================================================================
-   function utoc(str) result(cp)
-      character(len=*), intent(in) :: str
-      integer(int32), allocatable  :: cp(:)
-      integer                      :: i, n, count, b1, b2, b3, b4
-      n = len(str)
-      allocate(cp(n))
-      count = 0
-      i = 1
-      do while (i <= n)
-         b1 = iachar(str(i:i))
-         count = count + 1
-         if (b1 < 128) then
-            cp(count) = int(b1, int32)
-            i = i + 1
-         else if (iand(b1, 224) == 192 .and. i + 1 <= n) then
-            b2 = iachar(str(i+1:i+1))
-            cp(count) = int(ior(ishft(iand(b1, 31), 6), iand(b2, 63)), int32)
-            i = i + 2
-         else if (iand(b1, 240) == 224 .and. i + 2 <= n) then
-            b2 = iachar(str(i+1:i+1))
-            b3 = iachar(str(i+2:i+2))
-            cp(count) = int(ior(ior(ishft(iand(b1, 15), 12), ishft(iand(b2, 63), 6)), iand(b3, 63)), int32)
-            i = i + 3
-         else if (iand(b1, 248) == 240 .and. i + 3 <= n) then
-            b2 = iachar(str(i+1:i+1))
-            b3 = iachar(str(i+2:i+2))
-            b4 = iachar(str(i+3:i+3))
-            cp(count) = int(ior(ior(ior(ishft(iand(b1, 7), 18), ishft(iand(b2, 63), 12)), &
-               ishft(iand(b3, 63), 6)), iand(b4, 63)), int32)
-            i = i + 4
-         else
-            cp(count) = int(z'FFFD', int32)
-            i = i + 1
-         end if
-      end do
-      cp = cp(1:count)
-   end function utoc
-   function ctou(cp) result(str)
-      integer(int32), intent(in)                   :: cp(:)
-      character(len=:), allocatable                :: str
-      integer                                      :: i, pos, c
-      allocate(character(len=max(1, size(cp) * 4)) :: str)
-      pos = 0
-      do i = 1, size(cp)
-         c = int(cp(i))
-         if (c < 0 .or. c > int(z'10FFFF')) c = int(z'FFFD')
-         if (c < 128) then
-            pos = pos + 1
-            str(pos:pos) = achar(c)
-         else if (c < 2048) then
-            str(pos+1:pos+1) = achar(ior(192, ishft(c, -6)))
-            str(pos+2:pos+2) = achar(ior(128, iand(c, 63)))
-            pos = pos + 2
-         else if (c < 65536) then
-            str(pos+1:pos+1) = achar(ior(224, ishft(c, -12)))
-            str(pos+2:pos+2) = achar(ior(128, iand(ishft(c, -6), 63)))
-            str(pos+3:pos+3) = achar(ior(128, iand(c, 63)))
-            pos = pos + 3
-         else
-            str(pos+1:pos+1) = achar(ior(240, ishft(c, -18)))
-            str(pos+2:pos+2) = achar(ior(128, iand(ishft(c, -12), 63)))
-            str(pos+3:pos+3) = achar(ior(128, iand(ishft(c, -6), 63)))
-            str(pos+4:pos+4) = achar(ior(128, iand(c, 63)))
-            pos = pos + 4
-         end if
-      end do
-      str = str(1:pos)
-   end function ctou
 end module M_unicode__regex

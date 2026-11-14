@@ -62,6 +62,9 @@
                   <a class="nav-link" href="../lists/procedures.html">Procedures</a>
                 </li>
                 <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
                   <a class="nav-link" href="../lists/types.html">Derived Types</a>
                 </li>
                 <li class="nav-item">
@@ -91,20 +94,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 1.1% of total for procedures.">36 statements</a>
+                 title=" 1.0% of total for procedures.">36 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/M_unicode__regex.f90"> Source File</a>
+              <a href="../src/M_unicode__convert.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/m_unicode__regex.f90.html'>M_unicode__regex.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/m_unicode__regex.html'>M_unicode__regex</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/m_unicode__convert.f90.html'>M_unicode__convert.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/m_unicode__convert.html'>M_unicode__convert</a></li>
             <li class="breadcrumb-item active" aria-current="page">utoc</li>
           </ol>
         </nav>
@@ -162,6 +165,90 @@
 </h2>
     
 
+    <h3 id="name">NAME</h3>
+<p>ctou(3f) - [M_unicode:CONVERSION] convert codepoints to UTF-8 CHARACTER string
+   (LICENSE:MIT)</p>
+<h3 id="synopsis">SYNOPSIS</h3>
+<div class="codehilite"><pre><span></span><code>pure function ctou(codepoints) result(utf8)
+
+ integer,allocatable,intent(in) :: codepoints(:)
+ character(len=*),intent(out)   :: utf8
+</code></pre></div>
+
+<h3 id="characteristics">CHARACTERISTICS</h3>
+<ul>
+<li>CODEPOINTS is of default INTEGER kind</li>
+<li>UTF8 is a CHARACTER variable</li>
+</ul>
+<h3 id="description">DESCRIPTION</h3>
+<p>ctou(3f) takes an integer array of Unicode codepoint
+   values and generates a scalar CHARACTER variable
+   containing bytes representing UTF-8-encoded data.</p>
+<h3 id="options">OPTIONS</h3>
+<div class="codehilite"><pre><span></span><code><span class="o">+</span><span class="w"> </span><span class="n">CODEPOINTS</span><span class="w"> </span><span class="p">:</span><span class="w">  </span><span class="n">An</span><span class="w"> </span><span class="n">INTEGER</span><span class="w"> </span><span class="n">array</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">Unicode</span><span class="w"> </span><span class="n">codepoint</span><span class="w"> </span><span class="n">values</span><span class="w"> </span><span class="n">representing</span>
+<span class="w">                </span><span class="n">the</span><span class="w"> </span><span class="n">glyphs</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">encoded</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">UTF</span><span class="o">-</span><span class="mi">8</span><span class="w"> </span><span class="n">data</span>
+
+<span class="o">+</span><span class="w"> </span><span class="n">UTF8</span><span class="w"> </span><span class="p">:</span><span class="w">  </span><span class="n">Scalar</span><span class="w"> </span><span class="n">CHARACTER</span><span class="w"> </span><span class="n">variable</span>
+<span class="w">          </span><span class="n">containing</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">stream</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">bytes</span><span class="w"> </span><span class="n">containing</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="n">encoded</span><span class="w"> </span><span class="k">as</span>
+<span class="w">          </span><span class="n">UTF</span><span class="o">-</span><span class="mi">8</span><span class="w"> </span><span class="n">text</span><span class="o">.</span>
+</code></pre></div>
+
+<h3 id="examples">EXAMPLES</h3>
+<p>Sample program</p>
+<div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">demo_ctou</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">m_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">ctou</span>
+<span class="nx">implicit</span><span class="w"> </span><span class="nx">none</span>
+<span class="p">!</span><span class="err">'</span><span class="nx">Noho</span><span class="w"> </span><span class="nx">me</span><span class="w"> </span><span class="nx">ka</span><span class="w"> </span><span class="nx">hau</span><span class="err">’</span><span class="nx">oli</span><span class="err">'</span><span class="w"> </span><span class="p">!(</span><span class="nx">Be</span><span class="w"> </span><span class="nx">happy</span><span class="p">)</span>
+<span class="nx">integer</span><span class="p">,</span><span class="nx">parameter</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">codepoints</span><span class="p">(</span><span class="o">*</span><span class="p">)=[</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">   </span><span class="o">&amp;</span><span class="w"> </span><span class="mi">78</span><span class="p">,</span><span class="mi">111</span><span class="p">,</span><span class="mi">104</span><span class="p">,</span><span class="mi">111</span><span class="p">,</span><span class="o">&amp;</span>
+<span class="w">   </span><span class="o">&amp;</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span><span class="mi">109</span><span class="p">,</span><span class="mi">101</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">   </span><span class="o">&amp;</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span><span class="mi">107</span><span class="p">,</span><span class="mi">97</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">   </span><span class="o">&amp;</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span><span class="mi">104</span><span class="p">,</span><span class="mi">97</span><span class="p">,</span><span class="mi">117</span><span class="p">,</span><span class="mi">8217</span><span class="p">,</span><span class="mi">111</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">105</span><span class="p">]</span>
+<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=:),</span><span class="nx">allocatable</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="kt">string</span>
+<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="mi">1</span><span class="p">),</span><span class="nx">allocatable</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">bytes</span><span class="p">(:)</span>
+<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">parameter</span><span class="w">   </span><span class="o">::</span><span class="w"> </span><span class="nx">space</span><span class="p">=</span><span class="err">'</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nx">g0</span><span class="p">,</span><span class="mi">1</span><span class="nx">x</span><span class="p">))</span><span class="err">'</span>
+<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">parameter</span><span class="w">   </span><span class="o">::</span><span class="w"> </span><span class="nx">z</span><span class="p">=</span><span class="err">'</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span><span class="o">*</span><span class="p">(</span><span class="nx">z0</span><span class="p">,</span><span class="mi">1</span><span class="nx">x</span><span class="p">))</span><span class="err">'</span>
+
+<span class="w">  </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">space</span><span class="p">)</span><span class="err">'</span><span class="nx">CODEPOINTS</span><span class="p">:</span><span class="err">'</span><span class="p">,</span><span class="w"> </span><span class="nx">codepoints</span>
+<span class="w">  </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">z</span><span class="p">)</span><span class="err">'</span><span class="nx">HEXADECIMAL</span><span class="w"> </span><span class="nx">CODEPOINTS</span><span class="p">:</span><span class="err">'</span><span class="p">,</span><span class="w"> </span><span class="nx">codepoints</span>
+<span class="p">!</span>
+<span class="w">  </span><span class="kt">string</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">ctou</span><span class="p">(</span><span class="nx">codepoints</span><span class="p">)</span>
+<span class="w">  </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">space</span><span class="p">)</span><span class="err">'</span><span class="nx">STRING</span><span class="p">:</span><span class="err">'</span><span class="p">,</span><span class="w"> </span><span class="kt">string</span>
+<span class="p">!</span>
+<span class="w">  </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">space</span><span class="p">)</span><span class="err">'</span><span class="nx">How</span><span class="w"> </span><span class="nx">long</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="nx">this</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nx">glyphs</span><span class="p">?</span><span class="w"> </span><span class="err">'</span>
+<span class="w">  </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">space</span><span class="p">)</span><span class="nx">size</span><span class="p">(</span><span class="nx">codepoints</span><span class="p">)</span>
+<span class="p">!</span>
+<span class="w">  </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">space</span><span class="p">)</span><span class="err">'</span><span class="nx">How</span><span class="w"> </span><span class="nx">long</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="nx">this</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nx">bytes</span><span class="p">?</span><span class="w"> </span><span class="err">'</span>
+<span class="w">  </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">space</span><span class="p">)</span><span class="nx">len</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span>
+<span class="p">!</span>
+<span class="nx">end</span><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_ctou</span>
+</code></pre></div>
+
+<p>Results:</p>
+<div class="codehilite"><pre><span></span><code> &gt; CODEPOINTS: 78 111 104 111 32 109 101 32 107 97 32 104 97 117 ...
+ &gt; 8217 111 108 105
+ &gt; 48 4E 6F 68 6F 20 6D 65 20 6B 61 20 68 61 75 2019 6F 6C 69
+ &gt; STRING:Noho me ka hau’oli
+ &gt; How long is this string in glyphs?
+ &gt; 18
+ &gt; How long is this string in bytes?
+ &gt; 20
+</code></pre></div>
+
+<h3 id="see-also">SEE ALSO</h3>
+<p>functions that perform operations on character strings:</p>
+<ul>
+<li>elemental: adjustl(3), adjustr(3), index(3), scan(3), verify(3)</li>
+<li>non-elemental: len_trim(3), repeat(3), trim(3),
+     ctou(3), utf8_to_codepoints(3), codepoints_to_utf8(3)</li>
+</ul>
+<h3 id="author">AUTHOR</h3>
+<ul>
+<li>John S. Urban</li>
+</ul>
+<h3 id="license">LICENSE</h3>
+<div class="codehilite"><pre><span></span><code> MIT
+</code></pre></div>
 
 
     <h3>Arguments</h3>
@@ -177,7 +264,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~19"></span>
+              <span class="anchor" id="variable-str~27"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -195,7 +282,7 @@
 
       <h3>Return Value
         <small>
-          <span class="anchor" id="variable-cp~3"></span>
+          <span class="anchor" id="variable-cp~4"></span>
           integer(kind=int32), allocatable, (:)
         </small>
       </h3>
@@ -214,43 +301,43 @@
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">function </span><span class="n">utoc</span><span class="p">(</span><span class="n">str</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">cp</span><span class="p">)</span>
-<span class="w">      </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">str</span>
-<span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">cp</span><span class="p">(:)</span>
-<span class="w">      </span><span class="kt">integer</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="nb">count</span><span class="p">,</span><span class="w"> </span><span class="n">b1</span><span class="p">,</span><span class="w"> </span><span class="n">b2</span><span class="p">,</span><span class="w"> </span><span class="n">b3</span><span class="p">,</span><span class="w"> </span><span class="n">b4</span>
-<span class="w">      </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">str</span><span class="p">)</span>
-<span class="w">      </span><span class="k">allocate</span><span class="p">(</span><span class="n">cp</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
-<span class="w">      </span><span class="nb">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
-<span class="w">      </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">      </span><span class="k">do while</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">n</span><span class="p">)</span>
-<span class="w">         </span><span class="n">b1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">iachar</span><span class="p">(</span><span class="n">str</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">))</span>
-<span class="w">         </span><span class="nb">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">count</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">b1</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">128</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">            </span><span class="n">cp</span><span class="p">(</span><span class="nb">count</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">int</span><span class="p">(</span><span class="n">b1</span><span class="p">,</span><span class="w"> </span><span class="n">int32</span><span class="p">)</span>
-<span class="w">            </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">         </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="nb">iand</span><span class="p">(</span><span class="n">b1</span><span class="p">,</span><span class="w"> </span><span class="mi">224</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">192</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">            </span><span class="n">b2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">iachar</span><span class="p">(</span><span class="n">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
-<span class="w">            </span><span class="n">cp</span><span class="p">(</span><span class="nb">count</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">int</span><span class="p">(</span><span class="nb">ior</span><span class="p">(</span><span class="nb">ishft</span><span class="p">(</span><span class="nb">iand</span><span class="p">(</span><span class="n">b1</span><span class="p">,</span><span class="w"> </span><span class="mi">31</span><span class="p">),</span><span class="w"> </span><span class="mi">6</span><span class="p">),</span><span class="w"> </span><span class="nb">iand</span><span class="p">(</span><span class="n">b2</span><span class="p">,</span><span class="w"> </span><span class="mi">63</span><span class="p">)),</span><span class="w"> </span><span class="n">int32</span><span class="p">)</span>
-<span class="w">            </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span>
-<span class="w">         </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="nb">iand</span><span class="p">(</span><span class="n">b1</span><span class="p">,</span><span class="w"> </span><span class="mi">240</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">224</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">            </span><span class="n">b2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">iachar</span><span class="p">(</span><span class="n">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
-<span class="w">            </span><span class="n">b3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">iachar</span><span class="p">(</span><span class="n">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">))</span>
-<span class="w">            </span><span class="n">cp</span><span class="p">(</span><span class="nb">count</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">int</span><span class="p">(</span><span class="nb">ior</span><span class="p">(</span><span class="nb">ior</span><span class="p">(</span><span class="nb">ishft</span><span class="p">(</span><span class="nb">iand</span><span class="p">(</span><span class="n">b1</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="p">),</span><span class="w"> </span><span class="mi">12</span><span class="p">),</span><span class="w"> </span><span class="nb">ishft</span><span class="p">(</span><span class="nb">iand</span><span class="p">(</span><span class="n">b2</span><span class="p">,</span><span class="w"> </span><span class="mi">63</span><span class="p">),</span><span class="w"> </span><span class="mi">6</span><span class="p">)),</span><span class="w"> </span><span class="nb">iand</span><span class="p">(</span><span class="n">b3</span><span class="p">,</span><span class="w"> </span><span class="mi">63</span><span class="p">)),</span><span class="w"> </span><span class="n">int32</span><span class="p">)</span>
-<span class="w">            </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span>
-<span class="w">         </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="nb">iand</span><span class="p">(</span><span class="n">b1</span><span class="p">,</span><span class="w"> </span><span class="mi">248</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">240</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">            </span><span class="n">b2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">iachar</span><span class="p">(</span><span class="n">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
-<span class="w">            </span><span class="n">b3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">iachar</span><span class="p">(</span><span class="n">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">))</span>
-<span class="w">            </span><span class="n">b4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">iachar</span><span class="p">(</span><span class="n">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">3</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">3</span><span class="p">))</span>
-<span class="w">            </span><span class="n">cp</span><span class="p">(</span><span class="nb">count</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">int</span><span class="p">(</span><span class="nb">ior</span><span class="p">(</span><span class="nb">ior</span><span class="p">(</span><span class="nb">ior</span><span class="p">(</span><span class="nb">ishft</span><span class="p">(</span><span class="nb">iand</span><span class="p">(</span><span class="n">b1</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p">),</span><span class="w"> </span><span class="mi">18</span><span class="p">),</span><span class="w"> </span><span class="nb">ishft</span><span class="p">(</span><span class="nb">iand</span><span class="p">(</span><span class="n">b2</span><span class="p">,</span><span class="w"> </span><span class="mi">63</span><span class="p">),</span><span class="w"> </span><span class="mi">12</span><span class="p">)),</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">               </span><span class="nb">ishft</span><span class="p">(</span><span class="nb">iand</span><span class="p">(</span><span class="n">b3</span><span class="p">,</span><span class="w"> </span><span class="mi">63</span><span class="p">),</span><span class="w"> </span><span class="mi">6</span><span class="p">)),</span><span class="w"> </span><span class="nb">iand</span><span class="p">(</span><span class="n">b4</span><span class="p">,</span><span class="w"> </span><span class="mi">63</span><span class="p">)),</span><span class="w"> </span><span class="n">int32</span><span class="p">)</span>
-<span class="w">            </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span>
-<span class="w">         </span><span class="k">else</span>
-<span class="k">            </span><span class="n">cp</span><span class="p">(</span><span class="nb">count</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'FFFD'</span><span class="p">,</span><span class="w"> </span><span class="n">int32</span><span class="p">)</span>
-<span class="w">            </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">         </span><span class="k">end if</span>
-<span class="k">      end do</span>
-<span class="k">      </span><span class="n">cp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">count</span><span class="p">)</span>
-<span class="w">   </span><span class="k">end function </span><span class="n">utoc</span>
+    <div class="hl codehilite"><pre><span></span><span class="k">function </span><span class="n">utoc</span><span class="p">(</span><span class="n">str</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">cp</span><span class="p">)</span>
+<span class="w">   </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">str</span>
+<span class="w">   </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">cp</span><span class="p">(:)</span>
+<span class="w">   </span><span class="kt">integer</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="nb">count</span><span class="p">,</span><span class="w"> </span><span class="n">b1</span><span class="p">,</span><span class="w"> </span><span class="n">b2</span><span class="p">,</span><span class="w"> </span><span class="n">b3</span><span class="p">,</span><span class="w"> </span><span class="n">b4</span>
+<span class="w">   </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">str</span><span class="p">)</span>
+<span class="w">   </span><span class="k">allocate</span><span class="p">(</span><span class="n">cp</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+<span class="w">   </span><span class="nb">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">   </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">   </span><span class="k">do while</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">n</span><span class="p">)</span>
+<span class="w">      </span><span class="n">b1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">iachar</span><span class="p">(</span><span class="n">str</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">))</span>
+<span class="w">      </span><span class="nb">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">count</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">b1</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">128</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">         </span><span class="n">cp</span><span class="p">(</span><span class="nb">count</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">int</span><span class="p">(</span><span class="n">b1</span><span class="p">,</span><span class="w"> </span><span class="n">int32</span><span class="p">)</span>
+<span class="w">         </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">      </span><span class="k">elseif</span><span class="w"> </span><span class="p">(</span><span class="nb">iand</span><span class="p">(</span><span class="n">b1</span><span class="p">,</span><span class="w"> </span><span class="mi">224</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">192</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">         </span><span class="n">b2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">iachar</span><span class="p">(</span><span class="n">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+<span class="w">         </span><span class="n">cp</span><span class="p">(</span><span class="nb">count</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">int</span><span class="p">(</span><span class="nb">ior</span><span class="p">(</span><span class="nb">ishft</span><span class="p">(</span><span class="nb">iand</span><span class="p">(</span><span class="n">b1</span><span class="p">,</span><span class="w"> </span><span class="mi">31</span><span class="p">),</span><span class="w"> </span><span class="mi">6</span><span class="p">),</span><span class="w"> </span><span class="nb">iand</span><span class="p">(</span><span class="n">b2</span><span class="p">,</span><span class="w"> </span><span class="mi">63</span><span class="p">)),</span><span class="w"> </span><span class="n">int32</span><span class="p">)</span>
+<span class="w">         </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">      </span><span class="k">elseif</span><span class="w"> </span><span class="p">(</span><span class="nb">iand</span><span class="p">(</span><span class="n">b1</span><span class="p">,</span><span class="w"> </span><span class="mi">240</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">224</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">         </span><span class="n">b2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">iachar</span><span class="p">(</span><span class="n">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+<span class="w">         </span><span class="n">b3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">iachar</span><span class="p">(</span><span class="n">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">))</span>
+<span class="w">         </span><span class="n">cp</span><span class="p">(</span><span class="nb">count</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">int</span><span class="p">(</span><span class="nb">ior</span><span class="p">(</span><span class="nb">ior</span><span class="p">(</span><span class="nb">ishft</span><span class="p">(</span><span class="nb">iand</span><span class="p">(</span><span class="n">b1</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="p">),</span><span class="w"> </span><span class="mi">12</span><span class="p">),</span><span class="w"> </span><span class="nb">ishft</span><span class="p">(</span><span class="nb">iand</span><span class="p">(</span><span class="n">b2</span><span class="p">,</span><span class="w"> </span><span class="mi">63</span><span class="p">),</span><span class="w"> </span><span class="mi">6</span><span class="p">)),</span><span class="w"> </span><span class="nb">iand</span><span class="p">(</span><span class="n">b3</span><span class="p">,</span><span class="w"> </span><span class="mi">63</span><span class="p">)),</span><span class="w"> </span><span class="n">int32</span><span class="p">)</span>
+<span class="w">         </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span>
+<span class="w">      </span><span class="k">elseif</span><span class="w"> </span><span class="p">(</span><span class="nb">iand</span><span class="p">(</span><span class="n">b1</span><span class="p">,</span><span class="w"> </span><span class="mi">248</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">240</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">         </span><span class="n">b2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">iachar</span><span class="p">(</span><span class="n">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+<span class="w">         </span><span class="n">b3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">iachar</span><span class="p">(</span><span class="n">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">))</span>
+<span class="w">         </span><span class="n">b4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">iachar</span><span class="p">(</span><span class="n">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">3</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">3</span><span class="p">))</span>
+<span class="w">         </span><span class="n">cp</span><span class="p">(</span><span class="nb">count</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">int</span><span class="p">(</span><span class="nb">ior</span><span class="p">(</span><span class="nb">ior</span><span class="p">(</span><span class="nb">ior</span><span class="p">(</span><span class="nb">ishft</span><span class="p">(</span><span class="nb">iand</span><span class="p">(</span><span class="n">b1</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p">),</span><span class="w"> </span><span class="mi">18</span><span class="p">),</span><span class="w"> </span><span class="nb">ishft</span><span class="p">(</span><span class="nb">iand</span><span class="p">(</span><span class="n">b2</span><span class="p">,</span><span class="w"> </span><span class="mi">63</span><span class="p">),</span><span class="w"> </span><span class="mi">12</span><span class="p">)),</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="nb">ishft</span><span class="p">(</span><span class="nb">iand</span><span class="p">(</span><span class="n">b3</span><span class="p">,</span><span class="w"> </span><span class="mi">63</span><span class="p">),</span><span class="w"> </span><span class="mi">6</span><span class="p">)),</span><span class="w"> </span><span class="nb">iand</span><span class="p">(</span><span class="n">b4</span><span class="p">,</span><span class="w"> </span><span class="mi">63</span><span class="p">)),</span><span class="w"> </span><span class="n">int32</span><span class="p">)</span>
+<span class="w">         </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span>
+<span class="w">      </span><span class="k">else</span>
+<span class="k">         </span><span class="n">cp</span><span class="p">(</span><span class="nb">count</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="s1">'FFFD'</span><span class="p">,</span><span class="w"> </span><span class="n">int32</span><span class="p">)</span>
+<span class="w">         </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">      </span><span class="k">endif</span>
+<span class="k">   enddo</span>
+<span class="k">   </span><span class="n">cp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">count</span><span class="p">)</span>
+<span class="k">end function </span><span class="n">utoc</span>
 </pre></div>
 
     </section>
@@ -274,7 +361,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-13 05:38 +0000             </p>
+ on 2026-11-14 01:44 +0000             </p>
           </div>
         </div>
         <br>

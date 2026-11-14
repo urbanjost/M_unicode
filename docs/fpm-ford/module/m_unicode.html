@@ -62,6 +62,9 @@
                   <a class="nav-link" href="../lists/procedures.html">Procedures</a>
                 </li>
                 <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
                   <a class="nav-link" href="../lists/types.html">Derived Types</a>
                 </li>
                 <li class="nav-item">
@@ -91,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="77.6% of total for modules and submodules.">8018 statements</a>
+                 title="76.1% of total for modules and submodules.">8042 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -194,6 +197,7 @@
             <a class="list-group-item" href="../module/m_unicode.html#interface-operator%28gt%29">operator(>)</a>
             <a class="list-group-item" href="../module/m_unicode.html#interface-operator%28gt%3D%29">operator(>=)</a>
             <a class="list-group-item" href="../module/m_unicode.html#interface-pound_to_box">pound_to_box</a>
+            <a class="list-group-item" href="../module/m_unicode.html#interface-random_string">random_string</a>
             <a class="list-group-item" href="../module/m_unicode.html#interface-repeat">repeat</a>
             <a class="list-group-item" href="../module/m_unicode.html#interface-replace">replace</a>
             <a class="list-group-item" href="../module/m_unicode.html#interface-reverse">reverse</a>
@@ -797,26 +801,95 @@
 
 <h3 id="examples_4">EXAMPLES</h3>
 <p>Sample program:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">program</span><span class="w"> </span><span class="n">demo_issensitive</span>
-<span class="k">use</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="n">stdout</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">output_unit</span>
-<span class="k">use</span><span class="w"> </span><span class="n">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="n">issensitive</span><span class="p">,</span><span class="w"> </span><span class="nf">len</span><span class="p">,</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">),</span><span class="w"> </span><span class="n">ch</span><span class="o">=&gt;</span><span class="k">character</span>
-<span class="k">use</span><span class="w"> </span><span class="n">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="n">ut</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">==</span><span class="p">)</span>
-<span class="n">implicit</span><span class="w"> </span><span class="k">none</span>
-<span class="n">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">                   </span><span class="o">::</span><span class="w"> </span><span class="n">line</span>
-<span class="k">character</span><span class="p">(</span><span class="nf">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="n">g</span><span class="o">=</span><span class="s1">'(*(g0))'</span>
-<span class="k">integer</span><span class="w">                    </span><span class="o">::</span><span class="w"> </span><span class="n">i</span>
-<span class="w">   </span><span class="n">line</span><span class="o">=</span><span class="s1">'[AB]cd{E}fg(H)i^J~klm:NOP;q|RSTU!,vwxyz0123456789'</span>
-<span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="n">g</span><span class="p">,</span><span class="w"> </span><span class="n">line</span><span class="o">%</span><span class="n">ch</span><span class="p">()</span>
-<span class="w">   </span><span class="n">do</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="nf">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
-<span class="w">      </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">advance</span><span class="o">=</span><span class="s1">'no'</span><span class="p">)</span><span class="k">merge</span><span class="p">(</span><span class="w"> </span><span class="s1">'^'</span><span class="p">,</span><span class="w"> </span><span class="s1">'_'</span><span class="p">,</span><span class="w"> </span><span class="n">issensitive</span><span class="p">(</span><span class="n">line</span><span class="o">%</span><span class="n">sub</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="p">)</span>
-<span class="w">   </span><span class="n">enddo</span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span>
-<span class="k">end</span><span class="w"> </span><span class="n">program</span><span class="w"> </span><span class="n">demo_issensitive</span>
+<div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">demo_issensitive</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">stdout</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nx">output_unit</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">issensitive</span><span class="p">,</span><span class="w"> </span><span class="nx">len</span><span class="p">,</span><span class="w"> </span><span class="nx">assignment</span><span class="p">(=)</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">ut</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nx">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="nx">lower</span><span class="p">,</span><span class="w"> </span><span class="nx">upper</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">ch</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nx">character</span>
+<span class="nx">implicit</span><span class="w"> </span><span class="nx">none</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">)</span><span class="w">                   </span><span class="o">::</span><span class="w"> </span><span class="nx">lines</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span><span class="w"> </span><span class="nx">line</span><span class="p">,</span><span class="w"> </span><span class="nx">low</span><span class="p">,</span><span class="w"> </span><span class="nx">upp</span><span class="p">,</span><span class="w"> </span><span class="nx">diff</span>
+<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">parameter</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">g</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="err">'</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nx">g0</span><span class="p">))</span><span class="err">'</span>
+<span class="nx">integer</span><span class="w">                    </span><span class="o">::</span><span class="w"> </span><span class="nx">i</span>
+<span class="nx">integer</span><span class="w">                    </span><span class="o">::</span><span class="w"> </span><span class="nx">j</span>
+
+<span class="w">   </span><span class="nx">lines</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="err">'</span><span class="nx">P</span><span class="p">{</span><span class="nx">äg15</span><span class="err">🍐</span><span class="w"> </span><span class="err">🌦</span><span class="mi">6</span><span class="o">^</span><span class="nx">c0ßßẞ</span><span class="p">)</span><span class="err">🌛🌢</span><span class="p">;</span><span class="mi">4279</span><span class="nx">OTRNiü</span><span class="p">!</span><span class="nx">zx</span><span class="err">🌴</span><span class="o">|</span><span class="err">'</span>
+<span class="w">   </span><span class="nx">lines</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="err">'</span><span class="nx">ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ</span><span class="err">'</span>
+<span class="w">   </span><span class="nx">lines</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="err">'</span><span class="nx">abcdefghijklmnopqrstuvwxyz</span><span class="w"> </span><span class="nx">ABCDEFGHIJKLMNOPQRSTUVWXYZ</span><span class="err">'</span>
+<span class="w">   </span><span class="nx">lines</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="err">'</span><span class="nx">v</span><span class="p">:</span><span class="nx">Hk</span><span class="o">~</span><span class="nx">dqyUBm</span><span class="err">🌟🌬</span><span class="nx">lEwöJ</span><span class="err">🌀</span><span class="nx">A</span><span class="p">,</span><span class="nx">f</span><span class="p">[]</span><span class="mi">8</span><span class="err">🌷</span><span class="p">(</span><span class="nx">S</span><span class="p">}</span><span class="err">🍍</span><span class="mi">3</span><span class="err">'</span>
+
+<span class="w">   </span><span class="nx">do</span><span class="w"> </span><span class="nx">j</span><span class="p">=</span><span class="mi">1</span><span class="p">,</span><span class="nx">size</span><span class="p">(</span><span class="nx">lines</span><span class="p">)</span>
+<span class="w">      </span><span class="p">!</span><span class="w"> </span><span class="nx">given</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">line</span>
+<span class="w">      </span><span class="nx">line</span><span class="p">=</span><span class="nx">lines</span><span class="p">(</span><span class="nx">j</span><span class="p">)</span>
+<span class="w">      </span><span class="p">!</span><span class="w"> </span><span class="nx">generate</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">lowercase</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="nx">uppercase</span><span class="w"> </span><span class="nx">copy</span>
+<span class="w">      </span><span class="nx">low</span><span class="p">=</span><span class="nx">lower</span><span class="p">(</span><span class="nx">line</span><span class="p">)</span>
+<span class="w">      </span><span class="nx">upp</span><span class="p">=</span><span class="nx">upper</span><span class="p">(</span><span class="nx">line</span><span class="p">)</span>
+
+<span class="w">      </span><span class="p">!</span><span class="w"> </span><span class="nx">determining</span><span class="w"> </span><span class="nx">which</span><span class="w"> </span><span class="nx">characters</span><span class="w"> </span><span class="nx">are</span><span class="w"> </span><span class="nx">different</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nx">the</span>
+<span class="w">      </span><span class="p">!</span><span class="w"> </span><span class="nx">lowercase</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="nx">uppercase</span><span class="w"> </span><span class="nx">versions</span><span class="w"> </span><span class="nx">lets</span><span class="w"> </span><span class="nx">us</span><span class="w"> </span><span class="nx">determine</span>
+<span class="w">      </span><span class="p">!</span><span class="w"> </span><span class="nx">which</span><span class="w"> </span><span class="nx">characters</span><span class="w"> </span><span class="nx">are</span><span class="w"> </span><span class="k">case</span><span class="o">-</span><span class="nx">sensitive</span><span class="p">,</span><span class="w"> </span><span class="nx">at</span><span class="w"> </span><span class="nx">least</span><span class="w"> </span><span class="k">as</span>
+<span class="w">      </span><span class="p">!</span><span class="w"> </span><span class="nx">far</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">upper</span><span class="p">(</span><span class="mi">3</span><span class="nx">f</span><span class="p">)</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="nx">lower</span><span class="p">(</span><span class="mi">3</span><span class="nx">f</span><span class="p">)</span><span class="w"> </span><span class="nx">functions</span>
+<span class="w">      </span><span class="nx">print</span><span class="w"> </span><span class="nx">g</span><span class="p">,</span><span class="w"> </span><span class="err">'</span><span class="nx">ORIGINAL</span><span class="w">      </span><span class="p">:</span><span class="err">'</span><span class="p">,</span><span class="nx">line</span><span class="o">%</span><span class="nx">ch</span><span class="p">()</span>
+<span class="w">      </span><span class="nx">print</span><span class="w"> </span><span class="nx">g</span><span class="p">,</span><span class="w"> </span><span class="err">'</span><span class="nx">LOWERCASE</span><span class="w"> </span><span class="nx">COPY</span><span class="p">:</span><span class="err">'</span><span class="p">,</span><span class="nx">low</span><span class="o">%</span><span class="nx">ch</span><span class="p">()</span>
+<span class="w">      </span><span class="nx">print</span><span class="w"> </span><span class="nx">g</span><span class="p">,</span><span class="w"> </span><span class="err">'</span><span class="nx">UPPERCASE</span><span class="w"> </span><span class="nx">COPY</span><span class="p">:</span><span class="err">'</span><span class="p">,</span><span class="nx">upp</span><span class="o">%</span><span class="nx">ch</span><span class="p">()</span>
+<span class="w">      </span><span class="nx">diff</span><span class="p">=</span><span class="nx">pack</span><span class="p">(</span><span class="nx">line</span><span class="o">%</span><span class="nx">codes</span><span class="p">,</span><span class="nx">low</span><span class="o">%</span><span class="nx">codes</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nx">upp</span><span class="o">%</span><span class="nx">codes</span><span class="p">)</span>
+<span class="w">      </span><span class="nx">print</span><span class="w"> </span><span class="nx">g</span><span class="p">,</span><span class="w"> </span><span class="err">'</span><span class="nx">NO</span><span class="w"> </span><span class="nx">CASE</span><span class="w"> </span><span class="nx">CHANGE</span><span class="p">:</span><span class="err">'</span><span class="p">,</span><span class="nx">diff</span><span class="o">%</span><span class="nx">ch</span><span class="p">()</span>
+<span class="w">      </span><span class="nx">diff</span><span class="p">=</span><span class="nx">pack</span><span class="p">(</span><span class="nx">line</span><span class="o">%</span><span class="nx">codes</span><span class="p">,</span><span class="nx">low</span><span class="o">%</span><span class="nx">codes</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="nx">upp</span><span class="o">%</span><span class="nx">codes</span><span class="p">)</span>
+<span class="w">      </span><span class="nx">print</span><span class="w"> </span><span class="nx">g</span><span class="p">,</span><span class="w"> </span><span class="err">'</span><span class="nx">CASE</span><span class="w"> </span><span class="nx">CHANGED</span><span class="w">  </span><span class="p">:</span><span class="err">'</span><span class="p">,</span><span class="nx">diff</span><span class="o">%</span><span class="nx">ch</span><span class="p">()</span>
+
+<span class="w">      </span><span class="p">!</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">same</span><span class="w"> </span><span class="nx">characters</span><span class="w"> </span><span class="nx">should</span><span class="w"> </span><span class="nx">be</span><span class="w"> </span><span class="nx">identified</span><span class="w"> </span><span class="nx">by</span><span class="w"> </span><span class="nx">the</span>
+<span class="w">      </span><span class="p">!</span><span class="w"> </span><span class="nx">issensitive</span><span class="p">(</span><span class="mi">3</span><span class="nx">f</span><span class="p">)</span><span class="w"> </span><span class="nx">function</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">g</span><span class="p">,</span><span class="nx">advance</span><span class="p">=</span><span class="err">'</span><span class="nx">no</span><span class="sc">')'</span><span class="nx">SENSITIVE</span><span class="w">     </span><span class="p">:</span><span class="err">'</span>
+<span class="w">      </span><span class="nx">do</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="nx">len</span><span class="p">(</span><span class="nx">line</span><span class="p">)</span>
+<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">issensitive</span><span class="p">(</span><span class="nx">line</span><span class="o">%</span><span class="nx">sub</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span><span class="nx">i</span><span class="p">)))</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">g</span><span class="p">,</span><span class="nx">advance</span><span class="p">=</span><span class="err">'</span><span class="nx">no</span><span class="err">'</span><span class="p">)</span><span class="nx">line</span><span class="o">%</span><span class="nx">ch</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span><span class="nx">i</span><span class="p">)</span>
+<span class="w">         </span><span class="nx">endif</span>
+<span class="w">      </span><span class="nx">enddo</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span>
+
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">g</span><span class="p">,</span><span class="nx">advance</span><span class="p">=</span><span class="err">'</span><span class="nx">no</span><span class="sc">')'</span><span class="nx">NOT</span><span class="w"> </span><span class="nx">SENSITIVE</span><span class="w"> </span><span class="p">:</span><span class="err">'</span>
+<span class="w">      </span><span class="nx">do</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="nx">len</span><span class="p">(</span><span class="nx">line</span><span class="p">)</span>
+<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(.</span><span class="k">not</span><span class="p">.</span><span class="nx">issensitive</span><span class="p">(</span><span class="nx">line</span><span class="o">%</span><span class="nx">sub</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span><span class="nx">i</span><span class="p">)))</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">g</span><span class="p">,</span><span class="nx">advance</span><span class="p">=</span><span class="err">'</span><span class="nx">no</span><span class="err">'</span><span class="p">)</span><span class="nx">line</span><span class="o">%</span><span class="nx">ch</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span><span class="nx">i</span><span class="p">)</span>
+<span class="w">         </span><span class="nx">endif</span>
+<span class="w">      </span><span class="nx">enddo</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span>
+<span class="w">   </span><span class="nx">enddo</span>
+
+<span class="nx">end</span><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_issensitive</span>
 </code></pre></div>
 
 <p>Expected output</p>
 <blockquote>
-<p>The quick brown fox jumps over the lazy dog.</p>
+<p>The quick brown fox jumps over the lazy dog.
+ORIGINAL      :P{äg15🍐 🌦6^c0ßßẞ)🌛🌢;4279OTRNiü!zx🌴|
+LOWERCASE COPY:p{äg15🍐 🌦6^c0ẞẞẞ)🌛🌢;4279otrniü!zx🌴|
+UPPERCASE COPY:P{ÄG15🍐 🌦6^C0ßßß)🌛🌢;4279OTRNIÜ!ZX🌴|
+NO CASE CHANGE:{15🍐 🌦6^0)🌛🌢;4279!🌴|
+CASE CHANGED  :PägcßßẞOTRNiüzx
+SENSITIVE     :PägcßßẞOTRNiüzx
+NOT SENSITIVE :{15🍐 🌦6^0)🌛🌢;4279!🌴|</p>
+<p>ORIGINAL      :ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ
+LOWERCASE COPY:ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ
+UPPERCASE COPY:ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ
+NO CASE CHANGE:
+CASE CHANGED  :ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ
+SENSITIVE     :ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ
+NOT SENSITIVE :</p>
+<p>ORIGINAL      :abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ
+LOWERCASE COPY:abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz
+UPPERCASE COPY:ABCDEFGHIJKLMNOPQRSTUVWXYZ ABCDEFGHIJKLMNOPQRSTUVWXYZ
+NO CASE CHANGE:
+CASE CHANGED  :abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
+SENSITIVE     :abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
+NOT SENSITIVE :</p>
+<p>ORIGINAL      :v:Hk~dqyUBm🌟🌬lEwöJ🌀A,f[]8🌷(S}🍍3
+LOWERCASE COPY:v:hk~dqyubm🌟🌬lewöj🌀a,f[]8🌷(s}🍍3
+UPPERCASE COPY:V:HK~DQYUBM🌟🌬LEWÖJ🌀A,F[]8🌷(S}🍍3
+NO CASE CHANGE::~🌟🌬🌀,[]8🌷(}🍍3
+CASE CHANGED  :vHkdqyUBmlEwöJAfS
+SENSITIVE     :vHkdqyUBmlEwöJAfS
+NOT SENSITIVE ::~🌟🌬🌀,[]8🌷(}🍍3</p>
 </blockquote>
 <h3 id="author_4">AUTHOR</h3>
 <div class="codehilite"><pre><span></span><code> John S. Urban
@@ -1181,7 +1254,11 @@ ended up in the harder to reach upper cases.
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
+                  <li class="list-inline-item"><a href='m_unicode__float.html'>M_unicode__float</a></li>
+                  <li class="list-inline-item"><a href='m_unicode__random.html'>M_unicode__random</a></li>
+                  <li class="list-inline-item"><a href='m_unicode__regex.html'>M_unicode__regex</a></li>
                   <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_fortran_env'>iso_fortran_env</a></li>
+                  <li class="list-inline-item"><a href='m_unicode__convert.html'>M_unicode__convert</a></li>
               </ul>
             </li>
         </ul>
@@ -2687,7 +2764,7 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~30"></span>
+              <span class="anchor" id="variable-lhs~28"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(out),</td>
@@ -2702,7 +2779,7 @@ Each converted character is printed in the form
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~30"></span>
+              <span class="anchor" id="variable-rhs~28"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2740,7 +2817,7 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~29"></span>
+              <span class="anchor" id="variable-lhs~27"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(out)</td>
@@ -2755,7 +2832,7 @@ Each converted character is printed in the form
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~29"></span>
+              <span class="anchor" id="variable-rhs~27"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2793,7 +2870,7 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~28"></span>
+              <span class="anchor" id="variable-lhs~26"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(out)</td>
@@ -2808,7 +2885,7 @@ Each converted character is printed in the form
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~28"></span>
+              <span class="anchor" id="variable-rhs~26"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2846,7 +2923,7 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~27"></span>
+              <span class="anchor" id="variable-lhs~25"></span>
               character(len=:),
             </td>
 <td>intent(out),</td>
@@ -2861,7 +2938,7 @@ Each converted character is printed in the form
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~27"></span>
+              <span class="anchor" id="variable-rhs~25"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2899,7 +2976,7 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~26"></span>
+              <span class="anchor" id="variable-lhs~24"></span>
               character(len=:),
             </td>
 <td>intent(out),</td>
@@ -2914,7 +2991,7 @@ Each converted character is printed in the form
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~26"></span>
+              <span class="anchor" id="variable-rhs~24"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2952,7 +3029,7 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~25"></span>
+              <span class="anchor" id="variable-lhs~23"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2967,7 +3044,7 @@ Each converted character is printed in the form
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~25"></span>
+              <span class="anchor" id="variable-rhs~23"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3005,7 +3082,7 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~32"></span>
+              <span class="anchor" id="variable-lhs~30"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(out)</td>
@@ -3020,7 +3097,7 @@ Each converted character is printed in the form
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~32"></span>
+              <span class="anchor" id="variable-rhs~30"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -3058,7 +3135,7 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~31"></span>
+              <span class="anchor" id="variable-lhs~29"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(out)</td>
@@ -3073,7 +3150,7 @@ Each converted character is printed in the form
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~31"></span>
+              <span class="anchor" id="variable-rhs~29"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -3400,7 +3477,7 @@ Each converted character is printed in the form
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pos~6"></span>
+              <span class="anchor" id="variable-pos~5"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -3458,7 +3535,7 @@ Each converted character is printed in the form
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pos~7"></span>
+              <span class="anchor" id="variable-pos~6"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -3516,7 +3593,7 @@ Each converted character is printed in the form
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first~14"></span>
+              <span class="anchor" id="variable-first~13"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -3531,7 +3608,7 @@ Each converted character is printed in the form
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~15"></span>
+              <span class="anchor" id="variable-last~14"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -3589,7 +3666,7 @@ Each converted character is printed in the form
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first~15"></span>
+              <span class="anchor" id="variable-first~14"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -3604,7 +3681,7 @@ Each converted character is printed in the form
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~16"></span>
+              <span class="anchor" id="variable-last~15"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -3662,7 +3739,7 @@ Each converted character is printed in the form
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first~16"></span>
+              <span class="anchor" id="variable-first~15"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -3677,7 +3754,7 @@ Each converted character is printed in the form
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~17"></span>
+              <span class="anchor" id="variable-last~16"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -3750,7 +3827,7 @@ Each converted character is printed in the form
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first~17"></span>
+              <span class="anchor" id="variable-first~16"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -3765,7 +3842,7 @@ Each converted character is printed in the form
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~18"></span>
+              <span class="anchor" id="variable-last~17"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -3841,11 +3918,13 @@ Each converted character is printed in the form
    of bytes (AKA. CHARACTER(LEN=1)) which are assumed to contain a stream
    of bytes representing UTF-8-encoded data.</p>
 <h3 id="options">OPTIONS</h3>
-<div class="codehilite"><pre><span></span><code><span class="o">+</span><span class="w"> </span><span class="n">CODEPOINTS</span><span class="w"> </span><span class="p">:</span><span class="w">  </span><span class="n">An</span><span class="w"> </span><span class="n">INTEGER</span><span class="w"> </span><span class="n">array</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">Unicode</span><span class="w"> </span><span class="n">codepoint</span><span class="w"> </span><span class="n">values</span><span class="w"> </span><span class="n">representing</span>
-<span class="w">                </span><span class="n">the</span><span class="w"> </span><span class="n">glyphs</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">encoded</span><span class="w"> </span><span class="n">at</span><span class="w"> </span><span class="n">UTF</span><span class="o">-</span><span class="mi">8</span><span class="w"> </span><span class="n">data</span>
+<div class="codehilite"><pre><span></span><code>+ CODEPOINTS :  An INTEGER array of Unicode codepoint values representing
+                the glyphs to be encoded as UTF-8 data
+</code></pre></div>
 
-<span class="o">+</span><span class="w"> </span><span class="n">UTF8</span><span class="w"> </span><span class="p">:</span><span class="w">  </span><span class="n">Scalar</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">single</span><span class="o">-</span><span class="n">character</span><span class="w"> </span><span class="n">array</span><span class="w"> </span><span class="n">CHARACTER</span><span class="w"> </span><span class="n">variables</span>
-<span class="w">          </span><span class="n">to</span><span class="w"> </span><span class="n">contain</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">stream</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">bytes</span><span class="w"> </span><span class="n">containing</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="n">encoded</span><span class="w"> </span><span class="n">at</span>
+<h3 id="ouput">OUPUT</h3>
+<div class="codehilite"><pre><span></span><code><span class="o">+</span><span class="w"> </span><span class="n">UTF8</span><span class="w"> </span><span class="p">:</span><span class="w">  </span><span class="n">Scalar</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">single</span><span class="o">-</span><span class="n">character</span><span class="w"> </span><span class="n">array</span><span class="w"> </span><span class="n">CHARACTER</span><span class="w"> </span><span class="n">variables</span>
+<span class="w">          </span><span class="n">to</span><span class="w"> </span><span class="n">contain</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">stream</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">bytes</span><span class="w"> </span><span class="n">containing</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="n">encoded</span><span class="w"> </span><span class="k">as</span>
 <span class="w">          </span><span class="n">UTF</span><span class="o">-</span><span class="mi">8</span><span class="w"> </span><span class="n">text</span><span class="o">.</span>
 
 <span class="o">+</span><span class="w"> </span><span class="n">NERR</span><span class="w"> </span><span class="p">:</span><span class="w">  </span><span class="n">Zero</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">no</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="n">occurred</span><span class="o">.</span><span class="w"> </span><span class="n">If</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">zero</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">stream</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">bytes</span>
@@ -3945,7 +4024,7 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-codepoints~5"></span>
+              <span class="anchor" id="variable-codepoints~6"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -3960,7 +4039,7 @@ Each converted character is printed in the form
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-utf8~4"></span>
+              <span class="anchor" id="variable-utf8~11"></span>
               character(len=:),
             </td>
 <td>intent(out),</td>
@@ -3975,7 +4054,7 @@ Each converted character is printed in the form
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nerr~7"></span>
+              <span class="anchor" id="variable-nerr~8"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -4013,7 +4092,7 @@ Each converted character is printed in the form
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-codepoints~4"></span>
+              <span class="anchor" id="variable-codepoints~5"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -4028,7 +4107,7 @@ Each converted character is printed in the form
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-utf8~3"></span>
+              <span class="anchor" id="variable-utf8~10"></span>
               character(len=1),
             </td>
 <td>intent(out),</td>
@@ -4043,7 +4122,7 @@ Each converted character is printed in the form
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nerr~6"></span>
+              <span class="anchor" id="variable-nerr~7"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -4759,10 +4838,10 @@ plain<span class="w"> </span>text<span class="w"> </span>not<span class="w"> </s
 <span class="w"> </span><span class="nx">testsa</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="mi">80</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="o">&amp;</span>
 <span class="w"> </span><span class="s">"-------------- Testing Pure Fortran Word Expansion --------------"</span><span class="p">,</span><span class="o">&amp;</span>
 <span class="w"> </span><span class="s">" scratch space is $TMP for $USER with home directory  ${HOME}"</span><span class="p">,</span><span class="w">    </span><span class="o">&amp;</span>
-<span class="w"> </span><span class="s">" DATE is $DATE TIME is 21:53:34 ZONE is $ZONE TIMESTAMP $TIMESTAMP"</span><span class="p">,</span><span class="o">&amp;</span>
+<span class="w"> </span><span class="s">" DATE is $DATE TIME is 16:19:04 ZONE is $ZONE TIMESTAMP $TIMESTAMP"</span><span class="p">,</span><span class="o">&amp;</span>
 <span class="w"> </span><span class="s">" FILE is $FILE ARGS: 0: $0 1: $1 2: $2 3: $3"</span><span class="p">,</span><span class="w">                     </span><span class="o">&amp;</span>
 <span class="w"> </span><span class="s">" COMPILER is $COMPILER COMPILER_OPTIONS are ${COMPILER_OPTIONS}"</span><span class="p">,</span><span class="w">  </span><span class="o">&amp;</span>
-<span class="w"> </span><span class="s">" ${0} versus src/source/M_unicode.FF  $0 versus $FILE"</span><span class="p">,</span><span class="w">                            </span><span class="o">&amp;</span>
+<span class="w"> </span><span class="s">" ${0} versus M_unicode.FF  $0 versus $FILE"</span><span class="p">,</span><span class="w">                            </span><span class="o">&amp;</span>
 <span class="w"> </span><span class="s">" All arguments is ${0} ${*}"</span><span class="p">,</span><span class="w">                                      </span><span class="o">&amp;</span>
 <span class="w"> </span><span class="s">" unknown $UNKNOWN incorrect ${ A B C} but syntax OK"</span><span class="p">,</span><span class="w">              </span><span class="o">&amp;</span>
 <span class="w"> </span><span class="s">" Bad $  ${  and stuff $UNKNOWN ${ A B C}"</span><span class="p">,</span><span class="w">                         </span><span class="o">&amp;</span>
@@ -5106,7 +5185,7 @@ Non-breaking space &nbsp;  &#160;  Before   After</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~10"></span>
+              <span class="anchor" id="variable-str~9"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in),</td>
@@ -5487,7 +5566,7 @@ as TYPE(UNICODE_TYPE) .
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-position~2"></span>
+              <span class="anchor" id="variable-position~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -5545,7 +5624,7 @@ as TYPE(UNICODE_TYPE) .
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-position~3"></span>
+              <span class="anchor" id="variable-position~4"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -5719,7 +5798,7 @@ as TYPE(UNICODE_TYPE) .
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~5"></span>
+              <span class="anchor" id="variable-name~6"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -5777,7 +5856,7 @@ as TYPE(UNICODE_TYPE) .
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~7"></span>
+              <span class="anchor" id="variable-name~8"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -5835,7 +5914,7 @@ as TYPE(UNICODE_TYPE) .
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~6"></span>
+              <span class="anchor" id="variable-name~7"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -5893,7 +5972,7 @@ as TYPE(UNICODE_TYPE) .
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~4"></span>
+              <span class="anchor" id="variable-name~5"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -6990,7 +7069,7 @@ Mi_archivo_favorito.c
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~17"></span>
+              <span class="anchor" id="variable-str~16"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -7033,7 +7112,7 @@ Mi_archivo_favorito.c
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~16"></span>
+              <span class="anchor" id="variable-str~15"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -7225,7 +7304,7 @@ Mi_archivo_favorito.c
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~18"></span>
+              <span class="anchor" id="variable-str~17"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -7554,7 +7633,7 @@ o keywords are case-sensitive
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-strings~4"></span>
+              <span class="anchor" id="variable-strings~3"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -7640,7 +7719,7 @@ o keywords are case-sensitive
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-strings~5"></span>
+              <span class="anchor" id="variable-strings~4"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -8622,7 +8701,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~8"></span>
+              <span class="anchor" id="variable-lhs~6"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -8637,7 +8716,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~8"></span>
+              <span class="anchor" id="variable-rhs~6"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -8680,7 +8759,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~7"></span>
+              <span class="anchor" id="variable-lhs~5"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -8695,7 +8774,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~7"></span>
+              <span class="anchor" id="variable-rhs~5"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -8738,7 +8817,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~6"></span>
+              <span class="anchor" id="variable-lhs~4"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -8753,7 +8832,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~6"></span>
+              <span class="anchor" id="variable-rhs~4"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -8806,7 +8885,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~9"></span>
+              <span class="anchor" id="variable-lhs~7"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -8821,7 +8900,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~9"></span>
+              <span class="anchor" id="variable-rhs~7"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -8864,7 +8943,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~10"></span>
+              <span class="anchor" id="variable-lhs~8"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -8879,7 +8958,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~10"></span>
+              <span class="anchor" id="variable-rhs~8"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -8922,7 +9001,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~11"></span>
+              <span class="anchor" id="variable-lhs~9"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -8937,7 +9016,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~11"></span>
+              <span class="anchor" id="variable-rhs~9"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -8990,7 +9069,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~18"></span>
+              <span class="anchor" id="variable-lhs~16"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -9005,7 +9084,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~18"></span>
+              <span class="anchor" id="variable-rhs~16"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -9048,7 +9127,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~19"></span>
+              <span class="anchor" id="variable-lhs~17"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -9063,7 +9142,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~19"></span>
+              <span class="anchor" id="variable-rhs~17"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -9106,7 +9185,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~20"></span>
+              <span class="anchor" id="variable-lhs~18"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -9121,7 +9200,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~20"></span>
+              <span class="anchor" id="variable-rhs~18"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -9174,7 +9253,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~12"></span>
+              <span class="anchor" id="variable-lhs~10"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -9189,7 +9268,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~12"></span>
+              <span class="anchor" id="variable-rhs~10"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -9232,7 +9311,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~13"></span>
+              <span class="anchor" id="variable-lhs~11"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -9247,7 +9326,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~13"></span>
+              <span class="anchor" id="variable-rhs~11"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -9290,7 +9369,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~14"></span>
+              <span class="anchor" id="variable-lhs~12"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -9305,7 +9384,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~14"></span>
+              <span class="anchor" id="variable-rhs~12"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -9358,7 +9437,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~15"></span>
+              <span class="anchor" id="variable-lhs~13"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -9373,7 +9452,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~15"></span>
+              <span class="anchor" id="variable-rhs~13"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -9416,7 +9495,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~16"></span>
+              <span class="anchor" id="variable-lhs~14"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -9431,7 +9510,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~16"></span>
+              <span class="anchor" id="variable-rhs~14"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -9474,7 +9553,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~17"></span>
+              <span class="anchor" id="variable-lhs~15"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -9489,7 +9568,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~17"></span>
+              <span class="anchor" id="variable-rhs~15"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -9542,7 +9621,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~5"></span>
+              <span class="anchor" id="variable-lhs~3"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -9557,7 +9636,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~5"></span>
+              <span class="anchor" id="variable-rhs~3"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -9600,7 +9679,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~4"></span>
+              <span class="anchor" id="variable-lhs~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -9615,7 +9694,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~4"></span>
+              <span class="anchor" id="variable-rhs~2"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -9658,7 +9737,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~3"></span>
+              <span class="anchor" id="variable-lhs"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -9673,7 +9752,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~3"></span>
+              <span class="anchor" id="variable-rhs"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -9769,7 +9848,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~15"></span>
+              <span class="anchor" id="variable-str~14"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -9822,7 +9901,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~24"></span>
+              <span class="anchor" id="variable-lhs~22"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -9837,7 +9916,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~24"></span>
+              <span class="anchor" id="variable-rhs~22"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -9880,7 +9959,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~23"></span>
+              <span class="anchor" id="variable-lhs~21"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -9895,7 +9974,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~23"></span>
+              <span class="anchor" id="variable-rhs~21"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -9938,7 +10017,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~21"></span>
+              <span class="anchor" id="variable-lhs~19"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -9953,7 +10032,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~21"></span>
+              <span class="anchor" id="variable-rhs~19"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -10006,7 +10085,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~22"></span>
+              <span class="anchor" id="variable-lhs~20"></span>
               class(*),
             </td>
 <td>intent(in)</td>
@@ -10021,7 +10100,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~22"></span>
+              <span class="anchor" id="variable-rhs~20"></span>
               class(*),
             </td>
 <td>intent(in)</td>
@@ -10074,7 +10153,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~24"></span>
+              <span class="anchor" id="variable-lhs~22"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -10089,7 +10168,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~24"></span>
+              <span class="anchor" id="variable-rhs~22"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -10132,7 +10211,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~23"></span>
+              <span class="anchor" id="variable-lhs~21"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -10147,7 +10226,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~23"></span>
+              <span class="anchor" id="variable-rhs~21"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -10190,7 +10269,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~21"></span>
+              <span class="anchor" id="variable-lhs~19"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -10205,7 +10284,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~21"></span>
+              <span class="anchor" id="variable-rhs~19"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -10258,7 +10337,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~5"></span>
+              <span class="anchor" id="variable-lhs~3"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -10273,7 +10352,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~5"></span>
+              <span class="anchor" id="variable-rhs~3"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -10316,7 +10395,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~4"></span>
+              <span class="anchor" id="variable-lhs~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -10331,7 +10410,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~4"></span>
+              <span class="anchor" id="variable-rhs~2"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -10374,7 +10453,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~3"></span>
+              <span class="anchor" id="variable-lhs"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -10389,7 +10468,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~3"></span>
+              <span class="anchor" id="variable-rhs"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -10442,7 +10521,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~15"></span>
+              <span class="anchor" id="variable-lhs~13"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -10457,7 +10536,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~15"></span>
+              <span class="anchor" id="variable-rhs~13"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -10500,7 +10579,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~16"></span>
+              <span class="anchor" id="variable-lhs~14"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -10515,7 +10594,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~16"></span>
+              <span class="anchor" id="variable-rhs~14"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -10558,7 +10637,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~17"></span>
+              <span class="anchor" id="variable-lhs~15"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -10573,7 +10652,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~17"></span>
+              <span class="anchor" id="variable-rhs~15"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -10626,7 +10705,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~12"></span>
+              <span class="anchor" id="variable-lhs~10"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -10641,7 +10720,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~12"></span>
+              <span class="anchor" id="variable-rhs~10"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -10684,7 +10763,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~13"></span>
+              <span class="anchor" id="variable-lhs~11"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -10699,7 +10778,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~13"></span>
+              <span class="anchor" id="variable-rhs~11"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -10742,7 +10821,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~14"></span>
+              <span class="anchor" id="variable-lhs~12"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -10757,7 +10836,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~14"></span>
+              <span class="anchor" id="variable-rhs~12"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -10810,7 +10889,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~8"></span>
+              <span class="anchor" id="variable-lhs~6"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -10825,7 +10904,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~8"></span>
+              <span class="anchor" id="variable-rhs~6"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -10868,7 +10947,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~7"></span>
+              <span class="anchor" id="variable-lhs~5"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -10883,7 +10962,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~7"></span>
+              <span class="anchor" id="variable-rhs~5"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -10926,7 +11005,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~6"></span>
+              <span class="anchor" id="variable-lhs~4"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -10941,7 +11020,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~6"></span>
+              <span class="anchor" id="variable-rhs~4"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -10994,7 +11073,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~18"></span>
+              <span class="anchor" id="variable-lhs~16"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -11009,7 +11088,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~18"></span>
+              <span class="anchor" id="variable-rhs~16"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -11052,7 +11131,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~19"></span>
+              <span class="anchor" id="variable-lhs~17"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -11067,7 +11146,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~19"></span>
+              <span class="anchor" id="variable-rhs~17"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -11110,7 +11189,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~20"></span>
+              <span class="anchor" id="variable-lhs~18"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -11125,7 +11204,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~20"></span>
+              <span class="anchor" id="variable-rhs~18"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -11178,7 +11257,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~9"></span>
+              <span class="anchor" id="variable-lhs~7"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -11193,7 +11272,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~9"></span>
+              <span class="anchor" id="variable-rhs~7"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -11236,7 +11315,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~10"></span>
+              <span class="anchor" id="variable-lhs~8"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -11251,7 +11330,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~10"></span>
+              <span class="anchor" id="variable-rhs~8"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -11294,7 +11373,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~11"></span>
+              <span class="anchor" id="variable-lhs~9"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -11309,7 +11388,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~11"></span>
+              <span class="anchor" id="variable-rhs~9"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -11588,6 +11667,132 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <h4>
     Return Value
     <small>type(<a href='../type/unicode_type.html'>unicode_type</a>), allocatable, (:)</small>
+    </h4>
+    
+
+          </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-random_string"></span>
+      <h3>public        interface <a href='../interface/random_string.html'>random_string</a> 
+      </h3>
+    </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private  function random_string_a(astr, length) result(out)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-astr"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>astr</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-length~7"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>length</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>character(len=length)</small>
+    </h4>
+    
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private  function random_string_u(ustr, length) result(out)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ustr~3"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ustr</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-length~8"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>length</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
     </h4>
     
 
@@ -13191,7 +13396,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~5"></span>
+              <span class="anchor" id="variable-str~4"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -13206,7 +13411,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first~6"></span>
+              <span class="anchor" id="variable-first~5"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -13221,7 +13426,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~7"></span>
+              <span class="anchor" id="variable-last~6"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -13279,7 +13484,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~6"></span>
+              <span class="anchor" id="variable-str~5"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -13294,7 +13499,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first~7"></span>
+              <span class="anchor" id="variable-first~6"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -13309,7 +13514,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~8"></span>
+              <span class="anchor" id="variable-last~7"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -13367,7 +13572,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~7"></span>
+              <span class="anchor" id="variable-str~6"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -13382,7 +13587,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first~8"></span>
+              <span class="anchor" id="variable-first~7"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -13397,7 +13602,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~9"></span>
+              <span class="anchor" id="variable-last~8"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -13455,7 +13660,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~8"></span>
+              <span class="anchor" id="variable-str~7"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -13470,7 +13675,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first~9"></span>
+              <span class="anchor" id="variable-first~8"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -13485,7 +13690,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~10"></span>
+              <span class="anchor" id="variable-last~9"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -14459,7 +14664,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first~4"></span>
+              <span class="anchor" id="variable-first~3"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -14474,7 +14679,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~5"></span>
+              <span class="anchor" id="variable-last~4"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -14542,7 +14747,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first~5"></span>
+              <span class="anchor" id="variable-first~4"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -14557,7 +14762,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~6"></span>
+              <span class="anchor" id="variable-last~5"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -14625,7 +14830,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pos~2"></span>
+              <span class="anchor" id="variable-pos"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -14708,7 +14913,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pos~3"></span>
+              <span class="anchor" id="variable-pos~2"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -15244,7 +15449,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tokens~2"></span>
+              <span class="anchor" id="variable-tokens"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(out),</td>
@@ -15259,7 +15464,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-separator~2"></span>
+              <span class="anchor" id="variable-separator"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(out),</td>
@@ -15327,7 +15532,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tokens~3"></span>
+              <span class="anchor" id="variable-tokens~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(out),</td>
@@ -15342,7 +15547,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-separator~3"></span>
+              <span class="anchor" id="variable-separator~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(out),</td>
@@ -15420,7 +15625,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first~4"></span>
+              <span class="anchor" id="variable-first~3"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -15435,7 +15640,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~5"></span>
+              <span class="anchor" id="variable-last~4"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -15503,7 +15708,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first~5"></span>
+              <span class="anchor" id="variable-first~4"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -15518,7 +15723,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last~6"></span>
+              <span class="anchor" id="variable-last~5"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -15586,7 +15791,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pos~2"></span>
+              <span class="anchor" id="variable-pos"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -15669,7 +15874,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pos~3"></span>
+              <span class="anchor" id="variable-pos~2"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -16205,7 +16410,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tokens~2"></span>
+              <span class="anchor" id="variable-tokens"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(out),</td>
@@ -16220,7 +16425,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-separator~2"></span>
+              <span class="anchor" id="variable-separator"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(out),</td>
@@ -16288,7 +16493,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tokens~3"></span>
+              <span class="anchor" id="variable-tokens~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(out),</td>
@@ -16303,7 +16508,7 @@ plainval  VAL must be present if PLAINVAL is specified. This is the
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-separator~3"></span>
+              <span class="anchor" id="variable-separator~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(out),</td>
@@ -17222,7 +17427,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-codes~5"></span>
+              <span class="anchor" id="variable-codes~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -17308,7 +17513,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-strings~2"></span>
+              <span class="anchor" id="variable-strings"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -17404,7 +17609,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~14"></span>
+              <span class="anchor" id="variable-str~13"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -17466,15 +17671,14 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
    array containing Unicode codepoint values for each glyph.</p>
 <h3 id="options">OPTIONS</h3>
 <ul>
-<li>
-<p>UTF8 :  Scalar CHARACTER string or single-character array of CHARACTER
+<li>UTF8 :  Scalar CHARACTER string or single-character array of CHARACTER
              variables assumed to represent a stream of bytes containing
-             data encoded at UTF-8 text.</p>
-</li>
-<li>
-<p>CODEPOINTS :  An INTEGER array of Unicode codepoint values
-                   representing the glyphs found in STRING</p>
-</li>
+             data encoded as UTF-8 text.</li>
+</ul>
+<h3 id="output">OUTPUT</h3>
+<ul>
+<li>CODEPOINTS :  An INTEGER array of Unicode codepoint values
+                   representing the glyphs found in STRING</li>
 <li>NERR :  Zero if no error occurred. If not zero the stream of bytes
              could not be completely converted to UTF-8 characters.</li>
 </ul>
@@ -17572,7 +17776,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-utf8~2"></span>
+              <span class="anchor" id="variable-utf8~9"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -17587,7 +17791,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-codepoints~3"></span>
+              <span class="anchor" id="variable-codepoints~4"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -17602,7 +17806,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nerr~5"></span>
+              <span class="anchor" id="variable-nerr~6"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -17640,7 +17844,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-utf8"></span>
+              <span class="anchor" id="variable-utf8~8"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -17655,7 +17859,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-codepoints~2"></span>
+              <span class="anchor" id="variable-codepoints~3"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -17670,7 +17874,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nerr~4"></span>
+              <span class="anchor" id="variable-nerr~5"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -18370,7 +18574,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-codes~4"></span>
+              <span class="anchor" id="variable-codes"></span>
               integer,
             </td>
               <td>public,</td>
@@ -18768,7 +18972,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~3"></span>
+              <span class="anchor" id="variable-str~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -18963,7 +19167,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iostat~2"></span>
+              <span class="anchor" id="variable-iostat~3"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -19068,7 +19272,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~4"></span>
+              <span class="anchor" id="variable-str~3"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -19162,7 +19366,7 @@ may be CHARACTER as well as TYPE(UNICODE_TYPE).
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-13 05:38 +0000             </p>
+ on 2026-11-14 01:44 +0000             </p>
           </div>
         </div>
         <br>

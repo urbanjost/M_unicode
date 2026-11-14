@@ -62,6 +62,9 @@
                   <a class="nav-link" href="../lists/procedures.html">Procedures</a>
                 </li>
                 <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
                   <a class="nav-link" href="../lists/types.html">Derived Types</a>
                 </li>
                 <li class="nav-item">
@@ -90,7 +93,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.8% of total for programs.">31 statements</a>
+                 title=" 1.0% of total for programs.">38 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -131,14 +134,16 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../program/log_parser.html#variable-bs">BS</a>
+            <a class="list-group-item" href="../program/log_parser.html#variable-bs~4">BS</a>
             <a class="list-group-item" href="../program/log_parser.html#variable-count">count</a>
+            <a class="list-group-item" href="../program/log_parser.html#variable-i~67">i</a>
             <a class="list-group-item" href="../program/log_parser.html#variable-log_cp">log_cp</a>
-            <a class="list-group-item" href="../program/log_parser.html#variable-m">m</a>
-            <a class="list-group-item" href="../program/log_parser.html#variable-offset">offset</a>
-            <a class="list-group-item" href="../program/log_parser.html#variable-pat_str">pat_str</a>
+            <a class="list-group-item" href="../program/log_parser.html#variable-m~11">m</a>
+            <a class="list-group-item" href="../program/log_parser.html#variable-nl">nl</a>
+            <a class="list-group-item" href="../program/log_parser.html#variable-offset~2">offset</a>
+            <a class="list-group-item" href="../program/log_parser.html#variable-pat_str~3">pat_str</a>
             <a class="list-group-item" href="../program/log_parser.html#variable-raw_log">raw_log</a>
-            <a class="list-group-item" href="../program/log_parser.html#variable-re">re</a>
+            <a class="list-group-item" href="../program/log_parser.html#variable-re~15">re</a>
         </div>
       </div>
     </div>
@@ -180,8 +185,8 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
+                  <li class="list-inline-item"><a href='../module/m_unicode.html'>M_unicode</a></li>
                   <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_fortran_env'>iso_fortran_env</a></li>
-                  <li class="list-inline-item"><a href='../module/m_unicode__regex.html'>M_unicode__regex</a></li>
               </ul>
             </li>
         </ul>
@@ -205,7 +210,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-bs"></span>
+              <span class="anchor" id="variable-bs~4"></span>
               character(len=1),
             </td>
             <td>
@@ -237,6 +242,22 @@ parameter
         </tr>
         <tr>
             <td>
+              <span class="anchor" id="variable-i~67"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>i</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
               <span class="anchor" id="variable-log_cp"></span>
               integer(kind=int32),
             </td>
@@ -253,7 +274,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-m"></span>
+              <span class="anchor" id="variable-m~11"></span>
               type(<a href='../type/match_t.html'>match_t</a>)
             </td>
             <td>
@@ -269,7 +290,23 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-offset"></span>
+              <span class="anchor" id="variable-nl"></span>
+              character(len=*),
+            </td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>nl</strong></td>
+<td> =</td>
+                <td>new_line(&#39;a&#39;)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-offset~2"></span>
               integer
             </td>
             <td>
@@ -285,7 +322,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pat_str"></span>
+              <span class="anchor" id="variable-pat_str~3"></span>
               character(len=:),
             </td>
             <td>
@@ -317,7 +354,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-re"></span>
+              <span class="anchor" id="variable-re~15"></span>
               type(<a href='../type/regex_t.html'>regex_t</a>)
             </td>
             <td>
@@ -348,29 +385,36 @@ parameter
     <section>
     <h2 id="src">Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="k">program </span><span class="n">log_parser</span>
-<span class="w">   </span><span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w">  </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">int32</span>
-<span class="w">   </span><span class="k">use </span><span class="n">M_unicode__regex</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">utoc</span><span class="p">,</span><span class="w"> </span><span class="n">ctou</span>
-<span class="w">   </span><span class="k">use </span><span class="n">M_unicode__regex</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">regex_t</span><span class="p">,</span><span class="w"> </span><span class="n">match_t</span><span class="p">,</span><span class="w"> </span><span class="n">regex_compile</span><span class="p">,</span><span class="w"> </span><span class="n">regex_search</span>
-<span class="w">   </span><span class="k">implicit none</span>
+<span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w">  </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">int32</span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">utoc</span><span class="p">,</span><span class="w"> </span><span class="n">ctou</span>
+<span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">regex_t</span><span class="p">,</span><span class="w"> </span><span class="n">match_t</span><span class="p">,</span><span class="w"> </span><span class="n">regex_compile</span><span class="p">,</span><span class="w"> </span><span class="n">regex_search</span>
+<span class="k">implicit none</span>
 
-<span class="k">   </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">BS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">achar</span><span class="p">(</span><span class="mi">92</span><span class="p">)</span>
-<span class="w">   </span><span class="k">type</span><span class="p">(</span><span class="n">regex_t</span><span class="p">)</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">re</span>
-<span class="w">   </span><span class="k">type</span><span class="p">(</span><span class="n">match_t</span><span class="p">)</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">m</span>
-<span class="w">   </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">log_cp</span><span class="p">(:)</span>
-<span class="w">   </span><span class="kt">integer</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="nb">count</span>
-<span class="nb">   </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">raw_log</span><span class="p">,</span><span class="w"> </span><span class="n">pat_str</span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span><span class="k">parameter</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">BS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">achar</span><span class="p">(</span><span class="mi">92</span><span class="p">)</span>
+<span class="k">type</span><span class="p">(</span><span class="n">regex_t</span><span class="p">)</span><span class="w">                </span><span class="kd">::</span><span class="w"> </span><span class="n">re</span>
+<span class="k">type</span><span class="p">(</span><span class="n">match_t</span><span class="p">)</span><span class="w">                </span><span class="kd">::</span><span class="w"> </span><span class="n">m</span>
+<span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="k">allocatable</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">log_cp</span><span class="p">(:)</span>
+<span class="kt">integer</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="nb">count</span><span class="p">,</span><span class="w"> </span><span class="n">i</span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">raw_log</span><span class="p">,</span><span class="w"> </span><span class="n">pat_str</span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">nl</span><span class="o">=</span><span class="nb">new_line</span><span class="p">(</span><span class="s1">'a'</span><span class="p">)</span>
 
 <span class="w">   </span><span class="n">raw_log</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">      </span><span class="s1">'2026-11-12 08:14:02 [INFO]  User "alice" connected from 10.0.1.42'</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="nb">new_line</span><span class="p">(</span><span class="s1">'a'</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">      </span><span class="s1">'2026-11-12 08:14:09 [WARN]  High latency (312ms) on node Zürich-01'</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="nb">new_line</span><span class="p">(</span><span class="s1">'a'</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">      </span><span class="s1">'2026-11-12 08:14:15 [ERROR] Failed login for user "bob" from 192.168.1.99'</span>
+<span class="w">   </span><span class="s1">'2026-11-12 08:14:02 [INFO]  User "alice" connected from 10.0.1.42'</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">nl</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">   </span><span class="s1">'2026-11-12 08:14:09 [WARN]  High latency (312ms) on node Zürich-01'</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">nl</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">   </span><span class="s1">'2026-11-12 08:14:15 [ERROR] Failed login for user "bob" from 192.168.1.99'</span>
 
-<span class="w">   </span><span class="c">! Pattern: ^(\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2})\s+\[(\w+)\]\s+(.*)$</span>
-<span class="w">   </span><span class="n">pat_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'^('</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">BS</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">'d{4}-'</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">BS</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">'d{2}-'</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">BS</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">'d{2}'</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">BS</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">'s+'</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">             </span><span class="n">BS</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">'d{2}:'</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">BS</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">'d{2}:'</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">BS</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">'d{2})'</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">BS</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">'s+'</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">             </span><span class="n">BS</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">'[('</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">BS</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">'w+)'</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">BS</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">']'</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">BS</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">'s+(.*)$'</span>
+<span class="w">   </span><span class="c">! Pattern:</span>
+<span class="w">   </span><span class="c">!^(\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2})\s+\[(\w+)\]\s+(.*)$</span>
+<span class="w">   </span><span class="c">! some compilers treat backslash as an escape character </span>
+<span class="w">   </span><span class="c">! so replace % with backslash</span>
+<span class="w">   </span><span class="n">pat_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'^(%d{4}-%d{2}-%d{2}%s+%d{2}:%d{2}:%d{2})%s+%[(%w+)%]%s+(.*)$'</span>
+<span class="w">   </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">pat_str</span><span class="p">)</span>
+<span class="w">      </span><span class="k">select case</span><span class="p">(</span><span class="n">pat_str</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">))</span>
+<span class="w">      </span><span class="k">case</span><span class="p">(</span><span class="s1">'%'</span><span class="p">);</span><span class="n">pat_str</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="nb">char</span><span class="p">(</span><span class="mi">92</span><span class="p">)</span>
+<span class="w">      </span><span class="k">end select</span>
+<span class="k">   enddo</span>
 
-<span class="w">   </span><span class="n">re</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">regex_compile</span><span class="p">(</span><span class="n">utoc</span><span class="p">(</span><span class="n">pat_str</span><span class="p">))</span>
+<span class="k">   </span><span class="n">re</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">regex_compile</span><span class="p">(</span><span class="n">utoc</span><span class="p">(</span><span class="n">pat_str</span><span class="p">))</span>
 <span class="w">   </span><span class="k">if</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="n">re</span><span class="p">%</span><span class="n">valid</span><span class="p">)</span><span class="w"> </span><span class="k">error stop</span><span class="w"> </span><span class="s1">'Failed to compile log pattern'</span>
 
 <span class="w">   </span><span class="n">log_cp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utoc</span><span class="p">(</span><span class="n">raw_log</span><span class="p">)</span>
@@ -415,7 +459,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-13 05:38 +0000             </p>
+ on 2026-11-14 01:44 +0000             </p>
           </div>
         </div>
         <br>

@@ -62,6 +62,9 @@
                   <a class="nav-link" href="../lists/procedures.html">Procedures</a>
                 </li>
                 <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
                   <a class="nav-link" href="../lists/types.html">Derived Types</a>
                 </li>
                 <li class="nav-item">
@@ -131,12 +134,12 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../program/markdown_links.html#variable-bs~3">BS</a>
+            <a class="list-group-item" href="../program/markdown_links.html#variable-bs~2">BS</a>
             <a class="list-group-item" href="../program/markdown_links.html#variable-doc_cp">doc_cp</a>
             <a class="list-group-item" href="../program/markdown_links.html#variable-html_cp">html_cp</a>
             <a class="list-group-item" href="../program/markdown_links.html#variable-markdown">markdown</a>
-            <a class="list-group-item" href="../program/markdown_links.html#variable-pat_str~3">pat_str</a>
-            <a class="list-group-item" href="../program/markdown_links.html#variable-re~7">re</a>
+            <a class="list-group-item" href="../program/markdown_links.html#variable-pat_str">pat_str</a>
+            <a class="list-group-item" href="../program/markdown_links.html#variable-re~13">re</a>
             <a class="list-group-item" href="../program/markdown_links.html#variable-repl_cp">repl_cp</a>
         </div>
       </div>
@@ -179,16 +182,16 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_fortran_env'>iso_fortran_env</a></li>
                   <li class="list-inline-item"><a href='../module/m_unicode__regex.html'>M_unicode__regex</a></li>
+                  <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_fortran_env'>iso_fortran_env</a></li>
               </ul>
             </li>
         </ul>
       </div>
     </div>
 
-    
-
+    <p>Non-Greedy Quantifiers &amp; Backreference Rewriting</p>
+<br>
 
     <section>
     <h2>Variables</h2>
@@ -204,7 +207,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-bs~3"></span>
+              <span class="anchor" id="variable-bs~2"></span>
               character(len=1),
             </td>
             <td>
@@ -268,7 +271,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pat_str~3"></span>
+              <span class="anchor" id="variable-pat_str"></span>
               character(len=:),
             </td>
             <td>
@@ -284,7 +287,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-re~7"></span>
+              <span class="anchor" id="variable-re~13"></span>
               type(<a href='../type/regex_t.html'>regex_t</a>)
             </td>
             <td>
@@ -331,18 +334,18 @@ parameter
     <section>
     <h2 id="src">Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="k">program </span><span class="n">markdown_links</span>
-<span class="w">   </span><span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w">  </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">int32</span>
-<span class="w">   </span><span class="k">use </span><span class="n">M_unicode__regex</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">utoc</span><span class="p">,</span><span class="w"> </span><span class="n">ctou</span>
-<span class="w">   </span><span class="k">use </span><span class="n">M_unicode__regex</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">regex_t</span><span class="p">,</span><span class="w"> </span><span class="n">regex_compile</span><span class="p">,</span><span class="w"> </span><span class="n">regex_replace</span>
-<span class="w">   </span><span class="k">implicit none</span>
+<span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w">  </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">int32</span>
+<span class="k">use </span><span class="n">M_unicode__regex</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">utoc</span><span class="p">,</span><span class="w"> </span><span class="n">ctou</span>
+<span class="k">use </span><span class="n">M_unicode__regex</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">regex_t</span><span class="p">,</span><span class="w"> </span><span class="n">regex_compile</span><span class="p">,</span><span class="w"> </span><span class="n">regex_replace</span>
+<span class="k">implicit none</span>
 
-<span class="k">   </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">BS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">achar</span><span class="p">(</span><span class="mi">92</span><span class="p">)</span>
-<span class="w">   </span><span class="k">type</span><span class="p">(</span><span class="n">regex_t</span><span class="p">)</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">re</span>
-<span class="w">   </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">doc_cp</span><span class="p">(:),</span><span class="w"> </span><span class="n">repl_cp</span><span class="p">(:),</span><span class="w"> </span><span class="n">html_cp</span><span class="p">(:)</span>
-<span class="w">   </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">markdown</span><span class="p">,</span><span class="w"> </span><span class="n">pat_str</span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">BS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">achar</span><span class="p">(</span><span class="mi">92</span><span class="p">)</span>
+<span class="k">type</span><span class="p">(</span><span class="n">regex_t</span><span class="p">)</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">re</span>
+<span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">doc_cp</span><span class="p">(:),</span><span class="w"> </span><span class="n">repl_cp</span><span class="p">(:),</span><span class="w"> </span><span class="n">html_cp</span><span class="p">(:)</span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">markdown</span><span class="p">,</span><span class="w"> </span><span class="n">pat_str</span>
 
-<span class="w">   </span><span class="n">markdown</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'See the [Fortran Lang](https://fortran-lang.org) site or '</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">              </span><span class="s1">'read [Müller’s Guide](https://example.org) for details.'</span>
+<span class="w">   </span><span class="n">markdown</span><span class="o">=</span><span class="s1">'See the [Fortran Lang](https://fortran-lang.org) site or '</span><span class="o">//</span><span class="p">&amp;</span>
+<span class="w">            </span><span class="s1">'read [Müller’s Guide](https://example.org) for details.'</span>
 
 <span class="w">   </span><span class="c">! Pattern: \[(.*?)\]\((.*?)\)</span>
 <span class="w">   </span><span class="n">pat_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">BS</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">'[(.*?)'</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">BS</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">']'</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">BS</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">'((.*?)'</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">BS</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">')'</span>
@@ -381,7 +384,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-13 05:38 +0000             </p>
+ on 2026-11-14 01:44 +0000             </p>
           </div>
         </div>
         <br>
