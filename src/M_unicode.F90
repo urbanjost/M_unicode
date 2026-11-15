@@ -326,9 +326,9 @@ module M_unicode
 ! including enhancements and optional Latin support from Francois Jacq, 2025-08
 !
 
-use,intrinsic :: iso_fortran_env, only : stdout=>output_unit
-use,intrinsic :: iso_fortran_env, only : stdin=>input_unit
-use,intrinsic :: iso_fortran_env, only : stderr=>error_unit
+use,intrinsic :: iso_fortran_env, only : stdout => output_unit
+use,intrinsic :: iso_fortran_env, only : stdin  => input_unit
+use,intrinsic :: iso_fortran_env, only : stderr => error_unit
 use,intrinsic :: iso_fortran_env, only : int8, int16, int32, int64
 use,intrinsic :: iso_fortran_env, only : real32, real64, real128
 
@@ -339,7 +339,12 @@ use M_unicode__regex,   only : regex_t, match_t
 use M_unicode__regex,   only : regex_compile_codes => regex_compile
 use M_unicode__regex,   only : regex_search_codes  => regex_search
 use M_unicode__regex,   only : regex_replace_codes => regex_replace
-use M_unicode__convert, only : utoc, ctou
+use M_unicode__convert, only : ctou, utoc
+
+!use M_unicode__get,     only : get_arg_general     => get_arg
+!use M_unicode__get,     only : get_env_general     => get_env
+use M_unicode__get,     only : get_env_character, get_env_integer, get_env_real, get_env_double, get_env_logical
+use M_unicode__get,     only : get_arg_character, get_arg_integer, get_arg_real, get_arg_double, get_arg_logical
 
 implicit none
 
@@ -350,6 +355,7 @@ public :: str_to_real
 public :: utoc, ctou
 public :: regex_t, match_t
 public :: regex_compile, regex_search, regex_replace
+public :: get_env, get_arg
 
 PUBLIC :: unicode_type
 PUBLIC :: UTF8_TO_CODEPOINTS
@@ -389,8 +395,6 @@ public :: tokenize
 public :: scan
 public :: verify
 public :: ichar
-public :: get_env
-public :: get_arg
 public :: expand_env
 PUBLIC :: LLE, LLT, LNE, LEQ, LGT, LGE
 PUBLIC :: OPERATOR(<=), OPERATOR(<), OPERATOR(/=), OPERATOR(==), OPERATOR(>), OPERATOR(>=)
@@ -423,7 +427,6 @@ private :: section_aa
 
 private :: trimzeros_
 private :: atoi
-
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
@@ -1932,89 +1935,6 @@ end interface verify
 !===================================================================================================================================
 !>
 !!### NAME
-!!    get_arg(3f) - [M_unicode:SYSTEM] get command line argument
-!!    (LICENSE:MIT)
-!!
-!!### SYNOPSIS
-!!
-!!
-!!     impure elemental function get_arg(position,default) result(out)
-!!
-!!      integer,intent=(in)         :: position
-!!      type(unicode_type),optional :: default
-!!      type(unicode_type)          :: out
-!!
-!!### CHARACTERISTICS
-!!    DEFAULT may be default CHARACTER type as well.
-!!
-!!### DESCRIPTION
-!!    get_arg(3f) gets the value of the requested command line argument
-!!    as TYPE(UNICODE_TYPE) .
-!!
-!!### OPTIONS
-!!    position  Position on command line of requested argument. Zero returns
-!!              the name of the command executed. Non-existent positions
-!!              default to returning a null string.
-!!
-!!    default  value to return if argument is not set or set to a blank value
-!!
-!!### RETURNS
-!!    out      value assigned based on value of environment variable NAME
-!!
-!!### EXAMPLES
-!!
-!!
-!!  Sample program:
-!!
-!!     program demo_get_arg
-!!     use M_unicode, only : get_arg, ut=> unicode_type, ch=>character
-!!     use M_unicode, only : assignment(=), operator(//), write(formatted)
-!!     implicit none
-!!     integer  :: position
-!!     type(ut) :: default
-!!     type(ut) :: value
-!!     type(ut) :: smiley
-!!     integer  :: i
-!!     character(len=*),parameter :: bracket= '(1x,*("[",a,"]",:))'
-!!        !
-!!        smiley=128515 ! set with Unicode code point
-!!        default='Wish I was first '//smiley//'!' ! set with unicode_type
-!!        !
-!!        ! arguments can be type(unicode_type) or character
-!!        ! but type(unicode_type) is always returned
-!!        do position=0,command_argument_count()
-!!           value=get_arg(position, default             )
-!!           value=get_arg(position, default%character() )
-!!           !
-!!           write(*,*)value%character()
-!!           write(*,'(DT)')default%get_arg(position)
-!!           !
-!!           ! print each glyph surrounded by brackets
-!!           write(*,bracket)(value%character(i,i),i=1,value%len())
-!!        enddo
-!!        !
-!!     end program demo_get_arg
-!!
-!!   Results:
-!!
-!!      > demo_get_arg
-!!      > demo_get_arg
-!!      > [d][e][m][o][_][g][e][t][_][a][r][g]
-!!
-!!### AUTHOR
-!!      John S. Urban
-!!
-!!### LICENSE
-!!     MIT
-interface get_arg
-   module procedure :: get_arg_ia
-   module procedure :: get_arg_iu
-end interface get_arg
-!===================================================================================================================================
-!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
-!===================================================================================================================================
-!>
-!!### NAME
 !!    expand_env(3f) - [M_unicode:QUERY] implements basic shell-style variable expansion
 !!    (LICENSE:PD)
 !!
@@ -2082,7 +2002,7 @@ end interface get_arg
 !!     testsa = [ character(len=80) :: &
 !!     "-------------- Testing Pure Fortran Word Expansion --------------",&
 !!     " scratch space is $TMP for $USER with home directory  ${HOME}",    &
-!!     " DATE is $DATE TIME is 19:57:20 ZONE is $ZONE TIMESTAMP $TIMESTAMP",&
+!!     " DATE is $DATE TIME is 11:18:21 ZONE is $ZONE TIMESTAMP $TIMESTAMP",&
 !!     " FILE is $FILE ARGS: 0: $0 1: $1 2: $2 3: $3",                     &
 !!     " COMPILER is $COMPILER COMPILER_OPTIONS are ${COMPILER_OPTIONS}",  &
 !!     " ${0} versus M_unicode.FF  $0 versus $FILE",                            &
@@ -2184,112 +2104,19 @@ end interface expand_env
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
-!>
-!!### NAME
-!!    get_env(3f) - [M_unicode:SYSTEM] return value of environment variable
-!!    (LICENSE:MIT)
-!!
-!!### SYNOPSIS
-!!
-!!
-!!     impure elemental function get_env(name,default) result(out)
-!!
-!!      type(unicode_type),intent=(in) :: name
-!!      type(unicode_type),optional    :: default
-!!      type(unicode_type)             :: out
-!!
-!!### CHARACTERISTICS
-!!    NAME and DEFAULT may be default CHARACTER type as well.
-!!
-!!### DESCRIPTION
-!!    get_env(3f) gets the value of the requested environment variable
-!!    as TYPE(UNICODE_TYPE) .
-!!
-!!### OPTIONS
-!!    name     name of environment variable to return the value of.
-!!             Typically the name may only contain the characters
-!!             A-Z,a-z,0-9 and underscore; but allowed values are
-!!             system-dependent.
-!!    default  value to return if environment variable NAME is not set
-!!             or set to a blank value
-!!
-!!### RETURNS
-!!    out      value assigned based on value of environment variable NAME
-!!
-!!### EXAMPLES
-!!
-!!
-!!  Sample program:
-!!
-!!    program demo_get_env
-!!    use M_unicode, only : get_env, ut => unicode_type
-!!    use M_unicode, only : assignment(=), operator(//)
-!!    implicit none
-!!    type(ut) :: name
-!!    type(ut) :: default
-!!    type(ut) :: value
-!!    type(ut) :: smiley
-!!    integer  :: i
-!!
-!!       smiley = 128515 ! set with Unicode code point
-!!       default = 'Have a nice day '//smiley//'!' ! set with unicode_type
-!!
-!!       do i = 1,2
-!!          select case (i)
-!!          case (1); name = 'HOME'
-!!          case (2); name = 'UNKNOWN'
-!!          end select
-!!          ! arguments can be type(unicode_type) or character
-!!          ! but type(unicode_type) is always returned
-!!
-!!          value = get_env(name,             default             )
-!!          write(*,*)value%character()
-!!
-!!          value = get_env(name%character(), default%character() )
-!!          write(*,*)value%character()
-!!
-!!          value = get_env(name,             default%character() )
-!!          write(*,*)value%character()
-!!
-!!          value = get_env(name%character(), default             )
-!!          write(*,*)value%character()
-!!
-!!          value = get_env(name)
-!!          write(*,*)value%character()
-!!
-!!          value = get_env(name%character())
-!!          write(*,*)value%character()
-!!
-!!       enddo
-!!
-!!    end program demo_get_env
-!!
-!!   Results:
-!!
-!!      > /home/johns
-!!      > /home/johns
-!!      > /home/johns
-!!      > /home/johns
-!!      > /home/johns
-!!      > /home/johns
-!!      > Have a nice day 😃!
-!!      > Have a nice day 😃!
-!!      > Have a nice day 😃!
-!!      > Have a nice day 😃!
-!!      > UNKNOWN is not defined in the environment
-!!      > UNKNOWN is not defined in the environment
-!!
-!!### AUTHOR
-!!      John S. Urban
-!!
-!!### LICENSE
-!!     MIT
+interface get_arg
+   procedure        :: get_arg_character, get_arg_integer, get_arg_real, get_arg_double, get_arg_logical
+   module procedure :: get_arg_iu
+end interface get_arg
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
 
 interface get_env
+   procedure :: get_env_character, get_env_integer, get_env_real, get_env_double, get_env_logical
    module procedure :: get_env_uu
    module procedure :: get_env_ua
    module procedure :: get_env_au
-   module procedure :: get_env_aa
 end interface get_env
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
@@ -6825,7 +6652,7 @@ end function trim_str
 !!
 !!### LICENSE
 !!     MIT
-impure elemental function adjustr_str(string,glyphs) result(adjusted)
+pure elemental function adjustr_str(string,glyphs) result(adjusted)
 
 ! ident_3="@(#) M_unicode adjustr(3f) adjust string to right"
 
@@ -8962,14 +8789,14 @@ type(unicode_type)             :: string_out
    string_out=adjustl_str(self,glyphs)
 end function oop_adjustl
 !===================================================================================================================================
-function oop_adjustr(self,glyphs) result (string_out)
+pure function oop_adjustr(self,glyphs) result (string_out)
 class(unicode_type),intent(in) :: self
 integer,intent(in),optional    :: glyphs
 type(unicode_type)             :: string_out
    string_out=adjustr_str(self,glyphs)
 end function oop_adjustr
 !===================================================================================================================================
-function oop_sub(self,first,last,step) result(str_out)
+impure function oop_sub(self,first,last,step) result(str_out)
 class(unicode_type),intent(in) :: self
 integer,intent(in),optional    :: first, last, step
 type(unicode_type)             :: str_out
@@ -12335,7 +12162,7 @@ integer                        :: end
       list=[ value ]
    elseif(place == 1)then                                    ! put in front of array
       list=[value, list]
-   elseif(place > end)then                                  ! put at end of array
+   elseif(place > end)then                                   ! put at end of array
       list=[list, value ]
    elseif(place >= 2.and.place <= end)then                   ! put in middle of array
       list=[list(:place-1), value,list(place:) ]
@@ -15338,7 +15165,7 @@ character,parameter           :: &
          endif
          ! Fetch the environment variable value natively in Fortran
          if (var_name/='') then
-            var_val = get_env_aa(var_name,'')
+            var_val = get_env_character(var_name,'')
          else
             var_val = ''
          endif
@@ -15366,7 +15193,7 @@ character,parameter           :: &
                call date_and_time(zone=var_val)
                var_val = temp//var_val
              case ('FILE')
-               var_val = get_arg(0)
+               var_val = get_arg_character(0)
              case ('COMPILER')
                var_val = compiler_version()
              case ('COMPILER_OPTIONS')
@@ -15374,7 +15201,7 @@ character,parameter           :: &
              case ('*')
                var_val = ''
                do j = 1,command_argument_count()
-                  var_val = var_val//get_arg(j)//' '
+                  var_val = var_val//get_arg_character(j)//' '
                enddo
                var_val = trim(var_val)
              case default  ! $NNN is command argument
@@ -15383,7 +15210,7 @@ character,parameter           :: &
                elseif (verify(trim(var_name), '0123456789') == 0 ) then ! determine if string is a valid integer
                   var_name = var_name//repeat(' ',9)
                   read(var_name,'(i9)')iarg
-                  var_val = get_arg(iarg)
+                  var_val = get_arg_character(iarg)
                else  ! variable with blank value, unknown variable, or syntax error
                   var_val = ''
                endif
@@ -15430,45 +15257,6 @@ integer                       :: i
    enddo
 end function expand_env_uu_arr
 !===================================================================================================================================
-impure elemental function get_env_aa(name,default) result(uvalue)
-! a function that makes calling get_environment_variable(3f) simple
-character(len=*),intent(in)          :: name
-character(len=*),intent(in),optional :: default
-character(len=:),allocatable         :: value
-type(unicode_type)                   :: uvalue
-integer                              :: howbig
-integer                              :: stat
-integer                              :: length
-   length=0
-   value=""
-   if(name /= "")then
-      call get_environment_variable( name, &
-      & length=howbig,status=stat,trim_name=.true.)
-      select case (stat)
-      case (1)
-       if(.not.present(default))then
-          write(stderr,*) &
-          & name, " is not defined in the environment"
-          value=""
-       endif
-      case (2)
-       write(stderr,*) &
-       & "This processor does not support environment variables. Boooh!"
-       value=""
-      case default
-       ! make string of sufficient size to hold value
-       if(allocated(value))deallocate(value)
-       allocate(character(len=max(howbig,1)) :: value)
-       ! get value
-       call get_environment_variable( &
-       & name,value,status=stat,trim_name=.true.)
-       if(stat /= 0)value=""
-      end select
-   endif
-   if(value == "".and.present(default))value=default
-   call assign_str_char ( uvalue, value )
-end function get_env_aa
-
 impure elemental function get_env_uu(name,default) result(value)
 ! a function that makes calling get_environment_variable(3f) simple
 type(unicode_type),intent(in)          :: name
@@ -15480,9 +15268,9 @@ integer                                :: nerr
    call codepoints_to_utf8_str(name%codes,temp1,nerr)
    if(present(default))then
       call codepoints_to_utf8_str(default%codes,temp2,nerr)
-      value=get_env_aa(temp1,temp2)
+      value=get_env_character(temp1,temp2)
    else
-      value=get_env_aa(temp1)
+      value=get_env_character(temp1)
    endif
 end function get_env_uu
 
@@ -15494,7 +15282,7 @@ type(unicode_type)            :: value
 character(len=:),allocatable  :: temp
 integer                       :: nerr
    call codepoints_to_utf8_str(default%codes,temp,nerr)
-   value=get_env_aa(name,temp)
+   value=get_env_character(name,temp)
 end function get_env_au
 
 impure elemental function get_env_ua(name,default) result(value)
@@ -15505,8 +15293,19 @@ type(unicode_type)                   :: value
 character(len=:),allocatable         :: temp
 integer                              :: nerr
    call codepoints_to_utf8_str(name%codes,temp,nerr)
-   value=get_env_aa(temp,default)
+   value=get_env_character(temp,default)
 end function get_env_ua
+
+impure elemental function get_arg_iu(position,default) result(value)
+integer,intent(in)            :: position
+type(unicode_type),intent(in) :: default
+character(len=:),allocatable  :: temp
+type(unicode_type)            :: value
+integer                       :: nerr
+   call codepoints_to_utf8_str(default%codes,temp,nerr)
+   value=get_arg_character(position,temp)
+end function get_arg_iu
+!===================================================================================================================================
 
 function pound_to_box_u(win,style) result(winout)
 ! convert "#" characters to box characters assuming boxes do not touch that are not
@@ -15701,35 +15500,6 @@ integer,allocatable            :: linecodes(:)
       winout(i)%codes(2:1+length)=win(i-1)%codes
    enddo
 end function add_border_u
-!===================================================================================================================================
-
-impure elemental function get_arg_ia(position,default) result(value)
-! get nth argument from command line
-integer,intent(in)                   :: position
-character(len=*),intent(in),optional :: default
-character(len=:),allocatable         :: temp
-type(unicode_type)                   :: value
-integer                              :: argument_length, istat
-   call get_command_argument(number=position,length=argument_length)
-   if(allocated(temp))deallocate(temp)
-   allocate(character(len=argument_length) :: temp)
-   temp(:)=''
-   call get_command_argument(position, temp, status=istat)
-   if(present(default))then
-      if(temp == '')temp=default
-   endif
-   call assign_str_char ( value, temp )
-end function get_arg_ia
-
-impure elemental function get_arg_iu(position,default) result(value)
-integer,intent(in)            :: position
-type(unicode_type),intent(in) :: default
-character(len=:),allocatable  :: temp
-type(unicode_type)            :: value
-integer                       :: nerr
-   call codepoints_to_utf8_str(default%codes,temp,nerr)
-   value=get_arg_ia(position,temp)
-end function get_arg_iu
 !===================================================================================================================================
 
 ! reorder
@@ -16083,7 +15853,7 @@ enddo
 !     All done
 end subroutine sort_quick_rx
 !-----------------------------------------------------------------------------------------------------------------------------------
-pure elemental function reverse_u(string) result (rev)
+impure elemental function reverse_u(string) result (rev)
 
 ! ident_17="@(#) M_unicode reverse(3f) Return a string reversed"
 
@@ -16092,7 +15862,7 @@ type(unicode_type)             :: rev      ! return value (reversed string)
    rev=string%sub(len(string),1,-1)
 end function reverse_u
 !-----------------------------------------------------------------------------------------------------------------------------------
-pure elemental function reverse_a(string) result(res)
+impure elemental function reverse_a(string) result(res)
 character(len=*),intent(in) :: string
 type(unicode_type)          :: string_u
 type(unicode_type)          :: res
@@ -16777,22 +16547,22 @@ logical                              :: trimit
    allocate(character(len=256) :: line) ! cannot currently write into allocatable variable. This could potentially be too short
    iostat=0
    select type(general)
-     type is (integer(kind=int8));  write(line,fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
-     type is (integer(kind=int16)); write(line,fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
-     type is (integer(kind=int32)); write(line,fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
-     type is (integer(kind=int64)); write(line,fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
-     type is (real(kind=real32));   write(line,fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
-     type is (real(kind=real64));   write(line,fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
+     type is (integer(kind=int8));  write(line(:),fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
+     type is (integer(kind=int16)); write(line(:),fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
+     type is (integer(kind=int32)); write(line(:),fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
+     type is (integer(kind=int64)); write(line(:),fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
+     type is (real(kind=real32));   write(line(:),fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
+     type is (real(kind=real64));   write(line(:),fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
 #ifdef FLOAT128
-     type is (real(kind=real128));  write(line,fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
+     type is (real(kind=real128));  write(line(:),fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
 #endif
-     type is (logical);             write(line,fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
+     type is (logical);             write(line(:),fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
      type is (character(len=*))
         line=repeat(' ',256+4*len(general)+1) ! kludge because required length is unknown
-        write(line,fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
+        write(line(:),fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
      type is (unicode_type)
         line=repeat(' ',256+4*len(character(general))+1) ! kludge because required length is unknown
-        write(line,fmt_local,iostat=iostat,iomsg=iomsg) character(general),null_ch
+        write(line(:),fmt_local,iostat=iostat,iomsg=iomsg) character(general),null_ch
      type is (complex);
         if(trimit)then
            re=afmt(real(general))
@@ -16800,10 +16570,10 @@ logical                              :: trimit
            call trimzeros_(re)
            call trimzeros_(im)
            fmt_local='("(",g0,",",g0,")",a)'
-           write(line,fmt_local,iostat=iostat,iomsg=iomsg) trim(re),trim(im),null_ch
+           write(line(:),fmt_local,iostat=iostat,iomsg=iomsg) trim(re),trim(im),null_ch
            trimit=.false.
         else
-           write(line,fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
+           write(line(:),fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
         endif
      type is (complex(kind=real64));
         if(trimit)then
@@ -16812,10 +16582,10 @@ logical                              :: trimit
            call trimzeros_(re)
            call trimzeros_(im)
            fmt_local='("(",g0,",",g0,")",a)'
-           write(line,fmt_local,iostat=iostat,iomsg=iomsg) trim(re),trim(im),null_ch
+           write(line(:),fmt_local,iostat=iostat,iomsg=iomsg) trim(re),trim(im),null_ch
            trimit=.false.
         else
-           write(line,fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
+           write(line(:),fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
         endif
      class default
         stop '<ERROR>*afmt* unknown type'
@@ -17145,4 +16915,3 @@ end function regex_compile_u
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 end module M_unicode
-

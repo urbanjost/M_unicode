@@ -1,4 +1,13 @@
 
+module M_unicode__float
+    use, intrinsic :: iso_fortran_env, only: real64, int32
+    use, intrinsic :: ieee_arithmetic, only: ieee_value, ieee_positive_inf, ieee_negative_inf, &
+                                             ieee_quiet_nan, ieee_negative_zero
+    implicit none
+    private
+    public :: str_to_real
+contains
+
 !>
 !!### NAME
 !!    str_to_real(3f) ‐ [M_unicode:TYPE] subroutine returns numeric value
@@ -182,15 +191,6 @@
 !!
 !!### LICENSE
 !!      MIT
-module M_unicode__float
-    use, intrinsic :: iso_fortran_env, only: real64, int32
-    use, intrinsic :: ieee_arithmetic, only: ieee_value, ieee_positive_inf, ieee_negative_inf, &
-                                             ieee_quiet_nan, ieee_negative_zero
-    implicit none
-    private
-    public :: str_to_real
-contains
-
 ! Convert a string representing a numeric value to a number with Overflow & IEEE 754 Support
     pure elemental subroutine str_to_real(str, val, ierr)
         character(len=*), intent(in)  :: str

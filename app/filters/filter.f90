@@ -100,7 +100,7 @@ integer  :: iostat
 end subroutine read_and_write
 !===================================================================================================================================
 subroutine search()
-   pats=get_arg(2)
+   pats=get_arg(2,ut(''))
    re = regex_compile(pats)
    INFINITE: do
       ints=readline(iostat=iostat)
