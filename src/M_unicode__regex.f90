@@ -1,6 +1,6 @@
 !>
 !!### NAME
-!!   M_unicode__regex(3f) - [M_unicode__regex:REGULAR EXPRESSIONS] Overview
+!!   M_unicode__regex(3f) - [M_unicode:REGULAR EXPRESSIONS] Overview
 !!   of UTF-8 codepoint Regular Expression engine
 !!   (LICENSE:MIT)
 !!
@@ -14,14 +14,30 @@
 !!
 !!     type(regex_t) :: re
 !!     type(match_t) :: m
-!!     integer(int32), allocatable :: pat(:), txt(:), repl(:), out(:)
+!!
+!!    CODEPOINT
+!!     integer(int32), allocatable   :: pat(:), txt(:), repl(:), out(:)
 !!     character(len=:), allocatable :: str
 !!
-!!     pat  = utoc(str)
-!!     re   = regex_compile(pat)
-!!     m    = regex_search(re, txt [, start_offset])
-!!     out  = regex_replace(re, txt, repl [, replace_all])
-!!     str  = ctou(out)
+!!      pat  = utoc(str)
+!!      re   = regex_compile(pat)
+!!      m    = regex_search(re, txt [, start_offset])
+!!      out  = regex_replace(re, txt, repl [, replace_all])
+!!      str  = ctou(out)
+!!
+!!    STRING
+!!     type(unicode_type) :: pat, txt, repl, out
+!!
+!!      re   = regex_compile(pat)
+!!      m    = regex_search(re, txt [, start_offset])
+!!      out  = regex_replace(re, txt, repl [, replace_all])
+!!
+!!    CHARACTER
+!!     character(len=:),allocatable :: pat, txt, repl, out
+!!
+!!      re   = regex_compile(pat)
+!!      m    = regex_search(re, txt [, start_offset])
+!!      out  = regex_replace(re, txt, repl [, replace_all])
 !!
 !!### DESCRIPTION
 !!
@@ -30,11 +46,46 @@
 !!    Nondeterministic Finite Automaton (NFA) virtual machine in standard
 !!    Fortran 2008.
 !!
-!!    All pattern compilation, text matching, and string replacement
-!!    operate directly on 1-indexed arrays of UTF-32 scalar codepoints
-!!    (integer(int32)).  Helper functions utoc(3) and
-!!    ctou(3) convert between standard UTF-8 encoded Fortran
-!!    character strings and UTF-32 codepoint arrays.
+!!    The procedures are generic and operator on three different types --
+!!    TYPE(UNICODE_TYPE) variables, CHARACTER variables or CODEPOINTS(integer
+!!    arrays composed of valid Unicode codepoint values).
+!!
+!!    For the CODEPOINT mode all pattern compilation, text matching, and
+!!    string replacement operate directly on arrays of UTF-8/UTF-32  scalar
+!!    codepoints (integer(int32)).
+!!
+!!    Helper functions utoc(3) and ctou(3) convert between standard UTF-8
+!!    encoded Fortran character strings and codepoint arrays.
+!!
+!!    For the CHARACTER mode the same entities are all CHARACTER variables.
+!!
+!!    For the STRING mode all the same entities are all TYPE(UNICODE_TYPE).
+!!
+!!    FEATURES
+!!
+!!    o **Native UTF-32 Matching & UTF-8 Codecs:** Built-in
+!!      `utf8_to_codepoints` and `codepoints_to_utf8` converters with
+!!      `U+FFFD` replacement handling for malformed byte sequences.
+!!
+!!    o **Submatch Captures:** Supports full-match tracking (`group 0`) plus
+!!      up to 9 parenthesized capture groups (`1..9`).
+!!
+!!    o **Backreference Replacement:** Global or single-match string
+!!      replacement via `regex_replace` supporting `$0..$9` and `\0..\9`
+!!      backreferences.
+!!
+!!    o **Greedy & Non-Greedy Quantifiers:** Full support for `*`, `+`, `?`,
+!!      `{n}`, `{n,}`, `{n,m}` and their lazy counterparts `*?`, `+?`, `??`,
+!!      `{n,}?`, `{n,m}?`.
+!!
+!!    o **Character Classes & Shorthands:** Bracket expressions `[...]`,
+!!      negated classes `[^...]`, ranges `[a-z]`, and Unicode-aware
+!!      shorthands (`\d`, `\D`, `\w`, `\W`, `\s`, `\S`).
+!!
+!!    o **Anchors & Word Boundaries:** Multiline start/end anchors (`^`,
+!!      `$`) and Unicode-aware word boundaries (`\b`, `\B`).
+!!
+!!    o **Zero External Dependencies:** Pure Fortran 2008.
 !!
 !!### PUBLIC DERIVED TYPES
 !!    type :: regex_t   Compiled regular expression bytecode container.
@@ -53,7 +104,7 @@
 !!            Components:
 !!
 !!                matched         Logical flag; .true. if a match was found.
-!!                start_pos(0:9)  1-based starting codepoint index for each capture
+!!                start_pos(0:9)  starting codepoint index for each capture
 !!                                group. Group 0 is the entire match; groups 1..9
 !!                                are parenthesized subexpressions.
 !!                end_pos(0:9)    1-based inclusive ending codepoint index for each
@@ -194,19 +245,18 @@
 !!
 !! Sample program
 !!
-!!    program example
+!!    program demo_M_unicode__regex
 !!    use iso_fortran_env, only: int32
 !!    use M_unicode__regex, only : regex_t, match_t
-!!    use M_unicode__regex, only : gex_compile, regex_search, regex_replace
+!!    use M_unicode__regex, only : regex_compile, regex_search, regex_replace
 !!    use M_unicode__convert, only : utoc, ctou
 !!    implicit none
-!!    character(len=1), parameter :: BS = achar(92)
-!!    type(regex_t)               :: re
-!!    type(match_t)               :: m
-!!    integer(int32), allocatable :: txt(:), out(:)
+!!    type(regex_t)                :: re
+!!    type(match_t)                :: m
+!!    integer(int32), allocatable  :: txt(:), out(:)
 !!    character(len=:),allocatable :: pat
 !!       pat='(\w+)\s+(🚀|🛸)'
-!!       re = regex_compile(utoc(pat)
+!!       re = regex_compile(utoc(pat))
 !!       if (.not. re%valid) error stop 'Invalid pattern'
 !!       txt = utoc('Mission Zürich 🚀 ready')
 !!       m = regex_search(re, txt)
@@ -218,7 +268,7 @@
 !!       endif
 !!       out = regex_replace(re, txt, utoc('$2 -> $1'))
 !!       print '(A)', 'Swapped: ' // ctou(out)
-!!    end program example
+!!    end program demo_M_unicode__regex
 !!
 !!### CONTRIBUTORS
 !!
@@ -230,7 +280,9 @@
 !!
 !!### SEE ALSO
 !!
-!! iso_fortran_env(3), pcre2syntax(3), regex(7)
+!!    regex_search(3), regex_compile(3), regex_replace(3)
+!!
+!!    iso_fortran_env(3), pcre2syntax(3), regex(7)
 module M_unicode__regex
    use iso_fortran_env, only: int32
    implicit none
@@ -238,6 +290,9 @@ module M_unicode__regex
 
    public :: regex_t, match_t
    public :: regex_compile, regex_search, regex_replace
+   interface  regex_search;   module  procedure  ::  regex_search;   end  interface  regex_search
+   interface  regex_compile;  module  procedure  ::  regex_compile;  end  interface  regex_compile
+   interface  regex_replace;  module  procedure  ::  regex_replace;  end  interface  regex_replace
 
    ! Instruction opcodes for the NFA Virtual Machine
    integer, parameter :: OP_CHAR              = 1
@@ -295,13 +350,82 @@ module M_unicode__regex
    end type parser_t
 
 contains
-
-   !===========================================================================
-   ! COMPILER (Recursive Descent Parser -> NFA Bytecode)
-   !===========================================================================
+!===================================================================================================================================
+! COMPILER (Recursive Descent Parser -> NFA Bytecode)
+!===================================================================================================================================
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
+!>
+!!### NAME
+!!    regex_compile(3f) - [M_unicode::REGEX] compile a regular expression
+!!    (LICENSE:MIT)
+!!
+!!### SYNOPSIS
+!!
+!!
+!!        function regex_compile(pattern) result(re)
+!!
+!!          integer(int32), intent(in) :: pattern(:)
+!!          type(regex_t)              :: re
+!!
+!!### DESCRIPTION
+!!
+!! Compiles a UTF-32 regular expression pattern into NFA bytecode.
+!!
+!! See M_unicode__regex(3) for a full description of regular expression
+!! syntax.
+!!
+!! The M_unicode__regex(3) module (accessed via the M_unicode(3) module)
+!! compiles regular expression patterns into Nondeterministic Finite
+!! Automaton (NFA) bytecode and executes them over arrays of UTF-32 scalar
+!! codepoints (ie.`integer(int32)`arrays). Because matching operates directly
+!! on Unicode codepoints rather than raw UTF-8 bytes, multi-byte characters
+!! (accented Latin, CJK, emoji, symbols) are indexed and matched as single
+!! characters without splitting byte sequences.
+!!
+!! For convenience the procedures are generic and two other types are allowed
+!! -- TYPE(UNICODE_TYPE) variables and CHARACTER variables may be used whee
+!! CODEPOINTS(integer arrays composed of valid Unicode codepoint values).
+!! ae used.
+!!
+!! For the CHARACTER mode the same entities are all CHARACTER variables.
+!!
+!! For the STRING mode all the same entities are all TYPE(UNICODE_TYPE).
+!!
+!! For the CODEPOINT mode all pattern compilation, text matching, and string
+!! replacement operate directly on arrays of UTF-8/UTF-32  scalar codepoints
+!! (integer(int32)).
+!!
+!! Helper functions utoc(3) and ctou(3) convert between standard UTF-8
+!! encoded Fortran character strings and codepoint arrays.
+!!
+!!### OPTIONS
+!!
+!!   pattern   array of Unicode codepoints representing the regex.
+!!
+!!### OUTPUT
+!!
+!!   re        inspect re%valid before passing re to regex_search
+!!             or regex_replace. Invalid patterns return
+!!             re%valid = .false. without aborting.
+!!
+!!### EXAMPLE
+!!
+!!  Sample program
+!!
+!!    program demo_regex_compile
+!!    end program demo_regex_search
+!!
+!!   Expected Output
+!!
+!!     >
+!!### SEE ALSO
+!! M_unicode__regex, regex_replace(3), regex_search(3)
    function regex_compile(pattern) result(re)
       integer(int32), intent(in) :: pattern(:)
       type(regex_t)              :: re
+
       type(parser_t)             :: p
       integer                    :: start_pc, end_pc
 
@@ -574,6 +698,7 @@ contains
       p%pos = idx + 1
       valid_brace = .true.
    end subroutine parse_brace_bounds
+
    recursive subroutine parse_quant(p, start_pc, end_pc)
       type(parser_t), intent(inout) :: p
       integer, intent(out)          :: start_pc, end_pc
@@ -977,9 +1102,157 @@ contains
       end if
    end function read_class_char
 
-   !===========================================================================
-   ! EXECUTION ENGINE (Backtracking NFA VM with Submatch Captures)
-   !===========================================================================
+!===================================================================================================================================
+! EXECUTION ENGINE (Backtracking NFA VM with Submatch Captures)
+!===================================================================================================================================
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
+!>
+!!### NAME
+!!    regex_search(3f) - [M_unicode::REGEX] Locate strings matching a
+!!    regular expression
+!!    (LICENSE:MIT)
+!!
+!!### SYNOPSIS
+!!
+!!     regex_search(re, text [, start_offset]) result(m)
+!!
+!!      type(regex_t), intent(in)    :: re
+!!      integer,intent(in)           :: text(:)
+!!      integer,intent(in), optional :: start_offset
+!!      type(match_t)                :: m
+!!
+!!### DESCRIPTION
+!!
+!! Searches text for the leftmost match of the compiled expression re.
+!!
+!! The M_unicode__regex(3) module (accessed via the M_unicode(3) module)
+!! compiles regular expression patterns into Nondeterministic Finite
+!! Automaton (NFA) bytecode and executes them over arrays of UTF-32 scalar
+!! codepoints (ie.`integer(int32)`arrays). Because matching operates directly
+!! on Unicode codepoints rather than raw UTF-8 bytes, multi-byte characters
+!! (accented Latin, CJK, emoji, symbols) are indexed and matched as single
+!! characters without splitting byte sequences.
+!!
+!! For convenience the procedures are generic and two other types are allowed
+!! -- TYPE(UNICODE_TYPE) variables and CHARACTER variables may be used whee
+!! CODEPOINTS(integer arrays composed of valid Unicode codepoint values).
+!! ae used.
+!!
+!! For the CHARACTER mode the same entities are all CHARACTER variables.
+!!
+!! For the STRING mode all the same entities are all TYPE(UNICODE_TYPE).
+!!
+!! For the CODEPOINT mode all pattern compilation, text matching, and string
+!! replacement operate directly on arrays of UTF-8/UTF-32  scalar codepoints
+!! (integer(int32)).
+!!
+!! Helper functions utoc(3) and ctou(3) convert between standard UTF-8
+!! encoded Fortran character strings and codepoint arrays.
+!!
+!!### OPTIONS
+!!
+!!    re            Compiled regular expression. If .not. re%valid,
+!!                  returns m%matched = .false. immediately.
+!!    text          Subject text as an array of UTF-32 codepoints.
+!!    start_offset  index at which to begin searching
+!!                  (defaults to 1; values < 1 are clamped to 1).
+!!
+!!### OUTPUT
+!!    m             If m%matched is .true., the matched slice for group
+!!                  g (0 <= g < re%num_groups) is:
+!!
+!!                      text(m%start_pos(g) : m%end_pos(g))
+!!                  whenever m%start_pos(g) >= 1 and
+!!
+!!                      m%end_pos(g) >= m%start_pos(g).
+!!
+!!### EXAMPLE
+!!
+!!  Sample program
+!!
+!!    ! Demonstrates compiling a pattern with multiple capture groups,
+!!    ! iterating through every match in a multi-line buffer using
+!!    ! start_offset, and extracting submatches safely.
+!!    program demo_regex_search
+!!    use iso_fortran_env,  only : int32
+!!    use M_unicode, only : utoc, ctou
+!!    use M_unicode, only : regex_t, match_t
+!!    use M_unicode, only : regex_compile, regex_search
+!!    implicit none
+!!
+!!    character(len=1),parameter   :: BS = achar(92)
+!!    type(regex_t)                :: re
+!!    type(match_t)                :: m
+!!    integer(int32),allocatable   :: log_cp(:)
+!!    integer                      :: offset, count, i
+!!    character(len=:),allocatable :: raw_log, pat_str
+!!    character(len=*),parameter   :: nl=new_line('a')
+!!
+!!    raw_log = &
+!!    '2026-11-12 08:14:02 [INFO] &
+!!    & User "alice" connected from 10.0.1.42' &
+!!    // nl // &
+!!    '2026-11-12 08:14:09 [WARN] &
+!!    & High latency (312ms) on node Zürich-01' &
+!!    // nl // &
+!!    ' 2026-11-12 08:14:15 [ERROR] &
+!!    &Failed login for user "bob" from 192.168.1.99'
+!!
+!!       ! Pattern:
+!!       !^(\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2})\s+\[(\w+)\]\s+(.*)$
+!!       ! some compilers treat backslash as an escape character
+!!       ! so replace % with backslash
+!!       pat_str = &
+!!       & '^(%d{4}-%d{2}-%d{2}%s+%d{2}:%d{2}:%d{2})%s+%[(%w+)%]%s+(.*)$'
+!!       do i=1,len(pat_str)
+!!          select case(pat_str(i:i))
+!!          case('%');pat_str(i:i)=BS
+!!          end select
+!!       enddo
+!!
+!!       re = regex_compile(utoc(pat_str))
+!!       if (.not. re%valid) error stop 'Failed to compile log pattern'
+!!
+!!       log_cp = utoc(raw_log)
+!!       offset = 1
+!!       count  = 0
+!!
+!!       print '(A)', 'Parsed Log Entries:'
+!!       print '(A)', &
+!!       &'------------------------------------------------------------'
+!!
+!!       do while (offset <= size(log_cp))
+!!          m = regex_search(re, log_cp, start_offset=offset)
+!!          if (.not. m%matched) exit
+!!
+!!          count = count + 1
+!!          print '(A,I0)', 'Entry #', count
+!!          print '(A)', '  Timestamp : ' // &
+!!          ctou(log_cp(m%start_pos(1):m%end_pos(1)))
+!!          print '(A)', '  Level     : ' // &
+!!          ctou(log_cp(m%start_pos(2):m%end_pos(2)))
+!!          print '(A)', '  Message   : ' // &
+!!          ctou(log_cp(m%start_pos(3):m%end_pos(3)))
+!!
+!!          offset = m%end_pos(0) + 1
+!!       end do
+!!    end program demo_regex_search
+!!
+!!   Expected Output
+!!
+!!     > Original   : Launch Zürich 🚀 now
+!!     > Pattern    : (\w+)\s+(🚀|🛸)
+!!     > Full match : Zürich 🚀
+!!     > Group 1    : Zürich
+!!     > Group 2    : 🚀
+!!     > Old        : Launch Zürich 🚀 now
+!!     > New        : $2 -> $1
+!!     > Output     : Launch 🚀 -> Zürich now
+!!     > Expected   : Launch 🚀 -> Zürich now
+!!### SEE ALSO
+!! M_unicode__regex, regex_replace(3), regex_compile(3)
    function regex_search(re, text, start_offset) result(m)
       type(regex_t), intent(in)     :: re
       integer(int32), intent(in)    :: text(:)
@@ -1115,9 +1388,117 @@ contains
          end if
       end do
    end function in_ranges
-!===========================================================================
+!===================================================================================================================================
 ! STRING REPLACEMENT WITH BACKREFERENCES (\0..\9 or $0..$9)
-!===========================================================================
+!===================================================================================================================================
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
+!>
+!!### NAME
+!!    regex_replace(3f) - [M_unicode::REGEX] Alter Unicode input
+!!    according to regular expressions
+!!    (LICENSE:MIT)
+!!
+!!### SYNOPSIS
+!!
+!!     regex_replace(re, text, replacement [, replace_all]) result(out_text)
+!!
+!!      type(regex_t), intent(in)   :: re
+!!      integer,intent(in)          :: text(:)
+!!      integer,intent(in)          :: replacement(:)
+!!      logical,intent(in),optional :: replace_all
+!!      integer,allocatable         :: out_text(:)
+!!
+!!### DESCRIPTION
+!! The M_unicode__regex(3) module loaded into the M_unicode(3) module
+!! compiles regular expression patterns into Nondeterministic Finite
+!! Automaton (NFA) bytecode and executes them over arrays of UTF-32 scalar
+!! codepoints (`integer(int32)`). Because matching operates directly on
+!! Unicode codepoints rather than raw UTF-8 bytes, multi-byte characters
+!! (accented Latin, CJK, emoji, symbols) are indexed and matched as single
+!! characters without splitting byte sequences.
+!!
+!!### OPTIONS
+!!    re           Compiled regular expression.
+!!    text         Subject text as an array of UTF-32 codepoints.
+!!    replacement  Replacement template as UTF-32 codepoints. Supports
+!!                 backreferences $0..$9 and \0..\9, where group 0 is
+!!                 the full match and 1..9 are capture groups. Literal
+!!                 '$' or '\' may be escaped by doubling ('$$' or '\\').
+!!    replace_all  If .true. (the default), replaces all non-overlapping
+!!                 matches in text. If .false., replaces only the first
+!!                 match.
+!!
+!!### OUTPUT
+!!    out_text     Newly allocated UTF-32 codepoint array containing
+!!                 the resulting text.
+!!### EXAMPLE
+!!
+!!  Sample program
+!!
+!!    program demo_regex_replace
+!!       use iso_fortran_env, only: int32
+!!       use M_unicode, only : regex_t, match_t
+!!       use M_unicode, only : regex_compile,regex_search,regex_replace
+!!       use M_unicode, only : utoc,ctou
+!!       implicit none
+!!
+!!       character(len=:), allocatable :: pat
+!!       character(len=:), allocatable :: new
+!!       type(regex_t)                 :: re
+!!       type(match_t)                 :: m
+!!       integer(int32), allocatable   :: txt(:), out(:)
+!!       character(len=*),parameter    :: g='(*(g0))'
+!!
+!!       txt = utoc('Launch Zürich 🚀 now')
+!!       print g, 'Original   : ', ctou(txt)
+!!
+!!       pat='(\w+)\s+(🚀|🛸)'
+!!       print g, 'Pattern    : ', pat
+!!       re = regex_compile(utoc(pat))
+!!       if (.not. re%valid) error stop 'Invalid regular expression'
+!!
+!!       m = regex_search(re, txt)
+!!
+!!       if (m%matched) then
+!!          print g, 'Full match : ', ctou(txt(m%start_pos(0):m%end_pos(0)))
+!!          print g, 'Group 1    : ', ctou(txt(m%start_pos(1):m%end_pos(1)))
+!!          print g, 'Group 2    : ', ctou(txt(m%start_pos(2):m%end_pos(2)))
+!!       else
+!!          print g, 'NO MATCH!'
+!!       endif
+!!
+!!       ! Replace using backreferences
+!!       new='$2 -> $1'
+!!       print g, 'Old        : ',ctou(txt)
+!!       print g, 'New        : ',new
+!!       out = regex_replace(re, txt, utoc(new))
+!!       print g, 'Output     : ', ctou(out)
+!!
+!!       ! Expected Output for Unicode-Aware Engines:
+!!       print g, 'Expected   : ', 'Launch 🚀 -> Zürich now'
+!!
+!!       ! How it works:
+!!       ! \w+ matches the full word Zürich (including the ü) as Group 1,
+!!       ! and 🚀 is captured as Group 2.
+!!       ! The replacement swaps them around the arrow while leaving
+!!       ! "Launch " and " now" untouched.
+!!    end program demo_regex_replace
+!!
+!!   Expected Output
+!!
+!!     > Original   : Launch Zürich 🚀 now
+!!     > Pattern    : (\w+)\s+(🚀|🛸)
+!!     > Full match : Zürich 🚀
+!!     > Group 1    : Zürich
+!!     > Group 2    : 🚀
+!!     > Old        : Launch Zürich 🚀 now
+!!     > New        : $2 -> $1
+!!     > Output     : Launch 🚀 -> Zürich now
+!!     > Expected   : Launch 🚀 -> Zürich now
+!!### SEE ALSO
+!! M_unicode__regex, regex_search(3), regex_compile(3)
    function regex_replace(re, text, replacement, replace_all) result(out_text)
       type(regex_t), intent(in)     :: re
       integer(int32), intent(in)    :: text(:)
@@ -1193,6 +1574,7 @@ contains
          i = i + 1
       end do
    end subroutine append_expanded
+
    subroutine append_slice(buf, buf_len, slice)
       integer(int32), allocatable, intent(inout) :: buf(:)
       integer, intent(inout)                     :: buf_len
@@ -1209,4 +1591,5 @@ contains
       buf(buf_len + 1 : buf_len + slen) = slice
       buf_len = buf_len + slen
    end subroutine append_slice
+
 end module M_unicode__regex

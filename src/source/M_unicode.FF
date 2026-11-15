@@ -3,46 +3,52 @@
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
-! next: Pondering or Planning
-!
-! regular expressions
-!
-! strings to numbers
-!
-! utf-8 to keyword
-!
-! conversion to HTML should look to substitute HTML entity words instead of just numbers
+$BLOCK NULL
+  next: Pondering or Planning
+ 
+  conversion to HTML should look to substitute HTML entity words instead of just numbers
+  utf-8 words to keywords as well?
 
-! Incomplete UDDTIO support: The User-Defined Derived-Type Input/Output
-!    (UDDTIO) procedures meant for use with the DT edit descriptor are
-!    still undergoing development because of compiler incompatibilities
-!
-!    It needs a DT for printing. Keep hitting what looks like different compiler
-!    bugs. Maybe just map it to NAMELIST group output
-!
-! Unicode Collation Algorithm (UCA) for sorting
-!
-! sort with customized collation is available, but generally inefficient and requires custom coding
-!
-! Dictionary sorting: While M_unicode(3f) includes a sorting method, it
-!    uses Unicode codepoint order, meaning it does not natively support
-!    dictionary or alphabetical sorting order for localized languages.
-!    Perhaps add calls to C to use existing Locale-specific sorting.
-!
-! Complex Unicode handling limits: The library has limited
-!    capability when it comes to complex Unicode features, specifically surrogate pairs,
-!    text directionality, and advanced text normalization.
-!
-! NOTE: List-directed output constraints: Because the underlying Fortran
-!    compiler treats UTF-8 strings as raw 8-bit byte streams, list-directed
-!    output (*) is not safely supported for UTF-8 data, as it can split
-!    multi-byte characters across lines inappropriately if not using
-!    ENCODE='UTF-8' mode on the OPEN statement, which is not supported
-!    by all compilers.
-!
-!  Text positioning and TUI capabilities such as with ncurses, terminfo, tput, ...
-!    although rudimentary terminal attributes are available via keyword substitution
-!    "<BL ye>yellow text on blue background <reset>".
+  Incomplete UDDTIO support: The User-Defined Derived-Type Input/Output
+ 
+     (UDDTIO) procedures meant for use with the DT edit descriptor are
+     still undergoing development because of compiler incompatibilities
+ 
+     It needs a DT for printing. Keep hitting what looks like different compiler
+     bugs. Maybe just map it to NAMELIST group output
+ 
+  Unicode Collation Algorithm (UCA) for sorting
+ 
+  sort with customized collation is available, but generally inefficient and requires custom coding
+ 
+  Dictionary sorting: While M_unicode(3f) includes a sorting method, it
+     uses Unicode codepoint order, meaning it does not natively support
+     dictionary or alphabetical sorting order for localized languages.
+     Perhaps add calls to C to use existing Locale-specific sorting.
+ 
+  Complex Unicode handling limits: The library has limited
+     capability when it comes to complex Unicode features, specifically surrogate pairs,
+     text directionality, and advanced text normalization.
+ 
+  NOTE: List-directed output constraints: Because the underlying Fortran
+     compiler treats UTF-8 strings as raw 8-bit byte streams, list-directed
+     output (*) is not safely supported for UTF-8 data, as it can split
+     multi-byte characters across lines inappropriately if not using
+     ENCODE='UTF-8' mode on the OPEN statement, which is not supported
+     by all compilers.
+ 
+   Text positioning and TUI capabilities such as with ncurses, terminfo, tput, ...
+     although rudimentary terminal attributes are available via keyword substitution
+     "<BL ye>yellow text on blue background <reset>".
+ 
+  TODO:
+   o It needs a DT and more CD/CI unit testing.
+   o elemental functions?
+   o how would you do an oop sort method? Just go ahead and sort the data? Want to return the array of indices
+     return the indices as codepoints in a string even though not codepoints?
+ 
+$ENDBLOCK
+$!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 !-----------------------------------------------------------------------------------------------------------------------------------
 #include "define_compiler.inc"
 !-----------------------------------------------------------------------------------------------------------------------------------
@@ -183,8 +189,9 @@ SYNOPSIS
 
    NUMERIC STRINGS
 
-    fmt       convert intrinsic numeric value to string using optional
-              format
+    fmt         convert intrinsic numeric value to string using optional
+                format
+    str_to_real convert string representing numeric value to a float
 
    CHARACTER TESTS
 
@@ -360,20 +367,6 @@ LICENSE
     MIT
 $ENDBLOCK
 $!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-$BLOCK NULL
-! # M_unicode
-!
-! The distribution provides a __Make__ file and easily builds with __fpm__.
-!
-! TODO:
-!  o It needs a DT and more CD/CI unit testing.
-!  o regex
-!  o elemental functions?
-!  o how would you do an oop sort method? Just go ahead and sort the data? Want to return the array of indices
-!    return the indices as codepoints in a string even though not codepoints?
-!
-$ENDBLOCK
-$!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
@@ -390,14 +383,25 @@ use,intrinsic :: iso_fortran_env, only : stderr=>error_unit
 use,intrinsic :: iso_fortran_env, only : int8, int16, int32, int64
 use,intrinsic :: iso_fortran_env, only : real32, real64, real128
 
+! from modules
 use M_unicode__float,   only : str_to_real
-use M_unicode__random,  only : random_string
-use M_unicode__regex,   only : regex_t, match_t, regex_compile, regex_search, regex_replace
+use M_unicode__random,  only : random_string_codes => random_string
+use M_unicode__regex,   only : regex_t, match_t
+use M_unicode__regex,   only : regex_compile_codes => regex_compile
+use M_unicode__regex,   only : regex_search_codes  => regex_search
+use M_unicode__regex,   only : regex_replace_codes => regex_replace
 use M_unicode__convert, only : utoc, ctou
 
 implicit none
 
 private
+! from modules
+public :: random_string
+public :: str_to_real
+public :: utoc, ctou
+public :: regex_t, match_t 
+public :: regex_compile, regex_search, regex_replace
+
 PUBLIC :: unicode_type
 PUBLIC :: UTF8_TO_CODEPOINTS
 PUBLIC :: CODEPOINTS_TO_UTF8
@@ -450,11 +454,6 @@ public :: isblank
 public :: isspace
 public :: issensitive
 public :: glob
-
-public :: regex_t, match_t, regex_compile, regex_search, regex_replace
-public :: random_string
-public :: str_to_real
-public :: utoc, ctou
 
 #ifdef HAS_DT
 PUBLIC :: write(formatted)
@@ -899,7 +898,7 @@ $ENDBLOCK
 $!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 $parcel issensitive
 !-----------------------------------------------------------------------------------------------------------------------------------
-impure elemental function issensitive_u(str) result (mask)
+pure elemental function issensitive_u(str) result (mask)
 type(unicode_type),intent(in) :: str
 logical                       :: mask
 integer,parameter             :: minuscule_a = iachar('a'), minuscule_z = iachar('z')
@@ -920,7 +919,7 @@ integer,parameter             :: majuscule_a = iachar('A'), majuscule_Z = iachar
 
 end function issensitive_u
 !-----------------------------------------------------------------------------------------------------------------------------------
-impure elemental function issensitive_a(string) result(mask)
+pure elemental function issensitive_a(string) result(mask)
 character(len=*),intent(in) :: string
 type(unicode_type)          :: string_u
 logical                     :: mask
@@ -940,7 +939,7 @@ NAME
 
 SYNOPSIS
 
-    impure elemental function reverse(str) result (string)
+    pure elemental function reverse(str) result (string)
 
      type(unicode_type),intent(in) :: str
      type(unicode_type)            :: string
@@ -994,7 +993,7 @@ LICENSE
 $ENDBLOCK
 $!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 $parcel reverse
-impure elemental function reverse_u(string) result (rev)
+pure elemental function reverse_u(string) result (rev)
 
 $@(#) M_unicode::reverse(3f): Return a string reversed
 
@@ -1003,7 +1002,7 @@ type(unicode_type)             :: rev      ! return value (reversed string)
    rev=string%sub(len(string),1,-1)
 end function reverse_u
 !-----------------------------------------------------------------------------------------------------------------------------------
-impure elemental function reverse_a(string) result(res)
+pure elemental function reverse_a(string) result(res)
 character(len=*),intent(in) :: string
 type(unicode_type)          :: string_u
 type(unicode_type)          :: res
@@ -4424,13 +4423,13 @@ EXAMPLES
    implicit none
    ! some useful character sets
    character,parameter          :: &
-    & int*(*)   = "1234567890", &
-    & low*(*)   = "abcdefghijklmnopqrstuvwxyz", &
-    & upp*(*)   = "ABCDEFGHIJKLMNOPQRSTUVWXYZ", &
+    & ints*(*)  = "1234567890", &
+    & lows*(*)  = "abcdefghijklmnopqrstuvwxyz", &
+    & upps*(*)  = "ABCDEFGHIJKLMNOPQRSTUVWXYZ", &
     & punc*(*)  = "!""#$%&'()*+,‐./:;<=>?@[\]'_‘{|}˜", &
     & blank*(*) = " ", &
     & tab       = char(11), &
-    & prnt*(*) = int//low//upp//blank//punc
+    & prnt*(*)  = ints//lows//upps//blank//punc
    !
    type(ut)                     :: stru
    integer                      :: i
@@ -4440,8 +4439,8 @@ EXAMPLES
        print *, VERIFY ("ABBA", "AB")               ! has the value 0.
       !
       print *,"find first non‐uppercase letter"
-      ! will produce the location of "d", because there is no match in UPP
-      write(*,*) "something unmatched",verify(ut("ABCdEFG"), upp)
+      ! will produce the location of "d", because there is no match in UPPS
+      write(*,*) "something unmatched",verify(ut("ABCdEFG"), upps)
       !
       print *,"if everything is matched return zero"
       ! will produce 0 as all letters have a match
@@ -4450,9 +4449,9 @@ EXAMPLES
       !
       print *,"easily categorize strings as uppercase, lowercase, ..."
       ! C-like functionality but does entire strings not just characters
-      write(*,*)"isdigit 123?",verify(ut("123"), int) == 0
-      write(*,*)"islower abc?",verify(ut("abc"), low) == 0
-      write(*,*)"isalpha aBc?",verify(ut("aBc"), low//upp) == 0
+      write(*,*)"isdigit 123?",verify(ut("123"), ints) == 0
+      write(*,*)"islower abc?",verify(ut("abc"), lows) == 0
+      write(*,*)"isalpha aBc?",verify(ut("aBc"), lows//upps) == 0
       write(*,*)"isblank aBc dEf?",verify(ut("aBc dEf"), blank//tab ) /= 0
       ! check if all printable characters
       stru="aB;cde,fgHI!Jklmno PQRSTU vwxyz"
@@ -4465,23 +4464,23 @@ EXAMPLES
       print *,"VERIFY(3f) is very powerful using expressions as masks"
       ! verify(3f) is often used in a logical expression
       stru=" This is NOT all UPPERCASE "
-      write(*,*)"all uppercase/spaces?",verify(stru, blank//upp) == 0
+      write(*,*)"all uppercase/spaces?",verify(stru, blank//upps) == 0
       stru=" This IS all uppercase "
       write(*,*) "stru=["//stru//"]"
-      write(*,*)"all uppercase/spaces?",verify(stru, blank//upp) == 0
+      write(*,*)"all uppercase/spaces?",verify(stru, blank//upps) == 0
       !
       ! set and show complex stru to be tested
       stru="  Check this out. Let me know  "
       ! show the stru being examined
       write(*,*) "stru=["//stru//"]"
-      write(*,*) "        "//repeat(int,4) ! number line
+      write(*,*) "        "//repeat(ints,4) ! number line
       !
       ! function returns a position just not a logical like C
       print *, "returning a position not just a logical is useful"
       ! which can be very useful for parsing strings
       write(*,*)"first non‐blank character",verify(stru, blank)
       write(*,*)"last non‐blank character",verify(stru, blank,back=.true.)
-      write(*,*)"first non‐letter non‐blank",verify(stru,low//upp//blank)
+      write(*,*)"first non‐letter non‐blank",verify(stru,lows//upps//blank)
       !
      !VERIFY(3f) is elemental (can check an array of strings in one call)
       print *, "elemental"
@@ -4489,7 +4488,7 @@ EXAMPLES
       write(*,*) "array of strings",verify( &
       ! strings must all be same length, so force to length 10
       & [character(len=10) :: "YES","ok","000","good one","Nope!"], &
-      & low//upp//blank) == 0
+      & lows//upps//blank) == 0
       !
       ! rarer, but the set can be an array, not just the strings to test
       ! you could do ISPRINT() this (harder) way :>
@@ -5111,16 +5110,15 @@ use,intrinsic :: iso_fortran_env, only : compiler_version, compiler_options
 character(len=*), intent(in)  :: input_str
 character(len=:), allocatable :: in
 character(len=:), allocatable :: output_str
-integer                       :: i, j, k
+integer                       :: i, j
 integer                       :: iarg
 integer                       :: input_len
 integer                       :: var_start, var_end
 character(len=:), allocatable :: var_name, var_val, temp
 character,parameter           :: &
-& int*(*)  = '1234567890',                 &
-& low*(*)  = 'abcdefghijklmnopqrstuvwxyz', &
-& upp*(*)  = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', &
-& punc*(*) = "!""#$%&’()*+,‐./:;<=>?@[\]ˆ_‘{|}˜"
+& ints*(*)  = '1234567890',                 &
+& lows*(*)  = 'abcdefghijklmnopqrstuvwxyz', &
+& upps*(*)  = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
    output_str = ""
    input_len = len(input_str)
@@ -5148,7 +5146,7 @@ character,parameter           :: &
             ! Handle unbracketed syntax $VAR (stops if not [A-Za-z0-9_]
             var_end = var_start
             do while (var_end <= input_len)
-               if (index(int//low//upp//'_',in(var_end:var_end))==0)exit
+               if (index(ints//lows//upps//'_',in(var_end:var_end))==0)exit
                var_end = var_end + 1
             enddo
             var_name = in(var_start:var_end-1)
@@ -5301,7 +5299,6 @@ EXAMPLES
    type(ut) :: value
    type(ut) :: smiley
    integer  :: i
-   character(len=*),parameter :: bracket = '(1x,*("[",a,"]",:))'
 
       smiley = 128515 ! set with Unicode code point
       default = 'Have a nice day '//smiley//'!' ! set with unicode_type
@@ -10743,25 +10740,127 @@ end interface
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !==================================================================================================================================!
 $parcel random_string
-function random_string_a(astr,length) result(out)
+!-----------------------------------------------------------------------------------------------------------------------------------
+function random_string_a(astr,length) result(aout)
 character(len=*),intent(in)     :: astr
 integer,intent(in)              :: length
-character(len=length)           :: out
-   out=ctou(random_string(utoc(astr),length))
+character(len=length)           :: aout
+   aout=ctou(random_string_codes(utoc(astr),length))
 end function random_string_a
 !-----------------------------------------------------------------------------------------------------------------------------------
-function random_string_u(ustr,length) result(out)
+function random_string_u(ustr,length) result(uout)
 type(unicode_type),intent(in)   :: ustr
 integer,intent(in)              :: length
-type(unicode_type)              :: out
-   out%codes=random_string(ustr%codes,length)
+type(unicode_type)              :: uout
+   uout%codes=random_string_codes(ustr%codes,length)
 end function random_string_u
 !-----------------------------------------------------------------------------------------------------------------------------------
 $endparcel
 interface random_string
+  procedure random_string_codes
   module procedure :: random_string_a
   module procedure :: random_string_u
 end interface random_string
+!==================================================================================================================================!
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!==================================================================================================================================!
+$parcel regex_search
+!-----------------------------------------------------------------------------------------------------------------------------------
+function regex_search_a(re, atext, start_offset ) result(m)
+    type(regex_t), intent(in)     :: re
+    character(len=*),intent(in)   :: atext
+    integer, intent(in), optional :: start_offset
+    type(match_t)                 :: m
+
+    integer(int32),allocatable    :: text(:)
+       text=utoc(atext)
+       m=regex_search_codes(re,text,start_offset)
+end function regex_search_a
+!-----------------------------------------------------------------------------------------------------------------------------------
+function regex_search_u(re, utext, start_offset ) result(m)
+    type(regex_t), intent(in)     :: re
+    type(unicode_type),intent(in) :: utext
+    integer, intent(in), optional :: start_offset
+    type(match_t)                 :: m
+       m=regex_search_codes(re,utext%codes,start_offset)
+end function regex_search_u
+!-----------------------------------------------------------------------------------------------------------------------------------
+$endparcel
+interface regex_search
+  procedure        :: regex_search_codes
+  module procedure :: regex_search_a
+  module procedure :: regex_search_u
+end interface regex_search
+!==================================================================================================================================!
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!==================================================================================================================================!
+$parcel regex_replace
+!-----------------------------------------------------------------------------------------------------------------------------------
+function regex_replace_a(re, atext, areplacement, replace_all ) result(aout_text)
+    type(regex_t), intent(in)     :: re
+    character(len=*),intent(in)   :: atext
+    character(len=*),intent(in)   :: areplacement
+    logical, intent(in), optional :: replace_all
+    character(len=:),allocatable  :: aout_text
+
+    integer(int32),allocatable    :: text(:)
+    integer(int32),allocatable    :: replacement(:)
+    integer(int32),allocatable    :: out_text(:)
+
+       text=utoc(atext)
+       replacement=utoc(areplacement)
+       out_text=regex_replace(re, text, replacement, replace_all)
+       aout_text=ctou(out_text)
+
+end function regex_replace_a
+!-----------------------------------------------------------------------------------------------------------------------------------
+function regex_replace_u(re, utext, ureplacement, replace_all ) result(uout_text)
+    type(regex_t), intent(in)     :: re
+    type(unicode_type),intent(in) :: utext
+    type(unicode_type),intent(in) :: ureplacement
+    logical, intent(in), optional :: replace_all
+    type(unicode_type)            :: uout_text
+
+    integer(int32),allocatable    :: out_text(:)
+
+       out_text=regex_replace(re, utext%codes, ureplacement%codes, replace_all)
+       uout_text%codes=out_text
+
+end function regex_replace_u
+!-----------------------------------------------------------------------------------------------------------------------------------
+$endparcel
+interface regex_replace
+  procedure        :: regex_replace_codes
+  module procedure :: regex_replace_a
+  module procedure :: regex_replace_u
+end interface regex_replace
+!==================================================================================================================================!
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!==================================================================================================================================!
+$parcel regex_compile
+!-----------------------------------------------------------------------------------------------------------------------------------
+function regex_compile_a(apattern) result(re)
+    character(len=*),intent(in)  :: apattern
+    type(regex_t)                :: re
+    integer(int32),allocatable   :: pattern(:)
+       pattern=utoc(apattern)
+       re=regex_compile_codes(pattern)
+end function regex_compile_a
+!-----------------------------------------------------------------------------------------------------------------------------------
+function regex_compile_u(upattern) result(re)
+    type(unicode_type),intent(in) :: upattern
+    type(regex_t)                 :: re
+       re=regex_compile_codes(upattern%codes)
+end function regex_compile_u
+!-----------------------------------------------------------------------------------------------------------------------------------
+$endparcel
+interface regex_compile
+  procedure        :: regex_compile_codes
+  module procedure :: regex_compile_a
+  module procedure :: regex_compile_u
+end interface regex_compile
+!==================================================================================================================================!
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 ! backward compatibililty
 interface escape
@@ -17310,6 +17409,11 @@ $post assignment
 
 ! random
 $post random_string
+
+! regex
+$post regex_search
+$post regex_replace
+$post regex_compile
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================

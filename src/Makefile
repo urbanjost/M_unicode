@@ -15,9 +15,10 @@ PROG   = ${PROG1:.F90=}
 
 CPROG = ${CPROGFILES:.c=}
 
-SRCS =  M_unicode.F90 
+SRCS =  $(wildcard ./*.f90) $(wildcard ./*.F90)
 
-OBJS =  M_unicode.o 
+OBJS = $(addsuffix .o, $(basename $(SRCS)))
+
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # platform-specific values you will probably change
 #

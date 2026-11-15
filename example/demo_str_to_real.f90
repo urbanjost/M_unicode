@@ -1,6 +1,6 @@
   program demo_str_to_real
    use, intrinsic :: iso_fortran_env, only: real64
-   use M_unicode__float, only : str_to_real
+   use M_unicode, only : str_to_real
    implicit none
 
    character(len=16)  :: inputs(4) = [&

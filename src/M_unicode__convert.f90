@@ -35,8 +35,8 @@ contains
 !!
 !!### OPTIONS
 !!
-!!    + CODEPOINTS :  An INTEGER array of Unicode codepoint values representing
-!!                    the glyphs to be encoded as UTF-8 data
+!!    + CODEPOINTS :  An INTEGER array of Unicode codepoint values
+!!                    representing the glyphs to be encoded as UTF-8 data
 !!
 !!    + UTF8 :  Scalar CHARACTER variable
 !!              containing a stream of bytes containing data encoded as
@@ -57,21 +57,16 @@ contains
 !!       & 32,104,97,117,8217,111,108,105]
 !!    character(len=:),allocatable :: string
 !!    character(len=1),allocatable :: bytes(:)
-!!    character(len=*),parameter   :: space='(*(g0,1x))'
+!!    character(len=*),parameter   :: g='(*(g0,1x))'
 !!    character(len=*),parameter   :: z='(a,*(z0,1x))'
 !!
-!!      write(*,space)'CODEPOINTS:', codepoints
+!!      write(*,g)'CODEPOINTS:', codepoints
 !!      write(*,z)'HEXADECIMAL CODEPOINTS:', codepoints
-!!    !
 !!      string = ctou(codepoints)
-!!      write(*,space)'STRING:', string
-!!    !
-!!      write(*,space)'How long is this string in glyphs? '
-!!      write(*,space)size(codepoints)
-!!    !
-!!      write(*,space)'How long is this string in bytes? '
-!!      write(*,space)len(string)
-!!    !
+!!      write(*,g)'STRING:', string
+!!      write(*,g)'length in glyphs ', size(codepoints)
+!!      write(*,g)'length in bytes  ', len(string)
+!!
 !!    end program demo_ctou
 !!
 !!  Results:
@@ -80,10 +75,8 @@ contains
 !!     > 8217 111 108 105
 !!     > 48 4E 6F 68 6F 20 6D 65 20 6B 61 20 68 61 75 2019 6F 6C 69
 !!     > STRING:Noho me ka hau’oli
-!!     > How long is this string in glyphs?
-!!     > 18
-!!     > How long is this string in bytes?
-!!     > 20
+!!     > length in glyphs   18
+!!     > length in bytes    20
 !!
 !!### SEE ALSO
 !!   functions that perform operations on character strings:
@@ -179,8 +172,8 @@ end function utoc
 !!    + UTF8 :  Scalar CHARACTER variable containing a stream of bytes
 !!              containing data encoded as UTF-8 text.
 !!
-!!    + CODEPOINTS :  An INTEGER array of Unicode codepoint values representing
-!!                    the glyphs to be encoded as UTF-8 data
+!!    + CODEPOINTS :  An INTEGER array of Unicode codepoint values
+!!                    representing the glyphs to be encoded as UTF-8 data
 !!
 !!### EXAMPLES
 !!
@@ -189,41 +182,32 @@ end function utoc
 !!    program demo_utoc
 !!    use m_unicode, only : utoc
 !!    implicit none
-!!    !'Noho me ka hau’oli' !(Be happy)
-!!    integer,parameter :: codepoints(*)=[ &
+!!    character(len=*),parameter   :: g='(*(g0,1x))'
+!!    character(len=*),parameter   :: string = 'Noho me ka hau’oli'
+!!    integer,allocatable          :: codepoints(:)
+!!    integer,parameter            :: answer(*) = [ & !(Be happy)
 !!       & 78,111,104,111,&
 !!       & 32,109,101, &
 !!       & 32,107,97, &
 !!       & 32,104,97,117,8217,111,108,105]
-!!    character(len=:),allocatable :: string
-!!    character(len=1),allocatable :: bytes(:)
-!!    character(len=*),parameter   :: space='(*(g0,1x))'
-!!    character(len=*),parameter   :: z='(a,*(z0,1x))'
 !!
-!!      write(*,space)'CODEPOINTS:', codepoints
-!!      write(*,z)'HEXADECIMAL CODEPOINTS:', codepoints
-!!    !
-!!      string = utoc(codepoints)
-!!      write(*,space)'STRING:', string
-!!    !
-!!      write(*,space)'How long is this string in glyphs? '
-!!      write(*,space)size(codepoints)
-!!    !
-!!      write(*,space)'How long is this string in bytes? '
-!!      write(*,space)len(string)
-!!    !
+!!       write(*,g) 'STRING:', string
+!!       codepoints = utoc(string)
+!!       write(*,g) 'CODEPOINTS:', codepoints
+!!       write(*,g) 'length in glyphs ', size(codepoints)
+!!       write(*,g) 'length in bytes  ', len(string)
+!!       write(*,g) merge('PASSED','FAILED',all(answer==codepoints)
 !!    end program demo_utoc
 !!
 !!  Results:
 !!
+!!     > STRING:Noho me ka hau’oli
 !!     > CODEPOINTS: 78 111 104 111 32 109 101 32 107 97 32 104 97 117 ...
 !!     > 8217 111 108 105
 !!     > 48 4E 6F 68 6F 20 6D 65 20 6B 61 20 68 61 75 2019 6F 6C 69
-!!     > STRING:Noho me ka hau’oli
-!!     > How long is this string in glyphs?
-!!     > 18
-!!     > How long is this string in bytes?
-!!     > 20
+!!     > length in glyphs  18
+!!     > length in bytes   20
+!!     > PASSED
 !!
 !!### SEE ALSO
 !!   functions that perform operations on character strings:

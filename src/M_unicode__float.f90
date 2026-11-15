@@ -1,3 +1,4 @@
+
 !>
 !!### NAME
 !!    str_to_real(3f) ‐ [M_unicode:TYPE] subroutine returns numeric value
