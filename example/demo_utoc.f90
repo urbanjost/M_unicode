@@ -15,5 +15,5 @@
         write(*,g) 'CODEPOINTS:', codepoints
         write(*,g) 'length in glyphs ', size(codepoints)
         write(*,g) 'length in bytes  ', len(string)
-        write(*,g) merge('PASSED','FAILED',all(answer==codepoints)
+        write(*,g) merge('PASSED','FAILED',all(answer==codepoints))
      end program demo_utoc

@@ -3,7 +3,7 @@ cd $(dirname $0)
 export GITHUB=TRUE
 export DEMO_OUTDIR=../../example/
 export DEMO_SUBDIR=FALSE
-prep F90 --comment doxygen --verbose -i ../../app/source/uni.[fF][fF] -o ../../app/uni.f90
+prep F90 --comment doxygen --verbose -i ../../app/uni.[fF][fF] -o ../../app/uni.f90
 GPF_build_module M_unicode__convert
 GPF_build_module M_unicode__random
 GPF_build_module M_unicode__float
