@@ -27,6 +27,9 @@ program calc_repl
    use M_unicode, only : ctou, utoc
    use M_unicode, only : cp_string, var_value, user_func, user_func_iface, compiled_expr ! Public Types
    use M_unicode, only : compile_expr_cp, eval_compiled, differentiate_compiled ! Public Procedures
+   use M_unicode, only : keyword_expand, keyword_mode, keyword_update
+   use M_unicode, only : ch=>character, assignment(=)
+   use M_history, only : redo
    implicit none
 
    integer, parameter :: MAX_VARS = 100
@@ -82,11 +85,49 @@ program calc_repl
          call print_entities()
          cycle
       end if
-
       if (trimmed == "vars()" .or. trimmed == "vars") then
          call print_vars(var_names, var_vals, num_vars)
          cycle
       end if
+
+      key: block
+      integer :: iend
+      iend=len_trim(trimmed)
+      if(trimmed(1:1).eq.'<'.or.trimmed(iend:iend).eq.'>'.or.trimmed(iend:iend).eq.',')then 
+         if(trimmed(iend:iend)==',')iend=iend-1
+         trimmed=keyword_expand(trimmed(:iend))
+      endif
+      endblock key
+
+      odd : block
+      character(len=512) :: fixed  ! fix M_history so fixed length not required
+         fixed=trimmed
+         call redo(fixed,r='!')                      ! command history
+         trimmed=trim(fixed)
+      endblock odd
+
+      keyagain: block
+      integer :: iend
+      iend=len_trim(trimmed)
+      if(trimmed(1:1).eq.'<'.or.trimmed(iend:iend).eq.'>'.or.trimmed(iend:iend).eq.',')then 
+         if(trimmed(iend:iend)==',')iend=iend-1
+         trimmed=keyword_expand(trimmed(:iend))
+      endif
+      endblock keyagain
+
+      if(trimmed(1:1).eq.'!')then                      ! system command
+         command: block 
+         integer            :: esys
+         integer            :: isys
+         character(len=250) :: csys
+         call execute_command_line(trimmed(2:),exitstat=esys,cmdstat=isys,cmdmsg=csys)   ! try as system command
+         if(isys.ne.0) write(*,'(a)')trim(csys)
+         endblock command
+         cycle
+      elseif(adjustl(trimmed(1:1)).eq.'#')then            ! comment
+         cycle
+      endif
+
 
       ! Check for symbolic differentiation command: diff(expr, var)
       if (len(trimmed) > 6) then
@@ -246,10 +287,15 @@ contains
       print *, "COMMANDS:"
       print *, "  help()             Show this help message"
       print *, "  vars()             List all defined variables and their values"
+      print *, "  entities()         List HTML entity names of operators"
       print *, "  x = 5.0            Assign a scalar variable (case-sensitive)"
       print *, "  v = [1, 2, 3, 4]   Assign a 1D array variable"
       print *, "  diff(expr, x)      Symbolically differentiate expr wrt x and evaluate"
       print *, "  quit / exit        Exit the program"
+      print *, "  !                  Enter command history. A subsequent ""h"" provides instructions"
+      print *, "  !text              Execute system command"
+      print *, "  quit / exit        Exit the program"
+      print *, "  expression <>      A line beginning with < or ending with > or , is processed through keywords_expand()" 
       print *
       print *, "OPERATORS & UNICODE SYMBOLS:"
       print *, "  Arithmetic:        +  -  −  *  ×  ·  /  ÷  ^  **  √"

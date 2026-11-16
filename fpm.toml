@@ -27,3 +27,6 @@ homepage     = "https://github.com/urbanjost/M_unicode.git"
        M_CLI2 = { git = "https://github.com/urbanjost/M_CLI2.git" }
       #M_CLI2 = { path = "GLINKS/M_CLI2" }
       #M_CLI2 = { namespace = "GPF" }
+       M_history = { git = "https://github.com/urbanjost/M_history.git" }
+      #M_history = { path = "GLINKS/M_history" }
+      #M_history = { namespace = "GPF" }
