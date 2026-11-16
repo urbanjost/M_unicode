@@ -2006,7 +2006,7 @@ end interface verify
 !!     testsa = [ character(len=80) :: &
 !!     "-------------- Testing Pure Fortran Word Expansion --------------",&
 !!     " scratch space is $TMP for $USER with home directory  ${HOME}",    &
-!!     " DATE is $DATE TIME is 23:01:26 ZONE is $ZONE TIMESTAMP $TIMESTAMP",&
+!!     " DATE is $DATE TIME is 09:11:46 ZONE is $ZONE TIMESTAMP $TIMESTAMP",&
 !!     " FILE is $FILE ARGS: 0: $0 1: $1 2: $2 3: $3",                     &
 !!     " COMPILER is $COMPILER COMPILER_OPTIONS are ${COMPILER_OPTIONS}",  &
 !!     " ${0} versus M_unicode.FF  $0 versus $FILE",                            &
@@ -16507,6 +16507,7 @@ integer                              :: iostat
 character(len=255)                   :: iomsg
 character(len=1),parameter           :: null_ch=char(0)
 integer                              :: iilen
+integer                              :: kludge
 logical                              :: trimit
    if(present(format))then
       fmt_local=format
@@ -16562,10 +16563,12 @@ logical                              :: trimit
 #endif
      type is (logical);             write(line(:),fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
      type is (character(len=*))
-        line=repeat(' ',256+4*len(general)+1) ! kludge because required length is unknown
+        kludge=256+4*len(general)+1 ! kludge because required length is unknown
+        line=repeat(' ',kludge)
         write(line(:),fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
      type is (unicode_type)
-        line=repeat(' ',256+4*len(character(general))+1) ! kludge because required length is unknown
+        kludge=256+4*len(character(general))+1
+        line=repeat(' ',kludge)
         write(line(:),fmt_local,iostat=iostat,iomsg=iomsg) character(general),null_ch
      type is (complex);
         if(trimit)then

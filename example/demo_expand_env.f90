@@ -12,7 +12,7 @@
       testsa = [ character(len=80) :: &
       "-------------- Testing Pure Fortran Word Expansion --------------",&
       " scratch space is $TMP for $USER with home directory  ${HOME}",    &
-      " DATE is $DATE TIME is 23:01:26 ZONE is $ZONE TIMESTAMP $TIMESTAMP",&
+      " DATE is $DATE TIME is 08:17:01 ZONE is $ZONE TIMESTAMP $TIMESTAMP",&
       " FILE is $FILE ARGS: 0: $0 1: $1 2: $2 3: $3",                     &
       " COMPILER is $COMPILER COMPILER_OPTIONS are ${COMPILER_OPTIONS}",  &
       " ${0} versus M_unicode.FF  $0 versus $FILE",                            &

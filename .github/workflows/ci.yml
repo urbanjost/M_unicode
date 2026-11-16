@@ -1,0 +1,71 @@
+yaml
+name: Fortran CI
+#!
+#!.github/workflows/ci.yml
+#!
+#!  - build the library,
+#!  - run the full test suite with strict compiler warnings and runtime
+#!    bounds/allocation checks (-fcheck=all),
+#!  - and verify that all examples execute cleanly across Linux, macOS,
+#!    and Windows.
+#!
+#!What This Workflow Verifies
+#!
+#!• Cross-Platform Portability: Runs on Ubuntu (gfortran 12, 13, 14),
+#!  macOS, and Windows.
+#!• Strict Standard Conformance: Compiles with -std=f2008 -Wall -Wextra
+#!  -Wimplicit-interface -fcheck=all so any array bounds error, unallocated
+#!  slice access, or non-standard extension fails the build immediately.
+#!
+#!• End-to-End Examples: Ensures log_parser, markdown_links, and
+#!  unicode_redact compile and exit with status 0.
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build-and-test:
+    name: ${{ matrix.os }} / gfortran-${{ matrix.gcc-version }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            gcc-version: "12"
+          - os: ubuntu-latest
+            gcc-version: "13"
+          - os: ubuntu-latest
+            gcc-version: "14"
+          - os: macos-latest
+            gcc-version: "14"
+          - os: windows-latest
+            gcc-version: "14"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Fortran & fpm
+        uses: fortran-lang/setup-fpm@v6
+        with:
+          compiler: gcc
+          version: ${{ matrix.gcc-version }}
+
+      - name: Build with strict warnings and runtime checks
+        run: |
+          fpm build --flag "-std=f2008 -Wall -Wextra -Wimplicit-interface -fcheck=all -g -O1"
+
+      - name: Run unit tests
+        run: |
+          fpm test --flag "-std=f2008 -Wall -Wextra -Wimplicit-interface -fcheck=all -g -O1"
+
+      - name: Run example programs
+        run: |
+          fpm run --example log_parser
+          fpm run --example markdown_links
+          fpm run --example unicode_redact
+

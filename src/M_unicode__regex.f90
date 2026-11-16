@@ -290,9 +290,9 @@ module M_unicode__regex
 
    public :: regex_t, match_t
    public :: regex_compile, regex_search, regex_replace
-   interface  regex_search;   module  procedure  ::  regex_search;   end  interface  regex_search
-   interface  regex_compile;  module  procedure  ::  regex_compile;  end  interface  regex_compile
-   interface  regex_replace;  module  procedure  ::  regex_replace;  end  interface  regex_replace
+   !breaks ifx! interface  regex_search;   module  procedure  ::  regex_search;   end  interface  regex_search
+   !breaks ifx! interface  regex_compile;  module  procedure  ::  regex_compile;  end  interface  regex_compile
+   !breaks ifx! interface  regex_replace;  module  procedure  ::  regex_replace;  end  interface  regex_replace
 
    ! Instruction opcodes for the NFA Virtual Machine
    integer, parameter :: OP_CHAR              = 1
@@ -415,7 +415,7 @@ contains
 !!  Sample program
 !!
 !!    program demo_regex_compile
-!!    end program demo_regex_search
+!!    end program demo_regex_compile
 !!
 !!   Expected Output
 !!

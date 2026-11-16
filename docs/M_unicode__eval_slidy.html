@@ -949,60 +949,62 @@ Set to 0 on success, or a non-zero error code (1–11) on failure.</p></li>
 </div>
 <div id="name-8" class="slide section level1">
 <h1>NAME</h1>
-<p>utoc(3f) - [M_unicode:CONVERSION] convert UTF-8 CHARACTER string to Unicode codepoints (LICENSE:MIT)</p>
+<p>ctou(3f) - [M_unicode:CONVERSION] convert codepoints to UTF-8 CHARACTER string (LICENSE:MIT)</p>
 <h2 id="synopsis-8">SYNOPSIS</h2>
-<p>pure function utoc(utf8) result(codepoints)</p>
-<pre><code>    character(len=*),intent(in) :: utf8
-    integer,allocatable         :: codepoints(:)
+<p>pure function ctou(codepoints) result(utf8)</p>
+<pre><code>    integer,allocatable,intent(in) :: codepoints(:)
+    character(len=*),intent(out)   :: utf8
 </code></pre>
 <h2 id="characteristics-5">CHARACTERISTICS</h2>
 <ul>
-<li><p>UTF8 is a CHARACTER variable</p></li>
 <li><p>CODEPOINTS is of default INTEGER kind</p></li>
+<li><p>UTF8 is a CHARACTER variable</p></li>
 </ul>
 <h2 id="description-8">DESCRIPTION</h2>
-<p>utoc(3f) takes a scalar CHARACTER variable containing a stream of bytes representing UTF-8-encoded data and generates an integer array of Unicode codepoint values.</p>
+<p>ctou(3f) takes an integer array of Unicode codepoint values and generates a scalar CHARACTER variable containing bytes representing UTF-8-encoded data.</p>
 <h2 id="options-8">OPTIONS</h2>
 <ul>
-<li><p>UTF8 : Scalar CHARACTER variable containing a stream of bytes containing data encoded as UTF-8 text.</p></li>
 <li><p>CODEPOINTS : An INTEGER array of Unicode codepoint values representing the glyphs to be encoded as UTF-8 data</p></li>
+<li><p>UTF8 : Scalar CHARACTER variable containing a stream of bytes containing data encoded as UTF-8 text.</p></li>
 </ul>
 <h2 id="examples-8">EXAMPLES</h2>
 <p>Sample program</p>
-<pre><code>   program demo_utoc
-   use m_unicode, only : utoc
+<pre><code>   program demo_ctou
+   use m_unicode, only : ctou
    implicit none
-   character(len=*),parameter   :: g=&#39;(*(g0,1x))&#39;
-   character(len=*),parameter   :: string = &#39;Noho me ka hau’oli&#39;
-   integer,allocatable          :: codepoints(:)
-   integer,parameter            :: answer(*) = [ &amp; !(Be happy)
+   !&#39;Noho me ka hau’oli&#39; !(Be happy)
+   integer,parameter :: codepoints(*)=[ &amp;
       &amp; 78,111,104,111,&amp;
       &amp; 32,109,101, &amp;
       &amp; 32,107,97, &amp;
       &amp; 32,104,97,117,8217,111,108,105]
+   character(len=:),allocatable :: string
+   character(len=1),allocatable :: bytes(:)
+   character(len=*),parameter   :: g=&#39;(*(g0,1x))&#39;
+   character(len=*),parameter   :: z=&#39;(a,*(z0,1x))&#39;
 
-      write(*,g) &#39;STRING:&#39;, string
-      codepoints = utoc(string)
-      write(*,g) &#39;CODEPOINTS:&#39;, codepoints
-      write(*,g) &#39;length in glyphs &#39;, size(codepoints)
-      write(*,g) &#39;length in bytes  &#39;, len(string)
-      write(*,g) merge(&#39;PASSED&#39;,&#39;FAILED&#39;,all(answer==codepoints)
-   end program demo_utoc
+     write(*,g)&#39;CODEPOINTS:&#39;, codepoints
+     write(*,z)&#39;HEXADECIMAL CODEPOINTS:&#39;, codepoints
+     string = ctou(codepoints)
+     write(*,g)&#39;STRING:&#39;, string
+     write(*,g)&#39;length in glyphs &#39;, size(codepoints)
+     write(*,g)&#39;length in bytes  &#39;, len(string)
+
+   end program demo_ctou
 </code></pre>
 <p>Results:</p>
-<pre><code>    &gt; STRING:Noho me ka hau’oli
-    &gt; CODEPOINTS: 78 111 104 111 32 109 101 32 107 97 32 104 97 117 ```
+<pre><code>    &gt; CODEPOINTS: 78 111 104 111 32 109 101 32 107 97 32 104 97 117 ```
     &gt; 8217 111 108 105
     &gt; 48 4E 6F 68 6F 20 6D 65 20 6B 61 20 68 61 75 2019 6F 6C 69
-    &gt; length in glyphs  18
-    &gt; length in bytes   20
-    &gt; PASSED
+    &gt; STRING:Noho me ka hau’oli
+    &gt; length in glyphs   18
+    &gt; length in bytes    20
 </code></pre>
 <h2 id="see-also-5">SEE ALSO</h2>
 <p>functions that perform operations on character strings:</p>
 <ul>
 <li><p>elemental: adjustl(3), adjustr(3), index(3), scan(3), verify(3)</p></li>
-<li><p>non-elemental: len_trim(3), repeat(3), trim(3), utoc(3), utf8_to_codepoints(3), codepoints_to_utf8(3)</p></li>
+<li><p>non-elemental: len_trim(3), repeat(3), trim(3), ctou(3), utf8_to_codepoints(3), codepoints_to_utf8(3)</p></li>
 </ul>
 <h2 id="author-8">AUTHOR</h2>
 <ul>
@@ -1208,8 +1210,161 @@ A single character designating the escape prefix. Defaults to a backslash ("\")<
 </div>
 <div id="name-13" class="slide section level1">
 <h1>NAME</h1>
-<p>expand_html(3f) - [M_unicode:ENCODE] expand HTML character entities ("&amp;NAME;" strings) (LICENSE:MIT)</p>
+<p>expand_env(3f) - [M_unicode:QUERY] implements basic shell-style variable expansion (LICENSE:PD)</p>
 <h2 id="synopsis-12">SYNOPSIS</h2>
+<p>function expand_env(in) result(out)</p>
+<pre><code>    character(len=1),intent(in)  :: in
+    character(len=:),allocatable :: out
+
+    !  or
+
+    type(unicode_type),intent(in)  :: in
+    type(unicode_type),allocatable :: out
+</code></pre>
+<h2 id="description-12">DESCRIPTION</h2>
+<p>expand_env(3f) implements basic shell-style variable expansion for</p>
+<ul>
+<li><strong>environment variables and some pre-defined names.</strong><br />
+That is, it scans for</li>
+</ul>
+<p>or pre-defined substitutions.</p>
+<p>Given a string containing "$VAR" and "${VAR}" strings it replaces it</p>
+<ul>
+<li><p><strong>with the value of the environment variable VAR .</strong><br />
+If the environment variable name returns a null string or the variable is not defined, the following predefined names will be expanded:</p>
+<ul>
+<li><p>FILE: same as value returned by GET_COMMAND_ARGUMENT(0,string)</p></li>
+<li><p>0,1,2,```.: same as value returned by GET_COMMAND_ARGUMENT(N,string)</p></li>
+<li><p>*: all command line arguments from 1 to N joined with a space separator</p></li>
+<li><p>COMPILER: same as value returned by COMPILER_VERSION() intrinsic</p></li>
+<li><p>COMPILER_OPTIONS: same as value returned by COMPILER__OPTIONS() intrinsic</p></li>
+<li><p>DATE: returns a string of the form CCYY-MM-DD</p></li>
+<li><p>TIME: returns a string of the form HH:MM:SS</p></li>
+<li><p>ZONE: returns a string of the form (+-)HHMM, representing the difference with respect to Coordinated Universal Time (UTC)</p></li>
+<li><p>TIMESTAMP: CCYY-MM-DDTHH:MM:SS</p></li>
+</ul></li>
+</ul>
+<h2 id="options-12">OPTIONS</h2>
+<p>A string containing names of the syntax $VAR or ${VAR} in addition to plain text not to be expanded.</p>
+<h2 id="returns-4">RETURNS</h2>
+<p>A string where $VAR and ${VAR} are replaced with the value of the environment variable. If the returned value is null several predefined variable names will be expanded per the table above.</p>
+<h2 id="examples-12">EXAMPLES</h2>
+<p>Sample program</p>
+<pre><code>    program demo_expand_env
+    use M_unicode, only : expand_env, ut=&gt;unicode_type
+    use M_unicode, only : assignment(=), trim, ch=&gt;character
+    use M_unicode, only : operator(//)
+    use M_unicode, only : keyword_expand
+    implicit none
+    integer                       :: i
+    character(len=:), allocatable :: expanded
+    character(len=:), allocatable :: testsa(:)
+    type(ut),allocatable :: tests(:)
+
+    testsa = [ character(len=80) :: &amp;
+    &quot;-------------- Testing Pure Fortran Word Expansion --------------&quot;,&amp;
+    &quot; scratch space is $TMP for $USER with home directory  ${HOME}&quot;,    &amp;
+    &quot; DATE is $DATE TIME is 23:01:26 ZONE is $ZONE TIMESTAMP $TIMESTAMP&quot;,&amp;
+    &quot; FILE is $FILE ARGS: 0: $0 1: $1 2: $2 3: $3&quot;,                     &amp;
+    &quot; COMPILER is $COMPILER COMPILER_OPTIONS are ${COMPILER_OPTIONS}&quot;,  &amp;
+    &quot; ${0} versus M_unicode.FF  $0 versus $FILE&quot;,                            &amp;
+    &quot; All arguments is ${0} ${*}&quot;,                                      &amp;
+    &quot; unknown $UNKNOWN incorrect ${ A B C} but syntax OK&quot;,              &amp;
+    &quot; Bad $  ${  and stuff $UNKNOWN ${ A B C}&quot;,                         &amp;
+    &quot;&quot;]
+
+       tests=testsa
+       tests=trim(tests)
+       do i = 1,size(tests)
+          expanded=expand_env(tests(i))
+          print &#39;(A)&#39;, &quot;Input:  &quot;//tests(i)%ch()
+          print &#39;(A)&#39;, &quot;Result: &quot;//expanded
+          print &#39;(A)&#39;, ch( &quot;Result: &quot;//tests(i)%expand_env() )
+          print &#39;(A)&#39;, &quot;&quot;
+       enddo
+
+    call version()
+
+    contains
+    subroutine version()
+    ! expand environment and predefined variables add some
+    ! terminal text attributes and multi-byte characters using
+    ! &lt;keyword&gt; syntax in an example of a plausible version
+    ! display procedure
+    use M_unicode, only : expand_env, ut=&gt;unicode_type
+    use M_unicode, only : assignment(=), trim, ch=&gt;character
+    use M_unicode, only : operator(//)
+    use M_unicode, only : keyword_expand, replace
+    implicit none
+    character(len=1),parameter    :: nl=new_line(&#39;a&#39;)
+    character(len=:), allocatable :: testsa(:)
+    integer                       :: i
+    integer                       :: ilast
+    type(ut),allocatable          :: tests(:)
+
+    testsa = [ character(len=80) :: &amp;
+    &quot; &lt;g&gt;PROGRAM&lt;/g&gt;          : pretender(1)&quot;, &amp;
+    &quot; &lt;g&gt;VERSION&lt;/g&gt;          : 1.0.0&quot;, &amp;
+    &quot; &lt;g&gt;DESCRIPTION&lt;/g&gt;      : &lt;ul&gt;pretend to be a program&lt;/ul&gt;&quot;, &amp;
+    &quot; &lt;g&gt;COPYRIGHT&lt;/g&gt;        : &lt;copy&gt; Mouse and Company, 1957&quot;, &amp;
+    &quot; &lt;g&gt;LICENSE&lt;/g&gt;          : Public Domain&quot;, &amp;
+    &quot; &lt;g&gt;AUTHOR&lt;/g&gt;           : Micky Mouse&quot;, &amp;
+    &quot; &lt;g&gt;COMPILED&lt;/g&gt;         : 2023-02-17T19:30:55-0300&quot;, &amp;
+    &quot; &lt;g&gt;TIMESTAMP&lt;/g&gt;        : $TIMESTAMP&quot;, &amp;
+    &quot; &lt;g&gt;COMMAND&lt;/g&gt;          : ${0} ${*}&quot;, &amp;
+    &quot; &lt;g&gt;USER&lt;/g&gt;             : $USER&quot;,    &amp;
+    &quot; &lt;g&gt;PWD&lt;/g&gt;              : $PWD&quot;,    &amp;
+    &quot; &lt;g&gt;COMPILER&lt;/g&gt;         : $COMPILER&quot;,  &amp;
+    &quot; &lt;g&gt;COMPILER_OPTIONS&lt;/g&gt; : ${COMPILER_OPTIONS}&quot; ]
+
+       tests=keyword_expand(testsa)
+       tests=trim(expand_env(tests))
+       ilast=size(tests)
+       tests(ilast)=replace(tests(ilast),&#39; -&#39;,nl//&#39;                   -&#39;)
+       tests(ilast)=replace(tests(ilast),&#39; /&#39;,nl//&#39;                   /&#39;)
+       print &#39;(A)&#39;, (tests(i)%ch(),i=1,size(tests))
+    end subroutine version
+
+    end program demo_expand_env
+</code></pre>
+<p>Results of version(3f) procedure</p>
+<ul class="incremental">
+<li><p><strong>PROGRAM</strong><br />
+: pretender(1)</p></li>
+<li><p><strong>VERSION</strong><br />
+: 1.0.0</p></li>
+<li><p><strong>DESCRIPTION</strong><br />
+: pretend to be a program</p></li>
+<li><p><strong>COPYRIGHT</strong><br />
+: © Mouse and Company, 1957</p></li>
+<li><p><strong>LICENSE</strong><br />
+: Public Domain</p></li>
+<li><p><strong>AUTHOR</strong><br />
+: Micky Mouse</p></li>
+<li><p><strong>COMPILED</strong><br />
+: 2023-02-17T19:30:55-0300</p></li>
+<li><p><strong>TIMESTAMP</strong><br />
+: 2026-10-31T17:42:37-0400</p></li>
+<li><p><strong>COMMAND</strong><br />
+: build/gfortran_F560B/example/demo_expand_env</p></li>
+<li><p><strong>USER</strong><br />
+: johns</p></li>
+<li><p><strong>PWD</strong><br />
+: /cygdrive/c/users/johns/github/GPF/M_unicode</p></li>
+<li><p><strong>COMPILER</strong><br />
+: GCC version 16.1.1 20260613 COMPILER_OPTIONS : <strong>-cpp</strong> <strong>-I</strong> ././include <strong>-I</strong> build/gfortran_DD609D2CDA6636FC <strong>-idirafter</strong> /usr/include/w32api <strong>-idirafter</strong> /usr/include/w32api <strong>-mtune</strong>=generic <strong>-march</strong>=x86-64 <strong>-Werror</strong>=implicit-interface <strong>-fimplicit-none</strong> <strong>-ffree-form</strong> <strong>-J</strong> build/gfortran_DD609D2CDA6636FC</p></li>
+</ul>
+<h2 id="see-also-8">SEE ALSO</h2>
+<p>wordexp(3c) and POSIX shell string expansion</p>
+<h2 id="author-12">AUTHOR</h2>
+<p>John S. Urban</p>
+<h2 id="license-12">LICENSE</h2>
+<h3 id="mit-12">MIT</h3>
+</div>
+<div id="name-14" class="slide section level1">
+<h1>NAME</h1>
+<p>expand_html(3f) - [M_unicode:ENCODE] expand HTML character entities ("&amp;NAME;" strings) (LICENSE:MIT)</p>
+<h2 id="synopsis-13">SYNOPSIS</h2>
 <p>pure elemental function expand_html(str) result (string)</p>
 <pre><code>     type(unicode_type),intent(in),optional :: str
      !  or
@@ -1217,9 +1372,9 @@ A single character designating the escape prefix. Defaults to a backslash ("\")<
 
      type(unicode_type)                     :: string
 </code></pre>
-<h2 id="description-12">DESCRIPTION</h2>
+<h2 id="description-13">DESCRIPTION</h2>
 <p>expand_html(string) returns a copy of the input string with all HTML character entities ( "&amp;NAME;" and "&amp;#NUMBER;") expanded</p>
-<h2 id="options-12">OPTIONS</h2>
+<h2 id="options-13">OPTIONS</h2>
 <ul>
 <li><strong>str</strong><br />
 string containing HTML character entities to expand.</li>
@@ -1230,12 +1385,12 @@ string containing HTML character entities to expand.</li>
            names and the characer they represent and its decimal and
            hexadecimal value(s) is written to stdout
 </code></pre>
-<h2 id="returns-4">RETURNS</h2>
+<h2 id="returns-5">RETURNS</h2>
 <ul>
 <li><strong>expand_html</strong><br />
 copy of the input string with all HTML character entities expanded</li>
 </ul>
-<h2 id="examples-12">EXAMPLES</h2>
+<h2 id="examples-13">EXAMPLES</h2>
 <p>Sample program:</p>
 <pre><code>   program demo_expand_html
    use iso_fortran_env, only : stdout =&gt; output_unit
@@ -1277,35 +1432,35 @@ copy of the input string with all HTML character entities expanded</li>
   &gt; Pound              &amp;pound; &amp;#163;  £££
   &gt; Non-breaking space &amp;nbsp;  &amp;#160;  Before   After
 </code></pre>
-<h2 id="author-12">AUTHOR</h2>
+<h2 id="author-13">AUTHOR</h2>
 <p>John S. Urban</p>
-<h2 id="license-12">LICENSE</h2>
-<h3 id="mit-12">MIT</h3>
+<h2 id="license-13">LICENSE</h2>
+<h3 id="mit-13">MIT</h3>
 </div>
-<div id="name-14" class="slide section level1">
+<div id="name-15" class="slide section level1">
 <h1>NAME</h1>
 <p>EXPANDTABS(3f) - [M_unicode:WHITESPACE] function to expand tab characters (LICENSE:MIT)</p>
-<h2 id="synopsis-13">SYNOPSIS</h2>
+<h2 id="synopsis-14">SYNOPSIS</h2>
 <p>elemental function expandtabs(INSTR,TABSIZE) result(OUT)</p>
 <pre><code>     type(unicode_type),intent=(in)  :: INSTR
      integer,intent(in),optional     :: TAB_SIZE
      type(unicode_type)              :: OUT
 </code></pre>
-<h2 id="description-13">DESCRIPTION</h2>
+<h2 id="description-14">DESCRIPTION</h2>
 <p>EXPANDTABS(3f) expands tabs in INSTR to spaces in OUT. It assumes a tab is set every 8 characters by default. Trailing spaces are removed.</p>
-<h2 id="options-13">OPTIONS</h2>
+<h2 id="options-14">OPTIONS</h2>
 <ul>
 <li><p><strong>instr</strong><br />
 Input line to remove tabs from</p></li>
 <li><p><strong>tab_size</strong><br />
 spacing between tab stops.</p></li>
 </ul>
-<h2 id="returns-5">RETURNS</h2>
+<h2 id="returns-6">RETURNS</h2>
 <ul>
 <li><strong>out</strong><br />
 Output string with tabs expanded.</li>
 </ul>
-<h2 id="examples-13">EXAMPLES</h2>
+<h2 id="examples-14">EXAMPLES</h2>
 <p>Sample program:</p>
 <pre><code>    program demo_expandtabs
     use M_unicode, only : expandtabs, ch=&gt;character, replace
@@ -1342,15 +1497,15 @@ Output string with tabs expanded.</li>
     &gt; [  this is my string]
     &gt; [thisismystring]
 </code></pre>
-<h2 id="author-13">AUTHOR</h2>
+<h2 id="author-14">AUTHOR</h2>
 <p>John S. Urban</p>
-<h2 id="license-13">LICENSE</h2>
-<h3 id="mit-13">MIT</h3>
+<h2 id="license-14">LICENSE</h2>
+<h3 id="mit-14">MIT</h3>
 </div>
-<div id="name-15" class="slide section level1">
+<div id="name-16" class="slide section level1">
 <h1>NAME</h1>
 <p>FMT(3f) - [M_unicode:CONVERSION] convert any intrinsic to a string using specified format (LICENSE:MIT)</p>
-<h2 id="synopsis-14">SYNOPSIS</h2>
+<h2 id="synopsis-15">SYNOPSIS</h2>
 <p>function fmt(value,format) result(string)</p>
 <pre><code>     class(*),intent(in),optional           :: value
 
@@ -1360,21 +1515,21 @@ Output string with tabs expanded.</li>
 
      type(unicode_type)                     :: string
 </code></pre>
-<h2 id="description-14">DESCRIPTION</h2>
+<h2 id="description-15">DESCRIPTION</h2>
 <p>FMT(3f) converts any standard intrinsic value to a string using the specified format.</p>
-<h2 id="options-14">OPTIONS</h2>
+<h2 id="options-15">OPTIONS</h2>
 <ul>
 <li><p><strong>value</strong><br />
 value to print the value of. May be of type INTEGER, LOGICAL, REAL, DOUBLEPRECISION, COMPLEX, or CHARACTER as well as TYPE(UNICODE_TYPE).</p></li>
 <li><p><strong>format</strong><br />
 format to use to print value. It is up to the user to use an appropriate format. The format does not require being surrounded by parenthesis. If not present a default is selected similar to what would be produced with free format, with trailing zeros removed.</p></li>
 </ul>
-<h2 id="returns-6">RETURNS</h2>
+<h2 id="returns-7">RETURNS</h2>
 <ul>
 <li><strong>string</strong><br />
 A string value</li>
 </ul>
-<h2 id="examples-14">EXAMPLES</h2>
+<h2 id="examples-15">EXAMPLES</h2>
 <p>Sample program:</p>
 <pre><code>     program demo_fmt
      use :: M_unicode, only : fmt, assignment(=)
@@ -1403,15 +1558,15 @@ A string value</li>
     &gt; result is The final answer is [T]
     &gt; result is [A B C]
 </code></pre>
-<h2 id="author-14">AUTHOR</h2>
+<h2 id="author-15">AUTHOR</h2>
 <p>John S. Urban</p>
-<h2 id="license-14">LICENSE</h2>
-<h3 id="mit-14">MIT</h3>
+<h2 id="license-15">LICENSE</h2>
+<h3 id="mit-15">MIT</h3>
 </div>
-<div id="name-16" class="slide section level1">
+<div id="name-17" class="slide section level1">
 <h1>NAME</h1>
 <p>get_arg(3f) - [M_unicode:QUERY] acquire value from command line (LICENSE:PD)</p>
-<h2 id="synopsis-15">SYNOPSIS</h2>
+<h2 id="synopsis-16">SYNOPSIS</h2>
 <p>function get_arg(n,default,ierr) result(arg)</p>
 <pre><code>     integer,intent(in)           :: n
 
@@ -1433,9 +1588,9 @@ A string value</li>
      doubleprecision              :: arg
      logical                      :: arg
 </code></pre>
-<h2 id="description-15">DESCRIPTION</h2>
+<h2 id="description-16">DESCRIPTION</h2>
 <p>get_arg(3f) returns the Nth command line argument.</p>
-<h2 id="options-15">OPTIONS</h2>
+<h2 id="options-16">OPTIONS</h2>
 <ul>
 <li><p><strong>n</strong><br />
 The number of the argument, from 0 to the count of the total number of arguments.</p></li>
@@ -1446,14 +1601,14 @@ The value to return if the argument is not present. The type of the value determ
 The default type returned is CHARACTER.</li>
 </ul></li>
 </ul>
-<h2 id="returns-7">RETURNS</h2>
+<h2 id="returns-8">RETURNS</h2>
 <ul>
 <li><p><strong>arg</strong><br />
 The value of the Nth command line argument after attempting to convert it to the same type as DEFAULT.</p></li>
 <li><p><strong>ierr</strong><br />
 zero if no error occurred. Keyword syntax is required.</p></li>
 </ul>
-<h2 id="examples-15">EXAMPLES</h2>
+<h2 id="examples-16">EXAMPLES</h2>
 <p>Sample program</p>
 <pre><code>   program demo_get_arg
    use M_unicode, only : get_arg, ut=&gt; unicode_type, ch=&gt;character
@@ -1464,7 +1619,6 @@ zero if no error occurred. Keyword syntax is required.</p></li>
    type(ut)                     :: uvalue
    type(ut)                     :: smiley
    integer                      :: ierr
-   integer                      :: j
    character(len=*),parameter   :: g=&#39;(*(g0))&#39;
 
    integer                      :: i
@@ -1519,14 +1673,14 @@ zero if no error occurred. Keyword syntax is required.</p></li>
    end program demo_get_arg
 </code></pre>
 <p>Results &gt; 1 one &gt; 2 T &gt; 3 100 &gt; 4 100.2 &gt; 5 300.0e3 &gt; ================================================== &gt; build/gfortran_F560B09219607C26/example/demo_get_arg &gt; OOP:build/gfortran_F560B09219607C26/example/demo_get_arg &gt; build/gfortran_F560B09219607C26/example/demo_get_arg &gt; build/gfortran_F560B09219607C26/example/demo_get_arg &gt; ================================================== &gt; one &gt; OOP:one &gt; one &gt; one &gt; ================================================== &gt; T &gt; OOP:T &gt; T &gt; T &gt; 2 T is a good logical: T &gt; ================================================== &gt; 100 &gt; OOP:100 &gt; 100 &gt; 100 &gt; 3 100 is a good real: 100.000000 &gt; 3 100 is a good double: 100.00000000000000 &gt; 3 100 is a good integer: 100 &gt; ================================================== &gt; 100.2 &gt; OOP:100.2 &gt; 100.2 &gt; 100.2 &gt; 4 100.2 is a good real: 100.199997 &gt; 4 100.2 is a good double: 100.20000000000000 &gt; ================================================== &gt; 300.0e3 &gt; OOP:300.0e3 &gt; 300.0e3 &gt; 300.0e3 &gt; 5 300.0e3 is a good real: 300000.000 &gt; 5 300.0e3 is a good double: 300000.00000000000</p>
-<h2 id="see-also-8">SEE ALSO</h2>
+<h2 id="see-also-9">SEE ALSO</h2>
 <p>get_command_argument(3f), command_argument_count(3f)</p>
-<h2 id="author-15">AUTHOR</h2>
+<h2 id="author-16">AUTHOR</h2>
 <p>John S. Urban</p>
-<h2 id="license-15">LICENSE</h2>
-<h3 id="mit-15">MIT</h3>
+<h2 id="license-16">LICENSE</h2>
+<h3 id="mit-16">MIT</h3>
 </div>
-<div id="name-17" class="slide section level1">
+<div id="name-18" class="slide section level1">
 <h1>NAME</h1>
 <p>get_env(3f) - [M_unicode:QUERY] a function returning the value of an environment variable (LICENSE:PD)</p>
 <h2 id="syntax">SYNTAX</h2>
@@ -1551,17 +1705,17 @@ zero if no error occurred. Keyword syntax is required.</p></li>
     logical                              :: VALUE
     type(unicode_type)                   :: VALUE
 </code></pre>
-<h2 id="description-16">DESCRIPTION</h2>
+<h2 id="description-17">DESCRIPTION</h2>
 <p>Get the value of an environment variable or optionally return a default value when the environment variable is not set or is set to a blank string.</p>
 <p>The type returned is the same as the type of the default value.</p>
-<h2 id="options-16">OPTIONS</h2>
+<h2 id="options-17">OPTIONS</h2>
 <ul>
 <li><p><strong>NAME</strong><br />
 name of environment variable.</p></li>
 <li><p><strong>DEFAULT</strong><br />
 value to return if environment variable is not set or set to an empty string. May be CHARACTER, REAL, INTEGER, LOGICAL, DOUBLEPRECISION or TYPE(UNICODE_TYPE. Defaults to a null CHARACTER value.</p></li>
 </ul>
-<h2 id="returns-8">RETURNS</h2>
+<h2 id="returns-9">RETURNS</h2>
 <ul>
 <li><p><strong>VALUE</strong><br />
 the value of the environment variable or the default. The type is the same as DEFAULT unless NAME is CHARACTER but VALUE is DEFAULT, in which case TYPE(UNICODE_TYPE) is returned. That is, if either NAME or VALUE is TYPE(UNICODE_TYPE) the returned value is TYPE(UNICODE_TYPE). If an error occurs and it is numeric, huge(0|0.0|0.0d0) is returned.</p>
@@ -1569,7 +1723,7 @@ the value of the environment variable or the default. The type is the same as DE
 <li><p><strong>IERR</strong><br />
 return error code. Must be specified with a keyword. It is zero if no error occurred.</p></li>
 </ul>
-<h2 id="examples-16">EXAMPLES</h2>
+<h2 id="examples-17">EXAMPLES</h2>
 <p>Sample program:</p>
 <pre><code>   program demo_get_env
    use M_unicode, only : get_env, get_arg
@@ -1820,17 +1974,17 @@ return error code. Must be specified with a keyword. It is zero if no error occu
    &gt; /home/johns
    &gt; ------------------------------------------------------------
 </code></pre>
-<h2 id="see-also-9">SEE ALSO</h2>
+<h2 id="see-also-10">SEE ALSO</h2>
 <p>get_environment_variable(3fortran), system_getenv(3m_system), set_environment_variable(3m_system), system_putenv(3m_system), system_clearenv(3m_system), system_initenv(3m_system), system_getenv(3m_system), system_unsetenv(3m_system)</p>
-<h2 id="author-16">AUTHOR</h2>
+<h2 id="author-17">AUTHOR</h2>
 <p>John S. Urban</p>
-<h2 id="license-16">LICENSE</h2>
-<h3 id="mit-16">MIT</h3>
+<h2 id="license-17">LICENSE</h2>
+<h3 id="mit-17">MIT</h3>
 </div>
-<div id="name-18" class="slide section level1">
+<div id="name-19" class="slide section level1">
 <h1>NAME</h1>
 <p>glob(3f) - [M_unicode:COMPARE] compare given string for match to a pattern which may contain globbing wildcard characters (LICENSE:MIT)</p>
-<h2 id="synopsis-16">SYNOPSIS</h2>
+<h2 id="synopsis-17">SYNOPSIS</h2>
 <p>logical function glob(string, pattern ) result (uline)</p>
 <pre><code>    type(unicode_type),intent(in) :: string
     ! or
@@ -1842,7 +1996,7 @@ return error code. Must be specified with a keyword. It is zero if no error occu
 
     logical                       :: uline
 </code></pre>
-<h2 id="description-17">DESCRIPTION</h2>
+<h2 id="description-18">DESCRIPTION</h2>
 <p>glob(3f) compares an (entire) STRING for a match to a PATTERN which may contain basic wildcard "globbing" characters.</p>
 <ul>
 <li><p>"*" matches any string.</p></li>
@@ -1853,7 +2007,7 @@ return error code. Must be specified with a keyword. It is zero if no error occu
 <p>In this version to get a match the entire string must be described by PATTERN. Trailing whitespace is significant, so trim the input string if it is desired to ignore trailing whitespace.</p>
 <p>A NULL character is added to the input strings internally to avoid early matches. Without this, patterns like "b*ba" fail on a string like "babababa" because the first match found is not at the end of the string so 'baba' does not match 'babababa'. So the algorithm is said to find an early match.</p>
 <p>One method that allows skipping over the early matches is to insert an extra character at the end of the string and pattern that does not occur in the pattern. Typically a NULL is used (char(0)), as it is here. So searching for b*ba\0 in babababa\0 matches the entire string.</p>
-<h2 id="options-17">OPTIONS</h2>
+<h2 id="options-18">OPTIONS</h2>
 <ul>
 <li><p><strong>string</strong><br />
 the input string to be tested for a match to the pattern.</p></li>
@@ -1867,7 +2021,7 @@ the globbing pattern to search for. The following simple globbing rules apply:</
 <li><p>There is no escape character, so matching strings with a literal question mark and asterisk is problematic.</p></li>
 </ul></li>
 </ul>
-<h2 id="examples-17">EXAMPLES</h2>
+<h2 id="examples-18">EXAMPLES</h2>
 <p>Example program</p>
 <pre><code>    program demo_glob
     use M_unicode, only : glob, trim, unicode_type, len
@@ -2033,17 +2187,17 @@ the globbing pattern to search for. The following simple globbing rules apply:</
  &gt;  PASSED
  &gt;  PASSED
 </code></pre>
-<h2 id="author-17">AUTHOR</h2>
+<h2 id="author-18">AUTHOR</h2>
 <p>John S. Urban</p>
 <h2 id="references">REFERENCES</h2>
 <p>The article "Matching Wildcards: An Empirical Way to Tame an Algorithm" in Dr Dobb's Journal, By Kirk J. Krauss, October 07, 2014</p>
-<h2 id="license-17">LICENSE</h2>
-<h3 id="mit-17">MIT</h3>
+<h2 id="license-18">LICENSE</h2>
+<h3 id="mit-18">MIT</h3>
 </div>
-<div id="name-19" class="slide section level1">
+<div id="name-20" class="slide section level1">
 <h1>NAME</h1>
 <p>ICHAR(3f) - [M_unicode:CONVERSION] character-to-integer Unicode codepoint conversion function (LICENSE:MIT)</p>
-<h2 id="synopsis-17">SYNOPSIS</h2>
+<h2 id="synopsis-18">SYNOPSIS</h2>
 <p>result = ichar(c)</p>
 <pre><code>    elemental integer function ichar(c,kind)
 
@@ -2056,14 +2210,14 @@ c is a scalar character</p></li>
 <li><p><strong>•</strong><br />
 the return value is of default integer kind.</p></li>
 </ul>
-<h2 id="description-18">DESCRIPTION</h2>
+<h2 id="description-19">DESCRIPTION</h2>
 <p>This overload of ichar(3f) only returns values from input type</p>
 <ul>
 <li><strong>unicode_type.</strong><br />
 This is because the intrinsic ichar(3f) returns the code for the character in the system's native character set. the correspondence between characters and their codes is not necessarily the same across different Fortran implementations. For example, a platform using EBCDIC would return different values than an ASCII platform.</li>
 </ul>
 <p>See IACHAR(3f) for specifically working with the ASCII character set.</p>
-<h2 id="options-18">OPTIONS</h2>
+<h2 id="options-19">OPTIONS</h2>
 <ul>
 <li>C : The input character to determine the Unicode codepoint of.</li>
 </ul>
@@ -2072,7 +2226,7 @@ This is because the intrinsic ichar(3f) returns the code for the character in th
 <p>The result is the position of C in the Unicode collating sequence, which is generally not the dictionary order in a particular language.</p>
 <p>It is nonnegative and less than n, where n is the largest value in the Unicode collating sequence (ie. 1 114 111,).</p>
 <p>For any characters C and D capable of representation in the processor, C &lt;= D is true if and only if ICHAR(C) &lt;= ICHAR(D) is true and C == D is true if and only if ICHAR(C) == ICHAR(D) is true.</p>
-<h2 id="examples-18">EXAMPLES</h2>
+<h2 id="examples-19">EXAMPLES</h2>
 <p>sample program:</p>
 <pre><code>   program demo_ichar
    use M_unicode, only : assignment(=),ch=&gt;character
@@ -2153,22 +2307,22 @@ This is because the intrinsic ichar(3f) returns the code for the character in th
     &gt; ELEMENTAL:3B5 1F55 3C1 3B7 3BA 3B1 21
     &gt; OOPS:     3B5 1F55 3C1 3B7 3BA 3B1 21
 </code></pre>
-<h2 id="see-also-10">SEE ALSO</h2>
+<h2 id="see-also-11">SEE ALSO</h2>
 <p>achar(3), char(3), iachar(3), utf8_to_codepoints(3f), STRING%codepoint(start,end,inc)</p>
 <p>functions that perform operations on character strings, return lengths of arguments, and search for certain arguments:</p>
 <ul>
 <li><p>elemental: adjustl(3), adjustr(3), index(3), scan(3), verify(3)</p></li>
 <li><p>nonelemental: len_trim(3), len(3), repeat(3), trim(3)</p></li>
 </ul>
-<h2 id="author-18">AUTHOR</h2>
+<h2 id="author-19">AUTHOR</h2>
 <p>John S. Urban</p>
-<h2 id="license-18">LICENSE</h2>
-<h3 id="mit-18">MIT</h3>
+<h2 id="license-19">LICENSE</h2>
+<h3 id="mit-19">MIT</h3>
 </div>
-<div id="name-20" class="slide section level1">
+<div id="name-21" class="slide section level1">
 <h1>NAME</h1>
 <p>INDEX(3f) - [M_unicode:SEARCH] Position of a substring within a string (LICENSE:MIT)</p>
-<h2 id="synopsis-18">SYNOPSIS</h2>
+<h2 id="synopsis-19">SYNOPSIS</h2>
 <p>result = index( string, substring [,back] [,kind] )</p>
 <pre><code>   elemental integer(kind=KIND) function index(string,substring,back,kind)
 
@@ -2184,9 +2338,9 @@ This is because the intrinsic ichar(3f) returns the code for the character in th
 <li><p>BACK is a logical variable of any supported kind</p></li>
 <li><p>KIND is a scalar integer constant expression.</p></li>
 </ul>
-<h2 id="description-19">DESCRIPTION</h2>
+<h2 id="description-20">DESCRIPTION</h2>
 <p>INDEX(3f) returns the position of the start of the leftmost or rightmost occurrence of string SUBSTRING in STRING, counting from one. If SUBSTRING is not present in STRING, zero is returned.</p>
-<h2 id="options-19">OPTIONS</h2>
+<h2 id="options-20">OPTIONS</h2>
 <ul>
 <li><p>STRING : string to be searched for a match</p></li>
 <li><p>SUBSTRING : string to attempt to locate in STRING</p></li>
@@ -2200,7 +2354,7 @@ This is because the intrinsic ichar(3f) returns the code for the character in th
 <p>If BACK is .true. the greatest starting position is returned (that is, the position of the right‐most match). Otherwise, the smallest position starting a match (ie. the left‐most match) is returned.</p>
 <p>The position returned is measured from the left with the first character of STRING being position one.</p>
 <p>Otherwise, if no match is found zero is returned.</p>
-<h2 id="examples-19">EXAMPLES</h2>
+<h2 id="examples-20">EXAMPLES</h2>
 <p>Example program</p>
 <pre><code>   program demo_index
    use M_unicode, only : ut=&gt;unicode_type
@@ -2243,21 +2397,21 @@ This is because the intrinsic ichar(3f) returns the code for the character in th
     &gt; T
     &gt; T
 </code></pre>
-<h2 id="see-also-11">SEE ALSO</h2>
+<h2 id="see-also-12">SEE ALSO</h2>
 <p>Functions that perform operations on character strings, return lengths of arguments, and search for certain arguments:</p>
 <ul>
 <li><p>ELEMENTAL: ADJUSTL(3), ADJUSTR(3), INDEX(3), SCAN(3), VERIFY(3)</p></li>
 <li><p>NONELEMENTAL: LEN_TRIM(3), LEN(3), REPEAT(3), TRIM(3)</p></li>
 </ul>
-<h2 id="author-19">AUTHOR</h2>
+<h2 id="author-20">AUTHOR</h2>
 <p>John S. Urban</p>
-<h2 id="license-19">LICENSE</h2>
-<h3 id="mit-19">MIT</h3>
+<h2 id="license-20">LICENSE</h2>
+<h3 id="mit-20">MIT</h3>
 </div>
-<div id="name-21" class="slide section level1">
+<div id="name-22" class="slide section level1">
 <h1>NAME</h1>
 <p>isascii(3f) - [M_unicode:QUERY] returns .true. if all the characters of a string are in the set from CHAR(0) to CHAR(127). (LICENSE:MIT)</p>
-<h2 id="synopsis-19">SYNOPSIS</h2>
+<h2 id="synopsis-20">SYNOPSIS</h2>
 <p>function isascii(str)</p>
 <pre><code>    character(len=*),intent(in) :: str
      or
@@ -2265,19 +2419,19 @@ This is because the intrinsic ichar(3f) returns the code for the character in th
 
     logical :: isascii
 </code></pre>
-<h2 id="description-20">DESCRIPTION</h2>
+<h2 id="description-21">DESCRIPTION</h2>
 <p>isascii(3f) returns .true. if all the characters in the string are ASCII-7 characters (ie. in the range char(0) to char(127).</p>
-<h2 id="options-20">OPTIONS</h2>
+<h2 id="options-21">OPTIONS</h2>
 <ul>
 <li><strong>str</strong><br />
 character variable or string to test</li>
 </ul>
-<h2 id="returns-9">RETURNS</h2>
+<h2 id="returns-10">RETURNS</h2>
 <ul>
 <li><strong>isascii</strong><br />
 logical value returns true if all the characters in the string represent ASCII-7 characters.</li>
 </ul>
-<h2 id="examples-20">EXAMPLES</h2>
+<h2 id="examples-21">EXAMPLES</h2>
 <p>Sample program</p>
 <pre><code>    program demo_isascii
     use M_unicode, only : ut=&gt;unicode_type, assignment(=)
@@ -2324,15 +2478,15 @@ logical value returns true if all the characters in the string represent ASCII-7
     &gt; CHARACTER     F Portez ce vieux whisky au juge blond qui a fumé.
     &gt; UNICODE_TYPE: F Portez ce vieux whisky au juge blond qui a fumé.
 </code></pre>
-<h2 id="author-20">AUTHOR</h2>
+<h2 id="author-21">AUTHOR</h2>
 <p>John S. Urban</p>
-<h2 id="license-20">LICENSE</h2>
-<h3 id="mit-20">MIT</h3>
+<h2 id="license-21">LICENSE</h2>
+<h3 id="mit-21">MIT</h3>
 </div>
-<div id="name-22" class="slide section level1">
+<div id="name-23" class="slide section level1">
 <h1>NAME</h1>
 <p>isblank(3f) - [M_unicode:COMPARE] returns .true. if character is a Unicode or ASCII-7 blank character (space or horizontal tab) . (LICENSE:MIT)</p>
-<h2 id="synopsis-20">SYNOPSIS</h2>
+<h2 id="synopsis-21">SYNOPSIS</h2>
 <p>elemental function isblank(onechar)</p>
 <pre><code>    type(unicode_type),intent(in)   :: string
     !or
@@ -2340,19 +2494,19 @@ logical value returns true if all the characters in the string represent ASCII-7
 
     logical              :: isblank
 </code></pre>
-<h2 id="description-21">DESCRIPTION</h2>
+<h2 id="description-22">DESCRIPTION</h2>
 <p>isblank(3f) returns .true. if all characters are a blank character (ASCII-7 space or Unicode blank character) or horizontal tab.</p>
-<h2 id="options-21">OPTIONS</h2>
+<h2 id="options-22">OPTIONS</h2>
 <ul>
 <li><strong>str</strong><br />
 variable to test</li>
 </ul>
-<h2 id="returns-10">RETURNS</h2>
+<h2 id="returns-11">RETURNS</h2>
 <ul>
 <li><strong>isblank</strong><br />
 logical value returns true if character is a "blank" ( an ASCII space or Unicode blank) or horizontal tab character.</li>
 </ul>
-<h2 id="examples-21">EXAMPLES</h2>
+<h2 id="examples-22">EXAMPLES</h2>
 <p>Sample program:</p>
 <pre><code>    program demo_isblank
     use M_unicode, only : isblank, unicode, ch=&gt;character, unicode_type
@@ -2381,32 +2535,32 @@ logical value returns true if character is a "blank" ( an ASCII space or Unicode
     &gt; BLANKS:  32 160 8192 8193 8194 8195 8196 8197 8198 8199 8200 8201
     &gt; 8202 8239 8287 8288 12288
 </code></pre>
-<h2 id="author-21">AUTHOR</h2>
+<h2 id="author-22">AUTHOR</h2>
 <p>John S. Urban</p>
-<h2 id="license-21">LICENSE</h2>
-<h3 id="mit-21">MIT</h3>
+<h2 id="license-22">LICENSE</h2>
+<h3 id="mit-22">MIT</h3>
 </div>
-<div id="name-23" class="slide section level1">
+<div id="name-24" class="slide section level1">
 <h1>NAME</h1>
 <p>issensitive(3f) - [M_unicode:CASE] determine if character is case-sensitive (LICENSE:MIT)</p>
-<h2 id="synopsis-21">SYNOPSIS</h2>
+<h2 id="synopsis-22">SYNOPSIS</h2>
 <p>pure elemental function issensitive(str) result (mask)</p>
 <pre><code>     type(unicode_type),intent(in) :: str
      logical                       :: mask
 </code></pre>
-<h2 id="description-22">DESCRIPTION</h2>
+<h2 id="description-23">DESCRIPTION</h2>
 <p>issensitive(string) returns true if the character is considered to be case-sensitive, else it returns false.</p>
-<h2 id="options-22">OPTIONS</h2>
+<h2 id="options-23">OPTIONS</h2>
 <ul>
 <li><strong>str</strong><br />
 string to query, only first character is tested.</li>
 </ul>
-<h2 id="returns-11">RETURNS</h2>
+<h2 id="returns-12">RETURNS</h2>
 <ul>
 <li><strong>mask</strong><br />
 returns true if character is considered case-sensitive; otherwise is returns false.</li>
 </ul>
-<h2 id="examples-22">EXAMPLES</h2>
+<h2 id="examples-23">EXAMPLES</h2>
 <p>Sample program:</p>
 <pre><code>   program demo_issensitive
    use iso_fortran_env, only : stdout =&gt; output_unit
@@ -2499,32 +2653,32 @@ returns true if character is considered case-sensitive; otherwise is returns fal
   &gt; SENSITIVE     :vHkdqyUBmlEwöJAfS
   &gt; NOT SENSITIVE ::~🌟🌬🌀,[]8🌷(}🍍3
 </code></pre>
-<h2 id="author-22">AUTHOR</h2>
+<h2 id="author-23">AUTHOR</h2>
 <p>John S. Urban</p>
-<h2 id="license-22">LICENSE</h2>
-<h3 id="mit-22">MIT</h3>
+<h2 id="license-23">LICENSE</h2>
+<h3 id="mit-23">MIT</h3>
 </div>
-<div id="name-24" class="slide section level1">
+<div id="name-25" class="slide section level1">
 <h1>NAME</h1>
 <p>isspace(3f) - [M_unicode:COMPARE] returns .true. if character is a null, space, tab, carriage return, new line, vertical tab, or formfeed (LICENSE:MIT)</p>
-<h2 id="synopsis-22">SYNOPSIS</h2>
+<h2 id="synopsis-23">SYNOPSIS</h2>
 <p>elemental function isspace(onechar)</p>
 <pre><code>    character,intent(in) :: onechar
     logical              :: isspace
 </code></pre>
-<h2 id="description-23">DESCRIPTION</h2>
+<h2 id="description-24">DESCRIPTION</h2>
 <p>isspace(3f) returns .true. if character is a null, space, tab, carriage return, new line, vertical tab, or formfeed</p>
-<h2 id="options-23">OPTIONS</h2>
+<h2 id="options-24">OPTIONS</h2>
 <ul>
 <li><strong>onechar</strong><br />
 character to test</li>
 </ul>
-<h2 id="returns-12">RETURNS</h2>
+<h2 id="returns-13">RETURNS</h2>
 <ul>
 <li><strong>isspace</strong><br />
 returns true if character is ASCII white space</li>
 </ul>
-<h2 id="examples-23">EXAMPLES</h2>
+<h2 id="examples-24">EXAMPLES</h2>
 <p>Sample program:</p>
 <pre><code>    program demo_isspace
     use M_unicode, only : isspace
@@ -2538,24 +2692,24 @@ returns true if character is ASCII white space</li>
 <p>Results:</p>
 <pre><code>    &gt; ISSPACE:  0 9 10 11 12 13 32
 </code></pre>
-<h2 id="author-23">AUTHOR</h2>
+<h2 id="author-24">AUTHOR</h2>
 <p>John S. Urban</p>
-<h2 id="license-23">LICENSE</h2>
-<h3 id="mit-23">MIT</h3>
+<h2 id="license-24">LICENSE</h2>
+<h3 id="mit-24">MIT</h3>
 </div>
-<div id="name-25" class="slide section level1">
+<div id="name-26" class="slide section level1">
 <h1>NAME</h1>
 <p>JOIN(3f) - [M_unicode:EDITING] append CHARACTER variable array into a single CHARACTER variable with specified separator (LICENSE:MIT)</p>
-<h2 id="synopsis-23">SYNOPSIS</h2>
+<h2 id="synopsis-24">SYNOPSIS</h2>
 <p>impure function join(str,sep,clip) result (string)</p>
 <pre><code>     type(unicode_type),intent(in)          :: str(:)
      type(unicode_type),intent(in),optional :: sep
      logical,intent(in),optional            :: clip
      type(unicode_type),allocatable         :: string
 </code></pre>
-<h2 id="description-24">DESCRIPTION</h2>
+<h2 id="description-25">DESCRIPTION</h2>
 <p>JOIN(3f) appends the elements of a CHARACTER array into a single CHARACTER variable, with elements 1 to N joined from left to right. By default each element is trimmed of trailing spaces and the default separator is a null string.</p>
-<h2 id="options-24">OPTIONS</h2>
+<h2 id="options-25">OPTIONS</h2>
 <ul>
 <li><p><strong>STR</strong><br />
 array of variables to be joined</p></li>
@@ -2564,12 +2718,12 @@ separator string to place between each variable. defaults to a null string.</p><
 <li><p><strong>CLIP</strong><br />
 option to trim each element of STR of trailing and leading spaces. Defaults to .TRUE.</p></li>
 </ul>
-<h2 id="returns-13">RETURNS</h2>
+<h2 id="returns-14">RETURNS</h2>
 <ul>
 <li><strong>STRING</strong><br />
 CHARACTER variable composed of all of the elements of STR() appended together with the optional separator SEP placed between the elements.</li>
 </ul>
-<h2 id="examples-24">EXAMPLES</h2>
+<h2 id="examples-25">EXAMPLES</h2>
 <p>Sample program:</p>
 <pre><code>   program demo_join
    use M_unicode,  only : join, ut=&gt;unicode_type, ch=&gt;character, assignment(=)
@@ -2624,15 +2778,15 @@ CHARACTER variable composed of all of the elements of STR() appended together wi
     &gt; NO TRIMMING:
     &gt;  United         we             stand,         divided        we fall.
 </code></pre>
-<h2 id="author-24">AUTHOR</h2>
+<h2 id="author-25">AUTHOR</h2>
 <p>John S. Urban</p>
-<h2 id="license-24">LICENSE</h2>
-<h3 id="mit-24">MIT</h3>
+<h2 id="license-25">LICENSE</h2>
+<h3 id="mit-25">MIT</h3>
 </div>
-<div id="name-26" class="slide section level1">
+<div id="name-27" class="slide section level1">
 <h1>NAME</h1>
 <p>keyword_expand(3f) - [M_unicode] substitute HTML-like keywords with other strings (LICENSE:MIT)</p>
-<h2 id="synopsis-24">SYNOPSIS</h2>
+<h2 id="synopsis-25">SYNOPSIS</h2>
 <p>function keyword_expand(string) result (expanded)</p>
 <pre><code>       ! scalar
        character(len=*),intent(in) :: string
@@ -2649,7 +2803,7 @@ CHARACTER variable composed of all of the elements of STR() appended together wi
        ! or array
        type(unicode_type),allocatable :: expanded(*)
 </code></pre>
-<h2 id="description-25">DESCRIPTION</h2>
+<h2 id="description-26">DESCRIPTION</h2>
 <p>Strings of the form &lt;name&gt; are replaced with another string. Use this HTML-like syntax for purposes such as:</p>
 <ul>
 <li>generate UTF-8 from ASCII-7 abbreviations or keywords.</li>
@@ -2671,7 +2825,7 @@ CHARACTER variable composed of all of the elements of STR() appended together wi
 <pre><code>       call keyword_mode(action=&#39;dump&#39;)
 </code></pre>
 <p>More than one keyword may be enclosed. Numeric keywords are assumed to be Unicode codepoints.</p>
-<h2 id="options-25">OPTIONS</h2>
+<h2 id="options-26">OPTIONS</h2>
 <ul>
 <li><strong>string</strong><br />
 case-sensitive input string of form</li>
@@ -2687,9 +2841,9 @@ case-sensitive input string of form</li>
 <li><p>you should use "&lt;gt&gt;" and "&lt;lt&gt;" instead of "&gt;" and "&lt;" in an string processed by keyword_expand(3f) so that the raw mode will create correct input for the keyword_expand(3f) function if read back in.</p></li>
 <li><p>keywords are case-sensitive</p></li>
 </ul>
-<h2 id="examples-25">EXAMPLES</h2>
+<h2 id="examples-26">EXAMPLES</h2>
 <p>Sample program</p>
-<pre><code>    program demo_keyword
+<pre><code>    program demo_keyword_expand
     use M_unicode, only : keyword_expand, keyword_mode, keyword_update
     use M_unicode, only : ch=&gt;character
 
@@ -2699,15 +2853,15 @@ case-sensitive input string of form</li>
        write(*,&#39;(a)&#39;) &#39;ADDING A CUSTOM SEQUENCE:&#39;
        call keyword_update(&#39;blink&#39;,char(27)//&#39;[5m&#39;,&#39;&#39;)
        call keyword_update(&#39;/blink&#39;,char(27)//&#39;[25m&#39;,&#39;&#39;)
-       write(*,&#39;(a)&#39;) ch(keyword_expand(&#39;&lt;blink&gt;Items for Friday&lt;/blink&gt;&#39;))
+       write(*,&#39;(a)&#39;) &amp;
+       &amp; ch(keyword_expand(&#39;&lt;blink&gt;Items for Friday&lt;/blink&gt;&#39;))
 
        write(*,&#39;(a)&#39;) &#39;DECIMAL NUMBERS AS WELL:&#39;
        write(*,&#39;(a)&#39;) ch(keyword_expand(&amp;
-       &#39;decimal keywords &lt;119 79 114 107&gt; as well&#39;))
+       &amp;&#39;decimal keywords &lt;119 79 114 107&gt; as well&#39;))
 
        write(*,&#39;(a)&#39;) ch(keyword_expand(&#39;ASCII-7 &amp;
-       &amp;&lt;eight six seven dash five three oh nine slash&gt;Jenny&gt;&amp;
-       &amp; as well&#39;)
+       &amp;&lt;eight six seven dash five three oh nine slash&gt;Jenny&gt; as well&#39;))
 
     contains
     subroutine printstuff(action)
@@ -2717,7 +2871,7 @@ case-sensitive input string of form</li>
       call keyword_mode(action=action)
 
       array=[character(len=60) :: &amp;
-       &#39;Test the mode =&#39;//action,    &amp;
+       &#39;Test the mode =&#39;//action, &amp;
        &#39;c=&lt;pi&gt;&lt;times&gt;d&#39;,          &amp;
        &#39;a=&lt;pi&gt;&lt;times&gt;r&lt;S2&gt;&#39;,      &amp;
        &#39;&lt;Delta&gt;&lt;delta&gt;&#39;,          &amp;
@@ -2726,7 +2880,7 @@ case-sensitive input string of form</li>
       write(*,&#39;(a)&#39;) ch(keyword_expand(array))
 
     end subroutine printstuff
-    end program demo_keyword
+    end program demo_keyword_expand
 </code></pre>
 <p>Results:</p>
 <pre><code>     &gt; TEST ACTION=raw_mode
@@ -2744,25 +2898,25 @@ case-sensitive input string of form</li>
      &gt; ADDING A CUSTOM SEQUENCE:
      &gt; \e[5mItems for Friday\e[25m
 </code></pre>
-<h2 id="author-25">AUTHOR</h2>
+<h2 id="author-26">AUTHOR</h2>
 <p>John S. Urban, 2021</p>
-<h2 id="license-25">LICENSE</h2>
-<h3 id="mit-25">MIT</h3>
-<h2 id="see-also-12">SEE ALSO</h2>
+<h2 id="license-26">LICENSE</h2>
+<h3 id="mit-26">MIT</h3>
+<h2 id="see-also-13">SEE ALSO</h2>
 <p>keyword_mode(3f), keyword_update(3f)</p>
 </div>
-<div id="name-27" class="slide section level1">
+<div id="name-28" class="slide section level1">
 <h1>NAME</h1>
 <p>keyword_mode(3f) - [M_unicode] select processing mode for output from keyword_expand(3f) (LICENSE:MIT)</p>
-<h2 id="synopsis-25">SYNOPSIS</h2>
+<h2 id="synopsis-26">SYNOPSIS</h2>
 <p>subroutine keyword_mode(action)</p>
 <pre><code>       character(len=*),intent(in) :: action
        !or
        type(unicode_type),intent(in) :: action
 </code></pre>
-<h2 id="description-26">DESCRIPTION</h2>
+<h2 id="description-27">DESCRIPTION</h2>
 <p>When using the keyword_expand(3f) procedure turn the substitution of strings associated with the keywords on or off. That is, turn off string processing so keyword_expand(3f) just echos its input.</p>
-<h2 id="options-26">OPTIONS</h2>
+<h2 id="options-27">OPTIONS</h2>
 <ul>
 <li><p><strong>ACTION</strong><br />
 The current modes and actions supported are</p></li>
@@ -2781,7 +2935,7 @@ erase keyword dictionary</p></li>
 <li><p><strong>japanese</strong><br />
 load in romaji-like built-in dictionary</p></li>
 </ul>
-<h2 id="examples-26">EXAMPLES</h2>
+<h2 id="examples-27">EXAMPLES</h2>
 <p>Sample program</p>
 <pre><code>    program demo_keyword_mode
     use M_unicode, only : keyword_expand, keyword_mode, character
@@ -2846,15 +3000,15 @@ load in romaji-like built-in dictionary</p></li>
      &gt; zopf             [𝕫]      [𝕫]
      &gt; zscr             [𝓏]      [𝓏]
 </code></pre>
-<h2 id="author-26">AUTHOR</h2>
+<h2 id="author-27">AUTHOR</h2>
 <p>John S. Urban, 2021</p>
-<h2 id="license-26">LICENSE</h2>
-<h3 id="mit-26">MIT</h3>
+<h2 id="license-27">LICENSE</h2>
+<h3 id="mit-27">MIT</h3>
 </div>
-<div id="name-28" class="slide section level1">
+<div id="name-29" class="slide section level1">
 <h1>NAME</h1>
 <p>keyword_update(3f) - [M_unicode] update internal dictionary given keyword and value (LICENSE:MIT)</p>
-<h2 id="synopsis-26">SYNOPSIS</h2>
+<h2 id="synopsis-27">SYNOPSIS</h2>
 <p>subroutine keyword_update(key,val,plainval)</p>
 <pre><code>       type(unicode_type),intent(in)           :: key
        type(unicode_type),intent(in),optional  :: val
@@ -2864,9 +3018,9 @@ load in romaji-like built-in dictionary</p></li>
        character(len=*),intent(in),optional  :: val
        character(len=*),intent(in),optional  :: plainval
 </code></pre>
-<h2 id="description-27">DESCRIPTION</h2>
+<h2 id="description-28">DESCRIPTION</h2>
 <p>Update internal dictionary in M_unicode(3f) module.</p>
-<h2 id="options-27">OPTIONS</h2>
+<h2 id="options-28">OPTIONS</h2>
 <ul>
 <li><p><strong>key</strong><br />
 name of keyword to add, replace, or delete from dictionary</p></li>
@@ -2875,7 +3029,7 @@ if present add or replace value associated with keyword. If not present remove k
 <li><p><strong>plainval</strong><br />
 VAL must be present if PLAINVAL is specified. This is the value to replace the keyword with if mode is set to "plain_mode" via keyword_action(3f). Defaults to the same value as VAL.</p></li>
 </ul>
-<h2 id="examples-27">EXAMPLES</h2>
+<h2 id="examples-28">EXAMPLES</h2>
 <p>Sample program</p>
 <pre><code>     program demo_keyword_update
      use M_unicode, only : keyword_expand, keyword_update, ch=&gt;character
@@ -2924,15 +3078,15 @@ VAL must be present if PLAINVAL is specified. This is the value to replace the k
      &gt; CUSTOMIZED: &lt;r&gt;Apple&lt;/r&gt;, &lt;&lt;&lt;&lt;Sky&gt;&gt;&gt;&gt;, \e[32mGrass\e[39m
      &gt; \e[0m
 </code></pre>
-<h2 id="author-27">AUTHOR</h2>
+<h2 id="author-28">AUTHOR</h2>
 <p>John S. Urban, 2021</p>
-<h2 id="license-27">LICENSE</h2>
-<h3 id="mit-27">MIT</h3>
+<h2 id="license-28">LICENSE</h2>
+<h3 id="mit-28">MIT</h3>
 </div>
-<div id="name-29" class="slide section level1">
+<div id="name-30" class="slide section level1">
 <h1>NAME</h1>
 <p>LEN(3f) - [M_unicode:WHITESPACE] Length of a string (LICENSE:MIT)</p>
-<h2 id="synopsis-27">SYNOPSIS</h2>
+<h2 id="synopsis-28">SYNOPSIS</h2>
 <p>result = len(string)</p>
 <pre><code>   elemental integer function len(string)
 
@@ -2943,16 +3097,16 @@ VAL must be present if PLAINVAL is specified. This is the value to replace the k
 <li><p>STRING is a scalar or array string variable</p></li>
 <li><p>the returned value is of default INTEGER kind</p></li>
 </ul>
-<h2 id="description-28">DESCRIPTION</h2>
+<h2 id="description-29">DESCRIPTION</h2>
 <p>LEN(3f) returns the length of a type(unicode_type) string.</p>
 <p>Note that unlike the intrinsic of the same name STRING needs to be defined; as the length of each element is not defined until allocated; and the KIND parameter is not available for specifying the kind of the integer returned.</p>
-<h2 id="options-28">OPTIONS</h2>
+<h2 id="options-29">OPTIONS</h2>
 <ul>
 <li>STRING : A scalar or array string to return the length(s) of in glyph counts. If it is an unallocated allocatable variable or a pointer that is not associated, its length type parameter shall not be deferred.</li>
 </ul>
 <h2 id="result-5">RESULT</h2>
 <p>The result has a value equal to the number of glyphs in STRING if it is scalar or the elements of STRING if it is an array.</p>
-<h2 id="examples-28">EXAMPLES</h2>
+<h2 id="examples-29">EXAMPLES</h2>
 <p>Sample program</p>
 <pre><code>   program demo_len
    use M_unicode, only : assignment(=), ut=&gt;unicode_type, len
@@ -2996,21 +3150,21 @@ VAL must be present if PLAINVAL is specified. This is the value to replace the k
     &gt; length from type parameter inquiry=38
     &gt; length of passed value is 11
 </code></pre>
-<h2 id="see-also-13">SEE ALSO</h2>
+<h2 id="see-also-14">SEE ALSO</h2>
 <p>functions that perform operations on character strings:</p>
 <ul>
 <li><p>elemental: adjustl(3), adjustr(3), index(3), scan(3), verify(3)</p></li>
 <li><p>non-elemental: len_trim(3), len(3), repeat(3), trim(3)</p></li>
 </ul>
-<h2 id="author-28">AUTHOR</h2>
+<h2 id="author-29">AUTHOR</h2>
 <p>John S. Urban</p>
-<h2 id="license-28">LICENSE</h2>
-<h3 id="mit-28">MIT</h3>
+<h2 id="license-29">LICENSE</h2>
+<h3 id="mit-29">MIT</h3>
 </div>
-<div id="name-30" class="slide section level1">
+<div id="name-31" class="slide section level1">
 <h1>NAME</h1>
 <p>LEN_TRIM(3f) - [M_unicode:WHITESPACE] string length without trailing blank characters (LICENSE:MIT)</p>
-<h2 id="synopsis-28">SYNOPSIS</h2>
+<h2 id="synopsis-29">SYNOPSIS</h2>
 <p>result = len_trim(string)</p>
 <pre><code>         elemental integer(kind=kind) function len_trim(string)
 
@@ -3021,16 +3175,16 @@ VAL must be present if PLAINVAL is specified. This is the value to replace the k
 <li><p>string is of type type(unicode_type)</p></li>
 <li><p>the return value is of type default integer.</p></li>
 </ul>
-<h2 id="description-29">DESCRIPTION</h2>
+<h2 id="description-30">DESCRIPTION</h2>
 <p>len_trim(3f) returns the length of a string, ignoring any trailing blanks.</p>
-<h2 id="options-29">OPTIONS</h2>
+<h2 id="options-30">OPTIONS</h2>
 <ul>
 <li>string : the input string whose length is to be measured.</li>
 </ul>
 <h2 id="result-6">RESULT</h2>
 <p>the result equals the number of glyphs remaining after any trailing blanks in string are removed.</p>
 <p>if the input argument is of zero length or all blanks the result is zero.</p>
-<h2 id="examples-29">EXAMPLES</h2>
+<h2 id="examples-30">EXAMPLES</h2>
 <p>sample program</p>
 <pre><code>   program demo_len_trim
    use M_unicode, only : ut=&gt;unicode_type, assignment(=)
@@ -3075,40 +3229,40 @@ VAL must be present if PLAINVAL is specified. This is the value to replace the k
     &gt;  trimmed length=              25          13
     &gt;  sum trimmed length=          38
 </code></pre>
-<h2 id="see-also-14">SEE ALSO</h2>
+<h2 id="see-also-15">SEE ALSO</h2>
 <p>functions that perform operations on character strings, return lengths of arguments, and search for certain arguments:</p>
 <ul>
 <li><p>elemental: adjustl(3), adjustr(3), index(3), scan(3), verify(3)</p></li>
 <li><p>nonelemental: repeat(3), len(3), trim(3)</p></li>
 </ul>
-<h2 id="author-29">AUTHOR</h2>
+<h2 id="author-30">AUTHOR</h2>
 <p>John S. Urban</p>
-<h2 id="license-29">LICENSE</h2>
-<h3 id="mit-29">MIT</h3>
+<h2 id="license-30">LICENSE</h2>
+<h3 id="mit-30">MIT</h3>
 </div>
-<div id="name-31" class="slide section level1">
+<div id="name-32" class="slide section level1">
 <h1>NAME</h1>
 <p>LOWER(3f) - [M_unicode:CASE] changes a string to lowercase over specified range (LICENSE:MIT)</p>
-<h2 id="synopsis-29">SYNOPSIS</h2>
+<h2 id="synopsis-30">SYNOPSIS</h2>
 <p>pure elemental function lower(str) result (string)</p>
 <pre><code>     type(unicode_type),intent(in) :: str
      type(unicode_type)            :: string
 </code></pre>
-<h2 id="description-30">DESCRIPTION</h2>
+<h2 id="description-31">DESCRIPTION</h2>
 <p>lower(str) returns a copy of the input string with all characters converted to miniscule (ie. "lowercase").</p>
-<h2 id="options-30">OPTIONS</h2>
+<h2 id="options-31">OPTIONS</h2>
 <ul>
 <li><strong>str</strong><br />
 string to convert to miniscule</li>
 </ul>
-<h2 id="returns-14">RETURNS</h2>
+<h2 id="returns-15">RETURNS</h2>
 <ul>
 <li><strong>lower</strong><br />
 copy of the entire input string with all characters converted to miniscule.</li>
 </ul>
 <h2 id="trivia">TRIVIA</h2>
 <p>The terms "uppercase" and "lowercase" date back to the early days of the mechanical printing press. Individual metal alloy casts of each needed letter or punctuation symbol were meticulously added to a press block, by hand, before rolling out copies of a page. These metal casts were stored and organized in wooden cases. The more-often-needed miniscule letters were placed closer to hand, in the lower cases of the work bench. The less often needed, capitalized, majuscule letters, ended up in the harder to reach upper cases.</p>
-<h2 id="examples-30">EXAMPLES</h2>
+<h2 id="examples-31">EXAMPLES</h2>
 <p>Sample program:</p>
 <pre><code>   program demo_lower
    use iso_fortran_env, only : stdout =&gt; output_unit
@@ -3166,15 +3320,15 @@ copy of the entire input string with all characters converted to miniscule.</li>
      &gt; příliš žluťoučký kůň úpěl ďábelské ódy.
      &gt; PASSED
 </code></pre>
-<h2 id="author-30">AUTHOR</h2>
+<h2 id="author-31">AUTHOR</h2>
 <p>John S. Urban</p>
-<h2 id="license-30">LICENSE</h2>
-<h3 id="mit-30">MIT</h3>
+<h2 id="license-31">LICENSE</h2>
+<h3 id="mit-31">MIT</h3>
 </div>
-<div id="name-32" class="slide section level1">
+<div id="name-33" class="slide section level1">
 <h1>NAME</h1>
 <p>M_unicode(3f) - [M_unicode::INTRO] Unicode string module (LICENSE:MIT)</p>
-<h2 id="description-31">DESCRIPTION</h2>
+<h2 id="description-32">DESCRIPTION</h2>
 <p>The M_unicode(3f) module is a collection of Fortran string methods that work with UTF-8 encoded text not just ASCII-7 data.</p>
 <p>Strings are declared using the user-defined type "UNICODE_TYPE". The type supports allocatable ragged arrays where each element may be of differing length.</p>
 <p>Compiler support of the optional Fortran ISO_10646 extension is not required.</p>
@@ -3188,7 +3342,7 @@ copy of the entire input string with all characters converted to miniscule.</li>
 <p>**M_unicode** should be useful for anyone working with UTF-8 data, particularly if the compiler does not support the UCS-4 extensions of Fortran.</p>
 <p>Until proven otherwise M_unicode(3f) should work with any environment where UTF-8 files are supported.</p>
 <p>The type components are not public to allow for use of the same user code when using other modules such as M_ucs4(3f) which ultimately will provide the same user interface but internally using ISO_10646 internal encoding instead of an array of integers containing codepoints (which is what M_unicode(3f) uses). This has the drawback of not permitting easy use of array syntax directly on the codepoint array. Perhaps this decision will change but in the meantime several methods such as REPLACE(3f) and CHARACTER(3f) and SUB(3f) provide similar functionality.</p>
-<h2 id="synopsis-30">SYNOPSIS</h2>
+<h2 id="synopsis-31">SYNOPSIS</h2>
 <p>public methods:</p>
 <h3 id="tokens">TOKENS</h3>
 <ul>
@@ -3349,10 +3503,10 @@ Sort by Unicode codepoint value (not dictionary order)</li>
 <h3 id="nonalpha">NONALPHA</h3>
 <h3 id="oops-interface">OOPS INTERFACE</h3>
 <p>An OOP (Object-Oriented Programming) interface to the M_unicode(3fm) module provides an alternative interface to all the same procedures except for SORT(3f) and CHAR(3f).</p>
-<h2 id="see-also-15">SEE ALSO</h2>
+<h2 id="see-also-16">SEE ALSO</h2>
 <p>All the procedure descriptions are conglomerated into the single file "manual.txt" for simple access not requiring access to man-pages or browsers.</p>
 <p>There are additional routines in other GPF modules for working with expressions (M_calculator), time strings (M_time), random strings (M_random, M_uuid), lists (M_list), and interfacing with the C regular expression library (M_regex).</p>
-<h2 id="examples-31">EXAMPLES</h2>
+<h2 id="examples-32">EXAMPLES</h2>
 <p>Each of the procedures includes an example program in the example/ directory as well as a corresponding man(1) page for the procedure.</p>
 <p>Sample program:</p>
 <pre><code>   program demo_M_unicode
@@ -3431,15 +3585,15 @@ Sort by Unicode codepoint value (not dictionary order)</li>
     &gt; АБВГҐДЕЄЖЗИІЇЙ--------ТУФХЦЧШЩЬЮЯ0123456789 ```
     &gt; абвгґдеєжзиіїй--------туфхцчшщьюя
 </code></pre>
-<h2 id="author-31">AUTHOR</h2>
+<h2 id="author-32">AUTHOR</h2>
 <p>John S. Urban</p>
-<h2 id="license-31">LICENSE</h2>
-<h3 id="mit-31">MIT</h3>
+<h2 id="license-32">LICENSE</h2>
+<h3 id="mit-32">MIT</h3>
 </div>
-<div id="name-33" class="slide section level1">
+<div id="name-34" class="slide section level1">
 <h1>NAME</h1>
 <p>M_unicode__eval(3f) - [M_unicode:QUERY] evaluate strings represented as Unicode codepoints (LICENSE:MIT)</p>
-<h2 id="synopsis-31">SYNOPSIS</h2>
+<h2 id="synopsis-32">SYNOPSIS</h2>
 <p>Public Types</p>
 <pre><code>    public :: cp_string, var_value, user_func, user_func_iface, &amp;
               &amp; compiled_expr
@@ -3449,7 +3603,7 @@ Sort by Unicode codepoint value (not dictionary order)</li>
              &amp; differentiate_compiled
     public :: utoc, ctou
 </code></pre>
-<h2 id="description-32">DESCRIPTION</h2>
+<h2 id="description-33">DESCRIPTION</h2>
 <p>M_unicode__eval is a standard-conforming Fortran 2008 module for compiling, evaluating, and symbolically differentiating mathematical expressions stored as 32-bit Unicode codepoint arrays (integer(int32)).</p>
 <h3 id="core-design-principles">CORE DESIGN PRINCIPLES</h3>
 <ul>
@@ -3546,7 +3700,7 @@ Incompatible array shapes during broadcasting or dot()</p></li>
 <li><p><strong>16</strong><br />
 Unsupported construct for symbolic differentiation</p></li>
 </ul>
-<h2 id="examples-32">EXAMPLES</h2>
+<h2 id="examples-33">EXAMPLES</h2>
 <p>Sample program</p>
 <pre><code>   program demo_M_unicode__eval
    use, intrinsic :: iso_fortran_env, only: int32, real64
@@ -3615,9 +3769,9 @@ Unsupported construct for symbolic differentiation</p></li>
 </code></pre>
 <p>Results &gt; &gt;</p>
 <h2 id="passing-arrays">PASSING ARRAYS</h2>
-<p># Part 2: Passing Arrays To and From the Module in a Larger Code</p>
+<p>Part 2: Passing Arrays To and From the Module in a Larger Code</p>
 <p>When integrating `M_unicode__eval` into a larger simulation or solver (such as a finite-element code, ODE integrator, or optimization loop), you do **not** want to recompile the expression string on every time step or iteration. Instead, follow a **3-phase lifecycle**:</p>
-<p>### 1. Passing Arrays INTO the Module (`vars(:)%val`)</p>
+<p>assing Arrays INTO the Module (`vars(:)%val`)</p>
 <ul>
 <li><p>Each variable in your expression corresponds to an index `i` in `var_names(1:N)` during `compile_expr_cp`.</p></li>
 <li><p>At runtime, you populate `vars(i)%val`—which is a standard Fortran `real(real64), allocatable :: val(:)` array.</p></li>
@@ -3625,7 +3779,13 @@ Unsupported construct for symbolic differentiation</p></li>
 <li><p>**For a scalar variable** (e.g., time `t` or viscosity `nu`): wrap it in a 1-element array constructor (`vars(2)%val = [t]`).</p></li>
 <li><p>**For multi-dimensional arrays** (e.g., a 2D field `T(nx, ny)`): flatten it into a 1D vector with `reshape(T, [nx * ny])` when passing it in, then `reshape` the output back to `(nx, ny)`. Because all arithmetic is element-wise, flattening preserves exact element correspondence.</p></li>
 </ul>
-<p>### 2. Receiving Arrays FROM the Module (`result(:)`)</p>
+<!-- end list -->
+
+<ol start="2">
+<li>Receiving Arrays FROM the Module (`result(:)`)</li>
+</ol>
+<!-- end list -->
+
 <ul>
 <li><p>`eval_compiled(prog, result, ierr, vars)` takes `real(real64), allocatable, intent(out) :: result(:)`.</p></li>
 <li><p>Fortran automatically allocates `result` to match the broadcasted size:</p>
@@ -3633,10 +3793,15 @@ Unsupported construct for symbolic differentiation</p></li>
 <li><p>If the expression evaluates to a **vector** (e.g., `"nu * u + sin(x)"`), `size(result)` equals `size(u)`.</p></li>
 <li><p>If the expression reduces to a **scalar** (e.g., `"norm2(u)</p>
 <ul>
-<li>t"`), `size(result)` equals `1` and the scalar value is `result(1)`. ### 3. Complete Integration Pattern (Solver Loop Example)</li>
+<li>t"`), `size(result)` equals `1` and the scalar value is `result(1)`.</li>
 </ul></li>
 </ul></li>
 </ul>
+<!-- end list -->
+
+<ol start="3">
+<li>Complete Integration Pattern (Solver Loop Example)</li>
+</ol>
 <p>```fortran subroutine run_solver_step(x_grid, u_field, dt, t_now, formula_utf8, rhs_out, ierr) use, intrinsic :: iso_fortran_env, only: real64 use M_unicode__eval implicit none</p>
 <blockquote>
 <p>real(real64), intent(in) :: x_grid(:), u_field(:) real(real64), intent(in) :: dt, t_now character(len=*), intent(in) :: formula_utf8 real(real64), intent(out) :: rhs_out(size(x_grid)) integer, intent(out) :: ierr</p>
@@ -3673,19 +3838,19 @@ Unsupported construct for symbolic differentiation</p></li>
     parallel do.
 </code></pre>
 <p>Would you like me to add zero-copy pointer support (real(real64), pointer :: val(:)) to var_value so large host arrays can be passed into eval_compiled without copying memory on every call?</p>
-<h2 id="see-also-16">SEE ALSO</h2>
+<h2 id="see-also-17">SEE ALSO</h2>
 <p>compile_expr_cp(3), eval_compiled(3), differentiate_compiled(3), utoc(3), ctou(3), M_unicode(3)</p>
-<h2 id="author-32">AUTHOR</h2>
+<h2 id="author-33">AUTHOR</h2>
 <p>John S. Urban</p>
 <h2 id="contributors-2">CONTRIBUTORS</h2>
 <p>Developed with coding and debugging assistance from Gemini (Google).</p>
-<h2 id="license-32">LICENSE</h2>
-<h3 id="mit-32">MIT</h3>
+<h2 id="license-33">LICENSE</h2>
+<h3 id="mit-33">MIT</h3>
 </div>
-<div id="name-34" class="slide section level1">
+<div id="name-35" class="slide section level1">
 <h1>NAME</h1>
 <p>M_unicode__regex(3f) - [M_unicode:REGULAR EXPRESSIONS] Overview of UTF-8 codepoint Regular Expression engine (LICENSE:MIT)</p>
-<h2 id="synopsis-32">SYNOPSIS</h2>
+<h2 id="synopsis-33">SYNOPSIS</h2>
 <p>Syntax</p>
 <pre><code>    use M_unicode__regex, only: regex_t, match_t, &amp;
                          regex_compile, regex_search, regex_replace, &amp;
@@ -3719,7 +3884,7 @@ Unsupported construct for symbolic differentiation</p></li>
      m    = regex_search(re, txt [, start_offset])
      out  = regex_replace(re, txt, repl [, replace_all])
 </code></pre>
-<h2 id="description-33">DESCRIPTION</h2>
+<h2 id="description-34">DESCRIPTION</h2>
 <ul>
 <li><strong>The M_unicode__regex(3f)</strong><br />
 module implements a self-contained, Unicode-aware regular expression compiler and backtracking Nondeterministic Finite Automaton (NFA) virtual machine in standard Fortran 2008.</li>
@@ -3932,14 +4097,14 @@ Between n and m times inclusive (greedy, 0 &lt;= n &lt;= m &lt;= 1000). *?, +?, 
 <h2 id="contributors-3">CONTRIBUTORS</h2>
 <p>Developed with coding and debugging assistance from Gemini (Google).</p>
 <p>Portions of this module (NFA compiler fixes, counted/lazy quantifiers, word boundaries, test suite, and documentation) were generated with assistance from Gemini (Google).</p>
-<h2 id="see-also-17">SEE ALSO</h2>
+<h2 id="see-also-18">SEE ALSO</h2>
 <p>regex_search(3), regex_compile(3), regex_replace(3)</p>
 <p>iso_fortran_env(3), pcre2syntax(3), regex(7)</p>
 </div>
-<div id="name-35" class="slide section level1">
+<div id="name-36" class="slide section level1">
 <h1>NAME</h1>
 <p>PAD(3f) - [M_unicode:PAD] return string padded to at least specified length (LICENSE:MIT)</p>
-<h2 id="synopsis-33">SYNOPSIS</h2>
+<h2 id="synopsis-34">SYNOPSIS</h2>
 <p>function pad(str,length,pattern,right,clip) result(out)</p>
 <pre><code>    type(unicode_type)                         :: str
     integer,intent(in)                         :: length
@@ -3948,9 +4113,9 @@ Between n and m times inclusive (greedy, 0 &lt;= n &lt;= m &lt;= 1000). *?, +?, 
     logical,intent(in),optional                :: right
     logical,intent(in),optional                :: clip
 </code></pre>
-<h2 id="description-34">DESCRIPTION</h2>
+<h2 id="description-35">DESCRIPTION</h2>
 <p>pad(3f) pads a string with a pattern to at least the specified length. If the trimmed input string is longer than the requested length the trimmed string is returned.</p>
-<h2 id="options-31">OPTIONS</h2>
+<h2 id="options-32">OPTIONS</h2>
 <ul>
 <li><p><strong>str</strong><br />
 the input string to return trimmed, but then padded to the specified length if shorter than length</p></li>
@@ -3963,12 +4128,12 @@ if true pads string on the right, else on the left. Defaults to true.</p></li>
 <li><p><strong>clip</strong><br />
 trim spaces from input string ends. Defaults to .true.</p></li>
 </ul>
-<h2 id="returns-15">RETURNS</h2>
+<h2 id="returns-16">RETURNS</h2>
 <ul>
 <li><strong>out</strong><br />
 The input string padded to the requested length or the trimmed input string if the input string is longer than the requested length.</li>
 </ul>
-<h2 id="examples-33">EXAMPLES</h2>
+<h2 id="examples-34">EXAMPLES</h2>
 <p>Sample Program:</p>
 <pre><code>  program demo_pad
   use M_unicode, only  : pad, assignment(=)
@@ -4052,17 +4217,17 @@ The input string padded to the requested length or the trimmed input string if t
      &gt; 12345
      &gt; 2345
 </code></pre>
-<h2 id="see-also-18">SEE ALSO</h2>
+<h2 id="see-also-19">SEE ALSO</h2>
 <p>adjustl(3f), adjustr(3f), repeat(3f), trim(3f), len_trim(3f), len(3f)</p>
-<h2 id="author-33">AUTHOR</h2>
+<h2 id="author-34">AUTHOR</h2>
 <p>John S. Urban</p>
-<h2 id="license-33">LICENSE</h2>
-<h3 id="mit-33">MIT</h3>
+<h2 id="license-34">LICENSE</h2>
+<h3 id="mit-34">MIT</h3>
 </div>
-<div id="name-36" class="slide section level1">
+<div id="name-37" class="slide section level1">
 <h1>NAME</h1>
 <p>pound_to_box(3f) - [M_unicode:EDITING] convert pound character to box characters (LICENSE:MIT)</p>
-<h2 id="synopsis-34">SYNOPSIS</h2>
+<h2 id="synopsis-35">SYNOPSIS</h2>
 <p>syntax:</p>
 <pre><code>      function pound_to_box(win,style) result(winout)
 
@@ -4074,21 +4239,21 @@ The input string padded to the requested length or the trimmed input string if t
 <ul>
 <li>WINOUT elements will all have the length of the longest element of WIN</li>
 </ul>
-<h2 id="description-35">DESCRIPTION</h2>
+<h2 id="description-36">DESCRIPTION</h2>
 <p>The pound character ("#") may be used to construct boxed text with the restriction that lines must be seperated by at least one character from other lines.</p>
-<h2 id="options-32">OPTIONS</h2>
+<h2 id="options-33">OPTIONS</h2>
 <ul>
 <li><p><strong>win</strong><br />
 input array to be changed</p></li>
 <li><p><strong>style</strong><br />
 may be "light", "bold", or "double". Default is "bold".</p></li>
 </ul>
-<h2 id="returns-16">RETURNS</h2>
+<h2 id="returns-17">RETURNS</h2>
 <ul>
 <li><strong>winout</strong><br />
 an array of strings with box characters substituted for adjacent pound characters.</li>
 </ul>
-<h2 id="examples-34">EXAMPLES</h2>
+<h2 id="examples-35">EXAMPLES</h2>
 <p>Sample Program:</p>
 <pre><code>   program demo_pound_to_box
    use M_unicode, only : ut=&gt;unicode_type
@@ -4175,12 +4340,94 @@ an array of strings with box characters substituted for adjacent pound character
     &gt;    ║ WARNING, WARNING, Will Robinson ║
     &gt;    ╚═════════════════════════════════╝
 </code></pre>
-<h2 id="author-34">AUTHOR</h2>
+<h2 id="author-35">AUTHOR</h2>
 <p>John S. Urban</p>
-<h2 id="license-34">LICENSE</h2>
-<h3 id="mit-34">MIT</h3>
+<h2 id="license-35">LICENSE</h2>
+<h3 id="mit-35">MIT</h3>
 </div>
-<div id="name-37" class="slide section level1">
+<div id="name-38" class="slide section level1">
+<h1>NAME</h1>
+<p>random_string(3f) - [M_random] create random string composed of provided characters of specified length (LICENSE:MIT)</p>
+<h2 id="synopsis-36">SYNOPSIS</h2>
+<p>function random_string(chars,length) result(out)</p>
+<pre><code>    character(len=*),intent(in)   :: chars
+    integer,intent(in)            :: length
+    character(len=length)         :: out
+
+    type(unicode_type),intent(in) :: ustr
+    integer,intent(in)            :: length
+    type(unicode_type)            :: out(length)
+
+    integer,intent(in)            :: codes(:)
+    integer,intent(in)            :: length
+    integer                       :: out(length)
+</code></pre>
+<h2 id="description-37">DESCRIPTION</h2>
+<p>Given a set of characters and a length, generate a random string of the specified length composed of the given set of characters.</p>
+<h2 id="options-34">OPTIONS</h2>
+<ul>
+<li><p><strong>astr</strong><br />
+character variable containing characters to construct OUT with</p></li>
+<li><p><strong>ustr</strong><br />
+string containing characters to construct OUT with</p></li>
+<li><p><strong>codes</strong><br />
+integer array of valid Unicode codepoint values</p></li>
+<li><p><strong>length</strong><br />
+number of characters to place in output</p></li>
+</ul>
+<h2 id="result-7">RESULT</h2>
+<ul>
+<li><strong>out</strong><br />
+string of LENGTH characters randomly filled with characters from CHARS</li>
+</ul>
+<h2 id="example-1">EXAMPLE</h2>
+<p>Sample program:</p>
+<pre><code>    program demo_random_string
+    use iso_fortran_env, only : stdout =&gt; output_unit
+    use M_unicode,       only : random_string, ut=&gt;unicode_type
+    use M_unicode,       only : assignment(=), ch=&gt;character
+    character(len=:),allocatable :: aset
+    type(ut)                     :: uset, ulets
+    integer,allocatable          :: iset(:), ilets(:)
+    integer                      :: i
+    character(len=*),parameter   :: g=&#39;(&quot;[&quot;,g0,&quot;]&quot;)&#39;
+
+     ! ensure getting an initially pseudo-random sequence
+       call random_init(.false., .true.)
+
+     ! ASCII-7 CHARACTER variable
+       ! random hexadecimal values are often used as authorization keys
+       aset=&#39;0123456789abcdef&#39;
+       write(stdout,g)aset, random_string(aset,64)
+
+     ! using type(unicode_type)
+       ! pick letters from Greek uppercase alphabet
+       uset=&#39;ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ&#39;
+       write(stdout,g) uset%ch(), ch(random_string(uset,16))
+
+     ! using codepoints
+       ! ADE values for ASCII-7 uppercase
+       iset=[(i,i=65,90)]
+       ilets=random_string(iset,32)
+       ! convert the codepoint values to a string
+       ulets=ilets
+       write(stdout,g) ulets%ch()
+
+    end program demo_random_string
+</code></pre>
+<p>Results</p>
+<pre><code>    &gt; [0123456789abcdef]
+    &gt; [b4b43bb527d410326d7b8f7a4273ca6710b1a6b1acf78ec51bbd70d8e224223e]
+    &gt; [ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ]
+    &gt; [ΜΒΘΘΛΓΘΦΘΑΣΠΕΤΦΕ]
+    &gt; [POFBDMVWNKDXCMVOEJLPKDBTNGEMUYDO]
+</code></pre>
+<h2 id="author-36">AUTHOR</h2>
+<p>John S. Urban</p>
+<h2 id="license-36">LICENSE</h2>
+<p>MIT License</p>
+</div>
+<div id="name-39" class="slide section level1">
 <h1>NAME</h1>
 <p>READLINE(3f) - [M_unicode:IO] read a line from specified LUN into string up to line length limit (LICENSE:MIT)</p>
 <h2 id="syntax-1">SYNTAX</h2>
@@ -4189,24 +4436,24 @@ an array of strings with box characters substituted for adjacent pound character
     integer,intent(out),optional :: iostat
     type(unicode_type)           :: line
 </code></pre>
-<h2 id="description-36">DESCRIPTION</h2>
+<h2 id="description-38">DESCRIPTION</h2>
 <p>Read a line of any length up to programming environment maximum line length. Requires Fortran 2003+.</p>
 <p>It is primarily expected to be used when reading input which will then be parsed.</p>
 <p>The input file must have a PAD attribute of YES for the function to work properly, which is typically true.</p>
 <p>The simple use of a loop that repeatedly re-allocates a character variable in addition to reading the input file one buffer at a time could (depending on the programming environment used) be inefficient, as it could reallocate and allocate memory used for the output string with each buffer read.</p>
-<h2 id="options-33">OPTIONS</h2>
+<h2 id="options-35">OPTIONS</h2>
 <ul>
 <li><p><strong>LUN</strong><br />
 optional LUN (Fortran logical I/O unit) number. Defaults to stdin.</p></li>
 <li><p><strong>IOSTAT</strong><br />
 status returned by READ(IOSTAT=IOS). If not zero, an error occurred or an end-of-file or end-of-record was encountered.</p></li>
 </ul>
-<h2 id="returns-17">RETURNS</h2>
+<h2 id="returns-18">RETURNS</h2>
 <ul>
 <li><strong>LINE</strong><br />
 line read. if IOSTAT is not zero, LINE returns the I/O error message.</li>
 </ul>
-<h2 id="example-1">EXAMPLE</h2>
+<h2 id="example-2">EXAMPLE</h2>
 <p>Sample program:</p>
 <pre><code>   program demo_readline
    use,intrinsic :: iso_fortran_env, only : stdin=&gt;input_unit
@@ -4378,20 +4625,20 @@ line read. if IOSTAT is not zero, LINE returns the I/O error message.</li>
 58</p></li>
 </ul></li>
 </ul>
-<h2 id="author-35">AUTHOR</h2>
+<h2 id="author-37">AUTHOR</h2>
 <p>John S. Urban</p>
-<h2 id="license-35">LICENSE</h2>
-<h3 id="mit-35">MIT</h3>
+<h2 id="license-37">LICENSE</h2>
+<h3 id="mit-36">MIT</h3>
 </div>
-<div id="name-38" class="slide section level1">
+<div id="name-40" class="slide section level1">
 <h1>NAME</h1>
 <p>regex_compile(3f) - [M_unicode::REGEX] compile a regular expression (LICENSE:MIT)</p>
-<h2 id="synopsis-35">SYNOPSIS</h2>
+<h2 id="synopsis-37">SYNOPSIS</h2>
 <p>function regex_compile(pattern) result(re)</p>
 <pre><code>         integer(int32), intent(in) :: pattern(:)
          type(regex_t)              :: re
 </code></pre>
-<h2 id="description-37">DESCRIPTION</h2>
+<h2 id="description-39">DESCRIPTION</h2>
 <p>Compiles a UTF-32 regular expression pattern into NFA bytecode.</p>
 <p>See M_unicode__regex(3) for a full description of regular expression syntax.</p>
 <p>The M_unicode__regex(3) module (accessed via the M_unicode(3) module) compiles regular expression patterns into Nondeterministic Finite Automaton (NFA) bytecode and executes them over arrays of UTF-32 scalar codepoints (ie.`integer(int32)`arrays). Because matching operates directly on Unicode codepoints rather than raw UTF-8 bytes, multi-byte characters (accented Latin, CJK, emoji, symbols) are indexed and matched as single characters without splitting byte sequences.</p>
@@ -4404,7 +4651,7 @@ line read. if IOSTAT is not zero, LINE returns the I/O error message.</li>
 scalar codepoints (integer(int32)).</li>
 </ul>
 <p>Helper functions utoc(3) and ctou(3) convert between standard UTF-8 encoded Fortran character strings and codepoint arrays.</p>
-<h2 id="options-34">OPTIONS</h2>
+<h2 id="options-36">OPTIONS</h2>
 <ul>
 <li><strong>pattern</strong><br />
 array of Unicode codepoints representing the regex.</li>
@@ -4414,7 +4661,7 @@ array of Unicode codepoints representing the regex.</li>
 <li><strong>re</strong><br />
 inspect re%valid before passing re to regex_search or regex_replace. Invalid patterns return re%valid = .false. without aborting.</li>
 </ul>
-<h2 id="example-2">EXAMPLE</h2>
+<h2 id="example-3">EXAMPLE</h2>
 <p>Sample program</p>
 <pre><code>   program demo_regex_compile
    end program demo_regex_search
@@ -4422,13 +4669,13 @@ inspect re%valid before passing re to regex_search or regex_replace. Invalid pat
 <p>Expected Output</p>
 <pre><code>    &gt;
 </code></pre>
-<h2 id="see-also-19">SEE ALSO</h2>
+<h2 id="see-also-20">SEE ALSO</h2>
 <p>M_unicode__regex, regex_replace(3), regex_search(3)</p>
 </div>
-<div id="name-39" class="slide section level1">
+<div id="name-41" class="slide section level1">
 <h1>NAME</h1>
 <p>regex_replace(3f) - [M_unicode::REGEX] Alter Unicode input according to regular expressions (LICENSE:MIT)</p>
-<h2 id="synopsis-36">SYNOPSIS</h2>
+<h2 id="synopsis-38">SYNOPSIS</h2>
 <p>regex_replace(re, text, replacement [, replace_all]) result(out_text)</p>
 <pre><code>     type(regex_t), intent(in)   :: re
      integer,intent(in)          :: text(:)
@@ -4436,9 +4683,9 @@ inspect re%valid before passing re to regex_search or regex_replace. Invalid pat
      logical,intent(in),optional :: replace_all
      integer,allocatable         :: out_text(:)
 </code></pre>
-<h2 id="description-38">DESCRIPTION</h2>
+<h2 id="description-40">DESCRIPTION</h2>
 <p>The M_unicode__regex(3) module loaded into the M_unicode(3) module compiles regular expression patterns into Nondeterministic Finite Automaton (NFA) bytecode and executes them over arrays of UTF-32 scalar codepoints (`integer(int32)`). Because matching operates directly on Unicode codepoints rather than raw UTF-8 bytes, multi-byte characters (accented Latin, CJK, emoji, symbols) are indexed and matched as single characters without splitting byte sequences.</p>
-<h2 id="options-35">OPTIONS</h2>
+<h2 id="options-37">OPTIONS</h2>
 <ul>
 <li><p><strong>re</strong><br />
 Compiled regular expression.</p></li>
@@ -4458,7 +4705,7 @@ If .true. (the default), replaces all non-overlapping matches in text. If .false
 <li><strong>out_text</strong><br />
 Newly allocated UTF-32 codepoint array containing the resulting text.</li>
 </ul>
-<h2 id="example-3">EXAMPLE</h2>
+<h2 id="example-4">EXAMPLE</h2>
 <p>Sample program</p>
 <pre><code>   program demo_regex_replace
       use iso_fortran_env, only: int32
@@ -4520,20 +4767,20 @@ Newly allocated UTF-32 codepoint array containing the resulting text.</li>
     &gt; Output     : Launch 🚀 -&gt; Zürich now
     &gt; Expected   : Launch 🚀 -&gt; Zürich now
 </code></pre>
-<h2 id="see-also-20">SEE ALSO</h2>
+<h2 id="see-also-21">SEE ALSO</h2>
 <p>M_unicode__regex, regex_search(3), regex_compile(3)</p>
 </div>
-<div id="name-40" class="slide section level1">
+<div id="name-42" class="slide section level1">
 <h1>NAME</h1>
 <p>regex_search(3f) - [M_unicode::REGEX] Locate strings matching a regular expression (LICENSE:MIT)</p>
-<h2 id="synopsis-37">SYNOPSIS</h2>
+<h2 id="synopsis-39">SYNOPSIS</h2>
 <p>regex_search(re, text [, start_offset]) result(m)</p>
 <pre><code>     type(regex_t), intent(in)    :: re
      integer,intent(in)           :: text(:)
      integer,intent(in), optional :: start_offset
      type(match_t)                :: m
 </code></pre>
-<h2 id="description-39">DESCRIPTION</h2>
+<h2 id="description-41">DESCRIPTION</h2>
 <p>Searches text for the leftmost match of the compiled expression re.</p>
 <p>The M_unicode__regex(3) module (accessed via the M_unicode(3) module) compiles regular expression patterns into Nondeterministic Finite Automaton (NFA) bytecode and executes them over arrays of UTF-32 scalar codepoints (ie.`integer(int32)`arrays). Because matching operates directly on Unicode codepoints rather than raw UTF-8 bytes, multi-byte characters (accented Latin, CJK, emoji, symbols) are indexed and matched as single characters without splitting byte sequences.</p>
 <p>For convenience the procedures are generic and two other types are allowed -- TYPE(UNICODE_TYPE) variables and CHARACTER variables may be used whee CODEPOINTS(integer arrays composed of valid Unicode codepoint values). ae used.</p>
@@ -4545,7 +4792,7 @@ Newly allocated UTF-32 codepoint array containing the resulting text.</li>
 scalar codepoints (integer(int32)).</li>
 </ul>
 <p>Helper functions utoc(3) and ctou(3) convert between standard UTF-8 encoded Fortran character strings and codepoint arrays.</p>
-<h2 id="options-36">OPTIONS</h2>
+<h2 id="options-38">OPTIONS</h2>
 <ul>
 <li><p><strong>re</strong><br />
 Compiled regular expression. If .not. re%valid, returns m%matched = .false. immediately.</p></li>
@@ -4566,7 +4813,7 @@ If m%matched is .true., the matched slice for group g (0 &lt;= g &lt; re%num_gro
 <p>whenever m%start_pos(g) &gt;= 1 and</p>
 <pre><code>                     m%end_pos(g) &gt;= m%start_pos(g).
 </code></pre>
-<h2 id="example-4">EXAMPLE</h2>
+<h2 id="example-5">EXAMPLE</h2>
 <p>Sample program</p>
 <pre><code>   ! Demonstrates compiling a pattern with multiple capture groups,
    ! iterating through every match in a multi-line buffer using
@@ -4647,13 +4894,13 @@ If m%matched is .true., the matched slice for group g (0 &lt;= g &lt; re%num_gro
     &gt; Output     : Launch 🚀 -&gt; Zürich now
     &gt; Expected   : Launch 🚀 -&gt; Zürich now
 </code></pre>
-<h2 id="see-also-21">SEE ALSO</h2>
+<h2 id="see-also-22">SEE ALSO</h2>
 <p>M_unicode__regex, regex_replace(3), regex_compile(3)</p>
 </div>
-<div id="name-41" class="slide section level1">
+<div id="name-43" class="slide section level1">
 <h1>NAME</h1>
 <p>REPEAT(3f) - [M_unicode:PAD] Repeated string concatenation (LICENSE:MIT)</p>
-<h2 id="synopsis-38">SYNOPSIS</h2>
+<h2 id="synopsis-40">SYNOPSIS</h2>
 <p>result = repeat(string, ncopies)</p>
 <pre><code>   type(unicode_type) function repeat(string, ncopies)
 
@@ -4666,16 +4913,16 @@ If m%matched is .true., the matched slice for group g (0 &lt;= g &lt; re%num_gro
 <li><p>NCOPIES is a scalar integer.</p></li>
 <li><p>the result is a new scalar string of type type(unicode_type)</p></li>
 </ul>
-<h2 id="description-40">DESCRIPTION</h2>
+<h2 id="description-42">DESCRIPTION</h2>
 <p>REPEAT(3f) concatenates copies of a string.</p>
-<h2 id="options-37">OPTIONS</h2>
+<h2 id="options-39">OPTIONS</h2>
 <ul>
 <li><p>STRING : The input string to repeat</p></li>
 <li><p>NCOPIES : Number of copies to make of STRING, greater than or equal to zero (0).</p></li>
 </ul>
-<h2 id="result-7">RESULT</h2>
+<h2 id="result-8">RESULT</h2>
 <p>A new string built up from NCOPIES copies of STRING.</p>
-<h2 id="examples-35">EXAMPLES</h2>
+<h2 id="examples-36">EXAMPLES</h2>
 <p>Sample program:</p>
 <pre><code>    program demo_repeat
     use M_unicode, only : ut=&gt;unicode_type,repeat,expand_backslash,write(formatted)
@@ -4694,20 +4941,20 @@ If m%matched is .true., the matched slice for group g (0 &lt;= g &lt; re%num_gro
 </code></pre>
 <h2 id="standard">STANDARD</h2>
 <p>Fortran 95</p>
-<h2 id="see-also-22">SEE ALSO</h2>
+<h2 id="see-also-23">SEE ALSO</h2>
 <p>Functions that perform operations on character strings:</p>
 <ul>
 <li><p>ELEMENTAL: ADJUSTL(3), ADJUSTR(3), INDEX(3), SCAN(3), VERIFY(3)</p></li>
 <li><p>NON-ELEMENTAL: LEN_TRIM(3), LEN(3), REPEAT(3), TRIM(3)</p></li>
 </ul>
 <p>Fortran descriptions (license: MIT) @urbanjost</p>
-<h2 id="license-36">LICENSE</h2>
-<h3 id="mit-36">MIT</h3>
+<h2 id="license-38">LICENSE</h2>
+<h3 id="mit-37">MIT</h3>
 </div>
-<div id="name-42" class="slide section level1">
+<div id="name-44" class="slide section level1">
 <h1>NAME</h1>
 <p>REPLACE(3f) - [M_unicode:EDITING] function replaces one substring for another in string (LICENSE:MIT)</p>
-<h2 id="synopsis-39">SYNOPSIS</h2>
+<h2 id="synopsis-41">SYNOPSIS</h2>
 <p>syntax:</p>
 <pre><code>      impure elemental function replace(target,old,new, &amp;
        &amp; occurrence, &amp;
@@ -4737,9 +4984,9 @@ If m%matched is .true., the matched slice for group g (0 &lt;= g &lt; re%num_gro
 <ul>
 <li>TARGET,OLD and NEW may be a string or a character variable.</li>
 </ul>
-<h2 id="description-41">DESCRIPTION</h2>
+<h2 id="description-43">DESCRIPTION</h2>
 <p>Replace old substring with new value in string. Either a old and new string is specified, or a new string and a column range indicating the position of the text to replace is specified.</p>
-<h2 id="options-38">OPTIONS</h2>
+<h2 id="options-40">OPTIONS</h2>
 <ul>
 <li><p><strong>target</strong><br />
 input line to be changed</p></li>
@@ -4763,14 +5010,14 @@ whether to ignore ASCII case or not. Defaults to .false. .</p></li>
 <li><p><strong>back</strong><br />
 if true start replacing moving from the right end of the string moving left instead of from the left to the right.</p></li>
 </ul>
-<h2 id="returns-18">RETURNS</h2>
+<h2 id="returns-19">RETURNS</h2>
 <ul>
 <li><p><strong>newline</strong><br />
 allocatable string returned</p></li>
 <li><p><strong>changes</strong><br />
 count of changes made.</p></li>
 </ul>
-<h2 id="examples-36">EXAMPLES</h2>
+<h2 id="examples-37">EXAMPLES</h2>
 <p>Sample Program:</p>
 <pre><code>   program demo_replace
    use M_unicode, only : ut=&gt;unicode_type
@@ -4832,32 +5079,32 @@ count of changes made.</p></li>
     &gt; myf90stuff.f90.for
     &gt; myforstuff.for.f90
 </code></pre>
-<h2 id="author-36">AUTHOR</h2>
+<h2 id="author-38">AUTHOR</h2>
 <p>John S. Urban</p>
-<h2 id="license-37">LICENSE</h2>
-<h3 id="mit-37">MIT</h3>
+<h2 id="license-39">LICENSE</h2>
+<h3 id="mit-38">MIT</h3>
 </div>
-<div id="name-43" class="slide section level1">
+<div id="name-45" class="slide section level1">
 <h1>NAME</h1>
 <p>reverse(3f) - [M_unicode:CASE] reverse order of glyphs on a line (LICENSE:MIT)</p>
-<h2 id="synopsis-40">SYNOPSIS</h2>
+<h2 id="synopsis-42">SYNOPSIS</h2>
 <p>pure elemental function reverse(str) result (string)</p>
 <pre><code>     type(unicode_type),intent(in) :: str
      type(unicode_type)            :: string
 </code></pre>
-<h2 id="description-42">DESCRIPTION</h2>
+<h2 id="description-44">DESCRIPTION</h2>
 <p>reverse(string) returns a copy of the input string with all characters in reverse position on the line.</p>
-<h2 id="options-39">OPTIONS</h2>
+<h2 id="options-41">OPTIONS</h2>
 <ul>
 <li><strong>str</strong><br />
 string to reverse</li>
 </ul>
-<h2 id="returns-19">RETURNS</h2>
+<h2 id="returns-20">RETURNS</h2>
 <ul>
 <li><strong>reverse</strong><br />
 copy of the input string with order of characters on the line reversed.</li>
 </ul>
-<h2 id="examples-37">EXAMPLES</h2>
+<h2 id="examples-38">EXAMPLES</h2>
 <p>Sample program:</p>
 <pre><code>   program demo_reverse
    use iso_fortran_env, only : stdout =&gt; output_unit
@@ -4884,15 +5131,15 @@ copy of the input string with order of characters on the line reversed.</li>
     &gt; 말국한
     &gt; 七十五
 </code></pre>
-<h2 id="author-37">AUTHOR</h2>
+<h2 id="author-39">AUTHOR</h2>
 <p>John S. Urban</p>
-<h2 id="license-38">LICENSE</h2>
-<h3 id="mit-38">MIT</h3>
+<h2 id="license-40">LICENSE</h2>
+<h3 id="mit-39">MIT</h3>
 </div>
-<div id="name-44" class="slide section level1">
+<div id="name-46" class="slide section level1">
 <h1>NAME</h1>
 <p>SCAN(3f) - [M_unicode:SEARCH] Scan a string for the presence of a set of characters (LICENSE:MIT)</p>
-<h2 id="synopsis-41">SYNOPSIS</h2>
+<h2 id="synopsis-43">SYNOPSIS</h2>
 <p>result = scan( string, set, [,back] )</p>
 <pre><code>   elemental integer(kind=KIND) function scan(string,set,back)
 
@@ -4911,20 +5158,20 @@ copy of the input string with order of characters on the line reversed.</li>
 <li><p>BACK is a logical of default kind</p></li>
 <li><p>the result is an integer of default kind.</p></li>
 </ul>
-<h2 id="description-43">DESCRIPTION</h2>
+<h2 id="description-45">DESCRIPTION</h2>
 <p>SCAN(3f) scans a STRING for any of the characters in a SET of characters.</p>
 <p>If BACK is either absent or equals .false., this function returns the position of the leftmost character of STRING that is in SET. If BACK equals .true., the rightmost position is returned. If no character of SET is found in STRING, the result is zero.</p>
-<h2 id="options-40">OPTIONS</h2>
+<h2 id="options-42">OPTIONS</h2>
 <ul>
 <li><p>STRING : the string to be scanned</p></li>
 <li><p>SET : the set of characters which will be matched</p></li>
 <li><p>BACK : if .true. the position of the rightmost character matched is returned, instead of the leftmost.</p></li>
 </ul>
-<h2 id="result-8">RESULT</h2>
+<h2 id="result-9">RESULT</h2>
 <p>If BACK is absent or is present with the value false and if STRING contains at least one character that is in SET, the value of the result is the position of the leftmost character of STRING that is in SET.</p>
 <p>If BACK is present with the value true and if STRING contains at least one character that is in SET, the value of the result is the position of the rightmost character of STRING that is in SET.</p>
 <p>The value of the result is zero if no character of STRING is in SET or if the length of STRING or SET is zero.</p>
-<h2 id="examples-38">EXAMPLES</h2>
+<h2 id="examples-39">EXAMPLES</h2>
 <p>Sample program:</p>
 <pre><code>   program demo_scan
    use iso_fortran_env, only : stdout =&gt; output_unit
@@ -4966,21 +5213,21 @@ copy of the input string with order of characters on the line reversed.</li>
     &gt; 8
     &gt; 15
 </code></pre>
-<h2 id="see-also-23">SEE ALSO</h2>
+<h2 id="see-also-24">SEE ALSO</h2>
 <p>Functions that perform operations on character strings, return lengths of arguments, and search for certain arguments:</p>
 <ul>
 <li><p>ADJUSTL(3), ADJUSTR(3), INDEX(3), VERIFY(3)</p></li>
 <li><p>LEN_TRIM(3), LEN(3), REPEAT(3), TRIM(3)</p></li>
 </ul>
-<h2 id="author-38">AUTHOR</h2>
+<h2 id="author-40">AUTHOR</h2>
 <p>John S. Urban</p>
-<h2 id="license-39">LICENSE</h2>
-<h3 id="mit-39">MIT</h3>
+<h2 id="license-41">LICENSE</h2>
+<h3 id="mit-40">MIT</h3>
 </div>
-<div id="name-45" class="slide section level1">
+<div id="name-47" class="slide section level1">
 <h1>NAME</h1>
 <p>slurp(3f) - [M_unicode:IO] read formatted UTF-8 file into a TYPE(UNICODE_TYPE) string array (LICENSE:MIT)</p>
-<h2 id="synopsis-42">SYNOPSIS</h2>
+<h2 id="synopsis-44">SYNOPSIS</h2>
 <p>function slurp(filename,iomsg) result(text)</p>
 <pre><code>   character(len=*),intent(in),optional              :: filename
    ! or
@@ -4990,23 +5237,23 @@ copy of the input string with order of characters on the line reversed.</li>
 
    type(unicode_type),allocatable,intent(out)        :: text(:)
 </code></pre>
-<h2 id="description-44">DESCRIPTION</h2>
+<h2 id="description-46">DESCRIPTION</h2>
 <p>Uses READLINE(3f) to read an entire formatted UTF-8 encoded file into a TYPE(UNICODE_TYPE) string array, each line of the file becoming an element of the output array.</p>
 <h3 id="note">NOTE</h3>
 <p>Never casually read an entire file into memory if you can process it per line or in smaller units; as large files can consume unreasonable amounts of memory.</p>
-<h2 id="options-41">OPTIONS</h2>
+<h2 id="options-43">OPTIONS</h2>
 <ul>
 <li><p><strong>filename</strong><br />
 filename to read into memory. If the filename is absent stdin will be read.</p></li>
 <li><p><strong>iomsg</strong><br />
 if an error occurs iomsg will contain an error message, else it will be a null string.</p></li>
 </ul>
-<h2 id="returns-20">RETURNS</h2>
+<h2 id="returns-21">RETURNS</h2>
 <ul>
 <li><strong>text</strong><br />
 array of characters that holds contents of the file</li>
 </ul>
-<h2 id="examples-39">EXAMPLES</h2>
+<h2 id="examples-40">EXAMPLES</h2>
 <ul>
 <li><strong>Sample program, which</strong><br />
 creates test input file "inputfile" and then reads it back in.</li>
@@ -5089,21 +5336,21 @@ creates test input file "inputfile" and then reads it back in.</li>
  &gt; vatu u džepu nošnje.
  &gt;
 </code></pre>
-<h2 id="author-39">AUTHOR</h2>
+<h2 id="author-41">AUTHOR</h2>
 <p>John S. Urban</p>
-<h2 id="license-40">LICENSE</h2>
-<h3 id="mit-40">MIT</h3>
+<h2 id="license-42">LICENSE</h2>
+<h3 id="mit-41">MIT</h3>
 </div>
-<div id="name-46" class="slide section level1">
+<div id="name-48" class="slide section level1">
 <h1>NAME</h1>
 <p>SORT(3f) - [M_unicode:SORT] indexed hybrid quicksort of an array (LICENSE:MIT)</p>
-<h2 id="synopsis-43">SYNOPSIS</h2>
+<h2 id="synopsis-45">SYNOPSIS</h2>
 <p>subroutine sort(data,index,comparison_func)</p>
 <pre><code>        type(unicode_type),intent(in)           :: data(:)
         integer,intent(out)                     :: indx(size(data))
         procedure(unicode_comparator), optional :: comparison_func
 </code></pre>
-<h2 id="description-45">DESCRIPTION</h2>
+<h2 id="description-47">DESCRIPTION</h2>
 <p>A rank hybrid quicksort. The data is not moved. An integer array is generated instead with values that are indices to the sorted order of the data. This requires a second array the size of the input array, which for large arrays would require a significant amount of memory. One major advantage of this method is that the indices can be used to access an entire user-defined type in sorted order. This makes this seemingly simple sort procedure usable with the vast majority of user-defined types. or other correlated data.</p>
 <p>By default data is sorted according to the Unicode codepoint values of the characters. A user-supplied comparison function may be supplied</p>
 <ul>
@@ -5137,7 +5384,7 @@ A custom collation function must take two values and return a logical value:</li
 <li><p>generalized from only real values to include other intrinsic types; John S. Urban 20210110</p></li>
 <li><p>type(unicode_type) version JSU 2025-09-20. See M_sort for other types.</p></li>
 </ul>
-<h2 id="examples-40">EXAMPLES</h2>
+<h2 id="examples-41">EXAMPLES</h2>
 <p>Note that the custom German dictionary collate function found below is just a sample, and likely to be quite slow.</p>
 <p>Sample usage:</p>
 <pre><code>   program demo_sort
@@ -5417,15 +5664,15 @@ A custom collation function must take two values and return a logical value:</li
     &gt; CHECK TEST WORDS: T T T T T T T T T T T T T T T T T T
     &gt; PASSED
 </code></pre>
-<h2 id="author-40">AUTHOR</h2>
+<h2 id="author-42">AUTHOR</h2>
 <p>John S. Urban</p>
-<h2 id="license-41">LICENSE</h2>
-<h3 id="mit-41">MIT</h3>
+<h2 id="license-43">LICENSE</h2>
+<h3 id="mit-42">MIT</h3>
 </div>
-<div id="name-47" class="slide section level1">
+<div id="name-49" class="slide section level1">
 <h1>NAME</h1>
 <p>SPLIT(3f) - [M_unicode:PARSE] parse a string into tokens, one at a time. (LICENSE:MIT)</p>
-<h2 id="synopsis-44">SYNOPSIS</h2>
+<h2 id="synopsis-46">SYNOPSIS</h2>
 <p>call split (string, set, pos [, back])</p>
 <pre><code>   type(unicode_type),intent(in) :: string
    type(unicode_type),intent(in) :: set
@@ -5437,10 +5684,10 @@ A custom collation function must take two values and return a logical value:</li
 <li><p>STRING is a scalar character variable</p></li>
 <li><p>SET is a scalar string variable</p></li>
 </ul>
-<h2 id="description-46">DESCRIPTION</h2>
+<h2 id="description-48">DESCRIPTION</h2>
 <p>Find the extent of consecutive tokens in a string. given a string and a position to start looking for a token return the position of the end of the token. a set of separator characters may be specified as well as the direction of parsing.</p>
 <p>typically consecutive calls are used to parse a string into a set of tokens by stepping through the start and end positions of each token.</p>
-<h2 id="options-42">OPTIONS</h2>
+<h2 id="options-44">OPTIONS</h2>
 <ul>
 <li><p>STRING : the string to search for tokens in.</p></li>
 <li><p>SET : Each character in set is a token delimiter. a sequence of zero or more characters in string delimited by any token delimiter, or the beginning or end of string, comprise a token. thus, two consecutive token delimiters in STRING, or a token delimiter in the first or last character of STRING, indicate a token with zero length.</p></li>
@@ -5454,7 +5701,7 @@ A custom collation function must take two values and return a logical value:</li
 on return.</li>
 </ul></li>
 </ul>
-<h2 id="example-5">EXAMPLE</h2>
+<h2 id="example-6">EXAMPLE</h2>
 <p>sample program:</p>
 <pre><code>   program demo_split
    use iso_fortran_env, only : stdout =&gt; output_unit
@@ -5520,38 +5767,38 @@ on return.</li>
      &gt; OOP
      &gt; [Más][vale][pájaro][en][mano,][que][ciento][volando.]
 </code></pre>
-<h2 id="see-also-24">SEE ALSO</h2>
+<h2 id="see-also-25">SEE ALSO</h2>
 <ul>
 <li><p>tokenize(3) - parse a string into tokens</p></li>
 <li><p>index(3) - position of a substring within a string</p></li>
 <li><p>scan(3) - scan a string for the presence of a set of characters</p></li>
 <li><p>verify(3) - position of a character in a string of characters that does not appear in a given set of characters.</p></li>
 </ul>
-<h2 id="author-41">AUTHOR</h2>
+<h2 id="author-43">AUTHOR</h2>
 <p>Milan Curcic, "<a href="mailto:milancurcic@hey.com">milancurcic@hey.com</a>" John S. Urban -- UTF-8 version</p>
-<h2 id="license-42">LICENSE</h2>
-<h3 id="mit-42">MIT</h3>
+<h2 id="license-44">LICENSE</h2>
+<h3 id="mit-43">MIT</h3>
 </div>
-<div id="name-48" class="slide section level1">
+<div id="name-50" class="slide section level1">
 <h1>NAME</h1>
 <p>str_to_real(3f) ‐ [M_unicode:TYPE] subroutine returns numeric value from string (LICENSE:MIT)</p>
-<h2 id="synopsis-45">SYNOPSIS</h2>
+<h2 id="synopsis-47">SYNOPSIS</h2>
 <p>pure elemental subroutine str_to_real(str, val, ierr)</p>
 <pre><code>        character(len=*), intent(in)  :: str
         real(real64),     intent(out) :: val
         integer,          intent(out) :: ierr
 </code></pre>
-<h2 id="description-47">DESCRIPTION</h2>
+<h2 id="description-49">DESCRIPTION</h2>
 <p>STR_TO_REAL(3f) returns a numeric value given a string representing a numeric value; without using internal I/O (the conventional method in Fortran).</p>
 <p>The procedure utilitizes full IEEE 754 support for literal Inf/Infinity, NaN (case-insensitive), and signed <strong>-0.0</strong> preservation, while keeping the procedure pure elemental.</p>
 <p>STR_TO_REAL(3f) works with any G‐format input, This includes whole number, float, and exponential syntax. That is, input strings may contain signs (+/-), decimal points, and scientific notation (e/E/d/D).</p>
 <p>The output is a double-precision real (real(real64)), along with an integer error flag (ierr).</p>
-<h2 id="options-43">OPTIONS</h2>
+<h2 id="options-45">OPTIONS</h2>
 <ul>
 <li><strong>chars</strong><br />
 input string to read numeric value from</li>
 </ul>
-<h2 id="returns-21">RETURNS</h2>
+<h2 id="returns-22">RETURNS</h2>
 <ul>
 <li><p><strong>valu</strong><br />
 DOUBLEPRECISION numeric value returned.</p></li>
@@ -5597,7 +5844,7 @@ Checks the combined order of magnitude against maxexponent(val) before raising 1
 <p>Sign Preservation on Overflow: Added a pure elemental helper function signed_inf(sign_val) so inputs like "<strong>-1.80e308</strong>" return <strong>-Infinity</strong> while "1.80e308" returns +Infinity.</p>
 <p>Consistent Error 6 Handling: Updated all three overflow return paths (mantissa overflow, total_exp &gt; 308, and the total_exp == 308 boundary check) to assign val = signed_inf(sign_val) alongside ierr = 6.</p>
 </blockquote>
-<h2 id="examples-41">EXAMPLES</h2>
+<h2 id="examples-42">EXAMPLES</h2>
 <p>Sample Program:</p>
 <pre><code>  program demo_str_to_real
    use, intrinsic :: iso_fortran_env, only: real64
@@ -5643,15 +5890,15 @@ Checks the combined order of magnitude against maxexponent(val) before raising 1
    enddo
   end program demo_str_to_real
 </code></pre>
-<h2 id="author-42">AUTHOR</h2>
+<h2 id="author-44">AUTHOR</h2>
 <p>John S. Urban</p>
-<h2 id="license-43">LICENSE</h2>
-<h3 id="mit-43">MIT</h3>
+<h2 id="license-45">LICENSE</h2>
+<h3 id="mit-44">MIT</h3>
 </div>
-<div id="name-49" class="slide section level1">
+<div id="name-51" class="slide section level1">
 <h1>NAME</h1>
 <p>SUB(3f) - [M_unicode:EDITING] Return substring (LICENSE:MIT)</p>
-<h2 id="synopsis-46">SYNOPSIS</h2>
+<h2 id="synopsis-48">SYNOPSIS</h2>
 <p>impure elemental function sub(str,left,right,step) result(section)</p>
 <pre><code>    type(unicode_type)          :: str
     integer,intent(in),optional :: left
@@ -5659,9 +5906,9 @@ Checks the combined order of magnitude against maxexponent(val) before raising 1
     integer,intent(in),optional :: step
     type(unicode_type)          :: section
 </code></pre>
-<h2 id="description-48">DESCRIPTION</h2>
+<h2 id="description-50">DESCRIPTION</h2>
 <p>sub(3f) returns a substring from one column to another.</p>
-<h2 id="options-44">OPTIONS</h2>
+<h2 id="options-46">OPTIONS</h2>
 <ul>
 <li><p><strong>str</strong><br />
 the input string to return a section of</p></li>
@@ -5672,12 +5919,12 @@ column number of str ending section of str to return. Defaults to right end of S
 <li><p><strong>step</strong><br />
 step to take from left column to right column. Defaults to 1.</p></li>
 </ul>
-<h2 id="returns-22">RETURNS</h2>
+<h2 id="returns-23">RETURNS</h2>
 <ul>
 <li><strong>section</strong><br />
 The specified subsection of the input string</li>
 </ul>
-<h2 id="examples-42">EXAMPLES</h2>
+<h2 id="examples-43">EXAMPLES</h2>
 <p>Sample Program:</p>
 <pre><code>    program demo_sub
      use M_unicode, only : sub, assignment(=)
@@ -5714,17 +5961,17 @@ The specified subsection of the input string</li>
     &gt; reverse string:[jihgfedcba]
     &gt;
 </code></pre>
-<h2 id="see-also-25">SEE ALSO</h2>
+<h2 id="see-also-26">SEE ALSO</h2>
 <p>adjustl(3f), adjustr(3f), repeat(3f), trim(3f), len_trim(3f), len(3f)</p>
-<h2 id="author-43">AUTHOR</h2>
+<h2 id="author-45">AUTHOR</h2>
 <p>John S. Urban</p>
-<h2 id="license-44">LICENSE</h2>
-<h3 id="mit-44">MIT</h3>
+<h2 id="license-46">LICENSE</h2>
+<h3 id="mit-45">MIT</h3>
 </div>
-<div id="name-50" class="slide section level1">
+<div id="name-52" class="slide section level1">
 <h1>NAME</h1>
 <p>TOKENIZE(3f) - [M_unicode:PARSE] Parse a string into tokens. (LICENSE:MIT)</p>
-<h2 id="synopsis-47">SYNOPSIS</h2>
+<h2 id="synopsis-49">SYNOPSIS</h2>
 <p>TOKEN form (returns array of strings)</p>
 <pre><code>   subroutine tokenize(string, set, tokens [, separator])
 
@@ -5749,7 +5996,7 @@ The specified subsection of the input string</li>
 <li><p>TOKENS ‐ of type string. It is an INTENT(OUT) argument. It shall not be a coarray or a coindexed object.</p></li>
 <li><p>FIRST,LAST ‐ an allocatable array of type integer and rank one. It is an INTENT(OUT) argument. It shall not be a coarray or a coindexed object.</p></li>
 </ul>
-<h2 id="description-49">DESCRIPTION</h2>
+<h2 id="description-51">DESCRIPTION</h2>
 <p>TOKENIZE(3f) parses a string into tokens. There are two forms of the subroutine TOKENIZE(3f).</p>
 <ul>
 <li><p>The token form returns an array with one token per element, all of the same length as the longest token.</p></li>
@@ -5757,7 +6004,7 @@ The specified subsection of the input string</li>
 </ul>
 <p>Since the token form pads all the tokens to the same length the original number of trailing spaces of each token accept for the longest is lost.</p>
 <p>The array bounds form retains information regarding the exact token length even when padded by spaces.</p>
-<h2 id="options-45">OPTIONS</h2>
+<h2 id="options-47">OPTIONS</h2>
 <ul>
 <li><strong>•</strong><br />
 STRING : The string to parse into tokens.</li>
@@ -5774,7 +6021,7 @@ STRING : The string to parse into tokens.</li>
 <li><p>LAST : It is allocated with the lower bound equal to one and the upper bound equal to the number of tokens in STRING. Each element is assigned, in array element order, the ending position of each token in STRING, in the order found.</p>
 <p>If a token has zero length, the ending position is one less than the starting position.</p></li>
 </ul>
-<h2 id="examples-43">EXAMPLES</h2>
+<h2 id="examples-44">EXAMPLES</h2>
 <p>Sample of uses</p>
 <pre><code>     program demo_tokenize
      use M_unicode, only : tokenize, ut=&gt;unicode_type,ch=&gt;character
@@ -5943,22 +6190,22 @@ STRING : The string to parse into tokens.</li>
      &gt; LAST=5,12,13,20
      &gt; HAS LENGTH=T,T,F,T
 </code></pre>
-<h2 id="see-also-26">SEE ALSO</h2>
+<h2 id="see-also-27">SEE ALSO</h2>
 <ul>
 <li><p>SPLIT(3) ‐ return tokens from a string, one at a time</p></li>
 <li><p>INDEX(3) ‐ Position of a substring within a string</p></li>
 <li><p>SCAN(3) ‐ Scan a string for the presence of a set of characters</p></li>
 <li><p>VERIFY(3) ‐ Position of a character in a string of characters that does not appear in a given set of characters.</p></li>
 </ul>
-<h2 id="author-44">AUTHOR</h2>
+<h2 id="author-46">AUTHOR</h2>
 <p>Milan Curcic, "<a href="mailto:milancurcic@hey.com">milancurcic@hey.com</a>" John S. Urban -- UTF-8 version</p>
-<h2 id="license-45">LICENSE</h2>
-<h3 id="mit-45">MIT</h3>
+<h2 id="license-47">LICENSE</h2>
+<h3 id="mit-46">MIT</h3>
 </div>
-<div id="name-51" class="slide section level1">
+<div id="name-53" class="slide section level1">
 <h1>NAME</h1>
 <p>transliterate(3f) - [M_unicode:EDITING] replace characters from old set with new set (LICENSE:MIT)</p>
-<h2 id="synopsis-48">SYNOPSIS</h2>
+<h2 id="synopsis-50">SYNOPSIS</h2>
 <p>impure elemental &amp; &amp; function transliterate(instr,old_set,new_set) result(outstr)</p>
 <ul class="incremental">
 <li><p><strong>type(unicode_type),intent(in)</strong><br />
@@ -5972,9 +6219,9 @@ STRING : The string to parse into tokens.</li>
 </ul>
 <h2 id="characteristics-16">CHARACTERISTICS</h2>
 <p>Although a conversion might occur on each call, the input values may be CHARACTER as well as TYPE(UNICODE_TYPE).</p>
-<h2 id="description-50">DESCRIPTION</h2>
+<h2 id="description-52">DESCRIPTION</h2>
 <p>Translate or delete characters from an input string.</p>
-<h2 id="options-46">OPTIONS</h2>
+<h2 id="options-48">OPTIONS</h2>
 <ul>
 <li><p><strong>instr</strong><br />
 input string to change</p></li>
@@ -5999,12 +6246,12 @@ list of glyphs to replace glyphs in OLD_SET with.</li>
            in NEW_SET is used to replace the remaining glyphs
            in NEW_SET.
 </code></pre>
-<h2 id="returns-23">RETURNS</h2>
+<h2 id="returns-24">RETURNS</h2>
 <ul>
 <li><strong>outstr</strong><br />
 INSTR with substitutions applied</li>
 </ul>
-<h2 id="examples-44">EXAMPLES</h2>
+<h2 id="examples-45">EXAMPLES</h2>
 <p>Sample Program:</p>
 <pre><code>   program demo_transliterate
 
@@ -6081,15 +6328,15 @@ INSTR with substitutions applied</li>
      &gt; Α·Β·Γ·Δ·Ε·Ζ·Η·Θ·Ι·Κ·Λ·Μ·Ν·Ξ·Ο·Π·Ρ·Σ·ςΤ·Υ·Φ·Χ·Ψ·Ω·
      &gt; Α·Β·Γ·Δ·Ε·Ζ·Η·Θ·Ι·Κ·Λ·Μ·Ν·Ξ·Ο·Π·Ρ·Σ·ςΤ·Υ·Φ·Χ·Ψ·Ω·
 </code></pre>
-<h2 id="author-45">AUTHOR</h2>
+<h2 id="author-47">AUTHOR</h2>
 <p>John S. Urban</p>
-<h2 id="license-46">LICENSE</h2>
-<h3 id="mit-46">MIT</h3>
+<h2 id="license-48">LICENSE</h2>
+<h3 id="mit-47">MIT</h3>
 </div>
-<div id="name-52" class="slide section level1">
+<div id="name-54" class="slide section level1">
 <h1>NAME</h1>
 <p>TRIM(3f) - [M_unicode:WHITESPACE] remove trailing blank characters from a string (LICENSE:MIT)</p>
-<h2 id="synopsis-49">SYNOPSIS</h2>
+<h2 id="synopsis-51">SYNOPSIS</h2>
 <p>result = trim(string)</p>
 <pre><code>   type(unicode_type) function trim(string)
 
@@ -6099,16 +6346,16 @@ INSTR with substitutions applied</li>
 <ul>
 <li>the result is a string.</li>
 </ul>
-<h2 id="description-51">DESCRIPTION</h2>
+<h2 id="description-53">DESCRIPTION</h2>
 <p>trim(3f) removes trailing blank characters from a string.</p>
-<h2 id="options-47">OPTIONS</h2>
+<h2 id="options-49">OPTIONS</h2>
 <ul>
 <li>string : a string to trim</li>
 </ul>
-<h2 id="result-9">RESULT</h2>
+<h2 id="result-10">RESULT</h2>
 <p>the result is the same as string except trailing blanks are removed.</p>
 <p>if string is composed entirely of blanks or has zero length, the result has zero length.</p>
-<h2 id="examples-45">EXAMPLES</h2>
+<h2 id="examples-46">EXAMPLES</h2>
 <p>sample program:</p>
 <pre><code>   program demo_trim
    use M_unicode, only : ut=&gt;unicode_type, assignment(=)
@@ -6155,40 +6402,40 @@ INSTR with substitutions applied</li>
     &gt; [Z] [ a b c] [ABC] []
     &gt; [Z] [ a b c] [ABC] []
 </code></pre>
-<h2 id="see-also-27">SEE ALSO</h2>
+<h2 id="see-also-28">SEE ALSO</h2>
 <p>Functions that perform operations on character strings, return lengths of arguments, and search for certain arguments:</p>
 <ul>
 <li><p>elemental: adjustl(3), adjustr(3), index(3), scan(3), verify(3)</p></li>
 <li><p>nonelemental: len_trim(3), len(3), repeat(3), trim(3)</p></li>
 </ul>
-<h2 id="author-46">AUTHOR</h2>
+<h2 id="author-48">AUTHOR</h2>
 <p>John S. Urban</p>
-<h2 id="license-47">LICENSE</h2>
-<h3 id="mit-47">MIT</h3>
+<h2 id="license-49">LICENSE</h2>
+<h3 id="mit-48">MIT</h3>
 </div>
-<div id="name-53" class="slide section level1">
+<div id="name-55" class="slide section level1">
 <h1>NAME</h1>
 <p>UPPER(3f) - [M_unicode:CASE] changes a string to uppercase (LICENSE:MIT)</p>
-<h2 id="synopsis-50">SYNOPSIS</h2>
+<h2 id="synopsis-52">SYNOPSIS</h2>
 <p>pure elemental function upper(str) result (string)</p>
 <pre><code>     type(unicode_type),intent(in) :: str
      type(unicode_type)            :: string
 </code></pre>
-<h2 id="description-52">DESCRIPTION</h2>
+<h2 id="description-54">DESCRIPTION</h2>
 <p>upper(string) returns a copy of the input string with all characters converted to uppercase, assuming Unicode character sets are being used.</p>
-<h2 id="options-48">OPTIONS</h2>
+<h2 id="options-50">OPTIONS</h2>
 <ul>
 <li><strong>str</strong><br />
 string to convert to uppercase</li>
 </ul>
-<h2 id="returns-24">RETURNS</h2>
+<h2 id="returns-25">RETURNS</h2>
 <ul>
 <li><strong>upper</strong><br />
 copy of the input string with all characters converted to uppercase.</li>
 </ul>
 <h2 id="trivia-1">TRIVIA</h2>
 <p>The terms "uppercase" and "lowercase" date back to the early days of the mechanical printing press. Individual metal alloy casts of each needed letter, or punctuation symbol, were meticulously added to a press block, by hand, before rolling out copies of a page. These metal casts were stored and organized in wooden cases. The more often needed miniscule letters were placed closer to hand, in the lower cases of the work bench. The less often needed, capitalized, majuscule letters, ended up in the harder to reach upper cases.</p>
-<h2 id="examples-46">EXAMPLES</h2>
+<h2 id="examples-47">EXAMPLES</h2>
 <p>Sample program:</p>
 <pre><code>   program demo_upper
    use iso_fortran_env, only : stdout =&gt; output_unit
@@ -6248,15 +6495,15 @@ copy of the input string with all characters converted to uppercase.</li>
   &gt; PŘÍLIŠ ŽLUŤOUČKÝ KŮŇ ÚPĚL ĎÁBELSKÉ ÓDY.
   &gt; PASSED
 </code></pre>
-<h2 id="author-47">AUTHOR</h2>
+<h2 id="author-49">AUTHOR</h2>
 <p>John S. Urban</p>
-<h2 id="license-48">LICENSE</h2>
-<h3 id="mit-48">MIT</h3>
+<h2 id="license-50">LICENSE</h2>
+<h3 id="mit-49">MIT</h3>
 </div>
-<div id="name-54" class="slide section level1">
+<div id="name-56" class="slide section level1">
 <h1>NAME</h1>
 <p>UTF8_TO_CODEPOINTS(3f) - [M_unicode:CONVERSION] Convert UTF-8-encoded data to Unicode codepoints (LICENSE:MIT)</p>
-<h2 id="synopsis-51">SYNOPSIS</h2>
+<h2 id="synopsis-53">SYNOPSIS</h2>
 <p>pure subroutine utf8_to_codepoints(utf8,codepoints,nerr)</p>
 <pre><code>    character(len=1),intent(in)     :: utf8(:)
     !  or
@@ -6271,9 +6518,9 @@ copy of the input string with all characters converted to uppercase.</li>
 <li><p>the returned values in CODEPOINTS are of default INTEGER kind</p></li>
 <li><p>the error flag NERR is default integer kind</p></li>
 </ul>
-<h2 id="description-53">DESCRIPTION</h2>
+<h2 id="description-55">DESCRIPTION</h2>
 <p>UTF8_TO_CODEPOINTS(3f) takes either a scalar CHARACTER variable or an array of CHARACTER(LEN=1) bytes which are treated as a stream of bytes representing UTF-8-encoded data and converted to an INTEGER array containing Unicode codepoint values for each glyph.</p>
-<h2 id="options-49">OPTIONS</h2>
+<h2 id="options-51">OPTIONS</h2>
 <ul>
 <li>UTF8 : Scalar CHARACTER string or single-character array of CHARACTER variables assumed to represent a stream of bytes containing data encoded as UTF-8 text.</li>
 </ul>
@@ -6282,7 +6529,7 @@ copy of the input string with all characters converted to uppercase.</li>
 <li><p>CODEPOINTS : An INTEGER array of Unicode codepoint values representing the glyphs found in STRING</p></li>
 <li><p>NERR : Zero if no error occurred. If not zero the stream of bytes could not be completely converted to UTF-8 characters.</p></li>
 </ul>
-<h2 id="examples-47">EXAMPLES</h2>
+<h2 id="examples-48">EXAMPLES</h2>
 <p>Sample program</p>
 <pre><code>   program demo_utf8_to_codepoints
    use m_unicode, only : utf8_to_codepoints
@@ -6338,24 +6585,88 @@ copy of the input string with all characters converted to uppercase.</li>
     &gt; How long is this string in bytes?
     &gt; 20
 </code></pre>
-<h2 id="see-also-28">SEE ALSO</h2>
+<h2 id="see-also-29">SEE ALSO</h2>
 <p>functions that perform operations on character strings:</p>
 <ul>
 <li><p>elemental: adjustl(3), adjustr(3), index(3), scan(3), verify(3)</p></li>
 <li><p>non-elemental: len_trim(3), repeat(3), trim(3), codepoints_to_utf8(3)</p></li>
 </ul>
-<h2 id="author-48">AUTHOR</h2>
+<h2 id="author-50">AUTHOR</h2>
 <ul>
 <li><p>John S. Urban</p></li>
 <li><p>Francois Jacq - enhancements and optional Latin support from Francois Jacq, 2025-08</p></li>
 </ul>
-<h2 id="license-49">LICENSE</h2>
-<h3 id="mit-49">MIT</h3>
+<h2 id="license-51">LICENSE</h2>
+<h3 id="mit-50">MIT</h3>
 </div>
-<div id="name-55" class="slide section level1">
+<div id="name-57" class="slide section level1">
+<h1>NAME</h1>
+<p>utoc(3f) - [M_unicode:CONVERSION] convert UTF-8 CHARACTER string to Unicode codepoints (LICENSE:MIT)</p>
+<h2 id="synopsis-54">SYNOPSIS</h2>
+<p>pure function utoc(utf8) result(codepoints)</p>
+<pre><code>    character(len=*),intent(in) :: utf8
+    integer,allocatable         :: codepoints(:)
+</code></pre>
+<h2 id="characteristics-19">CHARACTERISTICS</h2>
+<ul>
+<li><p>UTF8 is a CHARACTER variable</p></li>
+<li><p>CODEPOINTS is of default INTEGER kind</p></li>
+</ul>
+<h2 id="description-56">DESCRIPTION</h2>
+<p>utoc(3f) takes a scalar CHARACTER variable containing a stream of bytes representing UTF-8-encoded data and generates an integer array of Unicode codepoint values.</p>
+<h2 id="options-52">OPTIONS</h2>
+<ul>
+<li><p>UTF8 : Scalar CHARACTER variable containing a stream of bytes containing data encoded as UTF-8 text.</p></li>
+<li><p>CODEPOINTS : An INTEGER array of Unicode codepoint values representing the glyphs to be encoded as UTF-8 data</p></li>
+</ul>
+<h2 id="examples-49">EXAMPLES</h2>
+<p>Sample program</p>
+<pre><code>   program demo_utoc
+   use m_unicode, only : utoc
+   implicit none
+   character(len=*),parameter   :: g=&#39;(*(g0,1x))&#39;
+   character(len=*),parameter   :: string = &#39;Noho me ka hau’oli&#39;
+   integer,allocatable          :: codepoints(:)
+   integer,parameter            :: answer(*) = [ &amp; !(Be happy)
+      &amp; 78,111,104,111,&amp;
+      &amp; 32,109,101, &amp;
+      &amp; 32,107,97, &amp;
+      &amp; 32,104,97,117,8217,111,108,105]
+
+      write(*,g) &#39;STRING:&#39;, string
+      codepoints = utoc(string)
+      write(*,g) &#39;CODEPOINTS:&#39;, codepoints
+      write(*,g) &#39;length in glyphs &#39;, size(codepoints)
+      write(*,g) &#39;length in bytes  &#39;, len(string)
+      write(*,g) merge(&#39;PASSED&#39;,&#39;FAILED&#39;,all(answer==codepoints)
+   end program demo_utoc
+</code></pre>
+<p>Results:</p>
+<pre><code>    &gt; STRING:Noho me ka hau’oli
+    &gt; CODEPOINTS: 78 111 104 111 32 109 101 32 107 97 32 104 97 117 ```
+    &gt; 8217 111 108 105
+    &gt; 48 4E 6F 68 6F 20 6D 65 20 6B 61 20 68 61 75 2019 6F 6C 69
+    &gt; length in glyphs  18
+    &gt; length in bytes   20
+    &gt; PASSED
+</code></pre>
+<h2 id="see-also-30">SEE ALSO</h2>
+<p>functions that perform operations on character strings:</p>
+<ul>
+<li><p>elemental: adjustl(3), adjustr(3), index(3), scan(3), verify(3)</p></li>
+<li><p>non-elemental: len_trim(3), repeat(3), trim(3), utoc(3), utf8_to_codepoints(3), codepoints_to_utf8(3)</p></li>
+</ul>
+<h2 id="author-51">AUTHOR</h2>
+<ul>
+<li>John S. Urban</li>
+</ul>
+<h2 id="license-52">LICENSE</h2>
+<h3 id="mit-51">MIT</h3>
+</div>
+<div id="name-58" class="slide section level1">
 <h1>NAME</h1>
 <p>VERIFY(3f) - [M_unicode:SEARCH] Position of a character in a string of characters that does not appear in a given set of characters. (LICENSE:MIT)</p>
-<h2 id="synopsis-52">SYNOPSIS</h2>
+<h2 id="synopsis-55">SYNOPSIS</h2>
 <p>result = verify(string, set [,back] [,kind] )</p>
 <pre><code>           elemental integer function verify(string,set,back,KIND)
 
@@ -6367,27 +6678,27 @@ copy of the input string with all characters converted to uppercase.</li>
 
             logical,intent(in),optional   :: back
 </code></pre>
-<h2 id="characteristics-19">CHARACTERISTICS</h2>
+<h2 id="characteristics-20">CHARACTERISTICS</h2>
 <ul>
 <li><p>STRING must be of type string</p></li>
 <li><p>SET must be of type string or character.</p></li>
 <li><p>BACK shall be of type logical.</p></li>
 <li><p>A default integer kind is returned.</p></li>
 </ul>
-<h2 id="description-54">DESCRIPTION</h2>
+<h2 id="description-57">DESCRIPTION</h2>
 <p>VERIFY(3f) verifies that all the characters in STRING belong to the set of characters in SET by identifying the position of the first character in the string that is not in the set.</p>
 <p>This makes it easy to verify strings are all uppercase or lowercase, follow a basic syntax, only contain printable characters, and many of the conditions tested for with the C routines ISALNUM(3c), ISALPHA(3c), ISASCII(3c), ISBLANK(3c), ISCNTRL(3c), ISDIGIT(3c), ISGRAPH(3c), ISLOWER(3c), ISPRINT(3c), ISPUNCT(3c), ISSPACE(3c), ISUPPER(3c), and ISXDIGIT(3c); but for a string as well as an array of strings.</p>
-<h2 id="options-50">OPTIONS</h2>
+<h2 id="options-53">OPTIONS</h2>
 <ul>
 <li><p>STRING : The string to search in for an unmatched character.</p></li>
 <li><p>SET : The set of characters that must be matched.</p></li>
 <li><p>BACK : The direction to look for an unmatched character. The left‐most unmatched character position isreturned unless BACK is present and �false., which causes the position of the right‐most unmatched character to be returned instead of the left‐most unmatched character.</p></li>
 </ul>
-<h2 id="result-10">RESULT</h2>
+<h2 id="result-11">RESULT</h2>
 <p>If all characters of STRING are found in SET, the result is zero.</p>
 <p>If STRING is of zero length a zero (0) is always returned.</p>
 <p>Otherwise, if an unmatched character is found The position of the first or last (if BACK is .false.) unmatched character in STRING is returned, starting with position one on the left end of the string.</p>
-<h2 id="examples-48">EXAMPLES</h2>
+<h2 id="examples-50">EXAMPLES</h2>
 <p>Sample program I:</p>
 <pre><code>   program demo_verify
    ! general examples
@@ -6721,16 +7032,16 @@ copy of the input string with all characters converted to uppercase.</li>
      &gt;  blank 8
      &gt;  1 2 1
 </code></pre>
-<h2 id="see-also-29">SEE ALSO</h2>
+<h2 id="see-also-31">SEE ALSO</h2>
 <p>Functions that perform operations on character strings, return lengths of arguments, and search for certain arguments:</p>
 <ul>
 <li><p>ELEMENTAL: ADJUSTL(3), ADJUSTR(3), INDEX(3), SCAN(3),</p></li>
 <li><p>NONELEMENTAL: LEN_TRIM(3), LEN(3), REPEAT(3), TRIM(3)</p></li>
 </ul>
-<h2 id="author-49">AUTHOR</h2>
+<h2 id="author-52">AUTHOR</h2>
 <p>John S. Urban</p>
-<h2 id="license-50">LICENSE</h2>
-<h3 id="mit-50">MIT</h3>
+<h2 id="license-53">LICENSE</h2>
+<h3 id="mit-52">MIT</h3>
 </div>
 </body>
 </html>

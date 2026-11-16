@@ -3,9 +3,9 @@ module M_unicode__random
 private
 public :: random_string
 
-interface random_string
-   module procedure :: random_string
-end interface random_string
+!breaks ifx!interface random_string
+!breaks ifx!   module procedure :: random_string
+!breaks ifx!end interface random_string
 
 contains
 !==================================================================================================================================!

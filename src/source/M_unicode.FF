@@ -6769,6 +6769,7 @@ integer                              :: iostat
 character(len=255)                   :: iomsg
 character(len=1),parameter           :: null_ch=char(0)
 integer                              :: iilen
+integer                              :: kludge
 logical                              :: trimit
    if(present(format))then
       fmt_local=format
@@ -6824,10 +6825,12 @@ logical                              :: trimit
 #endif
      type is (logical);             write(line(:),fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
      type is (character(len=*))
-        line=repeat(' ',256+4*len(general)+1) ! kludge because required length is unknown
+        kludge=256+4*len(general)+1 ! kludge because required length is unknown
+        line=repeat(' ',kludge) 
         write(line(:),fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
      type is (unicode_type)
-        line=repeat(' ',256+4*len(character(general))+1) ! kludge because required length is unknown
+        kludge=256+4*len(character(general))+1
+        line=repeat(' ',kludge) 
         write(line(:),fmt_local,iostat=iostat,iomsg=iomsg) character(general),null_ch
      type is (complex);
         if(trimit)then

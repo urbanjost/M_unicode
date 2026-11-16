@@ -138,7 +138,7 @@
 !!    integer :: err
 !!
 !!    ! 1. Register a custom Unicode function:
-!!    1     σ(x) = logistic sigmoid 1 / (1 + exp(-x))
+!!    !     σ(x) = logistic sigmoid 1 / (1 + exp(-x))
 !!    !
 !!    custom_fns(1)%name%cp = utoc("σ")
 !!    custom_fns(1)%nargs   = 1
