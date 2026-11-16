@@ -1,0 +1,1713 @@
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
+!>
+!!##NAME
+!!    M_unicode__eval(3f) - [M_unicode:QUERY] evaluate strings represented
+!!    as Unicode codepoints
+!!    (LICENSE:MIT)
+!!
+!!##SYNOPSIS
+!!
+!!
+!!    Public Types
+!!
+!!     public :: cp_string, var_value, user_func, user_func_iface, &
+!!               & compiled_expr
+!!
+!!    Public Procedures
+!!
+!!     public :: compile_expr_cp, eval_compiled, &
+!!              & differentiate_compiled
+!!     public :: utoc, ctou
+!!
+!!##DESCRIPTION
+!!
+!! M_unicode__eval is a standard-conforming Fortran 2008 module for
+!! compiling, evaluating, and symbolically differentiating mathematical
+!! expressions stored as 32-bit Unicode codepoint arrays (integer(int32)).
+!!
+!!    CORE DESIGN PRINCIPLES
+!!
+!! + Unicode-Native Representation: Expressions and variable names
+!!   are represented as 1D arrays of integer(int32) Unicode scalar values,
+!!   eliminating multi-byte UTF-8 indexing bugs.
+!!
+!! + Strict Case-Sensitivity: Unlike standard Fortran, all identifiers
+!!   (sin vs SIN, x vs X, α vs Α) are strictly case-sensitive.
+!!
+!! + Compile-Once Bytecode VM: Expressions compile into flat stack-based
+!!   bytecode (compiled_expr) for fast repeated evaluation inside numerical
+!!   loops.
+!!
+!! + Unified Scalar & Array Broadcasting: All variables are passed as
+!!   var_value containers (val(:)). Scalars are 1-element arrays (size ==
+!!   1) and automatically broadcast against 1D arrays (size == N).
+!!
+!!   EXPRESSION LANGUAGE REFERENCE
+!!
+!! Operators (Ordered Lowest to Highest Precedence)
+!!
+!!       Precedence   Operators                Description      Associativity
+!!       1 (Lowest)   <, <=, ≤, >, >=,         Comparisons (return    Left
+!!                    ≥, ==, /=, ≠             1.0 if true, 0.0 if
+!!                                             false)
+!!       3            *, ×, ·, /, ÷, implicit  Multiplication and     Left
+!!                                             division
+!!       4            +x, -x, −x, √x (U+221A)  Unary signs and        Right
+!!                                             prefix square root
+!!       5            ^, **, ⁰–⁹, ⁺, ⁻         Exponentiation and     Right
+!!                                             postfix Unicode
+!!                                       superscripts
+!!       6 (Highest)  expr[i]                  1-based array element  Left
+!!                                             indexing
+!!
+!!   IMPLICIT MULTIPLICATION RULES
+!!
+!! Multiplication is inserted automatically at clear token boundaries:
+!!
+!!    + Number followed by identifier, (, or √: 2x, 3π, 2(x + 1), 5√2.
+!!    + Closing parenthesis ) followed by (, √, identifier, or number:
+!!      (x + 1)(x - 1).
+!!    + Variable or constant followed by ( or √: x(y + 1), π√2.  +
+!!      Note: Adjacent letters like "ab" parse as a single two-character
+!!      identifier, not a * b.
+!!
+!!   BUILT-IN CONSTANTS
+!!
+!!    + pi or π (U+03C0): π ≈ 3.141592653589793
+!!    + τ (U+03C4): 2π ≈ 6.283185307179586
+!!    + e: Euler's number ≈ 2.718281828459045
+!!
+!!   BUILT-IN FUNCTIONS
+!!
+!!    + 1-Argument Element-Wise: sin, cos, tan, asin, acos, atan, sinh,
+!!      cosh, tanh, exp, log, log10, sqrt, abs, floor, ceiling, nint.
+!!
+!!    + 2-Argument Element-Wise: atan2(y, x), hypot(x, y), mod(a, p).
+!!
+!!    + Variadic Element-Wise / Reduction: min(x) (array min) or
+!!      min(a, b, ...) (element-wise), max(x) (array max) or
+!!      max(a, b, ...) (element-wise).
+!!
+!!    + Conditional: if(cond, true_val, false_val) (evaluates true_val
+!!      where cond /= 0, else false_val).
+!!
+!!    + Array Reductions & Queries (Return Scalar): sum(x), mean(x),
+!!      norm2(x), dot(x, y), size(x).
+!!
+!!   ERROR CODES
+!!
+!!       Code    Meaning
+!!       0       Success
+!!       1       Empty expression
+!!       2       Unexpected trailing characters
+!!       3       Division or modulo by zero
+!!       4       Unexpected end of expression
+!!       5       Mismatched parentheses () or brackets []
+!!       6       Invalid numeric literal or superscript exponent
+!!       7       Unknown identifier (variable or constant)
+!!       8       General syntax error
+!!       9       Unknown function name
+!!       10      Domain error (sqrt or √ of negative number)
+!!       11      Wrong number of arguments passed to a function
+!!       12      Missing or unallocated vars entry at evaluation time
+!!       13      Non-scalar expression used as an array index []
+!!       14      Array index out of bounds (< 1 or > size)
+!!       15      Incompatible array shapes during broadcasting or dot()
+!!       16      Unsupported construct for symbolic differentiation
+!!
+!!##EXAMPLES
+!!
+!!
+!!  Sample program
+!!
+!!    program demo_M_unicode__eval
+!!    use, intrinsic :: iso_fortran_env, only: int32, real64
+!!    use M_unicode, only : ctou, utoc, &
+!!    & compiled_expr, cp_string, var_value, user_func, &
+!!    & compile_expr_cp, differentiate_compiled, eval_compiled
+!!
+!!    implicit none
+!!
+!!    type(compiled_expr) :: prog, dprog
+!!    type(cp_string) :: var_names(3)
+!!    type(var_value) :: vars(3)
+!!    type(user_func) :: custom_fns(1)
+!!    real(real64), allocatable :: res(:), dres(:)
+!!    integer :: err
+!!
+!!    ! 1. Register a custom Unicode function:
+!!    1     σ(x) = logistic sigmoid 1 / (1 + exp(-x))
+!!    !
+!!    custom_fns(1)%name%cp = utoc("σ")
+!!    custom_fns(1)%nargs   = 1
+!!    custom_fns(1)%fn      => sigmoid_fn
+!!
+!!    ! 2. Define case-sensitive variables:
+!!    !    x = array [1.0, 2.0, 3.0]
+!!    !    X = scalar [10.0]
+!!    !    α = scalar [2.0]
+!!    var_names(1)%cp = utoc("x")
+!!    var_names(2)%cp = utoc("X")
+!!    var_names(3)%cp = utoc("α")
+!!
+!!    vars(1)%val = [1.0_real64, 2.0_real64, 3.0_real64]
+!!    vars(2)%val = [10.0_real64]
+!!    vars(3)%val = [2.0_real64]
+!!
+!!    ! 3. Array broadcasting + custom Unicode function + array indexing
+!!    call compile_expr_cp(utoc("σ(α·x − x[2]) + X"), prog, err, &
+!!    & var_names, custom_fns)
+!!    call eval_compiled(prog, res, err, vars)
+!!    print *, "Broadcast + Custom Func:", res   ! 3-element array
+!!
+!!    ! 4. Array reductions (dot product, sum, norm2)
+!!    call compile_expr_cp(utoc("sum(x²) + x[3] × X"), &
+!!    & prog, err, var_names)
+!!    call eval_compiled(prog, res, err, vars)
+!!    ! 1^2 + 2^2 + 3^2 + 3*10 = 44.0
+!!    print *, "Reduction + Indexing:", res
+!!
+!!    ! 5. Symbolic Differentiation: d/dx (x³ + 2x² + sin(x)) ->
+!!    !    3x² + 4x + cos(x)
+!!    call compile_expr_cp(utoc("x³ + 2x² + sin(x)"), &
+!!    & prog, err, var_names)
+!!    call differentiate_compiled(prog, var_idx=1, dprog=dprog, ierr=err)
+!!    call eval_compiled(dprog, dres, err, vars)
+!!    print *, "Analytical df/dx at x=[1,2,3]:", dres
+!!
+!!    contains
+!!
+!!    function sigmoid_fn(args) result(y)
+!!       real(real64), intent(in) :: args(:)
+!!       real(real64) :: y
+!!       y = 1.0_real64 / (1.0_real64 + exp(-args(1)))
+!!    end function sigmoid_fn
+!!
+!!    end program demo_M_unicode__eval
+!!
+!!  Results
+!!   >
+!!   >
+!!
+!!##PASSING ARRAYS
+!!
+!! Part 2: Passing Arrays To and From the Module in a Larger Code
+!!
+!! When integrating `M_unicode__eval` into a larger simulation or
+!! solver (such as a finite-element code, ODE integrator, or optimization
+!! loop), you do **not** want to recompile the expression string on every
+!! time step or iteration. Instead, follow a **3-phase lifecycle**:
+!!
+!! assing Arrays INTO the Module (`vars(:)%val`)
+!! * Each variable in your expression corresponds to an index `i` in
+!!  `var_names(1:N)` during `compile_expr_cp`.
+!!
+!! * At runtime, you populate `vars(i)%val`—which is a standard Fortran
+!!   `real(real64), allocatable :: val(:)` array.
+!!
+!! * **For a 1D array variable** (e.g., a grid vector `u(1:nx)`): assign
+!!   your Fortran array directly (`vars(1)%val = u`).
+!!
+!! * **For a scalar variable** (e.g., time `t` or viscosity `nu`): wrap it
+!!   in a 1-element array constructor (`vars(2)%val = [t]`).
+!!
+!! * **For multi-dimensional arrays** (e.g., a 2D field `T(nx, ny)`):
+!!   flatten it into a 1D vector with `reshape(T, [nx * ny])` when passing it
+!!   in, then `reshape` the output back to `(nx, ny)`. Because all arithmetic
+!!   is element-wise, flattening preserves exact element correspondence.
+!!
+!! 2. Receiving Arrays FROM the Module (`result(:)`)
+!!
+!! * `eval_compiled(prog, result, ierr, vars)` takes `real(real64),
+!!    allocatable, intent(out) :: result(:)`.
+!!
+!! * Fortran automatically allocates `result` to match the broadcasted size:
+!!
+!!   * If the expression evaluates to a **vector**
+!!     (e.g., `"nu * u + sin(x)"`), `size(result)` equals `size(u)`.
+!!
+!!   * If the expression reduces to a **scalar** (e.g., `"norm2(u) + t"`),
+!!     `size(result)` equals `1` and the scalar value is `result(1)`.
+!! 3. Complete Integration Pattern (Solver Loop Example)
+!!
+!! ```fortran
+!!    subroutine run_solver_step(x_grid, u_field, dt, t_now, formula_utf8, rhs_out, ierr)
+!!     use, intrinsic :: iso_fortran_env, only: real64
+!!     use M_unicode__eval
+!!     implicit none
+!!
+!!     real(real64), intent(in) :: x_grid(:), u_field(:)
+!!     real(real64), intent(in) :: dt, t_now
+!!     character(len=*), intent(in) :: formula_utf8
+!!     real(real64), intent(out) :: rhs_out(size(x_grid))
+!!     integer, intent(out) :: ierr
+!!
+!!     ! Use 'save' (or store in a solver context struct) to compile only once
+!!     type(compiled_expr), save :: compiled_rhs
+!!     logical, save :: is_compiled = .false.
+!!
+!!     type(cp_string) :: vnames(4)
+!!     type(var_value) :: vars(4)
+!!     real(real64), allocatable :: eval_out(:)
+!!
+!!     ! PHASE 1: Compile once on first call
+!!     if (.not. is_compiled) then
+!!         vnames(1)%cp = utoc("x")
+!!         vnames(2)%cp = utoc("u")
+!!         vnames(3)%cp = utoc("dt")
+!!         vnames(4)%cp = utoc("t")
+!!
+!!         call compile_expr_cp(utoc(formula_utf8), compiled_rhs, ierr, vnames)
+!!         if (ierr /= 0) return
+!!         is_compiled = .true.
+!!     end if
+!!
+!!     ! PHASE 2: Pack host Fortran arrays and scalars into var_value containers
+!!     vars(1)%val = x_grid     ! 1D array (size N)
+!!     vars(2)%val = u_field    ! 1D array (size N)
+!!     vars(3)%val = [dt]       ! Scalar wrapped as size-1 array
+!!     vars(4)%val = [t_now]    ! Scalar wrapped as size-1 array
+!!
+!!     ! PHASE 3: Evaluate compiled bytecode and unpack result back into host array
+!!     call eval_compiled(compiled_rhs, eval_out, ierr, vars)
+!!     if (ierr /= 0) return
+!!
+!!     if (size(eval_out) == size(rhs_out)) then
+!!         rhs_out = eval_out
+!!     else if (size(eval_out) == 1) then
+!!         ! Handle case where user's formula reduced to a constant/scalar (e.g., "0.0")
+!!         rhs_out = eval_out(1)
+!!     else
+!!         ierr = 15 ! Shape mismatch with expected grid size
+!!     end if
+!! end subroutine run_solver_step
+!!
+!! Performance Tip for Large Arrays (N > 100,000)
+!!
+!! In eval_compiled, every intermediate operation allocates a temporary
+!! array tmp(n) on the stack. If you evaluate expressions over massive
+!! grids (millions of points) inside a tight inner loop, you can avoid heap
+!! allocation churn by either:
+!!
+!!     Chunking (Cache Blocking): Slice your large host arrays
+!!     into L1/L2-cache-friendly blocks of 1024 or 4096 elements
+!!     (x_grid(i:i+chunk-1)), evaluate each chunk with eval_compiled,
+!!     and write directly into rhs_out(i:i+chunk-1).
+!!
+!!     Thread-Safe OpenMP Parallelism: Because compiled_expr is read-only
+!!     during eval_compiled and each thread maintains its own local vars
+!!     and stack, you can safely parallelize across chunks using !$omp
+!!     parallel do.
+!!
+!! Would you like me to add zero-copy pointer support (real(real64),
+!! pointer :: val(:)) to var_value so large host arrays can be passed into
+!! eval_compiled without copying memory on every call?
+!!
+!!##SEE ALSO
+!!    compile_expr_cp(3), eval_compiled(3), differentiate_compiled(3),
+!!    utoc(3), ctou(3), M_unicode(3)
+!!
+!!##AUTHOR
+!!    John S. Urban
+!!
+!!##CONTRIBUTORS
+!!    Developed with coding and debugging assistance from Gemini (Google).
+!!
+!!##LICENSE
+!!    MIT
+module M_unicode__eval
+   use, intrinsic :: iso_fortran_env, only: int32, real64
+   use M_unicode__convert, only: utoc, ctou
+   implicit none
+   private
+
+   ! Public Types
+   public :: cp_string, var_value, user_func, user_func_iface, compiled_expr
+   ! Public Procedures
+   public :: compile_expr_cp, eval_compiled, differentiate_compiled
+
+   ! Bytecode Opcodes
+   integer, parameter :: OP_PUSH_CONST = 1
+   integer, parameter :: OP_PUSH_VAR   = 2
+   integer, parameter :: OP_INDEX      = 3
+   integer, parameter :: OP_ADD        = 4
+   integer, parameter :: OP_SUB        = 5
+   integer, parameter :: OP_MUL        = 6
+   integer, parameter :: OP_DIV        = 7
+   integer, parameter :: OP_POW        = 8
+   integer, parameter :: OP_NEG        = 9
+   integer, parameter :: OP_SQRT       = 10
+   integer, parameter :: OP_LT         = 11
+   integer, parameter :: OP_LE         = 12
+   integer, parameter :: OP_GT         = 13
+   integer, parameter :: OP_GE         = 14
+   integer, parameter :: OP_EQ         = 15
+   integer, parameter :: OP_NE         = 16
+   integer, parameter :: OP_CALL       = 17
+   integer, parameter :: OP_USER_CALL  = 18
+
+   ! Built-in Function IDs
+   integer, parameter :: FN_SIN     = 1,  FN_COS     = 2,  FN_TAN   = 3
+   integer, parameter :: FN_ASIN    = 4,  FN_ACOS    = 5,  FN_ATAN  = 6
+   integer, parameter :: FN_SINH    = 7,  FN_COSH    = 8,  FN_TANH  = 9
+   integer, parameter :: FN_EXP     = 10, FN_LOG     = 11, FN_LOG10 = 12
+   integer, parameter :: FN_SQRT    = 13, FN_ABS     = 14
+   integer, parameter :: FN_FLOOR   = 15, FN_CEILING = 16, FN_NINT  = 17
+   integer, parameter :: FN_ATAN2   = 18, FN_HYPOT   = 19, FN_MOD   = 20
+   integer, parameter :: FN_MIN     = 21, FN_MAX     = 22, FN_IF    = 23
+   integer, parameter :: FN_SUM     = 24, FN_MEAN    = 25, FN_DOT   = 26
+   integer, parameter :: FN_NORM2   = 27, FN_SIZE    = 28
+
+   ! Codepoint Constants
+   integer(int32), parameter :: CP_SPACE    = 32
+   integer(int32), parameter :: CP_TAB      = 9
+   integer(int32), parameter :: CP_LPAREN   = iachar('(')
+   integer(int32), parameter :: CP_RPAREN   = iachar(')')
+   integer(int32), parameter :: CP_LBRACK   = iachar('[')
+   integer(int32), parameter :: CP_RBRACK   = iachar(']')
+   integer(int32), parameter :: CP_COMMA    = iachar(',')
+   integer(int32), parameter :: CP_PLUS     = iachar('+')
+   integer(int32), parameter :: CP_MINUS    = iachar('-')
+   integer(int32), parameter :: CP_STAR     = iachar('*')
+   integer(int32), parameter :: CP_SLASH    = iachar('/')
+   integer(int32), parameter :: CP_CARET    = iachar('^')
+   integer(int32), parameter :: CP_DOT      = iachar('.')
+   integer(int32), parameter :: CP_UNDER    = iachar('_')
+   integer(int32), parameter :: CP_LT       = iachar('<')
+   integer(int32), parameter :: CP_GT       = iachar('>')
+   integer(int32), parameter :: CP_EQ       = iachar('=')
+
+   integer(int32), parameter :: CP_UMINUS   = int(z'2212', int32) ! '−'
+   integer(int32), parameter :: CP_TIMES    = int(z'00D7', int32) ! '×'
+   integer(int32), parameter :: CP_CDOT     = int(z'00B7', int32) ! '·'
+   integer(int32), parameter :: CP_DIV      = int(z'00F7', int32) ! '÷'
+   integer(int32), parameter :: CP_SQRT     = int(z'221A', int32) ! '√'
+   integer(int32), parameter :: CP_LE       = int(z'2264', int32) ! '≤'
+   integer(int32), parameter :: CP_GE       = int(z'2265', int32) ! '≥'
+   integer(int32), parameter :: CP_NE       = int(z'2260', int32) ! '≠'
+   integer(int32), parameter :: CP_PI       = int(z'03C0', int32) ! 'π'
+   integer(int32), parameter :: CP_TAU      = int(z'03C4', int32) ! 'τ'
+
+   integer(int32), parameter :: CP_SUP_0    = int(z'2070', int32) !  ⁰
+   integer(int32), parameter :: CP_SUP_1    = int(z'00B9', int32) !  ¹
+   integer(int32), parameter :: CP_SUP_2    = int(z'00B2', int32) !  ²
+   integer(int32), parameter :: CP_SUP_3    = int(z'00B3', int32) !  ³
+   integer(int32), parameter :: CP_SUP_4    = int(z'2074', int32) !  ⁴
+   integer(int32), parameter :: CP_SUP_5    = int(z'2075', int32) !  ⁵
+   integer(int32), parameter :: CP_SUP_6    = int(z'2076', int32) !  ⁶
+   integer(int32), parameter :: CP_SUP_7    = int(z'2077', int32) !  ⁷
+   integer(int32), parameter :: CP_SUP_8    = int(z'2078', int32) !  ⁸
+   integer(int32), parameter :: CP_SUP_9    = int(z'2079', int32) !  ⁹
+   integer(int32), parameter :: CP_SUP_PLUS = int(z'207A', int32) !  ⁺
+   integer(int32), parameter :: CP_SUP_MIN  = int(z'207B', int32) !  ⁻
+
+   !---------------------------------------------------------------------------
+   ! Public Data Structures & User Function Interface
+   !---------------------------------------------------------------------------
+   type :: cp_string
+      integer(int32), allocatable :: cp(:)
+   end type cp_string
+
+   ! Holds either a scalar (size 1) or a 1D array (size N)
+   type :: var_value
+      real(real64), allocatable :: val(:)
+   end type var_value
+
+   abstract interface
+      function user_func_iface(args) result(res)
+         import :: real64
+         real(real64), intent(in) :: args(:)
+         real(real64) :: res
+      end function user_func_iface
+   end interface
+
+   type :: user_func
+      type(cp_string) :: name
+      integer :: nargs = 1
+      procedure(user_func_iface), pointer, nopass :: fn => null()
+   end type user_func
+
+   type :: instruction
+      integer :: op = 0
+      integer :: arg1 = 0
+      integer :: arg2 = 0
+      real(real64) :: val = 0.0_real64
+   end type instruction
+
+   type :: compiled_expr
+      type(instruction), allocatable :: code(:)
+      type(user_func), allocatable :: ufuncs(:)
+      integer :: count = 0
+      integer :: max_stack = 0
+   end type compiled_expr
+
+   ! AST Node used internally for Symbolic Differentiation
+   type :: ast_node
+      integer :: op = 0
+      integer :: arg1 = 0
+      integer :: arg2 = 0
+      real(real64) :: val = 0.0_real64
+      type(ast_node), pointer :: left => null()
+      type(ast_node), pointer :: right => null()
+      type(ast_node), pointer :: third => null()
+   end type ast_node
+
+contains
+
+   !===========================================================================
+   ! 1. COMPILER (Case-Sensitive, Supports Arrays, Brackets, Custom Functions)
+   !===========================================================================
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
+!>
+!!##NAME
+!!    compile_expr_cp(3f) - [M_unicode:EVAL] compile a Unicode codepoint
+!!    expression into stack-based bytecode
+!!    (LICENSE:MIT)
+!!
+!!##SYNOPSIS
+!!
+!!
+!!    subroutine compile_expr_cp(expr_cp, prog, ierr, var_names, ufuncs)
+!!
+!!     integer(int32), intent(in) :: expr_cp(:)
+!!     type(compiled_expr), intent(out) :: prog
+!!     integer, intent(out) :: ierr
+!!     type(cp_string), intent(in), optional :: var_names(:)
+!!     type(user_func), intent(in), optional :: ufuncs(:)
+!!
+!!##DESCRIPTION
+!!
+!! compile_expr_cp parses the mathematical expression stored in expr_cp
+!! (a 1D array of 32-bit Unicode codepoints) and emits a flat array of
+!! virtual machine instructions inside prog.
+!!
+!! + var_names maps identifier names to 1-based variable
+!!   indices (1 .. size(var_names)). Matching is strictly case-sensitive.
+!!
+!! + ufuncs registers custom Fortran callback functions (user_func structs
+!!   containing name%cp, nargs, and procedure pointer fn).
+!!
+!!##OPTIONS
+!!     expr_cp       The expression to be compiled
+!!     var_names(:)  variable names
+!!     ufuncs        user-defined functions
+!!
+!!##RETURNS
+!!    prog  the compiled expression
+!!
+!!    ierr  Set to 0 on success, or a non-zero error code (1–11) on failure.
+!!
+!!##EXAMPLES
+!!
+!!
+!!  Sample program
+!!
+!!    program demo_compile_expr_cp
+!!    use M_unicode
+!!    end program demo_compile_expr_cp
+!!
+!!  Results
+!!   >
+!!   >
+!!
+!!##SEE ALSO
+!!    compile_expr_cp(3), eval_compiled(3), differentiate_compiled(3),
+!!    utoc(3), ctou(3), M_unicode(3)
+!!
+!!##AUTHOR
+!!    John S. Urban
+!!
+!!##CONTRIBUTORS
+!!    Developed with coding and debugging assistance from Gemini (Google).
+!!
+!!##LICENSE
+!!    MIT
+   subroutine compile_expr_cp(expr_cp, prog, ierr, var_names, ufuncs)
+      integer(int32), intent(in) :: expr_cp(:)
+      type(compiled_expr), intent(out) :: prog
+      integer, intent(out) :: ierr
+      type(cp_string), intent(in), optional :: var_names(:)
+      type(user_func), intent(in), optional :: ufuncs(:)
+
+      integer(int32), allocatable :: clean_cp(:)
+      integer :: pos, cur_stack
+
+      ierr = 0
+      prog%count = 0
+      prog%max_stack = 0
+      allocate(prog%code(32))
+
+      if (present(ufuncs)) then
+         allocate(prog%ufuncs(size(ufuncs)))
+         prog%ufuncs = ufuncs
+      else
+         allocate(prog%ufuncs(0))
+      end if
+
+      call strip_whitespace(expr_cp, clean_cp)
+      if (size(clean_cp) == 0) then
+         ierr = 1
+         return
+      end if
+
+      pos = 1
+      cur_stack = 0
+      call compile_compare(clean_cp, pos, prog, cur_stack, ierr, var_names)
+
+      if (ierr == 0 .and. pos <= size(clean_cp)) ierr = 2
+      if (ierr == 0) prog%code = prog%code(1:prog%count)
+   end subroutine compile_expr_cp
+
+   subroutine emit(prog, cur_stack, stack_delta, op, arg1, arg2, val)
+      type(compiled_expr), intent(inout) :: prog
+      integer, intent(inout) :: cur_stack
+      integer, intent(in) :: stack_delta, op
+      integer, intent(in), optional :: arg1, arg2
+      real(real64), intent(in), optional :: val
+      type(instruction), allocatable :: tmp(:)
+
+      prog%count = prog%count + 1
+      if (prog%count > size(prog%code)) then
+         allocate(tmp(size(prog%code) * 2))
+         tmp(1:size(prog%code)) = prog%code
+         call move_alloc(tmp, prog%code)
+      end if
+
+      prog%code(prog%count)%op = op
+      if (present(arg1)) prog%code(prog%count)%arg1 = arg1
+      if (present(arg2)) prog%code(prog%count)%arg2 = arg2
+      if (present(val))  prog%code(prog%count)%val  = val
+
+      cur_stack = cur_stack + stack_delta
+      if (cur_stack > prog%max_stack) prog%max_stack = cur_stack
+   end subroutine emit
+
+   recursive subroutine compile_compare(s, pos, prog, st, ierr, vnames)
+      integer(int32), intent(in) :: s(:)
+      integer, intent(inout) :: pos, st, ierr
+      type(compiled_expr), intent(inout) :: prog
+      type(cp_string), intent(in), optional :: vnames(:)
+      integer :: op_code
+
+      call compile_add_sub(s, pos, prog, st, ierr, vnames)
+      do while (pos <= size(s) .and. ierr == 0)
+         op_code = 0
+         if (s(pos) == CP_LE) then
+            pos = pos + 1; op_code = OP_LE
+         else if (s(pos) == CP_GE) then
+            pos = pos + 1; op_code = OP_GE
+         else if (s(pos) == CP_NE) then
+            pos = pos + 1; op_code = OP_NE
+         else if (s(pos) == CP_LT) then
+            if (pos < size(s) .and. s(pos+1) == CP_EQ) then
+               pos = pos + 2; op_code = OP_LE
+            else
+               pos = pos + 1; op_code = OP_LT
+            end if
+         else if (s(pos) == CP_GT) then
+            if (pos < size(s) .and. s(pos+1) == CP_EQ) then
+               pos = pos + 2; op_code = OP_GE
+            else
+               pos = pos + 1; op_code = OP_GT
+            end if
+         else if (pos + 1 <= size(s) .and. s(pos) == CP_EQ .and. s(pos+1) == CP_EQ) then
+            pos = pos + 2; op_code = OP_EQ
+         else if (pos + 1 <= size(s) .and. s(pos) == CP_SLASH .and. s(pos+1) == CP_EQ) then
+            pos = pos + 2; op_code = OP_NE
+         else
+
+            exit
+         end if
+         call compile_add_sub(s, pos, prog, st, ierr, vnames)
+         if (ierr == 0) call emit(prog, st, -1, op_code)
+      end do
+   end subroutine compile_compare
+   recursive subroutine compile_add_sub(s, pos, prog, st, ierr, vnames)
+      integer(int32), intent(in) :: s(:)
+      integer, intent(inout) :: pos, st, ierr
+      type(compiled_expr), intent(inout) :: prog
+      type(cp_string), intent(in), optional :: vnames(:)
+      integer(int32) :: op
+      call compile_mul_div(s, pos, prog, st, ierr, vnames)
+      do while (pos <= size(s) .and. ierr == 0)
+         op = s(pos)
+         if (op == CP_PLUS .or. op == CP_MINUS .or. op == CP_UMINUS) then
+            pos = pos + 1
+            call compile_mul_div(s, pos, prog, st, ierr, vnames)
+            if (ierr == 0) then
+               if (op == CP_PLUS) then
+                  call emit(prog, st, -1, OP_ADD)
+               else
+                  call emit(prog, st, -1, OP_SUB)
+               end if
+            end if
+         else
+            exit
+         end if
+      end do
+   end subroutine compile_add_sub
+   recursive subroutine compile_mul_div(s, pos, prog, st, ierr, vnames)
+      integer(int32), intent(in) :: s(:)
+      integer, intent(inout) :: pos, st, ierr
+      type(compiled_expr), intent(inout) :: prog
+      type(cp_string), intent(in), optional :: vnames(:)
+      integer(int32) :: op
+      call compile_unary(s, pos, prog, st, ierr, vnames)
+      do while (pos <= size(s) .and. ierr == 0)
+         op = s(pos)
+         if (op == CP_STAR .or. op == CP_TIMES .or. op == CP_CDOT) then
+            if (op == CP_STAR .and. pos < size(s)) then
+               if (s(pos+1) == CP_STAR) exit
+            end if
+            pos = pos + 1
+            call compile_unary(s, pos, prog, st, ierr, vnames)
+            if (ierr == 0) call emit(prog, st, -1, OP_MUL)
+         else if (op == CP_SLASH .or. op == CP_DIV) then
+            if (op == CP_SLASH .and. pos < size(s)) then
+               if (s(pos+1) == CP_EQ) exit
+            end if
+            pos = pos + 1
+            call compile_unary(s, pos, prog, st, ierr, vnames)
+            if (ierr == 0) call emit(prog, st, -1, OP_DIV)
+         else if (starts_implicit_mul(op)) then
+            call compile_unary(s, pos, prog, st, ierr, vnames)
+            if (ierr == 0) call emit(prog, st, -1, OP_MUL)
+         else
+            exit
+         end if
+      end do
+   end subroutine compile_mul_div
+   logical function starts_implicit_mul(cp)
+      integer(int32), intent(in) :: cp
+      starts_implicit_mul = (cp == CP_LPAREN .or. cp == CP_SQRT .or. &
+         is_ident_start_cp(cp) .or. is_digit_cp(cp) .or. cp == CP_DOT)
+   end function starts_implicit_mul
+   recursive subroutine compile_unary(s, pos, prog, st, ierr, vnames)
+      integer(int32), intent(in) :: s(:)
+      integer, intent(inout) :: pos, st, ierr
+      type(compiled_expr), intent(inout) :: prog
+      type(cp_string), intent(in), optional :: vnames(:)
+      if (pos <= size(s)) then
+         if (s(pos) == CP_PLUS) then
+            pos = pos + 1
+            call compile_unary(s, pos, prog, st, ierr, vnames)
+            return
+         else if (s(pos) == CP_MINUS .or. s(pos) == CP_UMINUS) then
+            pos = pos + 1
+            call compile_unary(s, pos, prog, st, ierr, vnames)
+            if (ierr == 0) call emit(prog, st, 0, OP_NEG)
+            return
+         else if (s(pos) == CP_SQRT) then
+            pos = pos + 1
+            call compile_unary(s, pos, prog, st, ierr, vnames)
+            if (ierr == 0) call emit(prog, st, 0, OP_SQRT)
+            return
+         end if
+      end if
+      call compile_power(s, pos, prog, st, ierr, vnames)
+   end subroutine compile_unary
+   recursive subroutine compile_power(s, pos, prog, st, ierr, vnames)
+      integer(int32), intent(in) :: s(:)
+      integer, intent(inout) :: pos, st, ierr
+      type(compiled_expr), intent(inout) :: prog
+      type(cp_string), intent(in), optional :: vnames(:)
+      integer :: sup_sign, sup_mag, d
+      call compile_postfix(s, pos, prog, st, ierr, vnames)
+      if (ierr /= 0) return
+! Postfix Unicode superscripts (², ⁻³, etc.)
+      if (pos <= size(s) .and. is_superscript_cp(s(pos))) then
+         sup_sign = 1
+         if (s(pos) == CP_SUP_PLUS) then
+            pos = pos + 1
+         else if (s(pos) == CP_SUP_MIN) then
+            sup_sign = -1
+            pos = pos + 1
+         end if
+         if (pos > size(s) .or. superscript_digit(s(pos)) < 0) then
+            ierr = 6; return
+         end if
+         sup_mag = 0
+         do while (pos <= size(s))
+            d = superscript_digit(s(pos))
+            if (d < 0) exit
+            sup_mag = sup_mag * 10 + d
+            pos = pos + 1
+         end do
+         call emit(prog, st, 1, OP_PUSH_CONST, val=real(sup_sign * sup_mag, real64))
+         call emit(prog, st, -1, OP_POW)
+      end if
+! Infix exponentiation (^ or **)
+      if (pos <= size(s)) then
+         if (s(pos) == CP_CARET) then
+            pos = pos + 1
+            call compile_unary(s, pos, prog, st, ierr, vnames)
+            if (ierr == 0) call emit(prog, st, -1, OP_POW)
+         else if (pos + 1 <= size(s)) then
+            if (s(pos) == CP_STAR .and. s(pos+1) == CP_STAR) then
+               pos = pos + 2
+               call compile_unary(s, pos, prog, st, ierr, vnames)
+               if (ierr == 0) call emit(prog, st, -1, OP_POW)
+            end if
+         end if
+      end if
+   end subroutine compile_power
+!---------------------------------------------------------------------------
+! Postfix Array Subscripting: expr[index_expr]
+!---------------------------------------------------------------------------
+   recursive subroutine compile_postfix(s, pos, prog, st, ierr, vnames)
+      integer(int32), intent(in) :: s(:)
+      integer, intent(inout) :: pos, st, ierr
+      type(compiled_expr), intent(inout) :: prog
+      type(cp_string), intent(in), optional :: vnames(:)
+      call compile_primary(s, pos, prog, st, ierr, vnames)
+      do while (pos <= size(s) .and. ierr == 0)
+         if (s(pos) == CP_LBRACK) then
+            pos = pos + 1
+            call compile_compare(s, pos, prog, st, ierr, vnames)
+            if (ierr /= 0) return
+            if (pos > size(s) .or. s(pos) /= CP_RBRACK) then
+               ierr = 5 ! Mismatched brackets
+               return
+            end if
+            pos = pos + 1
+            call emit(prog, st, -1, OP_INDEX)
+         else
+            exit
+         end if
+      end do
+   end subroutine compile_postfix
+   recursive subroutine compile_primary(s, pos, prog, st, ierr, vnames)
+      integer(int32), intent(in) :: s(:)
+      integer, intent(inout) :: pos, st, ierr
+      type(compiled_expr), intent(inout) :: prog
+      type(cp_string), intent(in), optional :: vnames(:)
+      real(real64) :: num_val
+      integer :: start_pos, ident_end, stat, i, nargs, fn_id, ufn_id, min_args, max_args
+      character(len=:), allocatable :: num_str, raw_ascii
+      logical :: is_ascii
+      if (pos > size(s)) then
+         ierr = 4; return
+      end if
+! 1. Parentheses
+      if (s(pos) == CP_LPAREN) then
+         pos = pos + 1
+         call compile_compare(s, pos, prog, st, ierr, vnames)
+         if (ierr /= 0) return
+         if (pos > size(s) .or. s(pos) /= CP_RPAREN) then
+            ierr = 5; return
+         end if
+         pos = pos + 1
+         return
+      end if
+! 2. Numeric literal
+      if (is_digit_cp(s(pos)) .or. s(pos) == CP_DOT) then
+         start_pos = pos
+         do while (pos <= size(s) .and. (is_digit_cp(s(pos)) .or. s(pos) == CP_DOT))
+            pos = pos + 1
+         end do
+         if (pos <= size(s) .and. (s(pos) == iachar('e') .or. s(pos) == iachar('E') .or. &
+            s(pos) == iachar('d') .or. s(pos) == iachar('D'))) then
+            pos = pos + 1
+            if (pos <= size(s) .and. (s(pos) == CP_PLUS .or. s(pos) == CP_MINUS)) then
+               pos = pos + 1
+            end if
+            do while (pos <= size(s) .and. is_digit_cp(s(pos)))
+               pos = pos + 1
+            end do
+         end if
+         allocate(character(len=pos-start_pos) :: num_str)
+         do i = 1, pos - start_pos
+            num_str(i:i) = achar(s(start_pos + i - 1))
+         end do
+         read(num_str, *, iostat=stat) num_val
+         if (stat /= 0) then
+            ierr = 6; return
+         end if
+         call emit(prog, st, 1, OP_PUSH_CONST, val=num_val)
+         return
+      end if
+! 3. Identifier (User Function, Built-in Function, Constant, or Variable)
+      if (is_ident_start_cp(s(pos))) then
+         start_pos = pos
+         do while (pos <= size(s) .and. is_ident_char_cp(s(pos)))
+            pos = pos + 1
+         end do
+         ident_end = pos - 1
+         if (pos <= size(s) .and. s(pos) == CP_LPAREN) then
+! Check user-defined custom functions first (supports Unicode names!)
+            ufn_id = 0
+            do i = 1, size(prog%ufuncs)
+               if (cp_equals(s(start_pos:ident_end), prog%ufuncs(i)%name%cp)) then
+                  ufn_id = i
+                  min_args = prog%ufuncs(i)%nargs
+                  max_args = prog%ufuncs(i)%nargs
+                  exit
+               end if
+            end do
+! Next check built-in functions
+            fn_id = 0
+            if (ufn_id == 0) then
+               call cp_to_exact_ascii(s(start_pos:ident_end), raw_ascii, is_ascii)
+               if (is_ascii) call lookup_function(raw_ascii, fn_id, min_args, max_args)
+            end if
+            if (ufn_id > 0 .or. fn_id > 0) then
+               pos = pos + 1 ! Consume '('
+               nargs = 0
+               do
+                  nargs = nargs + 1
+                  call compile_compare(s, pos, prog, st, ierr, vnames)
+                  if (ierr /= 0) return
+                  if (pos <= size(s) .and. s(pos) == CP_COMMA) then
+                     pos = pos + 1
+                  else
+                     exit
+                  end if
+               end do
+               if (pos > size(s) .or. s(pos) /= CP_RPAREN) then
+                  ierr = 5; return
+               end if
+               pos = pos + 1
+               if (nargs < min_args .or. nargs > max_args) then
+                  ierr = 11; return
+               end if
+               if (ufn_id > 0) then
+                  call emit(prog, st, 1 - nargs, OP_USER_CALL, arg1=ufn_id, arg2=nargs)
+               else
+                  call emit(prog, st, 1 - nargs, OP_CALL, arg1=fn_id, arg2=nargs)
+               end if
+               return
+            end if
+         end if
+! Built-in Constants
+         if (cp_equals(s(start_pos:ident_end), [CP_PI]) .or. &
+            cp_equals(s(start_pos:ident_end), [int(iachar('p'),int32), int(iachar('i'),int32)])) then
+            call emit(prog, st, 1, OP_PUSH_CONST, val=acos(-1.0_real64))
+            return
+         else if (cp_equals(s(start_pos:ident_end), [CP_TAU])) then
+            call emit(prog, st, 1, OP_PUSH_CONST, val=2.0_real64 * acos(-1.0_real64))
+            return
+         else if (cp_equals(s(start_pos:ident_end), [int(iachar('e'),int32)])) then
+            call emit(prog, st, 1, OP_PUSH_CONST, val=exp(1.0_real64))
+            return
+         end if
+! User-supplied variables (Case-Sensitive)
+         if (present(vnames)) then
+            do i = 1, size(vnames)
+               if (cp_equals(s(start_pos:ident_end), vnames(i)%cp)) then
+                  call emit(prog, st, 1, OP_PUSH_VAR, arg1=i)
+                  return
+               end if
+            end do
+         end if
+         ierr = 7
+         return
+      end if
+      ierr = 8
+   end subroutine compile_primary
+!===========================================================================
+! 2. VECTORIZED VIRTUAL MACHINE (Supports Scalar & Array Broadcasting)
+!===========================================================================
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
+!>
+!!##NAME
+!!
+!!##NAME
+!!    eval_compiled(3f) - [M_unicode:EVAL] execute a compiled bytecode
+!!    expression with scalar or array variables
+!!    (LICENSE:MIT)
+!!
+!!##SYNOPSIS
+!!
+!!
+!!     subroutine eval_compiled(prog, result, ierr, vars)
+!!
+!!      type(compiled_expr), intent(in) :: prog
+!!      real(real64), allocatable, intent(out) :: result(:)
+!!      integer, intent(out) :: ierr
+!!      type(var_value), intent(in), optional :: vars(:)
+!!
+!!##DESCRIPTION
+!!
+!! eval_compiled executes the instruction stream in prog without
+!! recursion. Each element vars(i)%val(:) supplies the runtime value for
+!! the i-th variable declared in var_names during compilation.
+!!
+!!  + Scalars are passed as 1-element arrays (vars(i)%val = [1.0_real64]).
+!!  + Arrays of length N broadcast automatically against scalars, producing
+!!    an output array result of length N.
+!!
+!!##OPTIONS
+!!
+!!##RETURN VALUE
+!!
+!! Allocates result with the computed scalar (length 1) or array (length
+!! N) and sets ierr = 0. On runtime errors (such as division by zero or
+!! out-of-bounds indexing), ierr is set to 3, 10, or 12–15.
+!!
+!!##EXAMPLES
+!!
+!!
+!!  Sample program
+!!
+!!    program demo_eval_compiled
+!!    use M_unicode
+!!    end program demo_eval_compiled
+!!
+!!  Results
+!!   >
+!!   >
+!!
+!!##SEE ALSO
+!!    compile_expr_cp(3), eval_compiled(3), differentiate_compiled(3),
+!!    utoc(3), ctou(3), M_unicode(3)
+!!
+!!##AUTHOR
+!!    John S. Urban
+!!
+!!##CONTRIBUTORS
+!!    Developed with coding and debugging assistance from Gemini (Google).
+!!
+!!##LICENSE
+!!    MIT
+   subroutine eval_compiled(prog, result, ierr, vars)
+      type(compiled_expr), intent(in) :: prog
+      real(real64), allocatable, intent(out) :: result(:)
+      integer, intent(out) :: ierr
+      type(var_value), intent(in), optional :: vars(:)
+      type(var_value) :: stack(max(1, prog%max_stack))
+      integer :: ip, sp, nargs, n1, n2, n, idx, j
+      real(real64), allocatable :: tmp(:)
+      ierr = 0
+      sp = 0
+      do ip = 1, prog%count
+         select case (prog%code(ip)%op)
+          case (OP_PUSH_CONST)
+            sp = sp + 1
+            stack(sp)%val = [prog%code(ip)%val]
+          case (OP_PUSH_VAR)
+            if (.not. present(vars)) then
+               ierr = 12; return
+            end if
+            if (prog%code(ip)%arg1 > size(vars)) then
+               ierr = 12; return
+            end if
+            if (.not. allocated(vars(prog%code(ip)%arg1)%val)) then
+               ierr = 12; return
+            end if
+            sp = sp + 1
+            stack(sp)%val = vars(prog%code(ip)%arg1)%val
+          case (OP_INDEX)
+! stack(sp-1) is array, stack(sp) is 1-based index
+            if (size(stack(sp)%val) /= 1) then
+               ierr = 13 ! Array index must be scalar
+               return
+            end if
+            idx = nint(stack(sp)%val(1))
+            sp = sp - 1
+            if (idx < 1 .or. idx > size(stack(sp)%val)) then
+               ierr = 14 ! Array index out of bounds
+               return
+            end if
+            stack(sp)%val = [stack(sp)%val(idx)]
+          case (OP_ADD, OP_SUB, OP_MUL, OP_DIV, OP_POW, &
+             OP_LT, OP_LE, OP_GT, OP_GE, OP_EQ, OP_NE)
+            n1 = size(stack(sp-1)%val)
+            n2 = size(stack(sp)%val)
+            if (n1 /= n2 .and. n1 /= 1 .and. n2 /= 1) then
+               ierr = 15 ! Incompatible array shapes
+               return
+            end if
+            n = max(n1, n2)
+            allocate(tmp(n))
+            call apply_binary_op(prog%code(ip)%op, stack(sp-1)%val, stack(sp)%val, tmp, ierr)
+            if (ierr /= 0) return
+            sp = sp - 1
+            call move_alloc(tmp, stack(sp)%val)
+          case (OP_NEG)
+            stack(sp)%val = -stack(sp)%val
+          case (OP_SQRT)
+            if (any(stack(sp)%val < 0.0_real64)) then
+               ierr = 10; return
+            end if
+            stack(sp)%val = sqrt(stack(sp)%val)
+          case (OP_CALL)
+            nargs = prog%code(ip)%arg2
+            call exec_builtin_array(prog%code(ip)%arg1, stack(sp - nargs + 1 : sp), tmp, ierr)
+            if (ierr /= 0) return
+            sp = sp - nargs + 1
+            call move_alloc(tmp, stack(sp)%val)
+          case (OP_USER_CALL)
+            nargs = prog%code(ip)%arg2
+            n = 1
+            do j = 1, nargs
+               n1 = size(stack(sp - nargs + j)%val)
+               if (n1 /= 1 .and. n /= 1 .and. n1 /= n) then
+                  ierr = 15; return
+               end if
+               n = max(n, n1)
+            end do
+            allocate(tmp(n))
+            call exec_user_func_broadcast(prog%ufuncs(prog%code(ip)%arg1), &
+               stack(sp - nargs + 1 : sp), tmp)
+            sp = sp - nargs + 1
+            call move_alloc(tmp, stack(sp)%val)
+         end select
+      end do
+      if (sp == 1) then
+         call move_alloc(stack(1)%val, result)
+      else
+         allocate(result(0))
+      end if
+   end subroutine eval_compiled
+   subroutine apply_binary_op(op, a, b, res, ierr)
+      integer, intent(in) :: op
+      real(real64), intent(in) :: a(:), b(:)
+      real(real64), intent(out) :: res(:)
+      integer, intent(inout) :: ierr
+      integer :: i, n
+      real(real64) :: va, vb
+      n = size(res)
+      do i = 1, n
+         va = a(merge(1, i, size(a) == 1))
+         vb = b(merge(1, i, size(b) == 1))
+         select case (op)
+          case (OP_ADD); res(i) = va + vb
+          case (OP_SUB); res(i) = va - vb
+          case (OP_MUL); res(i) = va * vb
+          case (OP_DIV)
+            if (vb == 0.0_real64) then
+               ierr = 3; return
+            end if
+            res(i) = va / vb
+          case (OP_POW); res(i) = va ** vb
+          case (OP_LT); res(i) = merge(1.0_real64, 0.0_real64, va < vb)
+          case (OP_LE); res(i) = merge(1.0_real64, 0.0_real64, va <= vb)
+          case (OP_GT); res(i) = merge(1.0_real64, 0.0_real64, va > vb)
+          case (OP_GE); res(i) = merge(1.0_real64, 0.0_real64, va >= vb)
+          case (OP_EQ); res(i) = merge(1.0_real64, 0.0_real64, va == vb)
+          case (OP_NE); res(i) = merge(1.0_real64, 0.0_real64, va /= vb)
+         end select
+      end do
+   end subroutine apply_binary_op
+   subroutine exec_user_func_broadcast(uf, args, res)
+      type(user_func), intent(in) :: uf
+      type(var_value), intent(in) :: args(:)
+      real(real64), intent(out) :: res(:)
+      real(real64) :: call_args(size(args))
+      integer :: i, j, n
+      n = size(res)
+      do i = 1, n
+         do j = 1, size(args)
+            call_args(j) = args(j)%val(merge(1, i, size(args(j)%val) == 1))
+         end do
+         res(i) = uf%fn(call_args)
+      end do
+   end subroutine exec_user_func_broadcast
+   subroutine exec_builtin_array(fn_id, args, res, ierr)
+      integer, intent(in) :: fn_id
+      type(var_value), intent(in) :: args(:)
+      real(real64), allocatable, intent(out) :: res(:)
+      integer, intent(inout) :: ierr
+      integer :: i, j, n, n1
+      real(real64) :: v1, v2, v3
+! Array Reduction & Query Functions -> Always return scalar (size 1)
+      select case (fn_id)
+       case (FN_SUM)
+         res = [sum(args(1)%val)]; return
+       case (FN_MEAN)
+         res = [sum(args(1)%val) / real(size(args(1)%val), real64)]; return
+       case (FN_NORM2)
+         res = [norm2(args(1)%val)]; return
+       case (FN_SIZE)
+         res = [real(size(args(1)%val), real64)]; return
+       case (FN_DOT)
+         if (size(args(1)%val) /= size(args(2)%val)) then
+            ierr = 15; return
+         end if
+         res = [dot_product(args(1)%val, args(2)%val)]; return
+       case (FN_MIN)
+         if (size(args) == 1) then
+            res = [minval(args(1)%val)]; return
+         end if
+       case (FN_MAX)
+         if (size(args) == 1) then
+            res = [maxval(args(1)%val)]; return
+         end if
+      end select
+! Determine broadcast length across arguments
+      n = 1
+      do j = 1, size(args)
+         n1 = size(args(j)%val)
+         if (n1 /= 1 .and. n /= 1 .and. n1 /= n) then
+            ierr = 15; return
+         end if
+         n = max(n, n1)
+      end do
+      allocate(res(n))
+      do i = 1, n
+         v1 = args(1)%val(merge(1, i, size(args(1)%val) == 1))
+         if (size(args) >= 2) v2 = args(2)%val(merge(1, i, size(args(2)%val) == 1))
+         if (size(args) >= 3) v3 = args(3)%val(merge(1, i, size(args(3)%val) == 1))
+         select case (fn_id)
+          case (FN_SIN); res(i) = sin(v1)
+          case (FN_COS); res(i) = cos(v1)
+          case (FN_TAN); res(i) = tan(v1)
+          case (FN_ASIN); res(i) = asin(v1)
+          case (FN_ACOS); res(i) = acos(v1)
+          case (FN_ATAN); res(i) = atan(v1)
+          case (FN_SINH); res(i) = sinh(v1)
+          case (FN_COSH); res(i) = cosh(v1)
+          case (FN_TANH); res(i) = tanh(v1)
+          case (FN_EXP); res(i) = exp(v1)
+          case (FN_LOG); res(i) = log(v1)
+          case (FN_LOG10); res(i) = log10(v1)
+          case (FN_SQRT)
+            if (v1 < 0.0_real64) then
+               ierr = 10; return
+            end if
+            res(i) = sqrt(v1)
+          case (FN_ABS); res(i) = abs(v1)
+          case (FN_FLOOR); res(i) = real(floor(v1), real64)
+          case (FN_CEILING); res(i) = real(ceiling(v1), real64)
+          case (FN_NINT); res(i) = real(nint(v1), real64)
+          case (FN_ATAN2); res(i) = atan2(v1, v2)
+          case (FN_HYPOT); res(i) = hypot(v1, v2)
+          case (FN_MOD)
+            if (v2 == 0.0_real64) then
+               ierr = 3; return
+            end if
+            res(i) = mod(v1, v2)
+          case (FN_MIN)
+            res(i) = v1
+            do j = 2, size(args)
+               res(i) = min(res(i), args(j)%val(merge(1, i, size(args(j)%val) == 1)))
+            end do
+          case (FN_MAX)
+            res(i) = v1
+            do j = 2, size(args)
+               res(i) = max(res(i), args(j)%val(merge(1, i, size(args(j)%val) == 1)))
+            end do
+          case (FN_IF)
+            res(i) = merge(v2, v3, v1 /= 0.0_real64)
+         end select
+      end do
+   end subroutine exec_builtin_array
+!===========================================================================
+! 3. SYMBOLIC DIFFERENTIATION OF COMPILED BYTECODE
+!===========================================================================
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
+!>
+!!##NAME
+!!
+!!    differentiate_compiled(3f) — [M_unicode:EVAL ]symbolically
+!!    differentiate a compiled expression
+!!    (LICENSE:PD)
+!!
+!!##SYNOPSIS
+!!
+!!
+!!    subroutine differentiate_compiled(prog, var_idx, dprog, ierr)
+!!
+!!     type(compiled_expr), intent(in)  :: prog
+!!     integer, intent(in)              :: var_idx
+!!     type(compiled_expr), intent(out) :: dprog
+!!     integer, intent(out)             :: ierr
+!!
+!!##DESCRIPTION
+!!
+!! differentiate_compiled(3) reconstructs an abstract syntax tree (AST) from
+!! prog, computes its exact analytical partial derivative with respect to
+!! variable index var_idx, performs algebraic constant folding and identity
+!! simplification, and compiles the resulting derivative AST into dprog.
+!!
+!! Supported rules include sum, difference, product, quotient,
+!! general power (\(f^{g}\)), chain rule for elementary
+!! trigonometric/hyperbolic/exponential/logarithmic functions, sum(),
+!! and piecewise if().
+!!
+!!##OPTIONS
+!!
+!!##RETURN VALUE
+!!
+!! Populates dprog and sets ierr = 0. Sets ierr = 16 if prog contains
+!! non-differentiable operators (such as floor or custom user_func
+!! callbacks).
+!!
+!!##EXAMPLES
+!!
+!!
+!!  Sample program
+!!
+!!    program demo_differentiate_compiled
+!!    end program demo_differentiate_compiled
+!!
+!!  Results
+!!   >
+!!   >
+!!
+!!##SEE ALSO
+!!     NAME1(3f), NAME2(3f)
+!!
+!!##AUTHOR
+!!    John S. Urban
+!!
+!!##LICENSE
+!!    MIT
+    subroutine differentiate_compiled(prog, var_idx, dprog, ierr)
+        type(compiled_expr), intent(in) :: prog
+        integer, intent(in) :: var_idx
+        type(compiled_expr), intent(out) :: dprog
+        integer, intent(out) :: ierr
+
+        type(ast_node), pointer :: root, droot, drootsimp
+        integer :: cur_stack
+
+        ierr = 0
+        call bytecode_to_ast(prog, root, ierr)
+        if (ierr /= 0) return
+
+        droot => diff_ast(root, var_idx, ierr)
+        if (ierr /= 0) then
+            call free_ast(root)
+            return
+        end if
+        drootsimp => simplify_ast(droot)
+
+        dprog%count = 0
+        dprog%max_stack = 0
+        allocate(dprog%code(32))
+        allocate(dprog%ufuncs(size(prog%ufuncs)))
+        dprog%ufuncs = prog%ufuncs
+
+        cur_stack = 0
+        call ast_to_bytecode(drootsimp, dprog, cur_stack)
+        dprog%code = dprog%code(1:dprog%count)
+
+        call free_ast(root)
+        call free_ast(drootsimp)
+    end subroutine differentiate_compiled
+
+   function new_node(op, arg1, arg2, val, left, right, third) result(p)
+      integer, intent(in) :: op
+      integer, intent(in), optional :: arg1, arg2
+      real(real64), intent(in), optional :: val
+      type(ast_node), pointer, optional :: left, right, third
+      type(ast_node), pointer :: p
+      allocate(p)
+      p%op = op
+      if (present(arg1)) p%arg1 = arg1
+      if (present(arg2)) p%arg2 = arg2
+      if (present(val)) p%val = val
+      if (present(left)) p%left => left
+      if (present(right)) p%right => right
+      if (present(third)) p%third => third
+   end function new_node
+   recursive function clone_ast(u) result(c)
+      type(ast_node), pointer, intent(in) :: u
+      type(ast_node), pointer :: c
+      if (.not. associated(u)) then
+         c => null()
+         return
+      end if
+      c => new_node(u%op, u%arg1, u%arg2, u%val, &
+         clone_ast(u%left), clone_ast(u%right), clone_ast(u%third))
+   end function clone_ast
+
+   recursive subroutine free_ast(u)
+      type(ast_node), pointer, intent(inout) :: u
+      if (.not. associated(u)) return
+      call free_ast(u%left)
+      call free_ast(u%right)
+      call free_ast(u%third)
+      deallocate(u)
+      u => null()
+   end subroutine free_ast
+
+   subroutine bytecode_to_ast(prog, root, ierr)
+      type(compiled_expr), intent(in) :: prog
+      type(ast_node), pointer, intent(out) :: root
+      integer, intent(inout) :: ierr
+      type :: node_ptr
+         type(ast_node), pointer :: p => null()
+      end type node_ptr
+      type(node_ptr) :: stack(max(1, prog%max_stack))
+      integer :: ip, sp, nargs
+      sp = 0
+      do ip = 1, prog%count
+         select case (prog%code(ip)%op)
+          case (OP_PUSH_CONST)
+            sp = sp + 1
+            stack(sp)%p => new_node(OP_PUSH_CONST, val=prog%code(ip)%val)
+          case (OP_PUSH_VAR)
+            sp = sp + 1
+            stack(sp)%p => new_node(OP_PUSH_VAR, arg1=prog%code(ip)%arg1)
+          case (OP_NEG, OP_SQRT)
+            stack(sp)%p => new_node(prog%code(ip)%op, left=stack(sp)%p)
+          case (OP_ADD, OP_SUB, OP_MUL, OP_DIV, OP_POW, OP_INDEX)
+            stack(sp-1)%p => new_node(prog%code(ip)%op, left=stack(sp-1)%p, right=stack(sp)%p)
+            sp = sp - 1
+          case (OP_CALL)
+            nargs = prog%code(ip)%arg2
+            if (nargs == 1) then
+               stack(sp)%p => new_node(OP_CALL, arg1=prog%code(ip)%arg1, arg2=1, left=stack(sp)%p)
+            else if (nargs == 2) then
+               stack(sp-1)%p => new_node(OP_CALL, arg1=prog%code(ip)%arg1, arg2=2, &
+                  left=stack(sp-1)%p, right=stack(sp)%p)
+               sp = sp - 1
+            else if (nargs == 3 .and. prog%code(ip)%arg1 == FN_IF) then
+               stack(sp-2)%p => new_node(OP_CALL, arg1=FN_IF, arg2=3, &
+                  left=stack(sp-2)%p, right=stack(sp-1)%p, third=stack(sp)%p)
+               sp = sp - 2
+            else
+               ierr = 16 ! Unsupported construct for symbolic differentiation
+               return
+            end if
+          case default
+            ierr = 16
+            return
+         end select
+      end do
+      root => stack(1)%p
+   end subroutine bytecode_to_ast
+
+   recursive function diff_ast(u, v_idx, ierr) result(du)
+      type(ast_node), pointer, intent(in) :: u
+      integer, intent(in) :: v_idx
+      integer, intent(inout) :: ierr
+      type(ast_node), pointer :: du, f, g, df, dg, t1, t2, num, den
+      du => null()
+      if (ierr /= 0 .or. .not. associated(u)) return
+      select case (u%op)
+       case (OP_PUSH_CONST)
+         du => new_node(OP_PUSH_CONST, val=0.0_real64)
+       case (OP_PUSH_VAR)
+         if (u%arg1 == v_idx) then
+            du => new_node(OP_PUSH_CONST, val=1.0_real64)
+         else
+            du => new_node(OP_PUSH_CONST, val=0.0_real64)
+         end if
+       case (OP_NEG)
+         du => new_node(OP_NEG, left=diff_ast(u%left, v_idx, ierr))
+       case (OP_ADD, OP_SUB)
+         du => new_node(u%op, left=diff_ast(u%left, v_idx, ierr), &
+            right=diff_ast(u%right, v_idx, ierr))
+       case (OP_MUL)
+! Product Rule: (f * g)' = f' * g + f * g'
+         f => u%left; g => u%right
+         df => diff_ast(f, v_idx, ierr)
+         dg => diff_ast(g, v_idx, ierr)
+         t1 => new_node(OP_MUL, left=df, right=clone_ast(g))
+         t2 => new_node(OP_MUL, left=clone_ast(f), right=dg)
+         du => new_node(OP_ADD, left=t1, right=t2)
+       case (OP_DIV)
+! Quotient Rule: (f / g)' = (f' * g - f * g') / g^2
+         f => u%left; g => u%right
+         df => diff_ast(f, v_idx, ierr)
+         dg => diff_ast(g, v_idx, ierr)
+         t1 => new_node(OP_MUL, left=df, right=clone_ast(g))
+         t2 => new_node(OP_MUL, left=clone_ast(f), right=dg)
+         num => new_node(OP_SUB, left=t1, right=t2)
+         den => new_node(OP_POW, left=clone_ast(g), right=new_node(OP_PUSH_CONST, val=2.0_real64))
+         du => new_node(OP_DIV, left=num, right=den)
+       case (OP_POW)
+         f => u%left; g => u%right
+         df => diff_ast(f, v_idx, ierr)
+         if (g%op == OP_PUSH_CONST) then
+! Power Rule: (f^c)' = c * f^(c-1) * f'
+            t1 => new_node(OP_POW, left=clone_ast(f), &
+               right=new_node(OP_PUSH_CONST, val=g%val - 1.0_real64))
+            t2 => new_node(OP_MUL, left=new_node(OP_PUSH_CONST, val=g%val), right=t1)
+            du => new_node(OP_MUL, left=t2, right=df)
+         else
+! General Power Rule: (f^g)' = f^g * (g' * log(f) + g * f' / f)
+            dg => diff_ast(g, v_idx, ierr)
+            t1 => new_node(OP_MUL, left=dg, right=new_node(OP_CALL, arg1=FN_LOG, arg2=1, left=clone_ast(f)))
+            t2 => new_node(OP_DIV, left=new_node(OP_MUL, left=clone_ast(g), right=df), right=clone_ast(f))
+            du => new_node(OP_MUL, left=clone_ast(u), right=new_node(OP_ADD, left=t1, right=t2))
+         end if
+       case (OP_SQRT)
+! (sqrt(f))' = f' / (2 * sqrt(f))
+         f => u%left
+         df => diff_ast(f, v_idx, ierr)
+         den => new_node(OP_MUL, left=new_node(OP_PUSH_CONST, val=2.0_real64), right=clone_ast(u))
+         du => new_node(OP_DIV, left=df, right=den)
+       case (OP_CALL)
+         f => u%left
+         select case (u%arg1)
+          case (FN_SIN)
+            df => diff_ast(f, v_idx, ierr)
+            du => new_node(OP_MUL, left=new_node(OP_CALL, arg1=FN_COS, arg2=1, left=clone_ast(f)), right=df)
+          case (FN_COS)
+            df => diff_ast(f, v_idx, ierr)
+            t1 => new_node(OP_NEG, left=new_node(OP_CALL, arg1=FN_SIN, arg2=1, left=clone_ast(f)))
+            du => new_node(OP_MUL, left=t1, right=df)
+          case (FN_TAN)
+! tan(f)' = f' / cos(f)^2
+            df => diff_ast(f, v_idx, ierr)
+            den => new_node(OP_POW, left=new_node(OP_CALL, arg1=FN_COS, arg2=1, left=clone_ast(f)), &
+               right=new_node(OP_PUSH_CONST, val=2.0_real64))
+            du => new_node(OP_DIV, left=df, right=den)
+          case (FN_EXP)
+            df => diff_ast(f, v_idx, ierr)
+            du => new_node(OP_MUL, left=clone_ast(u), right=df)
+          case (FN_LOG)
+            df => diff_ast(f, v_idx, ierr)
+            du => new_node(OP_DIV, left=df, right=clone_ast(f))
+          case (FN_SQRT)
+            df => diff_ast(f, v_idx, ierr)
+            den => new_node(OP_MUL, left=new_node(OP_PUSH_CONST, val=2.0_real64), right=clone_ast(u))
+            du => new_node(OP_DIV, left=df, right=den)
+          case (FN_SINH)
+            df => diff_ast(f, v_idx, ierr)
+            du => new_node(OP_MUL, left=new_node(OP_CALL, arg1=FN_COSH, arg2=1, left=clone_ast(f)), right=df)
+          case (FN_COSH)
+            df => diff_ast(f, v_idx, ierr)
+            du => new_node(OP_MUL, left=new_node(OP_CALL, arg1=FN_SINH, arg2=1, left=clone_ast(f)), right=df)
+          case (FN_TANH)
+            df => diff_ast(f, v_idx, ierr)
+            den => new_node(OP_POW, left=new_node(OP_CALL, arg1=FN_COSH, arg2=1, left=clone_ast(f)), &
+               right=new_node(OP_PUSH_CONST, val=2.0_real64))
+            du => new_node(OP_DIV, left=df, right=den)
+          case (FN_SUM)
+            du => new_node(OP_CALL, arg1=FN_SUM, arg2=1, left=diff_ast(f, v_idx, ierr))
+          case (FN_IF)
+            du => new_node(OP_CALL, arg1=FN_IF, arg2=3, left=clone_ast(u%left), &
+               right=diff_ast(u%right, v_idx, ierr), third=diff_ast(u%third, v_idx, ierr))
+          case default
+            ierr = 16 ! Function derivative not implemented
+         end select
+       case default
+         ierr = 16
+      end select
+   end function diff_ast
+
+   recursive function simplify_ast(u) result(s)
+      type(ast_node), pointer, intent(inout) :: u
+      type(ast_node), pointer :: s, l, r
+      if (.not. associated(u)) then
+         s => null(); return
+      end if
+      if (associated(u%left)) u%left => simplify_ast(u%left)
+      if (associated(u%right)) u%right => simplify_ast(u%right)
+      if (associated(u%third)) u%third => simplify_ast(u%third)
+      l => u%left; r => u%right
+      s => u
+      select case (u%op)
+       case (OP_NEG)
+         if (l%op == OP_PUSH_CONST) then
+            s => new_node(OP_PUSH_CONST, val=-l%val)
+            call free_ast(u)
+         end if
+       case (OP_ADD)
+         if (l%op == OP_PUSH_CONST .and. r%op == OP_PUSH_CONST) then
+            s => new_node(OP_PUSH_CONST, val=l%val + r%val)
+            call free_ast(u)
+         else if (l%op == OP_PUSH_CONST .and. l%val == 0.0_real64) then
+            s => clone_ast(r); call free_ast(u)
+         else if (r%op == OP_PUSH_CONST .and. r%val == 0.0_real64) then
+            s => clone_ast(l); call free_ast(u)
+         end if
+       case (OP_SUB)
+         if (l%op == OP_PUSH_CONST .and. r%op == OP_PUSH_CONST) then
+            s => new_node(OP_PUSH_CONST, val=l%val - r%val)
+            call free_ast(u)
+         else if (r%op == OP_PUSH_CONST .and. r%val == 0.0_real64) then
+            s => clone_ast(l); call free_ast(u)
+         else if (l%op == OP_PUSH_CONST .and. l%val == 0.0_real64) then
+            s => new_node(OP_NEG, left=clone_ast(r)); call free_ast(u)
+         end if
+       case (OP_MUL)
+         if (l%op == OP_PUSH_CONST .and. r%op == OP_PUSH_CONST) then
+            s => new_node(OP_PUSH_CONST, val=l%val * r%val)
+            call free_ast(u)
+         else if ((l%op == OP_PUSH_CONST .and. l%val == 0.0_real64) .or. &
+            (r%op == OP_PUSH_CONST .and. r%val == 0.0_real64)) then
+            s => new_node(OP_PUSH_CONST, val=0.0_real64)
+            call free_ast(u)
+         else if (l%op == OP_PUSH_CONST .and. l%val == 1.0_real64) then
+            s => clone_ast(r); call free_ast(u)
+         else if (r%op == OP_PUSH_CONST .and. r%val == 1.0_real64) then
+            s => clone_ast(l); call free_ast(u)
+         end if
+       case (OP_DIV)
+         if (l%op == OP_PUSH_CONST .and. l%val == 0.0_real64) then
+            s => new_node(OP_PUSH_CONST, val=0.0_real64)
+            call free_ast(u)
+         else if (r%op == OP_PUSH_CONST .and. r%val == 1.0_real64) then
+            s => clone_ast(l); call free_ast(u)
+         end if
+       case (OP_POW)
+         if (r%op == OP_PUSH_CONST .and. r%val == 0.0_real64) then
+            s => new_node(OP_PUSH_CONST, val=1.0_real64)
+            call free_ast(u)
+         else if (r%op == OP_PUSH_CONST .and. r%val == 1.0_real64) then
+            s => clone_ast(l); call free_ast(u)
+         end if
+      end select
+   end function simplify_ast
+   recursive subroutine ast_to_bytecode(u, prog, st)
+      type(ast_node), pointer, intent(in) :: u
+      type(compiled_expr), intent(inout) :: prog
+      integer, intent(inout) :: st
+      if (.not. associated(u)) return
+      select case (u%op)
+       case (OP_PUSH_CONST)
+         call emit(prog, st, 1, OP_PUSH_CONST, val=u%val)
+       case (OP_PUSH_VAR)
+         call emit(prog, st, 1, OP_PUSH_VAR, arg1=u%arg1)
+       case (OP_NEG, OP_SQRT)
+         call ast_to_bytecode(u%left, prog, st)
+         call emit(prog, st, 0, u%op)
+       case (OP_ADD, OP_SUB, OP_MUL, OP_DIV, OP_POW, OP_INDEX)
+         call ast_to_bytecode(u%left, prog, st)
+         call ast_to_bytecode(u%right, prog, st)
+         call emit(prog, st, -1, u%op)
+       case (OP_CALL)
+         call ast_to_bytecode(u%left, prog, st)
+         if (associated(u%right)) call ast_to_bytecode(u%right, prog, st)
+         if (associated(u%third)) call ast_to_bytecode(u%third, prog, st)
+         call emit(prog, st, 1 - u%arg2, OP_CALL, arg1=u%arg1, arg2=u%arg2)
+      end select
+   end subroutine ast_to_bytecode
+
+!===========================================================================
+! 4. FUNCTION REGISTRY & UNICODE HELPERS
+!===========================================================================
+   subroutine lookup_function(fname, fn_id, min_args, max_args)
+      character(len=*), intent(in) :: fname
+      integer, intent(out) :: fn_id, min_args, max_args
+      fn_id = 0; min_args = 1; max_args = 1
+      select case (fname)
+       case ('sin'); fn_id = FN_SIN
+       case ('cos'); fn_id = FN_COS
+       case ('tan'); fn_id = FN_TAN
+       case ('asin'); fn_id = FN_ASIN
+       case ('acos'); fn_id = FN_ACOS
+       case ('atan'); fn_id = FN_ATAN
+       case ('sinh'); fn_id = FN_SINH
+       case ('cosh'); fn_id = FN_COSH
+       case ('tanh'); fn_id = FN_TANH
+       case ('exp'); fn_id = FN_EXP
+       case ('log'); fn_id = FN_LOG
+       case ('log10'); fn_id = FN_LOG10
+       case ('sqrt'); fn_id = FN_SQRT
+       case ('abs'); fn_id = FN_ABS
+       case ('floor'); fn_id = FN_FLOOR
+       case ('ceiling'); fn_id = FN_CEILING
+       case ('nint'); fn_id = FN_NINT
+       case ('sum'); fn_id = FN_SUM
+       case ('mean'); fn_id = FN_MEAN
+       case ('norm2'); fn_id = FN_NORM2
+       case ('size'); fn_id = FN_SIZE
+       case ('atan2'); fn_id = FN_ATAN2; min_args = 2; max_args = 2
+       case ('hypot'); fn_id = FN_HYPOT; min_args = 2; max_args = 2
+       case ('mod'); fn_id = FN_MOD; min_args = 2; max_args = 2
+       case ('dot'); fn_id = FN_DOT; min_args = 2; max_args = 2
+       case ('min'); fn_id = FN_MIN; min_args = 1; max_args = 999
+       case ('max'); fn_id = FN_MAX; min_args = 1; max_args = 999
+       case ('if'); fn_id = FN_IF; min_args = 3; max_args = 3
+      end select
+   end subroutine lookup_function
+   subroutine strip_whitespace(cp_in, cp_out)
+      integer(int32), intent(in) :: cp_in(:)
+      integer(int32), allocatable, intent(out) :: cp_out(:)
+      integer :: i, n, count
+      n = size(cp_in)
+      count = 0
+      do i = 1, n
+         if (cp_in(i) /= CP_SPACE .and. cp_in(i) /= CP_TAB) count = count + 1
+      end do
+      allocate(cp_out(count))
+      count = 0
+      do i = 1, n
+         if (cp_in(i) == CP_SPACE .or. cp_in(i) == CP_TAB) cycle
+         count = count + 1
+         cp_out(count) = cp_in(i)
+      end do
+   end subroutine strip_whitespace
+   logical function is_superscript_cp(cp)
+      integer(int32), intent(in) :: cp
+      is_superscript_cp = (superscript_digit(cp) >= 0 .or. &
+         cp == CP_SUP_PLUS .or. cp == CP_SUP_MIN)
+   end function is_superscript_cp
+   integer function superscript_digit(cp)
+      integer(int32), intent(in) :: cp
+      select case (cp)
+       case (CP_SUP_0); superscript_digit = 0
+       case (CP_SUP_1); superscript_digit = 1
+       case (CP_SUP_2); superscript_digit = 2
+       case (CP_SUP_3); superscript_digit = 3
+       case (CP_SUP_4); superscript_digit = 4
+       case (CP_SUP_5); superscript_digit = 5
+       case (CP_SUP_6); superscript_digit = 6
+       case (CP_SUP_7); superscript_digit = 7
+       case (CP_SUP_8); superscript_digit = 8
+       case (CP_SUP_9); superscript_digit = 9
+       case default; superscript_digit = -1
+      end select
+   end function superscript_digit
+   logical function is_digit_cp(cp)
+      integer(int32), intent(in) :: cp
+      is_digit_cp = (cp >= iachar('0') .and. cp <= iachar('9'))
+   end function is_digit_cp
+   logical function is_reserved_nonascii_cp(cp)
+      integer(int32), intent(in) :: cp
+      is_reserved_nonascii_cp = (cp == CP_TIMES .or. cp == CP_CDOT .or. &
+         cp == CP_DIV .or. cp == CP_UMINUS .or. &
+         cp == CP_SQRT .or. cp == CP_LE .or. &
+         cp == CP_GE .or. cp == CP_NE .or. &
+         is_superscript_cp(cp))
+   end function is_reserved_nonascii_cp
+   logical function is_ident_start_cp(cp)
+      integer(int32), intent(in) :: cp
+      if (is_reserved_nonascii_cp(cp)) then
+         is_ident_start_cp = .false.
+      else if ((cp >= iachar('a') .and. cp <= iachar('z')) .or. &
+         (cp >= iachar('A') .and. cp <= iachar('Z')) .or. &
+         cp == CP_UNDER .or. cp >= 128) then
+         is_ident_start_cp = .true.
+      else
+         is_ident_start_cp = .false.
+      end if
+   end function is_ident_start_cp
+   logical function is_ident_char_cp(cp)
+      integer(int32), intent(in) :: cp
+      is_ident_char_cp = is_ident_start_cp(cp) .or. is_digit_cp(cp)
+   end function is_ident_char_cp
+   logical function cp_equals(a, b)
+      integer(int32), intent(in) :: a(:), b(:)
+      if (size(a) /= size(b)) then
+         cp_equals = .false.
+      else
+         cp_equals = all(a == b)
+      end if
+   end function cp_equals
+
+   subroutine cp_to_exact_ascii(a, str, is_ascii)
+      integer(int32), intent(in) :: a(:)
+      character(len=:), allocatable, intent(out) :: str
+      logical, intent(out) :: is_ascii
+      integer :: i
+      is_ascii = all(a < 128)
+      if (.not. is_ascii) then
+         str = ""
+         return
+      end if
+      allocate(character(len=size(a)) :: str)
+      do i = 1, size(a)
+         str(i:i) = achar(a(i))
+      end do
+   end subroutine cp_to_exact_ascii
+
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
+end module M_unicode__eval

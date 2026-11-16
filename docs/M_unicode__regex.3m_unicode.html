@@ -1,0 +1,533 @@
+<html> 
+<head> 
+<title> </title>
+<style> 
+px {font-family: "Lucida Console", Monaco, monospace }
+p { font-size:100%; line-height:1.1em; }
+body {xfont-style: sans-serif}
+body {
+color:#333; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:1em; line-height:1.3em; }
+a:visited { color:#666; }
+h1,h2,h3,h4,h5,h6 { color:#333; font-family:georgia, verdana, sans-serif; }
+h1 { font-size:150%; page-break-before:auto;background-color: #aaaaff}
+h2 { font-size:143%;color:teal; }
+h3 { font-size:134%;color:blue; }
+h4 { font-size:120%;color:gray; }
+img { max-width: 55em}
+p{ padding: 0;margin:0; }
+p{ padding-right:1.4em; }
+p{ padding-bottom:0.1em; }
+p{ padding-top:1em; }
+p{ whitespace: pre-wrap; }
+h5,h6 { font-size:100% }
+a.nav,a:link.nav, a:visited.nav { background-color:#FFF; color:#000; }
+XXtable { border:double #000; border-collapse:collapse; }
+XXtable { border-collapse:collapse; }
+XXtd { border:thin solid #888; }
+XXtd { border:none; }
+li { margin-bottom:0.5em; }
+blockquote { display:block; font-size:100%; line-height:1.1em; margin:0 0 0.5em; padding:0 2.5em; }
+pre { background-color:#DDD; font-size:100%; overflow:auto; padding:1em; }
+a,li span { color:#000; }
+a:hover, a.nav:hover, a:hover math { background-color:#000; color:#FFF; }
+#Container { margin:0 10px; text-align:center; background-color: #BBB}
+#Content { border-top:none; margin:auto; padding:0.3em; text-align:left; width:100%; max-width:55em; background:#FFF}
+span.webName { font-size:.5em; }
+textarea#content { font-size: 1em; line-height: 1.125; }
+h1#pageName { line-height:1em; margin:0.2em 0 0.2em 0; padding:0; }
+.property { color:#666; font-size:100%; }
+a.existingWikiWord[title]{ //border: 1px dashed #BBB; }
+.byline { color:#666; font-size:1.0em; font-style:italic; margin-bottom:1em; padding-top:1px; } 
+</style> 
+</head>
+<BODY bgcolor=#F0F0F0 text=#000000 link=#0000ff vlink=#C000C0 alink=#ff0000><A NAME=top></A>
+<!--
+<h5><a href="https://github.com/urbanjost/M_unicode">[UP]</a></h5>
+<button type="button" onclick="javascript:history.back()">Back</button>
+-->
+<div id="Container">
+<div id="Content">
+<CENTER>
+<H1><HR><I>Manual Reference Pages &nbsp;-&nbsp;</I><NOBR>M_unicode__regex (3m_unicode)</NOBR><HR></H1>
+</CENTER>
+<A name=0>
+
+     <H3>NAME</H3>
+
+</A>
+<BLOCKQUOTE>
+M_unicode__regex(3f) - [M_unicode:REGULAR EXPRESSIONS] Overview
+of UTF-8 codepoint Regular Expression engine
+(LICENSE:MIT)
+<P>
+</BLOCKQUOTE>
+<A name=contents></A><H3>CONTENTS</H3></A>
+<BLOCKQUOTE>
+<A HREF=#1>Synopsis</A><BR>
+<A HREF=#2>Description</A><BR>
+<A HREF=#3>Public Derived Types</A><BR>
+<A HREF=#4>Public Procedures</A><BR>
+<A HREF=#5>Regular Expression Syntax</A><BR>
+<A HREF=#6>Example</A><BR>
+<A HREF=#7>Contributors</A><BR>
+<A HREF=#8>See Also</A><BR>
+</BLOCKQUOTE>
+<A name=9>
+
+     <H3>SYNOPSIS</H3>
+
+</A>
+<BLOCKQUOTE>
+Syntax
+<P>
+<PRE>
+    use M_unicode__regex, only: regex_t, match_t, &
+                         regex_compile, regex_search, regex_replace, &
+    use M_unicode__convert, only: utoc, ctou
+<P>
+    type(regex_t) :: re
+    type(match_t) :: m
+<P>
+</PRE>
+</BLOCKQUOTE>
+<A name=>
+
+    <H4>&nbsp; &nbsp; CODEPOINT</H4>
+</A>
+<BLOCKQUOTE>
+<TABLE cellpadding=3>
+<TR valign=top><TD colspan=2>
+<B>integer(int32), allocatable</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+:: pat(:), txt(:), repl(:), out(:)
+character(len=:), allocatable :: str
+</TD></TR>
+<TR></TR></TABLE><!-- .nf -->
+<PRE>
+     pat  = utoc(str)
+     re   = regex_compile(pat)
+     m    = regex_search(re, txt [, start_offset])
+     out  = regex_replace(re, txt, repl [, replace_all])
+     str  = ctou(out)
+<P>
+</PRE>
+</BLOCKQUOTE>
+<A name=>
+
+    <H4>&nbsp; &nbsp; STRING</H4>
+</A>
+<BLOCKQUOTE>
+type(unicode_type) :: pat, txt, repl, out
+<P>
+<PRE>
+     re   = regex_compile(pat)
+     m    = regex_search(re, txt [, start_offset])
+     out  = regex_replace(re, txt, repl [, replace_all])
+<P>
+</PRE>
+</BLOCKQUOTE>
+<A name=>
+
+    <H4>&nbsp; &nbsp; CHARACTER</H4>
+</A>
+<BLOCKQUOTE>
+character(len=:),allocatable :: pat, txt, repl, out
+<P>
+<PRE>
+     re   = regex_compile(pat)
+     m    = regex_search(re, txt [, start_offset])
+     out  = regex_replace(re, txt, repl [, replace_all])
+<P>
+</PRE>
+</BLOCKQUOTE>
+<A name=2>
+
+     <H3>DESCRIPTION</H3>
+
+</A>
+<BLOCKQUOTE>
+<P>
+<TABLE cellpadding=3>
+<TR valign=top><TD colspan=2>
+<B>The M_unicode__regex(3f)</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+module implements a self-contained,
+Unicode-aware regular expression compiler and backtracking
+Nondeterministic Finite Automaton (NFA) virtual machine in standard
+Fortran 2008.
+</TD></TR>
+<TR><TD colspan=2>
+The procedures are generic and operator on three different types --
+TYPE(UNICODE_TYPE) variables, CHARACTER variables or CODEPOINTS(integer
+arrays composed of valid Unicode codepoint values).
+</TD></TR>
+<TR><TD colspan=2>
+For the CODEPOINT mode all pattern compilation, text matching, and
+</TD></TR>
+<TR valign=top><TD colspan=2>
+<B>string replacement operate directly on arrays of UTF-8/UTF-32</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+scalar
+codepoints (integer(int32)).
+</TD></TR>
+<TR></TR></TABLE>Helper functions utoc(3) and ctou(3) convert between standard UTF-8
+encoded Fortran character strings and codepoint arrays.
+<P>
+For the CHARACTER mode the same entities are all CHARACTER variables.
+<P>
+For the STRING mode all the same entities are all TYPE(UNICODE_TYPE).
+</BLOCKQUOTE>
+<A name=>
+
+    <H4>&nbsp; &nbsp; FEATURES</H4>
+</A>
+<BLOCKQUOTE>
+<P>
+<TABLE cellpadding=3>
+<TR valign=top><TD width=3%>
+o
+</TD><TD>
+**Native UTF-32 Matching & UTF-8 Codecs:** Built-in
+&#145;utf8_to_codepoints&#145; and &#145;codepoints_to_utf8&#145; converters with
+&#145;U+FFFD&#145; replacement handling for malformed byte sequences.
+</TD></TR>
+<TR valign=top><TD width=3%>
+o
+</TD><TD>
+**Submatch Captures:** Supports full-match tracking (&#145;group 0&#145;) plus
+up to 9 parenthesized capture groups (&#145;1..9&#145;).
+</TD></TR>
+<TR valign=top><TD width=3%>
+o
+</TD><TD>
+**Backreference Replacement:** Global or single-match string
+replacement via &#145;regex_replace&#145; supporting &#145;$0..$9&#145; and &#145;\0..\9&#145;
+backreferences.
+</TD></TR>
+<TR valign=top><TD width=3%>
+o
+</TD><TD>
+**Greedy & Non-Greedy Quantifiers:** Full support for &#145;*&#145;, &#145;+&#145;, &#145;?&#145;,
+&#145;{n}&#145;, &#145;{n,}&#145;, &#145;{n,m}&#145; and their lazy counterparts &#145;*?&#145;, &#145;+?&#145;, &#145;??&#145;,
+&#145;{n,}?&#145;, &#145;{n,m}?&#145;.
+</TD></TR>
+<TR valign=top><TD width=3%>
+o
+</TD><TD>
+**Character Classes & Shorthands:** Bracket expressions &#145;[&#46;&#46;&#46;]&#145;,
+negated classes &#145;[^&#46;&#46;&#46;]&#145;, ranges &#145;[a-z]&#145;, and Unicode-aware
+shorthands (&#145;\d&#145;, &#145;\D&#145;, &#145;\w&#145;, &#145;\W&#145;, &#145;\s&#145;, &#145;\S&#145;).
+</TD></TR>
+<TR valign=top><TD width=3%>
+o
+</TD><TD>
+**Anchors & Word Boundaries:** Multiline start/end anchors (&#145;^&#145;,
+&#145;$&#145;) and Unicode-aware word boundaries (&#145;\b&#145;, &#145;\B&#145;).
+</TD></TR>
+<TR valign=top><TD width=3%>
+o
+</TD><TD>
+**Zero External Dependencies:** Pure Fortran 2008.
+</TD></TR>
+<TR></TR></TABLE></BLOCKQUOTE>
+<A name=3>
+
+     <H3>PUBLIC DERIVED TYPES</H3>
+
+</A>
+<BLOCKQUOTE>
+<TABLE cellpadding=3>
+<TR valign=top><TD colspan=2>
+<B>type :: regex_t</B> </TD></TR><TR valign=top><TD width=3%>&nbsp;</TD><TD>
+Compiled regular expression bytecode container.
+</TD></TR>
+<TR></TR></TABLE><!-- .nf -->
+<PRE>
+           Components:
+<P>
+               prog(:)     Allocatable array of VM instructions (private layout).
+               num_groups  Integer count of capture groups including group 0
+                           (1 &lt;= num_groups &lt;= 10).
+               valid       Logical flag set to .true. if compilation succeeded,
+                           or .false. if the pattern contained a syntax error
+                           or exceeded group limits.
+<P>
+</PRE>
+<TABLE cellpadding=3>
+<TR valign=top><TD colspan=2>
+<B>type :: match_t</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+Result structure returned by regex_search(3).
+</TD></TR>
+<TR></TR></TABLE><!-- .nf -->
+<PRE>
+           Components:
+<P>
+               matched         Logical flag; .true. if a match was found.
+               start_pos(0:9)  starting codepoint index for each capture
+                               group. Group 0 is the entire match; groups 1..9
+                               are parenthesized subexpressions.
+               end_pos(0:9)    1-based inclusive ending codepoint index for each
+                               capture group. For an unmatched group or a zero-
+                               length match, end_pos(i) &lt; start_pos(i).
+<P>
+</PRE>
+</BLOCKQUOTE>
+<A name=4>
+
+     <H3>PUBLIC PROCEDURES</H3>
+
+</A>
+<BLOCKQUOTE>
+regex_compile(pattern) result(re)
+<P>
+<PRE>
+           Compiles a UTF-32 regular expression pattern into NFA bytecode.
+<P>
+           Arguments:
+<P>
+               pattern     integer(int32), intent(in) :: pattern(:)
+                           Array of Unicode codepoints representing the regex.
+<P>
+           Return Value:
+               re          type(regex_t)
+                           Inspect re%valid before passing re to regex_search
+                           or regex_replace. Invalid patterns return
+                           re%valid = .false. without aborting.
+<P>
+</PRE>
+regex_search(re, text [, start_offset]) result(m)
+<P>
+<PRE>
+           Searches text for the leftmost match of the compiled expression re.
+<P>
+           Arguments:
+               re            type(regex_t), intent(in)
+                             Compiled regular expression. If .not. re%valid,
+                             returns m%matched = .false. immediately.
+               text          integer(int32), intent(in) :: text(:)
+                             Subject text as an array of UTF-32 codepoints.
+               start_offset  integer, intent(in), optional
+                             1-based codepoint index at which to begin searching
+                             (defaults to 1; values &lt; 1 are clamped to 1).
+<P>
+           Return Value:
+               m             type(match_t)
+                             If m%matched is .true., the matched slice for group
+                             g (0 &lt;= g &lt; re%num_groups) is:
+                                 text(m%start_pos(g) : m%end_pos(g))
+                             whenever m%start_pos(g) &gt;= 1 and
+                             m%end_pos(g) &gt;= m%start_pos(g).
+<P>
+</PRE>
+regex_replace(re, text, replacement [, replace_all]) result(out_text)
+<P>
+<PRE>
+           Replaces matches of re in text with replacement, expanding capture
+           group backreferences.
+<P>
+           Arguments:
+<P>
+               re           type(regex_t), intent(in)
+                            Compiled regular expression.
+               text         integer(int32), intent(in) :: text(:)
+                            Subject text as an array of UTF-32 codepoints.
+               replacement  integer(int32), intent(in) :: replacement(:)
+                            Replacement template as UTF-32 codepoints. Supports
+                            backreferences $0..$9 and \0..\9, where group 0 is
+                            the full match and 1..9 are capture groups. Literal
+                            &#146;$&#146; or &#146;#146; may be escaped by doubling (&#146;$$&#146; or &#146;\#146;).
+               replace_all  logical, intent(in), optional
+                            If .true. (the default), replaces all non-overlapping
+                            matches in text. If .false., replaces only the first
+                            match.
+<P>
+           Return Value:
+<P>
+               out_text     integer(int32), allocatable :: out_text(:)
+                            Newly allocated UTF-32 codepoint array containing
+                            the resulting text.
+<P>
+</PRE>
+</BLOCKQUOTE>
+<A name=5>
+
+     <H3>REGULAR EXPRESSION SYNTAX</H3>
+
+</A>
+<BLOCKQUOTE>
+<P>
+Atoms
+<P>
+<PRE>
+           c           Matches literal Unicode codepoint c.
+           .           Matches any single codepoint except Line Feed (U+000A).
+           [abc]       Character class matching any listed codepoint or range
+                       (e.g., [a-z0-9_]). Supports \d, \w, \s, \n, \r, \t.
+           [^abc]      Negated character class matching any codepoint not in the
+                       listed set (including Line Feed).
+           (expr)      Capturing group (up to 9 groups, numbered 1..9 left-to-
+                       right by opening parenthesis).
+           \x          Escaped character or shorthand class (see below).
+<P>
+</PRE>
+Shorthand Classes & Escapes
+<P>
+<PRE>
+           \d, \D      ASCII digit [0-9] (\d) or non-digit (\D).
+           \w, \W      Word character (\w): [0-9A-Za-z_] plus Latin-1 and Latin
+                       Extended letters (U+00C0..U+00D6, U+00D8..U+00F6,
+                       U+00F8..U+024F). \W matches any non-word codepoint.
+           \s, \S      Whitespace (\s): ASCII space (U+0020), \t..\r (U+0009..
+                       U+000D), non-breaking space (U+00A0), and Unicode spaces
+                       (U+2000..U+200A). \S matches any non-whitespace codepoint.
+           \n, \r, \t  Line Feed (U+000A), Carriage Return (U+000D), Tab (U+0009).
+           \\, \., &#46;&#46;&#46; Escapes any metacharacter to match it literally.
+<P>
+</PRE>
+Anchors & Zero-Width Assertions
+<P>
+<PRE>
+           ^           Matches start of text or immediately after Line Feed (U+000A).
+           $           Matches end of text or immediately before Line Feed (U+000A).
+           \b          Matches a Unicode word boundary (transition between \w and
+                       \W, including start/end of text).
+           \B          Matches a position that is not a word boundary.
+<P>
+</PRE>
+Quantifiers (Greedy and Non-Greedy)
+<BLOCKQUOTE>
+<TABLE cellpadding=3><!-- tsb: Quantifiers (Greedy and Non-Greedy)
+ -->
+<TR></TR><TR></TR>
+<TR valign=top><TD width=3%>
+o
+</TD><TD>
+0 or more times (greedy).
+</TD></TR>
+<TR valign=top><TD width=3%>
+o
+</TD><TD>
+1 or more times (greedy).
+</TD></TR>
+<TR valign=top><TD width=3% nowrap>
+<B>?</B> </TD><TD valign=bottom>
+0 or 1 time (greedy).
+</TD></TR>
+<TR valign=top><TD width=3% nowrap>
+<B>{n}</B> </TD><TD valign=bottom>
+Exactly n times (0 &lt;= n &lt;= 1000).
+</TD></TR>
+<TR valign=top><TD colspan=2>
+<B>{n,}</B> </TD></TR><TR valign=top><TD width=3%>&nbsp;</TD><TD>
+n or more times (greedy).
+</TD></TR>
+<TR valign=top><TD colspan=2>
+<B>{n,m}</B> </TD></TR><TR valign=top><TD width=3%>&nbsp;</TD><TD>
+Between n and m times inclusive (greedy, 0 &lt;= n &lt;= m &lt;= 1000).
+*?, +?, ??, {n,}?, {n,m}?
+Non-greedy (lazy) variants matching as few repetitions
+as possible while still allowing the overall pattern to
+succeed.
+</TD></TR>
+<TR></TR></TABLE></BLOCKQUOTE>
+<P>
+Alternation & Precedence
+<P>
+<PRE>
+           expr1|expr2 Matches expr1 or, if that fails, expr2.
+           Precedence from highest to lowest:
+               1. Atoms, character classes, escapes, parenthesized groups
+               2. Quantifiers (*, +, ?, {n,m})
+               3. Concatenation
+               4. Alternation (|)
+<P>
+</PRE>
+LIMITATIONS & NOTES
+</BLOCKQUOTE>
+<TABLE cellpadding=3><!-- tsb: LIMITATIONS & NOTES
+ -->
+<TR></TR><TR></TR>
+<TR valign=top><TD width=3%>
+o
+</TD><TD>
+Maximum capture groups is 9 (MAX_GROUPS = 10 including group 0).
+<TABLE width=100% cellpadding=3><!-- tsb: Maximum capture groups is 9 (MAX_GROUPS = 10 including group 0).
+ -->
+<TR></TR><TR></TR>
+<TR valign=top><TD width=3%>
+o
+</TD><TD>
+Maximum repetition bound in {n,m} is 1000.
+</TD></TR>
+<TR valign=top><TD width=3%>
+o
+</TD><TD>
+The VM uses recursive backtracking; pathological nested quantifiers
+such as (a+)+b on non-matching input can exhibit exponential time
+and stack depth.
+</TD></TR>
+<TR></TR></TABLE></TD></TR>
+<TR></TR></TABLE><A name=6>
+
+     <H3>EXAMPLE</H3>
+
+</A>
+<BLOCKQUOTE>
+<P>
+Sample program
+<P>
+<PRE>
+   program demo_M_unicode__regex
+   use iso_fortran_env, only: int32
+   use M_unicode__regex, only : regex_t, match_t
+   use M_unicode__regex, only : regex_compile, regex_search, regex_replace
+   use M_unicode__convert, only : utoc, ctou
+   implicit none
+   type(regex_t)                :: re
+   type(match_t)                :: m
+   integer(int32), allocatable  :: txt(:), out(:)
+   character(len=:),allocatable :: pat
+      pat=&#146;(\w+)\s+(🚀|🛸)&#146;
+      re = regex_compile(utoc(pat))
+      if (.not. re%valid) error stop &#146;Invalid pattern&#146;
+      txt = utoc(&#146;Mission Zürich 🚀 ready&#146;)
+      m = regex_search(re, txt)
+      if (m%matched) then
+         print &#146;(A)&#146;, &#146;City:  &#146; // &
+         & ctou(txt(m%start_pos(1):m%end_pos(1)))
+         print &#146;(A)&#146;, &#146;Craft: &#146; // &
+         & ctou(txt(m%start_pos(2):m%end_pos(2)))
+      endif
+      out = regex_replace(re, txt, utoc(&#146;$2 -&gt; $1&#146;))
+      print &#146;(A)&#146;, &#146;Swapped: &#146; // ctou(out)
+   end program demo_M_unicode__regex
+<P>
+</PRE>
+</BLOCKQUOTE>
+<A name=7>
+
+     <H3>CONTRIBUTORS</H3>
+
+</A>
+<BLOCKQUOTE>
+<P>
+Developed with coding and debugging assistance from Gemini (Google).
+<P>
+Portions of this module (NFA compiler fixes, counted/lazy quantifiers,
+word boundaries, test suite, and documentation) were generated with
+assistance from Gemini (Google).
+</BLOCKQUOTE>
+<A name=8>
+
+     <H3>SEE ALSO</H3>
+
+</A>
+<BLOCKQUOTE>
+<P>
+regex_search(3), regex_compile(3), regex_replace(3)
+<P>
+iso_fortran_env(3), pcre2syntax(3), regex(7)
+</BLOCKQUOTE>
+<P><HR>
+<br><br><center><img src="images/M_unicode__regex.gif"></center>
+</div>
+</div>
+</body>
+</HTML>

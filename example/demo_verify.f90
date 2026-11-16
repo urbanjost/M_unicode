@@ -9,13 +9,13 @@
      implicit none
      ! some useful character sets
      character,parameter          :: &
-      & int*(*)   = "1234567890", &
-      & low*(*)   = "abcdefghijklmnopqrstuvwxyz", &
-      & upp*(*)   = "ABCDEFGHIJKLMNOPQRSTUVWXYZ", &
+      & ints*(*)  = "1234567890", &
+      & lows*(*)  = "abcdefghijklmnopqrstuvwxyz", &
+      & upps*(*)  = "ABCDEFGHIJKLMNOPQRSTUVWXYZ", &
       & punc*(*)  = "!""#$%&'()*+,‐./:;<=>?@[\]'_‘{|}˜", &
       & blank*(*) = " ", &
       & tab       = char(11), &
-      & prnt*(*) = int//low//upp//blank//punc
+      & prnt*(*)  = ints//lows//upps//blank//punc
      !
      type(ut)                     :: stru
      integer                      :: i
@@ -25,8 +25,8 @@
          print *, VERIFY ("ABBA", "AB")               ! has the value 0.
         !
         print *,"find first non‐uppercase letter"
-        ! will produce the location of "d", because there is no match in UPP
-        write(*,*) "something unmatched",verify(ut("ABCdEFG"), upp)
+        ! will produce the location of "d", because there is no match in UPPS
+        write(*,*) "something unmatched",verify(ut("ABCdEFG"), upps)
         !
         print *,"if everything is matched return zero"
         ! will produce 0 as all letters have a match
@@ -35,9 +35,9 @@
         !
         print *,"easily categorize strings as uppercase, lowercase, ..."
         ! C-like functionality but does entire strings not just characters
-        write(*,*)"isdigit 123?",verify(ut("123"), int) == 0
-        write(*,*)"islower abc?",verify(ut("abc"), low) == 0
-        write(*,*)"isalpha aBc?",verify(ut("aBc"), low//upp) == 0
+        write(*,*)"isdigit 123?",verify(ut("123"), ints) == 0
+        write(*,*)"islower abc?",verify(ut("abc"), lows) == 0
+        write(*,*)"isalpha aBc?",verify(ut("aBc"), lows//upps) == 0
         write(*,*)"isblank aBc dEf?",verify(ut("aBc dEf"), blank//tab ) /= 0
         ! check if all printable characters
         stru="aB;cde,fgHI!Jklmno PQRSTU vwxyz"
@@ -50,23 +50,23 @@
         print *,"VERIFY(3f) is very powerful using expressions as masks"
         ! verify(3f) is often used in a logical expression
         stru=" This is NOT all UPPERCASE "
-        write(*,*)"all uppercase/spaces?",verify(stru, blank//upp) == 0
+        write(*,*)"all uppercase/spaces?",verify(stru, blank//upps) == 0
         stru=" This IS all uppercase "
         write(*,*) "stru=["//stru//"]"
-        write(*,*)"all uppercase/spaces?",verify(stru, blank//upp) == 0
+        write(*,*)"all uppercase/spaces?",verify(stru, blank//upps) == 0
         !
         ! set and show complex stru to be tested
         stru="  Check this out. Let me know  "
         ! show the stru being examined
         write(*,*) "stru=["//stru//"]"
-        write(*,*) "        "//repeat(int,4) ! number line
+        write(*,*) "        "//repeat(ints,4) ! number line
         !
         ! function returns a position just not a logical like C
         print *, "returning a position not just a logical is useful"
         ! which can be very useful for parsing strings
         write(*,*)"first non‐blank character",verify(stru, blank)
         write(*,*)"last non‐blank character",verify(stru, blank,back=.true.)
-        write(*,*)"first non‐letter non‐blank",verify(stru,low//upp//blank)
+        write(*,*)"first non‐letter non‐blank",verify(stru,lows//upps//blank)
         !
        !VERIFY(3f) is elemental (can check an array of strings in one call)
         print *, "elemental"
@@ -74,7 +74,7 @@
         write(*,*) "array of strings",verify( &
         ! strings must all be same length, so force to length 10
         & [character(len=10) :: "YES","ok","000","good one","Nope!"], &
-        & low//upp//blank) == 0
+        & lows//upps//blank) == 0
         !
         ! rarer, but the set can be an array, not just the strings to test
         ! you could do ISPRINT() this (harder) way :>

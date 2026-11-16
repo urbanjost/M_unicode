@@ -198,7 +198,7 @@ keywords are case-sensitive
 Sample program
 <P>
 <PRE>
-    program demo_keyword
+    program demo_keyword_expand
     use M_unicode, only : keyword_expand, keyword_mode, keyword_update
     use M_unicode, only : ch=&gt;character
 <P>
@@ -208,15 +208,15 @@ Sample program
        write(*,&#146;(a)&#146;) &#146;ADDING A CUSTOM SEQUENCE:&#146;
        call keyword_update(&#146;blink&#146;,char(27)//&#146;[5m&#146;,&#146;&#146;)
        call keyword_update(&#146;/blink&#146;,char(27)//&#146;[25m&#146;,&#146;&#146;)
-       write(*,&#146;(a)&#146;) ch(keyword_expand(&#146;&lt;blink&gt;Items for Friday&lt;/blink&gt;&#146;))
+       write(*,&#146;(a)&#146;) &
+       & ch(keyword_expand(&#146;&lt;blink&gt;Items for Friday&lt;/blink&gt;&#146;))
 <P>
        write(*,&#146;(a)&#146;) &#146;DECIMAL NUMBERS AS WELL:&#146;
        write(*,&#146;(a)&#146;) ch(keyword_expand(&
-       &#146;decimal keywords &lt;119 79 114 107&gt; as well&#146;))
+       &&#146;decimal keywords &lt;119 79 114 107&gt; as well&#146;))
 <P>
-       write(*,&#146;(a)&#146;) ch(keyword_expand(&
-        &&#146;ASCII-7 &lt;eight six seven dash five three oh nine slash&gt;&
-        &Jenny as well&#146;))
+       write(*,&#146;(a)&#146;) ch(keyword_expand(&#146;ASCII-7 &
+       &&lt;eight six seven dash five three oh nine slash&gt;Jenny&gt; as well&#146;))
 <P>
     contains
     subroutine printstuff(action)
@@ -226,7 +226,7 @@ Sample program
       call keyword_mode(action=action)
 <P>
       array=[character(len=60) :: &
-       &#146;Test the mode =&#146;//action,    &
+       &#146;Test the mode =&#146;//action, &
        &#146;c=&lt;pi&gt;&lt;times&gt;d&#146;,          &
        &#146;a=&lt;pi&gt;&lt;times&gt;r&lt;S2&gt;&#146;,      &
        &#146;&lt;Delta&gt;&lt;delta&gt;&#146;,          &
@@ -235,7 +235,7 @@ Sample program
       write(*,&#146;(a)&#146;) ch(keyword_expand(array))
 <P>
     end subroutine printstuff
-    end program demo_keyword
+    end program demo_keyword_expand
 <P>
 </PRE>
 Results:

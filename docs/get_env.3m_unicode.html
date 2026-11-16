@@ -56,55 +56,66 @@ a.existingWikiWord[title]{ //border: 1px dashed #BBB; }
 
 </A>
 <BLOCKQUOTE>
-get_env(3f) - [M_unicode:SYSTEM] return value of environment variable
-(LICENSE:MIT)
+get_env(3f) - [M_unicode:QUERY] a function returning the value of
+an environment variable
+(LICENSE:PD)
 <P>
 </BLOCKQUOTE>
 <A name=contents></A><H3>CONTENTS</H3></A>
 <BLOCKQUOTE>
-<A HREF=#1>Synopsis</A><BR>
-<A HREF=#2>Characteristics</A><BR>
-<A HREF=#3>Description</A><BR>
-<A HREF=#4>Options</A><BR>
-<A HREF=#5>Returns</A><BR>
-<A HREF=#6>Examples</A><BR>
+<A HREF=#1>Syntax</A><BR>
+<A HREF=#2>Description</A><BR>
+<A HREF=#3>Options</A><BR>
+<A HREF=#4>Returns</A><BR>
+<A HREF=#5>Examples</A><BR>
+<A HREF=#6>See Also</A><BR>
 <A HREF=#7>Author</A><BR>
 <A HREF=#8>License</A><BR>
 </BLOCKQUOTE>
 <A name=9>
 
-     <H3>SYNOPSIS</H3>
+     <H3>SYNTAX</H3>
 
 </A>
 <BLOCKQUOTE>
-<P>
-impure elemental function get_env(name,default) result(out)
+function get_env(NAME,DEFAULT,IERR=IERR) result(VALUE)
 <P>
 <PRE>
-     type(unicode_type),intent=(in) :: name
-     type(unicode_type),optional    :: default
-     type(unicode_type)             :: out
+    character(len=*),intent(in)            :: NAME
+<P>
+    ! ONE OF &#46;&#46;&#46;
+    character(len=*),intent(in),optional :: DEFAULT
+    real,intent(in),optional             :: DEFAULT
+    integer,intent(in),optional          :: DEFAULT
+    doubleprecision,intent(in),optional  :: DEFAULT
+    logical,intent(in),optional          :: DEFAULT
+    type(unicode_type),optional          :: DEFAULT
+<P>
+    integer,intent(out),optional           :: IERR
+<P>
+    ! ONE OF THE FOLLOWING, MATCHING TYPE OF DEFAULT
+    character(len=:),allocatable         :: VALUE
+    integer                              :: VALUE
+    real                                 :: VALUE
+    doubleprecision                      :: VALUE
+    logical                              :: VALUE
+    type(unicode_type)                   :: VALUE
 <P>
 </PRE>
 </BLOCKQUOTE>
 <A name=2>
 
-     <H3>CHARACTERISTICS</H3>
-
-</A>
-<BLOCKQUOTE>
-NAME and DEFAULT may be default CHARACTER type as well.
-</BLOCKQUOTE>
-<A name=3>
-
      <H3>DESCRIPTION</H3>
 
 </A>
 <BLOCKQUOTE>
-get_env(3f) gets the value of the requested environment variable
-as TYPE(UNICODE_TYPE) .
+Get the value of an environment variable or optionally return a
+default value when the environment variable is not set or is set
+to a blank string.
+<P>
+The type returned is the same as the type of the default value.
 </BLOCKQUOTE>
-<A name=4>
+<A name=3>
 
      <H3>OPTIONS</H3>
 
@@ -112,19 +123,18 @@ as TYPE(UNICODE_TYPE) .
 <BLOCKQUOTE>
 <TABLE cellpadding=3>
 <TR valign=top><TD width=6% nowrap>
-<B>name</B> </TD><TD valign=bottom>
-name of environment variable to return the value of.
-Typically the name may only contain the characters
-A-Z,a-z,0-9 and underscore; but allowed values are
-system-dependent.
+<B>NAME</B> </TD><TD valign=bottom>
+name of environment variable.
 </TD></TR>
 <TR valign=top><TD colspan=2>
-<B>default</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
-value to return if environment variable NAME is not set
-or set to a blank value
+<B>DEFAULT</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+value to return if environment variable is not set or set
+to an empty string. May be CHARACTER, REAL, INTEGER,
+LOGICAL, DOUBLEPRECISION or TYPE(UNICODE_TYPE.
+Defaults to a null CHARACTER value.
 </TD></TR>
 <TR></TR></TABLE></BLOCKQUOTE>
-<A name=5>
+<A name=4>
 
      <H3>RETURNS</H3>
 
@@ -132,82 +142,300 @@ or set to a blank value
 <BLOCKQUOTE>
 <TABLE cellpadding=3>
 <TR valign=top><TD width=6% nowrap>
-<B>out</B> </TD><TD valign=bottom>
-value assigned based on value of environment variable NAME
+<B>VALUE</B> </TD><TD valign=bottom>
+the value of the environment variable or the default.
+The type is the same as DEFAULT unless NAME
+is CHARACTER but VALUE is DEFAULT, in which case
+TYPE(UNICODE_TYPE) is returned. That is, if either NAME
+or VALUE is TYPE(UNICODE_TYPE) the returned value is
+TYPE(UNICODE_TYPE). If an error occurs and it is numeric,
+huge(0|0.0|0.0d0) is returned.
+<P>
+For a LOGICAL type, Any environment variable value starting
+with F,f,N or n is .FALSE. and any value starting with
+Y,y,T or t is true. A leading period (".") is ignored.
+Anything else returns .false. .
+</TD></TR>
+<TR valign=top><TD width=6% nowrap>
+<B>IERR</B> </TD><TD valign=bottom>
+return error code. Must be specified with a keyword.
+It is zero if no error occurred.
 </TD></TR>
 <TR></TR></TABLE></BLOCKQUOTE>
-<A name=6>
+<A name=5>
 
      <H3>EXAMPLES</H3>
 
 </A>
 <BLOCKQUOTE>
-<P>
 Sample program:
 <P>
 <PRE>
    program demo_get_env
-   use M_unicode, only : get_env, ut =&gt; unicode_type
+   use M_unicode, only : get_env, get_arg
+   use M_unicode, only : ut =&gt; unicode_type
    use M_unicode, only : assignment(=), operator(//)
    implicit none
-   type(ut) :: name
-   type(ut) :: default
-   type(ut) :: value
-   type(ut) :: smiley
-   integer  :: i
-   character(len=*),parameter :: bracket = &#146;(1x,*("[",a,"]",:))&#146;
+   character(len=*),parameter   :: g=&#146;(*(g0))&#146;
+   integer                      :: ierr
+   character(len=:),allocatable :: HOME
+   type(ut)                     :: uname
+   type(ut)                     :: udefault
+   type(ut)                     :: uvalue
+   type(ut)                     :: smiley
+   integer                      :: i
 <P>
-      smiley = 128515 ! set with Unicode code point
-      default = &#146;Have a nice day &#146;//smiley//&#146;!&#146; ! set with unicode_type
+     smiley = 128515 ! set with Unicode code point
+     udefault = &#146;Have a nice day &#146;//smiley//&#146;!&#146;
 <P>
+     !Basics
+      HOME=get_env(&#146;HOME&#146;,&#146;UNKNOWN&#146;)
+      write(*,&#146;(a)&#146;)HOME
+      write(*,&#146;(a)&#146;)Get_env(&#146;PATH&#146;)
+<P>
+     ! arguments can be type(unicode_type) or character
+     ! but type(unicode_type) is always returned if either is
+     ! type(unicode_type)
       do i = 1,2
          select case (i)
-         case (1); name = &#146;HOME&#146;
-         case (2); name = &#146;UNKNOWN&#146;
+         case (1); uname = &#146;HOME&#146;
+         case (2); uname = &#146;UNKNOWN&#146;
          end select
-         ! arguments can be type(unicode_type) or character
-         ! but type(unicode_type) is always returned
 <P>
-         value = get_env(name,             default             )
-         write(*,*)value%character()
+           uvalue = get_env(uname,             udefault             )
+           write(*,*)uvalue%character()
 <P>
-         value = get_env(name%character(), default%character() )
-         write(*,*)value%character()
+           uvalue = get_env(uname%character(), udefault%character() )
+           write(*,*)uvalue%character()
 <P>
-         value = get_env(name,             default%character() )
-         write(*,*)value%character()
+           uvalue = get_env(uname,             udefault%character() )
+           write(*,*)uvalue%character()
 <P>
-         value = get_env(name%character(), default             )
-         write(*,*)value%character()
+           uvalue = get_env(uname%character(), udefault             )
+           write(*,*)uvalue%character()
 <P>
-         value = get_env(name)
-         write(*,*)value%character()
+           uvalue = get_env(uname)
+           write(*,*)uvalue%character()
 <P>
-         value = get_env(name%character())
-         write(*,*)value%character()
+           uvalue = get_env(uname%character())
+           write(*,*)uvalue%character()
 <P>
-      enddo
+        enddo
+<P>
+     !call this program setting enviroment variable
+     ! STOP=RUN unless STOP=RUN is already set
+<P>
+     !otherwise print various environment variable values
+     !converted to various types
+<P>
+      if(get_env(&#146;STOP&#146;).eq.&#146;RUN&#146;)then
+         write(*,g)repeat(&#146;-&#146;,80)
+         write(*,g)get_env(&#146;CHARACTER&#146;,&#146;string&#146;)
+         write(*,g)get_env(&#146;INTEGER&#146;,100)
+         write(*,g)get_env(&#146;REAL&#146;,200.0)
+         write(*,g)get_env(&#146;DOUBLE&#146;,300.0d0)
+         write(*,g)get_env(&#146;LOGICAL&#146;,.true.)
+<P>
+         write(*,g)repeat(&#146;-&#146;,80)
+         write(*,g)get_env(&#146;CHARACTER&#146;,&#146;string&#146;,ierr=ierr)
+         write(*,g)&#146;ierr=&#146;,ierr
+         write(*,g)get_env(&#146;INTEGER&#146;,100,ierr=ierr)
+         write(*,g)&#146;ierr=&#146;,ierr
+         write(*,g)get_env(&#146;REAL&#146;,200.0,ierr=ierr)
+         write(*,g)&#146;ierr=&#146;,ierr
+         write(*,g)get_env(&#146;DOUBLE&#146;,300.0d0,ierr=ierr)
+         write(*,g)&#146;ierr=&#146;,ierr
+         write(*,g)get_env(&#146;LOGICAL&#146;,.true.)
+         write(*,g)&#146;ierr=&#146;,ierr
+<P>
+         write(*,g)repeat(&#146;-&#146;,80)
+         write(*,g)get_env(&#146;CHARACTER&#146;)
+         write(*,g)get_env(&#146;HOME&#146;)
+       else
+         write(*,g)repeat(&#146;-&#146;,80)
+         call execute_command_line(&#146;env STOP=RUN &#146;//get_arg(0))
+         call execute_command_line(&#146;env STOP=RUN CHARACTER=aaaa &
+         & INTEGER=1 REAL=2.3 DOUBLE=444444444444 &#146;//get_arg(0))
+         call execute_command_line(&#146;env STOP=RUN CHARACTER=bbbb &
+         & INTEGER=1 REAL=2.3 DOUBLE=44.555 &#146;//get_arg(0))
+         call execute_command_line(&#146;env STOP=RUN CHARACTER=cccc &
+         & INTEGER=asdf REAL=asdf DOUBLE=adsf &#146;//get_arg(0))
+         write(*,g)repeat(&#146;-&#146;,80)
+         stop
+      endif
 <P>
    end program demo_get_env
 <P>
 </PRE>
-Results:
+Results
 <P>
 <PRE>
-     &gt; /home/johns
-     &gt; /home/johns
-     &gt; /home/johns
-     &gt; /home/johns
-     &gt; /home/johns
-     &gt; /home/johns
-     &gt; Have a nice day 😃!
-     &gt; Have a nice day 😃!
-     &gt; Have a nice day 😃!
-     &gt; Have a nice day 😃!
-     &gt; UNKNOWN is not defined in the environment
-     &gt; UNKNOWN is not defined in the environment
+   &gt;  /home/johns
+   &gt;  /home/johns/.local/bin:/usr/local/bin:/usr/bin:
+   &gt;  /home/johns
+   &gt;  /home/johns
+   &gt;  /home/johns
+   &gt;  /home/johns
+   &gt;  /home/johns
+   &gt;  /home/johns
+   &gt;  Have a nice day 😃!
+   &gt;  Have a nice day 😃!
+   &gt;  Have a nice day 😃!
+   &gt;  Have a nice day 😃!
+   &gt;
+   &gt;
+   &gt; ------------------------------------------------------------
+   &gt;  /home/johns
+   &gt;  /home/johns/.local/bin:/usr/local/bin:/usr/bin:
+   &gt;  /home/johns
+   &gt;  /home/johns
+   &gt;  /home/johns
+   &gt;  /home/johns
+   &gt;  /home/johns
+   &gt;  /home/johns
+   &gt;  Have a nice day 😃!
+   &gt;  Have a nice day 😃!
+   &gt;  Have a nice day 😃!
+   &gt;  Have a nice day 😃!
+   &gt;
+   &gt;
+   &gt; ------------------------------------------------------------
+   &gt; string
+   &gt; 100
+   &gt; 200.000000
+   &gt; 300.00000000000000
+   &gt; T
+   &gt; ------------------------------------------------------------
+   &gt; string
+   &gt;  ierr=           0
+   &gt; 100
+   &gt;  ierr=           0
+   &gt; 200.000000
+   &gt;  ierr=           0
+   &gt; 300.00000000000000
+   &gt;  ierr=           0
+   &gt; T
+   &gt;  ierr=           0
+   &gt; ------------------------------------------------------------
+   &gt;
+   &gt;  /home/johns
+   &gt;  /home/johns
+   &gt;  /home/johns/.local/bin:/usr/local/bin:/usr/bin:
+   &gt;  /home/johns
+   &gt;  /home/johns
+   &gt;  /home/johns
+   &gt;  /home/johns
+   &gt;  /home/johns
+   &gt;  /home/johns
+   &gt;  Have a nice day 😃!
+   &gt;  Have a nice day 😃!
+   &gt;  Have a nice day 😃!
+   &gt;  Have a nice day 😃!
+   &gt;
+   &gt;
+   &gt; ------------------------------------------------------------
+   &gt; aaaa
+   &gt; 1
+   &gt; 2.29999995
+   &gt; 444444444444.00000
+   &gt; T
+   &gt; ------------------------------------------------------------
+   &gt; aaaa
+   &gt;  ierr=           0
+   &gt; 1
+   &gt;  ierr=           0
+   &gt; 2.29999995
+   &gt;  ierr=           0
+   &gt; 444444444444.00000
+   &gt;  ierr=           0
+   &gt; T
+   &gt;  ierr=           0
+   &gt; ------------------------------------------------------------
+   &gt; aaaa
+   &gt; /home/johns
+   &gt; /home/johns
+   &gt;  /home/johns/.local/bin:/usr/local/bin:/usr/bin:
+   &gt;  /home/johns
+   &gt;  /home/johns
+   &gt;  /home/johns
+   &gt;  /home/johns
+   &gt;  /home/johns
+   &gt;  /home/johns
+   &gt;  Have a nice day 😃!
+   &gt;  Have a nice day 😃!
+   &gt;  Have a nice day 😃!
+   &gt;  Have a nice day 😃!
+   &gt;
+   &gt;
+   &gt; ------------------------------------------------------------
+   &gt; bbbb
+   &gt; 1
+   &gt; 2.29999995
+   &gt; 44.555000000000000
+   &gt; T
+   &gt; ------------------------------------------------------------
+   &gt; bbbb
+   &gt;  ierr=           0
+   &gt; 1
+   &gt;  ierr=           0
+   &gt; 2.29999995
+   &gt;  ierr=           0
+   &gt; 44.555000000000000
+   &gt;  ierr=           0
+   &gt; T
+   &gt;  ierr=           0
+   &gt; ------------------------------------------------------------
+   &gt; bbbb
+   &gt; /home/johns
+   &gt; /home/johns
+   &gt;  /home/johns/.local/bin:/usr/local/bin:/usr/bin:
+   &gt;  /home/johns
+   &gt;  /home/johns
+   &gt;  /home/johns
+   &gt;  /home/johns
+   &gt;  /home/johns
+   &gt;  /home/johns
+   &gt;  Have a nice day 😃!
+   &gt;  Have a nice day 😃!
+   &gt;  Have a nice day 😃!
+   &gt;  Have a nice day 😃!
+   &gt;
+   &gt;
+   &gt; ------------------------------------------------------------
+   &gt; cccc
+   &gt; -2147483647
+   &gt; -0.340282347E+39
+   &gt; -0.17976931348623157E+309
+   &gt; T
+   &gt; ------------------------------------------------------------
+   &gt; cccc
+   &gt;  ierr=           0
+   &gt; -2147483647
+   &gt;  ierr=        5010
+   &gt; -0.340282347E+39
+   &gt;  ierr=        5010
+   &gt; -0.17976931348623157E+309
+   &gt;  ierr=        5010
+   &gt; T
+   &gt;  ierr=        5010
+   &gt; ------------------------------------------------------------
+   &gt; cccc
+   &gt; /home/johns
+   &gt; ------------------------------------------------------------
 <P>
 </PRE>
+</BLOCKQUOTE>
+<A name=6>
+
+     <H3>SEE ALSO</H3>
+
+</A>
+<BLOCKQUOTE>
+<P>
+get_environment_variable(3fortran), system_getenv(3m_system),
+set_environment_variable(3m_system), system_putenv(3m_system),
+system_clearenv(3m_system), system_initenv(3m_system),
+system_getenv(3m_system), system_unsetenv(3m_system)
 </BLOCKQUOTE>
 <A name=7>
 

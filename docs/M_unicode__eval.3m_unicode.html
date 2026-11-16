@@ -1,0 +1,607 @@
+<html> 
+<head> 
+<title> </title>
+<style> 
+px {font-family: "Lucida Console", Monaco, monospace }
+p { font-size:100%; line-height:1.1em; }
+body {xfont-style: sans-serif}
+body {
+color:#333; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:1em; line-height:1.3em; }
+a:visited { color:#666; }
+h1,h2,h3,h4,h5,h6 { color:#333; font-family:georgia, verdana, sans-serif; }
+h1 { font-size:150%; page-break-before:auto;background-color: #aaaaff}
+h2 { font-size:143%;color:teal; }
+h3 { font-size:134%;color:blue; }
+h4 { font-size:120%;color:gray; }
+img { max-width: 55em}
+p{ padding: 0;margin:0; }
+p{ padding-right:1.4em; }
+p{ padding-bottom:0.1em; }
+p{ padding-top:1em; }
+p{ whitespace: pre-wrap; }
+h5,h6 { font-size:100% }
+a.nav,a:link.nav, a:visited.nav { background-color:#FFF; color:#000; }
+XXtable { border:double #000; border-collapse:collapse; }
+XXtable { border-collapse:collapse; }
+XXtd { border:thin solid #888; }
+XXtd { border:none; }
+li { margin-bottom:0.5em; }
+blockquote { display:block; font-size:100%; line-height:1.1em; margin:0 0 0.5em; padding:0 2.5em; }
+pre { background-color:#DDD; font-size:100%; overflow:auto; padding:1em; }
+a,li span { color:#000; }
+a:hover, a.nav:hover, a:hover math { background-color:#000; color:#FFF; }
+#Container { margin:0 10px; text-align:center; background-color: #BBB}
+#Content { border-top:none; margin:auto; padding:0.3em; text-align:left; width:100%; max-width:55em; background:#FFF}
+span.webName { font-size:.5em; }
+textarea#content { font-size: 1em; line-height: 1.125; }
+h1#pageName { line-height:1em; margin:0.2em 0 0.2em 0; padding:0; }
+.property { color:#666; font-size:100%; }
+a.existingWikiWord[title]{ //border: 1px dashed #BBB; }
+.byline { color:#666; font-size:1.0em; font-style:italic; margin-bottom:1em; padding-top:1px; } 
+</style> 
+</head>
+<BODY bgcolor=#F0F0F0 text=#000000 link=#0000ff vlink=#C000C0 alink=#ff0000><A NAME=top></A>
+<!--
+<h5><a href="https://github.com/urbanjost/M_unicode">[UP]</a></h5>
+<button type="button" onclick="javascript:history.back()">Back</button>
+-->
+<div id="Container">
+<div id="Content">
+<CENTER>
+<H1><HR><I>Manual Reference Pages &nbsp;-&nbsp;</I><NOBR>M_unicode__eval (3m_unicode)</NOBR><HR></H1>
+</CENTER>
+<A name=0>
+
+     <H3>NAME</H3>
+
+</A>
+<BLOCKQUOTE>
+M_unicode__eval(3f) - [M_unicode:QUERY] evaluate strings represented
+as Unicode codepoints
+(LICENSE:MIT)
+<P>
+</BLOCKQUOTE>
+<A name=contents></A><H3>CONTENTS</H3></A>
+<BLOCKQUOTE>
+<A HREF=#1>Synopsis</A><BR>
+<A HREF=#2>Description</A><BR>
+<A HREF=#3>Examples</A><BR>
+<A HREF=#4>Passing Arrays</A><BR>
+<A HREF=#5>See Also</A><BR>
+<A HREF=#6>Author</A><BR>
+<A HREF=#7>Contributors</A><BR>
+<A HREF=#8>License</A><BR>
+</BLOCKQUOTE>
+<A name=9>
+
+     <H3>SYNOPSIS</H3>
+
+</A>
+<BLOCKQUOTE>
+<P>
+Public Types
+<P>
+<PRE>
+    public :: cp_string, var_value, user_func, user_func_iface, &
+              & compiled_expr
+<P>
+</PRE>
+Public Procedures
+<P>
+<PRE>
+    public :: compile_expr_cp, eval_compiled, &
+             & differentiate_compiled
+    public :: utoc, ctou
+<P>
+</PRE>
+</BLOCKQUOTE>
+<A name=2>
+
+     <H3>DESCRIPTION</H3>
+
+</A>
+<BLOCKQUOTE>
+<P>
+M_unicode__eval is a standard-conforming Fortran 2008 module for
+compiling, evaluating, and symbolically differentiating mathematical
+expressions stored as 32-bit Unicode codepoint arrays (integer(int32)).
+</BLOCKQUOTE>
+<A name=>
+
+    <H4>&nbsp; &nbsp; CORE DESIGN PRINCIPLES</H4>
+</A>
+<BLOCKQUOTE>
+<P>
+<TABLE cellpadding=3>
+<TR valign=top><TD width=3%>
+o
+</TD><TD>
+Unicode-Native Representation: Expressions and variable names
+are represented as 1D arrays of integer(int32) Unicode scalar values,
+eliminating multi-byte UTF-8 indexing bugs.
+</TD></TR>
+<TR valign=top><TD width=3%>
+o
+</TD><TD>
+Strict Case-Sensitivity: Unlike standard Fortran, all identifiers
+(sin vs SIN, x vs X, α vs Α) are strictly case-sensitive.
+</TD></TR>
+<TR valign=top><TD width=3%>
+o
+</TD><TD>
+Compile-Once Bytecode VM: Expressions compile into flat stack-based
+bytecode (compiled_expr) for fast repeated evaluation inside numerical
+loops.
+</TD></TR>
+<TR valign=top><TD width=3%>
+o
+</TD><TD>
+Unified Scalar & Array Broadcasting: All variables are passed as
+var_value containers (val(:)). Scalars are 1-element arrays (size ==
+<TABLE width=100% cellpadding=3><!-- tsb: Unified Scalar & Array Broadcasting: All variables are passed as
+ -->
+<TR></TR><TR></TR>
+<TR valign=top><TD width=4%>
+1)
+</TD><TD>
+and automatically broadcast against 1D arrays (size == N).
+</TD></TR>
+<TR></TR></TABLE></TD></TR>
+<TR></TR></TABLE></BLOCKQUOTE>
+<A name=>
+
+    <H4>&nbsp; &nbsp; EXPRESSION LANGUAGE REFERENCE</H4>
+</A>
+<BLOCKQUOTE>
+<P>
+Operators (Ordered Lowest to Highest Precedence)
+<P>
+<PRE>
+      Precedence   Operators                Description      Associativity
+      1 (Lowest)   &lt;, &lt;=, ≤, &gt;, &gt;=,         Comparisons (return    Left
+                   ≥, ==, /=, ≠             1.0 if true, 0.0 if
+                                            false)
+      3            *, ×, ·, /, ÷, implicit  Multiplication and     Left
+                                            division
+      4            +x, -x, −x, √x (U+221A)  Unary signs and        Right
+                                            prefix square root
+      5            ^, **, ⁰–⁹, ⁺, ⁻         Exponentiation and     Right
+                                            postfix Unicode
+                                      superscripts
+      6 (Highest)  expr[i]                  1-based array element  Left
+                                            indexing
+<P>
+</PRE>
+</BLOCKQUOTE>
+<A name=>
+
+    <H4>&nbsp; &nbsp; IMPLICIT MULTIPLICATION RULES</H4>
+</A>
+<BLOCKQUOTE>
+<P>
+Multiplication is inserted automatically at clear token boundaries:
+<P>
+<PRE>
+   + Number followed by identifier, (, or √: 2x, 3π, 2(x + 1), 5√2.
+   + Closing parenthesis ) followed by (, √, identifier, or number:
+     (x + 1)(x - 1).
+   + Variable or constant followed by ( or √: x(y + 1), π√2.  +
+     Note: Adjacent letters like "ab" parse as a single two-character
+     identifier, not a * b.
+<P>
+</PRE>
+BUILT-IN CONSTANTS
+<P>
+<PRE>
+   + pi or π (U+03C0): π ≈ 3.141592653589793
+   + τ (U+03C4): 2π ≈ 6.283185307179586
+   + e: Euler&#146;s number ≈ 2.718281828459045
+<P>
+</PRE>
+BUILT-IN FUNCTIONS
+<P>
+<PRE>
+   + 1-Argument Element-Wise: sin, cos, tan, asin, acos, atan, sinh,
+     cosh, tanh, exp, log, log10, sqrt, abs, floor, ceiling, nint.
+<P>
+   + 2-Argument Element-Wise: atan2(y, x), hypot(x, y), mod(a, p).
+<P>
+   + Variadic Element-Wise / Reduction: min(x) (array min) or
+     min(a, b, &#46;&#46;&#46;) (element-wise), max(x) (array max) or
+     max(a, b, &#46;&#46;&#46;) (element-wise).
+<P>
+   + Conditional: if(cond, true_val, false_val) (evaluates true_val
+     where cond /= 0, else false_val).
+<P>
+   + Array Reductions & Queries (Return Scalar): sum(x), mean(x),
+     norm2(x), dot(x, y), size(x).
+<P>
+</PRE>
+</BLOCKQUOTE>
+<A name=>
+
+    <H4>&nbsp; &nbsp; ERROR CODES</H4>
+</A>
+<BLOCKQUOTE>
+<P>
+<TABLE cellpadding=3>
+<TR valign=top><TD width=6% nowrap>
+<B>Code</B> </TD><TD valign=bottom>
+Meaning
+</TD></TR>
+<TR valign=top><TD width=6% nowrap>
+<B>0</B> </TD><TD valign=bottom>
+Success
+</TD></TR>
+<TR valign=top><TD width=6% nowrap>
+<B>1</B> </TD><TD valign=bottom>
+Empty expression
+</TD></TR>
+<TR valign=top><TD width=6% nowrap>
+<B>2</B> </TD><TD valign=bottom>
+Unexpected trailing characters
+</TD></TR>
+<TR valign=top><TD width=6% nowrap>
+<B>3</B> </TD><TD valign=bottom>
+Division or modulo by zero
+</TD></TR>
+<TR valign=top><TD width=6% nowrap>
+<B>4</B> </TD><TD valign=bottom>
+Unexpected end of expression
+</TD></TR>
+<TR valign=top><TD width=6% nowrap>
+<B>5</B> </TD><TD valign=bottom>
+Mismatched parentheses () or brackets []
+</TD></TR>
+<TR valign=top><TD width=6% nowrap>
+<B>6</B> </TD><TD valign=bottom>
+Invalid numeric literal or superscript exponent
+</TD></TR>
+<TR valign=top><TD width=6% nowrap>
+<B>7</B> </TD><TD valign=bottom>
+Unknown identifier (variable or constant)
+</TD></TR>
+<TR valign=top><TD width=6% nowrap>
+<B>8</B> </TD><TD valign=bottom>
+General syntax error
+</TD></TR>
+<TR valign=top><TD width=6% nowrap>
+<B>9</B> </TD><TD valign=bottom>
+Unknown function name
+</TD></TR>
+<TR valign=top><TD width=6% nowrap>
+<B>10</B> </TD><TD valign=bottom>
+Domain error (sqrt or √ of negative number)
+</TD></TR>
+<TR valign=top><TD width=6% nowrap>
+<B>11</B> </TD><TD valign=bottom>
+Wrong number of arguments passed to a function
+</TD></TR>
+<TR valign=top><TD width=6% nowrap>
+<B>12</B> </TD><TD valign=bottom>
+Missing or unallocated vars entry at evaluation time
+</TD></TR>
+<TR valign=top><TD width=6% nowrap>
+<B>13</B> </TD><TD valign=bottom>
+Non-scalar expression used as an array index []
+</TD></TR>
+<TR valign=top><TD width=6% nowrap>
+<B>14</B> </TD><TD valign=bottom>
+Array index out of bounds (&lt; 1 or &gt; size)
+</TD></TR>
+<TR valign=top><TD width=6% nowrap>
+<B>15</B> </TD><TD valign=bottom>
+Incompatible array shapes during broadcasting or dot()
+</TD></TR>
+<TR valign=top><TD width=6% nowrap>
+<B>16</B> </TD><TD valign=bottom>
+Unsupported construct for symbolic differentiation
+</TD></TR>
+<TR></TR></TABLE></BLOCKQUOTE>
+<A name=3>
+
+     <H3>EXAMPLES</H3>
+
+</A>
+<BLOCKQUOTE>
+<P>
+Sample program
+<P>
+<PRE>
+   program demo_M_unicode__eval
+   use, intrinsic :: iso_fortran_env, only: int32, real64
+   use M_unicode, only : ctou, utoc, &
+   & compiled_expr, cp_string, var_value, user_func, &
+   & compile_expr_cp, differentiate_compiled, eval_compiled
+<P>
+   implicit none
+<P>
+   type(compiled_expr) :: prog, dprog
+   type(cp_string) :: var_names(3)
+   type(var_value) :: vars(3)
+   type(user_func) :: custom_fns(1)
+   real(real64), allocatable :: res(:), dres(:)
+   integer :: err
+<P>
+   ! 1. Register a custom Unicode function:
+   1     σ(x) = logistic sigmoid 1 / (1 + exp(-x))
+   !
+   custom_fns(1)%name%cp = utoc("σ")
+   custom_fns(1)%nargs   = 1
+   custom_fns(1)%fn      =&gt; sigmoid_fn
+<P>
+   ! 2. Define case-sensitive variables:
+   !    x = array [1.0, 2.0, 3.0]
+   !    X = scalar [10.0]
+   !    α = scalar [2.0]
+   var_names(1)%cp = utoc("x")
+   var_names(2)%cp = utoc("X")
+   var_names(3)%cp = utoc("α")
+<P>
+   vars(1)%val = [1.0_real64, 2.0_real64, 3.0_real64]
+   vars(2)%val = [10.0_real64]
+   vars(3)%val = [2.0_real64]
+<P>
+   ! 3. Array broadcasting + custom Unicode function + array indexing
+   call compile_expr_cp(utoc("σ(α·x − x[2]) + X"), prog, err, &
+   & var_names, custom_fns)
+   call eval_compiled(prog, res, err, vars)
+   print *, "Broadcast + Custom Func:", res   ! 3-element array
+<P>
+   ! 4. Array reductions (dot product, sum, norm2)
+   call compile_expr_cp(utoc("sum(x²) + x[3] × X"), &
+   & prog, err, var_names)
+   call eval_compiled(prog, res, err, vars)
+   ! 1^2 + 2^2 + 3^2 + 3*10 = 44.0
+   print *, "Reduction + Indexing:", res
+<P>
+   ! 5. Symbolic Differentiation: d/dx (x³ + 2x² + sin(x)) -&gt;
+   !    3x² + 4x + cos(x)
+   call compile_expr_cp(utoc("x³ + 2x² + sin(x)"), &
+   & prog, err, var_names)
+   call differentiate_compiled(prog, var_idx=1, dprog=dprog, ierr=err)
+   call eval_compiled(dprog, dres, err, vars)
+   print *, "Analytical df/dx at x=[1,2,3]:", dres
+<P>
+   contains
+<P>
+   function sigmoid_fn(args) result(y)
+      real(real64), intent(in) :: args(:)
+      real(real64) :: y
+      y = 1.0_real64 / (1.0_real64 + exp(-args(1)))
+   end function sigmoid_fn
+<P>
+   end program demo_M_unicode__eval
+<P>
+</PRE>
+Results
+&gt;
+&gt;
+</BLOCKQUOTE>
+<A name=4>
+
+     <H3>PASSING ARRAYS</H3>
+
+</A>
+<BLOCKQUOTE>
+<P>
+Part 2: Passing Arrays To and From the Module in a Larger Code
+<P>
+When integrating &#145;M_unicode__eval&#145; into a larger simulation or
+solver (such as a finite-element code, ODE integrator, or optimization
+loop), you do **not** want to recompile the expression string on every
+time step or iteration. Instead, follow a **3-phase lifecycle**:
+<P>
+assing Arrays INTO the Module (&#145;vars(:)%val&#145;)
+<TABLE cellpadding=3><!-- tsb: assing Arrays INTO the Module (&#145;vars(:)%val&#145;)
+ -->
+<TR></TR><TR></TR>
+<TR valign=top><TD width=3%>
+o
+</TD><TD>
+Each variable in your expression corresponds to an index &#145;i&#145; in
+&#145;var_names(1:N)&#145; during &#145;compile_expr_cp&#145;.
+</TD></TR>
+<TR valign=top><TD width=3%>
+o
+</TD><TD>
+At runtime, you populate &#145;vars(i)%val&#145;—which is a standard Fortran
+&#145;real(real64), allocatable :: val(:)&#145; array.
+</TD></TR>
+<TR valign=top><TD width=3%>
+o
+</TD><TD>
+**For a 1D array variable** (e.g., a grid vector &#145;u(1:nx)&#145;): assign
+your Fortran array directly (&#145;vars(1)%val = u&#145;).
+</TD></TR>
+<TR valign=top><TD width=3%>
+o
+</TD><TD>
+**For a scalar variable** (e.g., time &#145;t&#145; or viscosity &#145;nu&#145;): wrap it
+in a 1-element array constructor (&#145;vars(2)%val = [t]&#145;).
+</TD></TR>
+<TR valign=top><TD width=3%>
+o
+</TD><TD>
+**For multi-dimensional arrays** (e.g., a 2D field &#145;T(nx, ny)&#145;):
+flatten it into a 1D vector with &#145;reshape(T, [nx * ny])&#145; when passing it
+in, then &#145;reshape&#145; the output back to &#145;(nx, ny)&#145;. Because all arithmetic
+is element-wise, flattening preserves exact element correspondence.
+</TD></TR>
+<TR></TR></TABLE><TABLE cellpadding=3>
+<TR valign=top><TD width=4%>
+2.
+</TD><TD>
+Receiving Arrays FROM the Module (&#145;result(:)&#145;)
+</TD></TR>
+<TR></TR></TABLE><TABLE cellpadding=3>
+<TR valign=top><TD width=3%>
+o
+</TD><TD>
+&#145;eval_compiled(prog, result, ierr, vars)&#145; takes &#145;real(real64),
+allocatable, intent(out) :: result(:)&#145;.
+</TD></TR>
+<TR valign=top><TD width=3%>
+o
+</TD><TD>
+Fortran automatically allocates &#145;result&#145; to match the broadcasted size:
+<TABLE width=100% cellpadding=3><!-- tsb: Fortran automatically allocates &#145;result&#145; to match the broadcasted size:
+ -->
+<TR></TR><TR></TR>
+<TR valign=top><TD width=3%>
+o
+</TD><TD>
+If the expression evaluates to a **vector**
+(e.g., &#145;"nu * u + sin(x)"&#145;), &#145;size(result)&#145; equals &#145;size(u)&#145;.
+</TD></TR>
+<TR valign=top><TD width=3%>
+o
+</TD><TD>
+If the expression reduces to a **scalar** (e.g., &#145;"norm2(u) + t"&#145;),
+&#145;size(result)&#145; equals &#145;1&#145; and the scalar value is &#145;result(1)&#145;.
+</TD></TR>
+<TR></TR></TABLE><!-- .IP 3. 4 -->
+</TD></TR>
+<TR></TR></TABLE><TABLE cellpadding=3>
+<TR valign=top><TD width=4%>
+3.
+</TD><TD>
+Complete Integration Pattern (Solver Loop Example)
+</TD></TR>
+<TR></TR></TABLE>&#145;&#145;&#145;fortran
+subroutine run_solver_step(x_grid, u_field, dt, t_now, formula_utf8, rhs_out, ierr)
+use, intrinsic :: iso_fortran_env, only: real64
+use M_unicode__eval
+implicit none
+<BLOCKQUOTE>
+<P>
+real(real64), intent(in) :: x_grid(:), u_field(:)
+real(real64), intent(in) :: dt, t_now
+character(len=*), intent(in) :: formula_utf8
+real(real64), intent(out) :: rhs_out(size(x_grid))
+integer, intent(out) :: ierr
+<P>
+! Use &#146;save&#146; (or store in a solver context struct) to compile only once
+type(compiled_expr), save :: compiled_rhs
+logical, save :: is_compiled = .false.
+<P>
+type(cp_string) :: vnames(4)
+type(var_value) :: vars(4)
+real(real64), allocatable :: eval_out(:)
+<P>
+! PHASE 1: Compile once on first call
+if (.not. is_compiled) then
+vnames(1)%cp = utoc("x")
+vnames(2)%cp = utoc("u")
+vnames(3)%cp = utoc("dt")
+vnames(4)%cp = utoc("t")
+<BLOCKQUOTE>
+<P>
+call compile_expr_cp(utoc(formula_utf8), compiled_rhs, ierr, vnames)
+if (ierr /= 0) return
+is_compiled = .true.
+end if
+</BLOCKQUOTE>
+<P>
+! PHASE 2: Pack host Fortran arrays and scalars into var_value containers
+<TABLE cellpadding=3><!-- tsb: ! PHASE 2: Pack host Fortran arrays and scalars into var_value containers
+ -->
+<TR></TR><TR></TR>
+<TR valign=top><TD colspan=2>
+<B>vars(1)%val = x_grid</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+! 1D array (size N)
+</TD></TR>
+<TR valign=top><TD colspan=2>
+<B>vars(2)%val = u_field</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+! 1D array (size N)
+</TD></TR>
+<TR valign=top><TD colspan=2>
+<B>vars(3)%val = [dt]</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+! Scalar wrapped as size-1 array
+</TD></TR>
+<TR valign=top><TD colspan=2>
+<B>vars(4)%val = [t_now]</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+! Scalar wrapped as size-1 array
+</TD></TR>
+<TR></TR></TABLE>! PHASE 3: Evaluate compiled bytecode and unpack result back into host array
+call eval_compiled(compiled_rhs, eval_out, ierr, vars)
+if (ierr /= 0) return
+<P>
+if (size(eval_out) == size(rhs_out)) then
+rhs_out = eval_out
+else if (size(eval_out) == 1) then
+! Handle case where user&#146;s formula reduced to a constant/scalar (e.g., "0.0")
+rhs_out = eval_out(1)
+else
+ierr = 15 ! Shape mismatch with expected grid size
+end if
+end subroutine run_solver_step
+</BLOCKQUOTE>
+<P>
+Performance Tip for Large Arrays (N &gt; 100,000)
+<P>
+In eval_compiled, every intermediate operation allocates a temporary
+array tmp(n) on the stack. If you evaluate expressions over massive
+grids (millions of points) inside a tight inner loop, you can avoid heap
+allocation churn by either:
+<P>
+<PRE>
+    Chunking (Cache Blocking): Slice your large host arrays
+    into L1/L2-cache-friendly blocks of 1024 or 4096 elements
+    (x_grid(i:i+chunk-1)), evaluate each chunk with eval_compiled,
+    and write directly into rhs_out(i:i+chunk-1).
+<P>
+    Thread-Safe OpenMP Parallelism: Because compiled_expr is read-only
+    during eval_compiled and each thread maintains its own local vars
+    and stack, you can safely parallelize across chunks using !$omp
+    parallel do.
+<P>
+</PRE>
+Would you like me to add zero-copy pointer support (real(real64),
+pointer :: val(:)) to var_value so large host arrays can be passed into
+eval_compiled without copying memory on every call?
+</BLOCKQUOTE>
+<A name=5>
+
+     <H3>SEE ALSO</H3>
+
+</A>
+<BLOCKQUOTE>
+compile_expr_cp(3), eval_compiled(3), differentiate_compiled(3),
+utoc(3), ctou(3), M_unicode(3)
+</BLOCKQUOTE>
+<A name=6>
+
+     <H3>AUTHOR</H3>
+
+</A>
+<BLOCKQUOTE>
+John S. Urban
+</BLOCKQUOTE>
+<A name=7>
+
+     <H3>CONTRIBUTORS</H3>
+
+</A>
+<BLOCKQUOTE>
+Developed with coding and debugging assistance from Gemini (Google).
+</BLOCKQUOTE>
+<A name=8>
+
+     <H3>LICENSE</H3>
+
+</A>
+<BLOCKQUOTE>
+</BLOCKQUOTE>
+<A name=>
+
+    <H4>&nbsp; &nbsp; MIT</H4>
+</A>
+<BLOCKQUOTE>
+</BLOCKQUOTE>
+<P><HR>
+<br><br><center><img src="images/M_unicode__eval.gif"></center>
+</div>
+</div>
+</body>
+</HTML>

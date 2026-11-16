@@ -56,18 +56,18 @@ a.existingWikiWord[title]{ //border: 1px dashed #BBB; }
 
 </A>
 <BLOCKQUOTE>
-get_arg(3f) - [M_unicode:SYSTEM] get command line argument
-(LICENSE:MIT)
+get_arg(3f) - [M_unicode:QUERY] acquire value from command line
+(LICENSE:PD)
 <P>
 </BLOCKQUOTE>
 <A name=contents></A><H3>CONTENTS</H3></A>
 <BLOCKQUOTE>
 <A HREF=#1>Synopsis</A><BR>
-<A HREF=#2>Characteristics</A><BR>
-<A HREF=#3>Description</A><BR>
-<A HREF=#4>Options</A><BR>
-<A HREF=#5>Returns</A><BR>
-<A HREF=#6>Examples</A><BR>
+<A HREF=#2>Description</A><BR>
+<A HREF=#3>Options</A><BR>
+<A HREF=#4>Returns</A><BR>
+<A HREF=#5>Examples</A><BR>
+<A HREF=#6>See Also</A><BR>
 <A HREF=#7>Author</A><BR>
 <A HREF=#8>License</A><BR>
 </BLOCKQUOTE>
@@ -77,52 +77,68 @@ get_arg(3f) - [M_unicode:SYSTEM] get command line argument
 
 </A>
 <BLOCKQUOTE>
-<P>
-impure elemental function get_arg(position,default) result(out)
+function get_arg(n,default,ierr) result(arg)
 <P>
 <PRE>
-     integer,intent=(in)         :: position
-     type(unicode_type),optional :: default
-     type(unicode_type)          :: out
+     integer,intent(in)           :: n
+<P>
+     ! ONE OF THE FOLLOWING:
+     character(len=*)             :: default
+     type(unicode_type)           :: default
+     integer                      :: default
+     real                         :: default
+     doubleprecision              :: default
+     logical                      :: default
+<P>
+     integer,intent(out),optional :: ierr
+<P>
+     ! ONE OF THE FOLLOWING, MATCHING TYPE OF DEFAULT
+     character(len=:),allocatable :: arg
+     type(unicode_type)           :: arg
+     integer                      :: arg
+     real                         :: arg
+     doubleprecision              :: arg
+     logical                      :: arg
 <P>
 </PRE>
 </BLOCKQUOTE>
 <A name=2>
 
-     <H3>CHARACTERISTICS</H3>
-
-</A>
-<BLOCKQUOTE>
-DEFAULT may be default CHARACTER type as well.
-</BLOCKQUOTE>
-<A name=3>
-
      <H3>DESCRIPTION</H3>
 
 </A>
 <BLOCKQUOTE>
-get_arg(3f) gets the value of the requested command line argument
-as TYPE(UNICODE_TYPE) .
+<P>
+get_arg(3f) returns the Nth command line argument.
 </BLOCKQUOTE>
-<A name=4>
+<A name=3>
 
      <H3>OPTIONS</H3>
 
 </A>
 <BLOCKQUOTE>
 <TABLE cellpadding=3>
-<TR valign=top><TD colspan=2>
-<B>position</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
-Position on command line of requested argument. Zero returns
-the name of the command executed. Non-existent positions
-default to returning a null string.
+<TR valign=top><TD width=6% nowrap>
+<B>n</B> </TD><TD valign=bottom>
+The number of the argument, from 0 to the count of the
+total number of arguments.
 </TD></TR>
 <TR valign=top><TD colspan=2>
 <B>default</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
-value to return if argument is not set or set to a blank value
+The value to return if the argument is not present. The
+type of the value determines the type of the returned
+value. It may be REAL, DOUBLE_PRECISION, INTEGER, CHARACTER,
+<TABLE width=100% cellpadding=3><!-- tsb: The value to return if the argument is not present. The
+ -->
+<TR></TR><TR></TR>
+<TR valign=top><TD colspan=2>
+<B>LOGICAL or TYPE(UNICODE_TYPE).</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+The default type returned
+is CHARACTER.
 </TD></TR>
+<TR></TR></TABLE></TD></TR>
 <TR></TR></TABLE></BLOCKQUOTE>
-<A name=5>
+<A name=4>
 
      <H3>RETURNS</H3>
 
@@ -130,58 +146,140 @@ value to return if argument is not set or set to a blank value
 <BLOCKQUOTE>
 <TABLE cellpadding=3>
 <TR valign=top><TD width=6% nowrap>
-<B>out</B> </TD><TD valign=bottom>
-value assigned based on value of environment variable NAME
+<B>arg</B> </TD><TD valign=bottom>
+The value of the Nth command line argument after attempting
+to convert it to the same type as DEFAULT.
+</TD></TR>
+<TR valign=top><TD width=6% nowrap>
+<B>ierr</B> </TD><TD valign=bottom>
+zero if no error occurred. Keyword syntax is required.
 </TD></TR>
 <TR></TR></TABLE></BLOCKQUOTE>
-<A name=6>
+<A name=5>
 
      <H3>EXAMPLES</H3>
 
 </A>
 <BLOCKQUOTE>
 <P>
-Sample program:
+Sample program
 <P>
 <PRE>
-    program demo_get_arg
-    use M_unicode, only : get_arg, ut=&gt; unicode_type, ch=&gt;character
-    use M_unicode, only : assignment(=), operator(//), write(formatted)
-    implicit none
-    integer  :: position
-    type(ut) :: default
-    type(ut) :: value
-    type(ut) :: smiley
-    integer  :: i
-    character(len=*),parameter :: bracket= &#146;(1x,*("[",a,"]",:))&#146;
-       !
-       smiley=128515 ! set with Unicode code point
-       default=&#146;Wish I was first &#146;//smiley//&#146;!&#146; ! set with unicode_type
-       !
-       ! arguments can be type(unicode_type) or character
-       ! but type(unicode_type) is always returned
-       do position=0,command_argument_count()
-          value=get_arg(position, default             )
-          value=get_arg(position, default%character() )
-          !
-          write(*,*)value%character()
-          write(*,&#146;(DT)&#146;)default%get_arg(position)
-          !
-          ! print each glyph surrounded by brackets
-          write(*,bracket)(value%character(i,i),i=1,value%len())
-       enddo
-       !
-    end program demo_get_arg
+   program demo_get_arg
+   use M_unicode, only : get_arg, ut=&gt; unicode_type, ch=&gt;character
+   use M_unicode, only : assignment(=), operator(//), write(formatted)
+   implicit none
+   integer                      :: position
+   type(ut)                     :: udefault
+   type(ut)                     :: uvalue
+   type(ut)                     :: smiley
+   integer                      :: ierr
+   character(len=*),parameter   :: g=&#146;(*(g0))&#146;
+<P>
+   integer                      :: i
+   real                         :: r
+   doubleprecision              :: d
+   logical                      :: tf
+   character(len=:),allocatable :: c
+<P>
+   ! basics
+   do i=1,command_argument_count()
+      write(*,g)i,&#146; &#146;,get_arg(i)
+   enddo
+   !
+   smiley=128515 ! smiley emoji set with Unicode code point
+   udefault=&#146;Wish I was there &#146;//smiley//&#146;!&#146;
+   !
+   if(command_argument_count().eq.0)then
+      call execute_command_line(get_arg(0)//&#146; one T 100 100.2 300.0e3 &#146;)
+   else
+      do position=0,command_argument_count()
+<P>
+         write(*,g) repeat(&#146;=&#146;,50)
+<P>
+         ! returns type(unicode_type)
+         uvalue=get_arg(position, udefault)
+         write(*,g)uvalue%character()
+         ! oop
+         write(*,&#146;("OOP:",DT)&#146;)udefault%get_arg(position)
+<P>
+         ! returns character which is assigned to type(unicode_type)
+         uvalue=get_arg(position, udefault%character() )
+         write(*,g)uvalue%character()
+<P>
+         write(*,g)get_arg(position,&#146; character default&#146;)
+<P>
+         c=get_arg(position)
+<P>
+         tf=get_arg(position,.false.,ierr=ierr)
+         if(ierr.eq.0)write(*,g)position,&#146; &#146;,c,&#146; is a good logical: &#146;,tf
+<P>
+         r=get_arg(position,0.0,ierr=ierr)
+         if(ierr.eq.0)write(*,g)position,&#146; &#146;,c,&#146; is a good real: &#146;,r
+<P>
+         d=get_arg(position,0.0d0,ierr=ierr)
+         if(ierr.eq.0)write(*,g)position,&#146; &#146;,c,&#146; is a good double: &#146;,d
+<P>
+         i=get_arg(position,0,ierr=ierr)
+         if(ierr.eq.0)write(*,g)position,&#146; &#146;,c,&#146; is a good integer: &#146;,i
+<P>
+      enddo
+   endif
+   end program demo_get_arg
 <P>
 </PRE>
-Results:
-<P>
-<PRE>
-     &gt; demo_get_arg
-     &gt; demo_get_arg
-     &gt; [d][e][m][o][_][g][e][t][_][a][r][g]
-<P>
-</PRE>
+Results
+&gt; 1 one
+&gt; 2 T
+&gt; 3 100
+&gt; 4 100.2
+&gt; 5 300.0e3
+&gt; ==================================================
+&gt; build/gfortran_F560B09219607C26/example/demo_get_arg
+&gt; OOP:build/gfortran_F560B09219607C26/example/demo_get_arg
+&gt; build/gfortran_F560B09219607C26/example/demo_get_arg
+&gt; build/gfortran_F560B09219607C26/example/demo_get_arg
+&gt; ==================================================
+&gt; one
+&gt; OOP:one
+&gt; one
+&gt; one
+&gt; ==================================================
+&gt; T
+&gt; OOP:T
+&gt; T
+&gt; T
+&gt; 2 T is a good logical: T
+&gt; ==================================================
+&gt; 100
+&gt; OOP:100
+&gt; 100
+&gt; 100
+&gt; 3 100 is a good real: 100.000000
+&gt; 3 100 is a good double: 100.00000000000000
+&gt; 3 100 is a good integer: 100
+&gt; ==================================================
+&gt; 100.2
+&gt; OOP:100.2
+&gt; 100.2
+&gt; 100.2
+&gt; 4 100.2 is a good real: 100.199997
+&gt; 4 100.2 is a good double: 100.20000000000000
+&gt; ==================================================
+&gt; 300.0e3
+&gt; OOP:300.0e3
+&gt; 300.0e3
+&gt; 300.0e3
+&gt; 5 300.0e3 is a good real: 300000.000
+&gt; 5 300.0e3 is a good double: 300000.00000000000
+</BLOCKQUOTE>
+<A name=6>
+
+     <H3>SEE ALSO</H3>
+
+</A>
+<BLOCKQUOTE>
+get_command_argument(3f), command_argument_count(3f)
 </BLOCKQUOTE>
 <A name=7>
 

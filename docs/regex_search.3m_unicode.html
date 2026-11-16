@@ -1,0 +1,278 @@
+<html> 
+<head> 
+<title> </title>
+<style> 
+px {font-family: "Lucida Console", Monaco, monospace }
+p { font-size:100%; line-height:1.1em; }
+body {xfont-style: sans-serif}
+body {
+color:#333; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:1em; line-height:1.3em; }
+a:visited { color:#666; }
+h1,h2,h3,h4,h5,h6 { color:#333; font-family:georgia, verdana, sans-serif; }
+h1 { font-size:150%; page-break-before:auto;background-color: #aaaaff}
+h2 { font-size:143%;color:teal; }
+h3 { font-size:134%;color:blue; }
+h4 { font-size:120%;color:gray; }
+img { max-width: 55em}
+p{ padding: 0;margin:0; }
+p{ padding-right:1.4em; }
+p{ padding-bottom:0.1em; }
+p{ padding-top:1em; }
+p{ whitespace: pre-wrap; }
+h5,h6 { font-size:100% }
+a.nav,a:link.nav, a:visited.nav { background-color:#FFF; color:#000; }
+XXtable { border:double #000; border-collapse:collapse; }
+XXtable { border-collapse:collapse; }
+XXtd { border:thin solid #888; }
+XXtd { border:none; }
+li { margin-bottom:0.5em; }
+blockquote { display:block; font-size:100%; line-height:1.1em; margin:0 0 0.5em; padding:0 2.5em; }
+pre { background-color:#DDD; font-size:100%; overflow:auto; padding:1em; }
+a,li span { color:#000; }
+a:hover, a.nav:hover, a:hover math { background-color:#000; color:#FFF; }
+#Container { margin:0 10px; text-align:center; background-color: #BBB}
+#Content { border-top:none; margin:auto; padding:0.3em; text-align:left; width:100%; max-width:55em; background:#FFF}
+span.webName { font-size:.5em; }
+textarea#content { font-size: 1em; line-height: 1.125; }
+h1#pageName { line-height:1em; margin:0.2em 0 0.2em 0; padding:0; }
+.property { color:#666; font-size:100%; }
+a.existingWikiWord[title]{ //border: 1px dashed #BBB; }
+.byline { color:#666; font-size:1.0em; font-style:italic; margin-bottom:1em; padding-top:1px; } 
+</style> 
+</head>
+<BODY bgcolor=#F0F0F0 text=#000000 link=#0000ff vlink=#C000C0 alink=#ff0000><A NAME=top></A>
+<!--
+<h5><a href="https://github.com/urbanjost/M_unicode">[UP]</a></h5>
+<button type="button" onclick="javascript:history.back()">Back</button>
+-->
+<div id="Container">
+<div id="Content">
+<CENTER>
+<H1><HR><I>Manual Reference Pages &nbsp;-&nbsp;</I><NOBR>regex_search (3m_unicode)</NOBR><HR></H1>
+</CENTER>
+<A name=0>
+
+     <H3>NAME</H3>
+
+</A>
+<BLOCKQUOTE>
+regex_search(3f) - [M_unicode::REGEX] Locate strings matching a
+regular expression
+(LICENSE:MIT)
+<P>
+</BLOCKQUOTE>
+<A name=contents></A><H3>CONTENTS</H3></A>
+<BLOCKQUOTE>
+<A HREF=#1>Synopsis</A><BR>
+<A HREF=#2>Description</A><BR>
+<A HREF=#3>Options</A><BR>
+<A HREF=#4>Output</A><BR>
+<A HREF=#5>Example</A><BR>
+<A HREF=#6>See Also</A><BR>
+</BLOCKQUOTE>
+<A name=7>
+
+     <H3>SYNOPSIS</H3>
+
+</A>
+<BLOCKQUOTE>
+regex_search(re, text [, start_offset]) result(m)
+<P>
+<PRE>
+     type(regex_t), intent(in)    :: re
+     integer,intent(in)           :: text(:)
+     integer,intent(in), optional :: start_offset
+     type(match_t)                :: m
+<P>
+</PRE>
+</BLOCKQUOTE>
+<A name=2>
+
+     <H3>DESCRIPTION</H3>
+
+</A>
+<BLOCKQUOTE>
+<P>
+Searches text for the leftmost match of the compiled expression re.
+<P>
+The M_unicode__regex(3) module (accessed via the M_unicode(3) module)
+compiles regular expression patterns into Nondeterministic Finite
+Automaton (NFA) bytecode and executes them over arrays of UTF-32 scalar
+codepoints (ie.&#145;integer(int32)&#145;arrays). Because matching operates directly
+on Unicode codepoints rather than raw UTF-8 bytes, multi-byte characters
+(accented Latin, CJK, emoji, symbols) are indexed and matched as single
+characters without splitting byte sequences.
+<P>
+For convenience the procedures are generic and two other types are allowed
+-- TYPE(UNICODE_TYPE) variables and CHARACTER variables may be used whee
+CODEPOINTS(integer arrays composed of valid Unicode codepoint values).
+ae used.
+<P>
+For the CHARACTER mode the same entities are all CHARACTER variables.
+<P>
+For the STRING mode all the same entities are all TYPE(UNICODE_TYPE).
+<P>
+For the CODEPOINT mode all pattern compilation, text matching, and string
+<TABLE cellpadding=3><!-- tsb: For the CODEPOINT mode all pattern compilation, text matching, and string
+ -->
+<TR></TR><TR></TR>
+<TR valign=top><TD colspan=2>
+<B>replacement operate directly on arrays of UTF-8/UTF-32</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+scalar codepoints
+(integer(int32)).
+</TD></TR>
+<TR></TR></TABLE>Helper functions utoc(3) and ctou(3) convert between standard UTF-8
+encoded Fortran character strings and codepoint arrays.
+</BLOCKQUOTE>
+<A name=3>
+
+     <H3>OPTIONS</H3>
+
+</A>
+<BLOCKQUOTE>
+<P>
+<TABLE cellpadding=3>
+<TR valign=top><TD width=6% nowrap>
+<B>re</B> </TD><TD valign=bottom>
+Compiled regular expression. If .not. re%valid,
+returns m%matched = .false. immediately.
+</TD></TR>
+<TR valign=top><TD width=6% nowrap>
+<B>text</B> </TD><TD valign=bottom>
+Subject text as an array of UTF-32 codepoints.
+</TD></TR>
+<TR valign=top><TD colspan=2>
+<B>start_offset</B> </TD></TR><TR valign=top><TD width=6%>&nbsp;</TD><TD>
+index at which to begin searching
+(defaults to 1; values &lt; 1 are clamped to 1).
+</TD></TR>
+<TR></TR></TABLE></BLOCKQUOTE>
+<A name=4>
+
+     <H3>OUTPUT</H3>
+
+</A>
+<BLOCKQUOTE>
+<TABLE cellpadding=3>
+<TR valign=top><TD width=6% nowrap>
+<B>m</B> </TD><TD valign=bottom>
+If m%matched is .true., the matched slice for group
+g (0 &lt;= g &lt; re%num_groups) is:
+</TD></TR>
+<TR></TR></TABLE><!-- .nf -->
+<PRE>
+                     text(m%start_pos(g) : m%end_pos(g))
+</PRE>
+whenever m%start_pos(g) &gt;= 1 and
+<P>
+<PRE>
+                     m%end_pos(g) &gt;= m%start_pos(g).
+<P>
+</PRE>
+</BLOCKQUOTE>
+<A name=5>
+
+     <H3>EXAMPLE</H3>
+
+</A>
+<BLOCKQUOTE>
+Sample program
+<P>
+<PRE>
+   ! Demonstrates compiling a pattern with multiple capture groups,
+   ! iterating through every match in a multi-line buffer using
+   ! start_offset, and extracting submatches safely.
+   program demo_regex_search
+   use iso_fortran_env,  only : int32
+   use M_unicode, only : utoc, ctou
+   use M_unicode, only : regex_t, match_t
+   use M_unicode, only : regex_compile, regex_search
+   implicit none
+<P>
+   character(len=1),parameter   :: BS = achar(92)
+   type(regex_t)                :: re
+   type(match_t)                :: m
+   integer(int32),allocatable   :: log_cp(:)
+   integer                      :: offset, count, i
+   character(len=:),allocatable :: raw_log, pat_str
+   character(len=*),parameter   :: nl=new_line(&#146;a&#146;)
+<P>
+   raw_log = &
+   &#146;2026-11-12 08:14:02 [INFO] &
+   & User "alice" connected from 10.0.1.42&#146; &
+   // nl // &
+   &#146;2026-11-12 08:14:09 [WARN] &
+   & High latency (312ms) on node Zürich-01&#146; &
+   // nl // &
+   &#146; 2026-11-12 08:14:15 [ERROR] &
+   &Failed login for user "bob" from 192.168.1.99&#146;
+<P>
+      ! Pattern:
+      !^(\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2})\s+\[(\w+)\]\s+(.*)$
+      ! some compilers treat backslash as an escape character
+      ! so replace % with backslash
+      pat_str = &
+      & &#146;^(%d{4}-%d{2}-%d{2}%s+%d{2}:%d{2}:%d{2})%s+%[(%w+)%]%s+(.*)$&#146;
+      do i=1,len(pat_str)
+         select case(pat_str(i:i))
+         case(&#146;%&#146;);pat_str(i:i)=BS
+         end select
+      enddo
+<P>
+      re = regex_compile(utoc(pat_str))
+      if (.not. re%valid) error stop &#146;Failed to compile log pattern&#146;
+<P>
+      log_cp = utoc(raw_log)
+      offset = 1
+      count  = 0
+<P>
+      print &#146;(A)&#146;, &#146;Parsed Log Entries:&#146;
+      print &#146;(A)&#146;, &
+      &&#146;------------------------------------------------------------&#146;
+<P>
+      do while (offset &lt;= size(log_cp))
+         m = regex_search(re, log_cp, start_offset=offset)
+         if (.not. m%matched) exit
+<P>
+         count = count + 1
+         print &#146;(A,I0)&#146;, &#146;Entry #&#146;, count
+         print &#146;(A)&#146;, &#146;  Timestamp : &#146; // &
+         ctou(log_cp(m%start_pos(1):m%end_pos(1)))
+         print &#146;(A)&#146;, &#146;  Level     : &#146; // &
+         ctou(log_cp(m%start_pos(2):m%end_pos(2)))
+         print &#146;(A)&#146;, &#146;  Message   : &#146; // &
+         ctou(log_cp(m%start_pos(3):m%end_pos(3)))
+<P>
+         offset = m%end_pos(0) + 1
+      end do
+   end program demo_regex_search
+<P>
+</PRE>
+Expected Output
+<P>
+<PRE>
+    &gt; Original   : Launch Zürich 🚀 now
+    &gt; Pattern    : (\w+)\s+(🚀|🛸)
+    &gt; Full match : Zürich 🚀
+    &gt; Group 1    : Zürich
+    &gt; Group 2    : 🚀
+    &gt; Old        : Launch Zürich 🚀 now
+    &gt; New        : $2 -&gt; $1
+    &gt; Output     : Launch 🚀 -&gt; Zürich now
+    &gt; Expected   : Launch 🚀 -&gt; Zürich now
+</PRE>
+</BLOCKQUOTE>
+<A name=6>
+
+     <H3>SEE ALSO</H3>
+
+</A>
+<BLOCKQUOTE>
+M_unicode__regex, regex_replace(3), regex_compile(3)
+</BLOCKQUOTE>
+<P><HR>
+<br><br><center><img src="images/regex_search.gif"></center>
+</div>
+</div>
+</body>
+</HTML>
