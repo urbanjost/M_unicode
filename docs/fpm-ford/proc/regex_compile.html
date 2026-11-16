@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.7% of total for procedures.">23 statements</a>
+                 title=" 0.5% of total for procedures.">23 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -165,6 +165,58 @@
 </h2>
     
 
+    <h2 id="name">NAME</h2>
+<div class="codehilite"><pre><span></span><code><span class="n">regex_compile</span><span class="p">(</span><span class="mf">3f</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">[</span><span class="n">M_unicode</span><span class="o">::</span><span class="n">REGEX</span><span class="p">]</span><span class="w"> </span><span class="n">compile</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">regular</span><span class="w"> </span><span class="n">expression</span>
+<span class="p">(</span><span class="nl">LICENSE:</span><span class="n">MIT</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="synopsis">SYNOPSIS</h2>
+<div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="k">function</span><span class="w"> </span><span class="nf">regex_compile</span><span class="p">(</span>pattern<span class="p">)</span><span class="w"> </span><span class="n">result</span><span class="p">(</span><span class="n">re</span><span class="p">)</span>
+
+<span class="w">      </span><span class="n">integer</span><span class="p">(</span><span class="nb">int32</span><span class="p">),</span><span class="w"> </span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="nb">pattern</span><span class="p">(:)</span>
+<span class="w">      </span><span class="nb">type</span><span class="p">(</span><span class="n">regex_t</span><span class="p">)</span><span class="w">              </span><span class="p">::</span><span class="w"> </span><span class="n">re</span>
+</code></pre></div>
+
+<h2 id="description">DESCRIPTION</h2>
+<p>Compiles a UTF-32 regular expression pattern into NFA bytecode.</p>
+<p>See M_unicode__regex(3) for a full description of regular expression
+ syntax.</p>
+<p>The M_unicode__regex(3) module (accessed via the M_unicode(3) module)
+ compiles regular expression patterns into Nondeterministic Finite
+ Automaton (NFA) bytecode and executes them over arrays of UTF-32 scalar
+ codepoints (ie.<code>integer(int32)</code>arrays). Because matching operates directly
+ on Unicode codepoints rather than raw UTF-8 bytes, multi-byte characters
+ (accented Latin, CJK, emoji, symbols) are indexed and matched as single
+ characters without splitting byte sequences.</p>
+<p>For convenience the procedures are generic and two other types are allowed
+ &ndash; TYPE(UNICODE_TYPE) variables and CHARACTER variables may be used whee
+ CODEPOINTS(integer arrays composed of valid Unicode codepoint values).
+ ae used.</p>
+<p>For the CHARACTER mode the same entities are all CHARACTER variables.</p>
+<p>For the STRING mode all the same entities are all TYPE(UNICODE_TYPE).</p>
+<p>For the CODEPOINT mode all pattern compilation, text matching, and string
+ replacement operate directly on arrays of UTF-8/UTF-32  scalar codepoints
+ (integer(int32)).</p>
+<p>Helper functions utoc(3) and ctou(3) convert between standard UTF-8
+ encoded Fortran character strings and codepoint arrays.</p>
+<h2 id="options">OPTIONS</h2>
+<p>pattern   array of Unicode codepoints representing the regex.</p>
+<h2 id="output">OUTPUT</h2>
+<p>re        inspect re%valid before passing re to regex_search
+             or regex_replace. Invalid patterns return
+             re%valid = .false. without aborting.</p>
+<h2 id="example">EXAMPLE</h2>
+<p>Sample program</p>
+<div class="codehilite"><pre><span></span><code><span class="n">program</span><span class="w"> </span><span class="n">demo_regex_compile</span>
+<span class="k">end</span><span class="w"> </span><span class="n">program</span><span class="w"> </span><span class="n">demo_regex_compile</span>
+</code></pre></div>
+
+<p>Expected Output</p>
+<div class="codehilite"><pre><span></span><code> &gt;
+</code></pre></div>
+
+<h2 id="see-also">SEE ALSO</h2>
+<p>M_unicode__regex, regex_replace(3), regex_search(3)</p>
 
 
     <h3>Arguments</h3>
@@ -180,7 +232,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-pattern~5"></span>
+              <span class="anchor" id="variable-pattern~6"></span>
               integer(kind=int32),
             </td>
 <td>intent(in)</td>
@@ -198,7 +250,7 @@
 
       <h3>Return Value
         <small>
-          <span class="anchor" id="variable-re~16"></span>
+          <span class="anchor" id="variable-re~14"></span>
           type(<a href='../type/regex_t.html'>regex_t</a>)
         </small>
       </h3>
@@ -220,6 +272,7 @@
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">function </span><span class="n">regex_compile</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">re</span><span class="p">)</span>
 <span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">pattern</span><span class="p">(:)</span>
 <span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">regex_t</span><span class="p">)</span><span class="w">              </span><span class="kd">::</span><span class="w"> </span><span class="n">re</span>
+
 <span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">parser_t</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">p</span>
 <span class="w">      </span><span class="kt">integer</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">start_pc</span><span class="p">,</span><span class="w"> </span><span class="n">end_pc</span>
 
@@ -270,7 +323,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-14 01:44 +0000             </p>
+ on 2026-11-16 14:32 +0000             </p>
           </div>
         </div>
         <br>

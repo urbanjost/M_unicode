@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.1% of total for procedures.</p>Including implementation: 61 statements,  1.7% of total for procedures.">3 statements</a>
+                 title="<p> 0.1% of total for procedures.</p>Including implementation: 61 statements,  1.4% of total for procedures.">3 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -168,11 +168,11 @@
 
     <div class="col-md-9" id='text'>
       <h2>public interface codepoints_to_utf8</h2>
-      <h3 id="name">NAME</h3>
+      <h2 id="name">NAME</h2>
 <p>CODEPOINTS_TO_UTF8(3f) - [M_unicode:CONVERSION] convert codepoints
    to CHARACTER
    (LICENSE:MIT)</p>
-<h3 id="synopsis">SYNOPSIS</h3>
+<h2 id="synopsis">SYNOPSIS</h2>
 <div class="codehilite"><pre><span></span><code>pure subroutine codepoints_to_utf8(codepoints,utf8,nerr)
 
  integer,allocatable,intent(in) :: codepoints(:)
@@ -184,23 +184,23 @@
  integer,intent(out)            :: nerr
 </code></pre></div>
 
-<h3 id="characteristics">CHARACTERISTICS</h3>
+<h2 id="characteristics">CHARACTERISTICS</h2>
 <ul>
 <li>UTF8 is a scalar or array CHARACTER variable</li>
 <li>CODEPOINTS is of default INTEGER kind</li>
 <li>NERR is of default INTEGER kind</li>
 </ul>
-<h3 id="description">DESCRIPTION</h3>
+<h2 id="description">DESCRIPTION</h2>
 <p>CODEPOINTS_TO_UTF8(3f) takes an integer array of Unicode codepoint
    values and generates either a scalar CHARACTER variable or an array
    of bytes (AKA. CHARACTER(LEN=1)) which are assumed to contain a stream
    of bytes representing UTF-8-encoded data.</p>
-<h3 id="options">OPTIONS</h3>
+<h2 id="options">OPTIONS</h2>
 <div class="codehilite"><pre><span></span><code>+ CODEPOINTS :  An INTEGER array of Unicode codepoint values representing
                 the glyphs to be encoded as UTF-8 data
 </code></pre></div>
 
-<h3 id="ouput">OUPUT</h3>
+<h2 id="ouput">OUPUT</h2>
 <div class="codehilite"><pre><span></span><code><span class="o">+</span><span class="w"> </span><span class="n">UTF8</span><span class="w"> </span><span class="p">:</span><span class="w">  </span><span class="n">Scalar</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">single</span><span class="o">-</span><span class="n">character</span><span class="w"> </span><span class="n">array</span><span class="w"> </span><span class="n">CHARACTER</span><span class="w"> </span><span class="n">variables</span>
 <span class="w">          </span><span class="n">to</span><span class="w"> </span><span class="n">contain</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">stream</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">bytes</span><span class="w"> </span><span class="n">containing</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="n">encoded</span><span class="w"> </span><span class="k">as</span>
 <span class="w">          </span><span class="n">UTF</span><span class="o">-</span><span class="mi">8</span><span class="w"> </span><span class="n">text</span><span class="o">.</span>
@@ -209,7 +209,7 @@
 <span class="w">          </span><span class="n">could</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">completely</span><span class="w"> </span><span class="n">converted</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">UTF</span><span class="o">-</span><span class="mi">8</span><span class="w"> </span><span class="n">characters</span><span class="o">.</span>
 </code></pre></div>
 
-<h3 id="examples">EXAMPLES</h3>
+<h2 id="examples">EXAMPLES</h2>
 <p>Sample program</p>
 <div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">demo_codepoints_to_utf8</span>
 <span class="nx">use</span><span class="w"> </span><span class="nx">m_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">codepoints_to_utf8</span>
@@ -265,19 +265,19 @@
  &gt; 20
 </code></pre></div>
 
-<h3 id="see-also">SEE ALSO</h3>
+<h2 id="see-also">SEE ALSO</h2>
 <p>functions that perform operations on character strings:</p>
 <ul>
 <li>elemental: adjustl(3), adjustr(3), index(3), scan(3), verify(3)</li>
 <li>non-elemental: len_trim(3), repeat(3), trim(3),
                     codepoints_to_utf8(3), utf8_to_codepoints(3)</li>
 </ul>
-<h3 id="author">AUTHOR</h3>
+<h2 id="author">AUTHOR</h2>
 <ul>
 <li>John S. Urban</li>
 <li>Francois Jacq - enhancements from Francois Jacq, 2025-08</li>
 </ul>
-<h3 id="license">LICENSE</h3>
+<h2 id="license">LICENSE</h2>
 <div class="codehilite"><pre><span></span><code> MIT
 </code></pre></div>
 <br>
@@ -303,7 +303,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-codepoints~6"></span>
+              <span class="anchor" id="variable-codepoints~8"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -372,7 +372,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-codepoints~5"></span>
+              <span class="anchor" id="variable-codepoints~7"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -439,7 +439,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-14 01:44 +0000             </p>
+ on 2026-11-16 14:32 +0000             </p>
           </div>
         </div>
         <br>

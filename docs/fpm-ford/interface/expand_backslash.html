@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.2% of total for procedures.</p>Including implementation: 190 statements,  5.4% of total for procedures.">6 statements</a>
+                 title="<p> 0.1% of total for procedures.</p>Including implementation: 190 statements,  4.3% of total for procedures.">6 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -170,12 +170,12 @@
 
     <div class="col-md-9" id='text'>
       <h2>public interface expand_backslash</h2>
-      <h3 id="name">NAME</h3>
+      <h2 id="name">NAME</h2>
 <div class="codehilite"><pre><span></span><code> expand_backslash(3f) - [M_unicode:CONVERSION] expand C++ escape sequences
  (LICENSE:MIT)
 </code></pre></div>
 
-<h3 id="synopsis">SYNOPSIS</h3>
+<h2 id="synopsis">SYNOPSIS</h2>
 <div class="codehilite"><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="nf">expand_backslash</span><span class="p">(</span>line,protect<span class="p">)</span><span class="w"> </span><span class="n">result</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
 
 <span class="w"> </span><span class="nb">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">          </span><span class="p">::</span><span class="w"> </span><span class="nb">line</span>
@@ -189,7 +189,7 @@
 <span class="w"> </span><span class="nb">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">                     </span><span class="p">::</span><span class="w"> </span><span class="n">out</span>
 </code></pre></div>
 
-<h3 id="description">DESCRIPTION</h3>
+<h2 id="description">DESCRIPTION</h2>
 <div class="codehilite"><pre><span></span><code>expand_backslash(3f) expands commonly used C++ escape sequences that represent
 glyphs or control characters.
 
@@ -224,7 +224,7 @@ Escape sequences
 
 <p>The default escape character is the backslash, but this may be
    changed using the optional parameter PROTECT.</p>
-<h3 id="options">OPTIONS</h3>
+<h2 id="options">OPTIONS</h2>
 <div class="codehilite"><pre><span></span><code> LINE    An ASCII bytestream optionally containing UTF-8 encoded data
          or a UNICODE_TYPE() string to convert to an ASCII string
          containing C-style backslash escape sequences.
@@ -232,7 +232,7 @@ PROTECT  A single character designating the escape prefix. Defaults
          to a backslash ("\")
 </code></pre></div>
 
-<h3 id="examples">EXAMPLES</h3>
+<h2 id="examples">EXAMPLES</h2>
 <p>Sample Program:</p>
 <div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">demo_expand_backslash</span>
 <span class="p">!</span><span class="w"> </span><span class="nx">demonstrate</span><span class="w"> </span><span class="nx">filter</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">expand</span><span class="w"> </span><span class="nx">C</span><span class="o">-</span><span class="k">like</span><span class="w"> </span><span class="nx">escape</span><span class="w"> </span><span class="nx">sequences</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nx">input</span><span class="w"> </span><span class="nx">lines</span>
@@ -301,11 +301,11 @@ PROTECT  A single character designating the escape prefix. Defaults
   &gt; !!
 </code></pre></div>
 
-<h3 id="author">AUTHOR</h3>
+<h2 id="author">AUTHOR</h2>
 <div class="codehilite"><pre><span></span><code> John S. Urban
 </code></pre></div>
 
-<h3 id="license">LICENSE</h3>
+<h2 id="license">LICENSE</h2>
 <div class="codehilite"><pre><span></span><code> MIT
 </code></pre></div>
 <br>
@@ -331,7 +331,7 @@ PROTECT  A single character designating the escape prefix. Defaults
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-line~13"></span>
+              <span class="anchor" id="variable-line~21"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -390,7 +390,7 @@ PROTECT  A single character designating the escape prefix. Defaults
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-line~16"></span>
+              <span class="anchor" id="variable-line~24"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>),
             </td>
 <td>intent(in)</td>
@@ -449,7 +449,7 @@ PROTECT  A single character designating the escape prefix. Defaults
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-line~15"></span>
+              <span class="anchor" id="variable-line~23"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -508,7 +508,7 @@ PROTECT  A single character designating the escape prefix. Defaults
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-line~14"></span>
+              <span class="anchor" id="variable-line~22"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -565,7 +565,7 @@ PROTECT  A single character designating the escape prefix. Defaults
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-14 01:44 +0000             </p>
+ on 2026-11-16 14:32 +0000             </p>
           </div>
         </div>
         <br>

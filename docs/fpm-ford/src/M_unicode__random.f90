@@ -1,21 +1,23 @@
 module M_unicode__random
+!   o random_string(3f): create random string composed of provided characters of specified length
 private
 public :: random_string
-!   o random_string(3f): create random string composed of provided characters of specified length
-interface random_string
-   module procedure :: random_string
-end interface random_string
+
+!breaks ifx!interface random_string
+!breaks ifx!   module procedure :: random_string
+!breaks ifx!end interface random_string
+
 contains
 !==================================================================================================================================!
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !==================================================================================================================================!
 !>
-!!### NAME
+!!##NAME
 !!    random_string(3f) - [M_random] create random string composed of
 !!                        provided characters of specified length
 !!    (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!    function random_string(chars,length) result(out)
 !!
@@ -31,44 +33,70 @@ contains
 !!     integer,intent(in)            :: length
 !!     integer                       :: out(length)
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!    Given a set of characters and a length, generate a random string of
 !!    the specified length composed of the given set of characters.
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!    astr    character variable containing characters to construct OUT with
 !!    ustr    string containing characters to construct OUT with
 !!    codes   integer array of valid Unicode codepoint values
 !!
 !!    length  number of characters to place in output
 !!
-!!### RESULT
+!!##RESULT
 !!    out     string of LENGTH characters randomly filled with characters
 !!            from CHARS
 !!
-!!### EXAMPLE
+!!##EXAMPLE
 !!
 !!    Sample program:
 !!
 !!     program demo_random_string
-!!     use M_unicode, only : random_string
-!!     character(len=64) :: hexstring
-!!     ! ensure getting an initially pseudo-random sequence
+!!     use iso_fortran_env, only : stdout => output_unit
+!!     use M_unicode,       only : random_string, ut=>unicode_type
+!!     use M_unicode,       only : assignment(=), ch=>character
+!!     character(len=:),allocatable :: aset
+!!     type(ut)                     :: uset, ulets
+!!     integer,allocatable          :: iset(:), ilets(:)
+!!     integer                      :: i
+!!     character(len=*),parameter   :: g='("[",g0,"]")'
+!!
+!!      ! ensure getting an initially pseudo-random sequence
 !!        call random_init(.false., .true.)
-!!        hexstring=random_string('0123456789abcdef',len(hexstring))
-!!        ! write random hexadecimal value for use
-!!        ! as something like an X11 authorization key
-!!        write(*,'(a)')hexstring
+!!
+!!      ! ASCII-7 CHARACTER variable
+!!        ! random hexadecimal values are often used as authorization keys
+!!        aset='0123456789abcdef'
+!!        write(stdout,g)aset, random_string(aset,64)
+!!
+!!      ! using type(unicode_type)
+!!        ! pick letters from Greek uppercase alphabet
+!!        uset='ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ'
+!!        write(stdout,g) uset%ch(), ch(random_string(uset,16))
+!!
+!!      ! using codepoints
+!!        ! ADE values for ASCII-7 uppercase
+!!        iset=[(i,i=65,90)]
+!!        ilets=random_string(iset,32)
+!!        ! convert the codepoint values to a string
+!!        ulets=ilets
+!!        write(stdout,g) ulets%ch()
+!!
 !!     end program demo_random_string
 !!
 !!    Results
 !!
-!!     2363a3589736e23be0137ec7ebc9d74297a963f27958a176daea3dd850ed8487
+!!     > [0123456789abcdef]
+!!     > [b4b43bb527d410326d7b8f7a4273ca6710b1a6b1acf78ec51bbd70d8e224223e]
+!!     > [ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ]
+!!     > [ΜΒΘΘΛΓΘΦΘΑΣΠΕΤΦΕ]
+!!     > [POFBDMVWNKDXCMVOEJLPKDBTNGEMUYDO]
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!    John S. Urban
 !!
-!!### LICENSE
+!!##LICENSE
 !!    MIT License
 !-----------------------------------------------------------------------------------------------------------------------------------
 function random_string(codes,length) result(out)
@@ -76,13 +104,13 @@ integer,intent(in)              :: codes(:)
 integer,intent(in)              :: length
 integer                         :: out(length)
    real                         :: x
-   integer                      :: ilen
+   integer                      :: number_of_chars
    integer                      :: i
-   ilen=size(codes)
-   if(ilen.gt.0)then
+   number_of_chars=size(codes)
+   if(number_of_chars.gt.0)then
       do i=1,length
          call random_number(x)
-         out(i)=nint(real(ilen-1)*x)+1
+         out(i)=codes(nint(real(number_of_chars-1)*x)+1)
       enddo
    else
       out=0

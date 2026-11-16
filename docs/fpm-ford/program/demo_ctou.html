@@ -93,7 +93,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.5% of total for programs.">17 statements</a>
+                 title=" 0.3% of total for programs.">15 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -135,9 +135,9 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../program/demo_ctou.html#variable-bytes~2">bytes</a>
-            <a class="list-group-item" href="../program/demo_ctou.html#variable-codepoints~7">codepoints</a>
-            <a class="list-group-item" href="../program/demo_ctou.html#variable-space~2">space</a>
-            <a class="list-group-item" href="../program/demo_ctou.html#variable-string~65">string</a>
+            <a class="list-group-item" href="../program/demo_ctou.html#variable-codepoints~3">codepoints</a>
+            <a class="list-group-item" href="../program/demo_ctou.html#variable-g~12">g</a>
+            <a class="list-group-item" href="../program/demo_ctou.html#variable-string~11">string</a>
             <a class="list-group-item" href="../program/demo_ctou.html#variable-z~2">z</a>
         </div>
       </div>
@@ -220,7 +220,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-codepoints~7"></span>
+              <span class="anchor" id="variable-codepoints~3"></span>
               integer,
             </td>
             <td>
@@ -236,14 +236,14 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-space~2"></span>
+              <span class="anchor" id="variable-g~12"></span>
               character(len=*),
             </td>
             <td>
 parameter               
             </td>
             <td>::</td>
-            <td><strong>space</strong></td>
+            <td><strong>g</strong></td>
 <td> =</td>
                 <td>&#39;(*(g0,1x))&#39;</td>
             <td>
@@ -252,7 +252,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~65"></span>
+              <span class="anchor" id="variable-string~11"></span>
               character(len=:),
             </td>
             <td>
@@ -298,33 +298,28 @@ parameter
 
     <section>
     <h2 id="src">Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">program </span><span class="n">demo_ctou</span>
-<span class="w">   </span><span class="k">use </span><span class="n">m_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ctou</span>
-<span class="w">   </span><span class="k">implicit none</span>
-<span class="w">   </span><span class="c">!'Noho me ka hau’oli' !(Be happy)</span>
-<span class="w">   </span><span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">codepoints</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="o">=</span><span class="p">[</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">      </span><span class="p">&amp;</span><span class="w"> </span><span class="mi">78</span><span class="p">,</span><span class="mi">111</span><span class="p">,</span><span class="mi">104</span><span class="p">,</span><span class="mi">111</span><span class="p">,&amp;</span>
-<span class="w">      </span><span class="p">&amp;</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span><span class="mi">109</span><span class="p">,</span><span class="mi">101</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">      </span><span class="p">&amp;</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span><span class="mi">107</span><span class="p">,</span><span class="mi">97</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">      </span><span class="p">&amp;</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span><span class="mi">104</span><span class="p">,</span><span class="mi">97</span><span class="p">,</span><span class="mi">117</span><span class="p">,</span><span class="mi">8217</span><span class="p">,</span><span class="mi">111</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">105</span><span class="p">]</span>
-<span class="w">   </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">string</span>
-<span class="w">   </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">bytes</span><span class="p">(:)</span>
-<span class="w">   </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">space</span><span class="o">=</span><span class="s1">'(*(g0,1x))'</span>
-<span class="w">   </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">z</span><span class="o">=</span><span class="s1">'(a,*(z0,1x))'</span>
+    <div class="hl codehilite"><pre><span></span><span class="w">     </span><span class="k">program </span><span class="n">demo_ctou</span>
+<span class="w">     </span><span class="k">use </span><span class="n">m_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ctou</span>
+<span class="w">     </span><span class="k">implicit none</span>
+<span class="w">     </span><span class="c">!'Noho me ka hau’oli' !(Be happy)</span>
+<span class="w">     </span><span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">codepoints</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="o">=</span><span class="p">[</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">        </span><span class="p">&amp;</span><span class="w"> </span><span class="mi">78</span><span class="p">,</span><span class="mi">111</span><span class="p">,</span><span class="mi">104</span><span class="p">,</span><span class="mi">111</span><span class="p">,&amp;</span>
+<span class="w">        </span><span class="p">&amp;</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span><span class="mi">109</span><span class="p">,</span><span class="mi">101</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">        </span><span class="p">&amp;</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span><span class="mi">107</span><span class="p">,</span><span class="mi">97</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">        </span><span class="p">&amp;</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span><span class="mi">104</span><span class="p">,</span><span class="mi">97</span><span class="p">,</span><span class="mi">117</span><span class="p">,</span><span class="mi">8217</span><span class="p">,</span><span class="mi">111</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">105</span><span class="p">]</span>
+<span class="w">     </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">string</span>
+<span class="w">     </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">bytes</span><span class="p">(:)</span>
+<span class="w">     </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">g</span><span class="o">=</span><span class="s1">'(*(g0,1x))'</span>
+<span class="w">     </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">z</span><span class="o">=</span><span class="s1">'(a,*(z0,1x))'</span>
 
-<span class="w">     </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">space</span><span class="p">)</span><span class="s1">'CODEPOINTS:'</span><span class="p">,</span><span class="w"> </span><span class="n">codepoints</span>
-<span class="w">     </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">z</span><span class="p">)</span><span class="s1">'HEXADECIMAL CODEPOINTS:'</span><span class="p">,</span><span class="w"> </span><span class="n">codepoints</span>
-<span class="w">   </span><span class="c">!</span>
-<span class="w">     </span><span class="n">string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ctou</span><span class="p">(</span><span class="n">codepoints</span><span class="p">)</span>
-<span class="w">     </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">space</span><span class="p">)</span><span class="s1">'STRING:'</span><span class="p">,</span><span class="w"> </span><span class="n">string</span>
-<span class="w">   </span><span class="c">!</span>
-<span class="w">     </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">space</span><span class="p">)</span><span class="s1">'How long is this string in glyphs? '</span>
-<span class="w">     </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">space</span><span class="p">)</span><span class="n">size</span><span class="p">(</span><span class="n">codepoints</span><span class="p">)</span>
-<span class="w">   </span><span class="c">!</span>
-<span class="w">     </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">space</span><span class="p">)</span><span class="s1">'How long is this string in bytes? '</span>
-<span class="w">     </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">space</span><span class="p">)</span><span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
-<span class="w">   </span><span class="c">!</span>
-<span class="w">   </span><span class="k">end program </span><span class="n">demo_ctou</span>
+<span class="w">       </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="s1">'CODEPOINTS:'</span><span class="p">,</span><span class="w"> </span><span class="n">codepoints</span>
+<span class="w">       </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">z</span><span class="p">)</span><span class="s1">'HEXADECIMAL CODEPOINTS:'</span><span class="p">,</span><span class="w"> </span><span class="n">codepoints</span>
+<span class="w">       </span><span class="n">string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ctou</span><span class="p">(</span><span class="n">codepoints</span><span class="p">)</span>
+<span class="w">       </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="s1">'STRING:'</span><span class="p">,</span><span class="w"> </span><span class="n">string</span>
+<span class="w">       </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="s1">'length in glyphs '</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">codepoints</span><span class="p">)</span>
+<span class="w">       </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="s1">'length in bytes  '</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+
+<span class="w">     </span><span class="k">end program </span><span class="n">demo_ctou</span>
 </pre></div>
 
     </section>
@@ -347,7 +342,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-14 01:44 +0000             </p>
+ on 2026-11-16 14:32 +0000             </p>
           </div>
         </div>
         <br>

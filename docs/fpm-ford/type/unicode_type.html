@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p>87.0% of total for derived types.</p>Including implementation: 522 statements, 98.1% of total for derived types.">67 statements</a>
+                 title="<p>71.3% of total for derived types.</p>Including implementation: 522 statements, 95.1% of total for derived types.">67 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -136,7 +136,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/unicode_type.html#variable-codes">codes</a>
+            <a class="list-group-item" href="../type/unicode_type.html#variable-codes~4">codes</a>
         </div>
       </div>
     </div>
@@ -179,7 +179,7 @@
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-adjustl">adjustl</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-adjustr">adjustr</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-byte">byte</a>
-            <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-ch">ch</a>
+            <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-ch~3">ch</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-character">character</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-codepoint">codepoint</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-escape">escape</a>
@@ -187,7 +187,7 @@
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-expand_env">expand_env</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-expand_html">expand_html</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-expandtabs">expandtabs</a>
-            <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-fmt">fmt</a>
+            <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-fmt~7">fmt</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-get_arg">get_arg</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-get_env">get_env</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-glob">glob</a>
@@ -202,7 +202,7 @@
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-lower">lower</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-pad">pad</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-replace">replace</a>
-            <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-reverse">reverse</a>
+            <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-reverse~2">reverse</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-scan">scan</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-split">split</a>
             <a class="list-group-item" href="../type/unicode_type.html#boundprocedure-sub~2">sub</a>
@@ -249,7 +249,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-codes"></span>
+              <span class="anchor" id="variable-codes~4"></span>
               integer,
             </td>
               <td>public,</td>
@@ -299,7 +299,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-codes~2"></span>
+              <span class="anchor" id="variable-codes~5"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -342,7 +342,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~4"></span>
+              <span class="anchor" id="variable-string~13"></span>
               character(len=*),
             </td>
 <td>intent(in),</td>
@@ -619,7 +619,7 @@
       <ul class="list-group">
           <li class="list-group-item">
                     <h3>
-    private  function oop_adjustr(self, glyphs) result(string_out)  
+    private pure function oop_adjustr(self, glyphs) result(string_out)  
 </h3>
 
   
@@ -785,7 +785,7 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-ch"></span>
+      <span class="anchor" id="boundprocedure-ch~3"></span>
       <h3>
           procedure, public ::
   <strong>ch</strong> => oop_character
@@ -1429,7 +1429,7 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-fmt"></span>
+      <span class="anchor" id="boundprocedure-fmt~7"></span>
       <h3>
           procedure, public ::
   <strong>fmt</strong> => oop_fmt
@@ -3305,7 +3305,7 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-reverse"></span>
+      <span class="anchor" id="boundprocedure-reverse~2"></span>
       <h3>
           procedure, public ::
   <strong>reverse</strong> => oop_reverse
@@ -3534,7 +3534,7 @@
       <ul class="list-group">
           <li class="list-group-item">
                     <h3>
-    private  function oop_sub(self, first, last, step) result(str_out)  
+    private impure function oop_sub(self, first, last, step) result(str_out)  
 </h3>
 
   
@@ -4316,7 +4316,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-14 01:44 +0000             </p>
+ on 2026-11-16 14:32 +0000             </p>
           </div>
         </div>
         <br>

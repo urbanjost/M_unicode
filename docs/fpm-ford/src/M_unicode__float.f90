@@ -1,9 +1,19 @@
+
+module M_unicode__float
+    use, intrinsic :: iso_fortran_env, only: real64, int32
+    use, intrinsic :: ieee_arithmetic, only: ieee_value, ieee_positive_inf, ieee_negative_inf, &
+                                             ieee_quiet_nan, ieee_negative_zero
+    implicit none
+    private
+    public :: str_to_real
+contains
+
 !>
-!!### NAME
+!!##NAME
 !!    str_to_real(3f) ‐ [M_unicode:TYPE] subroutine returns numeric value
 !!    from string (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!     pure elemental subroutine str_to_real(str, val, ierr)
 !!
@@ -11,7 +21,7 @@
 !!         real(real64),     intent(out) :: val
 !!         integer,          intent(out) :: ierr
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!
 !!  STR_TO_REAL(3f) returns a numeric value given a string representing
 !!  a numeric value; without using internal I/O (the conventional method
@@ -28,10 +38,10 @@
 !!  The output is a double-precision real (real(real64)), along with an
 !!  integer error flag (ierr).
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!      chars  input string to read numeric value from
 !!
-!!### RETURNS
+!!##RETURNS
 !!      valu   DOUBLEPRECISION numeric value returned.
 !!      ierr   error flag (0 == no error)
 !!
@@ -128,7 +138,7 @@
 !!    (mantissa overflow, total_exp > 308, and the total_exp == 308 boundary
 !!    check) to assign val = signed_inf(sign_val) alongside ierr = 6.
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!  Sample Program:
 !!
@@ -176,20 +186,11 @@
 !!    enddo
 !!   end program demo_str_to_real
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!      John S. Urban
 !!
-!!### LICENSE
+!!##LICENSE
 !!      MIT
-module M_unicode__float
-    use, intrinsic :: iso_fortran_env, only: real64, int32
-    use, intrinsic :: ieee_arithmetic, only: ieee_value, ieee_positive_inf, ieee_negative_inf, &
-                                             ieee_quiet_nan, ieee_negative_zero
-    implicit none
-    private
-    public :: str_to_real
-contains
-
 ! Convert a string representing a numeric value to a number with Overflow & IEEE 754 Support
     pure elemental subroutine str_to_real(str, val, ierr)
         character(len=*), intent(in)  :: str

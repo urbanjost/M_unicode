@@ -126,6 +126,24 @@
                  <td></td>
                </tr>
 			   <tr>
+                 <td><a href='../proc/assert_array_near.html'>assert_array_near</a></td>
+                 <td><a href='../program/test_suite.html'>test_suite</a></td>
+                 <td>Subroutine</td>
+                 <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/assert_int_eq.html'>assert_int_eq</a></td>
+                 <td><a href='../program/test_suite.html'>test_suite</a></td>
+                 <td>Subroutine</td>
+                 <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/assert_near.html'>assert_near</a></td>
+                 <td><a href='../program/test_suite.html'>test_suite</a></td>
+                 <td>Subroutine</td>
+                 <td></td>
+               </tr>
+			   <tr>
                  <td><a href='../proc/assert_str_eq.html'>assert_str_eq</a></td>
                  <td><a href='../program/test_m_unicode__regex.html'>test_M_unicode__regex</a></td>
                  <td>Subroutine</td>
@@ -157,7 +175,7 @@
                </tr>
 			   <tr>
                  <td><a href='../proc/case_insensitive_compare.html'>case_insensitive_compare</a></td>
-                 <td><a href='../program/demo_sort.html'>demo_sort</a></td>
+                 <td><a href='../program/demo_sort~2.html'>demo_sort</a></td>
                  <td>Function</td>
                  <td></td>
                </tr>
@@ -219,6 +237,14 @@
    (LICENSE:MIT)</p><a href="../interface/codepoints_to_utf8.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
                </tr>
 			   <tr>
+                 <td><a href='../proc/compile_expr_cp.html'>compile_expr_cp</a></td>
+                 <td><a href='../module/m_unicode__eval.html'>M_unicode__eval</a></td>
+                 <td>Subroutine</td>
+                 <td><p>compile_expr_cp parses the mathematical expression stored in expr_cp
+ (a 1D array of 32-bit Unicode codepoints) and emits a flat array of
+ virtual machine instructions inside prog.</p><a href="../proc/compile_expr_cp.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
                  <td><a href='../proc/create_test_file.html'>create_test_file</a></td>
                  <td><a href='../program/demo_slurp.html'>demo_slurp</a></td>
                  <td>Subroutine</td>
@@ -230,6 +256,21 @@
                  <td>Function</td>
                  <td><p>utoc(3f) - [M_unicode:CONVERSION] convert UTF-8 CHARACTER string to Unicode codepoints
    (LICENSE:MIT)</p><a href="../proc/ctou.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/custom_poly.html'>custom_poly</a></td>
+                 <td><a href='../program/test_suite.html'>test_suite</a></td>
+                 <td>Function</td>
+                 <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/differentiate_compiled.html'>differentiate_compiled</a></td>
+                 <td><a href='../module/m_unicode__eval.html'>M_unicode__eval</a></td>
+                 <td>Subroutine</td>
+                 <td><p>differentiate_compiled(3) reconstructs an abstract syntax tree (AST) from
+ prog, computes its exact analytical partial derivative with respect to
+ variable index var_idx, performs algebraic constant folding and identity
+ simplification, and compiles the resulting derivative AST into dprog.</p><a href="../proc/differentiate_compiled.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/downside_up.html'>downside_up</a></td>
@@ -280,6 +321,14 @@
                  <td></td>
                </tr>
 			   <tr>
+                 <td><a href='../proc/eval_compiled.html'>eval_compiled</a></td>
+                 <td><a href='../module/m_unicode__eval.html'>M_unicode__eval</a></td>
+                 <td>Subroutine</td>
+                 <td><p>eval_compiled executes the instruction stream in prog without
+ recursion. Each element vars(i)%val(:) supplies the runtime value for
+ the i-th variable declared in var_names during compilation.</p><a href="../proc/eval_compiled.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
                  <td><a href='../interface/expand_backslash.html'>expand_backslash</a></td>
                  <td><a href='../module/m_unicode.html'>M_unicode</a></td>
                  <td>Interface</td>
@@ -321,10 +370,34 @@
                  <td></td>
                </tr>
 			   <tr>
+                 <td><a href='../proc/find_assignment_eq.html'>find_assignment_eq</a></td>
+                 <td><a href='../program/calc_repl.html'>calc_repl</a></td>
+                 <td>Function</td>
+                 <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/find_var.html'>find_var</a></td>
+                 <td><a href='../program/calc_repl.html'>calc_repl</a></td>
+                 <td>Function</td>
+                 <td></td>
+               </tr>
+			   <tr>
                  <td><a href='../interface/fmt.html'>fmt</a></td>
                  <td><a href='../module/m_unicode.html'>M_unicode</a></td>
                  <td>Interface</td>
                  <td><a href="../interface/fmt.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/fn_deg2rad.html'>fn_deg2rad</a></td>
+                 <td><a href='../program/calc_repl.html'>calc_repl</a></td>
+                 <td>Function</td>
+                 <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/fn_rad2deg.html'>fn_rad2deg</a></td>
+                 <td><a href='../program/calc_repl.html'>calc_repl</a></td>
+                 <td>Function</td>
+                 <td></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/fortran_name.html'>fortran_name</a></td>
@@ -340,27 +413,99 @@
                </tr>
 			   <tr>
                  <td><a href='../proc/german_dictionary~2.html'>german_dictionary</a></td>
-                 <td><a href='../module/testsuite_m_unicode.html'>testsuite_M_unicode</a></td>
-                 <td>Function</td>
-                 <td></td>
-               </tr>
-			   <tr>
-                 <td><a href='../proc/german_dictionary~3.html'>german_dictionary</a></td>
                  <td><a href='../program/demo_sort~2.html'>demo_sort</a></td>
                  <td>Function</td>
                  <td></td>
                </tr>
 			   <tr>
+                 <td><a href='../proc/german_dictionary~3.html'>german_dictionary</a></td>
+                 <td><a href='../module/testsuite_m_unicode.html'>testsuite_M_unicode</a></td>
+                 <td>Function</td>
+                 <td></td>
+               </tr>
+			   <tr>
                  <td><a href='../interface/get_arg.html'>get_arg</a></td>
+                 <td><a href='../module/m_unicode__get.html'>M_unicode__get</a></td>
+                 <td>Interface</td>
+                 <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../interface/get_arg~2.html'>get_arg</a></td>
                  <td><a href='../module/m_unicode.html'>M_unicode</a></td>
                  <td>Interface</td>
-                 <td><p>Sample program:</p><a href="../interface/get_arg.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+                 <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/get_arg_character.html'>get_arg_character</a></td>
+                 <td><a href='../module/m_unicode__get.html'>M_unicode__get</a></td>
+                 <td>Function</td>
+                 <td><p>get_arg(3f) returns the Nth command line argument.</p><a href="../proc/get_arg_character.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/get_arg_double.html'>get_arg_double</a></td>
+                 <td><a href='../module/m_unicode__get.html'>M_unicode__get</a></td>
+                 <td>Function</td>
+                 <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/get_arg_integer.html'>get_arg_integer</a></td>
+                 <td><a href='../module/m_unicode__get.html'>M_unicode__get</a></td>
+                 <td>Function</td>
+                 <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/get_arg_logical.html'>get_arg_logical</a></td>
+                 <td><a href='../module/m_unicode__get.html'>M_unicode__get</a></td>
+                 <td>Function</td>
+                 <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/get_arg_real.html'>get_arg_real</a></td>
+                 <td><a href='../module/m_unicode__get.html'>M_unicode__get</a></td>
+                 <td>Function</td>
+                 <td></td>
                </tr>
 			   <tr>
                  <td><a href='../interface/get_env.html'>get_env</a></td>
+                 <td><a href='../module/m_unicode__get.html'>M_unicode__get</a></td>
+                 <td>Interface</td>
+                 <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../interface/get_env~2.html'>get_env</a></td>
                  <td><a href='../module/m_unicode.html'>M_unicode</a></td>
                  <td>Interface</td>
-                 <td><p>Sample program:</p><a href="../interface/get_env.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+                 <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/get_env_character.html'>get_env_character</a></td>
+                 <td><a href='../module/m_unicode__get.html'>M_unicode__get</a></td>
+                 <td>Function</td>
+                 <td><p>Sample program:</p><a href="../proc/get_env_character.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/get_env_double.html'>get_env_double</a></td>
+                 <td><a href='../module/m_unicode__get.html'>M_unicode__get</a></td>
+                 <td>Function</td>
+                 <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/get_env_integer.html'>get_env_integer</a></td>
+                 <td><a href='../module/m_unicode__get.html'>M_unicode__get</a></td>
+                 <td>Function</td>
+                 <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/get_env_logical.html'>get_env_logical</a></td>
+                 <td><a href='../module/m_unicode__get.html'>M_unicode__get</a></td>
+                 <td>Function</td>
+                 <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/get_env_real.html'>get_env_real</a></td>
+                 <td><a href='../module/m_unicode__get.html'>M_unicode__get</a></td>
+                 <td>Function</td>
+                 <td></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/get_text.html'>get_text</a></td>
@@ -376,19 +521,19 @@
                </tr>
 			   <tr>
                  <td><a href='../proc/getargs.html'>getargs</a></td>
-                 <td><a href='../program/upside_down.html'>upside_down</a></td>
-                 <td>Function</td>
-                 <td></td>
-               </tr>
-			   <tr>
-                 <td><a href='../proc/getargs~2.html'>getargs</a></td>
                  <td><a href='../program/codepoints.html'>codepoints</a></td>
                  <td>Function</td>
                  <td></td>
                </tr>
 			   <tr>
-                 <td><a href='../proc/getargs~3.html'>getargs</a></td>
+                 <td><a href='../proc/getargs~2.html'>getargs</a></td>
                  <td><a href='../program/uni_to_ftn.html'>uni_to_ftn</a></td>
+                 <td>Function</td>
+                 <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/getargs~3.html'>getargs</a></td>
+                 <td><a href='../program/upside_down.html'>upside_down</a></td>
                  <td>Function</td>
                  <td></td>
                </tr>
@@ -418,13 +563,13 @@
                </tr>
 			   <tr>
                  <td><a href='../proc/inset.html'>inset</a></td>
-                 <td><a href='../module/testsuite_m_unicode.html'>testsuite_M_unicode</a></td>
+                 <td><a href='../program/test_id.html'>test_id</a></td>
                  <td>Function</td>
                  <td></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/inset~2.html'>inset</a></td>
-                 <td><a href='../program/test_id.html'>test_id</a></td>
+                 <td><a href='../module/testsuite_m_unicode.html'>testsuite_M_unicode</a></td>
                  <td>Function</td>
                  <td></td>
                </tr>
@@ -550,19 +695,19 @@
                </tr>
 			   <tr>
                  <td><a href='../proc/nmi~2.html'>nmi</a></td>
-                 <td><a href='../module/testsuite_m_unicode.html'>testsuite_M_unicode</a></td>
+                 <td><a href='../program/demo_sort~2.html'>demo_sort</a></td>
                  <td>Function</td>
                  <td></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/nmi~3.html'>nmi</a></td>
-                 <td><a href='../program/demo_sort~2.html'>demo_sort</a></td>
+                 <td><a href='../module/testsuite_m_unicode.html'>testsuite_M_unicode</a></td>
                  <td>Function</td>
                  <td></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/normalize.html'>normalize</a></td>
-                 <td><a href='../program/demo_sort~2.html'>demo_sort</a></td>
+                 <td><a href='../program/demo_sort.html'>demo_sort</a></td>
                  <td>Function</td>
                  <td></td>
                </tr>
@@ -633,6 +778,12 @@
                  <td><p>Sample Program:</p><a href="../proc/pad.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
                </tr>
 			   <tr>
+                 <td><a href='../proc/parse_array_literal.html'>parse_array_literal</a></td>
+                 <td><a href='../program/calc_repl.html'>calc_repl</a></td>
+                 <td>Subroutine</td>
+                 <td></td>
+               </tr>
+			   <tr>
                  <td><a href='../proc/passed.html'>passed</a></td>
                  <td><a href='../program/demo_len.html'>demo_len</a></td>
                  <td>Subroutine</td>
@@ -640,13 +791,13 @@
                </tr>
 			   <tr>
                  <td><a href='../proc/platform.html'>platform</a></td>
-                 <td><a href='../module/testsuite_m_unicode.html'>testsuite_M_unicode</a></td>
+                 <td><a href='../program/test_id.html'>test_id</a></td>
                  <td>Subroutine</td>
                  <td></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/platform~2.html'>platform</a></td>
-                 <td><a href='../program/test_id.html'>test_id</a></td>
+                 <td><a href='../module/testsuite_m_unicode.html'>testsuite_M_unicode</a></td>
                  <td>Subroutine</td>
                  <td></td>
                </tr>
@@ -663,6 +814,24 @@
                  <td></td>
                </tr>
 			   <tr>
+                 <td><a href='../proc/print_entities.html'>print_entities</a></td>
+                 <td><a href='../program/calc_repl.html'>calc_repl</a></td>
+                 <td>Subroutine</td>
+                 <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/print_error.html'>print_error</a></td>
+                 <td><a href='../program/calc_repl.html'>calc_repl</a></td>
+                 <td>Subroutine</td>
+                 <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/print_help.html'>print_help</a></td>
+                 <td><a href='../program/calc_repl.html'>calc_repl</a></td>
+                 <td>Subroutine</td>
+                 <td></td>
+               </tr>
+			   <tr>
                  <td><a href='../proc/print_output.html'>print_output</a></td>
                  <td><a href='../program/demo_sort.html'>demo_sort</a></td>
                  <td>Subroutine</td>
@@ -675,8 +844,20 @@
                  <td></td>
                </tr>
 			   <tr>
+                 <td><a href='../proc/print_result.html'>print_result</a></td>
+                 <td><a href='../program/calc_repl.html'>calc_repl</a></td>
+                 <td>Subroutine</td>
+                 <td></td>
+               </tr>
+			   <tr>
                  <td><a href='../proc/print_text.html'>print_text</a></td>
                  <td><a href='../program/uni.html'>uni</a></td>
+                 <td>Subroutine</td>
+                 <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/print_vars.html'>print_vars</a></td>
+                 <td><a href='../program/calc_repl.html'>calc_repl</a></td>
                  <td>Subroutine</td>
                  <td></td>
                </tr>
@@ -700,7 +881,7 @@
                </tr>
 			   <tr>
                  <td><a href='../proc/printstuff.html'>printstuff</a></td>
-                 <td><a href='../program/demo_keyword.html'>demo_keyword</a></td>
+                 <td><a href='../program/demo_keyword_expand.html'>demo_keyword_expand</a></td>
                  <td>Subroutine</td>
                  <td></td>
                </tr>
@@ -729,6 +910,12 @@
                  <td><a href="../proc/random_string.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
                </tr>
 			   <tr>
+                 <td><a href='../proc/random_uniform.html'>random_uniform</a></td>
+                 <td><a href='../program/random_range_demo.html'>random_range_demo</a></td>
+                 <td>Function</td>
+                 <td></td>
+               </tr>
+			   <tr>
                  <td><a href='../proc/read_and_write.html'>read_and_write</a></td>
                  <td><a href='../program/demo_regex_search.html'>demo_regex_search</a></td>
                  <td>Subroutine</td>
@@ -741,22 +928,46 @@
                  <td><p>Sample program:</p><a href="../proc/readline.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
                </tr>
 			   <tr>
+                 <td><a href='../interface/regex_compile.html'>regex_compile</a></td>
+                 <td><a href='../module/m_unicode.html'>M_unicode</a></td>
+                 <td>Interface</td>
+                 <td></td>
+               </tr>
+			   <tr>
                  <td><a href='../proc/regex_compile.html'>regex_compile</a></td>
                  <td><a href='../module/m_unicode__regex.html'>M_unicode__regex</a></td>
                  <td>Function</td>
+                 <td><p>Compiles a UTF-32 regular expression pattern into NFA bytecode.</p><a href="../proc/regex_compile.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../interface/regex_replace.html'>regex_replace</a></td>
+                 <td><a href='../module/m_unicode.html'>M_unicode</a></td>
+                 <td>Interface</td>
                  <td></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/regex_replace.html'>regex_replace</a></td>
                  <td><a href='../module/m_unicode__regex.html'>M_unicode__regex</a></td>
                  <td>Function</td>
+                 <td><p>The M_unicode__regex(3) module loaded into the M_unicode(3) module
+ compiles regular expression patterns into Nondeterministic Finite
+ Automaton (NFA) bytecode and executes them over arrays of UTF-32 scalar
+ codepoints (<code>integer(int32)</code>). Because matching operates directly on
+ Unicode codepoints rather than raw UTF-8 bytes, multi-byte characters
+ (accented Latin, CJK, emoji, symbols) are indexed and matched as single
+ characters without splitting byte sequences.</p><a href="../proc/regex_replace.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../interface/regex_search.html'>regex_search</a></td>
+                 <td><a href='../module/m_unicode.html'>M_unicode</a></td>
+                 <td>Interface</td>
                  <td></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/regex_search.html'>regex_search</a></td>
                  <td><a href='../module/m_unicode__regex.html'>M_unicode__regex</a></td>
                  <td>Function</td>
-                 <td></td>
+                 <td><p>Searches text for the leftmost match of the compiled expression re.</p><a href="../proc/regex_search.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
                </tr>
 			   <tr>
                  <td><a href='../interface/repeat.html'>repeat</a></td>
@@ -797,6 +1008,12 @@
                  <td></td>
                </tr>
 			   <tr>
+                 <td><a href='../proc/set_var.html'>set_var</a></td>
+                 <td><a href='../program/calc_repl.html'>calc_repl</a></td>
+                 <td>Subroutine</td>
+                 <td></td>
+               </tr>
+			   <tr>
                  <td><a href='../proc/setup.html'>setup</a></td>
                  <td><a href='../program/uni.html'>uni</a></td>
                  <td>Subroutine</td>
@@ -806,6 +1023,12 @@
                  <td><a href='../proc/showme.html'>showme</a></td>
                  <td><a href='../program/assign_exe.html'>assign_exe</a></td>
                  <td>Subroutine</td>
+                 <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/sigmoid_fn.html'>sigmoid_fn</a></td>
+                 <td><a href='../program/demo_m_unicode__eval.html'>demo_M_unicode__eval</a></td>
+                 <td>Function</td>
                  <td></td>
                </tr>
 			   <tr>
@@ -831,7 +1054,9 @@
                  <td><a href='../proc/str_to_real.html'>str_to_real</a></td>
                  <td><a href='../module/m_unicode__float.html'>M_unicode__float</a></td>
                  <td>Subroutine</td>
-                 <td></td>
+                 <td><p>STR_TO_REAL(3f) returns a numeric value given a string representing
+  a numeric value; without using internal I/O (the conventional method
+  in Fortran).</p><a href="../proc/str_to_real.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/sub.html'>sub</a></td>
@@ -841,13 +1066,13 @@
                </tr>
 			   <tr>
                  <td><a href='../proc/test.html'>test</a></td>
-                 <td><a href='../program/demo_upper.html'>demo_upper</a></td>
+                 <td><a href='../program/demo_lower.html'>demo_lower</a></td>
                  <td>Subroutine</td>
                  <td></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/test~2.html'>test</a></td>
-                 <td><a href='../program/demo_lower.html'>demo_lower</a></td>
+                 <td><a href='../program/demo_upper.html'>demo_upper</a></td>
                  <td>Subroutine</td>
                  <td></td>
                </tr>
@@ -888,6 +1113,24 @@
                  <td></td>
                </tr>
 			   <tr>
+                 <td><a href='../proc/test_array_broadcasting_and_indexing.html'>test_array_broadcasting_and_indexing</a></td>
+                 <td><a href='../program/test_suite.html'>test_suite</a></td>
+                 <td>Subroutine</td>
+                 <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/test_array_reductions_and_multiarg.html'>test_array_reductions_and_multiarg</a></td>
+                 <td><a href='../program/test_suite.html'>test_suite</a></td>
+                 <td>Subroutine</td>
+                 <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/test_basic_arithmetic_and_precedence.html'>test_basic_arithmetic_and_precedence</a></td>
+                 <td><a href='../program/test_suite.html'>test_suite</a></td>
+                 <td>Subroutine</td>
+                 <td></td>
+               </tr>
+			   <tr>
                  <td><a href='../proc/test_basic_literals_and_anchors.html'>test_basic_literals_and_anchors</a></td>
                  <td><a href='../program/test_m_unicode__regex.html'>test_M_unicode__regex</a></td>
                  <td>Subroutine</td>
@@ -908,6 +1151,18 @@
 			   <tr>
                  <td><a href='../proc/test_counted_repetitions.html'>test_counted_repetitions</a></td>
                  <td><a href='../program/test_m_unicode__regex.html'>test_M_unicode__regex</a></td>
+                 <td>Subroutine</td>
+                 <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/test_custom_user_functions.html'>test_custom_user_functions</a></td>
+                 <td><a href='../program/test_suite.html'>test_suite</a></td>
+                 <td>Subroutine</td>
+                 <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/test_error_handling.html'>test_error_handling</a></td>
+                 <td><a href='../program/test_suite.html'>test_suite</a></td>
                  <td>Subroutine</td>
                  <td></td>
                </tr>
@@ -956,6 +1211,12 @@
 			   <tr>
                  <td><a href='../proc/test_ichar.html'>test_ichar</a></td>
                  <td><a href='../module/testsuite_m_unicode.html'>testsuite_M_unicode</a></td>
+                 <td>Subroutine</td>
+                 <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/test_implicit_multiplication.html'>test_implicit_multiplication</a></td>
+                 <td><a href='../program/test_suite.html'>test_suite</a></td>
                  <td>Subroutine</td>
                  <td></td>
                </tr>
@@ -1098,8 +1359,20 @@
                  <td></td>
                </tr>
 			   <tr>
+                 <td><a href='../proc/test_strict_case_sensitivity.html'>test_strict_case_sensitivity</a></td>
+                 <td><a href='../program/test_suite.html'>test_suite</a></td>
+                 <td>Subroutine</td>
+                 <td></td>
+               </tr>
+			   <tr>
                  <td><a href='../proc/test_sub.html'>test_sub</a></td>
                  <td><a href='../module/testsuite_m_unicode.html'>testsuite_M_unicode</a></td>
+                 <td>Subroutine</td>
+                 <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/test_symbolic_differentiation.html'>test_symbolic_differentiation</a></td>
+                 <td><a href='../program/test_suite.html'>test_suite</a></td>
                  <td>Subroutine</td>
                  <td></td>
                </tr>
@@ -1128,6 +1401,12 @@
                  <td></td>
                </tr>
 			   <tr>
+                 <td><a href='../proc/test_unicode_operators_and_superscripts.html'>test_unicode_operators_and_superscripts</a></td>
+                 <td><a href='../program/test_suite.html'>test_suite</a></td>
+                 <td>Subroutine</td>
+                 <td></td>
+               </tr>
+			   <tr>
                  <td><a href='../proc/test_upper.html'>test_upper</a></td>
                  <td><a href='../module/testsuite_m_unicode.html'>testsuite_M_unicode</a></td>
                  <td>Subroutine</td>
@@ -1135,6 +1414,12 @@
                </tr>
 			   <tr>
                  <td><a href='../proc/test_utf8_roundtrip.html'>test_utf8_roundtrip</a></td>
+                 <td><a href='../program/test_suite.html'>test_suite</a></td>
+                 <td>Subroutine</td>
+                 <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/test_utf8_roundtrip~2.html'>test_utf8_roundtrip</a></td>
                  <td><a href='../program/test_m_unicode__regex.html'>test_M_unicode__regex</a></td>
                  <td>Subroutine</td>
                  <td></td>
@@ -1260,7 +1545,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-14 01:44 +0000             </p>
+ on 2026-11-16 14:32 +0000             </p>
           </div>
         </div>
         <br>

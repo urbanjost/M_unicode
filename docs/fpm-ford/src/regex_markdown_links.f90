@@ -6,8 +6,8 @@
 !
 program markdown_links
 use iso_fortran_env,  only : int32
-use M_unicode__regex, only : utoc, ctou
-use M_unicode__regex, only : regex_t, regex_compile, regex_replace
+use M_unicode, only : utoc, ctou
+use M_unicode, only : regex_t, regex_compile, regex_replace
 implicit none
 
 character(len=1), parameter   :: BS = achar(92)

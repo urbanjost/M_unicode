@@ -1,0 +1,1631 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="Fortran Unicode when ISO_10646 is not supported">
+    <meta name="author" content="John S. Urban" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>calc_repl &ndash; M_unicode</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">M_unicode </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>calc_repl      <small>Program</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 8.2% of total for programs.">375 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/feval.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/feval.f90.html'>feval.f90</a></li>
+            <li class="breadcrumb-item active" aria-current="page">calc_repl</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#vars-0"
+         aria-expanded="false" aria-controls="vars-0">
+         <h4 class="card-header bg-primary text-white">Variables</h4>
+      </a>
+      <div id="vars-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../program/calc_repl.html#variable-max_vars">MAX_VARS</a>
+            <a class="list-group-item" href="../program/calc_repl.html#variable-comma_pos">comma_pos</a>
+            <a class="list-group-item" href="../program/calc_repl.html#variable-custom_fns">custom_fns</a>
+            <a class="list-group-item" href="../program/calc_repl.html#variable-dprog">dprog</a>
+            <a class="list-group-item" href="../program/calc_repl.html#variable-eq_pos">eq_pos</a>
+            <a class="list-group-item" href="../program/calc_repl.html#variable-err">err</a>
+            <a class="list-group-item" href="../program/calc_repl.html#variable-expr_part">expr_part</a>
+            <a class="list-group-item" href="../program/calc_repl.html#variable-idx">idx</a>
+            <a class="list-group-item" href="../program/calc_repl.html#variable-ios">ios</a>
+            <a class="list-group-item" href="../program/calc_repl.html#variable-lhs">lhs</a>
+            <a class="list-group-item" href="../program/calc_repl.html#variable-line">line</a>
+            <a class="list-group-item" href="../program/calc_repl.html#variable-num_vars">num_vars</a>
+            <a class="list-group-item" href="../program/calc_repl.html#variable-prog">prog</a>
+            <a class="list-group-item" href="../program/calc_repl.html#variable-res">res</a>
+            <a class="list-group-item" href="../program/calc_repl.html#variable-rhs">rhs</a>
+            <a class="list-group-item" href="../program/calc_repl.html#variable-trimmed">trimmed</a>
+            <a class="list-group-item" href="../program/calc_repl.html#variable-var_names">var_names</a>
+            <a class="list-group-item" href="../program/calc_repl.html#variable-var_part">var_part</a>
+            <a class="list-group-item" href="../program/calc_repl.html#variable-var_vals">var_vals</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#funcs-0"
+         aria-expanded="false" aria-controls="funcs-0">
+         <h4 class="card-header bg-primary text-white">Functions</h4>
+      </a>
+      <div id="funcs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../program/calc_repl.html#proc-find_assignment_eq">find_assignment_eq</a>
+            <a class="list-group-item" href="../program/calc_repl.html#proc-find_var">find_var</a>
+            <a class="list-group-item" href="../program/calc_repl.html#proc-fn_deg2rad">fn_deg2rad</a>
+            <a class="list-group-item" href="../program/calc_repl.html#proc-fn_rad2deg">fn_rad2deg</a>
+        </div>
+      </div>
+    </div>
+
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#subs-0"
+         aria-expanded="false" aria-controls="subs-0">
+         <h4 class="card-header bg-primary text-white">Subroutines</h4>
+      </a>
+      <div id="subs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../program/calc_repl.html#proc-parse_array_literal">parse_array_literal</a>
+            <a class="list-group-item" href="../program/calc_repl.html#proc-print_entities">print_entities</a>
+            <a class="list-group-item" href="../program/calc_repl.html#proc-print_error">print_error</a>
+            <a class="list-group-item" href="../program/calc_repl.html#proc-print_help">print_help</a>
+            <a class="list-group-item" href="../program/calc_repl.html#proc-print_result">print_result</a>
+            <a class="list-group-item" href="../program/calc_repl.html#proc-print_vars">print_vars</a>
+            <a class="list-group-item" href="../program/calc_repl.html#proc-set_var">set_var</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../program/calc_repl.html#src">calc_repl</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+        <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item">M_history</li>
+                  <li class="list-inline-item"><a href='../module/m_unicode.html'>M_unicode</a></li>
+                  <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_fortran_env'>iso_fortran_env</a></li>
+              </ul>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+    
+
+
+    <section>
+    <h2>Variables</h2>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-max_vars"></span>
+              integer,
+            </td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>MAX_VARS</strong></td>
+<td> =</td>
+                <td>100</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-comma_pos"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>comma_pos</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-custom_fns"></span>
+              type(<a href='../type/user_func.html'>user_func</a>)
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>custom_fns</strong>(2)</td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dprog"></span>
+              type(<a href='../type/compiled_expr.html'>compiled_expr</a>)
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dprog</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-eq_pos"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>eq_pos</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-err"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>err</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-expr_part"></span>
+              character(len=:),
+            </td>
+            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>expr_part</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-idx"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>idx</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ios"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ios</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs"></span>
+              character(len=:),
+            </td>
+            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-line"></span>
+              character(len=1024)
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>line</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-num_vars"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>num_vars</strong></td>
+<td> =</td>
+                <td>0</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-prog"></span>
+              type(<a href='../type/compiled_expr.html'>compiled_expr</a>)
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>prog</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-res"></span>
+              real(kind=real64),
+            </td>
+            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>res</strong>(:)</td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs"></span>
+              character(len=:),
+            </td>
+            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-trimmed"></span>
+              character(len=:),
+            </td>
+            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>trimmed</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-var_names"></span>
+              type(<a href='../type/cp_string.html'>cp_string</a>)
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>var_names</strong>(MAX_VARS)</td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-var_part"></span>
+              character(len=:),
+            </td>
+            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>var_part</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-var_vals"></span>
+              type(<a href='../type/var_value.html'>var_value</a>)
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>var_vals</strong>(MAX_VARS)</td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    </section>
+    <br>
+    
+    
+    
+
+    
+ 
+    <section>
+    <h2>Functions</h2>
+      <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-find_assignment_eq"></span> <h3> function <a href='../proc/find_assignment_eq.html'>find_assignment_eq</a>(s)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-s"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>s</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+      <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-find_var"></span> <h3> function <a href='../proc/find_var.html'>find_var</a>(name_cp, vnames, nvars)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-name_cp"></span>
+              integer(kind=int32),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>name_cp</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-vnames"></span>
+              type(<a href='../type/cp_string.html'>cp_string</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>vnames</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nvars"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nvars</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+      <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-fn_deg2rad"></span> <h3> function <a href='../proc/fn_deg2rad.html'>fn_deg2rad</a>(args) result(r)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-args"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>args</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=real64)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+      <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-fn_rad2deg"></span> <h3> function <a href='../proc/fn_rad2deg.html'>fn_rad2deg</a>(args) result(r)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-args~2"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>args</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=real64)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+    </section>
+    <br>
+
+
+    <section>
+    <h2>Subroutines</h2>
+      <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-parse_array_literal"></span> <h3> subroutine <a href='../proc/parse_array_literal.html'>parse_array_literal</a>(str, arr, ierr)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-str"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>str</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-arr"></span>
+              real(kind=real64),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>arr</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ierr"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ierr</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+      <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-print_entities"></span> <h3> subroutine <a href='../proc/print_entities.html'>print_entities</a>()  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+    </div>
+  </div>
+
+      <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-print_error"></span> <h3> subroutine <a href='../proc/print_error.html'>print_error</a>(err)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-err~2"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>err</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+      <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-print_help"></span> <h3> subroutine <a href='../proc/print_help.html'>print_help</a>()  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+    </div>
+  </div>
+
+      <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-print_result"></span> <h3> subroutine <a href='../proc/print_result.html'>print_result</a>(label, res)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-label"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>label</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-res~2"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>res</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+      <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-print_vars"></span> <h3> subroutine <a href='../proc/print_vars.html'>print_vars</a>(vnames, vvals, nvars)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-vnames~3"></span>
+              type(<a href='../type/cp_string.html'>cp_string</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>vnames</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-vvals~2"></span>
+              type(<a href='../type/var_value.html'>var_value</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>vvals</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nvars~3"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nvars</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+      <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-set_var"></span> <h3> subroutine <a href='../proc/set_var.html'>set_var</a>(name_cp, val, vnames, vvals, nvars)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-name_cp~2"></span>
+              integer(kind=int32),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>name_cp</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-val"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>val</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-vnames~2"></span>
+              type(<a href='../type/cp_string.html'>cp_string</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>vnames</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-vvals"></span>
+              type(<a href='../type/var_value.html'>var_value</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>vvals</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nvars~2"></span>
+              integer,
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nvars</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+    </section>    
+    
+
+    <section>
+    <h2 id="src">Source Code</h2>
+    <div class="hl codehilite"><pre><span></span><span class="k">program </span><span class="n">calc_repl</span>
+<span class="w">   </span><span class="k">use</span><span class="p">,</span><span class="w"> </span><span class="k">intrinsic</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">int32</span><span class="p">,</span><span class="w"> </span><span class="n">real64</span><span class="p">,</span><span class="w"> </span><span class="n">iostat_end</span>
+<span class="w">   </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ctou</span><span class="p">,</span><span class="w"> </span><span class="n">utoc</span>
+<span class="w">   </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">cp_string</span><span class="p">,</span><span class="w"> </span><span class="n">var_value</span><span class="p">,</span><span class="w"> </span><span class="n">user_func</span><span class="p">,</span><span class="w"> </span><span class="n">user_func_iface</span><span class="p">,</span><span class="w"> </span><span class="n">compiled_expr</span><span class="w"> </span><span class="c">! Public Types</span>
+<span class="w">   </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">compile_expr_cp</span><span class="p">,</span><span class="w"> </span><span class="n">eval_compiled</span><span class="p">,</span><span class="w"> </span><span class="n">differentiate_compiled</span><span class="w"> </span><span class="c">! Public Procedures</span>
+<span class="w">   </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">keyword_expand</span><span class="p">,</span><span class="w"> </span><span class="n">keyword_mode</span><span class="p">,</span><span class="w"> </span><span class="n">keyword_update</span>
+<span class="w">   </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ch</span><span class="o">=&gt;</span><span class="kt">character</span><span class="p">,</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">)</span>
+<span class="w">   </span><span class="k">use </span><span class="n">M_history</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">redo</span>
+<span class="w">   </span><span class="k">implicit none</span>
+
+<span class="k">   </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">MAX_VARS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span>
+<span class="w">   </span><span class="k">type</span><span class="p">(</span><span class="n">cp_string</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">var_names</span><span class="p">(</span><span class="n">MAX_VARS</span><span class="p">)</span>
+<span class="w">   </span><span class="k">type</span><span class="p">(</span><span class="n">var_value</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">var_vals</span><span class="p">(</span><span class="n">MAX_VARS</span><span class="p">)</span>
+<span class="w">   </span><span class="k">type</span><span class="p">(</span><span class="n">user_func</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">custom_fns</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">   </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">num_vars</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+
+<span class="w">   </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">1024</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">line</span>
+<span class="w">   </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">trimmed</span><span class="p">,</span><span class="w"> </span><span class="n">lhs</span><span class="p">,</span><span class="w"> </span><span class="n">rhs</span><span class="p">,</span><span class="w"> </span><span class="n">expr_part</span><span class="p">,</span><span class="w"> </span><span class="n">var_part</span>
+<span class="w">   </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ios</span><span class="p">,</span><span class="w"> </span><span class="n">eq_pos</span><span class="p">,</span><span class="w"> </span><span class="n">comma_pos</span><span class="p">,</span><span class="w"> </span><span class="n">idx</span><span class="p">,</span><span class="w"> </span><span class="n">err</span>
+<span class="w">   </span><span class="k">type</span><span class="p">(</span><span class="n">compiled_expr</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">prog</span><span class="p">,</span><span class="w"> </span><span class="n">dprog</span>
+<span class="w">   </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">res</span><span class="p">(:)</span>
+
+<span class="w">   </span><span class="c">! Register built-in REPL helper functions:</span>
+<span class="w">   </span><span class="c">! 1. seq(start, step, count) -&gt; generates an array [start, start+step, ...]</span>
+<span class="w">   </span><span class="c">!    Note: Since user_func returns a scalar, we register scalar helpers</span>
+<span class="w">   </span><span class="c">!    and handle array constructors [a, b, c] directly in the REPL parser.</span>
+<span class="w">   </span><span class="n">custom_fns</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">name</span><span class="p">%</span><span class="n">cp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utoc</span><span class="p">(</span><span class="s2">"deg2rad"</span><span class="p">)</span>
+<span class="w">   </span><span class="n">custom_fns</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">nargs</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">   </span><span class="n">custom_fns</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">fn</span><span class="w">      </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">fn_deg2rad</span>
+
+<span class="w">   </span><span class="n">custom_fns</span><span class="p">(</span><span class="mi">2</span><span class="p">)%</span><span class="n">name</span><span class="p">%</span><span class="n">cp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utoc</span><span class="p">(</span><span class="s2">"rad2deg"</span><span class="p">)</span>
+<span class="w">   </span><span class="n">custom_fns</span><span class="p">(</span><span class="mi">2</span><span class="p">)%</span><span class="n">nargs</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">   </span><span class="n">custom_fns</span><span class="p">(</span><span class="mi">2</span><span class="p">)%</span><span class="n">fn</span><span class="w">      </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">fn_rad2deg</span>
+
+<span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"================================================================================"</span>
+<span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">" Unicode Fortran Expression Calculator &amp; REPL. Type help() for instructions,    "</span>
+<span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">" entities() for Unicode help,  vars() to list variables, or quit.               "</span>
+<span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"================================================================================"</span>
+
+<span class="w">   </span><span class="k">do</span>
+<span class="k">      write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'(A)'</span><span class="p">,</span><span class="w"> </span><span class="n">advance</span><span class="o">=</span><span class="s1">'no'</span><span class="p">)</span><span class="w"> </span><span class="s2">"calc&gt; "</span>
+<span class="w">      </span><span class="k">read</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'(A)'</span><span class="p">,</span><span class="w"> </span><span class="n">iostat</span><span class="o">=</span><span class="n">ios</span><span class="p">)</span><span class="w"> </span><span class="n">line</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ios</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">iostat_end</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">         print</span><span class="w"> </span><span class="o">*</span>
+<span class="w">         </span><span class="k">exit</span>
+<span class="k">      else if</span><span class="w"> </span><span class="p">(</span><span class="n">ios</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">         print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Input read error."</span>
+<span class="w">         </span><span class="k">cycle</span>
+<span class="k">      end if</span>
+
+<span class="k">      </span><span class="n">trimmed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">trim</span><span class="p">(</span><span class="nb">adjustl</span><span class="p">(</span><span class="n">line</span><span class="p">))</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">trimmed</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">cycle</span>
+
+<span class="k">      if</span><span class="w"> </span><span class="p">(</span><span class="n">trimmed</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"quit"</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">trimmed</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"exit"</span><span class="p">)</span><span class="w"> </span><span class="k">exit</span>
+
+<span class="k">      if</span><span class="w"> </span><span class="p">(</span><span class="n">trimmed</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"help()"</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">trimmed</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"help"</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">         call </span><span class="n">print_help</span><span class="p">()</span>
+<span class="w">         </span><span class="k">cycle</span>
+<span class="k">      end if</span>
+<span class="k">      if</span><span class="w"> </span><span class="p">(</span><span class="n">trimmed</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"entities()"</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">trimmed</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"entities"</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">         call </span><span class="n">print_entities</span><span class="p">()</span>
+<span class="w">         </span><span class="k">cycle</span>
+<span class="k">      end if</span>
+<span class="k">      if</span><span class="w"> </span><span class="p">(</span><span class="n">trimmed</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"vars()"</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">trimmed</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"vars"</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">         call </span><span class="n">print_vars</span><span class="p">(</span><span class="n">var_names</span><span class="p">,</span><span class="w"> </span><span class="n">var_vals</span><span class="p">,</span><span class="w"> </span><span class="n">num_vars</span><span class="p">)</span>
+<span class="w">         </span><span class="k">cycle</span>
+<span class="k">      end if</span>
+
+<span class="k">      </span><span class="n">key</span><span class="p">:</span><span class="w"> </span><span class="k">block</span>
+<span class="k">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iend</span>
+<span class="w">      </span><span class="n">iend</span><span class="o">=</span><span class="nb">len_trim</span><span class="p">(</span><span class="n">trimmed</span><span class="p">)</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">trimmed</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="s1">'&lt;'</span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="n">trimmed</span><span class="p">(</span><span class="n">iend</span><span class="p">:</span><span class="n">iend</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="s1">'&gt;'</span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="n">trimmed</span><span class="p">(</span><span class="n">iend</span><span class="p">:</span><span class="n">iend</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="s1">','</span><span class="p">)</span><span class="k">then </span>
+<span class="k">         if</span><span class="p">(</span><span class="n">trimmed</span><span class="p">(</span><span class="n">iend</span><span class="p">:</span><span class="n">iend</span><span class="p">)</span><span class="o">==</span><span class="s1">','</span><span class="p">)</span><span class="n">iend</span><span class="o">=</span><span class="n">iend</span><span class="o">-</span><span class="mi">1</span>
+<span class="w">         </span><span class="n">trimmed</span><span class="o">=</span><span class="n">keyword_expand</span><span class="p">(</span><span class="n">trimmed</span><span class="p">(:</span><span class="n">iend</span><span class="p">))</span>
+<span class="w">      </span><span class="k">endif</span>
+<span class="k">      endblock </span><span class="n">key</span>
+
+<span class="w">      </span><span class="n">odd</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="k">block</span>
+<span class="k">      </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">512</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fixed</span><span class="w">  </span><span class="c">! fix M_history so fixed length not required</span>
+<span class="w">         </span><span class="n">fixed</span><span class="o">=</span><span class="n">trimmed</span>
+<span class="w">         </span><span class="k">call </span><span class="n">redo</span><span class="p">(</span><span class="n">fixed</span><span class="p">,</span><span class="n">r</span><span class="o">=</span><span class="s1">'!'</span><span class="p">)</span><span class="w">                      </span><span class="c">! command history</span>
+<span class="w">         </span><span class="n">trimmed</span><span class="o">=</span><span class="nb">trim</span><span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+<span class="w">      </span><span class="k">endblock </span><span class="n">odd</span>
+
+<span class="w">      </span><span class="n">keyagain</span><span class="p">:</span><span class="w"> </span><span class="k">block</span>
+<span class="k">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iend</span>
+<span class="w">      </span><span class="n">iend</span><span class="o">=</span><span class="nb">len_trim</span><span class="p">(</span><span class="n">trimmed</span><span class="p">)</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">trimmed</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="s1">'&lt;'</span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="n">trimmed</span><span class="p">(</span><span class="n">iend</span><span class="p">:</span><span class="n">iend</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="s1">'&gt;'</span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="n">trimmed</span><span class="p">(</span><span class="n">iend</span><span class="p">:</span><span class="n">iend</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="s1">','</span><span class="p">)</span><span class="k">then </span>
+<span class="k">         if</span><span class="p">(</span><span class="n">trimmed</span><span class="p">(</span><span class="n">iend</span><span class="p">:</span><span class="n">iend</span><span class="p">)</span><span class="o">==</span><span class="s1">','</span><span class="p">)</span><span class="n">iend</span><span class="o">=</span><span class="n">iend</span><span class="o">-</span><span class="mi">1</span>
+<span class="w">         </span><span class="n">trimmed</span><span class="o">=</span><span class="n">keyword_expand</span><span class="p">(</span><span class="n">trimmed</span><span class="p">(:</span><span class="n">iend</span><span class="p">))</span>
+<span class="w">      </span><span class="k">endif</span>
+<span class="k">      endblock </span><span class="n">keyagain</span>
+
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">trimmed</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="s1">'!'</span><span class="p">)</span><span class="k">then</span><span class="w">                      </span><span class="c">! system command</span>
+<span class="w">         </span><span class="n">command</span><span class="p">:</span><span class="w"> </span><span class="k">block </span>
+<span class="k">         </span><span class="kt">integer</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">esys</span>
+<span class="w">         </span><span class="kt">integer</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">isys</span>
+<span class="w">         </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">250</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">csys</span>
+<span class="w">         </span><span class="k">call </span><span class="nb">execute_command_line</span><span class="p">(</span><span class="n">trimmed</span><span class="p">(</span><span class="mi">2</span><span class="p">:),</span><span class="n">exitstat</span><span class="o">=</span><span class="n">esys</span><span class="p">,</span><span class="n">cmdstat</span><span class="o">=</span><span class="n">isys</span><span class="p">,</span><span class="n">cmdmsg</span><span class="o">=</span><span class="n">csys</span><span class="p">)</span><span class="w">   </span><span class="c">! try as system command</span>
+<span class="w">         </span><span class="k">if</span><span class="p">(</span><span class="n">isys</span><span class="p">.</span><span class="n">ne</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(a)'</span><span class="p">)</span><span class="nb">trim</span><span class="p">(</span><span class="n">csys</span><span class="p">)</span>
+<span class="w">         </span><span class="k">endblock </span><span class="n">command</span>
+<span class="w">         </span><span class="k">cycle</span>
+<span class="k">      elseif</span><span class="p">(</span><span class="nb">adjustl</span><span class="p">(</span><span class="n">trimmed</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">)).</span><span class="n">eq</span><span class="p">.</span><span class="s1">'#'</span><span class="p">)</span><span class="k">then</span><span class="w">            </span><span class="c">! comment</span>
+<span class="w">         </span><span class="k">cycle</span>
+<span class="k">      endif</span>
+
+
+<span class="w">      </span><span class="c">! Check for symbolic differentiation command: diff(expr, var)</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">trimmed</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">6</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">         if</span><span class="w"> </span><span class="p">(</span><span class="n">trimmed</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"diff("</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">trimmed</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">trimmed</span><span class="p">):</span><span class="nb">len</span><span class="p">(</span><span class="n">trimmed</span><span class="p">))</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">")"</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            </span><span class="n">comma_pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">index</span><span class="p">(</span><span class="n">trimmed</span><span class="p">,</span><span class="w"> </span><span class="s2">","</span><span class="p">,</span><span class="w"> </span><span class="n">back</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.)</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">comma_pos</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">6</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">               </span><span class="n">expr_part</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">trim</span><span class="p">(</span><span class="nb">adjustl</span><span class="p">(</span><span class="n">trimmed</span><span class="p">(</span><span class="mi">6</span><span class="p">:</span><span class="n">comma_pos</span><span class="o">-</span><span class="mi">1</span><span class="p">)))</span>
+<span class="w">               </span><span class="n">var_part</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nb">trim</span><span class="p">(</span><span class="nb">adjustl</span><span class="p">(</span><span class="n">trimmed</span><span class="p">(</span><span class="n">comma_pos</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">trimmed</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)))</span>
+<span class="w">               </span><span class="n">idx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">find_var</span><span class="p">(</span><span class="n">utoc</span><span class="p">(</span><span class="n">var_part</span><span class="p">),</span><span class="w"> </span><span class="n">var_names</span><span class="p">,</span><span class="w"> </span><span class="n">num_vars</span><span class="p">)</span>
+<span class="w">               </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">idx</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                  print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Error: Variable '"</span><span class="p">,</span><span class="w"> </span><span class="n">var_part</span><span class="p">,</span><span class="w"> </span><span class="s2">"' is not defined."</span>
+<span class="w">                  </span><span class="k">cycle</span>
+<span class="k">               end if</span>
+<span class="k">               call </span><span class="n">compile_expr_cp</span><span class="p">(</span><span class="n">utoc</span><span class="p">(</span><span class="n">expr_part</span><span class="p">),</span><span class="w"> </span><span class="n">prog</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                  </span><span class="n">var_names</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">num_vars</span><span class="p">),</span><span class="w"> </span><span class="n">custom_fns</span><span class="p">)</span>
+<span class="w">               </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">err</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                  call </span><span class="n">print_error</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+<span class="w">                  </span><span class="k">cycle</span>
+<span class="k">               end if</span>
+<span class="k">               call </span><span class="n">differentiate_compiled</span><span class="p">(</span><span class="n">prog</span><span class="p">,</span><span class="w"> </span><span class="n">idx</span><span class="p">,</span><span class="w"> </span><span class="n">dprog</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">)</span>
+<span class="w">               </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">err</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                  call </span><span class="n">print_error</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+<span class="w">                  </span><span class="k">cycle</span>
+<span class="k">               end if</span>
+<span class="k">               call </span><span class="n">eval_compiled</span><span class="p">(</span><span class="n">dprog</span><span class="p">,</span><span class="w"> </span><span class="n">res</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="n">var_vals</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">num_vars</span><span class="p">))</span>
+<span class="w">               </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">err</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                  call </span><span class="n">print_error</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+<span class="w">               </span><span class="k">else</span>
+<span class="k">                  call </span><span class="n">print_result</span><span class="p">(</span><span class="s2">"d/d("</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">var_part</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">")"</span><span class="p">,</span><span class="w"> </span><span class="n">res</span><span class="p">)</span>
+<span class="w">               </span><span class="k">end if</span>
+<span class="k">               cycle</span>
+<span class="k">            end if</span>
+<span class="k">         end if</span>
+<span class="k">      end if</span>
+
+<span class="w">      </span><span class="c">! Check for variable assignment: name = expr (ignoring '==', '&lt;=', '&gt;=', '/=')</span>
+<span class="w">      </span><span class="n">eq_pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">find_assignment_eq</span><span class="p">(</span><span class="n">trimmed</span><span class="p">)</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">eq_pos</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">         </span><span class="n">lhs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">trim</span><span class="p">(</span><span class="nb">adjustl</span><span class="p">(</span><span class="n">trimmed</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">eq_pos</span><span class="o">-</span><span class="mi">1</span><span class="p">)))</span>
+<span class="w">         </span><span class="n">rhs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">trim</span><span class="p">(</span><span class="nb">adjustl</span><span class="p">(</span><span class="n">trimmed</span><span class="p">(</span><span class="n">eq_pos</span><span class="o">+</span><span class="mi">1</span><span class="p">:)))</span>
+
+<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lhs</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">rhs</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Syntax error in assignment."</span>
+<span class="w">            </span><span class="k">cycle</span>
+<span class="k">         end if</span>
+
+<span class="w">         </span><span class="c">! Check if RHS is an array literal: [1.0, 2.0, 3.0]</span>
+<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">rhs</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"["</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">rhs</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">rhs</span><span class="p">):</span><span class="nb">len</span><span class="p">(</span><span class="n">rhs</span><span class="p">))</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"]"</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            call </span><span class="n">parse_array_literal</span><span class="p">(</span><span class="n">rhs</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">rhs</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">res</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">)</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">err</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">               print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Error parsing array literal."</span>
+<span class="w">               </span><span class="k">cycle</span>
+<span class="k">            end if</span>
+<span class="k">         else</span>
+<span class="k">            call </span><span class="n">compile_expr_cp</span><span class="p">(</span><span class="n">utoc</span><span class="p">(</span><span class="n">rhs</span><span class="p">),</span><span class="w"> </span><span class="n">prog</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">               </span><span class="n">var_names</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">num_vars</span><span class="p">),</span><span class="w"> </span><span class="n">custom_fns</span><span class="p">)</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">err</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">               call </span><span class="n">print_error</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+<span class="w">               </span><span class="k">cycle</span>
+<span class="k">            end if</span>
+<span class="k">            call </span><span class="n">eval_compiled</span><span class="p">(</span><span class="n">prog</span><span class="p">,</span><span class="w"> </span><span class="n">res</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="n">var_vals</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">num_vars</span><span class="p">))</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">err</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">               call </span><span class="n">print_error</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+<span class="w">               </span><span class="k">cycle</span>
+<span class="k">            end if</span>
+<span class="k">         end if</span>
+
+<span class="k">         call </span><span class="n">set_var</span><span class="p">(</span><span class="n">utoc</span><span class="p">(</span><span class="n">lhs</span><span class="p">),</span><span class="w"> </span><span class="n">res</span><span class="p">,</span><span class="w"> </span><span class="n">var_names</span><span class="p">,</span><span class="w"> </span><span class="n">var_vals</span><span class="p">,</span><span class="w"> </span><span class="n">num_vars</span><span class="p">)</span>
+<span class="w">         </span><span class="k">call </span><span class="n">print_result</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span><span class="w"> </span><span class="n">res</span><span class="p">)</span>
+<span class="w">         </span><span class="k">cycle</span>
+<span class="k">      end if</span>
+
+<span class="w">      </span><span class="c">! Otherwise evaluate expression directly</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">trimmed</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"["</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">trimmed</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">trimmed</span><span class="p">):</span><span class="nb">len</span><span class="p">(</span><span class="n">trimmed</span><span class="p">))</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"]"</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">         call </span><span class="n">parse_array_literal</span><span class="p">(</span><span class="n">trimmed</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">trimmed</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">res</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">)</span>
+<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">err</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Error parsing array literal."</span>
+<span class="w">         </span><span class="k">else</span>
+<span class="k">            call </span><span class="n">print_result</span><span class="p">(</span><span class="s2">"ans"</span><span class="p">,</span><span class="w"> </span><span class="n">res</span><span class="p">)</span>
+<span class="w">         </span><span class="k">end if</span>
+<span class="k">      else</span>
+<span class="k">         call </span><span class="n">compile_expr_cp</span><span class="p">(</span><span class="n">utoc</span><span class="p">(</span><span class="n">trimmed</span><span class="p">),</span><span class="w"> </span><span class="n">prog</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="n">var_names</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">num_vars</span><span class="p">),</span><span class="w"> </span><span class="n">custom_fns</span><span class="p">)</span>
+<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">err</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            call </span><span class="n">print_error</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+<span class="w">            </span><span class="k">cycle</span>
+<span class="k">         end if</span>
+<span class="k">         call </span><span class="n">eval_compiled</span><span class="p">(</span><span class="n">prog</span><span class="p">,</span><span class="w"> </span><span class="n">res</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="n">var_vals</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">num_vars</span><span class="p">))</span>
+<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">err</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            call </span><span class="n">print_error</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+<span class="w">         </span><span class="k">else</span>
+<span class="k">            call </span><span class="n">print_result</span><span class="p">(</span><span class="s2">"ans"</span><span class="p">,</span><span class="w"> </span><span class="n">res</span><span class="p">)</span>
+<span class="w">         </span><span class="k">end if</span>
+<span class="k">      end if</span>
+<span class="k">   end do</span>
+
+<span class="k">contains</span>
+
+<span class="w">   </span><span class="c">!---------------------------------------------------------------------------</span>
+<span class="w">   </span><span class="c">! Custom REPL Functions</span>
+<span class="w">   </span><span class="c">!---------------------------------------------------------------------------</span>
+<span class="w">   </span><span class="k">function </span><span class="n">fn_deg2rad</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">args</span><span class="p">(:)</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">r</span>
+<span class="w">      </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">args</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nb">acos</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0_real64</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">18</span><span class="mf">0.0_real64</span>
+<span class="w">   </span><span class="k">end function </span><span class="n">fn_deg2rad</span>
+
+<span class="w">   </span><span class="k">function </span><span class="n">fn_rad2deg</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">args</span><span class="p">(:)</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">r</span>
+<span class="w">      </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">args</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">18</span><span class="mf">0.0_real64</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nb">acos</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0_real64</span><span class="p">)</span>
+<span class="w">   </span><span class="k">end function </span><span class="n">fn_rad2deg</span>
+
+<span class="w">   </span><span class="c">!---------------------------------------------------------------------------</span>
+<span class="w">   </span><span class="c">! Interactive Help Screen</span>
+<span class="w">   </span><span class="c">!---------------------------------------------------------------------------</span>
+<span class="w">   </span><span class="k">subroutine </span><span class="n">print_entities</span><span class="p">()</span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(a)'</span><span class="p">)[</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">75</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="s1">'the HTML entity names (and numeric codes for characters without standard  '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="s1">'names) for each symbol you requested.                                     '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="s1">'                                                                          '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="s1">'Math and Operator Symbols                                                 '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="s1">'                                                                          '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="s1">'Character  Name / Description       HTML Entity Name   Numeric Code       '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="s1">'   −       Minus sign                 minus             8722              '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="s1">'   ×       Multiplication sign        times             215               '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="s1">'   ·       Middle dot                 middot            183               '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="s1">'   ÷       Division sign              divide            247               '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="s1">'   √       Square root (radical)      radic             8730              '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="s1">'   ≤       Less-than or equal to      le                8804              '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="s1">'   ≥       Greater-than or equal to   ge                8805              '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="s1">'   ≠       Not equal to               ne                8800              '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="s1">'   π       Greek small letter pi      pi                960               '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="s1">'   τ       Greek small letter tau     tau               964               '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="s1">'                                                                          '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="s1">'Superscript Characters                                                    '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="s1">'                                                                          '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="s1">'Character  Name / Description HTML Entity Name   Numeric Code             '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="s1">'   ⁰  Superscript  zero          None              8304                   '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="s1">'   ¹  Superscript  one           sup1              185                    '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="s1">'   ²  Superscript  two           sup2              178                    '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="s1">'   ³  Superscript  three         sup3              179                    '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="s1">'   ⁴  Superscript  four          None              8308                   '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="s1">'   ⁵  Superscript  five          None              8309                   '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="s1">'   ⁶  Superscript  six           None              8310                   '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="s1">'   ⁷  Superscript  seven         None              8311                   '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="s1">'   ⁸  Superscript  eight         None              8312                   '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="s1">'   ⁹  Superscript  nine          None              8313                   '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="s1">'   ⁺  Superscript  plus sign     None              8314                   '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="s1">'   ⁻  Superscript  minus         None              8315                   '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="s1">' ⁻  '</span><span class="p">]</span>
+<span class="w">   </span><span class="k">end subroutine </span><span class="n">print_entities</span>
+
+<span class="w">   </span><span class="k">subroutine </span><span class="n">print_help</span><span class="p">()</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"=== CALCULATOR &amp; MODULE EXPLORER HELP ==="</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"COMMANDS:"</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"  help()             Show this help message"</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"  vars()             List all defined variables and their values"</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"  entities()         List HTML entity names of operators"</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"  x = 5.0            Assign a scalar variable (case-sensitive)"</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"  v = [1, 2, 3, 4]   Assign a 1D array variable"</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"  diff(expr, x)      Symbolically differentiate expr wrt x and evaluate"</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"  quit / exit        Exit the program"</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"  !                  Enter command history. A subsequent ""h"" provides instructions"</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"  !text              Execute system command"</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"  quit / exit        Exit the program"</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"  expression &lt;&gt;      A line beginning with &lt; or ending with &gt; or , is processed through keywords_expand()"</span><span class="w"> </span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"OPERATORS &amp; UNICODE SYMBOLS:"</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"  Arithmetic:        +  -  −  *  ×  ·  /  ÷  ^  **  √"</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"  Superscripts:      x²  x³  10⁻⁴  (supports ⁰-⁹, ⁺, ⁻)"</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"  Comparisons:       &lt;  &lt;=  ≤  &gt;  &gt;=  ≥  ==  /=  ≠  (returns 1.0 or 0.0)"</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"  Array Indexing:    v[1]  v[2]  (1-based indexing)"</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"  Implicit Multiply: 2π, 3(x + 1), 2√x"</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"BUILT-IN CONSTANTS &amp; FUNCTIONS:"</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"  Constants:         pi, π, τ (2π), e"</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"  1-Arg Math:        sin, cos, tan, asin, acos, atan, sinh, cosh, tanh,"</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"                     exp, log, log10, sqrt, abs, floor, ceiling, nint"</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"  Multi-Arg Math:    atan2(y, x), hypot(x, y), mod(a, p), min(...), max(...)"</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"  Conditional:       if(cond, true_val, false_val)"</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"  Array Reductions:  sum(v), mean(v), norm2(v), dot(u, v), size(v)"</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"  REPL Extras:       deg2rad(deg), rad2deg(rad)"</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"EXAMPLE SESSION:"</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"  calc&gt; α = 2.5"</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"  calc&gt; x = [1.0, 2.0, 3.0]"</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"  calc&gt; α·x² + sin(π ÷ 2)"</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"  calc&gt; diff(x³ + 2x, x)"</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span>
+<span class="w">   </span><span class="k">end subroutine </span><span class="n">print_help</span>
+
+<span class="w">   </span><span class="c">!---------------------------------------------------------------------------</span>
+<span class="w">   </span><span class="c">! Variable Table Helpers</span>
+<span class="w">   </span><span class="c">!---------------------------------------------------------------------------</span>
+
+<span class="w">   </span><span class="kt">integer </span><span class="k">function </span><span class="n">find_var</span><span class="p">(</span><span class="n">name_cp</span><span class="p">,</span><span class="w"> </span><span class="n">vnames</span><span class="p">,</span><span class="w"> </span><span class="n">nvars</span><span class="p">)</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">name_cp</span><span class="p">(:)</span>
+<span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">cp_string</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">vnames</span><span class="p">(:)</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">nvars</span>
+<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
+
+<span class="w">      </span><span class="n">find_var</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">      </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">nvars</span>
+<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">name_cp</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">vnames</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">cp</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            if</span><span class="w"> </span><span class="p">(</span><span class="k">all</span><span class="p">(</span><span class="n">name_cp</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">vnames</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">cp</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
+<span class="k">               </span><span class="n">find_var</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span>
+<span class="w">               </span><span class="k">return</span>
+<span class="k">            end if</span>
+<span class="k">         end if</span>
+<span class="k">      end do</span>
+<span class="k">   end function </span><span class="n">find_var</span>
+
+<span class="w">   </span><span class="k">subroutine </span><span class="n">set_var</span><span class="p">(</span><span class="n">name_cp</span><span class="p">,</span><span class="w"> </span><span class="n">val</span><span class="p">,</span><span class="w"> </span><span class="n">vnames</span><span class="p">,</span><span class="w"> </span><span class="n">vvals</span><span class="p">,</span><span class="w"> </span><span class="n">nvars</span><span class="p">)</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">name_cp</span><span class="p">(:)</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">val</span><span class="p">(:)</span>
+<span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">cp_string</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">vnames</span><span class="p">(:)</span>
+<span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">var_value</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">vvals</span><span class="p">(:)</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">nvars</span>
+<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">idx</span>
+
+<span class="w">      </span><span class="n">idx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">find_var</span><span class="p">(</span><span class="n">name_cp</span><span class="p">,</span><span class="w"> </span><span class="n">vnames</span><span class="p">,</span><span class="w"> </span><span class="n">nvars</span><span class="p">)</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">idx</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">         if</span><span class="w"> </span><span class="p">(</span><span class="n">nvars</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">MAX_VARS</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Error: Maximum variable limit reached."</span>
+<span class="w">            </span><span class="k">return</span>
+<span class="k">         end if</span>
+<span class="k">         </span><span class="n">nvars</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nvars</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">         </span><span class="n">idx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nvars</span>
+<span class="w">         </span><span class="n">vnames</span><span class="p">(</span><span class="n">idx</span><span class="p">)%</span><span class="n">cp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">name_cp</span>
+<span class="w">      </span><span class="k">end if</span>
+<span class="k">      </span><span class="n">vvals</span><span class="p">(</span><span class="n">idx</span><span class="p">)%</span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">val</span>
+<span class="w">   </span><span class="k">end subroutine </span><span class="n">set_var</span>
+
+<span class="w">   </span><span class="k">subroutine </span><span class="n">print_vars</span><span class="p">(</span><span class="n">vnames</span><span class="p">,</span><span class="w"> </span><span class="n">vvals</span><span class="p">,</span><span class="w"> </span><span class="n">nvars</span><span class="p">)</span>
+<span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">cp_string</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">vnames</span><span class="p">(:)</span>
+<span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">var_value</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">vvals</span><span class="p">(:)</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">nvars</span>
+<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nvars</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">         print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"No variables defined."</span>
+<span class="w">         </span><span class="k">return</span>
+<span class="k">      end if</span>
+<span class="k">      do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">nvars</span>
+<span class="w">         </span><span class="k">call </span><span class="n">print_result</span><span class="p">(</span><span class="n">ctou</span><span class="p">(</span><span class="n">vnames</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">cp</span><span class="p">),</span><span class="w"> </span><span class="n">vvals</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">val</span><span class="p">)</span>
+<span class="w">      </span><span class="k">end do</span>
+<span class="k">   end subroutine </span><span class="n">print_vars</span>
+
+<span class="w">   </span><span class="k">subroutine </span><span class="n">print_result</span><span class="p">(</span><span class="n">label</span><span class="p">,</span><span class="w"> </span><span class="n">res</span><span class="p">)</span>
+<span class="w">      </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">label</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">res</span><span class="p">(:)</span>
+<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">res</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">         print</span><span class="w"> </span><span class="s1">'(2X, A, " = ", G0.12)'</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="p">,</span><span class="w"> </span><span class="n">res</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">      </span><span class="k">else</span>
+<span class="k">         write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'(2X, A, " = [")'</span><span class="p">,</span><span class="w"> </span><span class="n">advance</span><span class="o">=</span><span class="s1">'no'</span><span class="p">)</span><span class="w"> </span><span class="n">label</span>
+<span class="w">         </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'(", ")'</span><span class="p">,</span><span class="w"> </span><span class="n">advance</span><span class="o">=</span><span class="s1">'no'</span><span class="p">)</span>
+<span class="w">            </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'(G0.10)'</span><span class="p">,</span><span class="w"> </span><span class="n">advance</span><span class="o">=</span><span class="s1">'no'</span><span class="p">)</span><span class="w"> </span><span class="n">res</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="w">         </span><span class="k">end do</span>
+<span class="k">         print</span><span class="w"> </span><span class="s1">'(A)'</span><span class="p">,</span><span class="w"> </span><span class="s2">"]"</span>
+<span class="w">      </span><span class="k">end if</span>
+<span class="k">   end subroutine </span><span class="n">print_result</span>
+
+<span class="c">!---------------------------------------------------------------------------</span>
+<span class="c">! Parse Comma-Separated Array Literal: "1.0, 2.5, 3.0"</span>
+<span class="c">!---------------------------------------------------------------------------</span>
+
+<span class="w">   </span><span class="k">subroutine </span><span class="n">parse_array_literal</span><span class="p">(</span><span class="n">str</span><span class="p">,</span><span class="w"> </span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="p">)</span>
+<span class="w">      </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">str</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">arr</span><span class="p">(:)</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ierr</span>
+<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="nb">count</span><span class="p">,</span><span class="w"> </span><span class="n">start_p</span><span class="p">,</span><span class="w"> </span><span class="n">end_p</span><span class="p">,</span><span class="w"> </span><span class="nb">stat</span>
+<span class="nb">      </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">v</span>
+<span class="w">      </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">len_trim</span><span class="p">(</span><span class="n">str</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">         </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="k">return</span>
+<span class="k">      end if</span>
+<span class="k">      </span><span class="nb">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">      </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">str</span><span class="p">)</span>
+<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">str</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">","</span><span class="p">)</span><span class="w"> </span><span class="nb">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">count</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">      </span><span class="k">end do</span>
+<span class="k">      allocate</span><span class="p">(</span><span class="n">arr</span><span class="p">(</span><span class="nb">count</span><span class="p">))</span>
+<span class="w">      </span><span class="n">start_p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">      </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">count</span>
+<span class="nb">         </span><span class="n">end_p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">index</span><span class="p">(</span><span class="n">str</span><span class="p">(</span><span class="n">start_p</span><span class="p">:),</span><span class="w"> </span><span class="s2">","</span><span class="p">)</span>
+<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">end_p</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            </span><span class="n">end_p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">str</span><span class="p">)</span>
+<span class="w">         </span><span class="k">else</span>
+<span class="k">            </span><span class="n">end_p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">start_p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">end_p</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">         </span><span class="k">end if</span>
+<span class="k">         read</span><span class="p">(</span><span class="n">str</span><span class="p">(</span><span class="n">start_p</span><span class="p">:</span><span class="n">end_p</span><span class="p">),</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">iostat</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span><span class="w"> </span><span class="n">v</span>
+<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">stat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="p">;</span><span class="w"> </span><span class="k">return</span>
+<span class="k">         end if</span>
+<span class="k">         </span><span class="n">arr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v</span>
+<span class="w">         </span><span class="n">start_p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">end_p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">      </span><span class="k">end do</span>
+<span class="k">   end subroutine </span><span class="n">parse_array_literal</span>
+
+<span class="c">! Find single '=' used for assignment (skipping '==', '&lt;=', '&gt;=', '/=')</span>
+<span class="w">   </span><span class="kt">integer </span><span class="k">function </span><span class="n">find_assignment_eq</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="w">      </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">s</span>
+<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
+<span class="w">      </span><span class="n">find_assignment_eq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">      </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">s</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"="</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">               if</span><span class="w"> </span><span class="p">(</span><span class="n">s</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"&lt;"</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">s</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"&gt;"</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                  </span><span class="n">s</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"/"</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">s</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"="</span><span class="p">)</span><span class="w"> </span><span class="k">cycle</span>
+<span class="k">            end if</span>
+<span class="k">            if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
+<span class="k">               if</span><span class="w"> </span><span class="p">(</span><span class="n">s</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"="</span><span class="p">)</span><span class="w"> </span><span class="k">cycle</span>
+<span class="k">            end if</span>
+<span class="k">            </span><span class="n">find_assignment_eq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span>
+<span class="w">            </span><span class="k">return</span>
+<span class="k">         end if</span>
+<span class="k">      end do</span>
+<span class="k">   end function </span><span class="n">find_assignment_eq</span>
+
+<span class="w">   </span><span class="k">subroutine </span><span class="n">print_error</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">err</span>
+<span class="w">      </span><span class="k">select case</span><span class="w"> </span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+<span class="w">       </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Error (1): Empty expression."</span>
+<span class="w">       </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="p">);</span><span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Error (2): Unexpected trailing characters."</span>
+<span class="w">       </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">3</span><span class="p">);</span><span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Error (3): Division or modulo by zero."</span>
+<span class="w">       </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">4</span><span class="p">);</span><span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Error (4): Unexpected end of expression."</span>
+<span class="w">       </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">5</span><span class="p">);</span><span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Error (5): Mismatched parentheses () or brackets []."</span>
+<span class="w">       </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">6</span><span class="p">);</span><span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Error (6): Invalid numeric literal or superscript."</span>
+<span class="w">       </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">7</span><span class="p">);</span><span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Error (7): Unknown variable or constant."</span>
+<span class="w">       </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">8</span><span class="p">);</span><span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Error (8): Syntax error."</span>
+<span class="w">       </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">9</span><span class="p">);</span><span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Error (9): Unknown function name."</span>
+<span class="w">       </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">10</span><span class="p">);</span><span class="w"> </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Error (10): Domain error (sqrt of negative value)."</span>
+<span class="w">       </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">11</span><span class="p">);</span><span class="w"> </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Error (11): Wrong number of function arguments."</span>
+<span class="w">       </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">12</span><span class="p">);</span><span class="w"> </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Error (12): Missing variable value."</span>
+<span class="w">       </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">13</span><span class="p">);</span><span class="w"> </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Error (13): Array index must be a scalar."</span>
+<span class="w">       </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">14</span><span class="p">);</span><span class="w"> </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Error (14): Array index out of bounds."</span>
+<span class="w">       </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">15</span><span class="p">);</span><span class="w"> </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Error (15): Incompatible array lengths."</span>
+<span class="w">       </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">16</span><span class="p">);</span><span class="w"> </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Error (16): Construct not supported for differentiation."</span>
+<span class="w">       </span><span class="k">case </span><span class="n">default</span><span class="p">;</span><span class="w"> </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Error:"</span><span class="p">,</span><span class="w"> </span><span class="n">err</span>
+<span class="w">      </span><span class="k">end select</span>
+<span class="k">   end subroutine </span><span class="n">print_error</span>
+
+<span class="k">end program </span><span class="n">calc_repl</span>
+</pre></div>
+
+    </section>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              M_unicode
+ was developed by John S. Urban<br>              &copy; 2026 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2026-11-16 14:32 +0000             </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,1057 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="Fortran Unicode when ISO_10646 is not supported">
+    <meta name="author" content="John S. Urban" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>test_suite &ndash; M_unicode</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">M_unicode </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>test_suite      <small>Program</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 5.1% of total for programs.">232 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/test_eval.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/test_eval.f90.html'>test_eval.f90</a></li>
+            <li class="breadcrumb-item active" aria-current="page">test_suite</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#vars-0"
+         aria-expanded="false" aria-controls="vars-0">
+         <h4 class="card-header bg-primary text-white">Variables</h4>
+      </a>
+      <div id="vars-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../program/test_suite.html#variable-failed">failed</a>
+            <a class="list-group-item" href="../program/test_suite.html#variable-passed">passed</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#funcs-0"
+         aria-expanded="false" aria-controls="funcs-0">
+         <h4 class="card-header bg-primary text-white">Functions</h4>
+      </a>
+      <div id="funcs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../program/test_suite.html#proc-custom_poly">custom_poly</a>
+        </div>
+      </div>
+    </div>
+
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#subs-0"
+         aria-expanded="false" aria-controls="subs-0">
+         <h4 class="card-header bg-primary text-white">Subroutines</h4>
+      </a>
+      <div id="subs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../program/test_suite.html#proc-assert_array_near">assert_array_near</a>
+            <a class="list-group-item" href="../program/test_suite.html#proc-assert_int_eq">assert_int_eq</a>
+            <a class="list-group-item" href="../program/test_suite.html#proc-assert_near">assert_near</a>
+            <a class="list-group-item" href="../program/test_suite.html#proc-test_array_broadcasting_and_indexing">test_array_broadcasting_and_indexing</a>
+            <a class="list-group-item" href="../program/test_suite.html#proc-test_array_reductions_and_multiarg">test_array_reductions_and_multiarg</a>
+            <a class="list-group-item" href="../program/test_suite.html#proc-test_basic_arithmetic_and_precedence">test_basic_arithmetic_and_precedence</a>
+            <a class="list-group-item" href="../program/test_suite.html#proc-test_custom_user_functions">test_custom_user_functions</a>
+            <a class="list-group-item" href="../program/test_suite.html#proc-test_error_handling">test_error_handling</a>
+            <a class="list-group-item" href="../program/test_suite.html#proc-test_implicit_multiplication">test_implicit_multiplication</a>
+            <a class="list-group-item" href="../program/test_suite.html#proc-test_strict_case_sensitivity">test_strict_case_sensitivity</a>
+            <a class="list-group-item" href="../program/test_suite.html#proc-test_symbolic_differentiation">test_symbolic_differentiation</a>
+            <a class="list-group-item" href="../program/test_suite.html#proc-test_unicode_operators_and_superscripts">test_unicode_operators_and_superscripts</a>
+            <a class="list-group-item" href="../program/test_suite.html#proc-test_utf8_roundtrip">test_utf8_roundtrip</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../program/test_suite.html#src">test_suite</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+        <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='../module/m_unicode.html'>M_unicode</a></li>
+                  <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_fortran_env'>iso_fortran_env</a></li>
+              </ul>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+    
+
+
+    <section>
+    <h2>Variables</h2>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-failed"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>failed</strong></td>
+<td> =</td>
+                <td>0</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-passed"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>passed</strong></td>
+<td> =</td>
+                <td>0</td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    </section>
+    <br>
+    
+    
+    
+
+    
+ 
+    <section>
+    <h2>Functions</h2>
+      <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-custom_poly"></span> <h3> function <a href='../proc/custom_poly.html'>custom_poly</a>(args) result(r)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-args~7"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>args</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=real64)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+    </section>
+    <br>
+
+
+    <section>
+    <h2>Subroutines</h2>
+      <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-assert_array_near"></span> <h3> subroutine <a href='../proc/assert_array_near.html'>assert_array_near</a>(actual, expected, tol, name)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-actual~2"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>actual</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-expected~6"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>expected</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tol~2"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>tol</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-name~10"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>name</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+      <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-assert_int_eq"></span> <h3> subroutine <a href='../proc/assert_int_eq.html'>assert_int_eq</a>(actual, expected, name)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-actual~3"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>actual</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-expected~7"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>expected</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-name~11"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>name</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+      <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-assert_near"></span> <h3> subroutine <a href='../proc/assert_near.html'>assert_near</a>(actual, expected, tol, name)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-actual"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>actual</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-expected~5"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>expected</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tol"></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>tol</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-name~9"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>name</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+      <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-test_array_broadcasting_and_indexing"></span> <h3> subroutine <a href='../proc/test_array_broadcasting_and_indexing.html'>test_array_broadcasting_and_indexing</a>()  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+    </div>
+  </div>
+
+      <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-test_array_reductions_and_multiarg"></span> <h3> subroutine <a href='../proc/test_array_reductions_and_multiarg.html'>test_array_reductions_and_multiarg</a>()  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+    </div>
+  </div>
+
+      <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-test_basic_arithmetic_and_precedence"></span> <h3> subroutine <a href='../proc/test_basic_arithmetic_and_precedence.html'>test_basic_arithmetic_and_precedence</a>()  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+    </div>
+  </div>
+
+      <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-test_custom_user_functions"></span> <h3> subroutine <a href='../proc/test_custom_user_functions.html'>test_custom_user_functions</a>()  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+    </div>
+  </div>
+
+      <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-test_error_handling"></span> <h3> subroutine <a href='../proc/test_error_handling.html'>test_error_handling</a>()  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+    </div>
+  </div>
+
+      <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-test_implicit_multiplication"></span> <h3> subroutine <a href='../proc/test_implicit_multiplication.html'>test_implicit_multiplication</a>()  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+    </div>
+  </div>
+
+      <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-test_strict_case_sensitivity"></span> <h3> subroutine <a href='../proc/test_strict_case_sensitivity.html'>test_strict_case_sensitivity</a>()  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+    </div>
+  </div>
+
+      <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-test_symbolic_differentiation"></span> <h3> subroutine <a href='../proc/test_symbolic_differentiation.html'>test_symbolic_differentiation</a>()  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+    </div>
+  </div>
+
+      <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-test_unicode_operators_and_superscripts"></span> <h3> subroutine <a href='../proc/test_unicode_operators_and_superscripts.html'>test_unicode_operators_and_superscripts</a>()  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+    </div>
+  </div>
+
+      <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-test_utf8_roundtrip"></span> <h3> subroutine <a href='../proc/test_utf8_roundtrip.html'>test_utf8_roundtrip</a>()  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+    </div>
+  </div>
+
+    </section>    
+    
+
+    <section>
+    <h2 id="src">Source Code</h2>
+    <div class="hl codehilite"><pre><span></span><span class="k">program </span><span class="n">test_suite</span>
+<span class="w">   </span><span class="k">use</span><span class="p">,</span><span class="w"> </span><span class="k">intrinsic</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">int32</span><span class="p">,</span><span class="w"> </span><span class="n">real64</span>
+<span class="w">   </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ctou</span><span class="p">,</span><span class="w"> </span><span class="n">utoc</span>
+<span class="w">   </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">cp_string</span><span class="p">,</span><span class="w"> </span><span class="n">var_value</span><span class="p">,</span><span class="w"> </span><span class="n">user_func</span><span class="p">,</span><span class="w"> </span><span class="n">user_func_iface</span><span class="p">,</span><span class="w"> </span><span class="n">compiled_expr</span><span class="w"> </span><span class="c">! Public Types</span>
+<span class="w">   </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">compile_expr_cp</span><span class="p">,</span><span class="w"> </span><span class="n">eval_compiled</span><span class="p">,</span><span class="w"> </span><span class="n">differentiate_compiled</span><span class="w"> </span><span class="c">! Public Procedures</span>
+<span class="w">   </span><span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">passed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">failed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"=========================================================="</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">" Running M_unicode__eval Unit Test Suite"</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"=========================================================="</span>
+
+<span class="w">    </span><span class="k">call </span><span class="n">test_utf8_roundtrip</span><span class="p">()</span>
+<span class="w">    </span><span class="k">call </span><span class="n">test_basic_arithmetic_and_precedence</span><span class="p">()</span>
+<span class="w">    </span><span class="k">call </span><span class="n">test_unicode_operators_and_superscripts</span><span class="p">()</span>
+<span class="w">    </span><span class="k">call </span><span class="n">test_implicit_multiplication</span><span class="p">()</span>
+<span class="w">    </span><span class="k">call </span><span class="n">test_strict_case_sensitivity</span><span class="p">()</span>
+<span class="w">    </span><span class="k">call </span><span class="n">test_array_broadcasting_and_indexing</span><span class="p">()</span>
+<span class="w">    </span><span class="k">call </span><span class="n">test_array_reductions_and_multiarg</span><span class="p">()</span>
+<span class="w">    </span><span class="k">call </span><span class="n">test_custom_user_functions</span><span class="p">()</span>
+<span class="w">    </span><span class="k">call </span><span class="n">test_symbolic_differentiation</span><span class="p">()</span>
+<span class="w">    </span><span class="k">call </span><span class="n">test_error_handling</span><span class="p">()</span>
+
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"=========================================================="</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="s1">'(A, I0, A, I0, A)'</span><span class="p">,</span><span class="w"> </span><span class="s2">" Summary: "</span><span class="p">,</span><span class="w"> </span><span class="n">passed</span><span class="p">,</span><span class="w"> </span><span class="s2">" passed, "</span><span class="p">,</span><span class="w"> </span><span class="n">failed</span><span class="p">,</span><span class="w"> </span><span class="s2">" failed."</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"=========================================================="</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">failed</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">error stop </span><span class="mi">1</span>
+
+<span class="k">contains</span>
+
+<span class="w">    </span><span class="c">!---------------------------------------------------------------------------</span>
+<span class="w">    </span><span class="c">! Test Assertion Helpers</span>
+<span class="w">    </span><span class="c">!---------------------------------------------------------------------------</span>
+<span class="w">    </span><span class="k">subroutine </span><span class="n">assert_near</span><span class="p">(</span><span class="n">actual</span><span class="p">,</span><span class="w"> </span><span class="n">expected</span><span class="p">,</span><span class="w"> </span><span class="n">tol</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">)</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">actual</span><span class="p">,</span><span class="w"> </span><span class="n">expected</span><span class="p">,</span><span class="w"> </span><span class="n">tol</span>
+<span class="w">        </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">name</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">actual</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">expected</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">tol</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            </span><span class="n">passed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">passed</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="k">            </span><span class="n">failed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">failed</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">            </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"[FAIL] "</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="s2">" | Expected:"</span><span class="p">,</span><span class="w"> </span><span class="n">expected</span><span class="p">,</span><span class="w"> </span><span class="s2">" Got:"</span><span class="p">,</span><span class="w"> </span><span class="n">actual</span>
+<span class="w">        </span><span class="k">end if</span>
+<span class="k">    end subroutine </span><span class="n">assert_near</span>
+
+<span class="w">    </span><span class="k">subroutine </span><span class="n">assert_array_near</span><span class="p">(</span><span class="n">actual</span><span class="p">,</span><span class="w"> </span><span class="n">expected</span><span class="p">,</span><span class="w"> </span><span class="n">tol</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">)</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">actual</span><span class="p">(:),</span><span class="w"> </span><span class="n">expected</span><span class="p">(:),</span><span class="w"> </span><span class="n">tol</span>
+<span class="w">        </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">name</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">actual</span><span class="p">)</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">expected</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            </span><span class="n">failed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">failed</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">            </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"[FAIL] "</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="s2">" | Size mismatch:"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">actual</span><span class="p">),</span><span class="w"> </span><span class="s2">"vs"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">expected</span><span class="p">)</span>
+<span class="w">            </span><span class="k">return</span>
+<span class="k">        end if</span>
+<span class="k">        if</span><span class="w"> </span><span class="p">(</span><span class="k">all</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">actual</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">expected</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">tol</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            </span><span class="n">passed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">passed</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="k">            </span><span class="n">failed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">failed</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">            </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"[FAIL] "</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="s2">" | Array mismatch"</span>
+<span class="w">            </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"   Expected:"</span><span class="p">,</span><span class="w"> </span><span class="n">expected</span>
+<span class="w">            </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"   Got     :"</span><span class="p">,</span><span class="w"> </span><span class="n">actual</span>
+<span class="w">        </span><span class="k">end if</span>
+<span class="k">    end subroutine </span><span class="n">assert_array_near</span>
+
+<span class="w">    </span><span class="k">subroutine </span><span class="n">assert_int_eq</span><span class="p">(</span><span class="n">actual</span><span class="p">,</span><span class="w"> </span><span class="n">expected</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">)</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">actual</span><span class="p">,</span><span class="w"> </span><span class="n">expected</span>
+<span class="w">        </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">name</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">actual</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">expected</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            </span><span class="n">passed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">passed</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="k">            </span><span class="n">failed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">failed</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">            </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"[FAIL] "</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="s2">" | Expected:"</span><span class="p">,</span><span class="w"> </span><span class="n">expected</span><span class="p">,</span><span class="w"> </span><span class="s2">" Got:"</span><span class="p">,</span><span class="w"> </span><span class="n">actual</span>
+<span class="w">        </span><span class="k">end if</span>
+<span class="k">    end subroutine </span><span class="n">assert_int_eq</span>
+
+<span class="w">    </span><span class="c">!---------------------------------------------------------------------------</span>
+<span class="w">    </span><span class="c">! 1. UTF-8 &lt;-&gt; Codepoint Array Roundtrip</span>
+<span class="w">    </span><span class="c">!---------------------------------------------------------------------------</span>
+<span class="w">    </span><span class="k">subroutine </span><span class="n">test_utf8_roundtrip</span><span class="p">()</span>
+<span class="w">        </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">orig</span><span class="p">,</span><span class="w"> </span><span class="n">back</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">cp</span><span class="p">(:)</span>
+
+<span class="w">        </span><span class="n">orig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"α + Δx × π ÷ √(y²) − 速度"</span>
+<span class="w">        </span><span class="n">cp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utoc</span><span class="p">(</span><span class="n">orig</span><span class="p">)</span>
+<span class="w">        </span><span class="n">back</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ctou</span><span class="p">(</span><span class="n">cp</span><span class="p">)</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">orig</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">back</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            </span><span class="n">passed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">passed</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="k">            </span><span class="n">failed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">failed</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">            </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"[FAIL] UTF-8 roundtrip mismatch"</span>
+<span class="w">        </span><span class="k">end if</span>
+<span class="k">    end subroutine </span><span class="n">test_utf8_roundtrip</span>
+
+<span class="w">    </span><span class="c">!---------------------------------------------------------------------------</span>
+<span class="w">    </span><span class="c">! 2. Standard Precedence, Associativity, and Scientific Notation</span>
+<span class="w">    </span><span class="c">!---------------------------------------------------------------------------</span>
+<span class="w">    </span><span class="k">subroutine </span><span class="n">test_basic_arithmetic_and_precedence</span><span class="p">()</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">compiled_expr</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">prog</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">res</span><span class="p">(:)</span>
+<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">err</span>
+
+<span class="w">        </span><span class="c">! Right-associative power: 2 ** 3 ** 2 == 2 ** 9 == 512</span>
+<span class="w">        </span><span class="k">call </span><span class="n">compile_expr_cp</span><span class="p">(</span><span class="n">utoc</span><span class="p">(</span><span class="s2">"2 ** 3 ** 2"</span><span class="p">),</span><span class="w"> </span><span class="n">prog</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">assert_int_eq</span><span class="p">(</span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s2">"Compile right-assoc power"</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">eval_compiled</span><span class="p">(</span><span class="n">prog</span><span class="p">,</span><span class="w"> </span><span class="n">res</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">assert_near</span><span class="p">(</span><span class="n">res</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="mi">51</span><span class="mf">2.0_real64</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0e-12_real64</span><span class="p">,</span><span class="w"> </span><span class="s2">"2**3**2 == 512"</span><span class="p">)</span>
+
+<span class="w">        </span><span class="c">! Scientific notation &amp; unary negation</span>
+<span class="w">        </span><span class="k">call </span><span class="n">compile_expr_cp</span><span class="p">(</span><span class="n">utoc</span><span class="p">(</span><span class="s2">"-1.5d2 + 2.5e-1 * 4.0"</span><span class="p">),</span><span class="w"> </span><span class="n">prog</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">eval_compiled</span><span class="p">(</span><span class="n">prog</span><span class="p">,</span><span class="w"> </span><span class="n">res</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">assert_near</span><span class="p">(</span><span class="n">res</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="o">-</span><span class="mi">14</span><span class="mf">9.0_real64</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0e-12_real64</span><span class="p">,</span><span class="w"> </span><span class="s2">"Scientific notation"</span><span class="p">)</span>
+<span class="w">    </span><span class="k">end subroutine </span><span class="n">test_basic_arithmetic_and_precedence</span>
+
+<span class="w">    </span><span class="c">!---------------------------------------------------------------------------</span>
+<span class="w">    </span><span class="c">! 3. Unicode Operators (×, ÷, −, √, ≤, ≥, ≠) &amp; Postfix Superscripts (², ⁻³)</span>
+<span class="w">    </span><span class="c">!---------------------------------------------------------------------------</span>
+<span class="w">    </span><span class="k">subroutine </span><span class="n">test_unicode_operators_and_superscripts</span><span class="p">()</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">compiled_expr</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">prog</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">res</span><span class="p">(:)</span>
+<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">err</span>
+
+<span class="w">        </span><span class="k">call </span><span class="n">compile_expr_cp</span><span class="p">(</span><span class="n">utoc</span><span class="p">(</span><span class="s2">"√(3² + 4²) × 10⁻¹ ÷ 2 − 0.25"</span><span class="p">),</span><span class="w"> </span><span class="n">prog</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">assert_int_eq</span><span class="p">(</span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s2">"Compile Unicode math symbols"</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">eval_compiled</span><span class="p">(</span><span class="n">prog</span><span class="p">,</span><span class="w"> </span><span class="n">res</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">)</span>
+<span class="w">        </span><span class="c">! sqrt(25) * 0.1 / 2 - 0.25 = 5 * 0.05 - 0.25 = 0.0</span>
+<span class="w">        </span><span class="k">call </span><span class="n">assert_near</span><span class="p">(</span><span class="n">res</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="mf">0.0_real64</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0e-12_real64</span><span class="p">,</span><span class="w"> </span><span class="s2">"√(3²+4²)×10⁻¹÷2−0.25"</span><span class="p">)</span>
+
+<span class="w">        </span><span class="c">! Unicode comparisons</span>
+<span class="w">        </span><span class="k">call </span><span class="n">compile_expr_cp</span><span class="p">(</span><span class="n">utoc</span><span class="p">(</span><span class="s2">"(π ≤ 3.15) + (τ ≥ 6.28) + (π ≠ e)"</span><span class="p">),</span><span class="w"> </span><span class="n">prog</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">eval_compiled</span><span class="p">(</span><span class="n">prog</span><span class="p">,</span><span class="w"> </span><span class="n">res</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">assert_near</span><span class="p">(</span><span class="n">res</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="mf">3.0_real64</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0e-12_real64</span><span class="p">,</span><span class="w"> </span><span class="s2">"Unicode comparisons == 3.0"</span><span class="p">)</span>
+<span class="w">    </span><span class="k">end subroutine </span><span class="n">test_unicode_operators_and_superscripts</span>
+
+<span class="w">    </span><span class="c">!---------------------------------------------------------------------------</span>
+<span class="w">    </span><span class="c">! 4. Implicit Multiplication</span>
+<span class="w">    </span><span class="c">!---------------------------------------------------------------------------</span>
+<span class="w">    </span><span class="k">subroutine </span><span class="n">test_implicit_multiplication</span><span class="p">()</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">compiled_expr</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">prog</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">cp_string</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">vnames</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">var_value</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">vars</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">res</span><span class="p">(:)</span>
+<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">err</span>
+
+<span class="w">        </span><span class="n">vnames</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">cp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utoc</span><span class="p">(</span><span class="s2">"x"</span><span class="p">)</span>
+<span class="w">        </span><span class="n">vnames</span><span class="p">(</span><span class="mi">2</span><span class="p">)%</span><span class="n">cp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utoc</span><span class="p">(</span><span class="s2">"y"</span><span class="p">)</span>
+<span class="w">        </span><span class="n">vars</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mf">3.0_real64</span><span class="p">]</span>
+<span class="w">        </span><span class="n">vars</span><span class="p">(</span><span class="mi">2</span><span class="p">)%</span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mf">4.0_real64</span><span class="p">]</span>
+
+<span class="w">        </span><span class="c">! 2x + 3(y - 1) + (x + 1)(y - 2) + 2√y</span>
+<span class="w">        </span><span class="c">! = 6 + 9 + 4*2 + 4 = 27</span>
+<span class="w">        </span><span class="k">call </span><span class="n">compile_expr_cp</span><span class="p">(</span><span class="n">utoc</span><span class="p">(</span><span class="s2">"2x + 3(y - 1) + (x + 1)(y - 2) + 2√y"</span><span class="p">),</span><span class="w"> </span><span class="n">prog</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="n">vnames</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">assert_int_eq</span><span class="p">(</span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s2">"Compile implicit multiplication"</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">eval_compiled</span><span class="p">(</span><span class="n">prog</span><span class="p">,</span><span class="w"> </span><span class="n">res</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="n">vars</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">assert_near</span><span class="p">(</span><span class="n">res</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="mi">2</span><span class="mf">7.0_real64</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0e-12_real64</span><span class="p">,</span><span class="w"> </span><span class="s2">"Implicit multiplication value"</span><span class="p">)</span>
+<span class="w">    </span><span class="k">end subroutine </span><span class="n">test_implicit_multiplication</span>
+
+<span class="w">    </span><span class="c">!---------------------------------------------------------------------------</span>
+<span class="w">    </span><span class="c">! 5. Strict Case Sensitivity (ASCII &amp; Greek)</span>
+<span class="w">    </span><span class="c">!---------------------------------------------------------------------------</span>
+<span class="w">    </span><span class="k">subroutine </span><span class="n">test_strict_case_sensitivity</span><span class="p">()</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">compiled_expr</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">prog</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">cp_string</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">vnames</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">var_value</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">vars</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">res</span><span class="p">(:)</span>
+<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">err</span>
+
+<span class="w">        </span><span class="n">vnames</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">cp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utoc</span><span class="p">(</span><span class="s2">"x"</span><span class="p">)</span>
+<span class="w">        </span><span class="n">vnames</span><span class="p">(</span><span class="mi">2</span><span class="p">)%</span><span class="n">cp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utoc</span><span class="p">(</span><span class="s2">"X"</span><span class="p">)</span>
+<span class="w">        </span><span class="n">vnames</span><span class="p">(</span><span class="mi">3</span><span class="p">)%</span><span class="n">cp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utoc</span><span class="p">(</span><span class="s2">"α"</span><span class="p">)</span>
+<span class="w">        </span><span class="n">vnames</span><span class="p">(</span><span class="mi">4</span><span class="p">)%</span><span class="n">cp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utoc</span><span class="p">(</span><span class="s2">"Α"</span><span class="p">)</span><span class="w"> </span><span class="c">! Capital Greek Alpha (U+0391)</span>
+
+<span class="w">        </span><span class="n">vars</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mf">1.0_real64</span><span class="p">]</span>
+<span class="w">        </span><span class="n">vars</span><span class="p">(</span><span class="mi">2</span><span class="p">)%</span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="mf">0.0_real64</span><span class="p">]</span>
+<span class="w">        </span><span class="n">vars</span><span class="p">(</span><span class="mi">3</span><span class="p">)%</span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">10</span><span class="mf">0.0_real64</span><span class="p">]</span>
+<span class="w">        </span><span class="n">vars</span><span class="p">(</span><span class="mi">4</span><span class="p">)%</span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">100</span><span class="mf">0.0_real64</span><span class="p">]</span>
+
+<span class="w">        </span><span class="k">call </span><span class="n">compile_expr_cp</span><span class="p">(</span><span class="n">utoc</span><span class="p">(</span><span class="s2">"x + X + α + Α"</span><span class="p">),</span><span class="w"> </span><span class="n">prog</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="n">vnames</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">assert_int_eq</span><span class="p">(</span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s2">"Compile distinct case variables"</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">eval_compiled</span><span class="p">(</span><span class="n">prog</span><span class="p">,</span><span class="w"> </span><span class="n">res</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="n">vars</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">assert_near</span><span class="p">(</span><span class="n">res</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="mi">111</span><span class="mf">1.0_real64</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0e-12_real64</span><span class="p">,</span><span class="w"> </span><span class="s2">"Distinct case values"</span><span class="p">)</span>
+
+<span class="w">        </span><span class="c">! Uppercase function name SIN must fail</span>
+<span class="w">        </span><span class="k">call </span><span class="n">compile_expr_cp</span><span class="p">(</span><span class="n">utoc</span><span class="p">(</span><span class="s2">"SIN(0)"</span><span class="p">),</span><span class="w"> </span><span class="n">prog</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">assert_int_eq</span><span class="p">(</span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="s2">"Uppercase SIN rejected"</span><span class="p">)</span>
+<span class="w">    </span><span class="k">end subroutine </span><span class="n">test_strict_case_sensitivity</span>
+
+<span class="w">    </span><span class="c">!---------------------------------------------------------------------------</span>
+<span class="w">    </span><span class="c">! 6. Array Broadcasting &amp; 1-Based Subscript Indexing</span>
+<span class="w">    </span><span class="c">!---------------------------------------------------------------------------</span>
+<span class="w">    </span><span class="k">subroutine </span><span class="n">test_array_broadcasting_and_indexing</span><span class="p">()</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">compiled_expr</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">prog</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">cp_string</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">vnames</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">var_value</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">vars</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">res</span><span class="p">(:)</span>
+<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">err</span>
+
+<span class="w">        </span><span class="n">vnames</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">cp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utoc</span><span class="p">(</span><span class="s2">"v"</span><span class="p">)</span>
+<span class="w">        </span><span class="n">vnames</span><span class="p">(</span><span class="mi">2</span><span class="p">)%</span><span class="n">cp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utoc</span><span class="p">(</span><span class="s2">"c"</span><span class="p">)</span>
+<span class="w">        </span><span class="n">vars</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mf">2.0_real64</span><span class="p">,</span><span class="w"> </span><span class="mf">4.0_real64</span><span class="p">,</span><span class="w"> </span><span class="mf">6.0_real64</span><span class="p">]</span>
+<span class="w">        </span><span class="n">vars</span><span class="p">(</span><span class="mi">2</span><span class="p">)%</span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="mf">0.0_real64</span><span class="p">]</span>
+
+<span class="w">        </span><span class="c">! Broadcast scalar c over vector v, add indexed element v[2] (4.0)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">compile_expr_cp</span><span class="p">(</span><span class="n">utoc</span><span class="p">(</span><span class="s2">"v × c + v[2]"</span><span class="p">),</span><span class="w"> </span><span class="n">prog</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="n">vnames</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">assert_int_eq</span><span class="p">(</span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s2">"Compile array broadcast + index"</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">eval_compiled</span><span class="p">(</span><span class="n">prog</span><span class="p">,</span><span class="w"> </span><span class="n">res</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="n">vars</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">assert_array_near</span><span class="p">(</span><span class="n">res</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="mf">4.0_real64</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="mf">4.0_real64</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="mf">4.0_real64</span><span class="p">],</span><span class="w"> </span><span class="mf">1.0e-12_real64</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                               </span><span class="s2">"Broadcast + index result"</span><span class="p">)</span>
+<span class="w">    </span><span class="k">end subroutine </span><span class="n">test_array_broadcasting_and_indexing</span>
+
+<span class="w">    </span><span class="c">!---------------------------------------------------------------------------</span>
+<span class="w">    </span><span class="c">! 7. Array Reductions &amp; Multi-Argument Functions</span>
+<span class="w">    </span><span class="c">!---------------------------------------------------------------------------</span>
+<span class="w">    </span><span class="k">subroutine </span><span class="n">test_array_reductions_and_multiarg</span><span class="p">()</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">compiled_expr</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">prog</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">cp_string</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">vnames</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">var_value</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">vars</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">res</span><span class="p">(:)</span>
+<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">err</span>
+
+<span class="w">        </span><span class="n">vnames</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">cp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utoc</span><span class="p">(</span><span class="s2">"a"</span><span class="p">)</span>
+<span class="w">        </span><span class="n">vnames</span><span class="p">(</span><span class="mi">2</span><span class="p">)%</span><span class="n">cp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utoc</span><span class="p">(</span><span class="s2">"b"</span><span class="p">)</span>
+<span class="w">        </span><span class="n">vars</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mf">3.0_real64</span><span class="p">,</span><span class="w"> </span><span class="mf">4.0_real64</span><span class="p">]</span>
+<span class="w">        </span><span class="n">vars</span><span class="p">(</span><span class="mi">2</span><span class="p">)%</span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mf">2.0_real64</span><span class="p">,</span><span class="w"> </span><span class="mf">5.0_real64</span><span class="p">]</span>
+
+<span class="w">        </span><span class="c">! dot(a,b) = 6+20 = 26; norm2(a) = 5; sum(b) = 7; mean(a) = 3.5; size(a) = 2</span>
+<span class="w">        </span><span class="k">call </span><span class="n">compile_expr_cp</span><span class="p">(</span><span class="n">utoc</span><span class="p">(</span><span class="s2">"dot(a, b) + norm2(a) + sum(b) + mean(a) + size(a)"</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                             </span><span class="n">prog</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="n">vnames</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">eval_compiled</span><span class="p">(</span><span class="n">prog</span><span class="p">,</span><span class="w"> </span><span class="n">res</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="n">vars</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">assert_near</span><span class="p">(</span><span class="n">res</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="mi">4</span><span class="mf">3.5_real64</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0e-12_real64</span><span class="p">,</span><span class="w"> </span><span class="s2">"Array reductions"</span><span class="p">)</span>
+
+<span class="w">        </span><span class="c">! Conditional if() with array broadcasting</span>
+<span class="k">call </span><span class="n">compile_expr_cp</span><span class="p">(</span><span class="n">utoc</span><span class="p">(</span><span class="s2">"if(a &gt; 3.5, b, -1.0)"</span><span class="p">),</span><span class="w"> </span><span class="n">prog</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="n">vnames</span><span class="p">)</span>
+<span class="k">call </span><span class="n">eval_compiled</span><span class="p">(</span><span class="n">prog</span><span class="p">,</span><span class="w"> </span><span class="n">res</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="n">vars</span><span class="p">)</span>
+<span class="k">call </span><span class="n">assert_array_near</span><span class="p">(</span><span class="n">res</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="o">-</span><span class="mf">1.0_real64</span><span class="p">,</span><span class="w"> </span><span class="mf">5.0_real64</span><span class="p">],</span><span class="w"> </span><span class="mf">1.0e-12_real64</span><span class="p">,</span><span class="w"> </span><span class="s2">"Vectorized if()"</span><span class="p">)</span>
+<span class="k">end subroutine </span><span class="n">test_array_reductions_and_multiarg</span>
+<span class="c">!---------------------------------------------------------------------------</span>
+<span class="c">! 8. Custom User-Defined Fortran Functions (with Unicode Name)</span>
+<span class="c">!---------------------------------------------------------------------------</span>
+<span class="k">function </span><span class="n">custom_poly</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+<span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">args</span><span class="p">(:)</span>
+<span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">r</span>
+<span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">args</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">2.0_real64</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">args</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">end function </span><span class="n">custom_poly</span>
+<span class="k">subroutine </span><span class="n">test_custom_user_functions</span><span class="p">()</span>
+<span class="k">type</span><span class="p">(</span><span class="n">compiled_expr</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">prog</span>
+<span class="k">type</span><span class="p">(</span><span class="n">user_func</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ufuncs</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">type</span><span class="p">(</span><span class="n">cp_string</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">vnames</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">type</span><span class="p">(</span><span class="n">var_value</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">vars</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">res</span><span class="p">(:)</span>
+<span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">err</span>
+<span class="n">ufuncs</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">name</span><span class="p">%</span><span class="n">cp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utoc</span><span class="p">(</span><span class="s2">"Φ"</span><span class="p">)</span>
+<span class="n">ufuncs</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">nargs</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span>
+<span class="n">ufuncs</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">fn</span><span class="w">      </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">custom_poly</span>
+<span class="n">vnames</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">cp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utoc</span><span class="p">(</span><span class="s2">"x"</span><span class="p">)</span>
+<span class="n">vars</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">val</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mf">1.0_real64</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0_real64</span><span class="p">,</span><span class="w"> </span><span class="mf">3.0_real64</span><span class="p">]</span>
+<span class="c">! Φ(x, 10) = x^2 + 20 -&gt; [21, 24, 29]</span>
+<span class="k">call </span><span class="n">compile_expr_cp</span><span class="p">(</span><span class="n">utoc</span><span class="p">(</span><span class="s2">"Φ(x, 10)"</span><span class="p">),</span><span class="w"> </span><span class="n">prog</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="n">vnames</span><span class="p">,</span><span class="w"> </span><span class="n">ufuncs</span><span class="p">)</span>
+<span class="k">call </span><span class="n">assert_int_eq</span><span class="p">(</span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s2">"Compile custom Unicode function"</span><span class="p">)</span>
+<span class="k">call </span><span class="n">eval_compiled</span><span class="p">(</span><span class="n">prog</span><span class="p">,</span><span class="w"> </span><span class="n">res</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="n">vars</span><span class="p">)</span>
+<span class="k">call </span><span class="n">assert_array_near</span><span class="p">(</span><span class="n">res</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="mf">1.0_real64</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="mf">4.0_real64</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="mf">9.0_real64</span><span class="p">],</span><span class="w"> </span><span class="mf">1.0e-12_real64</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="s2">"Custom function broadcast"</span><span class="p">)</span>
+<span class="k">end subroutine </span><span class="n">test_custom_user_functions</span>
+<span class="c">!---------------------------------------------------------------------------</span>
+<span class="c">! 9. Symbolic Differentiation (Scalar &amp; Array)</span>
+<span class="c">!---------------------------------------------------------------------------</span>
+<span class="k">subroutine </span><span class="n">test_symbolic_differentiation</span><span class="p">()</span>
+<span class="k">type</span><span class="p">(</span><span class="n">compiled_expr</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">prog</span><span class="p">,</span><span class="w"> </span><span class="n">dprog</span>
+<span class="k">type</span><span class="p">(</span><span class="n">cp_string</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">vnames</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">type</span><span class="p">(</span><span class="n">var_value</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">vars</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dres</span><span class="p">(:)</span>
+<span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">expected</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">err</span>
+<span class="n">vnames</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">cp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utoc</span><span class="p">(</span><span class="s2">"x"</span><span class="p">)</span>
+<span class="n">vars</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">val</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mf">0.5_real64</span><span class="p">,</span><span class="w"> </span><span class="mf">1.5_real64</span><span class="p">]</span>
+<span class="c">! f(x) = x^3 + sin(2x) + exp(-x)</span>
+<span class="c">! f'(x) = 3x^2 + 2cos(2x) - exp(-x)</span>
+<span class="k">call </span><span class="n">compile_expr_cp</span><span class="p">(</span><span class="n">utoc</span><span class="p">(</span><span class="s2">"x³ + sin(2x) + exp(-x)"</span><span class="p">),</span><span class="w"> </span><span class="n">prog</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="n">vnames</span><span class="p">)</span>
+<span class="k">call </span><span class="n">assert_int_eq</span><span class="p">(</span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s2">"Compile expression for autodiff"</span><span class="p">)</span>
+<span class="k">call </span><span class="n">differentiate_compiled</span><span class="p">(</span><span class="n">prog</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">dprog</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">)</span>
+<span class="k">call </span><span class="n">assert_int_eq</span><span class="p">(</span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s2">"Symbolic differentiation succeeded"</span><span class="p">)</span>
+<span class="k">call </span><span class="n">eval_compiled</span><span class="p">(</span><span class="n">dprog</span><span class="p">,</span><span class="w"> </span><span class="n">dres</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="n">vars</span><span class="p">)</span>
+<span class="n">expected</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3.0_real64</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">vars</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">val</span><span class="o">**</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">2.0_real64</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nb">cos</span><span class="p">(</span><span class="mf">2.0_real64</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">vars</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">val</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="o">-</span><span class="w"> </span><span class="nb">exp</span><span class="p">(</span><span class="o">-</span><span class="n">vars</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">val</span><span class="p">)</span>
+<span class="k">call </span><span class="n">assert_array_near</span><span class="p">(</span><span class="n">dres</span><span class="p">,</span><span class="w"> </span><span class="n">expected</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0e-12_real64</span><span class="p">,</span><span class="w"> </span><span class="s2">"Analytical derivative accuracy"</span><span class="p">)</span>
+<span class="k">end subroutine </span><span class="n">test_symbolic_differentiation</span>
+<span class="c">!---------------------------------------------------------------------------</span>
+<span class="c">! 10. Error Code Verification</span>
+<span class="c">!---------------------------------------------------------------------------</span>
+<span class="k">subroutine </span><span class="n">test_error_handling</span><span class="p">()</span>
+<span class="k">type</span><span class="p">(</span><span class="n">compiled_expr</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">prog</span>
+<span class="k">type</span><span class="p">(</span><span class="n">cp_string</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">vnames</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">type</span><span class="p">(</span><span class="n">var_value</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">vars</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="kt">real</span><span class="p">(</span><span class="n">real64</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">res</span><span class="p">(:)</span>
+<span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">err</span>
+<span class="n">vnames</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">cp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utoc</span><span class="p">(</span><span class="s2">"a"</span><span class="p">)</span>
+<span class="n">vnames</span><span class="p">(</span><span class="mi">2</span><span class="p">)%</span><span class="n">cp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utoc</span><span class="p">(</span><span class="s2">"b"</span><span class="p">)</span>
+<span class="n">vars</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mf">1.0_real64</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0_real64</span><span class="p">]</span>
+<span class="n">vars</span><span class="p">(</span><span class="mi">2</span><span class="p">)%</span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mf">1.0_real64</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0_real64</span><span class="p">,</span><span class="w"> </span><span class="mf">3.0_real64</span><span class="p">]</span>
+<span class="c">! Mismatched parentheses (err = 5)</span>
+<span class="k">call </span><span class="n">compile_expr_cp</span><span class="p">(</span><span class="n">utoc</span><span class="p">(</span><span class="s2">"(1 + 2"</span><span class="p">),</span><span class="w"> </span><span class="n">prog</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">)</span>
+<span class="k">call </span><span class="n">assert_int_eq</span><span class="p">(</span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="s2">"Error 5: Mismatched parens"</span><span class="p">)</span>
+<span class="c">! Division by zero (err = 3)</span>
+<span class="k">call </span><span class="n">compile_expr_cp</span><span class="p">(</span><span class="n">utoc</span><span class="p">(</span><span class="s2">"10 / (2 - 2)"</span><span class="p">),</span><span class="w"> </span><span class="n">prog</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">)</span>
+<span class="k">call </span><span class="n">eval_compiled</span><span class="p">(</span><span class="n">prog</span><span class="p">,</span><span class="w"> </span><span class="n">res</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">)</span>
+<span class="k">call </span><span class="n">assert_int_eq</span><span class="p">(</span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="s2">"Error 3: Division by zero"</span><span class="p">)</span>
+<span class="c">! Square root of negative number (err = 10)</span>
+<span class="k">call </span><span class="n">compile_expr_cp</span><span class="p">(</span><span class="n">utoc</span><span class="p">(</span><span class="s2">"√(-4)"</span><span class="p">),</span><span class="w"> </span><span class="n">prog</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">)</span>
+<span class="k">call </span><span class="n">eval_compiled</span><span class="p">(</span><span class="n">prog</span><span class="p">,</span><span class="w"> </span><span class="n">res</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">)</span>
+<span class="k">call </span><span class="n">assert_int_eq</span><span class="p">(</span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="s2">"Error 10: Negative sqrt"</span><span class="p">)</span>
+<span class="c">! Out-of-bounds array index (err = 14)</span>
+<span class="k">call </span><span class="n">compile_expr_cp</span><span class="p">(</span><span class="n">utoc</span><span class="p">(</span><span class="s2">"a[5]"</span><span class="p">),</span><span class="w"> </span><span class="n">prog</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="n">vnames</span><span class="p">)</span>
+<span class="k">call </span><span class="n">eval_compiled</span><span class="p">(</span><span class="n">prog</span><span class="p">,</span><span class="w"> </span><span class="n">res</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="n">vars</span><span class="p">)</span>
+<span class="k">call </span><span class="n">assert_int_eq</span><span class="p">(</span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="mi">14</span><span class="p">,</span><span class="w"> </span><span class="s2">"Error 14: Out of bounds index"</span><span class="p">)</span>
+<span class="c">! Incompatible broadcast shapes (err = 15)</span>
+<span class="k">call </span><span class="n">compile_expr_cp</span><span class="p">(</span><span class="n">utoc</span><span class="p">(</span><span class="s2">"a + b"</span><span class="p">),</span><span class="w"> </span><span class="n">prog</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="n">vnames</span><span class="p">)</span>
+<span class="k">call </span><span class="n">eval_compiled</span><span class="p">(</span><span class="n">prog</span><span class="p">,</span><span class="w"> </span><span class="n">res</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="n">vars</span><span class="p">)</span>
+<span class="k">call </span><span class="n">assert_int_eq</span><span class="p">(</span><span class="n">err</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w"> </span><span class="s2">"Error 15: Incompatible array shapes"</span><span class="p">)</span>
+<span class="k">end subroutine </span><span class="n">test_error_handling</span>
+<span class="k">end program </span><span class="n">test_suite</span>
+</pre></div>
+
+    </section>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              M_unicode
+ was developed by John S. Urban<br>              &copy; 2026 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2026-11-16 14:32 +0000             </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

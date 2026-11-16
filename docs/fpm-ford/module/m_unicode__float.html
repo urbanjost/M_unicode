@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 1.7% of total for modules and submodules.">181 statements</a>
+                 title=" 1.5% of total for modules and submodules.">181 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -165,180 +165,7 @@
     </div>
 
     <div class="col-md-9" id='text'>
-      <h3 id="name">NAME</h3>
-<div class="codehilite"><pre><span></span><code>str_to_real(3f) ‐ [M_unicode:TYPE] subroutine returns numeric value
-from string (LICENSE:MIT)
-</code></pre></div>
-
-<h3 id="synopsis">SYNOPSIS</h3>
-<div class="codehilite"><pre><span></span><code> pure elemental subroutine str_to_real(str, val, ierr)
-
-     character(len=*), intent(in)  :: str
-     real(real64),     intent(out) :: val
-     integer,          intent(out) :: ierr
-</code></pre></div>
-
-<h3 id="description">DESCRIPTION</h3>
-<p>STR_TO_REAL(3f) returns a numeric value given a string representing
-  a numeric value; without using internal I/O (the conventional method
-  in Fortran).</p>
-<p>The procedure utilitizes full IEEE 754 support for literal
-  Inf/Infinity, NaN (case-insensitive), and signed -0.0 preservation,
-  while keeping the procedure pure elemental.</p>
-<p>STR_TO_REAL(3f) works with any G‐format input, This includes whole
-  number, float, and exponential syntax. That is, input strings may
-  contain signs (+/-), decimal points, and scientific notation (e/E/d/D).</p>
-<p>The output is a double-precision real (real(real64)), along with an
-  integer error flag (ierr).</p>
-<h3 id="options">OPTIONS</h3>
-<div class="codehilite"><pre><span></span><code>  chars  input string to read numeric value from
-</code></pre></div>
-
-<h3 id="returns">RETURNS</h3>
-<div class="codehilite"><pre><span></span><code>  valu   DOUBLEPRECISION numeric value returned.
-  ierr   error flag (0 == no error)
-</code></pre></div>
-
-<p>KEY FEATURES OF THIS IMPLEMENTATION</p>
-<p>o ASCII Digit Conversion. Uses iachar(c) - iachar(&lsquo;0&rsquo;) rather than
-     hardcoded ASCII offsets like 48 to stay portable across compiler
-     environments.</p>
-<p>o No Internal I/O Overhead. Avoids Fortran&rsquo;s internal READ(3f)
-     statement, making it faster in tight loops and safe to use inside
-     pure or elemental procedures or inside parallel OpenMP/GPU regions
-     where I/O is restricted.</p>
-<p>o Error Handling (ierr). Safely catches empty strings (1), misplaced
-     decimals (2), malformed exponents (3 or 5), and stray non-numeric
-     characters (4) without crashing the program.</p>
-<p>o The subroutine is  pure (and elemental) so it can process arrays
-     directly, To maintain this feature the first and last non-space
-     character indices are located directly on the input, avoiding dynamic
-     heap allocation. The intent is to keeps the procedure completely
-     side-effect-free and reasonably fast while providing input valication.</p>
-<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="n">Pure</span><span class="w"> </span><span class="n">procedures</span><span class="w"> </span><span class="n">are</span><span class="w"> </span><span class="n">required</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">optimal</span><span class="w"> </span><span class="n">performance</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">even</span><span class="w"> </span><span class="n">appearance</span>
-<span class="w"> </span><span class="n">iin</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="n">concurrent</span><span class="w"> </span><span class="n">loops</span><span class="p">,</span><span class="w"> </span><span class="n">OpenMP</span><span class="w"> </span><span class="n">simd</span><span class="o">/</span><span class="n">target</span><span class="w"> </span><span class="n">regions</span><span class="p">,</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">directly</span><span class="w"> </span><span class="n">on</span>
-<span class="w"> </span><span class="n">multi</span><span class="o">-</span><span class="n">dimensional</span><span class="w"> </span><span class="k">string</span><span class="w"> </span><span class="n">arrays</span><span class="p">.</span>
-</code></pre></div>
-
-<p>o Zero Heap Allocations. This avoids allocating memory inside the
-     procedure and keeps the CPU cache footprint minimal.</p>
-<p>o overflow protection uses Fortran intrinsic inquiry functions (huge(),
-     maxexponent(), and minexponent()) rather than hardcoded magic numbers.</p>
-<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="n">overflow</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">guarded</span><span class="w"> </span><span class="n">agains</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">three</span><span class="w"> </span><span class="nl">places:</span>
-
-<span class="w">  </span><span class="mf">1.</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">Exponent</span><span class="w"> </span><span class="n">Integer</span><span class="w"> </span><span class="p">(</span><span class="n">exp_val</span><span class="p">)</span><span class="o">:</span><span class="w">  </span><span class="n">Prevents</span><span class="w"> </span><span class="k">integer</span><span class="w"> </span><span class="n">overflow</span>
-<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">malicious</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">malformed</span><span class="w"> </span><span class="k">string</span><span class="w"> </span><span class="n">has</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">massive</span><span class="w"> </span><span class="n">exponent</span><span class="w"> </span><span class="n">like</span>
-<span class="w">  </span><span class="mf">1e99999999999</span><span class="p">.</span>
-
-<span class="w">  </span><span class="mf">2.</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">Mantissa</span><span class="w"> </span><span class="p">(</span><span class="n">int_part</span><span class="p">)</span><span class="o">:</span><span class="w">  </span><span class="n">This</span><span class="w"> </span><span class="n">prevents</span><span class="w"> </span><span class="n">floating</span><span class="o">-</span><span class="n">point</span><span class="w"> </span><span class="n">overflow</span>
-<span class="w">  </span><span class="n">before</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">exponent</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">even</span><span class="w"> </span><span class="n">applied</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">g</span><span class="p">.,</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="mh">400</span><span class="o">-</span><span class="n">digit</span><span class="w"> </span><span class="k">string</span><span class="w"> </span><span class="n">with</span>
-<span class="w">  </span><span class="n">no</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="n">marker</span><span class="p">).</span>
-
-<span class="w">  </span><span class="n">e</span><span class="p">.</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">Final</span><span class="w"> </span><span class="n">Scaled</span><span class="w"> </span><span class="n">Result</span><span class="w"> </span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">:</span><span class="w">  </span><span class="n">Checks</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">combined</span><span class="w"> </span><span class="n">order</span><span class="w"> </span><span class="n">of</span>
-<span class="w">  </span><span class="n">magnitude</span><span class="w"> </span><span class="n">against</span><span class="w"> </span><span class="n">maxexponent</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="w"> </span><span class="n">before</span><span class="w"> </span><span class="n">raising</span><span class="w"> </span><span class="mf">10.0</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">power</span>
-<span class="w">  </span><span class="n">that</span><span class="w"> </span><span class="n">would</span><span class="w"> </span><span class="n">produce</span><span class="w"> </span><span class="n">Infinity</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">trigger</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">floating</span><span class="o">-</span><span class="n">point</span><span class="w"> </span><span class="n">exception</span><span class="p">.</span>
-
-<span class="n">SUMMARY</span><span class="w"> </span><span class="n">OF</span><span class="w"> </span><span class="n">PROTECTIONS</span><span class="w"> </span><span class="n">ADDED</span>
-
-<span class="w">  </span><span class="n">Error</span><span class="w"> </span><span class="n">Code</span><span class="w"> </span><span class="mh">6</span><span class="w"> </span><span class="p">(</span><span class="n">Numeric</span><span class="w"> </span><span class="n">Overflow</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="n">Returned</span><span class="w"> </span><span class="n">cleanly</span><span class="w"> </span><span class="n">as</span><span class="w"> </span><span class="n">Infinity</span>
-<span class="w">  </span><span class="n">without</span><span class="w"> </span><span class="n">halting</span><span class="w"> </span><span class="n">execution</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="n">exceeds</span><span class="w"> </span><span class="n">huge</span><span class="p">(</span><span class="mf">1.0</span><span class="n">_real64</span><span class="p">)</span>
-<span class="w">  </span><span class="p">(</span><span class="o">~</span><span class="mf">1.79769e308</span><span class="p">).</span>
-
-<span class="w">  </span><span class="n">Exact</span><span class="w"> </span><span class="n">Edge</span><span class="o">-</span><span class="n">Case</span><span class="w"> </span><span class="n">Checking</span><span class="w"> </span><span class="n">at</span><span class="w"> </span><span class="mh">10</span><span class="o">^</span><span class="mh">308</span><span class="o">:</span><span class="w"> </span><span class="n">Distinguishes</span><span class="w"> </span><span class="n">between</span><span class="w"> </span><span class="n">valid</span>
-<span class="w">  </span><span class="n">numbers</span><span class="w"> </span><span class="n">near</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">ceiling</span><span class="w"> </span><span class="p">(</span><span class="n">such</span><span class="w"> </span><span class="n">as</span><span class="w"> </span><span class="s">"1.79e308"</span><span class="p">)</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">overflowing</span><span class="w"> </span><span class="n">numbers</span>
-<span class="w">  </span><span class="n">at</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">same</span><span class="w"> </span><span class="n">order</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">magnitude</span><span class="w"> </span><span class="p">(</span><span class="n">such</span><span class="w"> </span><span class="n">as</span><span class="w"> </span><span class="s">"1.80e308"</span><span class="p">).</span>
-
-<span class="w">  </span><span class="n">Subnormal</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">Underflow</span><span class="w"> </span><span class="nl">Handling:</span><span class="w"> </span><span class="n">Numbers</span><span class="w"> </span><span class="n">smaller</span><span class="w"> </span><span class="n">than</span><span class="w"> </span><span class="o">~</span><span class="mh">10</span><span class="o">^-</span><span class="mh">324</span>
-<span class="w">  </span><span class="n">underflow</span><span class="w"> </span><span class="n">cleanly</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="mf">0.0</span><span class="n">_real64</span><span class="p">.</span><span class="w"> </span><span class="n">Numbers</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">subnormal</span><span class="w"> </span><span class="n">range</span>
-<span class="w">  </span><span class="p">(</span><span class="mh">10</span><span class="o">^-</span><span class="mh">308</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="mh">10</span><span class="o">^-</span><span class="mh">324</span><span class="p">)</span><span class="w"> </span><span class="n">are</span><span class="w"> </span><span class="n">scaled</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">two</span><span class="w"> </span><span class="n">steps</span><span class="w"> </span><span class="p">(</span><span class="mf">1.0e-300</span><span class="w"> </span><span class="n">first</span><span class="p">)</span><span class="w"> </span><span class="n">so</span>
-<span class="w">  </span><span class="mf">10.0</span><span class="n">_real64</span><span class="w"> </span><span class="o">**</span><span class="w"> </span><span class="n">exp</span><span class="w"> </span><span class="n">does</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="n">prematurely</span><span class="w"> </span><span class="n">evaluate</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">zero</span><span class="w"> </span><span class="n">before</span>
-<span class="w">  </span><span class="n">multiplying</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">mantissa</span><span class="p">.</span>
-
-<span class="w">  </span><span class="n">Zero</span><span class="o">-</span><span class="n">Mantissa</span><span class="w"> </span><span class="nl">Safety:</span><span class="w"> </span><span class="n">Inputs</span><span class="w"> </span><span class="n">like</span><span class="w"> </span><span class="s">"0.0e5000"</span><span class="w"> </span><span class="n">evaluate</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="mf">0.0</span><span class="n">_real64</span>
-<span class="w">  </span><span class="n">with</span><span class="w"> </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0</span><span class="w"> </span><span class="n">rather</span><span class="w"> </span><span class="n">than</span><span class="w"> </span><span class="n">falsely</span><span class="w"> </span><span class="n">triggering</span><span class="w"> </span><span class="n">an</span><span class="w"> </span><span class="n">overflow</span><span class="p">.</span>
-
-<span class="w">  </span><span class="n">Case</span><span class="o">-</span><span class="n">Insensitive</span><span class="w"> </span><span class="n">Inf</span><span class="p">,</span><span class="w"> </span><span class="n">Infinity</span><span class="p">,</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="nl">NaN:</span><span class="w"> </span><span class="n">After</span><span class="w"> </span><span class="n">parsing</span><span class="w"> </span><span class="n">any</span><span class="w"> </span><span class="n">leading</span><span class="w"> </span><span class="o">+</span>
-<span class="w">  </span><span class="k">or</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">sign</span><span class="p">,</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">subroutine</span><span class="w"> </span><span class="n">checks</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">remaining</span><span class="w"> </span><span class="n">substring</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">up</span>
-<span class="w">  </span><span class="n">to</span><span class="w"> </span><span class="mh">8</span><span class="w"> </span><span class="n">characters</span><span class="w"> </span><span class="n">long</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">matches</span><span class="w"> </span><span class="p">'</span><span class="n">INF</span><span class="p">',</span><span class="w"> </span><span class="p">'</span><span class="n">INFINITY</span><span class="p">',</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="p">'</span><span class="n">NAN</span><span class="p">'</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">any</span>
-<span class="w">  </span><span class="n">letter</span><span class="w"> </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">g</span><span class="p">.,</span><span class="w"> </span><span class="s">"-Infinity"</span><span class="p">,</span><span class="w"> </span><span class="s">"+inf"</span><span class="p">,</span><span class="w"> </span><span class="s">"NaN"</span><span class="p">).</span><span class="w"> </span><span class="n">It</span><span class="w"> </span><span class="n">returns</span><span class="w"> </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span>
-<span class="w">  </span><span class="mh">0</span><span class="w"> </span><span class="n">alongside</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">corresponding</span><span class="w"> </span><span class="n">IEEE</span><span class="w"> </span><span class="n">value</span><span class="p">.</span>
-
-<span class="w">  </span><span class="n">Signed</span><span class="w"> </span><span class="n">Zero</span><span class="w"> </span><span class="n">Preservation</span><span class="w"> </span><span class="p">(</span><span class="o">-</span><span class="mf">0.0</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="n">Added</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">signed_zero</span><span class="p">(</span><span class="n">sign_val</span><span class="p">)</span><span class="w"> </span><span class="n">helper</span>
-<span class="w">  </span><span class="n">using</span><span class="w"> </span><span class="n">ieee_negative_zero</span><span class="p">.</span><span class="w"> </span><span class="n">Inputs</span><span class="w"> </span><span class="n">like</span><span class="w"> </span><span class="s">"-0.0"</span><span class="p">,</span><span class="w"> </span><span class="s">"-0e500"</span><span class="p">,</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">negative</span>
-<span class="w">  </span><span class="n">underflows</span><span class="w"> </span><span class="n">like</span><span class="w"> </span><span class="s">"-1.0e-400"</span><span class="w"> </span><span class="n">now</span><span class="w"> </span><span class="n">preserve</span><span class="w"> </span><span class="n">their</span><span class="w"> </span><span class="n">negative</span><span class="w"> </span><span class="n">sign</span><span class="w"> </span><span class="kt">bit</span><span class="p">.</span>
-
-<span class="n">Allocation</span><span class="o">-</span><span class="n">Free</span><span class="w"> </span><span class="nl">Uppercasing:</span><span class="w"> </span><span class="n">Used</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">fixed</span><span class="o">-</span><span class="n">length</span><span class="w"> </span><span class="mh">8</span><span class="o">-</span><span class="n">character</span><span class="w"> </span><span class="n">helper</span>
-<span class="p">(</span><span class="n">to_upper_8</span><span class="p">)</span><span class="w"> </span><span class="n">rather</span><span class="w"> </span><span class="n">than</span><span class="w"> </span><span class="n">deferred</span><span class="o">-</span><span class="n">length</span><span class="w"> </span><span class="n">allocatable</span><span class="w"> </span><span class="n">strings</span><span class="w"> </span><span class="n">so</span><span class="w"> </span><span class="n">the</span>
-<span class="n">subroutine</span><span class="w"> </span><span class="n">remains</span><span class="w"> </span><span class="n">fast</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">free</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">heap</span><span class="w"> </span><span class="n">allocations</span><span class="w"> </span><span class="n">inside</span><span class="w"> </span><span class="n">pure</span>
-<span class="n">elemental</span><span class="w"> </span><span class="n">array</span><span class="w"> </span><span class="n">operations</span><span class="p">.</span>
-
-<span class="n">Standard</span><span class="w"> </span><span class="n">IEEE</span><span class="w"> </span><span class="nl">Intrinsics:</span><span class="w"> </span><span class="n">Imported</span><span class="w"> </span><span class="n">ieee_value</span><span class="p">,</span><span class="w"> </span><span class="n">ieee_positive_inf</span><span class="p">,</span><span class="w"> </span><span class="k">and</span>
-<span class="n">ieee_negative_inf</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">ieee_arithmetic</span><span class="p">.</span><span class="w"> </span><span class="n">This</span><span class="w"> </span><span class="n">avoids</span><span class="w"> </span><span class="n">compiler</span><span class="w"> </span><span class="n">errors</span>
-<span class="k">or</span><span class="w"> </span><span class="n">runtime</span><span class="w"> </span><span class="n">SIGFPE</span><span class="w"> </span><span class="n">crashes</span><span class="w"> </span><span class="n">caused</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="n">trying</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">compute</span><span class="w"> </span><span class="mf">1.0</span><span class="n">_real64</span><span class="w"> </span><span class="o">/</span>
-<span class="mf">0.0</span><span class="n">_real64</span><span class="p">.</span>
-
-<span class="n">Sign</span><span class="w"> </span><span class="n">Preservation</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="nl">Overflow:</span><span class="w"> </span><span class="n">Added</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">pure</span><span class="w"> </span><span class="n">elemental</span><span class="w"> </span><span class="n">helper</span><span class="w"> </span><span class="k">function</span>
-<span class="n">signed_inf</span><span class="p">(</span><span class="n">sign_val</span><span class="p">)</span><span class="w"> </span><span class="n">so</span><span class="w"> </span><span class="n">inputs</span><span class="w"> </span><span class="n">like</span><span class="w"> </span><span class="s">"-1.80e308"</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="o">-</span><span class="n">Infinity</span><span class="w"> </span><span class="k">while</span>
-<span class="s">"1.80e308"</span><span class="w"> </span><span class="n">returns</span><span class="w"> </span><span class="o">+</span><span class="n">Infinity</span><span class="p">.</span>
-
-<span class="n">Consistent</span><span class="w"> </span><span class="n">Error</span><span class="w"> </span><span class="mh">6</span><span class="w"> </span><span class="nl">Handling:</span><span class="w"> </span><span class="n">Updated</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="n">three</span><span class="w"> </span><span class="n">overflow</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">paths</span>
-<span class="p">(</span><span class="n">mantissa</span><span class="w"> </span><span class="n">overflow</span><span class="p">,</span><span class="w"> </span><span class="n">total_exp</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mh">308</span><span class="p">,</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">total_exp</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mh">308</span><span class="w"> </span><span class="n">boundary</span>
-<span class="n">check</span><span class="p">)</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="k">assign</span><span class="w"> </span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">signed_inf</span><span class="p">(</span><span class="n">sign_val</span><span class="p">)</span><span class="w"> </span><span class="n">alongside</span><span class="w"> </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">6.</span>
-</code></pre></div>
-
-<h3 id="examples">EXAMPLES</h3>
-<p>Sample Program:</p>
-<p>program demo_str_to_real
-    use, intrinsic :: iso_fortran_env, only: real64
-    use M_unicode__float, only : str_to_real
-    implicit none</p>
-<div class="codehilite"><pre><span></span><code>character(len=16)  :: inputs(4) = [&amp;
-&amp; "  -42.75 ", &amp;
-&amp; "+1.23e4  ", &amp;
-&amp; "bad_input", &amp;
-&amp; "3.14D-2  "]
-real(real64)       :: values(4), value
-integer            :: errors(4), error
-integer            :: k
-character(len=80)  :: edge_cases(7) = [ character(len=80) :: &amp;
-"1.79e308             Valid: just under real64 max (err: 0)      ",  &amp;
-"1.80e308             Overflow: just over real64 max (err: 6)    ",  &amp;
-"1e999999999999       Overflow: massive exponent string (err: 6) ",  &amp;
-"-1.80e308            -Overflow: and just over real64 max (err: 6)", &amp;
-"0.0e5000             Valid: zero stays zero (err: 0)            ",  &amp;
-"5.0e-324             Valid: subnormal underflow limit (err: 0)  ",  &amp;
-"1.0e-400             Valid: graceful underflow to 0.0 (err: 0)  " ]
-integer            :: iostat
-character(len=256) :: iomsg
-
-! Process the entire array in a single elemental call
-call str_to_real(inputs, values, errors)
-
-do k = 1, size(inputs)
-   print '(A, " -&gt; val: ", G0, ", err: ", I0)', &amp;
-   &amp; trim(inputs(k)), values(k), errors(k)
-enddo
-
-do k = 1, size(edge_cases)
-   print <span class="gs">*</span>
-<span class="gs">   call str_to_real(edge_cases(k)(:20), value, error)</span>
-<span class="gs">   print '(A, " -&gt; val: ", G0, ", err: ", I0, 1x, a)', &amp;</span>
-<span class="gs">   &amp; trim(edge_cases(k)(:20)), value, error</span>
-<span class="gs">   print '("Expected:",A)', edge_cases(k)(21:)</span>
-<span class="gs">   iomsg = '----------------'</span>
-<span class="gs">   read(edge_cases(k),'(e20.0)',iostat=iostat,iomsg=iomsg)value</span>
-<span class="gs">   print *</span>, 'from internal read',value,iostat,trim(iomsg)
-enddo
-</code></pre></div>
-
-<p>end program demo_str_to_real</p>
-<h3 id="author">AUTHOR</h3>
-<div class="codehilite"><pre><span></span><code>  John S. Urban
-</code></pre></div>
-
-<h3 id="license">LICENSE</h3>
-<div class="codehilite"><pre><span></span><code>  MIT
-</code></pre></div>
+      
 <br>          <div class="card mb-4">
       <h3 class="card-header card-title bg-light">Uses</h3>
       <div class="card-body">
@@ -370,7 +197,9 @@ enddo
 </h3></div>
     <div class="card-body">
           
-  
+  <p>STR_TO_REAL(3f) returns a numeric value given a string representing
+  a numeric value; without using internal I/O (the conventional method
+  in Fortran).</p><a href="../proc/str_to_real.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -385,7 +214,7 @@ enddo
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~19"></span>
+              <span class="anchor" id="variable-str~26"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -400,7 +229,7 @@ enddo
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-val~3"></span>
+              <span class="anchor" id="variable-val~10"></span>
               real(kind=real64),
             </td>
 <td>intent(out)</td>
@@ -415,7 +244,7 @@ enddo
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ierr"></span>
+              <span class="anchor" id="variable-ierr~29"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -458,7 +287,7 @@ enddo
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-14 01:44 +0000             </p>
+ on 2026-11-16 14:32 +0000             </p>
           </div>
         </div>
         <br>

@@ -1,0 +1,672 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="Fortran Unicode when ISO_10646 is not supported">
+    <meta name="author" content="John S. Urban" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>get_env_character &ndash; M_unicode</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">M_unicode </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>get_env_character
+      <small>Function</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.8% of total for procedures.">36 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/M_unicode__get.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/m_unicode__get.f90.html'>M_unicode__get.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/m_unicode__get.html'>M_unicode__get</a></li>
+            <li class="breadcrumb-item active" aria-current="page">get_env_character</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/get_env_character.html#src">get_env_character</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>public  function get_env_character(NAME, DEFAULT, force_, ierr) result(VALUE)  
+</h2>
+    
+
+    <h2 id="name">NAME</h2>
+<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="n">get_env</span><span class="p">(</span><span class="mi">3</span><span class="n">f</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">[</span><span class="n">M_unicode</span><span class="p">:</span><span class="n">QUERY</span><span class="p">]</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">function</span><span class="w"> </span><span class="n">returning</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="n">of</span>
+<span class="w">               </span><span class="n">an</span><span class="w"> </span><span class="n">environment</span><span class="w"> </span><span class="n">variable</span>
+<span class="w"> </span><span class="p">(</span><span class="n">LICENSE</span><span class="p">:</span><span class="n">PD</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="syntax">SYNTAX</h2>
+<div class="codehilite"><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="nf">get_env</span><span class="p">(</span>NAME,DEFAULT,IERR=IERR<span class="p">)</span><span class="w"> </span><span class="n">result</span><span class="p">(</span><span class="n">VALUE</span><span class="p">)</span>
+
+<span class="w"> </span><span class="n">character</span><span class="p">(</span><span class="n">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">            </span><span class="p">::</span><span class="w"> </span><span class="n">NAME</span>
+
+<span class="w"> </span>!<span class="w"> </span><span class="n">ONE</span><span class="w"> </span><span class="n">OF</span><span class="w"> </span><span class="k">...</span>
+<span class="w"> </span><span class="n">character</span><span class="p">(</span><span class="n">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="n">optional</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">DEFAULT</span>
+<span class="w"> </span><span class="nb">real</span><span class="p">,</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="n">optional</span><span class="w">             </span><span class="p">::</span><span class="w"> </span><span class="n">DEFAULT</span>
+<span class="w"> </span><span class="n">integer</span><span class="p">,</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="n">optional</span><span class="w">          </span><span class="p">::</span><span class="w"> </span><span class="n">DEFAULT</span>
+<span class="w"> </span><span class="n">doubleprecision</span><span class="p">,</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="n">optional</span><span class="w">  </span><span class="p">::</span><span class="w"> </span><span class="n">DEFAULT</span>
+<span class="w"> </span><span class="nb">logical</span><span class="p">,</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="n">optional</span><span class="w">          </span><span class="p">::</span><span class="w"> </span><span class="n">DEFAULT</span>
+<span class="w"> </span><span class="nb">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">),</span><span class="n">optional</span><span class="w">          </span><span class="p">::</span><span class="w"> </span><span class="n">DEFAULT</span>
+
+<span class="w"> </span><span class="n">integer</span><span class="p">,</span><span class="n">intent</span><span class="p">(</span><span class="n">out</span><span class="p">),</span><span class="n">optional</span><span class="w">           </span><span class="p">::</span><span class="w"> </span><span class="n">IERR</span>
+
+<span class="w"> </span>!<span class="w"> </span><span class="n">ONE</span><span class="w"> </span><span class="n">OF</span><span class="w"> </span><span class="n">THE</span><span class="w"> </span><span class="n">FOLLOWING</span><span class="p">,</span><span class="w"> </span><span class="n">MATCHING</span><span class="w"> </span><span class="n">TYPE</span><span class="w"> </span><span class="n">OF</span><span class="w"> </span><span class="n">DEFAULT</span>
+<span class="w"> </span><span class="n">character</span><span class="p">(</span><span class="n">len</span><span class="p">=:),</span><span class="n">allocatable</span><span class="w">         </span><span class="p">::</span><span class="w"> </span><span class="n">VALUE</span>
+<span class="w"> </span><span class="n">integer</span><span class="w">                              </span><span class="p">::</span><span class="w"> </span><span class="n">VALUE</span>
+<span class="w"> </span><span class="nb">real</span><span class="w">                                 </span><span class="p">::</span><span class="w"> </span><span class="n">VALUE</span>
+<span class="w"> </span><span class="n">doubleprecision</span><span class="w">                      </span><span class="p">::</span><span class="w"> </span><span class="n">VALUE</span>
+<span class="w"> </span><span class="nb">logical</span><span class="w">                              </span><span class="p">::</span><span class="w"> </span><span class="n">VALUE</span>
+<span class="w"> </span><span class="nb">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span><span class="w">                   </span><span class="p">::</span><span class="w"> </span><span class="n">VALUE</span>
+</code></pre></div>
+
+<h2 id="description">DESCRIPTION</h2>
+<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="n">Get</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">an</span><span class="w"> </span><span class="n">environment</span><span class="w"> </span><span class="n">variable</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">optionally</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">a</span>
+<span class="w"> </span><span class="n">default</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="n">when</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">environment</span><span class="w"> </span><span class="n">variable</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">set</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">set</span>
+<span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">blank</span><span class="w"> </span><span class="n">string</span><span class="o">.</span>
+
+<span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="n">returned</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">same</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">default</span><span class="w"> </span><span class="n">value</span><span class="o">.</span>
+</code></pre></div>
+
+<h2 id="options">OPTIONS</h2>
+<div class="codehilite"><pre><span></span><code><span class="n">NAME</span><span class="w">     </span><span class="n">name</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">environment</span><span class="w"> </span><span class="n">variable</span><span class="o">.</span>
+<span class="n">DEFAULT</span><span class="w">  </span><span class="n">value</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">environment</span><span class="w"> </span><span class="n">variable</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">set</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">set</span>
+<span class="w">         </span><span class="n">to</span><span class="w"> </span><span class="n">an</span><span class="w"> </span><span class="n">empty</span><span class="w"> </span><span class="n">string</span><span class="o">.</span><span class="w"> </span><span class="n">May</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">CHARACTER</span><span class="p">,</span><span class="w"> </span><span class="n">REAL</span><span class="p">,</span><span class="w"> </span><span class="n">INTEGER</span><span class="p">,</span>
+<span class="w">         </span><span class="n">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="n">DOUBLEPRECISION</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">TYPE</span><span class="p">(</span><span class="n">UNICODE_TYPE</span><span class="o">.</span>
+<span class="w">         </span><span class="n">Defaults</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="nb nb-Type">null</span><span class="w"> </span><span class="n">CHARACTER</span><span class="w"> </span><span class="n">value</span><span class="o">.</span>
+</code></pre></div>
+
+<h2 id="returns">RETURNS</h2>
+<div class="codehilite"><pre><span></span><code><span class="n">VALUE</span><span class="w">    </span><span class="n">the</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">environment</span><span class="w"> </span><span class="n">variable</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">default</span><span class="o">.</span>
+<span class="w">         </span><span class="n">The</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">same</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">DEFAULT</span><span class="w"> </span><span class="n">unless</span><span class="w"> </span><span class="n">NAME</span>
+<span class="w">         </span><span class="k">is</span><span class="w"> </span><span class="n">CHARACTER</span><span class="w"> </span><span class="n">but</span><span class="w"> </span><span class="n">VALUE</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">DEFAULT</span><span class="p">,</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">which</span><span class="w"> </span><span class="n">case</span>
+<span class="w">         </span><span class="n">TYPE</span><span class="p">(</span><span class="n">UNICODE_TYPE</span><span class="p">)</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">returned</span><span class="o">.</span><span class="w"> </span><span class="n">That</span><span class="w"> </span><span class="k">is</span><span class="p">,</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">either</span><span class="w"> </span><span class="n">NAME</span>
+<span class="w">         </span><span class="ow">or</span><span class="w"> </span><span class="n">VALUE</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">TYPE</span><span class="p">(</span><span class="n">UNICODE_TYPE</span><span class="p">)</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">returned</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="k">is</span>
+<span class="w">         </span><span class="n">TYPE</span><span class="p">(</span><span class="n">UNICODE_TYPE</span><span class="p">)</span><span class="o">.</span><span class="w"> </span><span class="n">If</span><span class="w"> </span><span class="n">an</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="n">occurs</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">it</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">numeric</span><span class="p">,</span>
+<span class="w">         </span><span class="n">huge</span><span class="p">(</span><span class="mi">0</span><span class="o">|</span><span class="mf">0.0</span><span class="o">|</span><span class="mf">0.0</span><span class="n">d0</span><span class="p">)</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">returned</span><span class="o">.</span>
+
+<span class="w">         </span><span class="n">For</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">LOGICAL</span><span class="w"> </span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="n">Any</span><span class="w"> </span><span class="n">environment</span><span class="w"> </span><span class="n">variable</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="n">starting</span>
+<span class="w">         </span><span class="n">with</span><span class="w"> </span><span class="n">F</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">N</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="o">.</span><span class="n">FALSE</span><span class="o">.</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">any</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="n">starting</span><span class="w"> </span><span class="n">with</span>
+<span class="w">         </span><span class="n">Y</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">T</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="bp">true</span><span class="o">.</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="n">leading</span><span class="w"> </span><span class="n">period</span><span class="w"> </span><span class="p">(</span><span class="s2">"."</span><span class="p">)</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">ignored</span><span class="o">.</span>
+<span class="w">         </span><span class="n">Anything</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="n">returns</span><span class="w"> </span><span class="o">.</span><span class="n">false</span><span class="o">.</span><span class="w"> </span><span class="o">.</span>
+
+<span class="n">IERR</span><span class="w">     </span><span class="k">return</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="n">code</span><span class="o">.</span><span class="w"> </span><span class="n">Must</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">specified</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">keyword</span><span class="o">.</span>
+<span class="w">         </span><span class="n">It</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">zero</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">no</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="n">occurred</span><span class="o">.</span>
+</code></pre></div>
+
+<h2 id="examples">EXAMPLES</h2>
+<p>Sample program:</p>
+<div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">demo_get_env</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">get_env</span><span class="p">,</span><span class="w"> </span><span class="nx">get_arg</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">ut</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nx">unicode_type</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">assignment</span><span class="p">(=),</span><span class="w"> </span><span class="nx">operator</span><span class="p">(</span><span class="c1">//)</span>
+<span class="nx">implicit</span><span class="w"> </span><span class="nx">none</span>
+<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">parameter</span><span class="w">   </span><span class="o">::</span><span class="w"> </span><span class="nx">g</span><span class="p">=</span><span class="err">'</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nx">g0</span><span class="p">))</span><span class="err">'</span>
+<span class="nx">integer</span><span class="w">                      </span><span class="o">::</span><span class="w"> </span><span class="nx">ierr</span>
+<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=:),</span><span class="nx">allocatable</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">HOME</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">)</span><span class="w">                     </span><span class="o">::</span><span class="w"> </span><span class="nx">uname</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">)</span><span class="w">                     </span><span class="o">::</span><span class="w"> </span><span class="nx">udefault</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">)</span><span class="w">                     </span><span class="o">::</span><span class="w"> </span><span class="nx">uvalue</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">)</span><span class="w">                     </span><span class="o">::</span><span class="w"> </span><span class="nx">smiley</span>
+<span class="nx">integer</span><span class="w">                      </span><span class="o">::</span><span class="w"> </span><span class="nx">i</span>
+
+<span class="w">  </span><span class="nx">smiley</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">128515</span><span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">set</span><span class="w"> </span><span class="nx">with</span><span class="w"> </span><span class="nx">Unicode</span><span class="w"> </span><span class="nx">code</span><span class="w"> </span><span class="nx">point</span>
+<span class="w">  </span><span class="nx">udefault</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="err">'</span><span class="nx">Have</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">nice</span><span class="w"> </span><span class="nx">day</span><span class="w"> </span><span class="err">'</span><span class="c1">//smiley//'!'</span>
+
+<span class="w">  </span><span class="p">!</span><span class="nx">Basics</span>
+<span class="w">   </span><span class="nx">HOME</span><span class="p">=</span><span class="nx">get_env</span><span class="p">(</span><span class="err">'</span><span class="nx">HOME</span><span class="sc">','</span><span class="nx">UNKNOWN</span><span class="err">'</span><span class="p">)</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="err">'</span><span class="p">(</span><span class="nx">a</span><span class="p">)</span><span class="err">'</span><span class="p">)</span><span class="nx">HOME</span>
+<span class="w">   </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="err">'</span><span class="p">(</span><span class="nx">a</span><span class="p">)</span><span class="err">'</span><span class="p">)</span><span class="nx">Get_env</span><span class="p">(</span><span class="err">'</span><span class="nx">PATH</span><span class="err">'</span><span class="p">)</span>
+
+<span class="w">  </span><span class="p">!</span><span class="w"> </span><span class="nx">arguments</span><span class="w"> </span><span class="nx">can</span><span class="w"> </span><span class="nx">be</span><span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="nx">character</span>
+<span class="w">  </span><span class="p">!</span><span class="w"> </span><span class="nx">but</span><span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="nx">always</span><span class="w"> </span><span class="k">returned</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nx">either</span><span class="w"> </span><span class="k">is</span>
+<span class="w">  </span><span class="p">!</span><span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span>
+<span class="w">   </span><span class="nx">do</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span>
+<span class="w">      </span><span class="nx">select</span><span class="w"> </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w"> </span><span class="nx">uname</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="err">'</span><span class="nx">HOME</span><span class="err">'</span>
+<span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="p">);</span><span class="w"> </span><span class="nx">uname</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="err">'</span><span class="nx">UNKNOWN</span><span class="err">'</span>
+<span class="w">      </span><span class="nx">end</span><span class="w"> </span><span class="nx">select</span>
+
+<span class="w">        </span><span class="nx">uvalue</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">get_env</span><span class="p">(</span><span class="nx">uname</span><span class="p">,</span><span class="w">             </span><span class="nx">udefault</span><span class="w">             </span><span class="p">)</span>
+<span class="w">        </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="nx">uvalue</span><span class="o">%</span><span class="nx">character</span><span class="p">()</span>
+
+<span class="w">        </span><span class="nx">uvalue</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">get_env</span><span class="p">(</span><span class="nx">uname</span><span class="o">%</span><span class="nx">character</span><span class="p">(),</span><span class="w"> </span><span class="nx">udefault</span><span class="o">%</span><span class="nx">character</span><span class="p">()</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="nx">uvalue</span><span class="o">%</span><span class="nx">character</span><span class="p">()</span>
+
+<span class="w">        </span><span class="nx">uvalue</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">get_env</span><span class="p">(</span><span class="nx">uname</span><span class="p">,</span><span class="w">             </span><span class="nx">udefault</span><span class="o">%</span><span class="nx">character</span><span class="p">()</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="nx">uvalue</span><span class="o">%</span><span class="nx">character</span><span class="p">()</span>
+
+<span class="w">        </span><span class="nx">uvalue</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">get_env</span><span class="p">(</span><span class="nx">uname</span><span class="o">%</span><span class="nx">character</span><span class="p">(),</span><span class="w"> </span><span class="nx">udefault</span><span class="w">             </span><span class="p">)</span>
+<span class="w">        </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="nx">uvalue</span><span class="o">%</span><span class="nx">character</span><span class="p">()</span>
+
+<span class="w">        </span><span class="nx">uvalue</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">get_env</span><span class="p">(</span><span class="nx">uname</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="nx">uvalue</span><span class="o">%</span><span class="nx">character</span><span class="p">()</span>
+
+<span class="w">        </span><span class="nx">uvalue</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">get_env</span><span class="p">(</span><span class="nx">uname</span><span class="o">%</span><span class="nx">character</span><span class="p">())</span>
+<span class="w">        </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="nx">uvalue</span><span class="o">%</span><span class="nx">character</span><span class="p">()</span>
+
+<span class="w">     </span><span class="nx">enddo</span>
+
+<span class="w">  </span><span class="p">!</span><span class="nx">call</span><span class="w"> </span><span class="nx">this</span><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">setting</span><span class="w"> </span><span class="nx">enviroment</span><span class="w"> </span><span class="nx">variable</span>
+<span class="w">  </span><span class="p">!</span><span class="w"> </span><span class="nx">STOP</span><span class="p">=</span><span class="nx">RUN</span><span class="w"> </span><span class="nx">unless</span><span class="w"> </span><span class="nx">STOP</span><span class="p">=</span><span class="nx">RUN</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="nx">already</span><span class="w"> </span><span class="nx">set</span>
+
+<span class="w">  </span><span class="p">!</span><span class="nx">otherwise</span><span class="w"> </span><span class="nx">print</span><span class="w"> </span><span class="nx">various</span><span class="w"> </span><span class="nx">environment</span><span class="w"> </span><span class="nx">variable</span><span class="w"> </span><span class="nx">values</span>
+<span class="w">  </span><span class="p">!</span><span class="nx">converted</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">various</span><span class="w"> </span><span class="nx">types</span>
+
+<span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="nx">get_env</span><span class="p">(</span><span class="err">'</span><span class="nx">STOP</span><span class="err">'</span><span class="p">).</span><span class="nx">eq</span><span class="p">.</span><span class="err">'</span><span class="nx">RUN</span><span class="err">'</span><span class="p">)</span><span class="k">then</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span><span class="nx">repeat</span><span class="p">(</span><span class="sc">'-'</span><span class="p">,</span><span class="mi">80</span><span class="p">)</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span><span class="nx">get_env</span><span class="p">(</span><span class="err">'</span><span class="nx">CHARACTER</span><span class="sc">','</span><span class="kt">string</span><span class="err">'</span><span class="p">)</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span><span class="nx">get_env</span><span class="p">(</span><span class="err">'</span><span class="nx">INTEGER</span><span class="err">'</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span><span class="nx">get_env</span><span class="p">(</span><span class="err">'</span><span class="nx">REAL</span><span class="err">'</span><span class="p">,</span><span class="m m-Double">200.0</span><span class="p">)</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span><span class="nx">get_env</span><span class="p">(</span><span class="err">'</span><span class="nx">DOUBLE</span><span class="err">'</span><span class="p">,</span><span class="m m-Double">300.0</span><span class="nx">d0</span><span class="p">)</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span><span class="nx">get_env</span><span class="p">(</span><span class="err">'</span><span class="nx">LOGICAL</span><span class="err">'</span><span class="p">,.</span><span class="kc">true</span><span class="p">.)</span>
+
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span><span class="nx">repeat</span><span class="p">(</span><span class="sc">'-'</span><span class="p">,</span><span class="mi">80</span><span class="p">)</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span><span class="nx">get_env</span><span class="p">(</span><span class="err">'</span><span class="nx">CHARACTER</span><span class="sc">','</span><span class="kt">string</span><span class="err">'</span><span class="p">,</span><span class="nx">ierr</span><span class="p">=</span><span class="nx">ierr</span><span class="p">)</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span><span class="err">'</span><span class="nx">ierr</span><span class="p">=</span><span class="err">'</span><span class="p">,</span><span class="nx">ierr</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span><span class="nx">get_env</span><span class="p">(</span><span class="err">'</span><span class="nx">INTEGER</span><span class="err">'</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="nx">ierr</span><span class="p">=</span><span class="nx">ierr</span><span class="p">)</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span><span class="err">'</span><span class="nx">ierr</span><span class="p">=</span><span class="err">'</span><span class="p">,</span><span class="nx">ierr</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span><span class="nx">get_env</span><span class="p">(</span><span class="err">'</span><span class="nx">REAL</span><span class="err">'</span><span class="p">,</span><span class="m m-Double">200.0</span><span class="p">,</span><span class="nx">ierr</span><span class="p">=</span><span class="nx">ierr</span><span class="p">)</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span><span class="err">'</span><span class="nx">ierr</span><span class="p">=</span><span class="err">'</span><span class="p">,</span><span class="nx">ierr</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span><span class="nx">get_env</span><span class="p">(</span><span class="err">'</span><span class="nx">DOUBLE</span><span class="err">'</span><span class="p">,</span><span class="m m-Double">300.0</span><span class="nx">d0</span><span class="p">,</span><span class="nx">ierr</span><span class="p">=</span><span class="nx">ierr</span><span class="p">)</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span><span class="err">'</span><span class="nx">ierr</span><span class="p">=</span><span class="err">'</span><span class="p">,</span><span class="nx">ierr</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span><span class="nx">get_env</span><span class="p">(</span><span class="err">'</span><span class="nx">LOGICAL</span><span class="err">'</span><span class="p">,.</span><span class="kc">true</span><span class="p">.)</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span><span class="err">'</span><span class="nx">ierr</span><span class="p">=</span><span class="err">'</span><span class="p">,</span><span class="nx">ierr</span>
+
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span><span class="nx">repeat</span><span class="p">(</span><span class="sc">'-'</span><span class="p">,</span><span class="mi">80</span><span class="p">)</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span><span class="nx">get_env</span><span class="p">(</span><span class="err">'</span><span class="nx">CHARACTER</span><span class="err">'</span><span class="p">)</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span><span class="nx">get_env</span><span class="p">(</span><span class="err">'</span><span class="nx">HOME</span><span class="err">'</span><span class="p">)</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span><span class="nx">repeat</span><span class="p">(</span><span class="sc">'-'</span><span class="p">,</span><span class="mi">80</span><span class="p">)</span>
+<span class="w">      </span><span class="nx">call</span><span class="w"> </span><span class="nx">execute_command_line</span><span class="p">(</span><span class="err">'</span><span class="nx">env</span><span class="w"> </span><span class="nx">STOP</span><span class="p">=</span><span class="nx">RUN</span><span class="w"> </span><span class="err">'</span><span class="c1">//get_arg(0))</span>
+<span class="w">      </span><span class="nx">call</span><span class="w"> </span><span class="nx">execute_command_line</span><span class="p">(</span><span class="err">'</span><span class="nx">env</span><span class="w"> </span><span class="nx">STOP</span><span class="p">=</span><span class="nx">RUN</span><span class="w"> </span><span class="nx">CHARACTER</span><span class="p">=</span><span class="nx">aaaa</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">      </span><span class="o">&amp;</span><span class="w"> </span><span class="nx">INTEGER</span><span class="p">=</span><span class="mi">1</span><span class="w"> </span><span class="nx">REAL</span><span class="p">=</span><span class="m m-Double">2.3</span><span class="w"> </span><span class="nx">DOUBLE</span><span class="p">=</span><span class="mi">444444444444</span><span class="w"> </span><span class="err">'</span><span class="c1">//get_arg(0))</span>
+<span class="w">      </span><span class="nx">call</span><span class="w"> </span><span class="nx">execute_command_line</span><span class="p">(</span><span class="err">'</span><span class="nx">env</span><span class="w"> </span><span class="nx">STOP</span><span class="p">=</span><span class="nx">RUN</span><span class="w"> </span><span class="nx">CHARACTER</span><span class="p">=</span><span class="nx">bbbb</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">      </span><span class="o">&amp;</span><span class="w"> </span><span class="nx">INTEGER</span><span class="p">=</span><span class="mi">1</span><span class="w"> </span><span class="nx">REAL</span><span class="p">=</span><span class="m m-Double">2.3</span><span class="w"> </span><span class="nx">DOUBLE</span><span class="p">=</span><span class="m m-Double">44.555</span><span class="w"> </span><span class="err">'</span><span class="c1">//get_arg(0))</span>
+<span class="w">      </span><span class="nx">call</span><span class="w"> </span><span class="nx">execute_command_line</span><span class="p">(</span><span class="err">'</span><span class="nx">env</span><span class="w"> </span><span class="nx">STOP</span><span class="p">=</span><span class="nx">RUN</span><span class="w"> </span><span class="nx">CHARACTER</span><span class="p">=</span><span class="nx">cccc</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">      </span><span class="o">&amp;</span><span class="w"> </span><span class="nx">INTEGER</span><span class="p">=</span><span class="nx">asdf</span><span class="w"> </span><span class="nx">REAL</span><span class="p">=</span><span class="nx">asdf</span><span class="w"> </span><span class="nx">DOUBLE</span><span class="p">=</span><span class="nx">adsf</span><span class="w"> </span><span class="err">'</span><span class="c1">//get_arg(0))</span>
+<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="nx">g</span><span class="p">)</span><span class="nx">repeat</span><span class="p">(</span><span class="sc">'-'</span><span class="p">,</span><span class="mi">80</span><span class="p">)</span>
+<span class="w">      </span><span class="nx">stop</span>
+<span class="w">   </span><span class="nx">endif</span>
+
+<span class="nx">end</span><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_get_env</span>
+</code></pre></div>
+
+<p>Results</p>
+<div class="codehilite"><pre><span></span><code><span class="nv">&gt;</span><span class="c">  /home/johns</span>
+<span class="nv">&gt;</span><span class="c">  /home/johns/</span><span class="nt">.</span><span class="c">local/bin:/usr/local/bin:/usr/bin:</span>
+<span class="nv">&gt;</span><span class="c">  /home/johns</span>
+<span class="nv">&gt;</span><span class="c">  /home/johns</span>
+<span class="nv">&gt;</span><span class="c">  /home/johns</span>
+<span class="nv">&gt;</span><span class="c">  /home/johns</span>
+<span class="nv">&gt;</span><span class="c">  /home/johns</span>
+<span class="nv">&gt;</span><span class="c">  /home/johns</span>
+<span class="nv">&gt;</span><span class="c">  Have a nice day 😃!</span>
+<span class="nv">&gt;</span><span class="c">  Have a nice day 😃!</span>
+<span class="nv">&gt;</span><span class="c">  Have a nice day 😃!</span>
+<span class="nv">&gt;</span><span class="c">  Have a nice day 😃!</span>
+<span class="nv">&gt;</span>
+<span class="nv">&gt;</span>
+<span class="nv">&gt;</span><span class="c"> </span><span class="nb">------------------------------------------------------------</span>
+<span class="nv">&gt;</span><span class="c">  /home/johns</span>
+<span class="nv">&gt;</span><span class="c">  /home/johns/</span><span class="nt">.</span><span class="c">local/bin:/usr/local/bin:/usr/bin:</span>
+<span class="nv">&gt;</span><span class="c">  /home/johns</span>
+<span class="nv">&gt;</span><span class="c">  /home/johns</span>
+<span class="nv">&gt;</span><span class="c">  /home/johns</span>
+<span class="nv">&gt;</span><span class="c">  /home/johns</span>
+<span class="nv">&gt;</span><span class="c">  /home/johns</span>
+<span class="nv">&gt;</span><span class="c">  /home/johns</span>
+<span class="nv">&gt;</span><span class="c">  Have a nice day 😃!</span>
+<span class="nv">&gt;</span><span class="c">  Have a nice day 😃!</span>
+<span class="nv">&gt;</span><span class="c">  Have a nice day 😃!</span>
+<span class="nv">&gt;</span><span class="c">  Have a nice day 😃!</span>
+<span class="nv">&gt;</span>
+<span class="nv">&gt;</span>
+<span class="nv">&gt;</span><span class="c"> </span><span class="nb">------------------------------------------------------------</span>
+<span class="nv">&gt;</span><span class="c"> string</span>
+<span class="nv">&gt;</span><span class="c"> 100</span>
+<span class="nv">&gt;</span><span class="c"> 200</span><span class="nt">.</span><span class="c">000000</span>
+<span class="nv">&gt;</span><span class="c"> 300</span><span class="nt">.</span><span class="c">00000000000000</span>
+<span class="nv">&gt;</span><span class="c"> T</span>
+<span class="nv">&gt;</span><span class="c"> </span><span class="nb">------------------------------------------------------------</span>
+<span class="nv">&gt;</span><span class="c"> string</span>
+<span class="nv">&gt;</span><span class="c">  ierr=           0</span>
+<span class="nv">&gt;</span><span class="c"> 100</span>
+<span class="nv">&gt;</span><span class="c">  ierr=           0</span>
+<span class="nv">&gt;</span><span class="c"> 200</span><span class="nt">.</span><span class="c">000000</span>
+<span class="nv">&gt;</span><span class="c">  ierr=           0</span>
+<span class="nv">&gt;</span><span class="c"> 300</span><span class="nt">.</span><span class="c">00000000000000</span>
+<span class="nv">&gt;</span><span class="c">  ierr=           0</span>
+<span class="nv">&gt;</span><span class="c"> T</span>
+<span class="nv">&gt;</span><span class="c">  ierr=           0</span>
+<span class="nv">&gt;</span><span class="c"> </span><span class="nb">------------------------------------------------------------</span>
+<span class="nv">&gt;</span>
+<span class="nv">&gt;</span><span class="c">  /home/johns</span>
+<span class="nv">&gt;</span><span class="c">  /home/johns</span>
+<span class="nv">&gt;</span><span class="c">  /home/johns/</span><span class="nt">.</span><span class="c">local/bin:/usr/local/bin:/usr/bin:</span>
+<span class="nv">&gt;</span><span class="c">  /home/johns</span>
+<span class="nv">&gt;</span><span class="c">  /home/johns</span>
+<span class="nv">&gt;</span><span class="c">  /home/johns</span>
+<span class="nv">&gt;</span><span class="c">  /home/johns</span>
+<span class="nv">&gt;</span><span class="c">  /home/johns</span>
+<span class="nv">&gt;</span><span class="c">  /home/johns</span>
+<span class="nv">&gt;</span><span class="c">  Have a nice day 😃!</span>
+<span class="nv">&gt;</span><span class="c">  Have a nice day 😃!</span>
+<span class="nv">&gt;</span><span class="c">  Have a nice day 😃!</span>
+<span class="nv">&gt;</span><span class="c">  Have a nice day 😃!</span>
+<span class="nv">&gt;</span>
+<span class="nv">&gt;</span>
+<span class="nv">&gt;</span><span class="c"> </span><span class="nb">------------------------------------------------------------</span>
+<span class="nv">&gt;</span><span class="c"> aaaa</span>
+<span class="nv">&gt;</span><span class="c"> 1</span>
+<span class="nv">&gt;</span><span class="c"> 2</span><span class="nt">.</span><span class="c">29999995</span>
+<span class="nv">&gt;</span><span class="c"> 444444444444</span><span class="nt">.</span><span class="c">00000</span>
+<span class="nv">&gt;</span><span class="c"> T</span>
+<span class="nv">&gt;</span><span class="c"> </span><span class="nb">------------------------------------------------------------</span>
+<span class="nv">&gt;</span><span class="c"> aaaa</span>
+<span class="nv">&gt;</span><span class="c">  ierr=           0</span>
+<span class="nv">&gt;</span><span class="c"> 1</span>
+<span class="nv">&gt;</span><span class="c">  ierr=           0</span>
+<span class="nv">&gt;</span><span class="c"> 2</span><span class="nt">.</span><span class="c">29999995</span>
+<span class="nv">&gt;</span><span class="c">  ierr=           0</span>
+<span class="nv">&gt;</span><span class="c"> 444444444444</span><span class="nt">.</span><span class="c">00000</span>
+<span class="nv">&gt;</span><span class="c">  ierr=           0</span>
+<span class="nv">&gt;</span><span class="c"> T</span>
+<span class="nv">&gt;</span><span class="c">  ierr=           0</span>
+<span class="nv">&gt;</span><span class="c"> </span><span class="nb">------------------------------------------------------------</span>
+<span class="nv">&gt;</span><span class="c"> aaaa</span>
+<span class="nv">&gt;</span><span class="c"> /home/johns</span>
+<span class="nv">&gt;</span><span class="c"> /home/johns</span>
+<span class="nv">&gt;</span><span class="c">  /home/johns/</span><span class="nt">.</span><span class="c">local/bin:/usr/local/bin:/usr/bin:</span>
+<span class="nv">&gt;</span><span class="c">  /home/johns</span>
+<span class="nv">&gt;</span><span class="c">  /home/johns</span>
+<span class="nv">&gt;</span><span class="c">  /home/johns</span>
+<span class="nv">&gt;</span><span class="c">  /home/johns</span>
+<span class="nv">&gt;</span><span class="c">  /home/johns</span>
+<span class="nv">&gt;</span><span class="c">  /home/johns</span>
+<span class="nv">&gt;</span><span class="c">  Have a nice day 😃!</span>
+<span class="nv">&gt;</span><span class="c">  Have a nice day 😃!</span>
+<span class="nv">&gt;</span><span class="c">  Have a nice day 😃!</span>
+<span class="nv">&gt;</span><span class="c">  Have a nice day 😃!</span>
+<span class="nv">&gt;</span>
+<span class="nv">&gt;</span>
+<span class="nv">&gt;</span><span class="c"> </span><span class="nb">------------------------------------------------------------</span>
+<span class="nv">&gt;</span><span class="c"> bbbb</span>
+<span class="nv">&gt;</span><span class="c"> 1</span>
+<span class="nv">&gt;</span><span class="c"> 2</span><span class="nt">.</span><span class="c">29999995</span>
+<span class="nv">&gt;</span><span class="c"> 44</span><span class="nt">.</span><span class="c">555000000000000</span>
+<span class="nv">&gt;</span><span class="c"> T</span>
+<span class="nv">&gt;</span><span class="c"> </span><span class="nb">------------------------------------------------------------</span>
+<span class="nv">&gt;</span><span class="c"> bbbb</span>
+<span class="nv">&gt;</span><span class="c">  ierr=           0</span>
+<span class="nv">&gt;</span><span class="c"> 1</span>
+<span class="nv">&gt;</span><span class="c">  ierr=           0</span>
+<span class="nv">&gt;</span><span class="c"> 2</span><span class="nt">.</span><span class="c">29999995</span>
+<span class="nv">&gt;</span><span class="c">  ierr=           0</span>
+<span class="nv">&gt;</span><span class="c"> 44</span><span class="nt">.</span><span class="c">555000000000000</span>
+<span class="nv">&gt;</span><span class="c">  ierr=           0</span>
+<span class="nv">&gt;</span><span class="c"> T</span>
+<span class="nv">&gt;</span><span class="c">  ierr=           0</span>
+<span class="nv">&gt;</span><span class="c"> </span><span class="nb">------------------------------------------------------------</span>
+<span class="nv">&gt;</span><span class="c"> bbbb</span>
+<span class="nv">&gt;</span><span class="c"> /home/johns</span>
+<span class="nv">&gt;</span><span class="c"> /home/johns</span>
+<span class="nv">&gt;</span><span class="c">  /home/johns/</span><span class="nt">.</span><span class="c">local/bin:/usr/local/bin:/usr/bin:</span>
+<span class="nv">&gt;</span><span class="c">  /home/johns</span>
+<span class="nv">&gt;</span><span class="c">  /home/johns</span>
+<span class="nv">&gt;</span><span class="c">  /home/johns</span>
+<span class="nv">&gt;</span><span class="c">  /home/johns</span>
+<span class="nv">&gt;</span><span class="c">  /home/johns</span>
+<span class="nv">&gt;</span><span class="c">  /home/johns</span>
+<span class="nv">&gt;</span><span class="c">  Have a nice day 😃!</span>
+<span class="nv">&gt;</span><span class="c">  Have a nice day 😃!</span>
+<span class="nv">&gt;</span><span class="c">  Have a nice day 😃!</span>
+<span class="nv">&gt;</span><span class="c">  Have a nice day 😃!</span>
+<span class="nv">&gt;</span>
+<span class="nv">&gt;</span>
+<span class="nv">&gt;</span><span class="c"> </span><span class="nb">------------------------------------------------------------</span>
+<span class="nv">&gt;</span><span class="c"> cccc</span>
+<span class="nv">&gt;</span><span class="c"> </span><span class="nb">-</span><span class="c">2147483647</span>
+<span class="nv">&gt;</span><span class="c"> </span><span class="nb">-</span><span class="c">0</span><span class="nt">.</span><span class="c">340282347E</span><span class="nb">+</span><span class="c">39</span>
+<span class="nv">&gt;</span><span class="c"> </span><span class="nb">-</span><span class="c">0</span><span class="nt">.</span><span class="c">17976931348623157E</span><span class="nb">+</span><span class="c">309</span>
+<span class="nv">&gt;</span><span class="c"> T</span>
+<span class="nv">&gt;</span><span class="c"> </span><span class="nb">------------------------------------------------------------</span>
+<span class="nv">&gt;</span><span class="c"> cccc</span>
+<span class="nv">&gt;</span><span class="c">  ierr=           0</span>
+<span class="nv">&gt;</span><span class="c"> </span><span class="nb">-</span><span class="c">2147483647</span>
+<span class="nv">&gt;</span><span class="c">  ierr=        5010</span>
+<span class="nv">&gt;</span><span class="c"> </span><span class="nb">-</span><span class="c">0</span><span class="nt">.</span><span class="c">340282347E</span><span class="nb">+</span><span class="c">39</span>
+<span class="nv">&gt;</span><span class="c">  ierr=        5010</span>
+<span class="nv">&gt;</span><span class="c"> </span><span class="nb">-</span><span class="c">0</span><span class="nt">.</span><span class="c">17976931348623157E</span><span class="nb">+</span><span class="c">309</span>
+<span class="nv">&gt;</span><span class="c">  ierr=        5010</span>
+<span class="nv">&gt;</span><span class="c"> T</span>
+<span class="nv">&gt;</span><span class="c">  ierr=        5010</span>
+<span class="nv">&gt;</span><span class="c"> </span><span class="nb">------------------------------------------------------------</span>
+<span class="nv">&gt;</span><span class="c"> cccc</span>
+<span class="nv">&gt;</span><span class="c"> /home/johns</span>
+<span class="nv">&gt;</span><span class="c"> </span><span class="nb">------------------------------------------------------------</span>
+</code></pre></div>
+
+<h2 id="see-also">SEE ALSO</h2>
+<div class="codehilite"><pre><span></span><code><span class="n">get_environment_variable</span><span class="p">(</span><span class="mi">3</span><span class="n">fortran</span><span class="p">),</span><span class="w"> </span><span class="n">system_getenv</span><span class="p">(</span><span class="mi">3</span><span class="n">m_system</span><span class="p">),</span>
+<span class="n">set_environment_variable</span><span class="p">(</span><span class="mi">3</span><span class="n">m_system</span><span class="p">),</span><span class="w"> </span><span class="n">system_putenv</span><span class="p">(</span><span class="mi">3</span><span class="n">m_system</span><span class="p">),</span>
+<span class="n">system_clearenv</span><span class="p">(</span><span class="mi">3</span><span class="n">m_system</span><span class="p">),</span><span class="w"> </span><span class="n">system_initenv</span><span class="p">(</span><span class="mi">3</span><span class="n">m_system</span><span class="p">),</span>
+<span class="n">system_getenv</span><span class="p">(</span><span class="mi">3</span><span class="n">m_system</span><span class="p">),</span><span class="w"> </span><span class="n">system_unsetenv</span><span class="p">(</span><span class="mi">3</span><span class="n">m_system</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="author">AUTHOR</h2>
+<div class="codehilite"><pre><span></span><code>John S. Urban
+</code></pre></div>
+
+<h2 id="license">LICENSE</h2>
+<div class="codehilite"><pre><span></span><code>MIT
+</code></pre></div>
+
+<p>!print <em>, NAME, &rdquo; is not defined in the environment. Strange&hellip;&rdquo;
+!print </em>, &ldquo;This processor doesn&rsquo;t support environment variables. Boooh!&rdquo;</p>
+
+
+    <h3>Arguments</h3>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-name"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>NAME</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-default~5"></span>
+              character(len=*),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>DEFAULT</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-force_~6"></span>
+              type(force_keywords),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>force_</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ierr~8"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ierr</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+      <h3>Return Value
+        <small>
+          <span class="anchor" id="variable-value~5"></span>
+          character(len=:), allocatable
+        </small>
+      </h3>
+      
+    <br>
+
+
+    
+    
+
+    
+    
+
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl codehilite"><pre><span></span><span class="k">function </span><span class="n">get_env_character</span><span class="p">(</span><span class="n">NAME</span><span class="p">,</span><span class="n">DEFAULT</span><span class="p">,</span><span class="n">force_</span><span class="p">,</span><span class="n">ierr</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="k">VALUE</span><span class="p">)</span>
+<span class="k">implicit none</span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">              </span><span class="kd">::</span><span class="w"> </span><span class="n">NAME</span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">optional</span><span class="w">     </span><span class="kd">::</span><span class="w"> </span><span class="n">DEFAULT</span>
+<span class="k">type</span><span class="p">(</span><span class="n">force_keywords</span><span class="p">),</span><span class="k">optional</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">force_</span>
+<span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">),</span><span class="k">optional</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">ierr</span>
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="k">VALUE</span>
+
+<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">errmsg</span>
+<span class="kt">integer</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">howbig</span>
+<span class="kt">integer</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="nb">stat</span>
+<span class="kt">integer</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">length</span>
+<span class="w">   </span><span class="c">! get length required to hold value</span>
+<span class="w">   </span><span class="n">length</span><span class="o">=</span><span class="mi">0</span>
+<span class="w">   </span><span class="n">errmsg</span><span class="o">=</span><span class="s1">''</span>
+<span class="w">   </span><span class="nb">stat</span><span class="o">=</span><span class="mi">0</span>
+<span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="n">NAME</span><span class="p">.</span><span class="n">ne</span><span class="p">.</span><span class="s1">''</span><span class="p">)</span><span class="k">then</span>
+<span class="k">      call </span><span class="nb">get_environment_variable</span><span class="p">(</span><span class="n">NAME</span><span class="p">,</span><span class="w"> </span><span class="n">length</span><span class="o">=</span><span class="n">howbig</span><span class="p">,</span><span class="n">status</span><span class="o">=</span><span class="nb">stat</span><span class="p">,</span><span class="n">trim_name</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.)</span>
+<span class="w">      </span><span class="k">select case</span><span class="w"> </span><span class="p">(</span><span class="nb">stat</span><span class="p">)</span>
+<span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">         </span><span class="c">!*!print *, NAME, " is not defined in the environment. Strange..."</span>
+<span class="w">         </span><span class="k">VALUE</span><span class="o">=</span><span class="s1">''</span>
+<span class="w">         </span><span class="nb">stat</span><span class="o">=</span><span class="mi">0</span>
+<span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">         </span><span class="c">!*!print *, "This processor doesn't support environment variables. Boooh!"</span>
+<span class="w">         </span><span class="k">VALUE</span><span class="o">=</span><span class="s1">''</span>
+<span class="w">      </span><span class="k">case </span><span class="n">default</span>
+<span class="w">         </span><span class="c">! make string to hold value of sufficient size</span>
+<span class="w">         </span><span class="k">allocate</span><span class="p">(</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="n">howbig</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">VALUE</span><span class="p">)</span>
+<span class="w">         </span><span class="c">! get value</span>
+<span class="w">         </span><span class="k">call </span><span class="nb">get_environment_variable</span><span class="p">(</span><span class="n">NAME</span><span class="p">,</span><span class="k">VALUE</span><span class="p">,</span><span class="n">status</span><span class="o">=</span><span class="nb">stat</span><span class="p">,</span><span class="n">trim_name</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.)</span>
+<span class="w">         </span><span class="k">if</span><span class="p">(</span><span class="nb">stat</span><span class="p">.</span><span class="n">ne</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="k">VALUE</span><span class="o">=</span><span class="s1">''</span>
+<span class="w">      </span><span class="k">end select</span>
+<span class="k">   else</span>
+<span class="k">      VALUE</span><span class="o">=</span><span class="s1">''</span>
+<span class="w">   </span><span class="k">endif</span>
+<span class="k">   if</span><span class="p">(</span><span class="k">VALUE</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="s1">''</span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="nb">present</span><span class="p">(</span><span class="n">DEFAULT</span><span class="p">))</span><span class="k">VALUE</span><span class="o">=</span><span class="n">DEFAULT</span>
+<span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">ierr</span><span class="p">))</span><span class="k">then</span>
+<span class="k">      </span><span class="n">ierr</span><span class="o">=</span><span class="nb">stat</span>
+<span class="nb">   </span><span class="k">elseif</span><span class="p">(</span><span class="nb">stat</span><span class="p">.</span><span class="n">ne</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>
+<span class="w">      </span><span class="c">!write(stderr,'(a)')trim(errmsg)</span>
+<span class="w">   </span><span class="k">endif</span>
+<span class="k">end function </span><span class="n">get_env_character</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              M_unicode
+ was developed by John S. Urban<br>              &copy; 2026 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2026-11-16 14:32 +0000             </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

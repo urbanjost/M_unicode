@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.5% of total for procedures.">17 statements</a>
+                 title=" 0.4% of total for procedures.">17 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -165,13 +165,13 @@
 </h2>
     
 
-    <h3 id="name">NAME</h3>
+    <h2 id="name">NAME</h2>
 <div class="codehilite"><pre><span></span><code><span class="n">random_string</span><span class="p">(</span><span class="mi">3</span><span class="n">f</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">[</span><span class="n">M_random</span><span class="o">]</span><span class="w"> </span><span class="k">create</span><span class="w"> </span><span class="n">random</span><span class="w"> </span><span class="n">string</span><span class="w"> </span><span class="n">composed</span><span class="w"> </span><span class="k">of</span>
 <span class="w">                    </span><span class="n">provided</span><span class="w"> </span><span class="n">characters</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">specified</span><span class="w"> </span><span class="n">length</span>
 <span class="p">(</span><span class="nl">LICENSE</span><span class="p">:</span><span class="n">MIT</span><span class="p">)</span>
 </code></pre></div>
 
-<h3 id="synopsis">SYNOPSIS</h3>
+<h2 id="synopsis">SYNOPSIS</h2>
 <div class="codehilite"><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="nf">random_string</span><span class="p">(</span>chars,length<span class="p">)</span><span class="w"> </span><span class="n">result</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
 
 <span class="w"> </span><span class="n">character</span><span class="p">(</span><span class="n">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="n">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">   </span><span class="p">::</span><span class="w"> </span><span class="n">chars</span>
@@ -187,12 +187,12 @@
 <span class="w"> </span><span class="n">integer</span><span class="w">                       </span><span class="p">::</span><span class="w"> </span><span class="n">out</span><span class="p">(</span><span class="nb">length</span><span class="p">)</span>
 </code></pre></div>
 
-<h3 id="description">DESCRIPTION</h3>
+<h2 id="description">DESCRIPTION</h2>
 <div class="codehilite"><pre><span></span><code><span class="nv">Given</span><span class="w"> </span><span class="nv">a</span><span class="w"> </span><span class="nv">set</span><span class="w"> </span><span class="nv">of</span><span class="w"> </span><span class="nv">characters</span><span class="w"> </span><span class="nv">and</span><span class="w"> </span><span class="nv">a</span><span class="w"> </span><span class="nv">length</span>,<span class="w"> </span><span class="nv">generate</span><span class="w"> </span><span class="nv">a</span><span class="w"> </span><span class="k">random</span><span class="w"> </span><span class="nv">string</span><span class="w"> </span><span class="nv">of</span>
 <span class="nv">the</span><span class="w"> </span><span class="nv">specified</span><span class="w"> </span><span class="nv">length</span><span class="w"> </span><span class="nv">composed</span><span class="w"> </span><span class="nv">of</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">given</span><span class="w"> </span><span class="nv">set</span><span class="w"> </span><span class="nv">of</span><span class="w"> </span><span class="nv">characters</span>.
 </code></pre></div>
 
-<h3 id="options">OPTIONS</h3>
+<h2 id="options">OPTIONS</h2>
 <div class="codehilite"><pre><span></span><code><span class="n">astr</span><span class="w">    </span><span class="n">character</span><span class="w"> </span><span class="n">variable</span><span class="w"> </span><span class="n">containing</span><span class="w"> </span><span class="n">characters</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">construct</span><span class="w"> </span><span class="n">OUT</span><span class="w"> </span><span class="n">with</span>
 <span class="n">ustr</span><span class="w">    </span><span class="n">string</span><span class="w"> </span><span class="n">containing</span><span class="w"> </span><span class="n">characters</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">construct</span><span class="w"> </span><span class="n">OUT</span><span class="w"> </span><span class="n">with</span>
 <span class="n">codes</span><span class="w">   </span><span class="n">integer</span><span class="w"> </span><span class="n">array</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">valid</span><span class="w"> </span><span class="n">Unicode</span><span class="w"> </span><span class="n">codepoint</span><span class="w"> </span><span class="n">values</span>
@@ -200,35 +200,61 @@
 <span class="n">length</span><span class="w">  </span><span class="n">number</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">characters</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">place</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">output</span>
 </code></pre></div>
 
-<h3 id="result">RESULT</h3>
+<h2 id="result">RESULT</h2>
 <div class="codehilite"><pre><span></span><code>out     string of LENGTH characters randomly filled with characters
         from CHARS
 </code></pre></div>
 
-<h3 id="example">EXAMPLE</h3>
-<div class="codehilite"><pre><span></span><code>Sample program:
+<h2 id="example">EXAMPLE</h2>
+<div class="codehilite"><pre><span></span><code><span class="n">Sample</span><span class="w"> </span><span class="nl">program</span><span class="p">:</span>
 
- program demo_random_string
- use M_unicode, only : random_string
- character(len=64) :: hexstring
- ! ensure getting an initially pseudo-random sequence
-    call random_init(.false., .true.)
-    hexstring=random_string('0123456789abcdef',len(hexstring))
-    ! write random hexadecimal value for use
-    ! as something like an X11 authorization key
-    write(*,'(a)')hexstring
- end program demo_random_string
+<span class="w"> </span><span class="n">program</span><span class="w"> </span><span class="n">demo_random_string</span>
+<span class="w"> </span><span class="k">use</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="n">stdout</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">output_unit</span>
+<span class="w"> </span><span class="k">use</span><span class="w"> </span><span class="n">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="n">random_string</span><span class="p">,</span><span class="w"> </span><span class="n">ut</span><span class="o">=&gt;</span><span class="n">unicode_type</span>
+<span class="w"> </span><span class="k">use</span><span class="w"> </span><span class="n">M_unicode</span><span class="p">,</span><span class="w">       </span><span class="k">only</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">),</span><span class="w"> </span><span class="n">ch</span><span class="o">=&gt;</span><span class="k">character</span>
+<span class="w"> </span><span class="k">character</span><span class="p">(</span><span class="nf">len</span><span class="o">=</span><span class="err">:</span><span class="p">),</span><span class="n">allocatable</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="n">aset</span>
+<span class="w"> </span><span class="n">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">                     </span><span class="o">::</span><span class="w"> </span><span class="n">uset</span><span class="p">,</span><span class="w"> </span><span class="n">ulets</span>
+<span class="w"> </span><span class="k">integer</span><span class="p">,</span><span class="n">allocatable</span><span class="w">          </span><span class="o">::</span><span class="w"> </span><span class="n">iset</span><span class="p">(</span><span class="err">:</span><span class="p">),</span><span class="w"> </span><span class="n">ilets</span><span class="p">(</span><span class="err">:</span><span class="p">)</span>
+<span class="w"> </span><span class="k">integer</span><span class="w">                      </span><span class="o">::</span><span class="w"> </span><span class="n">i</span>
+<span class="w"> </span><span class="k">character</span><span class="p">(</span><span class="nf">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">   </span><span class="o">::</span><span class="w"> </span><span class="n">g</span><span class="o">=</span><span class="s1">'("[",g0,"]")'</span>
 
-Results
+<span class="w">  </span><span class="err">!</span><span class="w"> </span><span class="n">ensure</span><span class="w"> </span><span class="n">getting</span><span class="w"> </span><span class="n">an</span><span class="w"> </span><span class="k">initially</span><span class="w"> </span><span class="n">pseudo</span><span class="o">-</span><span class="n">random</span><span class="w"> </span><span class="k">sequence</span>
+<span class="w">    </span><span class="k">call</span><span class="w"> </span><span class="n">random_init</span><span class="p">(.</span><span class="k">false</span><span class="p">.,</span><span class="w"> </span><span class="p">.</span><span class="k">true</span><span class="p">.)</span>
 
- 2363a3589736e23be0137ec7ebc9d74297a963f27958a176daea3dd850ed8487
+<span class="w">  </span><span class="err">!</span><span class="w"> </span><span class="nf">ASCII</span><span class="o">-</span><span class="mi">7</span><span class="w"> </span><span class="k">CHARACTER</span><span class="w"> </span><span class="k">variable</span>
+<span class="w">    </span><span class="err">!</span><span class="w"> </span><span class="n">random</span><span class="w"> </span><span class="n">hexadecimal</span><span class="w"> </span><span class="k">values</span><span class="w"> </span><span class="k">are</span><span class="w"> </span><span class="n">often</span><span class="w"> </span><span class="n">used</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="k">authorization</span><span class="w"> </span><span class="n">keys</span>
+<span class="w">    </span><span class="n">aset</span><span class="o">=</span><span class="s1">'0123456789abcdef'</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="n">aset</span><span class="p">,</span><span class="w"> </span><span class="n">random_string</span><span class="p">(</span><span class="n">aset</span><span class="p">,</span><span class="mi">64</span><span class="p">)</span>
+
+<span class="w">  </span><span class="err">!</span><span class="w"> </span><span class="k">using</span><span class="w"> </span><span class="n">type</span><span class="p">(</span><span class="n">unicode_type</span><span class="p">)</span>
+<span class="w">    </span><span class="err">!</span><span class="w"> </span><span class="n">pick</span><span class="w"> </span><span class="n">letters</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">Greek</span><span class="w"> </span><span class="n">uppercase</span><span class="w"> </span><span class="n">alphabet</span>
+<span class="w">    </span><span class="n">uset</span><span class="o">=</span><span class="s1">'ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ'</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="n">uset</span><span class="o">%</span><span class="n">ch</span><span class="p">(),</span><span class="w"> </span><span class="n">ch</span><span class="p">(</span><span class="n">random_string</span><span class="p">(</span><span class="n">uset</span><span class="p">,</span><span class="mi">16</span><span class="p">))</span>
+
+<span class="w">  </span><span class="err">!</span><span class="w"> </span><span class="k">using</span><span class="w"> </span><span class="n">codepoints</span>
+<span class="w">    </span><span class="err">!</span><span class="w"> </span><span class="n">ADE</span><span class="w"> </span><span class="k">values</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nf">ASCII</span><span class="o">-</span><span class="mi">7</span><span class="w"> </span><span class="n">uppercase</span>
+<span class="w">    </span><span class="n">iset</span><span class="o">=[</span><span class="n">(i,i=65,90)</span><span class="o">]</span>
+<span class="w">    </span><span class="n">ilets</span><span class="o">=</span><span class="n">random_string</span><span class="p">(</span><span class="n">iset</span><span class="p">,</span><span class="mi">32</span><span class="p">)</span>
+<span class="w">    </span><span class="err">!</span><span class="w"> </span><span class="nf">convert</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">codepoint</span><span class="w"> </span><span class="k">values</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">string</span>
+<span class="w">    </span><span class="n">ulets</span><span class="o">=</span><span class="n">ilets</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="n">ulets</span><span class="o">%</span><span class="n">ch</span><span class="p">()</span>
+
+<span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="n">program</span><span class="w"> </span><span class="n">demo_random_string</span>
+
+<span class="n">Results</span>
+
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">0123456789abcdef</span><span class="o">]</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">b4b43bb527d410326d7b8f7a4273ca6710b1a6b1acf78ec51bbd70d8e224223e</span><span class="o">]</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ</span><span class="o">]</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">ΜΒΘΘΛΓΘΦΘΑΣΠΕΤΦΕ</span><span class="o">]</span>
+<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">POFBDMVWNKDXCMVOEJLPKDBTNGEMUYDO</span><span class="o">]</span>
 </code></pre></div>
 
-<h3 id="author">AUTHOR</h3>
+<h2 id="author">AUTHOR</h2>
 <div class="codehilite"><pre><span></span><code>John S. Urban
 </code></pre></div>
 
-<h3 id="license">LICENSE</h3>
+<h2 id="license">LICENSE</h2>
 <div class="codehilite"><pre><span></span><code>MIT License
 </code></pre></div>
 
@@ -246,7 +272,7 @@ Results
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-codes~9"></span>
+              <span class="anchor" id="variable-codes~11"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -279,7 +305,7 @@ Results
 
       <h3>Return Value
         <small>
-          <span class="anchor" id="variable-out~27"></span>
+          <span class="anchor" id="variable-out~30"></span>
           integer, (length)
         </small>
       </h3>
@@ -303,13 +329,13 @@ Results
 <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">              </span><span class="kd">::</span><span class="w"> </span><span class="n">length</span>
 <span class="kt">integer</span><span class="w">                         </span><span class="kd">::</span><span class="w"> </span><span class="n">out</span><span class="p">(</span><span class="n">length</span><span class="p">)</span>
 <span class="w">   </span><span class="kt">real</span><span class="w">                         </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span>
-<span class="w">   </span><span class="kt">integer</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">ilen</span>
+<span class="w">   </span><span class="kt">integer</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">number_of_chars</span>
 <span class="w">   </span><span class="kt">integer</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
-<span class="w">   </span><span class="n">ilen</span><span class="o">=</span><span class="n">size</span><span class="p">(</span><span class="n">codes</span><span class="p">)</span>
-<span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="n">ilen</span><span class="p">.</span><span class="n">gt</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>
+<span class="w">   </span><span class="n">number_of_chars</span><span class="o">=</span><span class="n">size</span><span class="p">(</span><span class="n">codes</span><span class="p">)</span>
+<span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="n">number_of_chars</span><span class="p">.</span><span class="n">gt</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>
 <span class="k">      do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">length</span>
 <span class="w">         </span><span class="k">call </span><span class="nb">random_number</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="w">         </span><span class="n">out</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="nb">nint</span><span class="p">(</span><span class="kt">real</span><span class="p">(</span><span class="n">ilen</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span>
+<span class="w">         </span><span class="n">out</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">codes</span><span class="p">(</span><span class="nb">nint</span><span class="p">(</span><span class="kt">real</span><span class="p">(</span><span class="n">number_of_chars</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
 <span class="w">      </span><span class="k">enddo</span>
 <span class="k">   else</span>
 <span class="k">      </span><span class="n">out</span><span class="o">=</span><span class="mi">0</span>
@@ -338,7 +364,7 @@ Results
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-14 01:44 +0000             </p>
+ on 2026-11-16 14:32 +0000             </p>
           </div>
         </div>
         <br>

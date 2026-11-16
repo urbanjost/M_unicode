@@ -12,11 +12,11 @@ contains
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!   ctou(3f) - [M_unicode:CONVERSION] convert codepoints to UTF-8 CHARACTER string
 !!   (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!
 !!    pure function ctou(codepoints) result(utf8)
@@ -24,25 +24,25 @@ contains
 !!     integer,allocatable,intent(in) :: codepoints(:)
 !!     character(len=*),intent(out)   :: utf8
 !!
-!!### CHARACTERISTICS
+!!##CHARACTERISTICS
 !!   + CODEPOINTS is of default INTEGER kind
 !!   + UTF8 is a CHARACTER variable
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!
 !!   ctou(3f) takes an integer array of Unicode codepoint
 !!   values and generates a scalar CHARACTER variable
 !!   containing bytes representing UTF-8-encoded data.
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!
-!!    + CODEPOINTS :  An INTEGER array of Unicode codepoint values representing
-!!                    the glyphs to be encoded as UTF-8 data
+!!    + CODEPOINTS :  An INTEGER array of Unicode codepoint values
+!!                    representing the glyphs to be encoded as UTF-8 data
 !!
 !!    + UTF8 :  Scalar CHARACTER variable
 !!              containing a stream of bytes containing data encoded as
 !!              UTF-8 text.
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!   Sample program
 !!
@@ -57,21 +57,16 @@ contains
 !!       & 32,104,97,117,8217,111,108,105]
 !!    character(len=:),allocatable :: string
 !!    character(len=1),allocatable :: bytes(:)
-!!    character(len=*),parameter   :: space='(*(g0,1x))'
+!!    character(len=*),parameter   :: g='(*(g0,1x))'
 !!    character(len=*),parameter   :: z='(a,*(z0,1x))'
 !!
-!!      write(*,space)'CODEPOINTS:', codepoints
+!!      write(*,g)'CODEPOINTS:', codepoints
 !!      write(*,z)'HEXADECIMAL CODEPOINTS:', codepoints
-!!    !
 !!      string = ctou(codepoints)
-!!      write(*,space)'STRING:', string
-!!    !
-!!      write(*,space)'How long is this string in glyphs? '
-!!      write(*,space)size(codepoints)
-!!    !
-!!      write(*,space)'How long is this string in bytes? '
-!!      write(*,space)len(string)
-!!    !
+!!      write(*,g)'STRING:', string
+!!      write(*,g)'length in glyphs ', size(codepoints)
+!!      write(*,g)'length in bytes  ', len(string)
+!!
 !!    end program demo_ctou
 !!
 !!  Results:
@@ -80,22 +75,20 @@ contains
 !!     > 8217 111 108 105
 !!     > 48 4E 6F 68 6F 20 6D 65 20 6B 61 20 68 61 75 2019 6F 6C 69
 !!     > STRING:Noho me ka hau’oli
-!!     > How long is this string in glyphs?
-!!     > 18
-!!     > How long is this string in bytes?
-!!     > 20
+!!     > length in glyphs   18
+!!     > length in bytes    20
 !!
-!!### SEE ALSO
+!!##SEE ALSO
 !!   functions that perform operations on character strings:
 !!
 !!   + elemental: adjustl(3), adjustr(3), index(3), scan(3), verify(3)
 !!   + non-elemental: len_trim(3), repeat(3), trim(3),
 !!     ctou(3), utf8_to_codepoints(3), codepoints_to_utf8(3)
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!   + John S. Urban
 !!
-!!### LICENSE
+!!##LICENSE
 !!     MIT
 !       utoc(str) result(cp)
 !
@@ -153,11 +146,11 @@ end function utoc
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!   utoc(3f) - [M_unicode:CONVERSION] convert UTF-8 CHARACTER string to Unicode codepoints
 !!   (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!
 !!    pure function utoc(utf8) result(codepoints)
@@ -165,77 +158,68 @@ end function utoc
 !!     character(len=*),intent(in) :: utf8
 !!     integer,allocatable         :: codepoints(:)
 !!
-!!### CHARACTERISTICS
+!!##CHARACTERISTICS
 !!   + UTF8 is a CHARACTER variable
 !!   + CODEPOINTS is of default INTEGER kind
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!
 !!   utoc(3f) takes a scalar CHARACTER variable containing a stream of
 !!   bytes representing UTF-8-encoded data and generates an integer array
 !!   of Unicode codepoint values.
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!
 !!    + UTF8 :  Scalar CHARACTER variable containing a stream of bytes
 !!              containing data encoded as UTF-8 text.
 !!
-!!    + CODEPOINTS :  An INTEGER array of Unicode codepoint values representing
-!!                    the glyphs to be encoded as UTF-8 data
+!!    + CODEPOINTS :  An INTEGER array of Unicode codepoint values
+!!                    representing the glyphs to be encoded as UTF-8 data
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!   Sample program
 !!
 !!    program demo_utoc
 !!    use m_unicode, only : utoc
 !!    implicit none
-!!    !'Noho me ka hau’oli' !(Be happy)
-!!    integer,parameter :: codepoints(*)=[ &
+!!    character(len=*),parameter   :: g='(*(g0,1x))'
+!!    character(len=*),parameter   :: string = 'Noho me ka hau’oli'
+!!    integer,allocatable          :: codepoints(:)
+!!    integer,parameter            :: answer(*) = [ & !(Be happy)
 !!       & 78,111,104,111,&
 !!       & 32,109,101, &
 !!       & 32,107,97, &
 !!       & 32,104,97,117,8217,111,108,105]
-!!    character(len=:),allocatable :: string
-!!    character(len=1),allocatable :: bytes(:)
-!!    character(len=*),parameter   :: space='(*(g0,1x))'
-!!    character(len=*),parameter   :: z='(a,*(z0,1x))'
 !!
-!!      write(*,space)'CODEPOINTS:', codepoints
-!!      write(*,z)'HEXADECIMAL CODEPOINTS:', codepoints
-!!    !
-!!      string = utoc(codepoints)
-!!      write(*,space)'STRING:', string
-!!    !
-!!      write(*,space)'How long is this string in glyphs? '
-!!      write(*,space)size(codepoints)
-!!    !
-!!      write(*,space)'How long is this string in bytes? '
-!!      write(*,space)len(string)
-!!    !
+!!       write(*,g) 'STRING:', string
+!!       codepoints = utoc(string)
+!!       write(*,g) 'CODEPOINTS:', codepoints
+!!       write(*,g) 'length in glyphs ', size(codepoints)
+!!       write(*,g) 'length in bytes  ', len(string)
+!!       write(*,g) merge('PASSED','FAILED',all(answer==codepoints))
 !!    end program demo_utoc
 !!
 !!  Results:
 !!
+!!     > STRING:Noho me ka hau’oli
 !!     > CODEPOINTS: 78 111 104 111 32 109 101 32 107 97 32 104 97 117 ...
 !!     > 8217 111 108 105
 !!     > 48 4E 6F 68 6F 20 6D 65 20 6B 61 20 68 61 75 2019 6F 6C 69
-!!     > STRING:Noho me ka hau’oli
-!!     > How long is this string in glyphs?
-!!     > 18
-!!     > How long is this string in bytes?
-!!     > 20
+!!     > length in glyphs  18
+!!     > length in bytes   20
+!!     > PASSED
 !!
-!!### SEE ALSO
+!!##SEE ALSO
 !!   functions that perform operations on character strings:
 !!
 !!   + elemental: adjustl(3), adjustr(3), index(3), scan(3), verify(3)
 !!   + non-elemental: len_trim(3), repeat(3), trim(3),
 !!     utoc(3), utf8_to_codepoints(3), codepoints_to_utf8(3)
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!   + John S. Urban
 !!
-!!### LICENSE
+!!##LICENSE
 !!     MIT
 !-----------------------------------------------------------------------------------------------------------------------------------
 !       ctou(cp) result(str)

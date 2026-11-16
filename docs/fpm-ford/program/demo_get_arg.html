@@ -93,7 +93,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.5% of total for programs.">20 statements</a>
+                 title=" 0.9% of total for programs.">43 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -134,12 +134,17 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../program/demo_get_arg.html#variable-bracket">bracket</a>
-            <a class="list-group-item" href="../program/demo_get_arg.html#variable-default">default</a>
-            <a class="list-group-item" href="../program/demo_get_arg.html#variable-i~5">i</a>
-            <a class="list-group-item" href="../program/demo_get_arg.html#variable-position">position</a>
-            <a class="list-group-item" href="../program/demo_get_arg.html#variable-smiley">smiley</a>
-            <a class="list-group-item" href="../program/demo_get_arg.html#variable-value">value</a>
+            <a class="list-group-item" href="../program/demo_get_arg.html#variable-c~5">c</a>
+            <a class="list-group-item" href="../program/demo_get_arg.html#variable-d~3">d</a>
+            <a class="list-group-item" href="../program/demo_get_arg.html#variable-g~22">g</a>
+            <a class="list-group-item" href="../program/demo_get_arg.html#variable-i~123">i</a>
+            <a class="list-group-item" href="../program/demo_get_arg.html#variable-ierr~28">ierr</a>
+            <a class="list-group-item" href="../program/demo_get_arg.html#variable-position~3">position</a>
+            <a class="list-group-item" href="../program/demo_get_arg.html#variable-r~8">r</a>
+            <a class="list-group-item" href="../program/demo_get_arg.html#variable-smiley~3">smiley</a>
+            <a class="list-group-item" href="../program/demo_get_arg.html#variable-tf">tf</a>
+            <a class="list-group-item" href="../program/demo_get_arg.html#variable-udefault~2">udefault</a>
+            <a class="list-group-item" href="../program/demo_get_arg.html#variable-uvalue~2">uvalue</a>
         </div>
       </div>
     </div>
@@ -205,39 +210,55 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-bracket"></span>
+              <span class="anchor" id="variable-c~5"></span>
+              character(len=:),
+            </td>
+            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>c</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-d~3"></span>
+              doubleprecision
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>d</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-g~22"></span>
               character(len=*),
             </td>
             <td>
 parameter               
             </td>
             <td>::</td>
-            <td><strong>bracket</strong></td>
+            <td><strong>g</strong></td>
 <td> =</td>
-                <td>&#39;(1x,*(&#34;[&#34;,a,&#34;]&#34;,:))&#39;</td>
+                <td>&#39;(*(g0))&#39;</td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-default"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>)
-            </td>
-            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>default</strong></td>
-                <td></td>
-                <td></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-i~5"></span>
+              <span class="anchor" id="variable-i~123"></span>
               integer
             </td>
             <td>
@@ -253,7 +274,23 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-position"></span>
+              <span class="anchor" id="variable-ierr~28"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ierr</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-position~3"></span>
               integer
             </td>
             <td>
@@ -269,7 +306,23 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-smiley"></span>
+              <span class="anchor" id="variable-r~8"></span>
+              real
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>r</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-smiley~3"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>)
             </td>
             <td>
@@ -285,14 +338,46 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value"></span>
+              <span class="anchor" id="variable-tf"></span>
+              logical
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>tf</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-udefault~2"></span>
               type(<a href='../type/unicode_type.html'>unicode_type</a>)
             </td>
             <td>
               
             </td>
             <td>::</td>
-            <td><strong>value</strong></td>
+            <td><strong>udefault</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-uvalue~2"></span>
+              type(<a href='../type/unicode_type.html'>unicode_type</a>)
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>uvalue</strong></td>
                 <td></td>
                 <td></td>
             <td>
@@ -315,34 +400,67 @@ parameter
 
     <section>
     <h2 id="src">Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="w">      </span><span class="k">program </span><span class="n">demo_get_arg</span>
-<span class="w">      </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">get_arg</span><span class="p">,</span><span class="w"> </span><span class="n">ut</span><span class="o">=&gt;</span><span class="w"> </span><span class="n">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="n">ch</span><span class="o">=&gt;</span><span class="kt">character</span>
-<span class="kt">      </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">),</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">//</span><span class="p">),</span><span class="w"> </span><span class="k">write</span><span class="p">(</span><span class="n">formatted</span><span class="p">)</span>
-<span class="w">      </span><span class="k">implicit none</span>
-<span class="k">      </span><span class="kt">integer</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">position</span>
-<span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">default</span>
-<span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">value</span>
-<span class="k">      type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">smiley</span>
-<span class="w">      </span><span class="kt">integer</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
-<span class="w">      </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">bracket</span><span class="o">=</span><span class="w"> </span><span class="s1">'(1x,*("[",a,"]",:))'</span>
-<span class="w">         </span><span class="c">!</span>
-<span class="w">         </span><span class="n">smiley</span><span class="o">=</span><span class="mi">128515</span><span class="w"> </span><span class="c">! set with Unicode code point</span>
-<span class="w">         </span><span class="n">default</span><span class="o">=</span><span class="s1">'Wish I was first '</span><span class="o">//</span><span class="n">smiley</span><span class="o">//</span><span class="s1">'!'</span><span class="w"> </span><span class="c">! set with unicode_type</span>
-<span class="w">         </span><span class="c">!</span>
-<span class="w">         </span><span class="c">! arguments can be type(unicode_type) or character</span>
-<span class="w">         </span><span class="c">! but type(unicode_type) is always returned</span>
-<span class="w">         </span><span class="k">do </span><span class="n">position</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="nb">command_argument_count</span><span class="p">()</span>
-<span class="w">            </span><span class="k">value</span><span class="o">=</span><span class="n">get_arg</span><span class="p">(</span><span class="n">position</span><span class="p">,</span><span class="w"> </span><span class="n">default</span><span class="w">             </span><span class="p">)</span>
-<span class="w">            </span><span class="k">value</span><span class="o">=</span><span class="n">get_arg</span><span class="p">(</span><span class="n">position</span><span class="p">,</span><span class="w"> </span><span class="n">default</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="w"> </span><span class="p">)</span>
-<span class="w">            </span><span class="c">!</span>
-<span class="w">            </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="k">value</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span>
-<span class="w">            </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(DT)'</span><span class="p">)</span><span class="n">default</span><span class="p">%</span><span class="n">get_arg</span><span class="p">(</span><span class="n">position</span><span class="p">)</span>
-<span class="w">            </span><span class="c">!</span>
-<span class="w">            </span><span class="c">! print each glyph surrounded by brackets</span>
-<span class="w">            </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">bracket</span><span class="p">)(</span><span class="k">value</span><span class="p">%</span><span class="kt">character</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">i</span><span class="p">),</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="k">value</span><span class="p">%</span><span class="nb">len</span><span class="p">())</span>
-<span class="w">         </span><span class="k">enddo</span>
-<span class="w">         </span><span class="c">!</span>
-<span class="w">      </span><span class="k">end program </span><span class="n">demo_get_arg</span>
+    <div class="hl codehilite"><pre><span></span><span class="w">     </span><span class="k">program </span><span class="n">demo_get_arg</span>
+<span class="w">     </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">get_arg</span><span class="p">,</span><span class="w"> </span><span class="n">ut</span><span class="o">=&gt;</span><span class="w"> </span><span class="n">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="n">ch</span><span class="o">=&gt;</span><span class="kt">character</span>
+<span class="kt">     </span><span class="k">use </span><span class="n">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">),</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">//</span><span class="p">),</span><span class="w"> </span><span class="k">write</span><span class="p">(</span><span class="n">formatted</span><span class="p">)</span>
+<span class="w">     </span><span class="k">implicit none</span>
+<span class="k">     </span><span class="kt">integer</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">position</span>
+<span class="w">     </span><span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">udefault</span>
+<span class="w">     </span><span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">uvalue</span>
+<span class="w">     </span><span class="k">type</span><span class="p">(</span><span class="n">ut</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">smiley</span>
+<span class="w">     </span><span class="kt">integer</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">ierr</span>
+<span class="w">     </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">g</span><span class="o">=</span><span class="s1">'(*(g0))'</span>
+
+<span class="w">     </span><span class="kt">integer</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
+<span class="w">     </span><span class="kt">real</span><span class="w">                         </span><span class="kd">::</span><span class="w"> </span><span class="n">r</span>
+<span class="w">     </span><span class="n">doubleprecision</span><span class="w">              </span><span class="kd">::</span><span class="w"> </span><span class="n">d</span>
+<span class="w">     </span><span class="kt">logical</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">tf</span>
+<span class="w">     </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">c</span>
+
+<span class="w">     </span><span class="c">! basics</span>
+<span class="w">     </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="nb">command_argument_count</span><span class="p">()</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="n">i</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="n">get_arg</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="w">     </span><span class="k">enddo</span>
+<span class="w">     </span><span class="c">!</span>
+<span class="w">     </span><span class="n">smiley</span><span class="o">=</span><span class="mi">128515</span><span class="w"> </span><span class="c">! smiley emoji set with Unicode code point</span>
+<span class="w">     </span><span class="n">udefault</span><span class="o">=</span><span class="s1">'Wish I was there '</span><span class="o">//</span><span class="n">smiley</span><span class="o">//</span><span class="s1">'!'</span>
+<span class="w">     </span><span class="c">!</span>
+<span class="w">     </span><span class="k">if</span><span class="p">(</span><span class="nb">command_argument_count</span><span class="p">().</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>
+<span class="k">        call </span><span class="nb">execute_command_line</span><span class="p">(</span><span class="n">get_arg</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">//</span><span class="s1">' one T 100 100.2 300.0e3 '</span><span class="p">)</span>
+<span class="w">     </span><span class="k">else</span>
+<span class="k">        do </span><span class="n">position</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="nb">command_argument_count</span><span class="p">()</span>
+
+<span class="w">           </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="nb">repeat</span><span class="p">(</span><span class="s1">'='</span><span class="p">,</span><span class="mi">50</span><span class="p">)</span>
+
+<span class="w">           </span><span class="c">! returns type(unicode_type)</span>
+<span class="w">           </span><span class="n">uvalue</span><span class="o">=</span><span class="n">get_arg</span><span class="p">(</span><span class="n">position</span><span class="p">,</span><span class="w"> </span><span class="n">udefault</span><span class="p">)</span>
+<span class="w">           </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="n">uvalue</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span>
+<span class="w">           </span><span class="c">! oop</span>
+<span class="w">           </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'("OOP:",DT)'</span><span class="p">)</span><span class="n">udefault</span><span class="p">%</span><span class="n">get_arg</span><span class="p">(</span><span class="n">position</span><span class="p">)</span>
+
+<span class="w">           </span><span class="c">! returns character which is assigned to type(unicode_type)</span>
+<span class="w">           </span><span class="n">uvalue</span><span class="o">=</span><span class="n">get_arg</span><span class="p">(</span><span class="n">position</span><span class="p">,</span><span class="w"> </span><span class="n">udefault</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span><span class="w"> </span><span class="p">)</span>
+<span class="w">           </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="n">uvalue</span><span class="p">%</span><span class="kt">character</span><span class="p">()</span>
+
+<span class="w">           </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="n">get_arg</span><span class="p">(</span><span class="n">position</span><span class="p">,</span><span class="s1">' character default'</span><span class="p">)</span>
+
+<span class="w">           </span><span class="n">c</span><span class="o">=</span><span class="n">get_arg</span><span class="p">(</span><span class="n">position</span><span class="p">)</span>
+
+<span class="w">           </span><span class="n">tf</span><span class="o">=</span><span class="n">get_arg</span><span class="p">(</span><span class="n">position</span><span class="p">,.</span><span class="n">false</span><span class="p">.,</span><span class="n">ierr</span><span class="o">=</span><span class="n">ierr</span><span class="p">)</span>
+<span class="w">           </span><span class="k">if</span><span class="p">(</span><span class="n">ierr</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="n">position</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="s1">' is a good logical: '</span><span class="p">,</span><span class="n">tf</span>
+
+<span class="w">           </span><span class="n">r</span><span class="o">=</span><span class="n">get_arg</span><span class="p">(</span><span class="n">position</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="n">ierr</span><span class="o">=</span><span class="n">ierr</span><span class="p">)</span>
+<span class="w">           </span><span class="k">if</span><span class="p">(</span><span class="n">ierr</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="n">position</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="s1">' is a good real: '</span><span class="p">,</span><span class="n">r</span>
+
+<span class="w">           </span><span class="n">d</span><span class="o">=</span><span class="n">get_arg</span><span class="p">(</span><span class="n">position</span><span class="p">,</span><span class="mf">0.0d0</span><span class="p">,</span><span class="n">ierr</span><span class="o">=</span><span class="n">ierr</span><span class="p">)</span>
+<span class="w">           </span><span class="k">if</span><span class="p">(</span><span class="n">ierr</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="n">position</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="s1">' is a good double: '</span><span class="p">,</span><span class="n">d</span>
+
+<span class="w">           </span><span class="n">i</span><span class="o">=</span><span class="n">get_arg</span><span class="p">(</span><span class="n">position</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">ierr</span><span class="o">=</span><span class="n">ierr</span><span class="p">)</span>
+<span class="w">           </span><span class="k">if</span><span class="p">(</span><span class="n">ierr</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="n">position</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="s1">' is a good integer: '</span><span class="p">,</span><span class="n">i</span>
+
+<span class="w">        </span><span class="k">enddo</span>
+<span class="k">     endif</span>
+<span class="k">     end program </span><span class="n">demo_get_arg</span>
 </pre></div>
 
     </section>
@@ -365,7 +483,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-14 01:44 +0000             </p>
+ on 2026-11-16 14:32 +0000             </p>
           </div>
         </div>
         <br>

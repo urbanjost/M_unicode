@@ -3,46 +3,6 @@
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
-! next: Pondering or Planning
-!
-! regular expressions
-!
-! strings to numbers
-!
-! utf-8 to keyword
-!
-! conversion to HTML should look to substitute HTML entity words instead of just numbers
-
-! Incomplete UDDTIO support: The User-Defined Derived-Type Input/Output
-!    (UDDTIO) procedures meant for use with the DT edit descriptor are
-!    still undergoing development because of compiler incompatibilities
-!
-!    It needs a DT for printing. Keep hitting what looks like different compiler
-!    bugs. Maybe just map it to NAMELIST group output
-!
-! Unicode Collation Algorithm (UCA) for sorting
-!
-! sort with customized collation is available, but generally inefficient and requires custom coding
-!
-! Dictionary sorting: While M_unicode(3f) includes a sorting method, it
-!    uses Unicode codepoint order, meaning it does not natively support
-!    dictionary or alphabetical sorting order for localized languages.
-!    Perhaps add calls to C to use existing Locale-specific sorting.
-!
-! Complex Unicode handling limits: The library has limited
-!    capability when it comes to complex Unicode features, specifically surrogate pairs,
-!    text directionality, and advanced text normalization.
-!
-! NOTE: List-directed output constraints: Because the underlying Fortran
-!    compiler treats UTF-8 strings as raw 8-bit byte streams, list-directed
-!    output (*) is not safely supported for UTF-8 data, as it can split
-!    multi-byte characters across lines inappropriately if not using
-!    ENCODE='UTF-8' mode on the OPEN statement, which is not supported
-!    by all compilers.
-!
-!  Text positioning and TUI capabilities such as with ncurses, terminfo, tput, ...
-!    although rudimentary terminal attributes are available via keyword substitution
-!    "<BL ye>yellow text on blue background <reset>".
 !-----------------------------------------------------------------------------------------------------------------------------------
 #include "define_compiler.inc"
 !-----------------------------------------------------------------------------------------------------------------------------------
@@ -50,11 +10,11 @@
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!     M_unicode(3f) - [M_unicode::INTRO] Unicode string module
 !!     (LICENSE:MIT)
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!    The M_unicode(3f) module is a collection of Fortran string methods
 !!    that work with UTF-8 encoded text not just ASCII-7 data.
 !!
@@ -111,7 +71,7 @@
 !!    such as REPLACE(3f) and CHARACTER(3f) and SUB(3f) provide similar
 !!    functionality.
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!
 !!   public methods:
@@ -184,8 +144,9 @@
 !!
 !!    NUMERIC STRINGS
 !!
-!!     fmt       convert intrinsic numeric value to string using optional
-!!               format
+!!     fmt         convert intrinsic numeric value to string using optional
+!!                 format
+!!     str_to_real convert string representing numeric value to a float
 !!
 !!    CHARACTER TESTS
 !!
@@ -255,7 +216,7 @@
 !!     module provides an alternative interface to all the same procedures
 !!     except for SORT(3f) and CHAR(3f).
 !!
-!!### SEE ALSO
+!!##SEE ALSO
 !!     All the procedure descriptions are conglomerated into the single file
 !!     "manual.txt" for simple access not requiring access to man-pages or
 !!     browsers.
@@ -265,7 +226,7 @@
 !!     (M_random, M_uuid), lists (M_list), and interfacing with the C regular
 !!     expression library (M_regex).
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!
 !!     Each of the procedures includes an example program in the example/
@@ -350,10 +311,10 @@
 !!     > АБВГҐДЕЄЖЗИІЇЙ--------ТУФХЦЧШЩЬЮЯ0123456789 ...
 !!     > абвгґдеєжзиіїй--------туфхцчшщьюя
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!     John S. Urban
 !!
-!!### LICENSE
+!!##LICENSE
 !!     MIT
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
@@ -365,20 +326,41 @@ module M_unicode
 ! including enhancements and optional Latin support from Francois Jacq, 2025-08
 !
 
-use,intrinsic :: iso_fortran_env, only : stdout=>output_unit
-use,intrinsic :: iso_fortran_env, only : stdin=>input_unit
-use,intrinsic :: iso_fortran_env, only : stderr=>error_unit
+use,intrinsic :: iso_fortran_env, only : stdout => output_unit
+use,intrinsic :: iso_fortran_env, only : stdin  => input_unit
+use,intrinsic :: iso_fortran_env, only : stderr => error_unit
 use,intrinsic :: iso_fortran_env, only : int8, int16, int32, int64
 use,intrinsic :: iso_fortran_env, only : real32, real64, real128
 
+! from modules
 use M_unicode__float,   only : str_to_real
-use M_unicode__random,  only : random_string
-use M_unicode__regex,   only : regex_t, match_t, regex_compile, regex_search, regex_replace
-use M_unicode__convert, only : utoc, ctou
+use M_unicode__random,  only : random_string_codes => random_string
+use M_unicode__regex,   only : regex_t, match_t
+use M_unicode__regex,   only : regex_compile_codes => regex_compile
+use M_unicode__regex,   only : regex_search_codes  => regex_search
+use M_unicode__regex,   only : regex_replace_codes => regex_replace
+use M_unicode__convert, only : ctou, utoc
+use M_unicode__eval,    only : cp_string, var_value, user_func, user_func_iface, compiled_expr ! Public Types
+use M_unicode__eval,    only : compile_expr_cp, eval_compiled, differentiate_compiled          ! Public Procedures
+
+!use M_unicode__get,     only : get_arg_general     => get_arg
+!use M_unicode__get,     only : get_env_general     => get_env
+use M_unicode__get,     only : get_env_character, get_env_integer, get_env_real, get_env_double, get_env_logical
+use M_unicode__get,     only : get_arg_character, get_arg_integer, get_arg_real, get_arg_double, get_arg_logical
 
 implicit none
 
 private
+! from modules
+public :: random_string
+public :: str_to_real
+public :: utoc, ctou
+public :: regex_t, match_t
+public :: regex_compile, regex_search, regex_replace
+public :: get_env, get_arg
+public :: cp_string, var_value, user_func, user_func_iface, compiled_expr ! Public Types
+public :: compile_expr_cp, eval_compiled, differentiate_compiled          ! Public Procedures
+
 PUBLIC :: unicode_type
 PUBLIC :: UTF8_TO_CODEPOINTS
 PUBLIC :: CODEPOINTS_TO_UTF8
@@ -417,8 +399,6 @@ public :: tokenize
 public :: scan
 public :: verify
 public :: ichar
-public :: get_env
-public :: get_arg
 public :: expand_env
 PUBLIC :: LLE, LLT, LNE, LEQ, LGT, LGE
 PUBLIC :: OPERATOR(<=), OPERATOR(<), OPERATOR(/=), OPERATOR(==), OPERATOR(>), OPERATOR(>=)
@@ -431,11 +411,6 @@ public :: isblank
 public :: isspace
 public :: issensitive
 public :: glob
-
-public :: regex_t, match_t, regex_compile, regex_search, regex_replace
-public :: random_string
-public :: str_to_real
-public :: utoc, ctou
 
 #ifdef HAS_DT
 PUBLIC :: write(formatted)
@@ -456,17 +431,16 @@ private :: section_aa
 
 private :: trimzeros_
 private :: atoi
-
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!     isascii(3f) - [M_unicode:QUERY] returns .true. if all the
 !!     characters of a string are in the set from CHAR(0) to CHAR(127).
 !!     (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!
 !!    function isascii(str)
@@ -477,17 +451,17 @@ private :: atoi
 !!
 !!     logical :: isascii
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!     isascii(3f) returns .true. if all the characters in the string are
 !!     ASCII-7 characters (ie. in the range char(0) to char(127).
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!    str  character variable or string to test
 !!
-!!### RETURNS
+!!##RETURNS
 !!    isascii  logical value returns true if all the characters in the
 !!             string represent ASCII-7 characters.
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!  Sample program
 !!
@@ -537,22 +511,22 @@ private :: atoi
 !!     > CHARACTER     F Portez ce vieux whisky au juge blond qui a fumé.
 !!     > UNICODE_TYPE: F Portez ce vieux whisky au juge blond qui a fumé.
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!     John S. Urban
 !!
-!!### LICENSE
+!!##LICENSE
 !!     MIT
 interface  isascii;  module  procedure  isascii_a,isascii_u;  end  interface  isascii
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!     isblank(3f) - [M_unicode:COMPARE] returns .true. if character is a
 !!     Unicode or ASCII-7 blank character (space or horizontal tab) .
 !!     (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!
 !!    elemental function isblank(onechar)
@@ -563,17 +537,17 @@ interface  isascii;  module  procedure  isascii_a,isascii_u;  end  interface  is
 !!
 !!     logical              :: isblank
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!     isblank(3f) returns .true. if all characters are a blank character (ASCII-7
 !!     space or Unicode blank character) or horizontal tab.
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!    str  variable to test
 !!
-!!### RETURNS
+!!##RETURNS
 !!    isblank  logical value returns true if character is a "blank"
 !!             ( an ASCII space or Unicode blank) or horizontal tab character.
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!   Sample program:
 !!
@@ -605,22 +579,22 @@ interface  isascii;  module  procedure  isascii_a,isascii_u;  end  interface  is
 !!     > BLANKS:  32 160 8192 8193 8194 8195 8196 8197 8198 8199 8200 8201
 !!     > 8202 8239 8287 8288 12288
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!     John S. Urban
 !!
-!!### LICENSE
+!!##LICENSE
 !!     MIT
 interface  isblank;  module  procedure  isblank_a,isblank_u;  end  interface  isblank
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!     isspace(3f) - [M_unicode:COMPARE] returns .true. if character is a
 !!     null, space, tab, carriage return, new line, vertical tab, or formfeed
 !!     (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!
 !!    elemental function isspace(onechar)
@@ -628,17 +602,17 @@ interface  isblank;  module  procedure  isblank_a,isblank_u;  end  interface  is
 !!     character,intent(in) :: onechar
 !!     logical              :: isspace
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!     isspace(3f) returns .true. if character is a null, space, tab,
 !!     carriage return, new line, vertical tab, or formfeed
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!    onechar  character to test
 !!
-!!### RETURNS
+!!##RETURNS
 !!    isspace  returns true if character is ASCII white space
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!  Sample program:
 !!
@@ -655,21 +629,21 @@ interface  isblank;  module  procedure  isblank_a,isblank_u;  end  interface  is
 !!
 !!     > ISSPACE:  0 9 10 11 12 13 32
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!     John S. Urban
 !!
-!!### LICENSE
+!!##LICENSE
 !!     MIT
 interface  isspace;  module  procedure  isspace_a,isspace_u;  end  interface  isspace
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!  issensitive(3f) - [M_unicode:CASE] determine if character is case-sensitive
 !!  (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!
 !!     pure elemental function issensitive(str) result (mask)
@@ -677,18 +651,18 @@ interface  isspace;  module  procedure  isspace_a,isspace_u;  end  interface  is
 !!      type(unicode_type),intent(in) :: str
 !!      logical                       :: mask
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!    issensitive(string) returns true if the character is considered to be
 !!    case-sensitive, else it returns false.
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!     str    string to query, only first character is tested.
 !!
-!!### RETURNS
+!!##RETURNS
 !!     mask   returns true if character is considered case-sensitive;
 !!            otherwise is returns false.
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!
 !!   Sample program:
@@ -785,40 +759,40 @@ interface  isspace;  module  procedure  isspace_a,isspace_u;  end  interface  is
 !!   > SENSITIVE     :vHkdqyUBmlEwöJAfS
 !!   > NOT SENSITIVE ::~🌟🌬🌀,[]8🌷(}🍍3
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!     John S. Urban
 !!
-!!### LICENSE
+!!##LICENSE
 !!     MIT
 interface  issensitive;    module  procedure  issensitive_a,issensitive_u;      end  interface  issensitive
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!  reverse(3f) - [M_unicode:CASE] reverse order of glyphs on a line
 !!  (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!
-!!     impure elemental function reverse(str) result (string)
+!!     pure elemental function reverse(str) result (string)
 !!
 !!      type(unicode_type),intent(in) :: str
 !!      type(unicode_type)            :: string
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!    reverse(string) returns a copy of the input string with all characters
 !!    in reverse position on the line.
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!     str    string to reverse
 !!
-!!### RETURNS
+!!##RETURNS
 !!     reverse  copy of the input string with order of characters on the
 !!              line reversed.
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!
 !!   Sample program:
@@ -849,21 +823,21 @@ interface  issensitive;    module  procedure  issensitive_a,issensitive_u;      
 !!     > 말국한
 !!     > 七十五
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!     John S. Urban
 !!
-!!### LICENSE
+!!##LICENSE
 !!     MIT
 interface  reverse;  module  procedure  reverse_a,reverse_u;  end  interface  reverse
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!  UPPER(3f) - [M_unicode:CASE] changes a string to uppercase
 !!  (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!
 !!     pure elemental function upper(str) result (string)
@@ -871,18 +845,18 @@ interface  reverse;  module  procedure  reverse_a,reverse_u;  end  interface  re
 !!      type(unicode_type),intent(in) :: str
 !!      type(unicode_type)            :: string
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!    upper(string) returns a copy of the input string with all characters
 !!    converted to uppercase, assuming Unicode character sets are being used.
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!     str    string to convert to uppercase
 !!
-!!### RETURNS
+!!##RETURNS
 !!     upper  copy of the input string with all characters converted to
 !!            uppercase.
 !!
-!!### TRIVIA
+!!##TRIVIA
 !!     The terms "uppercase" and "lowercase" date back to the early days of
 !!     the mechanical printing press. Individual metal alloy casts of each
 !!     needed letter, or punctuation symbol, were meticulously added to a
@@ -892,7 +866,7 @@ interface  reverse;  module  procedure  reverse_a,reverse_u;  end  interface  re
 !!     lower cases of the work bench. The less often needed, capitalized,
 !!     majuscule letters, ended up in the harder to reach upper cases.
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!
 !!   Sample program:
@@ -956,22 +930,22 @@ interface  reverse;  module  procedure  reverse_a,reverse_u;  end  interface  re
 !!   > PŘÍLIŠ ŽLUŤOUČKÝ KŮŇ ÚPĚL ĎÁBELSKÉ ÓDY.
 !!   > PASSED
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!     John S. Urban
 !!
-!!### LICENSE
+!!##LICENSE
 !!     MIT
 interface  upper;    module  procedure  upper_a,upper_u;      end  interface  upper
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!     LOWER(3f) - [M_unicode:CASE] changes a string to lowercase over
 !!     specified range
 !!     (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!
 !!     pure elemental function lower(str) result (string)
@@ -979,18 +953,18 @@ interface  upper;    module  procedure  upper_a,upper_u;      end  interface  up
 !!      type(unicode_type),intent(in) :: str
 !!      type(unicode_type)            :: string
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!       lower(str) returns a copy of the input string with all
 !!       characters converted to miniscule (ie. "lowercase").
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!     str    string to convert to miniscule
 !!
-!!### RETURNS
+!!##RETURNS
 !!     lower  copy of the entire input string with all characters converted
 !!            to miniscule.
 !!
-!!### TRIVIA
+!!##TRIVIA
 !!    The terms "uppercase" and "lowercase" date back to the early days
 !!    of the mechanical printing press. Individual metal alloy casts of
 !!    each needed letter or punctuation symbol were meticulously added to a
@@ -1000,7 +974,7 @@ interface  upper;    module  procedure  upper_a,upper_u;      end  interface  up
 !!    the work bench. The less often needed, capitalized, majuscule letters,
 !!    ended up in the harder to reach upper cases.
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!
 !!  Sample program:
@@ -1062,22 +1036,22 @@ interface  upper;    module  procedure  upper_a,upper_u;      end  interface  up
 !!      > příliš žluťoučký kůň úpěl ďábelské ódy.
 !!      > PASSED
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!     John S. Urban
 !!
-!!### LICENSE
+!!##LICENSE
 !!     MIT
 interface  lower;    module  procedure  lower_a,lower_u;      end  interface  lower
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!     SORT(3f) - [M_unicode:SORT] indexed hybrid quicksort of
 !!     an array
 !!     (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!
 !!     subroutine sort(data,index,comparison_func)
@@ -1086,7 +1060,7 @@ interface  lower;    module  procedure  lower_a,lower_u;      end  interface  lo
 !!         integer,intent(out)                     :: indx(size(data))
 !!         procedure(unicode_comparator), optional :: comparison_func
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!    A rank hybrid quicksort. The data is not moved. An integer array is
 !!    generated instead with values that are indices to the sorted order
 !!    of the data. This requires a second array the size of the input
@@ -1109,7 +1083,7 @@ interface  lower;    module  procedure  lower_a,lower_u;      end  interface  lo
 !!           end function unicode_comparator
 !!        end interface
 !!
-!!### BACKGROUND
+!!##BACKGROUND
 !!     From Leonard J. Moss of SLAC:
 !!
 !!     Here's a hybrid QuickSort I wrote a number of years ago. It's based
@@ -1147,7 +1121,7 @@ interface  lower;    module  procedure  lower_a,lower_u;      end  interface  lo
 !!       John S. Urban 20210110
 !!     o type(unicode_type) version JSU 2025-09-20. See M_sort for other types.
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!
 !!   Note that the custom German dictionary collate function found below
@@ -1433,10 +1407,10 @@ interface  lower;    module  procedure  lower_a,lower_u;      end  interface  lo
 !!     > CHECK TEST WORDS: T T T T T T T T T T T T T T T T T T
 !!     > PASSED
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!     John S. Urban
 !!
-!!### LICENSE
+!!##LICENSE
 !!     MIT
 interface sort
    module procedure :: sort_quick_rx
@@ -1446,11 +1420,11 @@ end interface sort
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!  expand_html(3f) - [M_unicode:ENCODE] expand HTML character entities ("&NAME;" strings)
 !!  (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!
 !!     pure elemental function expand_html(str) result (string)
@@ -1461,21 +1435,21 @@ end interface sort
 !!
 !!      type(unicode_type)                     :: string
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!    expand_html(string) returns a copy of the input string with all HTML
 !!    character entities ( "&NAME;" and "&#NUMBER;") expanded
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!     str    string containing HTML character entities to expand.
 !!
 !!            If STR is not present a table of all the HTML character entity
 !!            names and the characer they represent and its decimal and
 !!            hexadecimal value(s) is written to stdout
 !!
-!!### RETURNS
+!!##RETURNS
 !!     expand_html  copy of the input string with all HTML character entities
 !!                  expanded
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!
 !!   Sample program:
@@ -1521,10 +1495,10 @@ end interface sort
 !!   > Pound              &pound; &#163;  £££
 !!   > Non-breaking space &nbsp;  &#160;  Before   After
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!     John S. Urban
 !!
-!!### LICENSE
+!!##LICENSE
 !!     MIT
 interface expand_html
    module procedure :: expand_html_uu
@@ -1535,12 +1509,12 @@ end interface expand_html
 !===================================================================================================================================
 !>
 !!
-!!### NAME
+!!##NAME
 !!   VERIFY(3f) - [M_unicode:SEARCH] Position of a character in a string of
 !!   characters that does not appear in a given set of characters.
 !!   (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!   result = verify(string, set [,back] [,kind] )
 !!
@@ -1554,14 +1528,14 @@ end interface expand_html
 !!
 !!             logical,intent(in),optional   :: back
 !!
-!!### CHARACTERISTICS
+!!##CHARACTERISTICS
 !!
 !!   +  STRING  must be of type string
 !!   +  SET  must be of type string or character.
 !!   +  BACK shall be of type logical.
 !!   +  A default integer kind is returned.
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!   VERIFY(3f) verifies that all the characters in STRING belong to the set of
 !!   characters in SET by identifying the position of the first character in the
 !!   string that is not in the set.
@@ -1573,7 +1547,7 @@ end interface expand_html
 !!   ISPUNCT(3c), ISSPACE(3c), ISUPPER(3c), and ISXDIGIT(3c); but for a string as
 !!   well as an array of strings.
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!   +  STRING : The string to search in for an unmatched character.
 !!
 !!   +  SET : The set of characters that must be matched.
@@ -1583,7 +1557,7 @@ end interface expand_html
 !!      .false., which causes the position of the right‐most unmatched character
 !!      to be returned instead of the left‐most unmatched character.
 !!
-!!### RESULT
+!!##RESULT
 !!   If all characters of STRING are found in SET, the result is zero.
 !!
 !!   If STRING is of zero length a zero (0) is always returned.
@@ -1592,7 +1566,7 @@ end interface expand_html
 !!   last (if BACK is .false.) unmatched character in STRING is returned, starting
 !!   with position one on the left end of the string.
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!   Sample program I:
 !!
@@ -1607,13 +1581,13 @@ end interface expand_html
 !!    implicit none
 !!    ! some useful character sets
 !!    character,parameter          :: &
-!!     & int*(*)   = "1234567890", &
-!!     & low*(*)   = "abcdefghijklmnopqrstuvwxyz", &
-!!     & upp*(*)   = "ABCDEFGHIJKLMNOPQRSTUVWXYZ", &
+!!     & ints*(*)  = "1234567890", &
+!!     & lows*(*)  = "abcdefghijklmnopqrstuvwxyz", &
+!!     & upps*(*)  = "ABCDEFGHIJKLMNOPQRSTUVWXYZ", &
 !!     & punc*(*)  = "!""#$%&'()*+,‐./:;<=>?@[\]'_‘{|}˜", &
 !!     & blank*(*) = " ", &
 !!     & tab       = char(11), &
-!!     & prnt*(*) = int//low//upp//blank//punc
+!!     & prnt*(*)  = ints//lows//upps//blank//punc
 !!    !
 !!    type(ut)                     :: stru
 !!    integer                      :: i
@@ -1623,8 +1597,8 @@ end interface expand_html
 !!        print *, VERIFY ("ABBA", "AB")               ! has the value 0.
 !!       !
 !!       print *,"find first non‐uppercase letter"
-!!       ! will produce the location of "d", because there is no match in UPP
-!!       write(*,*) "something unmatched",verify(ut("ABCdEFG"), upp)
+!!       ! will produce the location of "d", because there is no match in UPPS
+!!       write(*,*) "something unmatched",verify(ut("ABCdEFG"), upps)
 !!       !
 !!       print *,"if everything is matched return zero"
 !!       ! will produce 0 as all letters have a match
@@ -1633,9 +1607,9 @@ end interface expand_html
 !!       !
 !!       print *,"easily categorize strings as uppercase, lowercase, ..."
 !!       ! C-like functionality but does entire strings not just characters
-!!       write(*,*)"isdigit 123?",verify(ut("123"), int) == 0
-!!       write(*,*)"islower abc?",verify(ut("abc"), low) == 0
-!!       write(*,*)"isalpha aBc?",verify(ut("aBc"), low//upp) == 0
+!!       write(*,*)"isdigit 123?",verify(ut("123"), ints) == 0
+!!       write(*,*)"islower abc?",verify(ut("abc"), lows) == 0
+!!       write(*,*)"isalpha aBc?",verify(ut("aBc"), lows//upps) == 0
 !!       write(*,*)"isblank aBc dEf?",verify(ut("aBc dEf"), blank//tab ) /= 0
 !!       ! check if all printable characters
 !!       stru="aB;cde,fgHI!Jklmno PQRSTU vwxyz"
@@ -1648,23 +1622,23 @@ end interface expand_html
 !!       print *,"VERIFY(3f) is very powerful using expressions as masks"
 !!       ! verify(3f) is often used in a logical expression
 !!       stru=" This is NOT all UPPERCASE "
-!!       write(*,*)"all uppercase/spaces?",verify(stru, blank//upp) == 0
+!!       write(*,*)"all uppercase/spaces?",verify(stru, blank//upps) == 0
 !!       stru=" This IS all uppercase "
 !!       write(*,*) "stru=["//stru//"]"
-!!       write(*,*)"all uppercase/spaces?",verify(stru, blank//upp) == 0
+!!       write(*,*)"all uppercase/spaces?",verify(stru, blank//upps) == 0
 !!       !
 !!       ! set and show complex stru to be tested
 !!       stru="  Check this out. Let me know  "
 !!       ! show the stru being examined
 !!       write(*,*) "stru=["//stru//"]"
-!!       write(*,*) "        "//repeat(int,4) ! number line
+!!       write(*,*) "        "//repeat(ints,4) ! number line
 !!       !
 !!       ! function returns a position just not a logical like C
 !!       print *, "returning a position not just a logical is useful"
 !!       ! which can be very useful for parsing strings
 !!       write(*,*)"first non‐blank character",verify(stru, blank)
 !!       write(*,*)"last non‐blank character",verify(stru, blank,back=.true.)
-!!       write(*,*)"first non‐letter non‐blank",verify(stru,low//upp//blank)
+!!       write(*,*)"first non‐letter non‐blank",verify(stru,lows//upps//blank)
 !!       !
 !!      !VERIFY(3f) is elemental (can check an array of strings in one call)
 !!       print *, "elemental"
@@ -1672,7 +1646,7 @@ end interface expand_html
 !!       write(*,*) "array of strings",verify( &
 !!       ! strings must all be same length, so force to length 10
 !!       & [character(len=10) :: "YES","ok","000","good one","Nope!"], &
-!!       & low//upp//blank) == 0
+!!       & lows//upps//blank) == 0
 !!       !
 !!       ! rarer, but the set can be an array, not just the strings to test
 !!       ! you could do ISPRINT() this (harder) way :>
@@ -1941,7 +1915,7 @@ end interface expand_html
 !!      >  blank 8
 !!      >  1 2 1
 !!
-!!### SEE ALSO
+!!##SEE ALSO
 !!   Functions that perform operations on character strings, return
 !!   lengths of arguments, and search for certain arguments:
 !!
@@ -1949,10 +1923,10 @@ end interface expand_html
 !!
 !!   +  NONELEMENTAL: LEN_TRIM(3), LEN(3), REPEAT(3), TRIM(3)
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!     John S. Urban
 !!
-!!### LICENSE
+!!##LICENSE
 !!     MIT
 !===================================================================================================================================
 interface verify
@@ -1964,94 +1938,11 @@ end interface verify
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
-!!    get_arg(3f) - [M_unicode:SYSTEM] get command line argument
-!!    (LICENSE:MIT)
-!!
-!!### SYNOPSIS
-!!
-!!
-!!     impure elemental function get_arg(position,default) result(out)
-!!
-!!      integer,intent=(in)         :: position
-!!      type(unicode_type),optional :: default
-!!      type(unicode_type)          :: out
-!!
-!!### CHARACTERISTICS
-!!    DEFAULT may be default CHARACTER type as well.
-!!
-!!### DESCRIPTION
-!!    get_arg(3f) gets the value of the requested command line argument
-!!    as TYPE(UNICODE_TYPE) .
-!!
-!!### OPTIONS
-!!    position  Position on command line of requested argument. Zero returns
-!!              the name of the command executed. Non-existent positions
-!!              default to returning a null string.
-!!
-!!    default  value to return if argument is not set or set to a blank value
-!!
-!!### RETURNS
-!!    out      value assigned based on value of environment variable NAME
-!!
-!!### EXAMPLES
-!!
-!!
-!!  Sample program:
-!!
-!!     program demo_get_arg
-!!     use M_unicode, only : get_arg, ut=> unicode_type, ch=>character
-!!     use M_unicode, only : assignment(=), operator(//), write(formatted)
-!!     implicit none
-!!     integer  :: position
-!!     type(ut) :: default
-!!     type(ut) :: value
-!!     type(ut) :: smiley
-!!     integer  :: i
-!!     character(len=*),parameter :: bracket= '(1x,*("[",a,"]",:))'
-!!        !
-!!        smiley=128515 ! set with Unicode code point
-!!        default='Wish I was first '//smiley//'!' ! set with unicode_type
-!!        !
-!!        ! arguments can be type(unicode_type) or character
-!!        ! but type(unicode_type) is always returned
-!!        do position=0,command_argument_count()
-!!           value=get_arg(position, default             )
-!!           value=get_arg(position, default%character() )
-!!           !
-!!           write(*,*)value%character()
-!!           write(*,'(DT)')default%get_arg(position)
-!!           !
-!!           ! print each glyph surrounded by brackets
-!!           write(*,bracket)(value%character(i,i),i=1,value%len())
-!!        enddo
-!!        !
-!!     end program demo_get_arg
-!!
-!!   Results:
-!!
-!!      > demo_get_arg
-!!      > demo_get_arg
-!!      > [d][e][m][o][_][g][e][t][_][a][r][g]
-!!
-!!### AUTHOR
-!!      John S. Urban
-!!
-!!### LICENSE
-!!     MIT
-interface get_arg
-   module procedure :: get_arg_ia
-   module procedure :: get_arg_iu
-end interface get_arg
-!===================================================================================================================================
-!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
-!===================================================================================================================================
-!>
-!!### NAME
+!!##NAME
 !!    expand_env(3f) - [M_unicode:QUERY] implements basic shell-style variable expansion
 !!    (LICENSE:PD)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!    function expand_env(in) result(out)
 !!
@@ -2063,7 +1954,7 @@ end interface get_arg
 !!     type(unicode_type),intent(in)  :: in
 !!     type(unicode_type),allocatable :: out
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!
 !! expand_env(3f) implements basic shell-style variable expansion for
 !! environment variables and some pre-defined names.  That is, it scans for
@@ -2088,16 +1979,16 @@ end interface get_arg
 !!          difference with respect to Coordinated Universal Time (UTC)
 !!  o TIMESTAMP:  CCYY-MM-DDTHH:MM:SS
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!    A string containing names of the syntax $VAR or ${VAR} in addition to
 !!    plain text not to be expanded.
 !!
-!!### RETURNS
+!!##RETURNS
 !!    A string where $VAR and ${VAR} are replaced with the value of the
 !!    environment variable. If the returned value is null several predefined
 !!    variable names will be expanded per the table above.
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!    Sample program
 !!
@@ -2115,7 +2006,7 @@ end interface get_arg
 !!     testsa = [ character(len=80) :: &
 !!     "-------------- Testing Pure Fortran Word Expansion --------------",&
 !!     " scratch space is $TMP for $USER with home directory  ${HOME}",    &
-!!     " DATE is $DATE TIME is 16:19:04 ZONE is $ZONE TIMESTAMP $TIMESTAMP",&
+!!     " DATE is $DATE TIME is 09:11:46 ZONE is $ZONE TIMESTAMP $TIMESTAMP",&
 !!     " FILE is $FILE ARGS: 0: $0 1: $1 2: $2 3: $3",                     &
 !!     " COMPILER is $COMPILER COMPILER_OPTIONS are ${COMPILER_OPTIONS}",  &
 !!     " ${0} versus M_unicode.FF  $0 versus $FILE",                            &
@@ -2203,11 +2094,11 @@ end interface get_arg
 !!                       -fimplicit-none
 !!                       -ffree-form
 !!                       -J build/gfortran_DD609D2CDA6636FC
-!!### SEE ALSO
+!!##SEE ALSO
 !!    wordexp(3c) and POSIX shell string expansion
-!!### AUTHOR
+!!##AUTHOR
 !!    John S. Urban
-!!### LICENSE
+!!##LICENSE
 !!    MIT
 interface expand_env
    module procedure :: expand_env_aa
@@ -2217,123 +2108,29 @@ end interface expand_env
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
-!>
-!!### NAME
-!!    get_env(3f) - [M_unicode:SYSTEM] return value of environment variable
-!!    (LICENSE:MIT)
-!!
-!!### SYNOPSIS
-!!
-!!
-!!     impure elemental function get_env(name,default) result(out)
-!!
-!!      type(unicode_type),intent=(in) :: name
-!!      type(unicode_type),optional    :: default
-!!      type(unicode_type)             :: out
-!!
-!!### CHARACTERISTICS
-!!    NAME and DEFAULT may be default CHARACTER type as well.
-!!
-!!### DESCRIPTION
-!!    get_env(3f) gets the value of the requested environment variable
-!!    as TYPE(UNICODE_TYPE) .
-!!
-!!### OPTIONS
-!!    name     name of environment variable to return the value of.
-!!             Typically the name may only contain the characters
-!!             A-Z,a-z,0-9 and underscore; but allowed values are
-!!             system-dependent.
-!!    default  value to return if environment variable NAME is not set
-!!             or set to a blank value
-!!
-!!### RETURNS
-!!    out      value assigned based on value of environment variable NAME
-!!
-!!### EXAMPLES
-!!
-!!
-!!  Sample program:
-!!
-!!    program demo_get_env
-!!    use M_unicode, only : get_env, ut => unicode_type
-!!    use M_unicode, only : assignment(=), operator(//)
-!!    implicit none
-!!    type(ut) :: name
-!!    type(ut) :: default
-!!    type(ut) :: value
-!!    type(ut) :: smiley
-!!    integer  :: i
-!!    character(len=*),parameter :: bracket = '(1x,*("[",a,"]",:))'
-!!
-!!       smiley = 128515 ! set with Unicode code point
-!!       default = 'Have a nice day '//smiley//'!' ! set with unicode_type
-!!
-!!       do i = 1,2
-!!          select case (i)
-!!          case (1); name = 'HOME'
-!!          case (2); name = 'UNKNOWN'
-!!          end select
-!!          ! arguments can be type(unicode_type) or character
-!!          ! but type(unicode_type) is always returned
-!!
-!!          value = get_env(name,             default             )
-!!          write(*,*)value%character()
-!!
-!!          value = get_env(name%character(), default%character() )
-!!          write(*,*)value%character()
-!!
-!!          value = get_env(name,             default%character() )
-!!          write(*,*)value%character()
-!!
-!!          value = get_env(name%character(), default             )
-!!          write(*,*)value%character()
-!!
-!!          value = get_env(name)
-!!          write(*,*)value%character()
-!!
-!!          value = get_env(name%character())
-!!          write(*,*)value%character()
-!!
-!!       enddo
-!!
-!!    end program demo_get_env
-!!
-!!   Results:
-!!
-!!      > /home/johns
-!!      > /home/johns
-!!      > /home/johns
-!!      > /home/johns
-!!      > /home/johns
-!!      > /home/johns
-!!      > Have a nice day 😃!
-!!      > Have a nice day 😃!
-!!      > Have a nice day 😃!
-!!      > Have a nice day 😃!
-!!      > UNKNOWN is not defined in the environment
-!!      > UNKNOWN is not defined in the environment
-!!
-!!### AUTHOR
-!!      John S. Urban
-!!
-!!### LICENSE
-!!     MIT
+interface get_arg
+   procedure        :: get_arg_character, get_arg_integer, get_arg_real, get_arg_double, get_arg_logical
+   module procedure :: get_arg_iu
+end interface get_arg
+!===================================================================================================================================
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!===================================================================================================================================
 
 interface get_env
+   procedure :: get_env_character, get_env_integer, get_env_real, get_env_double, get_env_logical
    module procedure :: get_env_uu
    module procedure :: get_env_ua
    module procedure :: get_env_au
-   module procedure :: get_env_aa
 end interface get_env
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!     expand_backslash(3f) - [M_unicode:CONVERSION] expand C++ escape sequences
 !!     (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!
 !!    function expand_backslash(line,protect) result(out)
@@ -2348,7 +2145,7 @@ end interface get_env
 !!
 !!     type(unicode_type)                     :: out
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!    expand_backslash(3f) expands commonly used C++ escape sequences that represent
 !!    glyphs or control characters.
 !!
@@ -2383,13 +2180,13 @@ end interface get_env
 !!   The default escape character is the backslash, but this may be
 !!   changed using the optional parameter PROTECT.
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!     LINE    An ASCII bytestream optionally containing UTF-8 encoded data
 !!             or a UNICODE_TYPE() string to convert to an ASCII string
 !!             containing C-style backslash escape sequences.
 !!    PROTECT  A single character designating the escape prefix. Defaults
 !!             to a backslash ("\")
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!
 !!   Sample Program:
@@ -2460,10 +2257,10 @@ end interface get_env
 !!      > THREE
 !!      > \
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!     John S. Urban
 !!
-!!### LICENSE
+!!##LICENSE
 !!     MIT
 
 interface expand_backslash
@@ -2476,11 +2273,11 @@ end interface expand_backslash
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!     add_border(3f) - [M_unicode:EDITING] add border of UTF8-encoded box characters
 !!     (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!
 !!  syntax:
@@ -2491,26 +2288,26 @@ end interface expand_backslash
 !!       type(unicode_type)|character(len=*),intent(in),optional :: style
 !!       type(unicode_type),allocatable :: winout(:)
 !!
-!!### CHARACTERISTICS
+!!##CHARACTERISTICS
 !!   + WIN can be a scaler or vector of CHARACTER or TYPE(UNICODE_TYPE)
 !!     strings.
 !!   + WINOUT elements will all have the length of the longest element
 !!     of WIN
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!
 !!    Add a border of box characters around character or string
 !!    (ie. type(unicode_type)) scalar or vector text.
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!      win         input array to be changed
 !!      style       may be "light", "bold", or "double". Default is
 !!                  "bold".
 !!
-!!### RETURNS
+!!##RETURNS
 !!      winout     an array of strings with a box character border added
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!
 !!   Sample Program:
@@ -2600,9 +2397,9 @@ end interface expand_backslash
 !!      > │To be or not to be!│
 !!      > └───────────────────┘
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!     John S. Urban
-!!### LICENSE
+!!##LICENSE
 !!     MIT
 interface add_border
    module procedure :: add_border_u
@@ -2614,11 +2411,11 @@ end interface add_border
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!     pound_to_box(3f) - [M_unicode:EDITING] convert pound character to box characters
 !!     (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!
 !!  syntax:
@@ -2629,26 +2426,26 @@ end interface add_border
 !!       type(unicode_type)|character(len=*),intent(in),optional :: style
 !!       type(unicode_type),allocatable :: winout(:)
 !!
-!!### CHARACTERISTICS
+!!##CHARACTERISTICS
 !!   + WINOUT elements will all have the length of the longest element
 !!     of WIN
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!
 !!     The pound character ("#") may be used to construct boxed text
 !!     with the restriction that lines must be seperated by at least
 !!     one character from other lines.
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!      win         input array to be changed
 !!      style       may be "light", "bold", or "double". Default is
 !!                  "bold".
 !!
-!!### RETURNS
+!!##RETURNS
 !!      winout     an array of strings with box characters substituted
 !!                 for adjacent pound characters.
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!
 !!   Sample Program:
@@ -2739,9 +2536,9 @@ end interface add_border
 !!     >    ║ WARNING, WARNING, Will Robinson ║
 !!     >    ╚═════════════════════════════════╝
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!     John S. Urban
-!!### LICENSE
+!!##LICENSE
 !!     MIT
 interface pound_to_box
    module procedure :: pound_to_box_u
@@ -2751,12 +2548,12 @@ end interface pound_to_box
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!     ADD_HTML(3f) - [M_unicode:CONVERSION] Convert UTF-8 encoded data to
 !!     ASCII-7 HTML decimal code representation
 !!     (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!
 !!    function add_html(line) result(out)
@@ -2767,7 +2564,7 @@ end interface pound_to_box
 !!
 !!     character(len=:),allocatable  :: out
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!    ADD_HTML(3f) returns a string with non-printable ASCII-7 characters
 !!    and UTF8 (ie. non-ASCII-7) characters encoded as HTML
 !!
@@ -2777,17 +2574,17 @@ end interface pound_to_box
 !!
 !!     where NNNNNN is the Unicode codepoint value in decimal.
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!     LINE   An ASCII bytestream optionally containing UTF-8 encoded data
 !!            or a UNICODE_TYPE() string to convert to an ASCII string
 !!            containing HTML codes
-!!### RETURNS
+!!##RETURNS
 !!
 !!    The return value is the input line with all characters not representing
 !!    printable ASCII characters converted to their HTML equivalents
 !!    sequences.
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!
 !!   Sample Program:
@@ -2889,10 +2686,10 @@ end interface pound_to_box
 !!      > Jura, mais un peu tard, qu&#8217;on ne l&#8217;y prendrait plus.
 !!      >  -- Jean de la Fontaine
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!     John S. Urban
 !!
-!!### LICENSE
+!!##LICENSE
 !!     MIT
 interface add_html
    module procedure :: add_html_u_ascii
@@ -2904,12 +2701,12 @@ end interface add_html
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!     ADD_BACKSLASH(3f) - [M_unicode:CONVERSION] Convert UTF-8 encoded data to
 !!     ASCII-7 C-style backslash escape sequences
 !!     (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!
 !!    function add_backslash(line) result(out)
@@ -2920,7 +2717,7 @@ end interface add_html
 !!
 !!     character(len=:),allocatable  :: out
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!    ADD_BACKSLASH(3f) replaces non-printable ASCII-7 characters
 !!    and UTF-8 non-ASCII-7 characters to ASCII-7 escape sequences.
 !!
@@ -2947,17 +2744,17 @@ end interface add_html
 !!     uZZZZ      Unicode codepoint value from FF+1 to FFFF.
 !!     UZZZZZZZZ  Unicode codepoint value from FFFF+1 to FFFFFFFF.
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!     LINE   An ASCII bytestream optionally containing UTF-8 encoded data
 !!            or a UNICODE_TYPE() string to convert to an ASCII string
 !!            containing C-style backslash escape sequences.
-!!### RETURNS
+!!##RETURNS
 !!
 !!    The return value is the input line with all characters not representing
 !!    printable ASCII characters converted to their C-style backslash escape
 !!    sequences.
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!
 !!   Sample Program:
@@ -3059,10 +2856,10 @@ end interface add_html
 !!      > Jura, mais un peu tard, qu\u2019on ne l\u2019y prendrait plus.
 !!      >  -- Jean de la Fontaine
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!     John S. Urban
 !!
-!!### LICENSE
+!!##LICENSE
 !!     MIT
 
 interface add_backslash
@@ -3075,12 +2872,12 @@ end interface add_backslash
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!   SCAN(3f) - [M_unicode:SEARCH] Scan a string for the presence of a
 !!   set of characters
 !!   (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!   result = scan( string, set, [,back] )
 !!
@@ -3094,7 +2891,7 @@ end interface add_backslash
 !!
 !!     logical,intent(in),optional   :: back
 !!
-!!### CHARACTERISTICS
+!!##CHARACTERISTICS
 !!   +  STRING is a string of type unicode_type
 !!
 !!   +  SET must be a string of type unicode_type or character
@@ -3103,7 +2900,7 @@ end interface add_backslash
 !!
 !!   +  the result is an integer of default kind.
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!   SCAN(3f) scans a STRING for any of the characters in a SET of characters.
 !!
 !!   If BACK is either absent or equals .false., this function returns the
@@ -3111,7 +2908,7 @@ end interface add_backslash
 !!   equals .true., the rightmost position is returned. If no character of
 !!   SET is found in STRING, the result is zero.
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!   +  STRING : the string to be scanned
 !!
 !!   +  SET : the set of characters which will be matched
@@ -3119,7 +2916,7 @@ end interface add_backslash
 !!   +  BACK : if .true. the position of the rightmost character matched
 !!      is returned, instead of the leftmost.
 !!
-!!### RESULT
+!!##RESULT
 !!   If BACK is absent or is present with the value false and if STRING
 !!   contains at least one character that is in SET, the value of the result
 !!   is the position of the leftmost character of STRING that is in SET.
@@ -3131,7 +2928,7 @@ end interface add_backslash
 !!   The value of the result is zero if no character of STRING is in SET
 !!   or if the length of STRING or SET is zero.
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!   Sample program:
 !!
@@ -3176,7 +2973,7 @@ end interface add_backslash
 !!     > 8
 !!     > 15
 !!
-!!### SEE ALSO
+!!##SEE ALSO
 !!   Functions that perform operations on character strings, return lengths
 !!   of arguments, and search for certain arguments:
 !!
@@ -3184,10 +2981,10 @@ end interface add_backslash
 !!
 !!   +  LEN_TRIM(3), LEN(3), REPEAT(3), TRIM(3)
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!     John S. Urban
 !!
-!!### LICENSE
+!!##LICENSE
 !!     MIT
 interface scan
    module procedure :: scan_uu
@@ -3197,10 +2994,10 @@ end interface scan
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!     FMT(3f) - [M_unicode:CONVERSION] convert any intrinsic to a string using specified format
 !!     (LICENSE:MIT)
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!
 !!     function fmt(value,format) result(string)
@@ -3212,10 +3009,10 @@ end interface scan
 !!      type(unicode_type),intent(in),optional :: format
 !!
 !!      type(unicode_type)                     :: string
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!     FMT(3f) converts any standard intrinsic value to a string using the specified
 !!     format.
-!!### OPTIONS
+!!##OPTIONS
 !!     value    value to print the value of. May be of type INTEGER, LOGICAL,
 !!              REAL, DOUBLEPRECISION, COMPLEX, or CHARACTER as well as
 !!              TYPE(UNICODE_TYPE).
@@ -3224,9 +3021,9 @@ end interface scan
 !!              surrounded by parenthesis. If not present a default is selected
 !!              similar to what would be produced with free format, with
 !!              trailing zeros removed.
-!!### RETURNS
+!!##RETURNS
 !!     string   A string value
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!
 !!    Sample program:
@@ -3259,10 +3056,10 @@ end interface scan
 !!     > result is The final answer is [T]
 !!     > result is [A B C]
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!     John S. Urban
 !!
-!!### LICENSE
+!!##LICENSE
 !!     MIT
 interface fmt
    module procedure :: fmt_ga, fmt_gs
@@ -3271,12 +3068,12 @@ end interface fmt
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!   UTF8_TO_CODEPOINTS(3f) - [M_unicode:CONVERSION] Convert UTF-8-encoded
 !!   data to Unicode codepoints
 !!   (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!
 !!    pure subroutine utf8_to_codepoints(utf8,codepoints,nerr)
@@ -3288,31 +3085,31 @@ end interface fmt
 !!     integer,allocatable,intent(out) :: codepoints(:)
 !!     integer,intent(out)             :: nerr
 !!
-!!### CHARACTERISTICS
+!!##CHARACTERISTICS
 !!   + UTF8 is a scalar CHARACTER variable or array of single-byte
 !!     CHARACTER values
 !!   + the returned values in CODEPOINTS are of default INTEGER kind
 !!   + the error flag NERR is default integer kind
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!   UTF8_TO_CODEPOINTS(3f) takes either a scalar CHARACTER variable or
 !!   an array of CHARACTER(LEN=1) bytes which are treated as a stream of
 !!   bytes representing UTF-8-encoded data and converted to an INTEGER
 !!   array containing Unicode codepoint values for each glyph.
 !!
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!   + UTF8 :  Scalar CHARACTER string or single-character array of CHARACTER
 !!             variables assumed to represent a stream of bytes containing
 !!             data encoded as UTF-8 text.
 !!
-!!### OUTPUT
+!!##OUTPUT
 !!   + CODEPOINTS :  An INTEGER array of Unicode codepoint values
 !!                   representing the glyphs found in STRING
 !!   + NERR :  Zero if no error occurred. If not zero the stream of bytes
 !!             could not be completely converted to UTF-8 characters.
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!   Sample program
 !!
@@ -3371,17 +3168,17 @@ end interface fmt
 !!     > How long is this string in bytes?
 !!     > 20
 !!
-!!### SEE ALSO
+!!##SEE ALSO
 !!   functions that perform operations on character strings:
 !!
 !!   + elemental: adjustl(3), adjustr(3), index(3), scan(3), verify(3)
 !!   + non-elemental: len_trim(3), repeat(3), trim(3), codepoints_to_utf8(3)
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!   + John S. Urban
 !!   + Francois Jacq - enhancements and optional Latin support from Francois Jacq, 2025-08
 !!
-!!### LICENSE
+!!##LICENSE
 !!     MIT
 interface utf8_to_codepoints
    module procedure utf8_to_codepoints_str,utf8_to_codepoints_chars
@@ -3390,12 +3187,12 @@ end interface utf8_to_codepoints
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!   CODEPOINTS_TO_UTF8(3f) - [M_unicode:CONVERSION] convert codepoints
 !!   to CHARACTER
 !!   (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!
 !!    pure subroutine codepoints_to_utf8(codepoints,utf8,nerr)
@@ -3408,23 +3205,23 @@ end interface utf8_to_codepoints
 !!     !
 !!     integer,intent(out)            :: nerr
 !!
-!!### CHARACTERISTICS
+!!##CHARACTERISTICS
 !!   + UTF8 is a scalar or array CHARACTER variable
 !!   + CODEPOINTS is of default INTEGER kind
 !!   + NERR is of default INTEGER kind
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!   CODEPOINTS_TO_UTF8(3f) takes an integer array of Unicode codepoint
 !!   values and generates either a scalar CHARACTER variable or an array
 !!   of bytes (AKA. CHARACTER(LEN=1)) which are assumed to contain a stream
 !!   of bytes representing UTF-8-encoded data.
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!
 !!    + CODEPOINTS :  An INTEGER array of Unicode codepoint values representing
 !!                    the glyphs to be encoded as UTF-8 data
 !!
-!!### OUPUT
+!!##OUPUT
 !!    + UTF8 :  Scalar or single-character array CHARACTER variables
 !!              to contain a stream of bytes containing data encoded as
 !!              UTF-8 text.
@@ -3432,7 +3229,7 @@ end interface utf8_to_codepoints
 !!    + NERR :  Zero if no error occurred. If not zero the stream of bytes
 !!              could not be completely converted to UTF-8 characters.
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!   Sample program
 !!
@@ -3489,18 +3286,18 @@ end interface utf8_to_codepoints
 !!     > How long is this string in bytes?
 !!     > 20
 !!
-!!### SEE ALSO
+!!##SEE ALSO
 !!   functions that perform operations on character strings:
 !!
 !!   + elemental: adjustl(3), adjustr(3), index(3), scan(3), verify(3)
 !!   + non-elemental: len_trim(3), repeat(3), trim(3),
 !!                    codepoints_to_utf8(3), utf8_to_codepoints(3)
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!   + John S. Urban
 !!   + Francois Jacq - enhancements from Francois Jacq, 2025-08
 !!
-!!### LICENSE
+!!##LICENSE
 !!     MIT
 
 interface codepoints_to_utf8
@@ -3510,12 +3307,12 @@ end interface codepoints_to_utf8
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()=
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!     REPLACE(3f) - [M_unicode:EDITING] function replaces one
 !!     substring for another in string
 !!     (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!
 !!  syntax:
@@ -3544,16 +3341,16 @@ end interface codepoints_to_utf8
 !!       logical,intent(in),optional            :: back
 !!       character(len=:),allocatable           :: newline
 !!
-!!### CHARACTERISTICS
+!!##CHARACTERISTICS
 !!   + TARGET,OLD and NEW may be a string or a character variable.
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!     Replace old substring with new value in string. Either a
 !!     old and new string is specified, or a new string and a
 !!     column range indicating the position of the text to replace
 !!     is specified.
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!      target      input line to be changed
 !!      old         old substring to replace
 !!      new         new substring
@@ -3569,11 +3366,11 @@ end interface codepoints_to_utf8
 !!                  to .false. .
 !!      back        if true start replacing moving from the right end of the
 !!                  string moving left instead of from the left to the right.
-!!### RETURNS
+!!##RETURNS
 !!      newline     allocatable string returned
 !!      changes     count of changes made.
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!
 !!   Sample Program:
@@ -3639,9 +3436,9 @@ end interface codepoints_to_utf8
 !!     > myf90stuff.f90.for
 !!     > myforstuff.for.f90
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!     John S. Urban
-!!### LICENSE
+!!##LICENSE
 !!     MIT
 !===================================================================================================================================
 interface replace
@@ -3653,12 +3450,12 @@ end interface replace
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!     transliterate(3f) - [M_unicode:EDITING] replace characters from old
 !!                         set with new set
 !!     (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!
 !!     impure elemental &
@@ -3669,15 +3466,15 @@ end interface replace
 !!      type(unicode_type),intent(in)  :: new_set
 !!      type(unicode_type)             :: outstr
 !!
-!!### CHARACTERISTICS
+!!##CHARACTERISTICS
 !!
 !!    Although a conversion might occur on each call, the input values
 !!    may be CHARACTER as well as TYPE(UNICODE_TYPE).
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!    Translate or delete characters from an input string.
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!   instr    input string to change
 !!   old_set  list of glyphs to change in INSTR if found
 !!
@@ -3692,10 +3489,10 @@ end interface replace
 !!            in NEW_SET is used to replace the remaining glyphs
 !!            in NEW_SET.
 !!
-!!### RETURNS
+!!##RETURNS
 !!    outstr  INSTR with substitutions applied
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!
 !!   Sample Program:
@@ -3776,10 +3573,10 @@ end interface replace
 !!      > Α·Β·Γ·Δ·Ε·Ζ·Η·Θ·Ι·Κ·Λ·Μ·Ν·Ξ·Ο·Π·Ρ·Σ·ςΤ·Υ·Φ·Χ·Ψ·Ω·
 !!      > Α·Β·Γ·Δ·Ε·Ζ·Η·Θ·Ι·Κ·Λ·Μ·Ν·Ξ·Ο·Π·Ρ·Σ·ςΤ·Υ·Φ·Χ·Ψ·Ω·
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!    John S. Urban
 !!
-!!### LICENSE
+!!##LICENSE
 !!     MIT
 interface transliterate
    module procedure :: transliterate_uuu, transliterate_uua, transliterate_uaa, transliterate_uau
@@ -3789,12 +3586,12 @@ end interface transliterate
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!    glob(3f) - [M_unicode:COMPARE] compare given string for match to
 !!    a pattern which may contain globbing wildcard characters
 !!    (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!    logical function glob(string, pattern ) result (uline)
 !!
@@ -3808,7 +3605,7 @@ end interface transliterate
 !!
 !!     logical                       :: uline
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!    glob(3f) compares an (entire) STRING for a match to a PATTERN which
 !!    may contain basic wildcard "globbing" characters.
 !!
@@ -3832,7 +3629,7 @@ end interface transliterate
 !!    not occur in the pattern. Typically a NULL is used (char(0)), as it is
 !!    here. So searching for b*ba\0 in babababa\0 matches the entire string.
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!    string   the input string to be tested for a match to the pattern.
 !!    pattern  the globbing pattern to search for. The following simple
 !!             globbing rules apply:
@@ -3845,7 +3642,7 @@ end interface transliterate
 !!             o There is no escape character, so matching strings with
 !!               a literal question mark and asterisk is problematic.
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!   Example program
 !!
@@ -4014,14 +3811,14 @@ end interface transliterate
 !!  >  PASSED
 !!  >  PASSED
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!   John S. Urban
 !!
-!!### REFERENCES
+!!##REFERENCES
 !!   The article "Matching Wildcards: An Empirical Way to Tame an Algorithm"
 !!   in Dr Dobb's Journal, By Kirk J. Krauss, October 07, 2014
 !!
-!!### LICENSE
+!!##LICENSE
 !!   MIT
 
 interface glob
@@ -4031,12 +3828,12 @@ end interface glob
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!    CHARACTER(3f) - [M_unicode:CONVERSION] convert type(unicode_type)
 !!    string  to a CHARACTER variable
 !!    (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!     result = character(STRING,start,end,inc)
 !!      or
@@ -4050,18 +3847,18 @@ end interface glob
 !!       integer,intent(in)            :: inc
 !!       character(len=*)              :: result
 !!
-!!### CHARACTERISTICS
+!!##CHARACTERISTICS
 !!   + STRING is a scalar or array string variable
 !!   + the returned value is a CHARACTER scalar or array
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!   CHARACTER(3f) returns a CHARACTER variable given a string variable
 !!   of type type(unicode_type).
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!   + STRING : A scalar or array string to convert to intrinsic CHARACTER
 !!              type.
-!!### RESULT
+!!##RESULT
 !!   The result converts each string to bytes stored in CHARACTER variables.
 !!   All elements will be padded to the same length of the longest element;
 !!   as all elements of a CHARACTER array are required to be of the same length.
@@ -4069,7 +3866,7 @@ end interface glob
 !!   Commonly used to pass data to procedures requiring CHARACTER variables
 !!   or for printing when the DT format is not used..
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!   Sample program
 !!
@@ -4194,16 +3991,16 @@ end interface glob
 !!     > [to think without learning is to be in danger".              ]
 !!     > [
 !!
-!!### SEE ALSO
+!!##SEE ALSO
 !!   functions that perform operations on character strings:
 !!
 !!   + elemental: adjustl(3), adjustr(3), index(3), scan(3), verify(3)
 !!   + non-elemental: len_trim(3), len(3), repeat(3), trim(3)
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!     John S. Urban
 !!
-!!### LICENSE
+!!##LICENSE
 !!     MIT
 interface character
    module procedure :: str_to_char,            strs_to_chars
@@ -5950,9 +5747,36 @@ end interface
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !==================================================================================================================================!
 interface random_string
+  procedure random_string_codes
   module procedure :: random_string_a
   module procedure :: random_string_u
 end interface random_string
+!==================================================================================================================================!
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!==================================================================================================================================!
+interface regex_search
+  procedure        :: regex_search_codes
+  module procedure :: regex_search_a
+  module procedure :: regex_search_u
+end interface regex_search
+!==================================================================================================================================!
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!==================================================================================================================================!
+interface regex_replace
+  procedure        :: regex_replace_codes
+  module procedure :: regex_replace_a
+  module procedure :: regex_replace_u
+end interface regex_replace
+!==================================================================================================================================!
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
+!==================================================================================================================================!
+interface regex_compile
+  procedure        :: regex_compile_codes
+  module procedure :: regex_compile_a
+  module procedure :: regex_compile_u
+end interface regex_compile
+!==================================================================================================================================!
+!()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 ! backward compatibililty
 interface escape
@@ -6102,11 +5926,11 @@ end function new_codes
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!   LEN(3f) - [M_unicode:WHITESPACE] Length of a string
 !!     (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!   result = len(string)
 !!
@@ -6114,11 +5938,11 @@ end function new_codes
 !!
 !!     type(unicode_type),intent(in) :: string
 !!
-!!### CHARACTERISTICS
+!!##CHARACTERISTICS
 !!   + STRING is a scalar or array string variable
 !!   + the returned value is of default INTEGER kind
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!   LEN(3f) returns the length of a type(unicode_type) string.
 !!
 !!   Note that unlike the intrinsic of the same name STRING needs to be
@@ -6126,16 +5950,16 @@ end function new_codes
 !!   and the KIND parameter is not available for specifying the kind of the
 !!   integer returned.
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!   + STRING : A scalar or array string to return the length(s) of in glyph
 !!     counts. If it is an unallocated allocatable variable or a pointer that
 !!     is not associated, its length type parameter shall not be deferred.
 !!
-!!### RESULT
+!!##RESULT
 !!   The result has a value equal to the number of glyphs in STRING if
 !!   it is scalar or the elements of STRING if it is an array.
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!   Sample program
 !!
@@ -6182,16 +6006,16 @@ end function new_codes
 !!     > length from type parameter inquiry=38
 !!     > length of passed value is 11
 !!
-!!### SEE ALSO
+!!##SEE ALSO
 !!   functions that perform operations on character strings:
 !!
 !!   + elemental: adjustl(3), adjustr(3), index(3), scan(3), verify(3)
 !!   + non-elemental: len_trim(3), len(3), repeat(3), trim(3)
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!     John S. Urban
 !!
-!!### LICENSE
+!!##LICENSE
 !!     MIT
 ! Returns the length of the character sequence represented by the string.
 elemental function len_str(string) result(length)
@@ -6209,11 +6033,11 @@ end function len_str
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!   REPEAT(3f) - [M_unicode:PAD] Repeated string concatenation
 !!   (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!   result = repeat(string, ncopies)
 !!
@@ -6222,24 +6046,24 @@ end function len_str
 !!     type(unicode_type),intent(in)   :: string
 !!     integer(kind=**),intent(in)   :: ncopies
 !!
-!!### CHARACTERISTICS
+!!##CHARACTERISTICS
 !!
 !!   + STRING is a scalar string of type(unicode_type).
 !!   + NCOPIES is a scalar integer.
 !!   + the result is a new scalar string of type type(unicode_type)
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!   REPEAT(3f) concatenates copies of a string.
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!   +  STRING : The input string to repeat
 !!   +  NCOPIES : Number of copies to make of STRING, greater than or equal to
 !!      zero (0).
 !!
-!!### RESULT
+!!##RESULT
 !!   A new string built up from NCOPIES copies of STRING.
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!   Sample program:
 !!
@@ -6259,17 +6083,17 @@ end function len_str
 !!     >1234567890123456789012345678901234567890123456789012345678901234567890
 !!     >         |         |         |         |         |         |         |
 !!
-!!### STANDARD
+!!##STANDARD
 !!   Fortran 95
 !!
-!!### SEE ALSO
+!!##SEE ALSO
 !!   Functions that perform operations on character strings:
 !!
 !!   + ELEMENTAL: ADJUSTL(3), ADJUSTR(3), INDEX(3), SCAN(3), VERIFY(3)
 !!   + NON-ELEMENTAL: LEN_TRIM(3), LEN(3), REPEAT(3), TRIM(3)
 !!
 !!   Fortran descriptions (license: MIT) @urbanjost
-!!### LICENSE
+!!##LICENSE
 !!     MIT
 ! Repeats the character sequence held by the string by the number of specified copies.
 ! This method is elemental and returns a scalar character value.
@@ -6286,12 +6110,12 @@ end function repeat_str
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!   LEN_TRIM(3f) - [M_unicode:WHITESPACE] string length without trailing blank
 !!   characters
 !!   (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!   result = len_trim(string)
 !!
@@ -6299,24 +6123,24 @@ end function repeat_str
 !!
 !!           character(len=*),intent(in) :: string
 !!
-!!### CHARACTERISTICS
+!!##CHARACTERISTICS
 !!   + string is of type type(unicode_type)
 !!   + the return value is of type default integer.
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!   len_trim(3f) returns the length of a string, ignoring any trailing
 !!   blanks.
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!   + string : the input string whose length is to be measured.
 !!
-!!### RESULT
+!!##RESULT
 !!   the result equals the number of glyphs remaining after any trailing
 !!   blanks in string are removed.
 !!
 !!   if the input argument is of zero length or all blanks the result is zero.
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!   sample program
 !!
@@ -6364,7 +6188,7 @@ end function repeat_str
 !!     >  trimmed length=              25          13
 !!     >  sum trimmed length=          38
 !!
-!!### SEE ALSO
+!!##SEE ALSO
 !!   functions that perform operations on character strings, return lengths of
 !!   arguments, and search for certain arguments:
 !!
@@ -6372,10 +6196,10 @@ end function repeat_str
 !!
 !!   + nonelemental: repeat(3), len(3), trim(3)
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!     John S. Urban
 !!
-!!### LICENSE
+!!##LICENSE
 !!     MIT
 ! Returns length of character sequence without trailing spaces represented by the string.
 !
@@ -6397,12 +6221,12 @@ end function len_trim_str
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!   ICHAR(3f) - [M_unicode:CONVERSION] character-to-integer Unicode codepoint conversion
 !!   function
 !!   (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!   result = ichar(c)
 !!
@@ -6410,12 +6234,12 @@ end function len_trim_str
 !!
 !!      type(unicode_type),intent(in) :: c
 !!
-!!### CHARACTERISTICS
+!!##CHARACTERISTICS
 !!   •  c is a scalar character
 !!
 !!   •  the return value is of default integer kind.
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!   This overload of ichar(3f) only returns values from input type
 !!   unicode_type.  This is because the intrinsic ichar(3f) returns the
 !!   code for the character in the system's native character set. the
@@ -6425,10 +6249,10 @@ end function len_trim_str
 !!
 !!   See IACHAR(3f) for specifically working with the ASCII character set.
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!   +  C : The input character to determine the Unicode codepoint of.
 !!
-!!### RESULT
+!!##RESULT
 !!    The codepoint in the Unicode character set for the character being
 !!    queried is returned.
 !!
@@ -6442,7 +6266,7 @@ end function len_trim_str
 !!    C <= D is true if and only if ICHAR(C) <= ICHAR(D) is true and C ==
 !!    D is true if and only if ICHAR(C) == ICHAR(D) is true.
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!   sample program:
 !!
@@ -6526,7 +6350,7 @@ end function len_trim_str
 !!     > ELEMENTAL:3B5 1F55 3C1 3B7 3BA 3B1 21
 !!     > OOPS:     3B5 1F55 3C1 3B7 3BA 3B1 21
 !!
-!!### SEE ALSO
+!!##SEE ALSO
 !!   achar(3), char(3), iachar(3),
 !!   utf8_to_codepoints(3f),
 !!   STRING%codepoint(start,end,inc)
@@ -6539,10 +6363,10 @@ end function len_trim_str
 !!
 !!   +  nonelemental: len_trim(3), len(3), repeat(3), trim(3)
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!     John S. Urban
 !!
-!!### LICENSE
+!!##LICENSE
 !!     MIT
 !
 ! Return code value of first character of string like intrinsic ichar()
@@ -6562,12 +6386,12 @@ end function ichar_str
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!   TRIM(3f) - [M_unicode:WHITESPACE] remove trailing blank characters from
 !!              a string
 !!              (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!   result = trim(string)
 !!
@@ -6575,23 +6399,23 @@ end function ichar_str
 !!
 !!     type(unicode_type),intent(in) :: string
 !!
-!!### CHARACTERISTICS
+!!##CHARACTERISTICS
 !!
 !!   + the result is a string.
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!   trim(3f) removes trailing blank characters from a string.
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!   + string : a string to trim
 !!
-!!### RESULT
+!!##RESULT
 !!   the result is the same as string except trailing blanks are removed.
 !!
 !!   if string is composed entirely of blanks or has zero length, the
 !!   result has zero length.
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!   sample program:
 !!
@@ -6641,7 +6465,7 @@ end function ichar_str
 !!     > [Z] [ a b c] [ABC] []
 !!     > [Z] [ a b c] [ABC] []
 !!
-!!### SEE ALSO
+!!##SEE ALSO
 !!   Functions that perform operations on character strings, return
 !!   lengths of arguments, and search for certain arguments:
 !!
@@ -6649,10 +6473,10 @@ end function ichar_str
 !!
 !!   + nonelemental: len_trim(3), len(3), repeat(3), trim(3)
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!     John S. Urban
 !!
-!!### LICENSE
+!!##LICENSE
 !!     MIT
 ! This method is elemental and returns a scalar character value.
 elemental function trim_str(string) result(trimmed_str)
@@ -6668,11 +6492,11 @@ end function trim_str
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!   ADJUSTR(3f) - [M_unicode:WHITESPACE] right-justify a string
 !!                 (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!   result = adjustr(string,glyphs)
 !!
@@ -6682,26 +6506,26 @@ end function trim_str
 !!     type(unicode_type),intent(in) :: string
 !!     integer,intent(in),optional   :: glyphs
 !!
-!!### CHARACTERISTICS
+!!##CHARACTERISTICS
 !!   + STRING is a string variable
 !!   + GLYPHS is a default integer
 !!   + the return value is a string variable
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!   ADJUSTR(3f) right-justifies a string by removing trailing spaces. Spaces
 !!   are inserted at the start of the string as needed to retain the
 !!   original length unless an explicit return length is specified by the
 !!   GLYPHS parameter.
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!   + STRING : the string to right-justify
 !!   + GLYPHS : length in glyphs to extend to or truncate to
 !!
-!!### RESULT
+!!##RESULT
 !!   trailing spaces are removed and the same number of spaces are then
 !!   inserted at the start of string.
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!
 !!  sample program:
@@ -6824,15 +6648,15 @@ end function trim_str
 !!     > [)]
 !!     > [)]
 !!
-!!### SEE ALSO
+!!##SEE ALSO
 !!   ADJUSTL(3), TRIM(3)
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!     John S. Urban
 !!
-!!### LICENSE
+!!##LICENSE
 !!     MIT
-impure elemental function adjustr_str(string,glyphs) result(adjusted)
+pure elemental function adjustr_str(string,glyphs) result(adjusted)
 
 ! ident_3="@(#) M_unicode adjustr(3f) adjust string to right"
 
@@ -6873,11 +6697,11 @@ end function adjustr_str
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!   ADJUSTL(3f) - [M_unicode:WHITESPACE] Left-justified a string
 !!                 (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!   result = adjustl(string,glyphs)
 !!
@@ -6887,27 +6711,27 @@ end function adjustr_str
 !!     integer,intent(in),optional   :: glyphs
 !!     type(unicode_type)            :: out
 !!
-!!### CHARACTERISTICS
+!!##CHARACTERISTICS
 !!   + STRING is a string variable of type(unicode_type)
 !!   + GLYPHS is a default integer
 !!   + The return value is a string variable of type(unicode_type)
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!   adjustl(3f) will left-justify a string by removing leading spaces. Spaces
 !!   are inserted at the end of the string as needed to keep the number of
 !!   glyphs on output the same as the number on input unless overridden by
 !!   the GLYPHS parameter.
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!   +  STRING : the string to left-justify
 !!   +  GLYPHS : the length of the output in glyphs
 !!
-!!### RESULT
+!!##RESULT
 !!   A copy of STRING where leading spaces are removed and the same
 !!   number of spaces are inserted on the end of STRING unless GLYPHS is
 !!   specified. Note using GLYPHS can cause in string truncation.
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!   Sample program:
 !!
@@ -6952,13 +6776,13 @@ end function adjustr_str
 !!     > trimmed:  [sample string]
 !!     > substring:[sample string]
 !!
-!!### SEE ALSO
+!!##SEE ALSO
 !!   ADJUSTR(3), TRIM(3)
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!     John S. Urban
 !!
-!!### LICENSE
+!!##LICENSE
 !!     MIT
 !left-justify string by  moving leading spaces to end of string so length is retained even if spaces are of varied width
 elemental function adjustl_str(string,glyphs) result(adjusted)
@@ -7247,11 +7071,11 @@ end function lgt_char_str
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!   INDEX(3f) - [M_unicode:SEARCH] Position of a substring within a string
 !!               (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!   result = index( string, substring [,back] [,kind] )
 !!
@@ -7262,7 +7086,7 @@ end function lgt_char_str
 !!     logical(kind=**),intent(in),optional :: back
 !!     integer(kind=**),intent(in),optional :: kind
 !!
-!!### CHARACTERISTICS
+!!##CHARACTERISTICS
 !!   + STRING     is a character variable of any kind
 !!
 !!   + SUBSTRING  is a character variable of the same kind as STRING
@@ -7271,12 +7095,12 @@ end function lgt_char_str
 !!
 !!   + KIND       is a scalar integer constant expression.
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!   INDEX(3f) returns the position of the start of the leftmost or
 !!   rightmost occurrence of string SUBSTRING in STRING, counting from
 !!   one. If SUBSTRING is not present in STRING, zero is returned.
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!   + STRING : string to be searched for a match
 !!
 !!   + SUBSTRING : string to attempt to locate in STRING
@@ -7289,7 +7113,7 @@ end function lgt_char_str
 !!     by the value of KIND; otherwise the kind type parameter is
 !!     that of default integer type.
 !!
-!!### RESULT
+!!##RESULT
 !!   The result is the starting position of the first substring SUBSTRING
 !!   found in STRING.
 !!
@@ -7306,7 +7130,7 @@ end function lgt_char_str
 !!
 !!   Otherwise, if no match is found zero is returned.
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!   Example program
 !!
@@ -7352,7 +7176,7 @@ end function lgt_char_str
 !!     > T
 !!     > T
 !!
-!!### SEE ALSO
+!!##SEE ALSO
 !!   Functions that perform operations on character strings, return lengths
 !!   of arguments, and search for certain arguments:
 !!
@@ -7360,10 +7184,10 @@ end function lgt_char_str
 !!
 !!   +  NONELEMENTAL: LEN_TRIM(3), LEN(3), REPEAT(3), TRIM(3)
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!     John S. Urban
 !!
-!!### LICENSE
+!!##LICENSE
 !!     MIT
 ! find location of substring within string
 
@@ -7507,12 +7331,12 @@ end function index_char_str
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!     JOIN(3f) - [M_unicode:EDITING] append CHARACTER variable array into
 !!     a single CHARACTER variable with specified separator
 !!     (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!
 !!     impure function join(str,sep,clip) result (string)
@@ -7522,25 +7346,25 @@ end function index_char_str
 !!      logical,intent(in),optional            :: clip
 !!      type(unicode_type),allocatable         :: string
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!    JOIN(3f) appends the elements of a CHARACTER array into a single
 !!    CHARACTER variable, with elements 1 to N joined from left to right.
 !!    By default each element is trimmed of trailing spaces and the
 !!    default separator is a null string.
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!       STR     array of variables to be joined
 !!       SEP     separator string to place between each variable. defaults
 !!               to a null string.
 !!       CLIP    option to trim each element of STR of trailing and leading
 !!               spaces. Defaults to .TRUE.
 !!
-!!### RETURNS
+!!##RETURNS
 !!       STRING  CHARACTER variable composed of all of the elements of STR()
 !!               appended together with the optional separator SEP placed
 !!               between the elements.
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!
 !!   Sample program:
@@ -7599,10 +7423,10 @@ end function index_char_str
 !!     > NO TRIMMING:
 !!     >  United         we             stand,         divided        we fall.
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!     John S. Urban
 !!
-!!### LICENSE
+!!##LICENSE
 !!     MIT
 impure function join(str,sep,clip) result (string)
 
@@ -7643,11 +7467,11 @@ end function join
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!   SPLIT(3f) - [M_unicode:PARSE] parse a string into tokens, one at a time.
 !!   (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!   call split (string, set, pos [, back])
 !!
@@ -7656,11 +7480,11 @@ end function join
 !!    integer,intent(inout)         :: pos
 !!    logical,intent(in),optional   :: back
 !!
-!!### CHARACTERISTICS
+!!##CHARACTERISTICS
 !!   + STRING is a scalar character variable
 !!   + SET is a scalar string variable
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!   Find the extent of consecutive tokens in a string. given a string and
 !!   a position to start looking for a token return the position of the
 !!   end of the token. a set of separator characters may be specified as
@@ -7669,7 +7493,7 @@ end function join
 !!   typically consecutive calls are used to parse a string into a set of
 !!   tokens by stepping through the start and end positions of each token.
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!   + STRING : the string to search for tokens in.
 !!
 !!   + SET : Each character in set is a token delimiter. a sequence of
@@ -7711,7 +7535,7 @@ end function join
 !!     less than the value of POS on invocation, and starting position one
 !!     greater than the value of POS  on return.
 !!
-!!### EXAMPLE
+!!##EXAMPLE
 !!
 !!   sample program:
 !!
@@ -7780,28 +7604,28 @@ end function join
 !!      > OOP
 !!      > [Más][vale][pájaro][en][mano,][que][ciento][volando.]
 !!
-!!### SEE ALSO
+!!##SEE ALSO
 !!   + tokenize(3) - parse a string into tokens
 !!   + index(3) - position of a substring within a string
 !!   + scan(3) - scan a string for the presence of a set of characters
 !!   + verify(3)  -  position  of a character in a string of characters that does
 !!     not appear in a given set of characters.
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!     Milan Curcic, "milancurcic@hey.com"
 !!     John S. Urban -- UTF-8 version
 !!
-!!### LICENSE
+!!##LICENSE
 !!     MIT
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!   TOKENIZE(3f) - [M_unicode:PARSE] Parse a string into tokens.
 !!   (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!   TOKEN form (returns array of strings)
 !!
@@ -7821,7 +7645,7 @@ end function join
 !!     integer,allocatable,intent(out) :: first(:)
 !!     integer,allocatable,intent(out) :: last(:)
 !!
-!!### CHARACTERISTICS
+!!##CHARACTERISTICS
 !!   +  STRING ‐ a scalar of type string. It is an INTENT(IN)
 !!      argument.
 !!
@@ -7838,7 +7662,7 @@ end function join
 !!      one. It is an INTENT(OUT) argument. It shall not be a coarray or a
 !!      coindexed object.
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!   TOKENIZE(3f) parses a string into tokens. There are two forms of the
 !!   subroutine TOKENIZE(3f).
 !!
@@ -7856,7 +7680,7 @@ end function join
 !!   The array bounds form retains information regarding the exact token
 !!   length even when padded by spaces.
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!   •  STRING : The string to parse into tokens.
 !!
 !!   +  SET :  Each character in SET is a token delimiter. A
@@ -7896,7 +7720,7 @@ end function join
 !!      If a token has zero length, the ending position is one less than
 !!      the starting position.
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!
 !!   Sample of uses
@@ -8069,7 +7893,7 @@ end function join
 !!      > LAST=5,12,13,20
 !!      > HAS LENGTH=T,T,F,T
 !!
-!!### SEE ALSO
+!!##SEE ALSO
 !!   +  SPLIT(3) ‐ return tokens from a string, one at a time
 !!
 !!   +  INDEX(3) ‐ Position of a substring within a string
@@ -8079,11 +7903,11 @@ end function join
 !!   +  VERIFY(3) ‐ Position of a character in a string of characters
 !!                  that does not appear in a given set of characters.
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!     Milan Curcic, "milancurcic@hey.com"
 !!     John S. Urban -- UTF-8 version
 !!
-!!### LICENSE
+!!##LICENSE
 !!     MIT
 impure subroutine split_tokens(string, set, tokens, separator)
 ! Splits a string into tokens using characters in set as token delimiters.
@@ -8287,12 +8111,12 @@ end subroutine split_pos_uail
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!    PAD(3f) - [M_unicode:PAD] return string padded to at least
 !!    specified length
 !!    (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!
 !!    function pad(str,length,pattern,right,clip) result(out)
@@ -8304,12 +8128,12 @@ end subroutine split_pos_uail
 !!     logical,intent(in),optional                :: right
 !!     logical,intent(in),optional                :: clip
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!    pad(3f) pads a string with a pattern to at least the specified
 !!    length. If the trimmed input string is longer than the requested
 !!    length the trimmed string is returned.
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!    str      the input string to return trimmed, but then padded to
 !!             the specified length if shorter than length
 !!    length   The minimum string length to return
@@ -8318,12 +8142,12 @@ end subroutine split_pos_uail
 !!             to true.
 !!    clip     trim spaces from input string ends. Defaults to .true.
 !!
-!!### RETURNS
+!!##RETURNS
 !!    out  The input string padded to the requested length or
 !!         the trimmed input string if the input string is
 !!         longer than the requested length.
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!
 !!  Sample Program:
@@ -8410,13 +8234,13 @@ end subroutine split_pos_uail
 !!      > 12345
 !!      > 2345
 !!
-!!### SEE ALSO
+!!##SEE ALSO
 !!      adjustl(3f), adjustr(3f), repeat(3f), trim(3f), len_trim(3f), len(3f)
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!     John S. Urban
 !!
-!!### LICENSE
+!!##LICENSE
 !!     MIT
 !===================================================================================================================================
 impure elemental function pad(line,length,pattern,right,clip) result(out)
@@ -8471,11 +8295,11 @@ end function pad
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!     EXPANDTABS(3f) - [M_unicode:WHITESPACE] function to expand tab characters
 !!     (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!
 !!     elemental function expandtabs(INSTR,TABSIZE) result(OUT)
@@ -8484,18 +8308,18 @@ end function pad
 !!      integer,intent(in),optional     :: TAB_SIZE
 !!      type(unicode_type)              :: OUT
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!    EXPANDTABS(3f) expands tabs in INSTR to spaces in OUT. It assumes a
 !!    tab is set every 8 characters by default. Trailing spaces are removed.
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!    instr     Input line to remove tabs from
 !!    tab_size  spacing between tab stops.
 !!
-!!### RETURNS
+!!##RETURNS
 !!    out       Output string with tabs expanded.
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!
 !!  Sample program:
@@ -8536,10 +8360,10 @@ end function pad
 !!     > [  this is my string]
 !!     > [thisismystring]
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!      John S. Urban
 !!
-!!### LICENSE
+!!##LICENSE
 !!     MIT
 elemental function expandtabs(instr,tab_size) result(out)
 
@@ -8582,11 +8406,11 @@ end function expandtabs
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!    SUB(3f) - [M_unicode:EDITING] Return substring
 !!    (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!
 !!    impure elemental function sub(str,left,right,step) result(section)
@@ -8597,10 +8421,10 @@ end function expandtabs
 !!     integer,intent(in),optional :: step
 !!     type(unicode_type)          :: section
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!    sub(3f) returns a substring from one column to another.
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!    str           the input string to return a section of
 !!    left          column number of str starting section of str to return.
 !!                  Defaults to 1 when STEP is positive, or right end of
@@ -8611,10 +8435,10 @@ end function expandtabs
 !!    step          step to take from left column to right column.
 !!                  Defaults to 1.
 !!
-!!### RETURNS
+!!##RETURNS
 !!    section  The specified subsection of the input string
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!
 !!   Sample Program:
@@ -8655,13 +8479,13 @@ end function expandtabs
 !!     > reverse string:[jihgfedcba]
 !!     >
 !!
-!!### SEE ALSO
+!!##SEE ALSO
 !!      adjustl(3f), adjustr(3f), repeat(3f), trim(3f), len_trim(3f), len(3f)
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!     John S. Urban
 !!
-!!### LICENSE
+!!##LICENSE
 !!     MIT
 impure elemental function sub(str,start,end,step) result(section)
 type(unicode_type),intent(in) :: str
@@ -8969,14 +8793,14 @@ type(unicode_type)             :: string_out
    string_out=adjustl_str(self,glyphs)
 end function oop_adjustl
 !===================================================================================================================================
-function oop_adjustr(self,glyphs) result (string_out)
+pure function oop_adjustr(self,glyphs) result (string_out)
 class(unicode_type),intent(in) :: self
 integer,intent(in),optional    :: glyphs
 type(unicode_type)             :: string_out
    string_out=adjustr_str(self,glyphs)
 end function oop_adjustr
 !===================================================================================================================================
-function oop_sub(self,first,last,step) result(str_out)
+impure function oop_sub(self,first,last,step) result(str_out)
 class(unicode_type),intent(in) :: self
 integer,intent(in),optional    :: first, last, step
 type(unicode_type)             :: str_out
@@ -9198,19 +9022,19 @@ end function oop_eq
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!     READLINE(3f) - [M_unicode:IO] read a line from specified LUN into
 !!                    string up to line length limit
 !!                    (LICENSE:MIT)
 !!
-!!### SYNTAX
+!!##SYNTAX
 !!    function readline(lun,iostat) result(line)
 !!
 !!     integer,intent(in),optional  :: lun
 !!     integer,intent(out),optional :: iostat
 !!     type(unicode_type)           :: line
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!    Read a line of any length up to programming environment maximum
 !!    line length. Requires Fortran 2003+.
 !!
@@ -9226,16 +9050,16 @@ end function oop_eq
 !!    inefficient, as it could reallocate and allocate memory used for
 !!    the output string with each buffer read.
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!     LUN     optional LUN (Fortran logical I/O unit) number. Defaults
 !!             to stdin.
 !!     IOSTAT  status returned by READ(IOSTAT=IOS). If not zero, an error
 !!             occurred or an end-of-file or end-of-record was encountered.
-!!### RETURNS
+!!##RETURNS
 !!     LINE    line read.
 !!             if IOSTAT is not zero, LINE returns the I/O error message.
 !!
-!!### EXAMPLE
+!!##EXAMPLE
 !!
 !!
 !!  Sample program:
@@ -9387,10 +9211,10 @@ end function oop_eq
 !! 32  116 111 32 111 116 104 101 114 115  ...
 !! 34  58
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!     John S. Urban
 !!
-!!### LICENSE
+!!##LICENSE
 !!     MIT
 function readline(lun,iostat) result(line)
 
@@ -9436,11 +9260,11 @@ end function readline
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!    slurp(3f) - [M_unicode:IO] read formatted UTF-8 file into a
 !!    TYPE(UNICODE_TYPE) string array
 !!    (LICENSE:MIT)
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!   function slurp(filename,iomsg) result(text)
 !!
@@ -9451,7 +9275,7 @@ end function readline
 !!    character(len=*),intent(out),optional,allocatable :: iomsg
 !!
 !!    type(unicode_type),allocatable,intent(out)        :: text(:)
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!    Uses READLINE(3f) to read an entire formatted UTF-8 encoded file into
 !!    a TYPE(UNICODE_TYPE) string array, each line of the file becoming an
 !!    element of the output array.
@@ -9462,16 +9286,16 @@ end function readline
 !!    per line or in smaller units; as large files can consume unreasonable
 !!    amounts of memory.
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!       filename   filename to read into memory. If the filename is absent
 !!                  stdin will be read.
 !!
 !!       iomsg      if an error occurs iomsg will contain an error message,
 !!                  else it will be a null string.
-!!### RETURNS
+!!##RETURNS
 !!       text       array of characters that holds contents of the file
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!
 !!   Sample program, which  creates test input file "inputfile" and
@@ -9554,9 +9378,9 @@ end function readline
 !!  > vatu u džepu nošnje.
 !!  >
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!    John S. Urban
-!!### LICENSE
+!!##LICENSE
 !!    MIT
 function slurp(filename,iomsg) result(text)
 use,intrinsic :: iso_fortran_env, only : iostat_end
@@ -9633,12 +9457,12 @@ end function slurp
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!    atoi(3f) - [M_strings:TYPE] function returns a 32-bit
 !!    integer value from a string
 !!    (LICENSE:PD)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!
 !!    pure elemental function atoi (string) result(val)
@@ -9646,17 +9470,17 @@ end function slurp
 !!     character(len=*),intent(in)              :: string
 !!     integer(kind=int32),intent(out) :: val
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!    function atoi(3f) converts a string representing an integer value
 !!    to a numeric 32-bit integer value.
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!    str   holds string assumed to represent a numeric integer value
 !!
-!!### RETURNS
+!!##RETURNS
 !!    val   returned INTEGER.
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!
 !!    Sample Program:
@@ -9693,10 +9517,10 @@ end function slurp
 !!   > STRING: 1 2 1 2 1 . 0  :VALUE: 1
 !!   > STRING: WHAT?          :VALUE: 0
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!    John S. Urban
 !!
-!!### LICENSE
+!!##LICENSE
 !!    MIT
 pure elemental function atoi (string) result(val)    ! Convert STRING to an integer value
 integer(kind=int32) :: val
@@ -9742,27 +9566,27 @@ end function atoi
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!     TRIMZEROS_(3fp) - [M_unicode:EDITING] Delete trailing zeros from
 !!     numeric decimal string
 !!     (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!
 !!     subroutine trimzeros_(str)
 !!
 !!      character(len=*)  :: str
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!     TRIMZEROS_(3f) deletes trailing zeros from a string representing a
 !!     number. If the resulting string would end in a decimal point, one
 !!     trailing zero is added.
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!     str   input string will be assumed to be a numeric value and have
 !!           trailing zeros removed
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!
 !!     Sample program:
@@ -9791,10 +9615,10 @@ end function atoi
 !!      > 12345
 !!      > 12345e3
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!     John S. Urban
 !!
-!!### LICENSE
+!!##LICENSE
 !!     MIT
 subroutine trimzeros_(string)
 
@@ -9921,11 +9745,11 @@ end subroutine write_formatted
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 !>
-!!### NAME
+!!##NAME
 !!    keyword_expand(3f) - [M_unicode] substitute HTML-like keywords with other strings
 !!    (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!      function keyword_expand(string) result (expanded)
 !!
@@ -9944,7 +9768,7 @@ end subroutine write_formatted
 !!        ! or array
 !!        type(unicode_type),allocatable :: expanded(*)
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!    Strings of the form <name> are replaced with another string.
 !!    Use this HTML-like syntax for purposes such as:
 !!
@@ -9968,25 +9792,25 @@ end subroutine write_formatted
 !!    More than one keyword may be enclosed. Numeric keywords are assumed
 !!    to be Unicode codepoints.
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!    string        case-sensitive input string  of form
 !!
 !!                      "arbitrary text<keyword>arbitrary text"
-!!### OUTPUT
+!!##OUTPUT
 !!                  A string with all "<keyword>" strings expanded
 !!                  or optionally left as-is
 !!
-!!### LIMITATIONS
+!!##LIMITATIONS
 !!    o you should use "<gt>" and "<lt>" instead of ">" and "<" in an string
 !!      processed by keyword_expand(3f) so that the raw mode will create correct
 !!      input for the keyword_expand(3f) function if read back in.
 !!    o keywords are case-sensitive
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!    Sample program
 !!
-!!     program demo_keyword
+!!     program demo_keyword_expand
 !!     use M_unicode, only : keyword_expand, keyword_mode, keyword_update
 !!     use M_unicode, only : ch=>character
 !!
@@ -9996,15 +9820,15 @@ end subroutine write_formatted
 !!        write(*,'(a)') 'ADDING A CUSTOM SEQUENCE:'
 !!        call keyword_update('blink',char(27)//'[5m','')
 !!        call keyword_update('/blink',char(27)//'[25m','')
-!!        write(*,'(a)') ch(keyword_expand('<blink>Items for Friday</blink>'))
+!!        write(*,'(a)') &
+!!        & ch(keyword_expand('<blink>Items for Friday</blink>'))
 !!
 !!        write(*,'(a)') 'DECIMAL NUMBERS AS WELL:'
 !!        write(*,'(a)') ch(keyword_expand(&
-!!        'decimal keywords <119 79 114 107> as well'))
+!!        &'decimal keywords <119 79 114 107> as well'))
 !!
 !!        write(*,'(a)') ch(keyword_expand('ASCII-7 &
-!!        &<eight six seven dash five three oh nine slash>Jenny>&
-!!        & as well')
+!!        &<eight six seven dash five three oh nine slash>Jenny> as well'))
 !!
 !!     contains
 !!     subroutine printstuff(action)
@@ -10014,7 +9838,7 @@ end subroutine write_formatted
 !!       call keyword_mode(action=action)
 !!
 !!       array=[character(len=60) :: &
-!!        'Test the mode ='//action,    &
+!!        'Test the mode ='//action, &
 !!        'c=<pi><times>d',          &
 !!        'a=<pi><times>r<S2>',      &
 !!        '<Delta><delta>',          &
@@ -10023,7 +9847,7 @@ end subroutine write_formatted
 !!       write(*,'(a)') ch(keyword_expand(array))
 !!
 !!     end subroutine printstuff
-!!     end program demo_keyword
+!!     end program demo_keyword_expand
 !!
 !!   Results:
 !!
@@ -10042,13 +9866,13 @@ end subroutine write_formatted
 !!      > ADDING A CUSTOM SEQUENCE:
 !!      > \e[5mItems for Friday\e[25m
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!    John S. Urban, 2021
 !!
-!!### LICENSE
+!!##LICENSE
 !!    MIT
 !!
-!!### SEE ALSO
+!!##SEE ALSO
 !!    keyword_mode(3f), keyword_update(3f)
 function keyword_scalar_ut(string) result (expanded)
 type(unicode_type),intent(in)  :: string
@@ -11865,12 +11689,12 @@ subroutine keyword_japanese()
 
 end subroutine keyword_japanese
 !>
-!!### NAME
+!!##NAME
 !!    keyword_mode(3f) - [M_unicode] select processing mode for output
 !!    from keyword_expand(3f)
 !!    (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!     subroutine keyword_mode(action)
 !!
@@ -11878,12 +11702,12 @@ end subroutine keyword_japanese
 !!        !or
 !!        type(unicode_type),intent(in) :: action
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!    When using the keyword_expand(3f) procedure turn the substitution of strings
 !!    associated with the keywords on or off. That is, turn off string
 !!    processing so keyword_expand(3f) just echos its input.
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!    ACTION  The current modes and actions supported are
 !!
 !!    raw_mode,raw        echo the input to keyword_expand(3f) as its output
@@ -11897,7 +11721,7 @@ end subroutine keyword_japanese
 !!    wipe                erase keyword dictionary
 !!    japanese            load in romaji-like built-in dictionary
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!    Sample program
 !!
@@ -11965,10 +11789,10 @@ end subroutine keyword_japanese
 !!      > zopf             [𝕫]      [𝕫]
 !!      > zscr             [𝓏]      [𝓏]
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!    John S. Urban, 2021
 !!
-!!### LICENSE
+!!##LICENSE
 !!    MIT
 subroutine keyword_mode_utf8(action)
 character(len=*),intent(in) :: action
@@ -12023,12 +11847,12 @@ subroutine keyword_wipe_dictionary()
 end subroutine keyword_wipe_dictionary
 
 !>
-!!### NAME
+!!##NAME
 !!    keyword_update(3f) - [M_unicode] update internal dictionary given
 !!    keyword and value
 !!    (LICENSE:MIT)
 !!
-!!### SYNOPSIS
+!!##SYNOPSIS
 !!
 !!    subroutine keyword_update(key,val,plainval)
 !!
@@ -12040,10 +11864,10 @@ end subroutine keyword_wipe_dictionary
 !!        character(len=*),intent(in),optional  :: val
 !!        character(len=*),intent(in),optional  :: plainval
 !!
-!!### DESCRIPTION
+!!##DESCRIPTION
 !!    Update internal dictionary in M_unicode(3f) module.
 !!
-!!### OPTIONS
+!!##OPTIONS
 !!    key       name of keyword to add, replace, or delete from dictionary
 !!    val       if present add or replace value associated with keyword. If
 !!              not present remove keyword entry from dictionary.
@@ -12052,7 +11876,7 @@ end subroutine keyword_wipe_dictionary
 !!              "plain_mode" via keyword_action(3f). Defaults to the same
 !!              value as VAL.
 !!
-!!### EXAMPLES
+!!##EXAMPLES
 !!
 !!    Sample program
 !!
@@ -12106,10 +11930,10 @@ end subroutine keyword_wipe_dictionary
 !!      > CUSTOMIZED: <r>Apple</r>, <<<<Sky>>>>, \e[32mGrass\e[39m
 !!      > \e[0m
 !!
-!!### AUTHOR
+!!##AUTHOR
 !!    John S. Urban, 2021
 !!
-!!### LICENSE
+!!##LICENSE
 !!    MIT
 subroutine keyword_update_ut(key)
 type(unicode_type),intent(in)          :: key
@@ -12342,7 +12166,7 @@ integer                        :: end
       list=[ value ]
    elseif(place == 1)then                                    ! put in front of array
       list=[value, list]
-   elseif(place > end)then                                  ! put at end of array
+   elseif(place > end)then                                   ! put at end of array
       list=[list, value ]
    elseif(place >= 2.and.place <= end)then                   ! put in middle of array
       list=[list(:place-1), value,list(place:) ]
@@ -15301,16 +15125,15 @@ use,intrinsic :: iso_fortran_env, only : compiler_version, compiler_options
 character(len=*), intent(in)  :: input_str
 character(len=:), allocatable :: in
 character(len=:), allocatable :: output_str
-integer                       :: i, j, k
+integer                       :: i, j
 integer                       :: iarg
 integer                       :: input_len
 integer                       :: var_start, var_end
 character(len=:), allocatable :: var_name, var_val, temp
 character,parameter           :: &
-& int*(*)  = '1234567890',                 &
-& low*(*)  = 'abcdefghijklmnopqrstuvwxyz', &
-& upp*(*)  = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', &
-& punc*(*) = "!""#$%&’()*+,‐./:;<=>?@[\]ˆ_‘{|}˜"
+& ints*(*)  = '1234567890',                 &
+& lows*(*)  = 'abcdefghijklmnopqrstuvwxyz', &
+& upps*(*)  = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
    output_str = ""
    input_len = len(input_str)
@@ -15338,7 +15161,7 @@ character,parameter           :: &
             ! Handle unbracketed syntax $VAR (stops if not [A-Za-z0-9_]
             var_end = var_start
             do while (var_end <= input_len)
-               if (index(int//low//upp//'_',in(var_end:var_end))==0)exit
+               if (index(ints//lows//upps//'_',in(var_end:var_end))==0)exit
                var_end = var_end + 1
             enddo
             var_name = in(var_start:var_end-1)
@@ -15346,7 +15169,7 @@ character,parameter           :: &
          endif
          ! Fetch the environment variable value natively in Fortran
          if (var_name/='') then
-            var_val = get_env_aa(var_name,'')
+            var_val = get_env_character(var_name,'')
          else
             var_val = ''
          endif
@@ -15374,7 +15197,7 @@ character,parameter           :: &
                call date_and_time(zone=var_val)
                var_val = temp//var_val
              case ('FILE')
-               var_val = get_arg(0)
+               var_val = get_arg_character(0)
              case ('COMPILER')
                var_val = compiler_version()
              case ('COMPILER_OPTIONS')
@@ -15382,7 +15205,7 @@ character,parameter           :: &
              case ('*')
                var_val = ''
                do j = 1,command_argument_count()
-                  var_val = var_val//get_arg(j)//' '
+                  var_val = var_val//get_arg_character(j)//' '
                enddo
                var_val = trim(var_val)
              case default  ! $NNN is command argument
@@ -15391,7 +15214,7 @@ character,parameter           :: &
                elseif (verify(trim(var_name), '0123456789') == 0 ) then ! determine if string is a valid integer
                   var_name = var_name//repeat(' ',9)
                   read(var_name,'(i9)')iarg
-                  var_val = get_arg(iarg)
+                  var_val = get_arg_character(iarg)
                else  ! variable with blank value, unknown variable, or syntax error
                   var_val = ''
                endif
@@ -15438,45 +15261,6 @@ integer                       :: i
    enddo
 end function expand_env_uu_arr
 !===================================================================================================================================
-impure elemental function get_env_aa(name,default) result(uvalue)
-! a function that makes calling get_environment_variable(3f) simple
-character(len=*),intent(in)          :: name
-character(len=*),intent(in),optional :: default
-character(len=:),allocatable         :: value
-type(unicode_type)                   :: uvalue
-integer                              :: howbig
-integer                              :: stat
-integer                              :: length
-   length=0
-   value=""
-   if(name /= "")then
-      call get_environment_variable( name, &
-      & length=howbig,status=stat,trim_name=.true.)
-      select case (stat)
-      case (1)
-       if(.not.present(default))then
-          write(stderr,*) &
-          & name, " is not defined in the environment"
-          value=""
-       endif
-      case (2)
-       write(stderr,*) &
-       & "This processor does not support environment variables. Boooh!"
-       value=""
-      case default
-       ! make string of sufficient size to hold value
-       if(allocated(value))deallocate(value)
-       allocate(character(len=max(howbig,1)) :: value)
-       ! get value
-       call get_environment_variable( &
-       & name,value,status=stat,trim_name=.true.)
-       if(stat /= 0)value=""
-      end select
-   endif
-   if(value == "".and.present(default))value=default
-   call assign_str_char ( uvalue, value )
-end function get_env_aa
-
 impure elemental function get_env_uu(name,default) result(value)
 ! a function that makes calling get_environment_variable(3f) simple
 type(unicode_type),intent(in)          :: name
@@ -15488,9 +15272,9 @@ integer                                :: nerr
    call codepoints_to_utf8_str(name%codes,temp1,nerr)
    if(present(default))then
       call codepoints_to_utf8_str(default%codes,temp2,nerr)
-      value=get_env_aa(temp1,temp2)
+      value=get_env_character(temp1,temp2)
    else
-      value=get_env_aa(temp1)
+      value=get_env_character(temp1)
    endif
 end function get_env_uu
 
@@ -15502,7 +15286,7 @@ type(unicode_type)            :: value
 character(len=:),allocatable  :: temp
 integer                       :: nerr
    call codepoints_to_utf8_str(default%codes,temp,nerr)
-   value=get_env_aa(name,temp)
+   value=get_env_character(name,temp)
 end function get_env_au
 
 impure elemental function get_env_ua(name,default) result(value)
@@ -15513,8 +15297,19 @@ type(unicode_type)                   :: value
 character(len=:),allocatable         :: temp
 integer                              :: nerr
    call codepoints_to_utf8_str(name%codes,temp,nerr)
-   value=get_env_aa(temp,default)
+   value=get_env_character(temp,default)
 end function get_env_ua
+
+impure elemental function get_arg_iu(position,default) result(value)
+integer,intent(in)            :: position
+type(unicode_type),intent(in) :: default
+character(len=:),allocatable  :: temp
+type(unicode_type)            :: value
+integer                       :: nerr
+   call codepoints_to_utf8_str(default%codes,temp,nerr)
+   value=get_arg_character(position,temp)
+end function get_arg_iu
+!===================================================================================================================================
 
 function pound_to_box_u(win,style) result(winout)
 ! convert "#" characters to box characters assuming boxes do not touch that are not
@@ -15709,35 +15504,6 @@ integer,allocatable            :: linecodes(:)
       winout(i)%codes(2:1+length)=win(i-1)%codes
    enddo
 end function add_border_u
-!===================================================================================================================================
-
-impure elemental function get_arg_ia(position,default) result(value)
-! get nth argument from command line
-integer,intent(in)                   :: position
-character(len=*),intent(in),optional :: default
-character(len=:),allocatable         :: temp
-type(unicode_type)                   :: value
-integer                              :: argument_length, istat
-   call get_command_argument(number=position,length=argument_length)
-   if(allocated(temp))deallocate(temp)
-   allocate(character(len=argument_length) :: temp)
-   temp(:)=''
-   call get_command_argument(position, temp, status=istat)
-   if(present(default))then
-      if(temp == '')temp=default
-   endif
-   call assign_str_char ( value, temp )
-end function get_arg_ia
-
-impure elemental function get_arg_iu(position,default) result(value)
-integer,intent(in)            :: position
-type(unicode_type),intent(in) :: default
-character(len=:),allocatable  :: temp
-type(unicode_type)            :: value
-integer                       :: nerr
-   call codepoints_to_utf8_str(default%codes,temp,nerr)
-   value=get_arg_ia(position,temp)
-end function get_arg_iu
 !===================================================================================================================================
 
 ! reorder
@@ -16741,6 +16507,7 @@ integer                              :: iostat
 character(len=255)                   :: iomsg
 character(len=1),parameter           :: null_ch=char(0)
 integer                              :: iilen
+integer                              :: kludge
 logical                              :: trimit
    if(present(format))then
       fmt_local=format
@@ -16785,22 +16552,24 @@ logical                              :: trimit
    allocate(character(len=256) :: line) ! cannot currently write into allocatable variable. This could potentially be too short
    iostat=0
    select type(general)
-     type is (integer(kind=int8));  write(line,fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
-     type is (integer(kind=int16)); write(line,fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
-     type is (integer(kind=int32)); write(line,fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
-     type is (integer(kind=int64)); write(line,fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
-     type is (real(kind=real32));   write(line,fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
-     type is (real(kind=real64));   write(line,fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
+     type is (integer(kind=int8));  write(line(:),fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
+     type is (integer(kind=int16)); write(line(:),fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
+     type is (integer(kind=int32)); write(line(:),fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
+     type is (integer(kind=int64)); write(line(:),fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
+     type is (real(kind=real32));   write(line(:),fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
+     type is (real(kind=real64));   write(line(:),fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
 #ifdef FLOAT128
-     type is (real(kind=real128));  write(line,fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
+     type is (real(kind=real128));  write(line(:),fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
 #endif
-     type is (logical);             write(line,fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
+     type is (logical);             write(line(:),fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
      type is (character(len=*))
-        line=repeat(' ',256+4*len(general)+1) ! kludge because required length is unknown
-        write(line,fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
+        kludge=256+4*len(general)+1 ! kludge because required length is unknown
+        line=repeat(' ',kludge)
+        write(line(:),fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
      type is (unicode_type)
-        line=repeat(' ',256+4*len(character(general))+1) ! kludge because required length is unknown
-        write(line,fmt_local,iostat=iostat,iomsg=iomsg) character(general),null_ch
+        kludge=256+4*len(character(general))+1
+        line=repeat(' ',kludge)
+        write(line(:),fmt_local,iostat=iostat,iomsg=iomsg) character(general),null_ch
      type is (complex);
         if(trimit)then
            re=afmt(real(general))
@@ -16808,10 +16577,10 @@ logical                              :: trimit
            call trimzeros_(re)
            call trimzeros_(im)
            fmt_local='("(",g0,",",g0,")",a)'
-           write(line,fmt_local,iostat=iostat,iomsg=iomsg) trim(re),trim(im),null_ch
+           write(line(:),fmt_local,iostat=iostat,iomsg=iomsg) trim(re),trim(im),null_ch
            trimit=.false.
         else
-           write(line,fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
+           write(line(:),fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
         endif
      type is (complex(kind=real64));
         if(trimit)then
@@ -16820,10 +16589,10 @@ logical                              :: trimit
            call trimzeros_(re)
            call trimzeros_(im)
            fmt_local='("(",g0,",",g0,")",a)'
-           write(line,fmt_local,iostat=iostat,iomsg=iomsg) trim(re),trim(im),null_ch
+           write(line(:),fmt_local,iostat=iostat,iomsg=iomsg) trim(re),trim(im),null_ch
            trimit=.false.
         else
-           write(line,fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
+           write(line(:),fmt_local,iostat=iostat,iomsg=iomsg) general,null_ch
         endif
      class default
         stop '<ERROR>*afmt* unknown type'
@@ -16942,7 +16711,7 @@ logical                     :: res
    res=isspace_u(string_u)
 end function isspace_a
 !-----------------------------------------------------------------------------------------------------------------------------------
-impure elemental function issensitive_u(str) result (mask)
+pure elemental function issensitive_u(str) result (mask)
 type(unicode_type),intent(in) :: str
 logical                       :: mask
 integer,parameter             :: minuscule_a = iachar('a'), minuscule_z = iachar('z')
@@ -16963,7 +16732,7 @@ integer,parameter             :: majuscule_a = iachar('A'), majuscule_Z = iachar
 
 end function issensitive_u
 !-----------------------------------------------------------------------------------------------------------------------------------
-impure elemental function issensitive_a(string) result(mask)
+pure elemental function issensitive_a(string) result(mask)
 character(len=*),intent(in) :: string
 type(unicode_type)          :: string_u
 logical                     :: mask
@@ -17064,22 +16833,92 @@ end subroutine assign_str_code
 ! Assign a character sequence to a string.
 
 ! random
-function random_string_a(astr,length) result(out)
+!-----------------------------------------------------------------------------------------------------------------------------------
+function random_string_a(astr,length) result(aout)
 character(len=*),intent(in)     :: astr
 integer,intent(in)              :: length
-character(len=length)           :: out
-   out=ctou(random_string(utoc(astr),length))
+character(len=length)           :: aout
+   aout=ctou(random_string_codes(utoc(astr),length))
 end function random_string_a
 !-----------------------------------------------------------------------------------------------------------------------------------
-function random_string_u(ustr,length) result(out)
+function random_string_u(ustr,length) result(uout)
 type(unicode_type),intent(in)   :: ustr
 integer,intent(in)              :: length
-type(unicode_type)              :: out
-   out%codes=random_string(ustr%codes,length)
+type(unicode_type)              :: uout
+   uout%codes=random_string_codes(ustr%codes,length)
 end function random_string_u
+!-----------------------------------------------------------------------------------------------------------------------------------
+
+! regex
+!-----------------------------------------------------------------------------------------------------------------------------------
+function regex_search_a(re, atext, start_offset ) result(m)
+    type(regex_t), intent(in)     :: re
+    character(len=*),intent(in)   :: atext
+    integer, intent(in), optional :: start_offset
+    type(match_t)                 :: m
+
+    integer(int32),allocatable    :: text(:)
+       text=utoc(atext)
+       m=regex_search_codes(re,text,start_offset)
+end function regex_search_a
+!-----------------------------------------------------------------------------------------------------------------------------------
+function regex_search_u(re, utext, start_offset ) result(m)
+    type(regex_t), intent(in)     :: re
+    type(unicode_type),intent(in) :: utext
+    integer, intent(in), optional :: start_offset
+    type(match_t)                 :: m
+       m=regex_search_codes(re,utext%codes,start_offset)
+end function regex_search_u
+!-----------------------------------------------------------------------------------------------------------------------------------
+!-----------------------------------------------------------------------------------------------------------------------------------
+function regex_replace_a(re, atext, areplacement, replace_all ) result(aout_text)
+    type(regex_t), intent(in)     :: re
+    character(len=*),intent(in)   :: atext
+    character(len=*),intent(in)   :: areplacement
+    logical, intent(in), optional :: replace_all
+    character(len=:),allocatable  :: aout_text
+
+    integer(int32),allocatable    :: text(:)
+    integer(int32),allocatable    :: replacement(:)
+    integer(int32),allocatable    :: out_text(:)
+
+       text=utoc(atext)
+       replacement=utoc(areplacement)
+       out_text=regex_replace(re, text, replacement, replace_all)
+       aout_text=ctou(out_text)
+
+end function regex_replace_a
+!-----------------------------------------------------------------------------------------------------------------------------------
+function regex_replace_u(re, utext, ureplacement, replace_all ) result(uout_text)
+    type(regex_t), intent(in)     :: re
+    type(unicode_type),intent(in) :: utext
+    type(unicode_type),intent(in) :: ureplacement
+    logical, intent(in), optional :: replace_all
+    type(unicode_type)            :: uout_text
+
+    integer(int32),allocatable    :: out_text(:)
+
+       out_text=regex_replace(re, utext%codes, ureplacement%codes, replace_all)
+       uout_text%codes=out_text
+
+end function regex_replace_u
+!-----------------------------------------------------------------------------------------------------------------------------------
+!-----------------------------------------------------------------------------------------------------------------------------------
+function regex_compile_a(apattern) result(re)
+    character(len=*),intent(in)  :: apattern
+    type(regex_t)                :: re
+    integer(int32),allocatable   :: pattern(:)
+       pattern=utoc(apattern)
+       re=regex_compile_codes(pattern)
+end function regex_compile_a
+!-----------------------------------------------------------------------------------------------------------------------------------
+function regex_compile_u(upattern) result(re)
+    type(unicode_type),intent(in) :: upattern
+    type(regex_t)                 :: re
+       re=regex_compile_codes(upattern%codes)
+end function regex_compile_u
 !-----------------------------------------------------------------------------------------------------------------------------------
 !===================================================================================================================================
 !()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()!
 !===================================================================================================================================
 end module M_unicode
-

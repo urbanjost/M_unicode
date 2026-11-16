@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 8.5% of total for modules and submodules.">902 statements</a>
+                 title=" 7.4% of total for modules and submodules.">902 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -179,11 +179,11 @@
     </div>
 
     <div class="col-md-9" id='text'>
-      <h3 id="name">NAME</h3>
-<p>M_unicode__regex(3f) - [M_unicode__regex:REGULAR EXPRESSIONS] Overview
+      <h2 id="name">NAME</h2>
+<p>M_unicode__regex(3f) - [M_unicode:REGULAR EXPRESSIONS] Overview
    of UTF-8 codepoint Regular Expression engine
    (LICENSE:MIT)</p>
-<h3 id="synopsis">SYNOPSIS</h3>
+<h2 id="synopsis">SYNOPSIS</h2>
 <p>Syntax</p>
 <div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode__regex</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="p">:</span><span class="w"> </span><span class="nx">regex_t</span><span class="p">,</span><span class="w"> </span><span class="nx">match_t</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
 <span class="w">                      </span><span class="nx">regex_compile</span><span class="p">,</span><span class="w"> </span><span class="nx">regex_search</span><span class="p">,</span><span class="w"> </span><span class="nx">regex_replace</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
@@ -191,30 +191,81 @@
 
 <span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="nx">regex_t</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">re</span>
 <span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="nx">match_t</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">m</span>
-<span class="w"> </span><span class="nx">integer</span><span class="p">(</span><span class="nx">int32</span><span class="p">),</span><span class="w"> </span><span class="nx">allocatable</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">pat</span><span class="p">(:),</span><span class="w"> </span><span class="nx">txt</span><span class="p">(:),</span><span class="w"> </span><span class="nx">repl</span><span class="p">(:),</span><span class="w"> </span><span class="nx">out</span><span class="p">(:)</span>
+
+<span class="nx">CODEPOINT</span>
+<span class="w"> </span><span class="nx">integer</span><span class="p">(</span><span class="nx">int32</span><span class="p">),</span><span class="w"> </span><span class="nx">allocatable</span><span class="w">   </span><span class="o">::</span><span class="w"> </span><span class="nx">pat</span><span class="p">(:),</span><span class="w"> </span><span class="nx">txt</span><span class="p">(:),</span><span class="w"> </span><span class="nx">repl</span><span class="p">(:),</span><span class="w"> </span><span class="nx">out</span><span class="p">(:)</span>
 <span class="w"> </span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=:),</span><span class="w"> </span><span class="nx">allocatable</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">str</span>
 
-<span class="w"> </span><span class="nx">pat</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="nx">utoc</span><span class="p">(</span><span class="nx">str</span><span class="p">)</span>
-<span class="w"> </span><span class="nx">re</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="nx">regex_compile</span><span class="p">(</span><span class="nx">pat</span><span class="p">)</span>
-<span class="w"> </span><span class="nx">m</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="nx">regex_search</span><span class="p">(</span><span class="nx">re</span><span class="p">,</span><span class="w"> </span><span class="nx">txt</span><span class="w"> </span><span class="p">[,</span><span class="w"> </span><span class="nx">start_offset</span><span class="p">])</span>
-<span class="w"> </span><span class="nx">out</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="nx">regex_replace</span><span class="p">(</span><span class="nx">re</span><span class="p">,</span><span class="w"> </span><span class="nx">txt</span><span class="p">,</span><span class="w"> </span><span class="nx">repl</span><span class="w"> </span><span class="p">[,</span><span class="w"> </span><span class="nx">replace_all</span><span class="p">])</span>
-<span class="w"> </span><span class="nx">str</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="nx">ctou</span><span class="p">(</span><span class="nx">out</span><span class="p">)</span>
+<span class="w">  </span><span class="nx">pat</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="nx">utoc</span><span class="p">(</span><span class="nx">str</span><span class="p">)</span>
+<span class="w">  </span><span class="nx">re</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="nx">regex_compile</span><span class="p">(</span><span class="nx">pat</span><span class="p">)</span>
+<span class="w">  </span><span class="nx">m</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="nx">regex_search</span><span class="p">(</span><span class="nx">re</span><span class="p">,</span><span class="w"> </span><span class="nx">txt</span><span class="w"> </span><span class="p">[,</span><span class="w"> </span><span class="nx">start_offset</span><span class="p">])</span>
+<span class="w">  </span><span class="nx">out</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="nx">regex_replace</span><span class="p">(</span><span class="nx">re</span><span class="p">,</span><span class="w"> </span><span class="nx">txt</span><span class="p">,</span><span class="w"> </span><span class="nx">repl</span><span class="w"> </span><span class="p">[,</span><span class="w"> </span><span class="nx">replace_all</span><span class="p">])</span>
+<span class="w">  </span><span class="nx">str</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="nx">ctou</span><span class="p">(</span><span class="nx">out</span><span class="p">)</span>
+
+<span class="nx">STRING</span>
+<span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">pat</span><span class="p">,</span><span class="w"> </span><span class="nx">txt</span><span class="p">,</span><span class="w"> </span><span class="nx">repl</span><span class="p">,</span><span class="w"> </span><span class="nx">out</span>
+
+<span class="w">  </span><span class="nx">re</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="nx">regex_compile</span><span class="p">(</span><span class="nx">pat</span><span class="p">)</span>
+<span class="w">  </span><span class="nx">m</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="nx">regex_search</span><span class="p">(</span><span class="nx">re</span><span class="p">,</span><span class="w"> </span><span class="nx">txt</span><span class="w"> </span><span class="p">[,</span><span class="w"> </span><span class="nx">start_offset</span><span class="p">])</span>
+<span class="w">  </span><span class="nx">out</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="nx">regex_replace</span><span class="p">(</span><span class="nx">re</span><span class="p">,</span><span class="w"> </span><span class="nx">txt</span><span class="p">,</span><span class="w"> </span><span class="nx">repl</span><span class="w"> </span><span class="p">[,</span><span class="w"> </span><span class="nx">replace_all</span><span class="p">])</span>
+
+<span class="nx">CHARACTER</span>
+<span class="w"> </span><span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=:),</span><span class="nx">allocatable</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">pat</span><span class="p">,</span><span class="w"> </span><span class="nx">txt</span><span class="p">,</span><span class="w"> </span><span class="nx">repl</span><span class="p">,</span><span class="w"> </span><span class="nx">out</span>
+
+<span class="w">  </span><span class="nx">re</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="nx">regex_compile</span><span class="p">(</span><span class="nx">pat</span><span class="p">)</span>
+<span class="w">  </span><span class="nx">m</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="nx">regex_search</span><span class="p">(</span><span class="nx">re</span><span class="p">,</span><span class="w"> </span><span class="nx">txt</span><span class="w"> </span><span class="p">[,</span><span class="w"> </span><span class="nx">start_offset</span><span class="p">])</span>
+<span class="w">  </span><span class="nx">out</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="nx">regex_replace</span><span class="p">(</span><span class="nx">re</span><span class="p">,</span><span class="w"> </span><span class="nx">txt</span><span class="p">,</span><span class="w"> </span><span class="nx">repl</span><span class="w"> </span><span class="p">[,</span><span class="w"> </span><span class="nx">replace_all</span><span class="p">])</span>
 </code></pre></div>
 
-<h3 id="description">DESCRIPTION</h3>
-<div class="codehilite"><pre><span></span><code><span class="nx">The</span><span class="w"> </span><span class="nx">M_unicode__regex</span><span class="p">(</span><span class="mi">3</span><span class="nx">f</span><span class="p">)</span><span class="w">  </span><span class="nx">module</span><span class="w"> </span><span class="nx">implements</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="kp">self</span><span class="o">-</span><span class="nx">contained</span><span class="p">,</span>
-<span class="nx">Unicode</span><span class="o">-</span><span class="nx">aware</span><span class="w"> </span><span class="nx">regular</span><span class="w"> </span><span class="nx">expression</span><span class="w"> </span><span class="nx">compiler</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="nx">backtracking</span>
-<span class="nx">Nondeterministic</span><span class="w"> </span><span class="nx">Finite</span><span class="w"> </span><span class="nx">Automaton</span><span class="w"> </span><span class="p">(</span><span class="nx">NFA</span><span class="p">)</span><span class="w"> </span><span class="kd">virtual</span><span class="w"> </span><span class="nx">machine</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nx">standard</span>
-<span class="nx">Fortran</span><span class="w"> </span><span class="mi">2008</span><span class="p">.</span>
+<h2 id="description">DESCRIPTION</h2>
+<div class="codehilite"><pre><span></span><code><span class="n">The</span><span class="w"> </span><span class="n">M_unicode__regex</span><span class="p">(</span><span class="n">3f</span><span class="p">)</span><span class="w">  </span><span class="n">module</span><span class="w"> </span><span class="n">implements</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">self</span><span class="o">-</span><span class="n">contained</span><span class="p">,</span>
+<span class="k">Unicode</span><span class="o">-</span><span class="n">aware</span><span class="w"> </span><span class="n">regular</span><span class="w"> </span><span class="n">expression</span><span class="w"> </span><span class="n">compiler</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">backtracking</span>
+<span class="n">Nondeterministic</span><span class="w"> </span><span class="n">Finite</span><span class="w"> </span><span class="n">Automaton</span><span class="w"> </span><span class="p">(</span><span class="n">NFA</span><span class="p">)</span><span class="w"> </span><span class="k">virtual</span><span class="w"> </span><span class="n">machine</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">standard</span>
+<span class="n">Fortran</span><span class="w"> </span><span class="mf">2008.</span>
 
-<span class="nx">All</span><span class="w"> </span><span class="nx">pattern</span><span class="w"> </span><span class="nx">compilation</span><span class="p">,</span><span class="w"> </span><span class="nx">text</span><span class="w"> </span><span class="nx">matching</span><span class="p">,</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="nx">replacement</span>
-<span class="nx">operate</span><span class="w"> </span><span class="nx">directly</span><span class="w"> </span><span class="nx">on</span><span class="w"> </span><span class="mi">1</span><span class="o">-</span><span class="nx">indexed</span><span class="w"> </span><span class="nx">arrays</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">UTF</span><span class="o">-</span><span class="mi">32</span><span class="w"> </span><span class="nx">scalar</span><span class="w"> </span><span class="nx">codepoints</span>
-<span class="p">(</span><span class="nx">integer</span><span class="p">(</span><span class="nx">int32</span><span class="p">)).</span><span class="w">  </span><span class="nx">Helper</span><span class="w"> </span><span class="nx">functions</span><span class="w"> </span><span class="nx">utoc</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="k">and</span>
-<span class="nx">ctou</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="nx">convert</span><span class="w"> </span><span class="nx">between</span><span class="w"> </span><span class="nx">standard</span><span class="w"> </span><span class="nx">UTF</span><span class="o">-</span><span class="mi">8</span><span class="w"> </span><span class="nx">encoded</span><span class="w"> </span><span class="nx">Fortran</span>
-<span class="nx">character</span><span class="w"> </span><span class="nx">strings</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="nx">UTF</span><span class="o">-</span><span class="mi">32</span><span class="w"> </span><span class="nx">codepoint</span><span class="w"> </span><span class="nx">arrays</span><span class="p">.</span>
+<span class="n">The</span><span class="w"> </span><span class="n">procedures</span><span class="w"> </span><span class="n">are</span><span class="w"> </span><span class="n">generic</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">operator</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">three</span><span class="w"> </span><span class="n">different</span><span class="w"> </span><span class="k">types</span><span class="w"> </span><span class="c1">--</span>
+<span class="c1">TYPE(UNICODE_TYPE) variables, CHARACTER variables or CODEPOINTS(integer</span>
+<span class="n">arrays</span><span class="w"> </span><span class="n">composed</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">valid</span><span class="w"> </span><span class="k">Unicode</span><span class="w"> </span><span class="n">codepoint</span><span class="w"> </span><span class="k">values</span><span class="p">).</span>
+
+<span class="k">For</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">CODEPOINT</span><span class="w"> </span><span class="k">mode</span><span class="w"> </span><span class="k">all</span><span class="w"> </span><span class="n">pattern</span><span class="w"> </span><span class="n">compilation</span><span class="p">,</span><span class="w"> </span><span class="kt">text</span><span class="w"> </span><span class="n">matching</span><span class="p">,</span><span class="w"> </span><span class="k">and</span>
+<span class="k">string</span><span class="w"> </span><span class="n">replacement</span><span class="w"> </span><span class="n">operate</span><span class="w"> </span><span class="n">directly</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">arrays</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">UTF</span><span class="o">-</span><span class="mi">8</span><span class="o">/</span><span class="n">UTF</span><span class="o">-</span><span class="mi">32</span><span class="w">  </span><span class="n">scalar</span>
+<span class="n">codepoints</span><span class="w"> </span><span class="p">(</span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">)).</span>
+
+<span class="n">Helper</span><span class="w"> </span><span class="n">functions</span><span class="w"> </span><span class="n">utoc</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">ctou</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="k">convert</span><span class="w"> </span><span class="k">between</span><span class="w"> </span><span class="n">standard</span><span class="w"> </span><span class="n">UTF</span><span class="o">-</span><span class="mi">8</span>
+<span class="n">encoded</span><span class="w"> </span><span class="n">Fortran</span><span class="w"> </span><span class="k">character</span><span class="w"> </span><span class="n">strings</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">codepoint</span><span class="w"> </span><span class="n">arrays</span><span class="p">.</span>
+
+<span class="k">For</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="k">CHARACTER</span><span class="w"> </span><span class="k">mode</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">same</span><span class="w"> </span><span class="n">entities</span><span class="w"> </span><span class="n">are</span><span class="w"> </span><span class="k">all</span><span class="w"> </span><span class="k">CHARACTER</span><span class="w"> </span><span class="k">variables</span><span class="p">.</span>
+
+<span class="k">For</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="k">STRING</span><span class="w"> </span><span class="k">mode</span><span class="w"> </span><span class="k">all</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">same</span><span class="w"> </span><span class="n">entities</span><span class="w"> </span><span class="n">are</span><span class="w"> </span><span class="k">all</span><span class="w"> </span><span class="k">TYPE</span><span class="p">(</span><span class="n">UNICODE_TYPE</span><span class="p">).</span>
+
+<span class="n">FEATURES</span>
+
+<span class="n">o</span><span class="w"> </span><span class="o">**</span><span class="n">Native</span><span class="w"> </span><span class="n">UTF</span><span class="o">-</span><span class="mi">32</span><span class="w"> </span><span class="n">Matching</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">UTF</span><span class="o">-</span><span class="mi">8</span><span class="w"> </span><span class="n">Codecs</span><span class="o">:**</span><span class="w"> </span><span class="n">Built</span><span class="o">-</span><span class="k">in</span>
+<span class="w">  </span><span class="n n-Quoted">`utf8_to_codepoints`</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n n-Quoted">`codepoints_to_utf8`</span><span class="w"> </span><span class="n">converters</span><span class="w"> </span><span class="k">with</span>
+<span class="w">  </span><span class="n n-Quoted">`U+FFFD`</span><span class="w"> </span><span class="n">replacement</span><span class="w"> </span><span class="n">handling</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">malformed</span><span class="w"> </span><span class="kt">byte</span><span class="w"> </span><span class="n">sequences</span><span class="p">.</span>
+
+<span class="n">o</span><span class="w"> </span><span class="o">**</span><span class="n">Submatch</span><span class="w"> </span><span class="n">Captures</span><span class="o">:**</span><span class="w"> </span><span class="n">Supports</span><span class="w"> </span><span class="k">full</span><span class="o">-</span><span class="k">match</span><span class="w"> </span><span class="n">tracking</span><span class="w"> </span><span class="p">(</span><span class="n n-Quoted">`group 0`</span><span class="p">)</span><span class="w"> </span><span class="n">plus</span>
+<span class="w">  </span><span class="n">up</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="mi">9</span><span class="w"> </span><span class="n">parenthesized</span><span class="w"> </span><span class="n">capture</span><span class="w"> </span><span class="k">groups</span><span class="w"> </span><span class="p">(</span><span class="n n-Quoted">`1..9`</span><span class="p">).</span>
+
+<span class="n">o</span><span class="w"> </span><span class="o">**</span><span class="n">Backreference</span><span class="w"> </span><span class="n">Replacement</span><span class="o">:**</span><span class="w"> </span><span class="k">Global</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">single</span><span class="o">-</span><span class="k">match</span><span class="w"> </span><span class="k">string</span>
+<span class="w">  </span><span class="n">replacement</span><span class="w"> </span><span class="n">via</span><span class="w"> </span><span class="n n-Quoted">`regex_replace`</span><span class="w"> </span><span class="n">supporting</span><span class="w"> </span><span class="n n-Quoted">`$0..$9`</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n n-Quoted">`\0..\9`</span>
+<span class="w">  </span><span class="n">backreferences</span><span class="p">.</span>
+
+<span class="n">o</span><span class="w"> </span><span class="o">**</span><span class="n">Greedy</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">Non</span><span class="o">-</span><span class="n">Greedy</span><span class="w"> </span><span class="n">Quantifiers</span><span class="o">:**</span><span class="w"> </span><span class="k">Full</span><span class="w"> </span><span class="n">support</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n n-Quoted">`*`</span><span class="p">,</span><span class="w"> </span><span class="n n-Quoted">`+`</span><span class="p">,</span><span class="w"> </span><span class="n n-Quoted">`?`</span><span class="p">,</span>
+<span class="w">  </span><span class="n n-Quoted">`{n}`</span><span class="p">,</span><span class="w"> </span><span class="n n-Quoted">`{n,}`</span><span class="p">,</span><span class="w"> </span><span class="n n-Quoted">`{n,m}`</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">their</span><span class="w"> </span><span class="n">lazy</span><span class="w"> </span><span class="n">counterparts</span><span class="w"> </span><span class="n n-Quoted">`*?`</span><span class="p">,</span><span class="w"> </span><span class="n n-Quoted">`+?`</span><span class="p">,</span><span class="w"> </span><span class="n n-Quoted">`??`</span><span class="p">,</span>
+<span class="w">  </span><span class="n n-Quoted">`{n,}?`</span><span class="p">,</span><span class="w"> </span><span class="n n-Quoted">`{n,m}?`</span><span class="p">.</span>
+
+<span class="n">o</span><span class="w"> </span><span class="o">**</span><span class="k">Character</span><span class="w"> </span><span class="n">Classes</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">Shorthands</span><span class="o">:**</span><span class="w"> </span><span class="n">Bracket</span><span class="w"> </span><span class="n">expressions</span><span class="w"> </span><span class="n n-Quoted">`[...]`</span><span class="p">,</span>
+<span class="w">  </span><span class="n">negated</span><span class="w"> </span><span class="n">classes</span><span class="w"> </span><span class="n n-Quoted">`[^...]`</span><span class="p">,</span><span class="w"> </span><span class="n">ranges</span><span class="w"> </span><span class="n n-Quoted">`[a-z]`</span><span class="p">,</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="k">Unicode</span><span class="o">-</span><span class="n">aware</span>
+<span class="w">  </span><span class="n">shorthands</span><span class="w"> </span><span class="p">(</span><span class="n n-Quoted">`\d`</span><span class="p">,</span><span class="w"> </span><span class="n n-Quoted">`\D`</span><span class="p">,</span><span class="w"> </span><span class="n n-Quoted">`\w`</span><span class="p">,</span><span class="w"> </span><span class="n n-Quoted">`\W`</span><span class="p">,</span><span class="w"> </span><span class="n n-Quoted">`\s`</span><span class="p">,</span><span class="w"> </span><span class="n n-Quoted">`\S`</span><span class="p">).</span>
+
+<span class="n">o</span><span class="w"> </span><span class="o">**</span><span class="n">Anchors</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">Word</span><span class="w"> </span><span class="n">Boundaries</span><span class="o">:**</span><span class="w"> </span><span class="n">Multiline</span><span class="w"> </span><span class="k">start</span><span class="o">/</span><span class="k">end</span><span class="w"> </span><span class="n">anchors</span><span class="w"> </span><span class="p">(</span><span class="n n-Quoted">`^`</span><span class="p">,</span>
+<span class="w">  </span><span class="n n-Quoted">`$`</span><span class="p">)</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="k">Unicode</span><span class="o">-</span><span class="n">aware</span><span class="w"> </span><span class="n">word</span><span class="w"> </span><span class="n">boundaries</span><span class="w"> </span><span class="p">(</span><span class="n n-Quoted">`\b`</span><span class="p">,</span><span class="w"> </span><span class="n n-Quoted">`\B`</span><span class="p">).</span>
+
+<span class="n">o</span><span class="w"> </span><span class="o">**</span><span class="n">Zero</span><span class="w"> </span><span class="k">External</span><span class="w"> </span><span class="n">Dependencies</span><span class="o">:**</span><span class="w"> </span><span class="n">Pure</span><span class="w"> </span><span class="n">Fortran</span><span class="w"> </span><span class="mf">2008.</span>
 </code></pre></div>
 
-<h3 id="public-derived-types">PUBLIC DERIVED TYPES</h3>
+<h2 id="public-derived-types">PUBLIC DERIVED TYPES</h2>
 <div class="codehilite"><pre><span></span><code><span class="k">type</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">regex_t</span><span class="w">   </span><span class="nx">Compiled</span><span class="w"> </span><span class="nx">regular</span><span class="w"> </span><span class="nx">expression</span><span class="w"> </span><span class="nx">bytecode</span><span class="w"> </span><span class="nx">container</span><span class="p">.</span>
 
 <span class="w">        </span><span class="nx">Components</span><span class="p">:</span>
@@ -231,7 +282,7 @@
 <span class="w">        </span><span class="nx">Components</span><span class="p">:</span>
 
 <span class="w">            </span><span class="nx">matched</span><span class="w">         </span><span class="nx">Logical</span><span class="w"> </span><span class="nx">flag</span><span class="p">;</span><span class="w"> </span><span class="p">.</span><span class="kc">true</span><span class="p">.</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="k">match</span><span class="w"> </span><span class="nx">was</span><span class="w"> </span><span class="nx">found</span><span class="p">.</span>
-<span class="w">            </span><span class="nx">start_pos</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="mi">9</span><span class="p">)</span><span class="w">  </span><span class="mi">1</span><span class="o">-</span><span class="nx">based</span><span class="w"> </span><span class="nx">starting</span><span class="w"> </span><span class="nx">codepoint</span><span class="w"> </span><span class="nx">index</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nx">each</span><span class="w"> </span><span class="nx">capture</span>
+<span class="w">            </span><span class="nx">start_pos</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="mi">9</span><span class="p">)</span><span class="w">  </span><span class="nx">starting</span><span class="w"> </span><span class="nx">codepoint</span><span class="w"> </span><span class="nx">index</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nx">each</span><span class="w"> </span><span class="nx">capture</span>
 <span class="w">                            </span><span class="nx">group</span><span class="p">.</span><span class="w"> </span><span class="nx">Group</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">entire</span><span class="w"> </span><span class="k">match</span><span class="p">;</span><span class="w"> </span><span class="nx">groups</span><span class="w"> </span><span class="mi">1</span><span class="p">.</span><span class="m m-Double">.9</span>
 <span class="w">                            </span><span class="nx">are</span><span class="w"> </span><span class="nx">parenthesized</span><span class="w"> </span><span class="nx">subexpressions</span><span class="p">.</span>
 <span class="w">            </span><span class="nx">end_pos</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="mi">9</span><span class="p">)</span><span class="w">    </span><span class="mi">1</span><span class="o">-</span><span class="nx">based</span><span class="w"> </span><span class="nx">inclusive</span><span class="w"> </span><span class="nx">ending</span><span class="w"> </span><span class="nx">codepoint</span><span class="w"> </span><span class="nx">index</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nx">each</span>
@@ -239,7 +290,7 @@
 <span class="w">                            </span><span class="nx">length</span><span class="w"> </span><span class="k">match</span><span class="p">,</span><span class="w"> </span><span class="nx">end_pos</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="nx">start_pos</span><span class="p">(</span><span class="nx">i</span><span class="p">).</span>
 </code></pre></div>
 
-<h3 id="public-procedures">PUBLIC PROCEDURES</h3>
+<h2 id="public-procedures">PUBLIC PROCEDURES</h2>
 <div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="nx">regex_compile</span><span class="p">(</span><span class="nx">pattern</span><span class="p">)</span><span class="w"> </span><span class="nx">result</span><span class="p">(</span><span class="nx">re</span><span class="p">)</span>
 
 <span class="w">        </span><span class="nx">Compiles</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">UTF</span><span class="o">-</span><span class="mi">32</span><span class="w"> </span><span class="nx">regular</span><span class="w"> </span><span class="nx">expression</span><span class="w"> </span><span class="nx">pattern</span><span class="w"> </span><span class="nx">into</span><span class="w"> </span><span class="nx">NFA</span><span class="w"> </span><span class="nx">bytecode</span><span class="p">.</span>
@@ -305,7 +356,7 @@
 <span class="w">                         </span><span class="nx">the</span><span class="w"> </span><span class="nx">resulting</span><span class="w"> </span><span class="nx">text</span><span class="p">.</span>
 </code></pre></div>
 
-<h3 id="regular-expression-syntax">REGULAR EXPRESSION SYNTAX</h3>
+<h2 id="regular-expression-syntax">REGULAR EXPRESSION SYNTAX</h2>
 <div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="n">Atoms</span>
 
 <span class="w">        </span><span class="n">c</span><span class="w">           </span><span class="n">Matches</span><span class="w"> </span><span class="n">literal</span><span class="w"> </span><span class="nf">Unicode</span><span class="w"> </span><span class="n">codepoint</span><span class="w"> </span><span class="n">c</span><span class="p">.</span>
@@ -361,7 +412,7 @@
 <span class="w">            </span><span class="mf">4.</span><span class="w"> </span><span class="n">Alternation</span><span class="w"> </span><span class="p">(</span><span class="o">|</span><span class="p">)</span>
 </code></pre></div>
 
-<h3 id="limitations-notes">LIMITATIONS &amp; NOTES</h3>
+<h2 id="limitations-notes">LIMITATIONS &amp; NOTES</h2>
 <div class="codehilite"><pre><span></span><code>o   Maximum capture groups is 9 (MAX_GROUPS = 10 including group 0).
 o   Maximum repetition bound in {n,m} is 1000.
 o   The VM uses recursive backtracking; pathological nested quantifiers
@@ -369,21 +420,20 @@ o   The VM uses recursive backtracking; pathological nested quantifiers
     and stack depth.
 </code></pre></div>
 
-<h3 id="example">EXAMPLE</h3>
+<h2 id="example">EXAMPLE</h2>
 <p>Sample program</p>
-<div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">example</span>
+<div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">demo_M_unicode__regex</span>
 <span class="nx">use</span><span class="w"> </span><span class="nx">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="p">:</span><span class="w"> </span><span class="nx">int32</span>
 <span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode__regex</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">regex_t</span><span class="p">,</span><span class="w"> </span><span class="nx">match_t</span>
-<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode__regex</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">gex_compile</span><span class="p">,</span><span class="w"> </span><span class="nx">regex_search</span><span class="p">,</span><span class="w"> </span><span class="nx">regex_replace</span>
+<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode__regex</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">regex_compile</span><span class="p">,</span><span class="w"> </span><span class="nx">regex_search</span><span class="p">,</span><span class="w"> </span><span class="nx">regex_replace</span>
 <span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode__convert</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">utoc</span><span class="p">,</span><span class="w"> </span><span class="nx">ctou</span>
 <span class="nx">implicit</span><span class="w"> </span><span class="nx">none</span>
-<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="nx">parameter</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">BS</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">achar</span><span class="p">(</span><span class="mi">92</span><span class="p">)</span>
-<span class="k">type</span><span class="p">(</span><span class="nx">regex_t</span><span class="p">)</span><span class="w">               </span><span class="o">::</span><span class="w"> </span><span class="nx">re</span>
-<span class="k">type</span><span class="p">(</span><span class="nx">match_t</span><span class="p">)</span><span class="w">               </span><span class="o">::</span><span class="w"> </span><span class="nx">m</span>
-<span class="nx">integer</span><span class="p">(</span><span class="nx">int32</span><span class="p">),</span><span class="w"> </span><span class="nx">allocatable</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">txt</span><span class="p">(:),</span><span class="w"> </span><span class="nx">out</span><span class="p">(:)</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">regex_t</span><span class="p">)</span><span class="w">                </span><span class="o">::</span><span class="w"> </span><span class="nx">re</span>
+<span class="k">type</span><span class="p">(</span><span class="nx">match_t</span><span class="p">)</span><span class="w">                </span><span class="o">::</span><span class="w"> </span><span class="nx">m</span>
+<span class="nx">integer</span><span class="p">(</span><span class="nx">int32</span><span class="p">),</span><span class="w"> </span><span class="nx">allocatable</span><span class="w">  </span><span class="o">::</span><span class="w"> </span><span class="nx">txt</span><span class="p">(:),</span><span class="w"> </span><span class="nx">out</span><span class="p">(:)</span>
 <span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=:),</span><span class="nx">allocatable</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">pat</span>
 <span class="w">   </span><span class="nx">pat</span><span class="p">=</span><span class="err">'</span><span class="p">(</span><span class="err">\</span><span class="nx">w</span><span class="o">+</span><span class="p">)</span><span class="err">\</span><span class="nx">s</span><span class="o">+</span><span class="p">(</span><span class="err">🚀</span><span class="o">|</span><span class="err">🛸</span><span class="p">)</span><span class="err">'</span>
-<span class="w">   </span><span class="nx">re</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">regex_compile</span><span class="p">(</span><span class="nx">utoc</span><span class="p">(</span><span class="nx">pat</span><span class="p">)</span>
+<span class="w">   </span><span class="nx">re</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">regex_compile</span><span class="p">(</span><span class="nx">utoc</span><span class="p">(</span><span class="nx">pat</span><span class="p">))</span>
 <span class="w">   </span><span class="k">if</span><span class="w"> </span><span class="p">(.</span><span class="k">not</span><span class="p">.</span><span class="w"> </span><span class="nx">re</span><span class="o">%</span><span class="nx">valid</span><span class="p">)</span><span class="w"> </span><span class="nx">error</span><span class="w"> </span><span class="nx">stop</span><span class="w"> </span><span class="err">'</span><span class="nx">Invalid</span><span class="w"> </span><span class="nx">pattern</span><span class="err">'</span>
 <span class="w">   </span><span class="nx">txt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">utoc</span><span class="p">(</span><span class="err">'</span><span class="nx">Mission</span><span class="w"> </span><span class="nx">Zürich</span><span class="w"> </span><span class="err">🚀</span><span class="w"> </span><span class="nx">ready</span><span class="err">'</span><span class="p">)</span>
 <span class="w">   </span><span class="nx">m</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">regex_search</span><span class="p">(</span><span class="nx">re</span><span class="p">,</span><span class="w"> </span><span class="nx">txt</span><span class="p">)</span>
@@ -395,16 +445,19 @@ o   The VM uses recursive backtracking; pathological nested quantifiers
 <span class="w">   </span><span class="nx">endif</span>
 <span class="w">   </span><span class="nx">out</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">regex_replace</span><span class="p">(</span><span class="nx">re</span><span class="p">,</span><span class="w"> </span><span class="nx">txt</span><span class="p">,</span><span class="w"> </span><span class="nx">utoc</span><span class="p">(</span><span class="err">'$</span><span class="mi">2</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="err">$</span><span class="mi">1</span><span class="err">'</span><span class="p">))</span>
 <span class="w">   </span><span class="nx">print</span><span class="w"> </span><span class="err">'</span><span class="p">(</span><span class="nx">A</span><span class="p">)</span><span class="err">'</span><span class="p">,</span><span class="w"> </span><span class="err">'</span><span class="nx">Swapped</span><span class="p">:</span><span class="w"> </span><span class="err">'</span><span class="w"> </span><span class="c1">// ctou(out)</span>
-<span class="nx">end</span><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">example</span>
+<span class="nx">end</span><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_M_unicode__regex</span>
 </code></pre></div>
 
-<h3 id="contributors">CONTRIBUTORS</h3>
+<h2 id="contributors">CONTRIBUTORS</h2>
 <p>Developed with coding and debugging assistance from Gemini (Google).</p>
 <p>Portions of this module (NFA compiler fixes, counted/lazy quantifiers,
   word boundaries, test suite, and documentation) were generated with
   assistance from Gemini (Google).</p>
-<h3 id="see-also">SEE ALSO</h3>
-<p>iso_fortran_env(3), pcre2syntax(3), regex(7)</p>
+<h2 id="see-also">SEE ALSO</h2>
+<div class="codehilite"><pre><span></span><code>regex_search(3), regex_compile(3), regex_replace(3)
+
+iso_fortran_env(3), pcre2syntax(3), regex(7)
+</code></pre></div>
 <br>          <div class="card mb-4">
       <h3 class="card-header card-title bg-light">Uses</h3>
       <div class="card-body">
@@ -487,7 +540,7 @@ o   The VM uses recursive backtracking; pathological nested quantifiers
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-start_pos"></span>
+              <span class="anchor" id="variable-start_pos~2"></span>
               integer,
             </td>
               <td>public</td>
@@ -553,7 +606,7 @@ o   The VM uses recursive backtracking; pathological nested quantifiers
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-prog"></span>
+              <span class="anchor" id="variable-prog~25"></span>
               type(inst_t),
             </td>
               <td>public,</td>
@@ -604,7 +657,7 @@ o   The VM uses recursive backtracking; pathological nested quantifiers
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Compiles a UTF-32 regular expression pattern into NFA bytecode.</p><a href="../proc/regex_compile.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -619,7 +672,7 @@ o   The VM uses recursive backtracking; pathological nested quantifiers
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-pattern~5"></span>
+              <span class="anchor" id="variable-pattern~6"></span>
               integer(kind=int32),
             </td>
 <td>intent(in)</td>
@@ -649,7 +702,13 @@ o   The VM uses recursive backtracking; pathological nested quantifiers
 </h3></div>
     <div class="card-body">
           
-  
+  <p>The M_unicode__regex(3) module loaded into the M_unicode(3) module
+ compiles regular expression patterns into Nondeterministic Finite
+ Automaton (NFA) bytecode and executes them over arrays of UTF-32 scalar
+ codepoints (<code>integer(int32)</code>). Because matching operates directly on
+ Unicode codepoints rather than raw UTF-8 bytes, multi-byte characters
+ (accented Latin, CJK, emoji, symbols) are indexed and matched as single
+ characters without splitting byte sequences.</p><a href="../proc/regex_replace.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -664,7 +723,7 @@ o   The VM uses recursive backtracking; pathological nested quantifiers
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-re~18"></span>
+              <span class="anchor" id="variable-re~16"></span>
               type(<a href='../type/regex_t.html'>regex_t</a>),
             </td>
 <td>intent(in)</td>
@@ -694,7 +753,7 @@ o   The VM uses recursive backtracking; pathological nested quantifiers
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-replacement"></span>
+              <span class="anchor" id="variable-replacement~2"></span>
               integer(kind=int32),
             </td>
 <td>intent(in)</td>
@@ -709,7 +768,7 @@ o   The VM uses recursive backtracking; pathological nested quantifiers
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-replace_all"></span>
+              <span class="anchor" id="variable-replace_all~3"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -739,7 +798,7 @@ o   The VM uses recursive backtracking; pathological nested quantifiers
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Searches text for the leftmost match of the compiled expression re.</p><a href="../proc/regex_search.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -754,7 +813,7 @@ o   The VM uses recursive backtracking; pathological nested quantifiers
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-re~17"></span>
+              <span class="anchor" id="variable-re~15"></span>
               type(<a href='../type/regex_t.html'>regex_t</a>),
             </td>
 <td>intent(in)</td>
@@ -784,7 +843,7 @@ o   The VM uses recursive backtracking; pathological nested quantifiers
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-start_offset"></span>
+              <span class="anchor" id="variable-start_offset~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -833,7 +892,7 @@ o   The VM uses recursive backtracking; pathological nested quantifiers
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-14 01:44 +0000             </p>
+ on 2026-11-16 14:32 +0000             </p>
           </div>
         </div>
         <br>

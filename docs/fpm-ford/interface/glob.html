@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.1% of total for procedures.</p>Including implementation: 27 statements,  0.8% of total for procedures.">3 statements</a>
+                 title="<p> 0.1% of total for procedures.</p>Including implementation: 27 statements,  0.6% of total for procedures.">3 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -170,13 +170,13 @@
 
     <div class="col-md-9" id='text'>
       <h2>public interface glob</h2>
-      <h3 id="name">NAME</h3>
+      <h2 id="name">NAME</h2>
 <div class="codehilite"><pre><span></span><code>glob(3f) - [M_unicode:COMPARE] compare given string for match to
 a pattern which may contain globbing wildcard characters
 (LICENSE:MIT)
 </code></pre></div>
 
-<h3 id="synopsis">SYNOPSIS</h3>
+<h2 id="synopsis">SYNOPSIS</h2>
 <div class="codehilite"><pre><span></span><code><span class="nx">logical</span><span class="w"> </span><span class="nx">function</span><span class="w"> </span><span class="nx">glob</span><span class="p">(</span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">pattern</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="p">(</span><span class="nx">uline</span><span class="p">)</span>
 
 <span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="kt">string</span>
@@ -190,7 +190,7 @@ a pattern which may contain globbing wildcard characters
 <span class="w"> </span><span class="nx">logical</span><span class="w">                       </span><span class="o">::</span><span class="w"> </span><span class="nx">uline</span>
 </code></pre></div>
 
-<h3 id="description">DESCRIPTION</h3>
+<h2 id="description">DESCRIPTION</h2>
 <div class="codehilite"><pre><span></span><code>glob(3f) compares an (entire) STRING for a match to a PATTERN which
 may contain basic wildcard "globbing" characters.
 
@@ -215,7 +215,7 @@ not occur in the pattern. Typically a NULL is used (char(0)), as it is
 here. So searching for b*ba\0 in babababa\0 matches the entire string.
 </code></pre></div>
 
-<h3 id="options">OPTIONS</h3>
+<h2 id="options">OPTIONS</h2>
 <div class="codehilite"><pre><span></span><code><span class="kt">string</span><span class="w">   </span><span class="nx">the</span><span class="w"> </span><span class="nx">input</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">be</span><span class="w"> </span><span class="nx">tested</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="k">match</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">pattern</span><span class="p">.</span>
 <span class="nx">pattern</span><span class="w">  </span><span class="nx">the</span><span class="w"> </span><span class="nx">globbing</span><span class="w"> </span><span class="nx">pattern</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">search</span><span class="w"> </span><span class="k">for</span><span class="p">.</span><span class="w"> </span><span class="nx">The</span><span class="w"> </span><span class="nx">following</span><span class="w"> </span><span class="nx">simple</span>
 <span class="w">         </span><span class="nx">globbing</span><span class="w"> </span><span class="nx">rules</span><span class="w"> </span><span class="nx">apply</span><span class="p">:</span>
@@ -229,7 +229,7 @@ here. So searching for b*ba\0 in babababa\0 matches the entire string.
 <span class="w">           </span><span class="nx">a</span><span class="w"> </span><span class="nx">literal</span><span class="w"> </span><span class="nx">question</span><span class="w"> </span><span class="nx">mark</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="nx">asterisk</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="nx">problematic</span><span class="p">.</span>
 </code></pre></div>
 
-<h3 id="examples">EXAMPLES</h3>
+<h2 id="examples">EXAMPLES</h2>
 <p>Example program</p>
 <div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_glob</span>
 <span class="w"> </span><span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">glob</span><span class="p">,</span><span class="w"> </span><span class="nx">trim</span><span class="p">,</span><span class="w"> </span><span class="nx">unicode_type</span><span class="p">,</span><span class="w"> </span><span class="nx">len</span>
@@ -397,12 +397,12 @@ Mi_archivo_favorito.c
  PASSED
  PASSED</p>
 </blockquote>
-<h3 id="author">AUTHOR</h3>
+<h2 id="author">AUTHOR</h2>
 <p>John S. Urban</p>
-<h3 id="references">REFERENCES</h3>
+<h2 id="references">REFERENCES</h2>
 <p>The article &ldquo;Matching Wildcards: An Empirical Way to Tame an Algorithm&rdquo;
    in Dr Dobb&rsquo;s Journal, By Kirk J. Krauss, October 07, 2014</p>
-<h3 id="license">LICENSE</h3>
+<h2 id="license">LICENSE</h2>
 <p>MIT</p>
 <br>
 
@@ -661,7 +661,7 @@ Mi_archivo_favorito.c
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-14 01:44 +0000             </p>
+ on 2026-11-16 14:32 +0000             </p>
           </div>
         </div>
         <br>

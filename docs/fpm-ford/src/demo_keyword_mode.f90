@@ -6,7 +6,7 @@
       integer :: i
          lines=[character(len=110):: &
          &'<delta>',   &
-         &'<E><g> c=<pi><times>d </g></E>',  &
+         &'<EB><gr> c=<pi><times>d </gr></EB>',  &
          &'<omega>',   &
          &' ']
 

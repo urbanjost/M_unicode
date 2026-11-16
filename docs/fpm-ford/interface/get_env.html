@@ -94,20 +94,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.2% of total for procedures.</p>Including implementation: 70 statements,  2.0% of total for procedures.">6 statements</a>
+                 title="<p> 0.2% of total for procedures.</p>Including implementation: 163 statements,  3.7% of total for procedures.">7 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/M_unicode.F90"> Source File</a>
+              <a href="../src/M_unicode__get.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/m_unicode.f90.html'>M_unicode.F90</a></li>
-                <li class="breadcrumb-item"><a href='../module/m_unicode.html'>M_unicode</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/m_unicode__get.f90.html'>M_unicode__get.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/m_unicode__get.html'>M_unicode__get</a></li>
             <li class="breadcrumb-item active" aria-current="page">get_env</li>
           </ol>
         </nav>
@@ -153,10 +153,11 @@
       </a>
       <div id="modprocs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../interface/get_env.html#moduleprocedure-get_env_uu">get_env_uu</a>
-            <a class="list-group-item" href="../interface/get_env.html#moduleprocedure-get_env_ua">get_env_ua</a>
-            <a class="list-group-item" href="../interface/get_env.html#moduleprocedure-get_env_au">get_env_au</a>
-            <a class="list-group-item" href="../interface/get_env.html#moduleprocedure-get_env_aa">get_env_aa</a>
+            <a class="list-group-item" href="../interface/get_env.html#moduleprocedure-get_env_character">get_env_character</a>
+            <a class="list-group-item" href="../interface/get_env.html#moduleprocedure-get_env_integer">get_env_integer</a>
+            <a class="list-group-item" href="../interface/get_env.html#moduleprocedure-get_env_real">get_env_real</a>
+            <a class="list-group-item" href="../interface/get_env.html#moduleprocedure-get_env_double">get_env_double</a>
+            <a class="list-group-item" href="../interface/get_env.html#moduleprocedure-get_env_logical">get_env_logical</a>
         </div>
       </div>
     </div>
@@ -170,119 +171,17 @@
 
     <div class="col-md-9" id='text'>
       <h2>public interface get_env</h2>
-      <h3 id="name">NAME</h3>
-<div class="codehilite"><pre><span></span><code><span class="n">get_env</span><span class="p">(</span><span class="mi">3</span><span class="n">f</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">[</span><span class="n">M_unicode</span><span class="p">:</span><span class="n">SYSTEM</span><span class="p">]</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">environment</span><span class="w"> </span><span class="n">variable</span>
-<span class="p">(</span><span class="n">LICENSE</span><span class="p">:</span><span class="n">MIT</span><span class="p">)</span>
-</code></pre></div>
+      
 
-<h3 id="synopsis">SYNOPSIS</h3>
-<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nx">impure</span><span class="w"> </span><span class="nx">elemental</span><span class="w"> </span><span class="nx">function</span><span class="w"> </span><span class="nx">get_env</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span><span class="k">default</span><span class="p">)</span><span class="w"> </span><span class="nx">result</span><span class="p">(</span><span class="nx">out</span><span class="p">)</span>
-
-<span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">intent</span><span class="p">=(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">name</span>
-<span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">),</span><span class="nx">optional</span><span class="w">    </span><span class="o">::</span><span class="w"> </span><span class="k">default</span>
-<span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span><span class="w">             </span><span class="o">::</span><span class="w"> </span><span class="nx">out</span>
-</code></pre></div>
-
-<h3 id="characteristics">CHARACTERISTICS</h3>
-<div class="codehilite"><pre><span></span><code><span class="nx">NAME</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="nx">DEFAULT</span><span class="w"> </span><span class="nx">may</span><span class="w"> </span><span class="nx">be</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="nx">CHARACTER</span><span class="w"> </span><span class="k">type</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nx">well</span><span class="p">.</span>
-</code></pre></div>
-
-<h3 id="description">DESCRIPTION</h3>
-<div class="codehilite"><pre><span></span><code><span class="n">get_env</span><span class="p">(</span><span class="mi">3</span><span class="n">f</span><span class="p">)</span><span class="w"> </span><span class="n">gets</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">requested</span><span class="w"> </span><span class="n">environment</span><span class="w"> </span><span class="n">variable</span>
-<span class="k">as</span><span class="w"> </span><span class="n">TYPE</span><span class="p">(</span><span class="n">UNICODE_TYPE</span><span class="p">)</span><span class="w"> </span><span class="o">.</span>
-</code></pre></div>
-
-<h3 id="options">OPTIONS</h3>
-<div class="codehilite"><pre><span></span><code><span class="n">name</span><span class="w">     </span><span class="n">name</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">environment</span><span class="w"> </span><span class="n">variable</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="n">of</span><span class="o">.</span>
-<span class="w">         </span><span class="n">Typically</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="n">may</span><span class="w"> </span><span class="n">only</span><span class="w"> </span><span class="n">contain</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">characters</span>
-<span class="w">         </span><span class="n">A</span><span class="o">-</span><span class="n">Z</span><span class="p">,</span><span class="n">a</span><span class="o">-</span><span class="n">z</span><span class="p">,</span><span class="mi">0</span><span class="o">-</span><span class="mi">9</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">underscore</span><span class="p">;</span><span class="w"> </span><span class="n">but</span><span class="w"> </span><span class="n">allowed</span><span class="w"> </span><span class="n">values</span><span class="w"> </span><span class="n">are</span>
-<span class="w">         </span><span class="n">system</span><span class="o">-</span><span class="n">dependent</span><span class="o">.</span>
-<span class="n">default</span><span class="w">  </span><span class="n">value</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">environment</span><span class="w"> </span><span class="n">variable</span><span class="w"> </span><span class="n">NAME</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">set</span>
-<span class="w">         </span><span class="ow">or</span><span class="w"> </span><span class="n">set</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">blank</span><span class="w"> </span><span class="n">value</span>
-</code></pre></div>
-
-<h3 id="returns">RETURNS</h3>
-<div class="codehilite"><pre><span></span><code><span class="n">out</span><span class="w">      </span><span class="n">value</span><span class="w"> </span><span class="n">assigned</span><span class="w"> </span><span class="n">based</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">environment</span><span class="w"> </span><span class="n">variable</span><span class="w"> </span><span class="n">NAME</span>
-</code></pre></div>
-
-<h3 id="examples">EXAMPLES</h3>
-<p>Sample program:</p>
-<div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">demo_get_env</span>
-<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">get_env</span><span class="p">,</span><span class="w"> </span><span class="nx">ut</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nx">unicode_type</span>
-<span class="nx">use</span><span class="w"> </span><span class="nx">M_unicode</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">assignment</span><span class="p">(=),</span><span class="w"> </span><span class="nx">operator</span><span class="p">(</span><span class="c1">//)</span>
-<span class="nx">implicit</span><span class="w"> </span><span class="nx">none</span>
-<span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">name</span>
-<span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="k">default</span>
-<span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">value</span>
-<span class="k">type</span><span class="p">(</span><span class="nx">ut</span><span class="p">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">smiley</span>
-<span class="nx">integer</span><span class="w">  </span><span class="o">::</span><span class="w"> </span><span class="nx">i</span>
-<span class="nx">character</span><span class="p">(</span><span class="nx">len</span><span class="p">=</span><span class="o">*</span><span class="p">),</span><span class="nx">parameter</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">bracket</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="err">'</span><span class="p">(</span><span class="mi">1</span><span class="nx">x</span><span class="p">,</span><span class="o">*</span><span class="p">(</span><span class="s">"["</span><span class="p">,</span><span class="nx">a</span><span class="p">,</span><span class="s">"]"</span><span class="p">,:))</span><span class="err">'</span>
-
-<span class="w">   </span><span class="nx">smiley</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">128515</span><span class="w"> </span><span class="p">!</span><span class="w"> </span><span class="nx">set</span><span class="w"> </span><span class="nx">with</span><span class="w"> </span><span class="nx">Unicode</span><span class="w"> </span><span class="nx">code</span><span class="w"> </span><span class="nx">point</span>
-<span class="w">   </span><span class="k">default</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="err">'</span><span class="nx">Have</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">nice</span><span class="w"> </span><span class="nx">day</span><span class="w"> </span><span class="err">'</span><span class="c1">//smiley//'!' ! set with unicode_type</span>
-
-<span class="w">   </span><span class="nx">do</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span>
-<span class="w">      </span><span class="nx">select</span><span class="w"> </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
-<span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w"> </span><span class="nx">name</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="err">'</span><span class="nx">HOME</span><span class="err">'</span>
-<span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="p">);</span><span class="w"> </span><span class="nx">name</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="err">'</span><span class="nx">UNKNOWN</span><span class="err">'</span>
-<span class="w">      </span><span class="nx">end</span><span class="w"> </span><span class="nx">select</span>
-<span class="w">      </span><span class="p">!</span><span class="w"> </span><span class="nx">arguments</span><span class="w"> </span><span class="nx">can</span><span class="w"> </span><span class="nx">be</span><span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="nx">character</span>
-<span class="w">      </span><span class="p">!</span><span class="w"> </span><span class="nx">but</span><span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="nx">unicode_type</span><span class="p">)</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="nx">always</span><span class="w"> </span><span class="k">returned</span>
-
-<span class="w">      </span><span class="nx">value</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">get_env</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span><span class="w">             </span><span class="k">default</span><span class="w">             </span><span class="p">)</span>
-<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="nx">value</span><span class="o">%</span><span class="nx">character</span><span class="p">()</span>
-
-<span class="w">      </span><span class="nx">value</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">get_env</span><span class="p">(</span><span class="nx">name</span><span class="o">%</span><span class="nx">character</span><span class="p">(),</span><span class="w"> </span><span class="k">default</span><span class="o">%</span><span class="nx">character</span><span class="p">()</span><span class="w"> </span><span class="p">)</span>
-<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="nx">value</span><span class="o">%</span><span class="nx">character</span><span class="p">()</span>
-
-<span class="w">      </span><span class="nx">value</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">get_env</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span><span class="w">             </span><span class="k">default</span><span class="o">%</span><span class="nx">character</span><span class="p">()</span><span class="w"> </span><span class="p">)</span>
-<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="nx">value</span><span class="o">%</span><span class="nx">character</span><span class="p">()</span>
-
-<span class="w">      </span><span class="nx">value</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">get_env</span><span class="p">(</span><span class="nx">name</span><span class="o">%</span><span class="nx">character</span><span class="p">(),</span><span class="w"> </span><span class="k">default</span><span class="w">             </span><span class="p">)</span>
-<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="nx">value</span><span class="o">%</span><span class="nx">character</span><span class="p">()</span>
-
-<span class="w">      </span><span class="nx">value</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">get_env</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span>
-<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="nx">value</span><span class="o">%</span><span class="nx">character</span><span class="p">()</span>
-
-<span class="w">      </span><span class="nx">value</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">get_env</span><span class="p">(</span><span class="nx">name</span><span class="o">%</span><span class="nx">character</span><span class="p">())</span>
-<span class="w">      </span><span class="nx">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="nx">value</span><span class="o">%</span><span class="nx">character</span><span class="p">()</span>
-
-<span class="w">   </span><span class="nx">enddo</span>
-
-<span class="nx">end</span><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_get_env</span>
-</code></pre></div>
-
-<p>Results:</p>
-<div class="codehilite"><pre><span></span><code>  &gt; /home/johns
-  &gt; /home/johns
-  &gt; /home/johns
-  &gt; /home/johns
-  &gt; /home/johns
-  &gt; /home/johns
-  &gt; Have a nice day 😃!
-  &gt; Have a nice day 😃!
-  &gt; Have a nice day 😃!
-  &gt; Have a nice day 😃!
-  &gt; UNKNOWN is not defined in the environment
-  &gt; UNKNOWN is not defined in the environment
-</code></pre></div>
-
-<h3 id="author">AUTHOR</h3>
-<div class="codehilite"><pre><span></span><code>  John S. Urban
-</code></pre></div>
-
-<h3 id="license">LICENSE</h3>
-<div class="codehilite"><pre><span></span><code> MIT
-</code></pre></div>
-<br>
 
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-get_env_uu"></span> <h3>private impure elemental function get_env_uu(name, default) result(value)  
+    <div class="card-header codesum"><span class="anchor" id="proc-get_env_character"></span> <h3>public  function <a href='../proc/get_env_character.html'>get_env_character</a>(NAME, DEFAULT, force_, ierr) result(VALUE)  
 </h3></div>
     <div class="card-body">
-        
+          
+  <p>Sample program:</p><a href="../proc/get_env_character.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -297,32 +196,62 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~6"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+              <span class="anchor" id="variable-name"></span>
+              character(len=*),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>name</strong></td>
+            <td><strong>NAME</strong></td>
             <td>
-                
+
             </td>
         </tr>
         <tr>
             <td>
               <span class="anchor" id="variable-default~5"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+              character(len=*),
             </td>
 <td>intent(in),</td>
               <td>optional</td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>default</strong></td>
+            <td><strong>DEFAULT</strong></td>
             <td>
-                
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-force_~6"></span>
+              type(force_keywords),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>force_</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ierr~8"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ierr</strong></td>
+            <td>
+
             </td>
         </tr>
     </tbody>
@@ -330,7 +259,7 @@
 
     <h4>
     Return Value
-    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
+    <small>character(len=:), allocatable</small>
     </h4>
     
 
@@ -338,10 +267,11 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-get_env_ua"></span> <h3>private impure elemental function get_env_ua(name, default) result(value)  
+    <div class="card-header codesum"><span class="anchor" id="proc-get_env_integer"></span> <h3>public  function <a href='../proc/get_env_integer.html'>get_env_integer</a>(NAME, DEFAULT, force_, ierr) result(VALUE)  
 </h3></div>
     <div class="card-body">
-        
+          
+  
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -356,22 +286,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~8"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>name</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-default~7"></span>
+              <span class="anchor" id="variable-name~4"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -379,9 +294,54 @@
               
             </td>
             <td>::</td>
-            <td><strong>default</strong></td>
+            <td><strong>NAME</strong></td>
             <td>
-                
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-default~8"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>DEFAULT</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-force_~9"></span>
+              type(force_keywords),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>force_</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ierr~11"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ierr</strong></td>
+            <td>
+
             </td>
         </tr>
     </tbody>
@@ -389,7 +349,7 @@
 
     <h4>
     Return Value
-    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
+    <small>integer</small>
     </h4>
     
 
@@ -397,10 +357,11 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-get_env_au"></span> <h3>private impure elemental function get_env_au(name, default) result(value)  
+    <div class="card-header codesum"><span class="anchor" id="proc-get_env_real"></span> <h3>public  function <a href='../proc/get_env_real.html'>get_env_real</a>(NAME, DEFAULT, force_, ierr) result(VALUE)  
 </h3></div>
     <div class="card-body">
-        
+          
+  
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -415,7 +376,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~7"></span>
+              <span class="anchor" id="variable-name~2"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -423,24 +384,54 @@
               
             </td>
             <td>::</td>
-            <td><strong>name</strong></td>
+            <td><strong>NAME</strong></td>
             <td>
-                
+
             </td>
         </tr>
         <tr>
             <td>
               <span class="anchor" id="variable-default~6"></span>
-              type(<a href='../type/unicode_type.html'>unicode_type</a>),
+              real,
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>default</strong></td>
+            <td><strong>DEFAULT</strong></td>
             <td>
-                
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-force_~7"></span>
+              type(force_keywords),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>force_</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ierr~9"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ierr</strong></td>
+            <td>
+
             </td>
         </tr>
     </tbody>
@@ -448,7 +439,7 @@
 
     <h4>
     Return Value
-    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
+    <small>real</small>
     </h4>
     
 
@@ -456,10 +447,101 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-get_env_aa"></span> <h3>private impure elemental function get_env_aa(name, default) result(uvalue)  
+    <div class="card-header codesum"><span class="anchor" id="proc-get_env_double"></span> <h3>public  function <a href='../proc/get_env_double.html'>get_env_double</a>(NAME, DEFAULT, force_, ierr) result(VALUE)  
 </h3></div>
     <div class="card-body">
-        
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-name~3"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>NAME</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-default~7"></span>
+              doubleprecision,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>DEFAULT</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-force_~8"></span>
+              type(force_keywords),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>force_</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ierr~10"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ierr</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>doubleprecision</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-get_env_logical"></span> <h3>public  function <a href='../proc/get_env_logical.html'>get_env_logical</a>(NAME, DEFAULT, force_, ierr) result(VALUE)  
+</h3></div>
+    <div class="card-body">
+          
+  
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -482,24 +564,54 @@
               
             </td>
             <td>::</td>
-            <td><strong>name</strong></td>
+            <td><strong>NAME</strong></td>
             <td>
-                
+
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-default~4"></span>
-              character(len=*),
+              <span class="anchor" id="variable-default~9"></span>
+              logical,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>DEFAULT</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-force_~10"></span>
+              type(force_keywords),
             </td>
 <td>intent(in),</td>
               <td>optional</td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>default</strong></td>
+            <td><strong>force_</strong></td>
             <td>
-                
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ierr~12"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ierr</strong></td>
+            <td>
+
             </td>
         </tr>
     </tbody>
@@ -507,7 +619,7 @@
 
     <h4>
     Return Value
-    <small>type(<a href='../type/unicode_type.html'>unicode_type</a>)</small>
+    <small>logical</small>
     </h4>
     
 
@@ -531,7 +643,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-14 01:44 +0000             </p>
+ on 2026-11-16 14:32 +0000             </p>
           </div>
         </div>
         <br>
