@@ -340,6 +340,8 @@ use M_unicode__regex,   only : regex_compile_codes => regex_compile
 use M_unicode__regex,   only : regex_search_codes  => regex_search
 use M_unicode__regex,   only : regex_replace_codes => regex_replace
 use M_unicode__convert, only : ctou, utoc
+use M_unicode__eval,    only : cp_string, var_value, user_func, user_func_iface, compiled_expr ! Public Types
+use M_unicode__eval,    only : compile_expr_cp, eval_compiled, differentiate_compiled          ! Public Procedures
 
 !use M_unicode__get,     only : get_arg_general     => get_arg
 !use M_unicode__get,     only : get_env_general     => get_env
@@ -356,6 +358,8 @@ public :: utoc, ctou
 public :: regex_t, match_t
 public :: regex_compile, regex_search, regex_replace
 public :: get_env, get_arg
+public :: cp_string, var_value, user_func, user_func_iface, compiled_expr ! Public Types
+public :: compile_expr_cp, eval_compiled, differentiate_compiled          ! Public Procedures
 
 PUBLIC :: unicode_type
 PUBLIC :: UTF8_TO_CODEPOINTS
@@ -2002,7 +2006,7 @@ end interface verify
 !!     testsa = [ character(len=80) :: &
 !!     "-------------- Testing Pure Fortran Word Expansion --------------",&
 !!     " scratch space is $TMP for $USER with home directory  ${HOME}",    &
-!!     " DATE is $DATE TIME is 11:18:21 ZONE is $ZONE TIMESTAMP $TIMESTAMP",&
+!!     " DATE is $DATE TIME is 18:58:16 ZONE is $ZONE TIMESTAMP $TIMESTAMP",&
 !!     " FILE is $FILE ARGS: 0: $0 1: $1 2: $2 3: $3",                     &
 !!     " COMPILER is $COMPILER COMPILER_OPTIONS are ${COMPILER_OPTIONS}",  &
 !!     " ${0} versus M_unicode.FF  $0 versus $FILE",                            &

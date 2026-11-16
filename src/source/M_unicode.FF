@@ -9,7 +9,7 @@ $BLOCK NULL
   conversion to HTML should look to substitute HTML entity words instead of just numbers
   utf-8 words to keywords as well?
 
-  Fortran expression parser
+  Fortran expression parser should allow character variables and comments, maybe extend past simple expression parsing
 
   Incomplete UDDTIO support: The User-Defined Derived-Type Input/Output
 
@@ -393,6 +393,8 @@ use M_unicode__regex,   only : regex_compile_codes => regex_compile
 use M_unicode__regex,   only : regex_search_codes  => regex_search
 use M_unicode__regex,   only : regex_replace_codes => regex_replace
 use M_unicode__convert, only : ctou, utoc
+use M_unicode__eval,    only : cp_string, var_value, user_func, user_func_iface, compiled_expr ! Public Types
+use M_unicode__eval,    only : compile_expr_cp, eval_compiled, differentiate_compiled          ! Public Procedures
 
 !use M_unicode__get,     only : get_arg_general     => get_arg
 !use M_unicode__get,     only : get_env_general     => get_env
@@ -409,6 +411,8 @@ public :: utoc, ctou
 public :: regex_t, match_t
 public :: regex_compile, regex_search, regex_replace
 public :: get_env, get_arg
+public :: cp_string, var_value, user_func, user_func_iface, compiled_expr ! Public Types
+public :: compile_expr_cp, eval_compiled, differentiate_compiled          ! Public Procedures
 
 PUBLIC :: unicode_type
 PUBLIC :: UTF8_TO_CODEPOINTS
